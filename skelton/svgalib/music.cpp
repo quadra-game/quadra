@@ -40,6 +40,7 @@ private:
   int fd;
   int playing;
   bool loop_all;
+  bool is_playing;
 	unsigned char starttrack;
 	unsigned char endtrack;
 public:
@@ -63,6 +64,7 @@ Music* Music::alloc() {
 
 MusicLinux::MusicLinux() {
   active = false;
+  is_playing = false;
   open();
 }
 
@@ -96,6 +98,8 @@ void MusicLinux::play(int quel, bool loop) {
   if(status < 0)
     perror("CDROMPLAYTRKIND");
 #endif
+
+  is_playing = true;
 }
 
 void MusicLinux::replay() {
@@ -105,7 +109,7 @@ void MusicLinux::replay() {
 void MusicLinux::stop() {
 	int status;
 
-  if(!active)
+  if(!active || !is_playing)
     return;
 
 	status = ioctl(fd, CDROMSTOP);
