@@ -368,7 +368,7 @@ void Single_player_iterate::init() {
 		game->loopback_connection->joined=true;
 		game->loopback_connection->trusted=true;
 		char fn[1024];
-		snprintf(fn, sizeof(fn) - 1, "%s/last.rec", quadradir);
+		snprintf(fn, sizeof(fn) - 1, "%s/last.qrec", quadradir);
 		game->prepare_recording(fn);
 		game->prepare_logging();
 	}

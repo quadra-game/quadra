@@ -36,11 +36,11 @@ Highscores::Best Highscores::bestglobal[MAX_SCORE];
 bool Highscores::loaded = false;
 
 void Highscores::getFilename(char* st, int i, int size_of) {
-	snprintf(st, size_of - 1, "%s/local%i.rec", quadradir, i);
+	snprintf(st, size_of - 1, "%s/local%i.qrec", quadradir, i);
 }
 
 void Highscores::getGlobalFilename(char* st, int i, int size_of) {
-	snprintf(st, size_of - 1, "%s/global%i.rec", quadradir, i);
+	snprintf(st, size_of - 1, "%s/global%i.qrec", quadradir, i);
 }
 
 void Highscores::load() {
@@ -160,7 +160,7 @@ int Highscores::update(Canvas *c) {
 			if(rename(st2, st) != 0)
 				msgbox("Warning: Highscore: could not rename '%s' to '%s'\n", st2, st);
 		}
-		snprintf(st2, sizeof(st2) - 1, "%s/last.rec", quadradir);
+		snprintf(st2, sizeof(st2) - 1, "%s/last.qrec", quadradir);
 		Playback* demo=NULL;
 		{
 			Res_compress res(st2, RES_TRY);
@@ -170,7 +170,7 @@ int Highscores::update(Canvas *c) {
 		if(remove(st) == 0)
 			msgbox("Warning: Highscore: '%s' is in the way! Deleting it.\n", st);
 		if(rename(st2, st) != 0)
-			msgbox("Warning: Highscore: could not rename 'last.rec' to '%s'\n", st);
+			msgbox("Warning: Highscore: could not rename 'last.qrec' to '%s'\n", st);
 		msgbox("Setting hscore %i: %s, %i, %i, %i\n", ret, c->name, c->stats[CS::SCORE].get_value(), c->lines, c->level);
 		strcpy(bestlocal[ret].name, c->name);
 		bestlocal[ret].score = c->stats[CS::SCORE].get_value();

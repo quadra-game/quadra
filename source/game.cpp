@@ -777,18 +777,18 @@ void Game::prepare_recording(const char *fn) {
 		record_filename[1023] = 0;
 	}
 	strcpy(nom, record_filename);
-	//Remove .rec if present
+	//Remove .qrec if present
 	int len = strlen(nom);
-	if(len>=4)
-		if(!strcasecmp(".rec", &nom[len-4]))
-			nom[len-4] = 0;
+	if(len>=5)
+		if(!strcasecmp(".qrec", &nom[len-5]))
+			nom[len-5] = 0;
 	//When restarting and recording, auto-increment file name
 	static int record_num = 0;
 	if(auto_restart || !fn) {
 		sprintf(st, ".%04i", record_num++);
 		strcat(nom, st);
 	}
-	strcat(nom, ".rec"); // ajoute .rec
+	strcat(nom, ".qrec"); // ajoute .qrec
 	if(!recording->create(nom)) {
 		sprintf(st, ST_GAMENOTRECORDEDAS, nom);
 		message(-1, st, true, false, true);

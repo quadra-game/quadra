@@ -431,7 +431,7 @@ void Menu_demo_central::reload() {
 
 	snprintf(temp_search, sizeof(temp_search) - 1, "%s/*.rec", find_directory);
 
-	msgbox("Menu_demo_central::find_all: Finding files in [%s]...\n", temp_search);
+	msgbox("Menu_demo_central::find_all: Finding files in [%s]...\n", find_directory);
 	{
 		Find_file *find_file = Find_file::New(temp_search);
 		z_list->init_sort();
@@ -445,7 +445,22 @@ void Menu_demo_central::reload() {
 				z_list->add_sort(e);
 			}
 		}
-		z_list->end_sort();
 		delete find_file;
+
+		snprintf(temp_search, sizeof(temp_search) - 1, "%s/*.qrec", find_directory);
+		find_file = Find_file::New(temp_search);
+		while(!find_file->eof()) {
+			Find_file_entry ff = find_file->get_next_entry();
+			if(!ff.is_folder) {
+				Listitem *e = new Listitem(ff.name, fteam[5]);
+				e->file_size = ff.size;
+				strcpy(e->file_date, ff.date);
+				e->isfolder = false;
+				z_list->add_sort(e);
+			}
+		}
+		delete find_file;
+
+		z_list->end_sort();
 	}
 }

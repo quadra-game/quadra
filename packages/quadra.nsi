@@ -47,7 +47,15 @@ Section "Quadra (required)"
   
   ; Write the installation path into the registry
   WriteRegStr HKLM SOFTWARE\Quadra "InstallDir" "$INSTDIR"
-  
+
+  ; Write file association keys
+  WriteRegStr HKCR ".qrec" "" "Ludusdesign.Quadra.Recording"
+  WriteRegStr HKCR ".qrec" "Content Type" "application/x-quadra-recording"
+  WriteRegStr HKCR "Ludusdesign.Quadra.Recording\shell\Open\command" "" '"$INSTDIR\Quadra.exe" -play %1'
+  WriteRegStr HKCR ".qsvr" "" "Ludusdesign.Quadra.Server"
+  WriteRegStr HKCR ".qsvr" "Content Type" "application/x-quadra-server"
+  WriteRegStr HKCR "Ludusdesign.Quadra.Server\shell\Open\command" "" '"$INSTDIR\Quadra.exe" -connectfile %1'
+
   ; Write the uninstall keys for Windows
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Quadra" "DisplayName" "Quadra (remove only)"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Quadra" "UninstallString" '"$INSTDIR\uninstall.exe"'
@@ -59,6 +67,7 @@ Section "QSnoop (recommanded)" QSnoopSectionIndex
 	File "QS.dll"
 	File "QSEn.dll"
 	File "QSFr.dll"
+	WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Run" "QSnoop" '"$INSTDIR\QSnoop.exe"'
 SectionEnd	
 
 Section "Start Menu Shortcuts (recommanded)"
@@ -89,6 +98,13 @@ Section "Uninstall"
   Delete $INSTDIR\QS.dll
   Delete $INSTDIR\QSEn.dll
   Delete $INSTDIR\QSFr.dll
+
+  ; remove registry keys
+  DeleteRegKey HKCR ".qrec"
+  DeleteRegKey HKCR "Ludusdesign.Quadra.Recording"
+  DeleteRegKey HKCR ".qsvr"
+  DeleteRegKey HKCR "Ludusdesign.Quadra.Server"
+  DeleteRegValue HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Run" "QSnoop"
 
   ; remove shortcuts, if they exist
   Delete "$SMPROGRAMS\Quadra\Quadra.lnk"
