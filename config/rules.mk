@@ -69,7 +69,6 @@ config/config.mk: config/config.mk.in configure
 	@exit 1
 
 config/depends.mk: config/config.mk
-	@echo "NODEPENDS = $(NODEPENDS)"
 	@echo "Building dependencies file ($@)"
 	@$(foreach DEP,$(CXXDEPS),$(COMPILE.cc) -M $(DEP) | sed -e 's|^.*:|$(dir $(DEP))&|' >> $@;)
 
