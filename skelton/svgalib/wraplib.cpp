@@ -42,7 +42,7 @@ Svgalib* getSvgalib() {
 
     dir = getenv("QUADRADIR");
     if(!dir)
-      dir = "/usr/lib/games";
+      dir = LIBGAMESDIR;
 
     snprintf(fn, sizeof(fn) - 1, "%s/quadra-svga.so", dir);
 

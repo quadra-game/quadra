@@ -1,3 +1,9 @@
+2000-12-19  Pierre Phaneuf  <pp@ludusdesign.com>
+
+	* Improved installation script.
+
+	* Improved build process so that it relocalize better.
+
 2000-12-08  Pierre Phaneuf  <pp@ludusdesign.com>
 
 	* Added details about building on Win32 in the README file.

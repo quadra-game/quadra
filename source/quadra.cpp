@@ -2114,7 +2114,7 @@ void start_game() {
 #ifdef UGS_LINUX
 	dir = getenv("QUADRADIR");
 	if(!dir)
-		dir="/usr/lib/games";
+		dir = DATAGAMESDIR;
 #endif
 	resmanager=new Resmanager();
 	snprintf(fn, sizeof(fn) - 1, "%s/quadra.res", dir);

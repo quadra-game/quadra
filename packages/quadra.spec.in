@@ -53,8 +53,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%attr(0755,root,root) /usr/games/quadra
-%attr(0644,root,root) /usr/lib/games/quadra.res
+%attr(0755,root,root) /usr/bin/quadra
+%attr(0644,root,root) /usr/share/games/quadra.res
 %attr(0644,root,root) /usr/share/pixmaps/quadra.xpm
 %doc ChangeLog LICENSE README NEWS
 

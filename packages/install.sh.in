@@ -1,28 +1,47 @@
 #! /bin/sh
 
 VERSION=@VERSION@
-PREFIX=""
+
+[ -z "$prefix" ] && prefix="/usr/local"
+[ -z "$exec_prefix" ] && exec_prefix="$prefix"
+[ -z "$bindir" ] && bindir="$exec_prefix/bin"
+[ -z "$libdir" ] && libdir="$exec_prefix/lib"
+[ -z "$libgamesdir" ] && libgamesdir="$libdir/games"
+[ -z "$datadir" ] && datadir="$prefix/share"
+[ -z "$datagamesdir" ] && datagamesdir="$datadir/games"
 
 if [ $(id -u) -ne 0 ]; then
 	echo
-	echo "You must be 'root' to install Quadra."
+	echo "WARNING!"
+	echo
+	echo "You are not running this script as root. This script might fail"
+	echo "if you do not run it as root."
 	echo
 	echo "Use the 'su' command or contact your system administrator."
-	echo
-	exit
 fi
 
 echo
 echo "Installing Quadra $VERSION..."
 echo
-echo "Installing quadra -> $PREFIX/usr/games/quadra"
-mkdir -p $PREFIX/usr/games
-install -s -m 755 quadra $PREFIX/usr/games/quadra
-echo "Installing quadra.res -> $PREFIX/usr/lib/games/quadra.res"
-mkdir -p $PREFIX/usr/lib/games
-install -m 644 quadra.res $PREFIX/usr/lib/games/quadra.res
+
+echo "Installing quadra -> $bindir/quadra"
+mkdir -p $bindir
+cp quadra $bindir/quadra
+chmod 755 $bindir/quadra
+
+echo "Installing quadra-svga.so -> $libgamesdir/quadra-svga.so"
+mkdir -p $libgamesdir
+cp quadra-svga.so $libgamesdir/quadra-svga.so
+chmod 644 $libgamesdir/quadra-svga.so
+
+echo "Installing quadra.res -> $datagamesdir/quadra.res"
+mkdir -p $datagamesdir
+cp quadra.res $datagamesdir/quadra.res
+chmod 644 $datagamesdir/quadra.res
+
 echo
 echo "Installation is finished!"
 echo
-echo "To run the game, type $PREFIX/usr/games/quadra"
+echo "To run the game, type 'quadra' (or '$bindir/quadra' if it doesn't work)"
 echo
+

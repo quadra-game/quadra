@@ -35,15 +35,14 @@ maintainerclean: distclean
 dist: distclean quadra.spec configure manual-dist-stuff
 
 installdirs:
-	mkdir $(prefix)
-	mkdir $(prefix)/games
-	mkdir $(prefix)/lib
-	mkdir $(prefix)/lib/games
+	mkdir -p $(bindir)
+	mkdir -p $(libgamesdir)
+	mkdir -p $(datagamesdir)
 
 install: installdirs $(TARGETS)
-	$(INSTALL_PROGRAM) quadra $(prefix)/games/quadra
-	$(INSTALL_PROGRAM) quadra-svga.so $(prefix)/lib/games/quadra-svga.so
-	$(INSTALL_DATA) quadra.res $(prefix)/lib/games/quadra.res
+	$(INSTALL_PROGRAM) quadra $(bindir)/quadra
+	$(INSTALL_PROGRAM) quadra-svga.so $(libgamesdir)/quadra-svga.so
+	$(INSTALL_DATA) quadra.res $(datagamesdir)/quadra.res
 
 quadra.spec: packages/quadra.spec.in source/config.cpp
 	sed $< -e 's/@VERSION@/$(VERSION)/g' > $@
