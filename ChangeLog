@@ -1,5 +1,7 @@
 2000-11-29  Pierre Phaneuf  <pp@ludusdesign.com>
 
+	* source/packets.cpp: fixed a warning.
+
 	* Removed unused .cvsentries stuff.
 
 	* Modified the RPM package spec to put quadra-svga.so in a

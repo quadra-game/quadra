@@ -43,8 +43,7 @@ bool Packet_wantjoin::read(Net_buf *p) {
 	net_version=p->read_byte();
 	language=p->read_byte();
 	os=p->read_byte();
-	// junk: we now ignore the 'registered' flag
-	bool registered=p->read_bool();
+	p->read_bool();
 	return true;
 }
 
