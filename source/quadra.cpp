@@ -2345,6 +2345,19 @@ void start_game() {
 			}
 		}
 		else {
+			if(command.token("connectfile")) {
+				char *temp = command_get_param("connectfile <filename>");
+				char st[1024];
+				Res_dos file(temp);
+				if(file.exist) {
+					snprintf(st, sizeof(st), "-connect %*.*s", file.size(), file.size(), (char *)file.buf());
+					st[sizeof(st) - 1] = 0;
+					command.add(st);
+				}
+				else
+					msgbox("Can't find connectfile %s, ignoring.\n", temp);
+
+			}
 			if(command.token("connect")) {
 				if(!net->active)
 					(void) new Error("Network failed to initialize or not present\nCan't connect.\n");
