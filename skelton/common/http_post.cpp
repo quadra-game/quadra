@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include "error.h"
+#include "version.h"
 #include "net.h"
 #include "http_post.h"
 

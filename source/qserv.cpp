@@ -47,7 +47,7 @@ Qserv::Qserv() {
 	if(!url.getPort())
 		url.setPort(80);
 	if(!strcmp(url.getHost(), ""))
-		url.setHost("ludusdesign.com:80");
+		url.setHost("quadra.sourceforge.net:80");
 	if(!strcmp(url.getPath(), "/"))
 		url.setPath("/cgi-bin/qserv.pl");
 
