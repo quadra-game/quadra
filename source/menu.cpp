@@ -251,7 +251,7 @@ void Menu_highscore::start_sync() {
     msgbox("Menu_highscore::start_sync: encoded size=%i\n", strlen(buf.get()));
     delete demofile;
     demofile=NULL;
-    sync_request->add_data(buf.get());
+    sync_request->add_data_large(buf);
     sync_request->add_data("\n");
   }
   else

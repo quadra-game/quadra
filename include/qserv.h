@@ -25,6 +25,7 @@
 
 class Http_post;
 class Dict;
+class Textbuf;
 
 class Qserv {
 	Http_post *req;
@@ -37,6 +38,7 @@ public:
 	virtual ~Qserv();
 	bool done();
 	void add_data(const char *s, ...);
+	void add_data_large(const Textbuf &buf); // 'buf' must be url-encoded already
 	void send();
 	bool bad_reply();
 	const char *get_status();

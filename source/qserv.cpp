@@ -137,6 +137,10 @@ void Qserv::add_data(const char *s, ...) {
 	req->add_data_raw(buf.get());
 }
 
+void Qserv::add_data_large(const Textbuf &buf) {
+	req->add_data_raw(buf.get());
+}
+
 void Qserv::send() {
 	req->add_data_encode("info/language %i\n", config.info.language);
 	req->add_data_encode("info/registered %i\n", 1);
