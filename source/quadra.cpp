@@ -1142,6 +1142,8 @@ Player_dead::Player_dead(Canvas *c, bool tg): Player_base(c), then_gone(tg) {
 		death_type="suicide";
 		canvas->stats[CS::SUICIDES].add(1);
 	}
+	Packet_serverlog log("player_dead");
+
 	log_step("player_dead\t%u\t%u\t%s", canvas->id(), fragger? fragger->id():0, death_type);
 	i = 11;
 	j = 4;
@@ -1253,6 +1255,8 @@ void Player_dead_wait::step() {
 		net->sendtcp(&p);
 		canvas->restart();
 		ret();
+		Packet_serverlog log("player_respawn");
+
 		log_step("player_respawn\t%u", canvas->id());
 	}
 	else {
@@ -1299,6 +1303,8 @@ Player_first_frag::Player_first_frag(Canvas *c): Player_base(c) {
 	canvas->delete_bloc();
 	canvas->set_next();
 	canvas->stats[CS::ROUND_WINS].add(1);
+	Packet_serverlog log("player_survived");
+
 	log_step("player_survived\t%u", canvas->id());
 }
 
@@ -1355,6 +1361,8 @@ Player_gone::Player_gone(Canvas *c, bool chat_msg): Player_base(c) {
 		sprintf(st, ST_BOBHASGONE, canvas->name);
 		message(-1, st);
 	}
+	Packet_serverlog log("player_gone");
+
 	log_step("player_gone\t%u", canvas->id());
 }
 
@@ -1568,6 +1576,8 @@ Player_stamp::Player_stamp(Canvas *c, Packet_stampblock *p): Player_base(c) {
 	canvas->stats[CS::SCORE].add(p->score);
 	if(game->net_version()>=23)
 		canvas->stats[CS::PLAYING_TIME].add(p->time_held);
+	Packet_serverlog log("player_stampblock");
+
 	log_step("player_stampblock\t%u\t%i\t%i\t%i\t%i", canvas->id(), canvas->bloc->quel, p->block_rotated, p->time_held, p->score);
 	canvas->watch_date = p->date;
 	stamp_bloc();
@@ -1681,6 +1691,8 @@ void Player_wait_respawn::step() {
 		canvas->restart();
 		ret();
 		game->removepacket();
+		Packet_serverlog log("player_respawn");
+
 		log_step("player_respawn\t%u", canvas->id());
 	} else {
 		if(canvas->bonus && !canvas->bon[0].blind_time && add_bonus)

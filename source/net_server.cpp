@@ -127,6 +127,8 @@ void Net_client::pause(Packet *p2) {
 			message(-1, ST_GAMEWILLSTART);
 			game->delay_start = 499; // debut le compte a rebours
 			msgbox("Net_client::pause: starting countdown...\n");
+			Packet_serverlog log("game_start");
+
 			log_step("game_start");
 			return; // n'enleve pas game->paused tout de suite
 		}
@@ -136,8 +138,11 @@ void Net_client::pause(Packet *p2) {
 			return; // et reste sur pause
 		}
 		message(-1, "Game unpaused", true, true);
-		if(p2 && p2->from)
+		if(p2 && p2->from) {
+			Packet_serverlog log("unpause");
+
 			log_step("unpause\t%u", p2->from->id());
+		}
 	} else {
 		Packet_pause *p=(Packet_pause *) p2;
 		const char *pn;
@@ -152,8 +157,11 @@ void Net_client::pause(Packet *p2) {
 		}
 		sprintf(st, ST_PAUSEDBYBOB, pn);
 		message(-1, st);
-		if(p2 && p2->from)
+		if(p2 && p2->from) {
+			Packet_serverlog log("pause");
+
 			log_step("pause\t%u", p2->from->id());
+		}
 	}
 	game->paused=!game->paused;
 	msgbox("Net_client::pause done\n");
@@ -375,6 +383,8 @@ void Net_server::playerwantjoin(Packet *p2) {
 							Dword id=0;
 							if(p->from!=game->loopback_connection)
 								id=p->from->id();
+							Packet_serverlog log("player_rejoin");
+
 							log_step("player_rejoin\t%u\t%u\t%s", c->id(), id, log_handicap(p->handicap));
 							game->net_list.update_team_names();
 							return;
@@ -391,8 +401,17 @@ void Net_server::playerwantjoin(Packet *p2) {
 				playeraccepted.accepted = 5; // game is full, can't join
 			if(game->server_max_players && game->net_list.size() >= game->server_max_players)
 				playeraccepted.accepted = 5; // game is full, can't join
-			if(game->server_max_teams && game->net_list.count_teams() >= game->server_max_teams)
-				playeraccepted.accepted = 5; // game is full, can't join
+			if(game->server_max_teams && game->net_list.count_teams() >= game->server_max_teams) {
+				for(unsigned i=0; i<MAXPLAYERS; ++i) {
+					Canvas* c=game->net_list.get(i);
+					if(c && c->color==p->team)
+						break;
+				}
+				if(i==MAXPLAYERS) {
+					// if not joining an already existing team, we can't accept the new player
+					playeraccepted.accepted = 5; // game is full, can't join
+				}
+			}
 		}
 	}
 
@@ -418,6 +437,8 @@ void Net_server::playerwantjoin(Packet *p2) {
 		Dword id=0;
 		if(p->from && p->from!=game->loopback_connection)
 			id=p->from->id();
+		Packet_serverlog log("player_join");
+
 		log_step("player_join\t%u\t%u\t%s\t%s\t%s\t%s", canvas->id(), id, log_team(p->team), log_handicap(p->handicap), canvas->name, canvas->team_name);
 	}
 	playeraccepted.answer(p);
@@ -561,8 +582,11 @@ void Net_server::clientchat(Packet *p2) {
 	else {
 		net->dispatch(p, P_CHAT);
 		record_packet(p);
-		if(p && p->from)
+		if(p && p->from) {
+			Packet_serverlog log("chat");
+
 			log_step("chat\t%u\t%s", p->from!=game->loopback_connection? p->from->id():0, p->text);
+		}
 	}
 }
 
@@ -657,8 +681,11 @@ void Net_pendingjoin::step() {
 	pac->from->joined=true;
 	char addr[64];
 	Net::stringaddress(addr, pac->from->address(), pac->from->getdestport());
-	if(pac && pac->from)
+	if(pac && pac->from) {
+		Packet_serverlog log("connection_joined");
+
 		log_step("connection_joined\t%u\t%s", pac->from->id(), "true");
+	}
 	for(i=0; i<MAXPLAYERS; i++) {
 		Canvas *c = game->net_list.get(i);
 		if(c) {

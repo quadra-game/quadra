@@ -924,3 +924,63 @@ bool Packet_servernameteam::read(Net_buf *p) {
 		return false;
 	return true;
 }
+
+Packet_serverlog::Var::Var() {
+	name[0]=0;
+	value[0]=0;
+}
+
+Packet_serverlog::Var::Var(const char* n, const char* val) {
+	strncpy(name, n, sizeof(name));
+	name[sizeof(name)-1]=0;
+	strncpy(value, val, sizeof(value));
+	value[sizeof(value)-1]=0;
+}
+
+Packet_serverlog::Var::Var(const char* n, unsigned i) {
+	strncpy(name, n, sizeof(name));
+	name[sizeof(name)-1]=0;
+	sprintf(value, "%u", i);
+}
+
+Packet_serverlog::Var::Var(const char* n, float f) {
+	strncpy(name, n, sizeof(name));
+	name[sizeof(name)-1]=0;
+	sprintf(value, "%f", f);
+}
+
+bool Packet_serverlog::Var::read(Net_buf* p) {
+	if(!p->read_string(name, sizeof(name)))
+		return false;
+	if(!p->read_string(value, sizeof(value)))
+		return false;
+	return true;
+}
+
+void Packet_serverlog::Var::write(Net_buf* p) {
+	p->write_string(name);
+	p->write_string(value);
+}
+
+void Packet_serverlog::write(Net_buf* p) {
+	Packet_tcp::write(p);
+	p->write_dword(vars.size());
+	for(unsigned i=0; i<vars.size(); i++)
+		vars[i].write(p);
+}
+
+bool Packet_serverlog::read(Net_buf* p) {
+	if(!Packet_tcp::read(p))
+		return false;
+	vars.clear();
+	unsigned size = p->read_dword();
+	if(size > 100)
+		return false;
+	for(unsigned i=0; i<size; i++) {
+		Var v;
+		if(!v.read(p))
+			return false;
+		vars.add(v);
+	}
+	return true;
+}

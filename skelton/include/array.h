@@ -59,6 +59,9 @@ public:
 	const T& operator[](int i) const {
 		return v[i];
 	}
+	T& operator[](int i) {
+		return v[i];
+	}
 	void replace(const int i, const T& t) {
 		v[i] = t;
 	}
@@ -83,12 +86,14 @@ public:
 	}
 	void deleteall() {
 		while(size()) {
-
 			delete last();
 			removelast();
 		}
 	}
 	const T& last() const {
+		return v[size()-1];
+	}
+	T& last() {
 		return v[size()-1];
 	}
 };

@@ -675,6 +675,8 @@ void Net_list::check_end_game(bool end_it) {
 			message(-1, st);
 			team=log_team(leading_team);
 		}
+		Packet_serverlog log("playing_end");
+
 		log_step("playing_end\t%s", team);
 /*		for(int i=0; i<MAXPLAYERS; i++) {
 			Canvas *c=get(i);
@@ -706,6 +708,8 @@ void Net_list::check_end_game(bool end_it) {
 		game->endgame();
 		message(-1, ST_GAMEEND);
 		Sfx stmp(sons.start, 0, -300, 0, 11025);
+		Packet_serverlog log("playing_end_signal");
+
 		log_step("playing_end_signal\t%s", reason);
 	}
 }
@@ -833,6 +837,8 @@ bool Net_list::check_first_frag() {
 			if(!game->valid_frag) {
 				game->valid_frag=true;
 				game->stats[GS::ROUND_NUMBER].add(1);
+				Packet_serverlog log("round_start");
+
 				log_step("round_start");
 			}
 		}
@@ -847,8 +853,11 @@ bool Net_list::check_first_frag() {
 				//Not competitive but some people are ready to jump in:
 				//  tell winner(s) to first frag.
 				syncto(Canvas::WAITFORWINNER);
-				if(game->valid_frag)
+				if(game->valid_frag) {
+					Packet_serverlog log("round_end");
+
 					log_step("round_end\t%s", log_team(alive_team));
+				}
 				game->valid_frag=false;
 			}
 		}
@@ -1188,6 +1197,8 @@ void Net_list::drop_player(Packet_dropplayer *p, bool chat) {
 		case DROP_INVALID_BLOCK: reason="invalid_block"; break;
 		default: break;
 	}
+	Packet_serverlog log("player_drop");
+
 	log_step("player_drop\t%u\t%s", c->id(), reason);
 	/*
 	Can't do this crap: see comment in rejoin_player below.
@@ -1370,6 +1381,8 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 	if(*line!='/' && nc) {
 		char st[1024];
 		sprintf(st, "%u: %s", nc->id(), line);
+		Packet_serverlog log("chat");
+
 		log_step("chat\t%u\t%s", nc->id(), st);
 		message(-1, st, true, false, false, nc);
 		return;

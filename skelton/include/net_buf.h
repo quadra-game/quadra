@@ -29,7 +29,7 @@ public:
 	Byte *point;
 	Net_connection *from;
 	Dword from_addr;
-	Byte buf[1024];
+	Byte buf[NETBUF_SIZE];
 	void write_dword(Dword v) {
 		*(Dword *) point = htonl(v);
 		point += sizeof(Dword);
@@ -45,15 +45,15 @@ public:
 	void write_bool(bool b) {
 		write_byte(b? 1:0);
 	}
-	void write_mem(void *v, int num) {
+	void write_mem(const void *v, int num) {
 		memcpy(point, v, num);
 		point += num;
 	}
-	void write_string(char *v) {
+	void write_string(const char *v) {
 		write_mem(v, strlen(v)+1); // ecrit un string avec son '0'
 	}
 	Dword read_dword() {
-		if(((unsigned int)len())<=1024-sizeof(Dword)) {
+		if(((unsigned int)len())<=NETBUF_SIZE-sizeof(Dword)) {
 			Dword ret = ntohl(*(Dword *) point);
 			point += sizeof(Dword);
 			return ret;
@@ -62,7 +62,7 @@ public:
 			return 0;
 	}
 	Word read_word() {
-		if(((unsigned int)len())<=1024-sizeof(Word)) {
+		if(((unsigned int)len())<=NETBUF_SIZE-sizeof(Word)) {
 			Word ret = ntohs(*(Word *) point);
 			point += sizeof(Word);
 			return ret;
@@ -71,7 +71,7 @@ public:
 			return 0;
 	}
 	Byte read_byte() {
-		if(((unsigned int)len())<=1024-sizeof(Byte)) {
+		if(((unsigned int)len())<=NETBUF_SIZE-sizeof(Byte)) {
 			Byte ret = *(Byte *) point;
 			point += sizeof(Byte);
 			return ret;
@@ -86,7 +86,7 @@ public:
 			return false;
 	}
 	void read_mem(void *v, int num) {
-		if(len()<=1024-num) {
+		if(len()<=NETBUF_SIZE-num) {
 			memcpy(v, point, num);
 			point += num;
 		}

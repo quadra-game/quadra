@@ -458,8 +458,8 @@ bool Net_connection_tcp::checktcp() {
 		return false;
 	if(tcppacsize)
 		return true;
-	while(net->checkreceive(tcpsock) > 0 && tcpbufsize<1024) {
-		int temp = recv(tcpsock, (char *) &tcpbuf[tcpbufsize], 1024-tcpbufsize, 0);
+	while(net->checkreceive(tcpsock) > 0 && tcpbufsize<NETBUF_SIZE) {
+		int temp = recv(tcpsock, (char *) &tcpbuf[tcpbufsize], NETBUF_SIZE-tcpbufsize, 0);
 		// reset by remote side !
 		net->getlasterror(temp);
 		char *msg = net->failed();
@@ -479,7 +479,7 @@ bool Net_connection_tcp::checktcp() {
 	}
 	if(tcpbufsize>=sizeof(Word)) {
 		Word pacsize=*(Word *)tcpbuf;
-		if(!pacsize || (pacsize >= 1024 && pacsize != (('/'*256) +'/'))) {
+		if(!pacsize || (pacsize >= NETBUF_SIZE && pacsize != (('/'*256) +'/'))) {
 			skelton_msgbox("Garbage received on connection #%i (%04X). Shutting it.\n", tcpsock, pacsize);
 			_state=disconnected; // forcing a graceful shutdown
 			return false;
@@ -515,7 +515,7 @@ void Net_connection_tcp::receivetcp(Net_buf *p) {
 	p->from  = this;
 	p->from_addr = from;
 	memcpy(p->buf, tcpbuf+sizeof(Word), tcppacsize);
-	memmove(tcpbuf, tcpbuf+sizeof(Word)+tcppacsize, 1024-(tcppacsize+sizeof(Word)));
+	memmove(tcpbuf, tcpbuf+sizeof(Word)+tcppacsize, NETBUF_SIZE-(tcppacsize+sizeof(Word)));
 	tcpbufsize-=tcppacsize+sizeof(Word);
 	tcppacsize=0;
 }
@@ -1290,7 +1290,7 @@ void Net::packetreceived(Net_buf *nb, bool tcp) {
 void Net::receiveudp(int sock, Net_buf *p) {
 	sockaddr_in tsin;
 	addr_size_t tsin_size = sizeof(tsin);
-	int temp = recvfrom(sock, (char *) p->buf, 1024, 0, (sockaddr *) &tsin, &tsin_size);
+	int temp = recvfrom(sock, (char *) p->buf, NETBUF_SIZE, 0, (sockaddr *) &tsin, &tsin_size);
 	p->from = NULL;
 	p->from_addr = ntohl(tsin.sin_addr.s_addr);
 	if(getlasterror(temp)) {

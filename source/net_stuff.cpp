@@ -95,6 +95,7 @@ char *packet_name[] = {
 	"P_CLIENTREMOVEBONUS",
 	"P_SERVERNAMETEAM",
 	"P_GAMESTAT",
+	"P_SERVERLOG",
 };
 
 int Quadra_param::tcpport() {
@@ -200,6 +201,7 @@ Packet *Quadra_param::alloc_packet(Word pt) {
 		case P_CLIENTREMOVEBONUS: return new Packet_clientremovebonus();
 		case P_SERVERNAMETEAM: return new Packet_servernameteam();
 		case P_GAMESTAT: return new Packet_gamestat();
+		case P_SERVERLOG: return new Packet_serverlog();
 		default: return NULL;
 	}
 }
@@ -244,6 +246,8 @@ void Quadra_param::client_connect(Net_connection *adr) {
 		return;
 	char st[64], st1[256];
 	Net::stringaddress(st, adr->address(), adr->getdestport());
+	Packet_serverlog log("connect");
+
 	log_step("connect\t%u\t%s", adr->id(), st);
 	sprintf(st1, ST_CONNECTFROMBOB, st);
 	message(-1, st1, true, false, true);
@@ -257,6 +261,8 @@ void Quadra_param::client_deconnect(Net_connection *adr) {
 		game->net_list.client_deconnect(adr);
 	char st[64], st1[256];
 	Net::stringaddress(st, adr->address(), adr->getdestport());
+	Packet_serverlog log("disconnect");
+
 	log_step("disconnect\t%u", adr->id());
 	sprintf(st1, ST_DISCONNECTFROMBOB, st);
 	message(-1, st1, true, false, true);

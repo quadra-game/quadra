@@ -41,6 +41,8 @@
 #define SOCKET_ERROR -1
 #endif
 
+const unsigned NETBUF_SIZE = 4096;
+
 #include "array.h"
 #include "types.h"
 #include "packet.h"
@@ -169,7 +171,7 @@ private:
 	int tcpsock;
 	Dword from;
 	sockaddr_in tcpsin;
-	Byte tcpbuf[1024];
+	Byte tcpbuf[NETBUF_SIZE+2];
 	Dword tcpbufsize;
 	Dword tcppacsize;
 	char desthost[256];

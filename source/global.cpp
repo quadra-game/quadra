@@ -23,6 +23,7 @@
 #include "config.h"
 #include "nglog.h"
 #include "global.h"
+#include "packets.h"
 
 RCSID("$Id$")
 
@@ -91,6 +92,8 @@ void set_team_name(Byte team, const char *name) {
 		da_name=team_name[team];
 	else
 		da_name=english_teams[team];
+	Packet_serverlog log("team_name");
+
 	log_step("team_name\t%s\t%s", log_team(team), da_name);
 }
 

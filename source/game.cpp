@@ -368,6 +368,8 @@ void Game::restart() {
 		if(nc && nc!=loopback_connection) {
 			char st[64];
 			Net::stringaddress(st, nc->address(), nc->getdestport());
+			Packet_serverlog log("connect");
+
 			log_step("connect\t%u\t%s", nc->id(), st);
 		}
 	}
@@ -563,6 +565,8 @@ void Game::check_potato() {
 				reason="all_died";
 			if(nb_player_alive)
 				reason="cleared_lines";
+			Packet_serverlog log("potato_done");
+
 			log_step("potato_done\t%s\t%s", log_team(potato_team), reason);
 			done_potato(potato_team);
 			potato_team=255;
@@ -591,6 +595,8 @@ void Game::check_potato() {
 				net_server->record_packet(&p);
 			got_potato(to_team, potato_lines[to_team]);
 			potato_team=to_team;
+			Packet_serverlog log("potato_given");
+
 			log_step("potato_given\t%s\t%i", log_team(to_team), potato_lines[to_team]);
 		}
 	}
@@ -878,6 +884,8 @@ void Game::prepare_logging(const char *filename) {
 		sprintf(st, ST_GAMELOGGINGAS, nom);
 		message(-1, st, true, false, true);
 		//Begin log output here
+		Packet_serverlog log("info");
+
 		the_log_step("info\tlog_standard\tngLog");
 		the_log_step("info\tlog_version\t1.2");
 		the_log_step("info\tlog_info_url\thttp://www.NetGamesUSA.com/ngLog/");
@@ -901,7 +909,12 @@ void Game::prepare_logging(const char *filename) {
 		char *abs_time=Clock::absolute_time();
 		the_log_step("info\tabsolute_time\t%s", abs_time);
 
+		Packet_serverlog log2("game_init");
+
 		the_log_step("game_init\t%s", abs_time);
+
+		Packet_serverlog log3("game_param");
+
 		the_log_step("game_param\tname\t%s", name);
 		char *game_type="ffa";
 		if(survivor)
