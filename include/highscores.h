@@ -42,8 +42,8 @@ public:
 	static Best bestlocal[MAX_SCORE];
 	static int numGlobal;
 	static Best bestglobal[MAX_SCORE];
-	static void getFilename(char* st, int i);
-	static void getGlobalFilename(char* st, int i);
+	static void getFilename(char* st, int i, int size_of);
+	static void getGlobalFilename(char* st, int i, int size_of);
 	static void load();
 	static void free();
 	static int update(Canvas* c);
