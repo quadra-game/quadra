@@ -119,6 +119,7 @@ DirectX_Video::~DirectX_Video() {
 		lpdd=NULL;
 	}
 	ShowWindow(hwnd, SW_HIDE);
+	Sleep(0);
 	DestroyWindow(hwnd);
 	UnregisterClass("SkeltonClass", hinst);
 	ShowCursor(TRUE);
