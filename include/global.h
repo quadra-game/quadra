@@ -24,12 +24,12 @@
 #define MAXPLAYERS 8
 #define MAXTEAMS 8
 
-extern char st[];
-extern char quadradir[];
+extern char st[4096];
+extern char quadradir[1024];
 extern char team_name[MAXTEAMS][40];
 extern bool named_team[MAXTEAMS];
-extern const char *english_teams[];
-extern const char *french_teams[];
+extern const char *english_teams[MAXTEAMS];
+extern const char *french_teams[MAXTEAMS];
 
 void set_team_name(Byte team, const char *name);
 
