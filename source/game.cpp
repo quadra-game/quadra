@@ -183,6 +183,8 @@ Game::Game(Game_params* p) {
 	abort=false;
 	terminated=false;
 	server_accept_player = server_accept_connection = 0;
+	server_max_players = server_min_players = 0;
+	server_max_teams = server_min_teams = 0;
 	loopback_connection = NULL;
 	single=p->single;
 	network=p->network;

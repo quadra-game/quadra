@@ -389,6 +389,10 @@ void Net_server::playerwantjoin(Packet *p2) {
 		if(playeraccepted.accepted == 0) {
 			if(game->net_list.size() == MAXPLAYERS)
 				playeraccepted.accepted = 5; // game is full, can't join
+			if(game->server_max_players && game->net_list.size() >= game->server_max_players)
+				playeraccepted.accepted = 5; // game is full, can't join
+			if(game->server_max_teams && game->net_list.count_teams() >= game->server_max_teams)
+				playeraccepted.accepted = 5; // game is full, can't join
 		}
 	}
 
@@ -460,19 +464,37 @@ void Net_server::wantjoin(Packet *p2) {
 void Net_server::clientpause(Packet *p2) {
 	Packet_pause p;
 	msgbox("Net_server::clientpause from %x\n", p2->from);
+	if(!game) {
+		// unlikely but what the hell...
+		return;
+	}
 	if(game->delay_start && game->delay_start!=500) {
 		//Don't ever interrupt countdown
 		return;
 	}
+
 	bool allowed=false;
-	if(!p2->from || p2->from->trusted)
-		allowed=true;
+	// check all the starting conditions
 	if(game->delay_start==500 && allow_start)
 		allowed=true;
+	// make sure there's enough players
+	if(game->server_min_players && game->server_min_players > game->net_list.size(false))
+		allowed=false;
+	// make sure there's enough teams
+	if(game->server_min_teams && game->server_min_teams > game->net_list.count_teams(false))
+		allowed=false;
+
+	// commandline options or trusted connections are always allowed to start/pause
+	if(!p2->from || p2->from->trusted)
+		allowed=true;
+
+	// if game is already started, all of the above doesn't apply anyway
 	if(game->delay_start==0 && allow_pause)
 		allowed=true;
+
 	if(!allowed)
 		return;
+
 	if(game->paused) {
 		p.player = -1;
 		net->dispatch(&p, P_PAUSE);

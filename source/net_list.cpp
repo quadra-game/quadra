@@ -1234,12 +1234,31 @@ void Net_list::rejoin_player(Canvas *c) {
 	notify_all();
 }
 
-int Net_list::size() {
-	int ret=0;
+unsigned Net_list::count_teams(bool include_gone) const {
+	unsigned ret=0;
+	bool team[MAXTEAMS] = {false};
 	int i;
-	for(i=0; i<MAXPLAYERS; i++)
-		if(get(i))
+	for(i=0; i<MAXPLAYERS; ++i) {
+		Canvas* c = get(i);
+		if(c)
+			if(include_gone || c->idle<3)
+				team[c->color] = true;
+	}
+	for(i=0; i<MAXTEAMS; ++i)
+		if(team[i])
 			ret++;
+	return ret;
+}
+
+unsigned Net_list::size(bool include_gone) const {
+	unsigned ret=0;
+	int i;
+	for(i=0; i<MAXPLAYERS; i++) {
+		Canvas* c = get(i);
+		if(c)
+			if(include_gone || c->idle<3)
+				ret++;
+	}
 	return ret;
 }
 
@@ -1406,8 +1425,12 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 		send_msg(nc, "/allowstart [0|1]     (Dis)allow anybody to start the game.");
 		send_msg(nc, "/allowpause [0|1]     (Dis)allow anybody to pause/unpause the game.");
 		send_msg(nc, "/pause                Pause/unpause the game.");
-		send_msg(nc, "/acceptplayers [0|1]  (Dis)allow new players to join game.");
 		send_msg(nc, "/acceptconnects [0|1] (Dis)allow new client computers to join game.");
+		send_msg(nc, "/acceptplayers [0|1]  (Dis)allow new players to join game.");
+		send_msg(nc, "/minplayers [0-8]     Set minimum number of players.");
+		send_msg(nc, "/maxplayers [0-8]     Set maximum number of players.");
+		send_msg(nc, "/minteams [0-8]       Set minimum number of teams.");
+		send_msg(nc, "/maxteams [0-8]       Set maximum number of teams.");
 		send_msg(nc, "/laglimit [limit]     Display/change lag limit.");
 		send_msg(nc, "/ppmlimit [limit]     Display/change maximum ppm.");
 		send_msg(nc, "/autorestart [0|1]    Disable/enable auto-restart at game end.");
@@ -1611,6 +1634,58 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 			game->server_accept_player=i? 0:1;
 		}
 		send_msg(nc, "Accept player: %s", game->server_accept_player? "off":"on");
+	}
+	if(!strcmp(cmd, "maxplayers")) {
+		if(params[0] && trusted) {
+			i=atoi(params);
+			if(i) {
+				if(i>MAXPLAYERS)
+					i=MAXPLAYERS;
+				if(i<1)
+					i=1;
+			}
+			game->server_max_players=i;
+		}
+		send_msg(nc, "Max players: %i", game->server_max_players);
+	}
+	if(!strcmp(cmd, "minplayers")) {
+		if(params[0] && trusted) {
+			i=atoi(params);
+			if(i) {
+				if(i>MAXPLAYERS)
+					i=MAXPLAYERS;
+				if(i<1)
+					i=1;
+			}
+			game->server_min_players=i;
+		}
+		send_msg(nc, "Min players: %i", game->server_min_players);
+	}
+	if(!strcmp(cmd, "maxteams")) {
+		if(params[0] && trusted) {
+			i=atoi(params);
+			if(i) {
+				if(i>MAXTEAMS)
+					i=MAXTEAMS;
+				if(i<1)
+					i=1;
+			}
+			game->server_max_teams=i;
+		}
+		send_msg(nc, "Max teams: %i", game->server_max_teams);
+	}
+	if(!strcmp(cmd, "minteams")) {
+		if(params[0] && trusted) {
+			i=atoi(params);
+			if(i) {
+				if(i>MAXTEAMS)
+					i=MAXTEAMS;
+				if(i<1)
+					i=1;
+			}
+			game->server_min_teams=i;
+		}
+		send_msg(nc, "Min teams: %i", game->server_min_teams);
 	}
 	if(!strcmp(cmd, "acceptconnects")) {
 		if(params[0] && trusted) {

@@ -116,6 +116,8 @@ public:
 	void check_potato();
 	Byte next_potato_team();
 	int server_accept_player, server_accept_connection;
+	int server_max_players, server_max_teams;
+	int server_min_players, server_min_teams;
 	Net_connection *loopback_connection;
 	Net_list net_list;
 	bool valid_frag; //Survivor only
