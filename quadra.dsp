@@ -1,24 +1,24 @@
-# Microsoft Developer Studio Project File - Name="Remtris3" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="Quadra" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Console Application" 0x0103
 
-CFG=Remtris3 - Win32 Debug
+CFG=Quadra - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
-!MESSAGE NMAKE /f "Remtris3.mak".
+!MESSAGE NMAKE /f "Quadra.mak".
 !MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "Remtris3.mak" CFG="Remtris3 - Win32 Debug"
+!MESSAGE NMAKE /f "Quadra.mak" CFG="Quadra - Win32 Debug"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "Remtris3 - Win32 Release" (based on "Win32 (x86) Console Application")
-!MESSAGE "Remtris3 - Win32 Debug" (based on "Win32 (x86) Console Application")
+!MESSAGE "Quadra - Win32 Release" (based on "Win32 (x86) Console Application")
+!MESSAGE "Quadra - Win32 Debug" (based on "Win32 (x86) Console Application")
 !MESSAGE 
 
 # Begin Project
@@ -28,7 +28,7 @@ CFG=Remtris3 - Win32 Debug
 CPP=cl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "Remtris3 - Win32 Release"
+!IF  "$(CFG)" == "Quadra - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -54,7 +54,7 @@ LINK32=link.exe
 # ADD LINK32 gdi32.lib winspool.lib comdlg32.lib advapi32.lib ole32.lib oleaut32.lib uuid.lib winmm.lib ddraw.lib dxguid.lib dinput.lib dsound.lib kernel32.lib user32.lib shell32.lib skelton.lib wsock32.lib zlib.lib /nologo /subsystem:windows /machine:I386 /out:"quadra.exe" /libpath:"skelton/release" /libpath:"../zlib/zlib/release"
 # SUBTRACT LINK32 /pdb:none
 
-!ELSEIF  "$(CFG)" == "Remtris3 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "Quadra - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -84,8 +84,8 @@ LINK32=link.exe
 
 # Begin Target
 
-# Name "Remtris3 - Win32 Release"
-# Name "Remtris3 - Win32 Debug"
+# Name "Quadra - Win32 Release"
+# Name "Quadra - Win32 Debug"
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp"
@@ -340,7 +340,7 @@ SOURCE=.\images\window.ico
 # End Group
 # Begin Source File
 
-SOURCE=.\Remtris3.rc
+SOURCE=.\Quadra.rc
 # End Source File
 # End Target
 # End Project
