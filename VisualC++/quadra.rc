@@ -4,8 +4,8 @@
 WINDOW.ICO              ICON    DISCARDABLE     "..\\images\\window.ico"
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,1,5,0
- PRODUCTVERSION 1,1,5,0
+ FILEVERSION 1,1,6,0
+ PRODUCTVERSION 1,1,6,0
  FILEFLAGSMASK 0x3fL
  FILEFLAGS 0x0L
  FILEOS 0x40004L
@@ -19,12 +19,12 @@ BEGIN
             VALUE "Comments", "http://www.ludusdesign.com\0"
             VALUE "CompanyName", "Ludus Design\0"
             VALUE "FileDescription", "Quadra\0"
-            VALUE "FileVersion", "1.1.5\0"
+            VALUE "FileVersion", "1.1.6\0"
             VALUE "InternalName", "Quadra\0"
             VALUE "LegalCopyright", "Copyright © 1998-2000 Ludus Design\0"
             VALUE "OriginalFilename", "quadra.exe\0"
             VALUE "ProductName", "Quadra\0"
-            VALUE "ProductVersion", "1.1.5\0"
+            VALUE "ProductVersion", "1.1.6\0"
         END
     END
     BLOCK "VarFileInfo"

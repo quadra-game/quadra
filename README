@@ -9,21 +9,23 @@ Requirements:
 
  - a C++ compiler (gcc was tested on Linux and Visual C++ on Windows)
  - zlib (http://www.info-zip.org/pub/infozip/zlib/)
+ - libpng (http://www.libpng.org/pub/png/libpng.html)
  - DirectX 5 (Windows only)
- - Svgalib (Linux only, http://svgalib.org/)
+ - Svgalib (Linux only, optional, http://svgalib.org/)
  - X Window System libraries with XPM support (Linux only)
 
 Basic instructions:
 
+ - type './configure'
  - type 'make'
 
-There you go! There is a 'quadra' binary and a 'quadra.res' resource
-file in the quadra/source directory. If not, then something went
-wrong. :-)
+There you go! There is a 'quadra' binary, a 'quadra-svga.so' driver and
+a 'quadra.res' resource file in the quadra/source directory. If not,
+then something went wrong. :-)
 
 You can run this with the following command (in bash):
 
-QUADRADIR=. LD_LIBRARY_PATH=../skelton/lib ./quadra
+QUADRADIR=source source/quadra
 
 Good luck!
 
