@@ -572,7 +572,9 @@ void Video_X11::start_frame() {
 }
 
 void Video_X11::flip() {
-  sleep(0);
+  /* I'm not sure how useful this is, the XSync or XFlush probably
+     already block on reading or writing, giving the same effect? */
+  usleep(1);
 
   if(max_x2 > min_x2) {
     /* in case that the last frame is not finished */
