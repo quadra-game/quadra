@@ -30,3 +30,7 @@ CXXDEPS:=
 
 CXXFLAGS=@CXXFLAGS@
 
+ifeq ("@debug@", "yes")
+CXXFLAGS+=-D_DEBUG
+endif
+

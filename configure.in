@@ -3,6 +3,12 @@ AC_REVISION($Id$)
 
 AC_INIT(source/quadra.cpp)
 
+AC_ARG_ENABLE(debug,
+  [  --enable-debug          Debugging options],
+  debug=yes, debug=no)
+
+AC_SUBST(debug)
+
 dnl Checks for programs.
 AC_PROG_CXX
 AC_PROG_INSTALL

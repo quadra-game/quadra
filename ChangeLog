@@ -1,5 +1,7 @@
 2000-11-16  Pierre Phaneuf  <pp@ludusdesign.com>
 
+	* Added a --enable-debug option to the configure.in.
+
 	* Did some random clean up.
 
 2000-11-15  Pierre Phaneuf  <pp@ludusdesign.com>
