@@ -644,6 +644,12 @@ bool Game::any_attack() {
 void Game::addgameinfo(Textbuf *tb) {
 	tb->append("name %s\n", name);
 	tb->append("version %i\n", net_version());
+	tb->append("address");
+	for(int a=0; a<host_adr_pub.size(); ++a) {
+		Dword ip = net->host_adr_pub[a];
+		tp->append(" %i.%i.%i.%i", ip>>24, (ip>>16)&255, (ip>>8)&255, ip&255);
+	}
+	tb->append("\n");
 	tb->append("port %i\n", config.info.port_number);
 	tb->append("status/started %i\n", !delay_start? 1:0);
 	tb->append("status/terminated %i\n", terminated? 1:0);
@@ -885,16 +891,7 @@ void Game::prepare_logging(const char *filename) {
 		#endif
 		the_log_step("info\tgame_version\t%i.%i.%i\t%s", Config::major, Config::minor, Config::patchlevel, os);
 		the_log_step("info\tgame_decoder_ring_url\thttp://ludusdesign.com/decoder_ring.txt");
-		//Even better than what the NetGames guys do! :)
-		Dword addr=INADDR_LOOPBACK;
-		for(int i=0; i<net->host_adr.size(); i++) {
-			Dword a=net->host_adr[i];
-			//Ignore 192.168.x.x unless we find something "better"
-			if(a>>16==49320)
-				if(addr>>16!=49320 && addr!=INADDR_LOOPBACK)
-					continue;
-			addr=a;
-		}
+		Dword addr=net->host_adr_pub[0];
 		char st[64];
 		Net::stringaddress(st, addr);
 		the_log_step("info\tserver_address\t%s", st);

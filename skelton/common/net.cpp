@@ -716,15 +716,47 @@ void Net::init_local_addresses() {
 		skelton_msgbox("Net::Net: gethostname() is %s\n", host_name);
 		// trouve la liste des interfaces IP du cok en cours
 		struct hostent *host;
-		Dword adr = 0;
-
 		host = gethostbyname(host_name);
 		if(host) {
 			Dword *s = (Dword *) *host->h_addr_list;
 			while(*(char *) s && (char *) s < host->h_name) {
-				adr = ntohl(*s);
+				Dword adr = ntohl(*s);
 				host_adr.add(adr);
 				s++;
+			}
+			Dword fallback = INADDR_LOOPBACK;
+			//Even better than what the NetGames guys do! :)
+			for(int i=0; i<host_adr.size(); i++) {
+				Dword a=host_adr[i];
+				bool pub = true;
+				//192.168/16 is not public
+				if(a>>16==192*256+168)
+					pub = false;
+				//Same thing for 172.16/12
+				if(a>>20==172*64+16)
+					pub = false;
+				//And again for 10/8
+				if(a>>24==10)
+					pub = false;
+				//Oh, and 127/8 while we're at it...
+				if(a>>24==127)
+					pub = false;
+				if(fallback == INADDR_LOOPBACK) {
+					//Got something that looks better than whatever we got up to that point
+					fallback=a;
+				}
+				if(pub) {
+					//Remember it as an internet address
+					host_adr_pub.add(a);
+				}
+			}
+			if(!host_adr.size()) {
+				//No IP interfaces at all?! We'll assume loopback at least is there...
+				host_adr.add(fallback);
+			}
+			if(!host_adr_pub.size()) {
+				//Didn't find a public address, at least put in something
+				host_adr_pub.add(fallback);
 			}
 		}
 		else {

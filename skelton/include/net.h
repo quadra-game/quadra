@@ -214,7 +214,10 @@ public:
 	Dword name_resolve;
 	int port_resolve;
 	char host_name[1024];
+	//All the IP addresses of this machine
 	Array<Dword> host_adr;
+	//Those IP addresses that look like public internet addresses
+	Array<Dword> host_adr_pub;
 
 	Net_param *net_param;
 

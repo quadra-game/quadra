@@ -102,7 +102,8 @@ sub superuser {
 		if(!defined $params->{port}) {
 			$params->{port} = 3456;
 		}
-		my($addr) = $params->{info}{remoteaddr} . ":" . $params->{port};
+		my($addr) = $params->{info}{remoteaddr};
+		$addr = $addr . ":" . $params->{port};
 		$params->{info}{lastupdate} = time;
 		if(exists $db->{$addr}) {
 			$ret = "Game updated\n";
@@ -439,7 +440,19 @@ sub main {
 	my($params) = parse(@req);
 
 	#Ajoute des params
-	$params->{info}{remoteaddr} = $q->remote_addr();
+	if(defined $params->{address}) {
+		my(@addrs) = split " ", $params->{address};
+		$params->{info}{remoteaddr} = $addrs[0];
+		foreach $ad (@addrs) {
+			if($ad == $q->remote_addr()) {
+				$params->{info}{remoteaddr} = $ad;
+			}
+		}
+		#delete $params->{address};
+	}
+	else {
+		$params->{info}{remoteaddr} = $q->remote_addr();
+	}
 
 	if(exists $commands{$cmd}) {
 		$reply = &{$commands{$cmd}}($params);
