@@ -10,10 +10,10 @@ use vars qw($debug %commands %cleanups $datadir $gamesdir $scoresdir $timeout $s
 use CGI;
 use CGI::Carp;
 use Data::Dumper;
-#use QServ::HTML;
+use QServ::HTML;
 #use QServ::Message;
 
-$debug = 5;
+$debug = 2;
 
 %commands = (
 		 postgame => \&do_postgame,
