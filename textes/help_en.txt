@@ -27,3 +27,4 @@ Miscellaneous options:
 -play <file>		Play a recorded demo file
 -record <file>		Record a demo file
 -nocd			Do not play CD music
+-nofullscreen		Disable the fullscreen mode

@@ -27,3 +27,4 @@ Options diverses:
 -play <file>		Joue un fichier démo enregistré
 -record <file>		Enregistre une démo
 -nocd			Ne pas jouer la musique CD
+-nofullscreen		Désactive le mode plein écran
