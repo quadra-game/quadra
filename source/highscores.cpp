@@ -34,11 +34,11 @@ Highscores::Best Highscores::bestglobal[MAX_SCORE];
 bool Highscores::loaded = false;
 
 void Highscores::getFilename(char* st, int i) {
-	sprintf(st, "%s/local%i.rec", quadradir, i);
+	snprintf(st, sizeof(st) - 1, "%s/local%i.rec", quadradir, i);
 }
 
 void Highscores::getGlobalFilename(char* st, int i) {
-	sprintf(st, "%s/global%i.rec", quadradir, i);
+	snprintf(st, sizeof(st) - 1, "%s/global%i.rec", quadradir, i);
 }
 
 void Highscores::load() {
@@ -158,7 +158,7 @@ int Highscores::update(Canvas *c) {
 			if(rename(st2, st) != 0)
 				msgbox("Warning: Highscore: could not rename '%s' to '%s'\n", st2, st);
 		}
-		sprintf(st2, "%s/last.rec", quadradir);
+		snprintf(st2, sizeof(st2) - 1, "%s/last.rec", quadradir);
 		Playback* demo=NULL;
 		{
 			Res_compress res(st2, RES_TRY);

@@ -1429,10 +1429,10 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 				send_msg(nc, "Already administrator");
 			}
 			else {
-				char st[32], st1[256];
+				char st[256], st1[256];
 				Net::stringaddress(st1, nc->address());
-				sprintf(st, "%s:%i", st1, nc->getdestport());
-				sprintf(st1, "Granting admin privileges to %s", st);
+				snprintf(st, sizeof(st) - 1, "%s:%i", st1, nc->getdestport());
+				snprintf(st1, sizeof(st1) - 1, "Granting admin privileges to %s", st);
 				message(-1, st1, true, false, true);
 				nc->trusted=true;
 				send_msg(nc, "Admin commands available");

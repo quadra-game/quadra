@@ -181,7 +181,7 @@ Menu_highscore::Menu_highscore(int hscore, int *playagain, bool show_playb) {
 
   playlast = NULL;
   if(show_playback) {
-    sprintf(st, "%s/last.rec", quadradir);
+    snprintf(st, sizeof(st) - 1, "%s/last.rec", quadradir);
     Res_dos *res = new Res_dos(st, RES_TRY);
     if(res->exist) {
       y += 6;
@@ -358,7 +358,7 @@ void Menu_highscore::step() {
         }
       }
       if(result == playlast) {
-        sprintf(st, "%s/last.rec", quadradir);
+        snprintf(st, sizeof(st) - 1, "%s/last.rec", quadradir);
         play_demo(st);
       }
     } else {

@@ -93,7 +93,7 @@ void Config::default_config() {
 
 void Config::read() {
 	if(!fname[0])
-		sprintf(fname, "%s/%s", quadradir, "quadra.cfg");
+		snprintf(fname, sizeof(fname) - 1, "%s/%s", quadradir, "quadra.cfg");
 
 	int i;
 
@@ -182,7 +182,7 @@ void fix_str(char *st, Dword len) {
 void Config::write() {
 	int i;
 	if(!fname[0])
-		sprintf(fname, "%s/%s", quadradir, "quadra.cfg");
+		snprintf(fname, sizeof(fname) - 1, "%s/%s", quadradir, "quadra.cfg");
 
 	if(!video_is_dumb) {
 		Res_dos res(fname, RES_CREATE);

@@ -301,7 +301,7 @@ void send_msg(Net_connection *nc, char *msg, ...) {
 	char st[4096];
 	va_list marker;
 	va_start(marker, msg);
-	vsprintf(st, msg, marker);
+	vsnprintf(st, sizeof(st) - 1, msg, marker);
 	va_end(marker);
 	if(nc->packet_based) {
 		Packet_chat p;

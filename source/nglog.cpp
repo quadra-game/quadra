@@ -64,7 +64,7 @@ void Log::log_event(const char *st) {
 
 bool log_init(const char *filename) {
 	char the_name[1024];
-	sprintf(the_name, "%s/%s/ngStats/%s/%s", quadradir, __nglog_rel_path, __nglog_ngstats_logdir, filename);
+	sprintf(the_name, sizeof(the_name) - 1, "%s/%s/ngStats/%s/%s", quadradir, __nglog_rel_path, __nglog_ngstats_logdir, filename);
 	local=new Log(the_name);
 	return local->exist;
 }
@@ -73,7 +73,7 @@ void log_step(const char *st, ...) {
 	char event[1024];
 	va_list marker;
 	va_start(marker, st);
-	vsprintf(event, st, marker);
+	vsnprintf(event, sizeof(event) - 1, st, marker);
 	va_end(marker);
 	if(local)
 		local->log_event(event);
@@ -132,16 +132,18 @@ void ngLog_ngStatsCall(int server_quit) {
 	char binexe[1024], logpath[1024];
 	char ngs_done[1024];
 
-			
 	if(server_quit)
 		strcpy(browse, "true");
 
 #ifdef UGS_LINUX
 	strcpy(ngs_done, quadradir);
-	sprintf(binexe, "%s/%s/ngStats/bin/ngStatsQuadra", ngs_done, __nglog_rel_path);
-	sprintf(logpath, "%s/%s/ngStats/%s", ngs_done, __nglog_rel_path, __nglog_ngstats_logdir);
-	sprintf(cmd, "%s -b %s -c %s %s &", binexe, browse, __nglog_ngstats_cfg, logpath);
+	snprintf(binexe, sizeof(binexe) - 1, "%s/%s/ngStats/bin/ngStatsQuadra", ngs_done, __nglog_rel_path);
+	snprintf(logpath, sizeof(logpath) - 1, "%s/%s/ngStats/%s", ngs_done, __nglog_rel_path, __nglog_ngstats_logdir);
+	snprintf(cmd, sizeof(cmd) - 1, "%s -b %s -c %s %s &", binexe, browse, __nglog_ngstats_cfg, logpath);
 	// Call to ngStats
+
+	/* FIXME: system(3) is very insecure.  This should be replaced by
+     some type of exec call. */
 	system(cmd);
 #endif
 #ifdef UGS_DIRECTX
@@ -156,9 +158,9 @@ void ngLog_ngStatsCall(int server_quit) {
 	si.hStdError = NULL; 
 
 	strcpy(ngs_done, quadradir);
-	sprintf(binexe, "%s\\%s\\ngStats\\ngStatsQD.exe", ngs_done, __nglog_rel_path);
-	sprintf(logpath, "%s\\%s\\ngStats\\%s", ngs_done, __nglog_rel_path, __nglog_ngstats_logdir);
-	sprintf(full_cmd, "%s -b %s -c %s\\%s\\ngStats\\%s %s", binexe, browse, ngs_done, __nglog_rel_path, __nglog_ngstats_cfg, logpath);
+	snprintf(binexe, sizeof(binexe) - 1,"%s\\%s\\ngStats\\ngStatsQD.exe", ngs_done, __nglog_rel_path);
+	snprintf(logpath, sizeof(logpath) - 1, "%s\\%s\\ngStats\\%s", ngs_done, __nglog_rel_path, __nglog_ngstats_logdir);
+	snprintf(full_cmd, sizeof(full_cmd) - 1, "%s -b %s -c %s\\%s\\ngStats\\%s %s", binexe, browse, ngs_done, __nglog_rel_path, __nglog_ngstats_cfg, logpath);
 	// Call to ngStats
 	if(!server_quit)
 		CreateProcess(NULL, full_cmd, NULL, NULL, FALSE, DETACHED_PROCESS, NULL, NULL, &si, &pi);

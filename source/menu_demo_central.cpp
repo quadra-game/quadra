@@ -151,7 +151,7 @@ void Menu_demo_central::refresh_detail() {
 
 void Menu_demo_central::drive_playback(const char *n) {
 	char temp[1024];
-	sprintf(temp, "%s/%s", find_directory, n);
+	snprintf(temp, sizeof(temp) - 1, "%s/%s", find_directory, n);
 	Res_compress *res = new Res_compress(temp, RES_TRY);
 	if(res->exist) {
 		play = new Playback(res);
@@ -372,7 +372,7 @@ void Menu_demo_central::step() {
 		Listitem *e = (Listitem *) z_list->get_selected();
 		if(e && !e->isfolder) {
 			char temp[1024];
-			sprintf(temp, "%s/%s", find_directory, e->list_name);
+			snprintf(temp, sizeof(temp) - 1, "%s/%s", find_directory, e->list_name);
 			remove(temp);
 			z_list->remove_item(e);
 		}
@@ -407,7 +407,7 @@ void Menu_demo_central::reload() {
 	}
 	z_dir->set_val(find_directory);
 	char temp_search[1024];
-	sprintf(temp_search, "%s/*", find_directory);
+	snprintf(temp_search, sizeof(temp_search) - 1, "%s/*", find_directory);
 
 	msgbox("Menu_demo_central::find_all: Finding directories in [%s]...\n", temp_search);
 	{
@@ -427,7 +427,7 @@ void Menu_demo_central::reload() {
 		delete find_file;
 	}
 
-	sprintf(temp_search, "%s/*.rec", find_directory);
+	snprintf(temp_search, sizeof(temp_search) - 1, "%s/*.rec", find_directory);
 
 	msgbox("Menu_demo_central::find_all: Finding files in [%s]...\n", temp_search);
 	{
