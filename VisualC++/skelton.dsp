@@ -8,12 +8,12 @@ CFG=Skelton - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
-!MESSAGE NMAKE /f "Skelton.mak".
+!MESSAGE NMAKE /f "skelton.mak".
 !MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "Skelton.mak" CFG="Skelton - Win32 Debug"
+!MESSAGE NMAKE /f "skelton.mak" CFG="Skelton - Win32 Debug"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /W3 /WX /GX /O2 /Ob2 /I "include" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "UGS_DIRECTX" /FD /c
+# ADD CPP /nologo /W3 /WX /GX /O2 /Ob2 /I "..\skelton\include" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "UGS_DIRECTX" /FD /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0xc0c
 # ADD RSC /l 0xc0c
@@ -50,7 +50,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo
+# ADD LIB32 /nologo /out:".\Release\skelton.lib"
 
 !ELSEIF  "$(CFG)" == "Skelton - Win32 Debug"
 
@@ -65,7 +65,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /W3 /Gi /GX /Zi /Od /Ob1 /Gf /I "include" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "UGS_DIRECTX" /D "_CRTDBG_MAP_ALLOC" /Fr /YX /FD /c
+# ADD CPP /nologo /W3 /Gi /GX /Zi /Od /Ob1 /Gf /I "..\skelton\include" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "UGS_DIRECTX" /D "_CRTDBG_MAP_ALLOC" /Fr /YX /FD /c
 # SUBTRACT CPP /Gy
 # ADD BASE RSC /l 0xc0c
 # ADD RSC /l 0xc0c
@@ -74,7 +74,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo
+# ADD LIB32 /nologo /out:".\Debug\skelton.lib"
 
 !ENDIF 
 
@@ -87,187 +87,187 @@ LIB32=link.exe -lib
 # PROP Default_Filter "cpp"
 # Begin Source File
 
-SOURCE=.\common\bitmap.cpp
+SOURCE=..\skelton\common\bitmap.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\buf.cpp
+SOURCE=..\skelton\common\buf.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\clipable.cpp
+SOURCE=..\skelton\common\clipable.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\clock.cpp
+SOURCE=..\skelton\common\clock.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\command.cpp
+SOURCE=..\skelton\common\command.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\crypt.cpp
+SOURCE=..\skelton\common\crypt.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\cursor.cpp
+SOURCE=..\skelton\common\cursor.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\cursor_self.cpp
+SOURCE=..\skelton\common\cursor_self.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\debug.cpp
+SOURCE=..\skelton\common\debug.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\dict.cpp
+SOURCE=..\skelton\common\dict.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\directx\error.cpp
+SOURCE=..\skelton\directx\error.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\directx\find_file.cpp
+SOURCE=..\skelton\directx\find_file.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\http_post.cpp
+SOURCE=..\skelton\common\http_post.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\http_request.cpp
+SOURCE=..\skelton\common\http_request.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\id.cpp
+SOURCE=..\skelton\common\id.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\directx\input.cpp
+SOURCE=..\skelton\directx\input.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\input_dumb.cpp
+SOURCE=..\skelton\common\input_dumb.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\inter.cpp
+SOURCE=..\skelton\common\inter.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\listbox.cpp
+SOURCE=..\skelton\common\listbox.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\directx\main.cpp
+SOURCE=..\skelton\directx\main.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\directx\music.cpp
+SOURCE=..\skelton\directx\music.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\net.cpp
+SOURCE=..\skelton\common\net.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\notify.cpp
+SOURCE=..\skelton\common\notify.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\overmind.cpp
+SOURCE=..\skelton\common\overmind.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\packet.cpp
+SOURCE=..\skelton\common\packet.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\directx\palette.cpp
+SOURCE=..\skelton\directx\palette.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\pcx.cpp
+SOURCE=..\skelton\common\pcx.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\pcx24.cpp
+SOURCE=..\skelton\common\pcx24.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\random.cpp
+SOURCE=..\skelton\common\random.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\raw.cpp
+SOURCE=..\skelton\common\raw.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\directx\res.cpp
+SOURCE=..\skelton\directx\res.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\res_compress.cpp
+SOURCE=..\skelton\common\res_compress.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\resfile.cpp
+SOURCE=..\skelton\common\resfile.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\resmanager.cpp
+SOURCE=..\skelton\common\resmanager.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\reswriter.cpp
+SOURCE=..\skelton\common\reswriter.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\directx\sound.cpp
+SOURCE=..\skelton\directx\sound.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\directx\spawn.cpp
+SOURCE=..\skelton\directx\spawn.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\sprite.cpp
+SOURCE=..\skelton\common\sprite.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\stringtable.cpp
+SOURCE=..\skelton\common\stringtable.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\unicode.cpp
+SOURCE=..\skelton\common\unicode.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\url.cpp
+SOURCE=..\skelton\common\url.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\directx\video.cpp
+SOURCE=..\skelton\directx\video.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\video_dumb.cpp
+SOURCE=..\skelton\common\video_dumb.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\directx\video_dx16.cpp
+SOURCE=..\skelton\directx\video_dx16.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\directx\video_new.cpp
+SOURCE=..\skelton\directx\video_new.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\common\zone_text_clock.cpp
+SOURCE=..\skelton\common\zone_text_clock.cpp
 # End Source File
 # End Group
 # Begin Group "Header files"
@@ -275,223 +275,223 @@ SOURCE=.\common\zone_text_clock.cpp
 # PROP Default_Filter "h"
 # Begin Source File
 
-SOURCE=.\include\array.h
+SOURCE=..\skelton\include\array.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\bitmap.h
+SOURCE=..\skelton\include\bitmap.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\buf.h
+SOURCE=..\skelton\include\buf.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\clipable.h
+SOURCE=..\skelton\include\clipable.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\clock.h
+SOURCE=..\skelton\include\clock.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\command.h
+SOURCE=..\skelton\include\command.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\crypt.h
+SOURCE=..\skelton\include\crypt.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\cursor.h
+SOURCE=..\skelton\include\cursor.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\cursor_self.h
+SOURCE=..\skelton\include\cursor_self.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\debug.h
+SOURCE=..\skelton\include\debug.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\dict.h
+SOURCE=..\skelton\include\dict.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\dynlib.h
+SOURCE=..\skelton\include\dynlib.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\error.h
+SOURCE=..\skelton\include\error.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\find_file.h
+SOURCE=..\skelton\include\find_file.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\http_post.h
+SOURCE=..\skelton\include\http_post.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\http_request.h
+SOURCE=..\skelton\include\http_request.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\id.h
+SOURCE=..\skelton\include\id.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\image.h
+SOURCE=..\skelton\include\image.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\input.h
+SOURCE=..\skelton\include\input.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\input_dx.h
+SOURCE=..\skelton\include\input_dx.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\input_keys.h
+SOURCE=..\skelton\include\input_keys.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\inter.h
+SOURCE=..\skelton\include\inter.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\listbox.h
+SOURCE=..\skelton\include\listbox.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\main.h
+SOURCE=..\skelton\include\main.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\music.h
+SOURCE=..\skelton\include\music.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\net.h
+SOURCE=..\skelton\include\net.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\net_buf.h
+SOURCE=..\skelton\include\net_buf.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\net_call.h
+SOURCE=..\skelton\include\net_call.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\notify.h
+SOURCE=..\skelton\include\notify.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\overmind.h
+SOURCE=..\skelton\include\overmind.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\packet.h
+SOURCE=..\skelton\include\packet.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\palette.h
+SOURCE=..\skelton\include\palette.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\pcx.h
+SOURCE=..\skelton\include\pcx.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\pcx24.h
+SOURCE=..\skelton\include\pcx24.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\random.h
+SOURCE=..\skelton\include\random.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\raw.h
+SOURCE=..\skelton\include\raw.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\res.h
+SOURCE=..\skelton\include\res.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\res_compress.h
+SOURCE=..\skelton\include\res_compress.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\resfile.h
+SOURCE=..\skelton\include\resfile.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\resmanager.h
+SOURCE=..\skelton\include\resmanager.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\sound.h
+SOURCE=..\skelton\include\sound.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\spawn.h
+SOURCE=..\skelton\include\spawn.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\sprite.h
+SOURCE=..\skelton\include\sprite.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\stringtable.h
+SOURCE=..\skelton\include\stringtable.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\surface.h
+SOURCE=..\skelton\include\surface.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\svgakeys.h
+SOURCE=..\skelton\include\svgakeys.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\track.h
+SOURCE=..\skelton\include\track.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\types.h
+SOURCE=..\skelton\include\types.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\unicode.h
+SOURCE=..\skelton\include\unicode.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\url.h
+SOURCE=..\skelton\include\url.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\utils.h
+SOURCE=..\skelton\include\utils.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\video.h
+SOURCE=..\skelton\include\video.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\video_dx.h
+SOURCE=..\skelton\include\video_dx.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\video_dx16.h
+SOURCE=..\skelton\include\video_dx16.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\zone_text_clock.h
+SOURCE=..\skelton\include\zone_text_clock.h
 # End Source File
 # End Group
 # End Target

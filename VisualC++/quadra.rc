@@ -1,7 +1,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include "windows.h"
 
-WINDOW.ICO              ICON    DISCARDABLE     "images\\window.ico"
+WINDOW.ICO              ICON    DISCARDABLE     "..\\images\\window.ico"
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION 1,1,5,0

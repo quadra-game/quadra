@@ -22,7 +22,7 @@
 #include "stringtable.h"
 #include "res.h"
 
-char *usage = "insufficient number of parameters\n";
+char *usage = "usage: wadder <working directory> <output res> <input text>\n";
 Resfile *wad;
 
 char *basename(const char* f) {
@@ -57,16 +57,22 @@ int main(int ARGC, char **ARGV, char **ENV) {
 	Res_dos *res;
 	Byte* data;
 
-	if(ARGC < 3) {
+	if(ARGC < 4) {
 		fprintf(stderr, "%s: %s", ARGV[0], usage);
 		exit(1);
 	}
 
-	wad = new Resfile(ARGV[1], false);
+	char wad_file[256];
+	sprintf(wad_file, "%s%s", ARGV[1], ARGV[2]);
+
+	wad = new Resfile(wad_file, false);
 
 	wad->clear();
 
-	res = new Res_dos(ARGV[2], RES_READ);
+	char res_file[256];
+	sprintf(res_file, "%s%s", ARGV[1], ARGV[3]);
+
+	res = new Res_dos(res_file, RES_READ);
 	data = new Byte[res->size()+1];
 
 	memcpy(data, res->buf(), res->size());
@@ -74,7 +80,11 @@ int main(int ARGC, char **ARGV, char **ENV) {
 	Stringtable st(data, res->size());
 
 	for(int i=0; i<st.size(); i++)
-		addfile(st.get(i));
+	{
+		char temp[256];
+		sprintf(temp, "%s%s", ARGV[1], st.get(i));
+		addfile(temp);
+	}
 
 	delete data;
 	delete res;

@@ -21,7 +21,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Skelton"=.\Skelton\Skelton.dsp - Package Owner=<4>
+Project: "Skelton"=.\Skelton.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -33,7 +33,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "wadder"=.\skelton\tools\wadder\wadder.dsp - Package Owner=<4>
+Project: "wadder"=.\wadder.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
