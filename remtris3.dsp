@@ -299,11 +299,11 @@ SOURCE=.\include\qserv.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\recording.h
+SOURCE=.\include\quadra.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\remtris3.h
+SOURCE=.\include\recording.h
 # End Source File
 # Begin Source File
 

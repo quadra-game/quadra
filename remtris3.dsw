@@ -14,11 +14,14 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name Skelton
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name wadder
+    End Project Dependency
 }}}
 
 ###############################################################################
 
-Project: "Skelton"=Skelton\Skelton.dsp - Package Owner=<4>
+Project: "Skelton"=.\Skelton\Skelton.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -30,7 +33,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "wadder"=skelton\tools\wadder\wadder.dsp - Package Owner=<4>
+Project: "wadder"=.\skelton\tools\wadder\wadder.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
