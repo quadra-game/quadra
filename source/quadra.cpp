@@ -30,6 +30,7 @@
 #include "net.h"
 #include "video.h"
 #include "cursor.h"
+#include "image_png.h"
 #include "palette.h"
 #include "input.h"
 #include "sound.h"
@@ -1783,9 +1784,9 @@ void init_stuff(bool need_sound=true, bool need_video=true) {
 
 	fonts.init();
 	if(!video->xwindow) {
-		Res_doze res("CURSOR.RAW");
-		Raw raw(res);
-		Bitmap bitmap(raw);
+		Res_doze res("cursor.png");
+		Png png(res);
+		Bitmap bitmap(png);
 		cur = new Sprite(bitmap, 0, 0);
 	}
 	else

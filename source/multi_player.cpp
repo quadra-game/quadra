@@ -20,8 +20,8 @@
 
 #include <stdio.h>
 #include "input.h"
+#include "image_png.h"
 #include "sprite.h"
-#include "pcx.h"
 #include "zone.h"
 #include "config.h"
 #include "quadra.h"
@@ -51,8 +51,8 @@ Multi_player::Multi_player(int *got_high) {
 	menu_stat = NULL;
 	int i;
 	{
-		Res_doze res("Fond0.pcx");
-		Pcx img(res);
+		Res_doze res("fond0.png");
+		Png img(res);
 		bit = new Bitmap(img);
 	}
 	pal.set_size(256);
@@ -122,11 +122,11 @@ void Multi_player::step() {
 				if(col!=-1) {
 					raw_draw_bloc(video->vb, 0, 0, side, color[col]);
 					video->vb->get_bitmap(&the_bit, 0, 0, 18, 18);
-					sprintf(st, "%c%c.raw", '0'+col, 'a'+side);
+					sprintf(st, "%c%c.png", '0'+col, 'a'+side);
 				}
 				else
-					strcpy(st, "e0.raw");
-				Raw raw(18, 18, col!=-1? 8:2);
+					strcpy(st, "e0.png");
+				Png raw(18, 18, col!=-1? 8:2);
 				Res_dos res(st, RES_CREATE);
 				if(!res.exist) {
 					skelton_msgbox("Can't create file!\n");
@@ -258,7 +258,7 @@ void Multi_player::check_pause() {
 		if(pause) {
 			if(game->delay_start == 0) // empeche de faire le son au debut
 				Sfx stmp(sons.pause, 0, -300, 0, 11025);
-			zone_pause = new Zone_sprite(inter, "GAMEPAUS.RAW");
+			zone_pause = new Zone_sprite(inter, "gamepaus.png");
 		} else {
 			if(zone_pause)
 				delete zone_pause;
@@ -276,7 +276,7 @@ void Multi_player::check_pause() {
 				if(zone_pause)
 					delete zone_pause;
 				video->need_paint = 2;
-				sprintf(st, "GAME_%i.RAW", chiffre+1);
+				sprintf(st, "game_%i.png", chiffre+1);
 				zone_pause = new Zone_sprite(inter, st);
 				last_countdown = chiffre;
 				Sfx stmp(sons.pause, 0, -300, 0, 20025);

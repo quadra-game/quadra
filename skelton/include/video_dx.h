@@ -22,6 +22,7 @@
 #define _HEADER_VIDEO_DX
 
 #include "video.h"
+#include "array.h"
 
 class DirectX_Surface {
 public:

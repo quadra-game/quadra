@@ -8,12 +8,12 @@ CFG=Skelton - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
-!MESSAGE NMAKE /f "skelton.mak".
+!MESSAGE NMAKE /f "Skelton.mak".
 !MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "skelton.mak" CFG="Skelton - Win32 Debug"
+!MESSAGE NMAKE /f "Skelton.mak" CFG="Skelton - Win32 Debug"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
@@ -144,6 +144,10 @@ SOURCE=..\skelton\common\http_request.cpp
 # Begin Source File
 
 SOURCE=..\skelton\common\id.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\skelton\common\image_png.cpp
 # End Source File
 # Begin Source File
 
@@ -344,6 +348,10 @@ SOURCE=..\skelton\include\id.h
 # Begin Source File
 
 SOURCE=..\skelton\include\image.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\skelton\include\image_png.h
 # End Source File
 # Begin Source File
 

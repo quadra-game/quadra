@@ -24,7 +24,7 @@
 #include "types.h"
 #include "utils.h"
 #include "error.h"
-#include "raw.h"
+#include "image.h"
 #include "clipable.h"
 
 #define COPY 1
@@ -50,8 +50,7 @@ class Bitmap: public Clipable {
   /* FIXME: this is awful. */
 	bool directx;
  public:
-	static Bitmap* loadPcx(const char* n);
-	static Bitmap* loadRaw(const char* n);
+	static Bitmap* loadPng(const char* n);
 	Bitmap(int w, int h, int rw); // Bitmap vide
 	Bitmap(void* m, int w, int h, int rw); // Bitmap pointant sur mem existante
 	Bitmap(void* m, int w, int h, int rw, int bob); // Copie mem dans bitmap

@@ -24,10 +24,9 @@
 #include "random.h"
 #include "bloc.h"
 #include "quadra.h"
+#include "image_png.h"
 #include "config.h"
 #include "res.h"
-#include "raw.h"
-#include "pcx.h"
 #include "zone.h"
 #include "game.h"
 #include "global.h"
@@ -159,8 +158,8 @@ void Canvas::delete_bloc() {
 void Canvas::init() {
 	trying_to_drop=false;
   {
-    Res_doze res("GAMELVUP.RAW");
-    Raw raw(res);
+    Res_doze res("gamelvup.png");
+    Png raw(res);
     Bitmap bitmap(raw);
     sprlevel_up = new Sprite(bitmap, 0, 0);
   }
@@ -617,11 +616,11 @@ void Canvas::change_level(const int level, Palette *pal, Bitmap *bit) {
   num = (level-1)%10;
 //	if(level>5)
 //		num=config.info.multi_level-1;
-  sprintf(st, "Fond%i.pcx", num);
+  sprintf(st, "fond%i.png", num);
 	if(level==-1)
-		strcpy(st, "black.pcx");
+		strcpy(st, "black.png");
   Res_doze *res = new Res_doze(st);
-  Pcx img(*res);
+  Png img(*res);
   bit->reload(img);
   Palette pal2(img);
   for(i=0; i<256; i++) // was 184

@@ -25,6 +25,7 @@
 #include "sound.h"
 #include "cursor.h"
 #include "inter.h"
+#include "image_png.h"
 #include "res.h"
 
 int Inter::last_mouse_x = -1, Inter::last_mouse_y = -1;
@@ -89,8 +90,8 @@ int Zone::in() const {
 
 Zone_sprite::Zone_sprite(Inter *in, const char *nam, int px, int py): Zone(in) {
 	Res_doze res(nam);
-	Raw raw(res);
-	Bitmap bitmap(raw);
+	Png png(res);
+	Bitmap bitmap(png);
 	sp = new Sprite(bitmap, 0, 0);
 	w = sp->width;
 	h = sp->height;
@@ -168,19 +169,19 @@ void Zone_state::clicked(int quel) {
 Zone_state_bit::Zone_state_bit(Inter* in, const char* b1, int *pval, int px, int py, const char* b2, const char* b3):
 	Zone_state(in, pval, px, py) {
 	Res_doze res(b1);
-	Raw raw(res);
-	state[0] = new Bitmap(raw);
+	Png png(res);
+	state[0] = new Bitmap(png);
 	w = state[0]->width;
 	h = state[0]->height;
 	if(b2) {
 		Res_doze res2(b2);
-		Raw raw(res2);
-		state[nstate++] = new Bitmap(raw);
+		Png png(res2);
+		state[nstate++] = new Bitmap(png);
 	}
 	if(b3) {
 		Res_doze res3(b3);
-		Raw raw(res3);
-		state[nstate++] = new Bitmap(raw);
+		Png png(res3);
+		state[nstate++] = new Bitmap(png);
 	}
 }
 

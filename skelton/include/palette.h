@@ -28,8 +28,8 @@
 #include <stdio.h>
 #include "types.h"
 #include "error.h"
+#include "image.h"
 #include "utils.h"
-#include "raw.h"
 
 #ifndef UGS_DIRECTX
 typedef struct {

@@ -20,7 +20,6 @@
 
 #include "inter.h"
 #include "bitmap.h"
-#include "pcx.h"
 #include "dict.h"
 #include "clock.h"
 #include "res_compress.h"
@@ -30,6 +29,7 @@
 #include "zone.h"
 #include "global.h"
 #include "quadra.h"
+#include "image_png.h"
 #include "recording.h"
 #include "game.h"
 #include "multi_player.h"
@@ -70,8 +70,8 @@ Menu_demo_central::Player_infos::Player_infos(int pplayer) {
 
 Menu_demo_central::Menu_demo_central() {
 	{
-		Res_doze res("Multi.raw");
-		Raw img(res);
+		Res_doze res("multi.png");
+		Png img(res);
 		bit = new Bitmap(img);
 		pal.load(img);
 	}

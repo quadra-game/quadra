@@ -20,11 +20,10 @@
 
 #include <stdlib.h>
 #include "utils.h"
-#include "raw.h"
-#include "pcx.h"
 #include "color.h"
 #include "random.h"
 #include "net.h"
+#include "image_png.h"
 #include "qserv.h"
 #include "http_request.h"
 #include "cursor.h"
@@ -78,8 +77,8 @@ Menu_highscore::Menu_highscore(int hscore, int *playagain, bool show_playb) {
   }
 
   {
-    Res_doze res("Hscore.raw");
-    Raw img(res);
+    Res_doze res("hscore.png");
+    Png img(res);
     bit = new Bitmap(img);
     pal.load(img);
   }
@@ -92,36 +91,36 @@ Menu_highscore::Menu_highscore(int hscore, int *playagain, bool show_playb) {
   char *pic1, *pic2, *pic1s, *pic2s;
   if(config.info.language == 1) {
     {
-      Res_doze res("HSCORETF.RAW");
-      Raw raw(res);
-      Bitmap btemp(raw);
+      Res_doze res("hscoretf.png");
+      Png png(res);
+      Bitmap btemp(png);
       btemp.draw(*bit, 138,0);
     }
-    pic1 = "HSCORE1F.RAW";
-    pic2 = "HSCORE2F.RAW";
-    pic1s = "HSCOR1FS.RAW";
-    pic2s = "HSCOR2FS.RAW";
+    pic1 = "hscore1f.png";
+    pic2 = "hscore2f.png";
+    pic1s = "hscor1fs.png";
+    pic2s = "hscor2fs.png";
   } else {
-    pic1 = "Hscore1.raw";
-    pic2 = "Hscore2.raw";
-    pic1s = "HSCORE1S.RAW";
-    pic2s = "HSCORE2S.RAW";
+    pic1 = "hscore1.png";
+    pic2 = "hscore2.png";
+    pic1s = "hscore1s.png";
+    pic2s = "hscore2s.png";
   }
   b_again = b_quit = NULL;
   if(show_playback) {
     {
       Res_doze res1(pic2);
-      Raw raw1(res1);
+      Png png1(res1);
       Res_doze res2(pic2s);
-      Raw raw2(res2);
-      b_quit = new Zone_menu(inter, raw1, 485, 410, raw2);
+      Png png2(res2);
+      b_quit = new Zone_menu(inter, png1, 485, 410, png2);
     }
     if(play_again) {
       Res_doze res1(pic1);
-      Raw raw1(res1);
+      Png png1(res1);
       Res_doze res2(pic1s);
-      Raw raw2(res2);
-      b_again = new Zone_menu(inter, raw1, 38, 410, raw2);
+      Png png2(res2);
+      b_again = new Zone_menu(inter, png1, 38, 410, png2);
     }
   } else {
     time_demo = 6000;
@@ -915,8 +914,8 @@ void Menu_multi_internet::parsegames() {
 
 Menu_single::Menu_single() {
   {
-    Res_doze res("Multi.raw");
-    Raw img(res);
+    Res_doze res("multi.png");
+    Png img(res);
     bit = new Bitmap(img);
     pal.load(img);
   }
@@ -955,8 +954,8 @@ Menu_single::~Menu_single() {
 
 Menu_multi::Menu_multi() {
   {
-    Res_doze res("Multi.raw");
-    Raw img(res);
+    Res_doze res("multi.png");
+    Png img(res);
     bit = new Bitmap(img);
     pal.load(img);
   }
@@ -997,12 +996,12 @@ Menu_setup::Menu_setup() {
   {
     char *tpic;
     if(config.info.language == 0) {
-      tpic = "SETUP.RAW";
+      tpic = "setup.png";
     } else {
-      tpic = "SETUPF.RAW";
+      tpic = "setupf.png";
     }
     Res_doze res(tpic);
-    Raw img(res);
+    Png img(res);
     bit = new Bitmap(img);
     pal.load(img);
   }
@@ -1052,41 +1051,41 @@ Menu_setup::Menu_setup() {
   z_key[5] = new Zone_set_key(inter, &config.player2[config.info.setup_player].key[0], 513, 411);
 
   if(config.info.language == 0) {
-    b_player = new Zone_menu(inter, bit, "SETUP0.RAW", 195, 11);
+    b_player = new Zone_menu(inter, bit, "setup0.png", 195, 11);
     b_player->set_child(z_setup_player);
-    (new Zone_menu(inter, bit, "SETUP1.RAW", 255, 101))->set_child(z_nameinput);
-    (new Zone_menu(inter, bit, "SETUP2.RAW", 222, 132))->set_child(z_passwdinput);
-    (new Zone_menu(inter, bit, "SETUP3.RAW", 237, 161))->set_child(z_shadow);
-    (new Zone_menu(inter, bit, "SETUP4.RAW", 240, 192))->set_child(z_smooth);
-    (new Zone_menu(inter, bit, "SETUP5.RAW", 157, 220))->set_child(z_h_repeat);
-    (new Zone_menu(inter, bit, "SETUP6.RAW", 184, 252))->set_child(z_v_repeat);
-    (new Zone_menu(inter, bit, "SETUP7.RAW", 153, 281))->set_child(z_continuousdown);
-    b_key[0] = new Zone_menu(inter, bit, "SETUP8.RAW", 45, 347);
-    b_key[1] = new Zone_menu(inter, bit, "SETUP9.RAW", 32, 378);
-    b_key[3] = new Zone_menu(inter, bit, "SETUP10.RAW", 26, 408);
-    b_key[6] = new Zone_menu(inter, bit, "SETUP11.RAW", 19, 439);
-    b_key[4] = new Zone_menu(inter, bit, "SETUP12.RAW", 344, 350);
-    b_key[2] = new Zone_menu(inter, bit, "SETUP13.RAW", 275, 380);
-    b_key[5] = new Zone_menu(inter, bit, "SETUP14.RAW", 382, 411);
-    b_all_key = new Zone_menu(inter, bit, "SETUP15.RAW", 390, 439);
+    (new Zone_menu(inter, bit, "setup1.png", 255, 101))->set_child(z_nameinput);
+    (new Zone_menu(inter, bit, "setup2.png", 222, 132))->set_child(z_passwdinput);
+    (new Zone_menu(inter, bit, "setup3.png", 237, 161))->set_child(z_shadow);
+    (new Zone_menu(inter, bit, "setup4.png", 240, 192))->set_child(z_smooth);
+    (new Zone_menu(inter, bit, "setup5.png", 157, 220))->set_child(z_h_repeat);
+    (new Zone_menu(inter, bit, "setup6.png", 184, 252))->set_child(z_v_repeat);
+    (new Zone_menu(inter, bit, "setup7.png", 153, 281))->set_child(z_continuousdown);
+    b_key[0] = new Zone_menu(inter, bit, "setup8.png", 45, 347);
+    b_key[1] = new Zone_menu(inter, bit, "setup9.png", 32, 378);
+    b_key[3] = new Zone_menu(inter, bit, "setup10.png", 26, 408);
+    b_key[6] = new Zone_menu(inter, bit, "setup11.png", 19, 439);
+    b_key[4] = new Zone_menu(inter, bit, "setup12.png", 344, 350);
+    b_key[2] = new Zone_menu(inter, bit, "setup13.png", 275, 380);
+    b_key[5] = new Zone_menu(inter, bit, "setup14.png", 382, 411);
+    b_all_key = new Zone_menu(inter, bit, "setup15.png", 390, 439);
   } else {
-    b_player = new Zone_menu(inter, bit, "SETUPF0.RAW", 137, 11);
+    b_player = new Zone_menu(inter, bit, "setupf0.png", 137, 11);
     b_player->set_child(z_setup_player);
-    (new Zone_menu(inter, bit, "SETUPF1.RAW", 266, 101))->set_child(z_nameinput);
-    (new Zone_menu(inter, bit, "SETUPF2.RAW", 193, 132))->set_child(z_passwdinput);
-    (new Zone_menu(inter, bit, "SETUPF3.RAW", 244, 162))->set_child(z_shadow);
-    (new Zone_menu(inter, bit, "SETUPF4.RAW", 265, 192))->set_child(z_smooth);
-    (new Zone_menu(inter, bit, "SETUPF5.RAW", 140, 221))->set_child(z_h_repeat);
-    (new Zone_menu(inter, bit, "SETUPF6.RAW", 166, 252))->set_child(z_v_repeat);
-    (new Zone_menu(inter, bit, "SETUPF7.RAW", 127, 281))->set_child(z_continuousdown);
-    b_key[0] = new Zone_menu(inter, bit, "SETUPF8.RAW", 60, 349);
-    b_key[1] = new Zone_menu(inter, bit, "SETUPF9.RAW", 71, 380);
-    b_key[3] = new Zone_menu(inter, bit, "SETUPF10.RAW", 95, 409);
-    b_key[6] = new Zone_menu(inter, bit, "SETUPF11.RAW", 64, 438);
-    b_key[4] = new Zone_menu(inter, bit, "SETUPF12.RAW", 354, 350);
-    b_key[2] = new Zone_menu(inter, bit, "SETUPF13.RAW", 316, 381);
-    b_key[5] = new Zone_menu(inter, bit, "SETUPF14.RAW", 358, 410);
-    b_all_key = new Zone_menu(inter, bit, "SETUPF15.RAW", 359, 440);
+    (new Zone_menu(inter, bit, "setupf1.png", 266, 101))->set_child(z_nameinput);
+    (new Zone_menu(inter, bit, "setupf2.png", 193, 132))->set_child(z_passwdinput);
+    (new Zone_menu(inter, bit, "setupf3.png", 244, 162))->set_child(z_shadow);
+    (new Zone_menu(inter, bit, "setupf4.png", 265, 192))->set_child(z_smooth);
+    (new Zone_menu(inter, bit, "setupf5.png", 140, 221))->set_child(z_h_repeat);
+    (new Zone_menu(inter, bit, "setupf6.png", 166, 252))->set_child(z_v_repeat);
+    (new Zone_menu(inter, bit, "setupf7.png", 127, 281))->set_child(z_continuousdown);
+    b_key[0] = new Zone_menu(inter, bit, "setupf8.png", 60, 349);
+    b_key[1] = new Zone_menu(inter, bit, "setupf9.png", 71, 380);
+    b_key[3] = new Zone_menu(inter, bit, "setupf10.png", 95, 409);
+    b_key[6] = new Zone_menu(inter, bit, "setupf11.png", 64, 438);
+    b_key[4] = new Zone_menu(inter, bit, "setupf12.png", 354, 350);
+    b_key[2] = new Zone_menu(inter, bit, "setupf13.png", 316, 381);
+    b_key[5] = new Zone_menu(inter, bit, "setupf14.png", 358, 410);
+    b_all_key = new Zone_menu(inter, bit, "setupf15.png", 359, 440);
   }
 
   for(int i=0; i<7; i++)
@@ -1265,8 +1264,8 @@ void Menu_quitgame::step() {
 Menu_help::Menu_help() {
   Bitmap *bit;
   {
-    Res_doze res("Multi.raw");
-    Raw img(res);
+    Res_doze res("multi.png");
+    Png img(res);
     bit = new Bitmap(img);
     pal.load(img);
   }
@@ -1356,8 +1355,8 @@ void Menu_help::call_internet(const char *s) {
 Menu_register::Menu_register(Inter *in, const Palette &p): Menu_quit(in) {
   Bitmap *bit;
   {
-    Res_doze res("Multi.raw");
-    Raw img(res);
+    Res_doze res("multi.png");
+    Png img(res);
     bit = new Bitmap(img);
   }
   pal=p;
@@ -1419,8 +1418,8 @@ void Menu_register::step() {
 
 Menu_option::Menu_option() {
   {
-    Res_doze res("Multi.raw");
-    Raw img(res);
+    Res_doze res("multi.png");
+    Png img(res);
     bit = new Bitmap(img);
     pal.load(img);
   }
@@ -1429,11 +1428,11 @@ Menu_option::Menu_option() {
 
   Palette ptemp;
   {
-    Res_doze res("Fond0.pcx");
-    Pcx pcx(res);
-    ptemp.load(pcx);
+    Res_doze res("fond0.png");
+    Png png(res);
+    ptemp.load(png);
   }
-  for(int i=184; i<256; i++) // copie les couleurs des blocs de l'image fond0.pcx
+  for(int i=184; i<256; i++) // copie les couleurs des blocs de l'image fond0.png
     pal.setcolor(i, ptemp.r(i), ptemp.g(i), ptemp.b(i));
   inter->set_font(new Font(*fonts.normal, pal, 255,255,255));
   set_fteam_color(pal);
@@ -1589,10 +1588,12 @@ Menu_intro::~Menu_intro() {
 }
 
 Menu_guy::Menu_guy() {
+#if 0
+  /* FIXME: we should remove this */
   Bitmap *bit;
   {
-    Res_doze res("xlogo.raw");
-    Raw pcx(res);
+    Res_doze res("xlogo.png");
+    Png pcx(res);
     bit = new Bitmap(pcx);
     pal.load(pcx);
   }
@@ -1601,6 +1602,7 @@ Menu_guy::Menu_guy() {
     Res_doze res("Raglamp.wav");
     son = new Sample(res, 2);
   }*/
+#endif
 }
 
 Menu_guy::~Menu_guy() {
@@ -1621,6 +1623,8 @@ void Menu_guy::step() {
 }
 
 Menu_ugs::Menu_ugs() {
+#if 0
+  /* FIXME: this should be removed */
   Bitmap *bit;
   {
     Res_doze res("Ugs.pcx");
@@ -1633,6 +1637,7 @@ Menu_ugs::Menu_ugs() {
     Res_doze res("Flamenco.wav");
     son = new Sample(res, 2);
   }
+#endif
 }
 
 Menu_ugs::~Menu_ugs() {
@@ -1662,9 +1667,9 @@ void Menu_main_startmusic::init() {
 
 Menu_main::Menu_main() {
   {
-    Res_doze res("Debuto.raw");
-    Raw raw(res);
-    pal.load(raw);
+    Res_doze res("debuto.png");
+    Png png(res);
+    pal.load(png);
   }
   inter->set_font(new Font(*fonts.normal, pal, 255,255,255));
   redraw();
@@ -1674,44 +1679,44 @@ void Menu_main::redraw() {
   inter->flush();
   Bitmap *background;
   {
-    Res_doze res("Debuto.raw");
-    Raw raw(res);
-    background = new Bitmap(raw);
+    Res_doze res("debuto.png");
+    Png png(res);
+    background = new Bitmap(png);
   }
   z_back = new Zone_bitmap(inter, background, 0, 0, true);
 
   b_help = NULL;
   if(config.info.language == 0) {
-    b_single = new Zone_menu(inter, background, "Debut0.raw", 160, 99);
-    b_multi = new Zone_menu(inter, background, "Debut1.raw", 166, 139);
-    b_demo = new Zone_menu(inter, background, "Debut2.raw", 214, 183);
-    b_tut = new Zone_menu(inter, background, "Debut3.raw", 235, 225);
-    b_setup = new Zone_menu(inter, background, "Debut4.raw", 221, 267);
-    b_option = new Zone_menu(inter, background, "DEBUT5.RAW", 264, 310);
+    b_single = new Zone_menu(inter, background, "debut0.png", 160, 99);
+    b_multi = new Zone_menu(inter, background, "debut1.png", 166, 139);
+    b_demo = new Zone_menu(inter, background, "debut2.png", 214, 183);
+    b_tut = new Zone_menu(inter, background, "debut3.png", 235, 225);
+    b_setup = new Zone_menu(inter, background, "debut4.png", 221, 267);
+    b_option = new Zone_menu(inter, background, "debut5.png", 264, 310);
     if(!Config::xtreme)
-      b_help = new Zone_menu(inter, background, "DEBUT6.RAW", 261, 351);
-    b_quit = new Zone_menu(inter, background, "DEBUT7.RAW", 295, 392);
+      b_help = new Zone_menu(inter, background, "debut6.png", 261, 351);
+    b_quit = new Zone_menu(inter, background, "debut7.png", 295, 392);
   } else {
     {
-      Res_doze res("DEBUTOF.RAW");
-      Raw raw(res);
+      Res_doze res("debutof.png");
+      Png raw(res);
       Bitmap bit(raw);
       bit.draw(*background, 155, 93);
     }
-    b_single = new Zone_menu(inter, background, "DEBUT0F.RAW", 223, 94);
-    b_multi = new Zone_menu(inter, background, "DEBUT1F.RAW", 145, 136);
-    b_demo = new Zone_menu(inter, background, "DEBUT2F.RAW", 174, 175);
-    b_tut = new Zone_menu(inter, background, "DEBUT3F.RAW", 240, 219);
-    b_setup = new Zone_menu(inter, background, "DEBUT4F.RAW", 160, 261);
-    b_option = new Zone_menu(inter, background, "DEBUT5F.RAW", 257, 303);
+    b_single = new Zone_menu(inter, background, "debut0f.png", 223, 94);
+    b_multi = new Zone_menu(inter, background, "debut1f.png", 145, 136);
+    b_demo = new Zone_menu(inter, background, "debut2f.png", 174, 175);
+    b_tut = new Zone_menu(inter, background, "debut3f.png", 240, 219);
+    b_setup = new Zone_menu(inter, background, "debut4f.png", 160, 261);
+    b_option = new Zone_menu(inter, background, "debut5f.png", 257, 303);
     if(!Config::xtreme)
-      b_help = new Zone_menu(inter, background, "DEBUT6F.RAW", 223, 344);
-    b_quit = new Zone_menu(inter, background, "DEBUT7F.RAW", 261, 386);
+      b_help = new Zone_menu(inter, background, "debut6f.png", 223, 344);
+    b_quit = new Zone_menu(inter, background, "debut7f.png", 261, 386);
   }
 
   if(Config::xtreme) {
-    Res_doze res("DEBUTNR.RAW");
-    Raw raw(res);
+    Res_doze res("debutnr.png");
+    Png raw(res);
     Bitmap bit(raw);
     bit.draw(*background, 227, 345);
   }
@@ -1722,7 +1727,7 @@ void Menu_main::redraw() {
     new Zone_text(inter, ST_NOTREGISTERED, 460, 454);
   old_registered = config.registered;
   old_language = config.info.language;
-  b_logo = new Zone_menu(inter, background, "Debut8.raw", 0, 390);
+  b_logo = new Zone_menu(inter, background, "debut8.png", 0, 390);
 }
 
 void Menu_main::init() {
@@ -1828,25 +1833,25 @@ Menu_stat::Menu_stat():
 c_start(105), c_gap(4) {
   int i;
   {
-    Res_doze res("result.raw");
-    Raw raw(res);
+    Res_doze res("result.png");
+    Png raw(res);
     bit = new Bitmap(raw);
     pal.load(raw);
   }
   if(config.info.language == 1) {
-    Res_doze res("RESULTF.RAW");
-    Raw raw(res);
+    Res_doze res("resultf.png");
+    Png raw(res);
     Bitmap btemp(raw);
     btemp.draw(*bit, 0, 0);
   }
   pal.set_size(256);
   Palette temp;
   {
-    Res_doze res("Fond0.pcx");
-    Pcx pcx(res);
-    temp.load(pcx);
+    Res_doze res("fond0.png");
+    Png png(res);
+    temp.load(png);
   }
-  for(i=184; i<256; i++) // copie les couleurs des blocs de l'image fond0.pcx
+  for(i=184; i<256; i++) // copie les couleurs des blocs de l'image fond0.png
     pal.setcolor(i, temp.r(i), temp.g(i), temp.b(i));
 
   set_fteam_color(pal);
@@ -2365,8 +2370,8 @@ void Menu_internet::step() {
 
 Menu_startserver::Menu_startserver() {
   {
-    Res_doze res("Multi.raw");
-    Raw img(res);
+    Res_doze res("multi.png");
+    Png img(res);
     bit = new Bitmap(img);
     pal.load(img);
   }
@@ -2386,8 +2391,8 @@ Menu_startserver::~Menu_startserver() {
 
 Menu_startconnect::Menu_startconnect(const char *adr, bool rejoin) {
   {
-    Res_doze res("Multi.raw");
-    Raw img(res);
+    Res_doze res("multi.png");
+    Png img(res);
     bit = new Bitmap(img);
     pal.load(img);
   }

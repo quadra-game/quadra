@@ -20,22 +20,15 @@
 
 #include <string.h>
 #include "types.h"
-#include "raw.h"
-#include "pcx.h"
 #include "video.h"
 #include "res.h"
+#include "image_png.h"
 #include "bitmap.h"
 
-Bitmap* Bitmap::loadPcx(const char* n) {
+Bitmap* Bitmap::loadPng(const char* n) {
 	Res_doze res(n);
-	Pcx pcx(res);
-	return new Bitmap(pcx);
-}
-
-Bitmap* Bitmap::loadRaw(const char* n) {
-	Res_doze res(n);
-	Raw raw(res);
-	return new Bitmap(raw);
+	Png png(res);
+	return new Bitmap(png);
 }
 
 Bitmap::Bitmap(int w, int h, int rw):

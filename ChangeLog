@@ -1,3 +1,9 @@
+2000-11-25  Remi Veilleux  <remz@ludusdesign.com>
+
+	* Finished the conversion to PNG.
+
+	* Fixed the Visual C++ DSP files to use libpng (now required).
+
 2000-11-24  Pierre Phaneuf  <pp@ludusdesign.com>
 
 	* Preparing for releasing 1.1.6.

@@ -23,8 +23,8 @@
 #include "types.h"
 #include "utils.h"
 #include "error.h"
-#include "raw.h"
 #include "bitmap.h"
+#include "res.h"
 #include "palette.h"
 
 #define CENTER (-123456)

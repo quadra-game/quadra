@@ -31,6 +31,7 @@
 #include "palette.h"
 #include "sprite.h"
 #include "video_dx.h"
+#include "raw.h"
 
 extern LRESULT CALLBACK windowproc(HWND hwnd, UINT msg,
 				   WPARAM wparam, LPARAM lparam);

@@ -18,7 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "pcx.h"
 #include "inter.h"
 #include "input.h"
 #include "config.h"
@@ -191,7 +190,7 @@ Zone_menu::Zone_menu(Inter* in, Bitmap* bit, int px, int py, Bitmap* bit2):
 }
 
 Zone_menu::Zone_menu(Inter* in, const char* b1, int px, int py, const char* b2):
-	Zone_bitmap(in, Bitmap::loadPcx(b1), px, py, Bitmap::loadPcx(b2))
+	Zone_bitmap(in, Bitmap::loadPng(b1), px, py, Bitmap::loadPng(b2))
 {
 	del_bit = 1; // delete les 2 pointers
 	kb_focusable = true;
@@ -205,7 +204,7 @@ Zone_menu::Zone_menu(Inter* in, const Image& b1, int px, int py, const Image& b2
 }
 
 Zone_menu::Zone_menu(Inter* in, Bitmap* fond, const char* b1, int px, int py):
-	Zone_bitmap(in, Bitmap::loadRaw(b1), px, py)
+	Zone_bitmap(in, Bitmap::loadPng(b1), px, py)
 {
 	bit2_ = bit_;
 

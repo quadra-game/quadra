@@ -35,8 +35,8 @@ void start_game() {
 	int i = 0;
 	Sprite *cur;
 	{
-		Res_dos res("cursor.raw");
-		Raw raw(res);
+		Res_dos res("cursor.png");
+		Png raw(res);
 		Bitmap bit(raw);
 		cur = new Sprite(bit);
 	}

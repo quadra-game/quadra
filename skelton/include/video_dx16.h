@@ -22,6 +22,7 @@
 #define _HEADER_VIDEO_DX16
 
 #include "video.h"
+#include "array.h"
 
 class Surface_basedx;
 class Surface;
