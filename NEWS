@@ -1,5 +1,21 @@
 $Id$
 
+Quadra 1.1.5 (in development)
+ * Fixed portability problems to Win32.
+
+ * 'skelton' is now built automatically.
+
+ * Started removal of the registration system.
+
+ * ISO C99 support, for gcc 2.96.
+    - Bernhard Rosenkraenzer <bero@redhat.de>
+
+ * Red Hat 7.0 support.
+    - Bernhard Rosenkraenzer <bero@redhat.de>
+
+ * Fixed building on some distributions.
+    - Simon Cahuk <simon.cahuk@uni-mb.si>
+
 Quadra 1.1.4
- - First open source version.
+ * First open source version.
 
