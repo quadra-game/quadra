@@ -1,6 +1,14 @@
 
+#ifdef UGS_SVGALIB
 #include <endian.h>
 #include <byteswap.h>
+#elif defined(UGS_DIRECTX)
+#define LITTLE_ENDIAN 4321
+#define BIG_ENDIAN 1234
+#define BYTE_ORDER LITTLE_ENDIAN
+#else
+#error Platform undefined
+#endif
 
 #if (BYTE_ORDER == BIG_ENDIAN)
 #define INTELWORD(x) bswap_16(x)

@@ -283,6 +283,10 @@ SOURCE=..\skelton\include\buf.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\skelton\include\byteorder.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\skelton\include\clipable.h
 # End Source File
 # Begin Source File

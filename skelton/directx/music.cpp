@@ -23,6 +23,7 @@
 #include "types.h"
 #include "error.h"
 #include "music.h"
+#include "command.h"
 
 RCSID("$Id$")
 
