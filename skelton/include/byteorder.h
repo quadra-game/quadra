@@ -1,5 +1,5 @@
 
-#ifdef UGS_SVGALIB
+#ifdef UGS_LINUX
 #include <endian.h>
 #include <byteswap.h>
 #elif defined(UGS_DIRECTX)
