@@ -33,6 +33,7 @@ maintainerclean: distclean
 	rm -f $(wildcard $(REALCLEAN))
 
 dist: distclean quadra.spec configure ChangeLog manual-dist-stuff
+	rm -rf autom4te.cache
 
 ChangeLog:
 	rm -f ChangeLog
@@ -68,6 +69,8 @@ configure: configure.in
 manual-dist-stuff:
 	@echo "-----------------------------------------------------------"
 	@echo "remember to edit the version number in the following files:"
+	@echo "include/version.h"
+	@echo "packages/quadra.nsi"
 	@echo "packages/readme-win32.txt"
 
 ifeq ($(MAKECMDGOALS),dustclean)
