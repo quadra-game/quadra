@@ -35,5 +35,7 @@
 typedef unsigned int Dword;
 typedef unsigned short Word;
 typedef unsigned char Byte;
+#define snprintf _snprintf
+#define vsnprintf _vsnprintf
 
 #endif
