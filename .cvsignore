@@ -5,6 +5,7 @@
 *.sco
 *.aps
 *.plg
+*.res
 output.txt
 *.rec
 *.lnk
