@@ -92,7 +92,7 @@ void Recording::end_single(Canvas* c) {
 	memset(playername, 0, sizeof(playername));
 	strcpy(playername, c->name);
 	score=c->stats[CS::SCORE].get_value();
-	lines=c->lines;
+	lines=c->stats[CS::LINESCUR].get_value();
 	level=c->level;
 	res->write(playername, sizeof(playername));
 	Dword d = INTELDWORD(score);
@@ -191,7 +191,7 @@ bool Playback::check_scores(Canvas* c) {
 		return false;
 	if(c->stats[CS::SCORE].get_value() != score)
 		return false;
-	if(c->lines != lines)
+	if(c->stats[CS::LINESCUR].get_value() != lines)
 		return false;
 	if(c->level != level)
 		return false;

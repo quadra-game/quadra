@@ -171,10 +171,10 @@ int Highscores::update(Canvas *c) {
 			msgbox("Warning: Highscore: '%s' is in the way! Deleting it.\n", st);
 		if(rename(st2, st) != 0)
 			msgbox("Warning: Highscore: could not rename 'last.qrec' to '%s'\n", st);
-		msgbox("Setting hscore %i: %s, %i, %i, %i\n", ret, c->name, c->stats[CS::SCORE].get_value(), c->lines, c->level);
+		msgbox("Setting hscore %i: %s, %i, %i, %i\n", ret, c->name, c->stats[CS::SCORE].get_value(), c->stats[CS::LINESCUR].get_value(), c->level);
 		strcpy(bestlocal[ret].name, c->name);
 		bestlocal[ret].score = c->stats[CS::SCORE].get_value();
-		bestlocal[ret].lines = c->lines;
+		bestlocal[ret].lines = c->stats[CS::LINESCUR].get_value();
 		bestlocal[ret].level = c->level;
 		if(bestlocal[ret].demo)
 			delete bestlocal[ret].demo;

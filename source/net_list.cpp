@@ -1188,11 +1188,25 @@ void Net_list::check_stat() {
 		if(p) {
 			Canvas *c=get(p->player);
 			if(c && !c->wait_download) {
-				if(!c->islocal())
+				if(!c->islocal()) {
 					for(int i=0; i<p->net_stats.size(); i++) {
 						Net_stat *ns=p->net_stats[i];
-						*(c->stats[ns->st].get_address())=ns->value;
+						c->stats[ns->st].set_value(ns->value);
 					}
+					const int linescur = c->stats[CS::LINESCUR].get_value();
+					if(linescur) {
+						// adjust level considering game settings and the number of lines cleared
+						//   during the current incarnation of the player
+						// servers older than 1.1.9 do not send the LINESCUR stat, in which
+						//   case the level cannot be calculated accurately and the old incorrect
+						//   behavior will be emulated perfectly
+						if(game->level_up)
+							c->level = max(game->level_start, linescur/15+1);
+						else
+							c->level = game->level_start;
+						c->calc_speed();
+					}
+				}
 				game->removepacket();
 			}
 		}

@@ -123,7 +123,7 @@ public:
 	int v_repeat, v_repeat_delay;
 	int continuous;
 	int level_up;
-	int side_speed, down_speed, depth, complexity, lines, bonus;
+	int side_speed, down_speed, depth, complexity, bonus;
 	bool send_for_clean;
 	int x,y;
 	char name[40];

@@ -243,7 +243,8 @@ void Canvas::reinit() {
   if(down_speed > 180)
     down_speed = 180;
   level = game->level_start;
-  lines = depth = complexity = bonus = 0;
+  depth = complexity = bonus = 0;
+	stats[LINESCUR].set_value(0);
   level_up = color_flash = 0;
   over->framecount = 0; // initialize the counter when the player starts
 	if(game->net_version()>=23 && game->survivor)
@@ -271,7 +272,8 @@ void Canvas::restart() {
 		handicaps[i] = 0;
 	}
   level = game->level_start;
-  lines = depth = complexity = bonus = 0;
+  depth = complexity = bonus = 0;
+	stats[LINESCUR].set_value(0);
   level_up = color_flash = 0;
   calc_speed();
   idle = 1; // starts 'idle' to allow joins if the game is on pause and the player just started
@@ -630,9 +632,9 @@ void Canvas::give_line() {
 	stats[CLEAR00+i].add(1);
 	stats[COMBO00+complexity-1].add(1);
 
-  lines += depth;
+  stats[LINESCUR].add(depth);
   stats[LINESTOT].add(depth);
-  if(game->level_up && lines >= level*15) {
+  if(game->level_up && stats[LINESCUR].get_value() >= level*15) {
     level++;
     calc_speed();
     Executor *tmp = new Executor(true);
@@ -641,7 +643,7 @@ void Canvas::give_line() {
   }
   depth = 0;
   complexity=0;
-	send_for_clean=false;
+  send_for_clean=false;
 }
 
 void Canvas::change_level_single() {

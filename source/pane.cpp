@@ -1858,7 +1858,7 @@ void Pane_startgame::create_zone() {
 	zone.add(new Zone_text(inter, ST_GAMESCORE, x+9 - 5, 403));
 	zone.add(new Zone_text_field(inter, canvas->stats[CS::SCORE].get_address(), x+9+55, 403, 120, pi.mp->courrier));
 	zone.add(new Zone_text(inter, ST_GAMELINES, x+9 - 5, 422));
-	canvas->z_lines=new Zone_text_field(inter, &canvas->lines, x+9+55, 422, 65, pi.mp->courrier);
+	canvas->z_lines=new Zone_text_field(inter, canvas->stats[CS::LINESCUR].get_address(), x+9+55, 422, 65, pi.mp->courrier);
 	canvas->z_potatolines=new Zone_text_field(inter, &canvas->team_potato_lines, x+9+55, 422, 65, pi.mp->courrier);
 	if(canvas->color==game->potato_team)
 		canvas->z_lines->disable();
