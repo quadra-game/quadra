@@ -15,14 +15,27 @@ dnl Checks for programs.
 AC_PROG_CXX
 AC_PROG_INSTALL
 
+CPPFLAGS="$CPPFLAGS$X_CFLAGS"
+LDFLAGS="$LDFLAGS$X_LIBS"
+
 dnl Checks for libraries.
-AC_CHECK_LIB(z, compress, AC_DEFINE(HAVE_LIBZ), nozlib=1)
-AC_CHECK_LIB(png, png_create_read_struct, AC_DEFINE(HAVE_LIBPNG), nolibpng=1)
-AC_CHECK_LIB(vga, vga_init, AC_DEFINE(HAVE_LIBVGA), nosvgalib=1)
-AC_CHECK_LIB(vgagl, gl_setcontext, AC_DEFINE(HAVE_LIBVGAGL), nosvgalib=1, -lvga)
+AC_CHECK_LIB(z, compress,, nozlib=1)
+AC_CHECK_LIB(dl, dlopen,, nodl=1)
+AC_CHECK_LIB(png, png_create_read_struct,, nolibpng=1)
+AC_CHECK_LIB(vga, vga_init,, nosvgalib=1)
+AC_CHECK_LIB(vgagl, gl_setcontext,, nosvgalib=1, -lvga)
+AC_CHECK_LIB(X11, XOpenDisplay,, have_x=no)
+AC_CHECK_LIB(Xext, XShmAttach,, have_x=no)
+AC_CHECK_LIB(Xxf86vm, XF86VidModeSwitchToMode,, have_x=no)
+AC_CHECK_LIB(Xpm, XpmCreatePixmapFromData,, have_x=no)
 
 dnl Checks for header files.
 AC_CHECK_HEADERS(vga.h vgagl.h vgamouse.h vgakeyboard.h,, nosvgalib=1)
+AC_CHECK_HEADERS(X11/Xlib.h X11/xpm.h,, have_x=no)
+AC_CHECK_HEADERS(X11/extensions/XShm.h X11/extensions/xf86vmode.h,,
+	have_x=no, [
+#include <X11/Xlib.h>
+])
 AC_CHECK_HEADER(zlib.h,, nozlib=1)
 AC_CHECK_HEADER(png.h,, nolibpng=1)
 
@@ -43,14 +56,32 @@ fi
 
 if test -z "$with_x" -a "$have_x" = "yes"; then
 	with_x=yes
+else
+	with_x=no
+fi
+
+if test -n "$nodl"; then
+	AC_MSG_WARN([dl is required and could not be found!])
+	missing_required=yes
 fi
 
 if test -n "$nozlib"; then
-	AC_MSG_ERROR(zlib is required and could not be found!)
+	AC_MSG_WARN([zlib is required and could not be found!])
+	missing_required=yes
 fi
 
 if test -n "$nolibpng"; then
-	AC_MSG_ERROR(libpng is required and could not be found!)
+	AC_MSG_WARN([libpng is required and could not be found!])
+	missing_required=yes
+fi
+
+if test "$with_x" = "no"; then
+	AC_MSG_WARN([X11 is required and could not be found!])
+	missing_required=yes
+fi
+
+if test -n "$missing_required"; then
+	AC_MSG_ERROR([Required dependencies missing.])
 fi
 
 AC_SUBST(with_x)
