@@ -286,7 +286,7 @@ void Playback::read_packet() {
 	}*/
 	if(p->packet_id==P_GAMESERVER) {
 		Packet_gameserver *p2=(Packet_gameserver *) p;
-		if(p2->version<20 || p2->version>23) {
+		if(p2->version<20 || p2->version>Config::net_version) {
 			msgbox("  Demo game version is %i. Current version is %i. Invalid demo file\n", p2->version, Config::net_version);
 			res=NULL;
 			valid=false;
