@@ -20,7 +20,7 @@
 
 #include "debug.h"
 
-#ifdef _DEBUG
+#ifndef NDEBUG
 
 AllocNode* Debug::allocs = NULL;
 

@@ -18,7 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifdef _DEBUG
+#ifndef NDEBUG
 #include <stdio.h>
 #endif
 #include <stdlib.h>
@@ -85,7 +85,7 @@ void MusicLinux::play(int quel, bool loop) {
 
   status = ioctl(fd, CDROMPLAYTRKIND, &ti);
 
-#ifdef _DEBUG
+#ifndef NDEBUG
   if(status < 0)
     perror("CDROMPLAYTRKIND");
 #endif
@@ -103,7 +103,7 @@ void MusicLinux::stop() {
 
 	status = ioctl(fd, CDROMSTOP);
 
-#ifdef _DEBUG
+#ifndef NDEBUG
   if(status != 0)
     perror("CDROMPLAYTRKIND");
 #endif
@@ -117,7 +117,7 @@ void MusicLinux::open() {
     return;
 
   if((fd = ::open(CDROM_DEVICE, O_RDONLY)) < 0) {
-#ifdef _DEBUG
+#ifndef NDEBUG
 		perror("open");
 #endif
     return;
@@ -125,7 +125,7 @@ void MusicLinux::open() {
 
 	status = ioctl(fd, CDROMREADTOCHDR, &tochdr);
 	if(status != 0) {
-#ifdef _DEBUG
+#ifndef NDEBUG
 		perror("CDROMREADTOCHDR");
 #endif
 		::close(fd);

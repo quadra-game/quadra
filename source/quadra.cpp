@@ -2073,7 +2073,7 @@ void read_script(const char *fn, bool second=false) {
 }
 
 #ifdef UGS_DIRECTX
-#ifdef _DEBUG
+#ifndef NDEBUG
 #include <crtdbg.h>
 #endif
 #endif
@@ -2086,7 +2086,7 @@ void start_game() {
 		msgbox("Debug mode enabled\n");
 	}
 #ifdef UGS_DIRECTX
-#ifdef _DEBUG
+#ifndef NDEBUG
 	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
 	_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG);
 	_CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_DEBUG);
@@ -2379,7 +2379,7 @@ void start_game() {
 		}
 		end_frame();
 
-#ifdef _DEBUG
+#ifndef NDEBUG
 		if(input->keys[KEY_F8] & PRESSED) // F8 = buckage
 			for(int j=0; j<8000000; j++)
 				;

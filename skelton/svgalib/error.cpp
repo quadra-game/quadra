@@ -24,11 +24,11 @@
 #include "error.h"
 #include "video.h"
 
-#ifdef _DEBUG
+#ifndef NDEBUG
 	int copper=0;
 #endif
 
-#ifdef _DEBUG
+#ifndef NDEBUG
 	bool _debug = true;
 #else
 	bool _debug = false;

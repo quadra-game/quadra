@@ -21,7 +21,7 @@
 #ifndef __HEADER_TRACK_H
 #define __HEADER_TRACK_H
 
-#if defined(_DEBUG) && defined(UGS_DIRECTX) 
+#if !defined(NDEBUG) && defined(UGS_DIRECTX) 
 
 void * __cdecl operator new(unsigned int, int, const char *, int);
 
@@ -31,7 +31,7 @@ void * __cdecl operator new(unsigned int, int, const char *, int);
 									} \
                 private:
 
-#else /* !_DEBUG || !UGS_DIRECTX*/
+#else /* NDEBUG || !UGS_DIRECTX*/
 
 #define TRACKED
 

@@ -176,7 +176,7 @@ void Input_DX::process_key() {
 				case KEY_LCTRL:
 					shift_key |= CONTROL;
 					break;
-				#ifdef _DEBUG
+				#ifndef NDEBUG
 					case DIK_F10: // toggle copper (marche pas sur plusieurs carte video)
 						COPPER(0,0,0);
 						copper = !copper;

@@ -32,11 +32,11 @@
 #include "input.h"
 #include "video.h"
 
-#ifdef _DEBUG
+#ifndef NDEBUG
 int copper=0;
 #endif
 
-#ifdef _DEBUG
+#ifndef NDEBUG
 	bool _debug = true;
 #else
 	bool _debug = false;
@@ -44,7 +44,7 @@ int copper=0;
 
 bool skelton_debug = true;
 
-#ifdef _DEBUG
+#ifndef NDEBUG
 void COPPER(int a, int b, int c) {
 	if(copper) {
 		_outp(0x3c8,0);
@@ -110,7 +110,7 @@ void skelton_msgbox(const char* m, ...) {
 	}
 }
 
-#ifdef _DEBUG
+#ifndef NDEBUG
 void debug_point() {
 	Dword tim = getmsec();
 	while(getmsec() - tim < 5000) {

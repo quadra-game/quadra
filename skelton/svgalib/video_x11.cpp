@@ -27,7 +27,7 @@
 #include <X11/xpm.h>
 #undef Font
 #include "debug.h"
-#ifdef _DEBUG
+#ifndef NDEBUG
 #include "command.h"
 #ifdef FPSMETER
 #include "overmind.h"
@@ -196,7 +196,7 @@ Video* Video_X11::New(int w, int h, int b, const char *wname) {
     return NULL;
   }
 
-#ifdef _DEBUG
+#ifndef NDEBUG
   if(command.token("sync")) {
     skelton_msgbox("X11: synchronous communication with X server enabled.\n");
     XSynchronize(display, true);

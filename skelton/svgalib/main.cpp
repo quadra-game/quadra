@@ -24,7 +24,7 @@
 #include <socks.h>
 extern "C" int SOCKSinit(char *);
 #endif
-#ifdef _DEBUG
+#ifndef NDEBUG
 #include <mcheck.h>
 #endif
 #include <stdlib.h>
@@ -66,7 +66,7 @@ char exe_directory[1024];
 static bool ignore_sigpipe=false;
 
 int main(int ARGC, char **ARGV, char **ENV) {
-#ifdef _DEBUG
+#ifndef NDEBUG
   mcheck(NULL);
 #endif
   INIT_DEBUG;
