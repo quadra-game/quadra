@@ -24,12 +24,6 @@ endif
 
 ifeq "$(TARGET)" "linux"
 CXXFLAGS+=-DUGS_LINUX -DUGS_LINUX_SVGA -DUGS_LINUX_X11
-#LDLIBS+=-L/usr/X11R6/lib -lX11 -lXext -lXpm -lvga -lvgagl -lz
-#ifdef RELEASE
-#LDLIBS+=-ldb
-#else
-#LDLIBS+=-ldb1
-#endif
 else
 # hmm, nothing else than linux is supported by this Makefile!
 endif

@@ -28,7 +28,6 @@
 #include "qserv.h"
 #include "http_request.h"
 #include "cursor.h"
-#include "registry.h"
 #include "crypt.h"
 #include "res_compress.h"
 #include "quadra.h"
@@ -1404,12 +1403,6 @@ void Menu_register::step() {
       strncpy(Config::user_name, name, 63);
       Config::user_name[63] = 0;
 
-      Registry *r = Registry::alloc();
-      r->open("Quadra", quadradir);
-      r->write("User name", name);
-      r->write("Password", pass);
-      r->close();
-      delete r;
       quit = true;
       exec(new Menu_help());
       call(new Fade_out(pal));

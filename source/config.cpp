@@ -26,7 +26,6 @@
 #include "input.h"
 #include "res.h"
 #include "global.h"
-#include "registry.h"
 #include "crypt.h"
 #include "video.h"
 #include "config.h"
@@ -165,33 +164,7 @@ void Config::read() {
 }
 
 void Config::check_register() {
-	Registry *r = Registry::alloc();
-	r->open("Quadra", quadradir);
-	#ifdef XTREME_GAMES
-		r->write("User name", "Xtreme Games LLC");
-		r->write("Password", "e5198e093d78ee3f726e33c3c032d8d5");
-	#endif
-	char name_buf[1024];
-	name_buf[0] = 0;
-	r->read("User name", name_buf, 1024);
-	char pass_buf[1024];
-	pass_buf[0] = 0;
-	r->read("Password", pass_buf, 1024);
-	char st[1024];
-	sprintf(st, "%i.%i.%i", major, minor, patchlevel);
-	r->write("Version", st);
-	r->close();
-	delete r;
-	if(strlen(name_buf) > 0 && strlen(pass_buf) > 0) {
-		Crypt cr(name_buf, true);
-		if(stricmp(cr.get_digest_string(), pass_buf) == 0) {
-			registered = true;
-			strncpy(user_name, name_buf, 63);
-			user_name[63] = 0;
-			if(!strcmp(user_name, "Xtreme Games LLC"))
-				xtreme = true;
-		}
-	}
+  registered = true;
 }
 
 void fix_str(char *st, Dword len) {

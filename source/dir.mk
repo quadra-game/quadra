@@ -26,11 +26,6 @@ endif
 ifdef STATIC
 OBJECTS+=$(SKELTON)/lib/libugs.a
 QUADRA_OPT:=-L/usr/X11R6/lib -lX11 -lXpm -lXext -lvga -lvgagl -lz
-ifdef RELEASE
-QUADRA_OPT+=-ldb
-else
-QUADRA_OPT+=-ldb1
-endif
 ifdef SOCKS
 OBJECTS+=-lsocks5
 endif
