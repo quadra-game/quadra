@@ -68,6 +68,7 @@ public:
   virtual void restore();
   virtual void clean_up();
   virtual void snap_shot(int x, int y, int w, int h);
+  void toggle_fullscreen() { };
 };
 
 #endif /* _HEADER_VIDEO_SVGA */
