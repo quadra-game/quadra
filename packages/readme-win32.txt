@@ -1,4 +1,4 @@
-Quadra version 1.1.6 for Windows
+Quadra version 1.1.7 for Windows
 Copyright (c) 1998-2000 Ludus Design inc. All rights reserved.
 
 THANK YOU for downloading Quadra. This document contains installing information
