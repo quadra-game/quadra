@@ -42,6 +42,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%attr(4711,root,root) /usr/games/quadra
+%attr(0755,root,root) /usr/games/quadra
 %attr(0644,root,root) /usr/lib/games/quadra.res
 %doc ChangeLog LICENSE README quadra.xpm

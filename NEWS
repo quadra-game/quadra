@@ -4,6 +4,10 @@ Quadra 1.1.6 (in development)
 
  * Fixed possible security holes.
 
+ * Quadra is not SUID root anymore, to avoid security
+   problems. Only the Svgalib driver requires root privileges. You can
+   either run "chmod 4711 /usr/games/quadra" or play the game as root.
+
  * Improved README file.
 
 Quadra 1.1.5

@@ -17,7 +17,7 @@ echo "Installing Quadra $VERSION..."
 echo
 echo "Installing quadra -> $PREFIX/usr/games/quadra"
 mkdir -p $PREFIX/usr/games
-install -s -m 4711 quadra $PREFIX/usr/games/quadra
+install -s -m 755 quadra $PREFIX/usr/games/quadra
 echo "Installing quadra.res -> $PREFIX/usr/lib/games/quadra.res"
 mkdir -p $PREFIX/usr/lib/games
 install -m 644 quadra.res $PREFIX/usr/lib/games/quadra.res
