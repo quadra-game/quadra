@@ -64,7 +64,7 @@ Rémi Veilleux: Programming, design, graphics
 Stéphane Lajoie: Programming
 Pierre Phaneuf: Linux port
 Our web site:
-http://www.ludusdesign.com
+http://quadra.sourceforge.net/
 This is a beta version. Do NOT distribute!
 Click on 'Back ·0' to return to main menu
 Quadra(tm) by Ludus Design
@@ -379,7 +379,7 @@ Please select another server, or change your port number.
 The Quadra server is using an older version (%i).
 The server must be updated to your version %i.
 The Quadra server is using a more recent version (%i).
-Please check for Quadra update at our web site 'www.ludusdesign.com'.
+Please check for Quadra update at our web site 'quadra.sourceforge.net'.
 Address book
 Connect
 Looking for %s...
