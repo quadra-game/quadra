@@ -55,6 +55,10 @@ void Http_post::add_data_encode(const char* m, ...) {
 	add_data_raw(buf.get());
 }
 
+void Http_post::add_data_raw(const Buf &m) {
+	data.append(m.get(), m.size());
+}
+
 void Http_post::add_data_raw(const char* m) {
 	data.append((const Byte*)m, strlen(m));
 }

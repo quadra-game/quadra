@@ -39,40 +39,7 @@ Qserv::Qserv() {
 	status[0]=0;
 	reply=NULL;
 
-	const char* host;
-	int port;
-	char path[256];
-
-	Url url(config.info.game_server_address);
-	if(!url.getPort())
-		url.setPort(80);
-	if(!strcmp(url.getHost(), ""))
-		url.setHost("quadra.sourceforge.net:80");
-	if(!strcmp(url.getPath(), "/"))
-		url.setPath("/cgi-bin/qserv.pl");
-
-	Url proxy(config.info2.proxy_address);
-	if(!proxy.getPort())
-		proxy.setPort(80);
-
-	if(strlen(proxy.getHost())) {
-		//Use proxy info for host and port, and full game server address for path
-		host = proxy.getHost();
-		port = proxy.getPort();
-		url.getFull(path);
-	}
-	else {
-		//No proxy configuration, use game server address for everything
-		host = url.getHost();
-		port = url.getPort();
-		strcpy(path, url.getPath());
-	}
-
-	//Use IP cache if set
-	if(http_addr)
-		req=new Http_post(host, http_addr, http_port, path);
-	else
-		req=new Http_post(host, port, path);
+	create_req();
 
 	req->add_data_raw("data=");
 }
@@ -120,8 +87,31 @@ bool Qserv::done() {
 			i++;
 		}
 	}
-	delete req;
-	req=NULL;
+	if(!strcmp(status, "Redirect permanent") && reply->find("location")) {
+		//we are being redirected to another qserv server
+		//update the config
+		strncpy(config.info.game_server_address, reply->find("location"), sizeof(config.info.game_server_address)-1);
+		config.info.game_server_address[sizeof(config.info.game_server_address)-1]=0;
+		//clear cache of ip address unless we use a proxy
+		Url proxy(config.info2.proxy_address);
+		if(!strlen(proxy.getHost())) {
+			Qserv::http_addr = 0;
+			Qserv::http_port = 0;
+		}
+		//and retry the query with the same data
+		Buf data = req->get_data();
+		delete req;
+		delete reply;
+		status[0] = 0;
+		create_req();
+		req->add_data_raw(data);
+		req->send();
+		return false;
+	}
+	else {
+		delete req;
+		req=NULL;
+	}
 	msgbox("Qserv::done: done\n");
 	return true;
 }
@@ -143,8 +133,6 @@ void Qserv::add_data_large(const Textbuf &buf) {
 
 void Qserv::send() {
 	req->add_data_encode("info/language %i\n", config.info.language);
-	req->add_data_encode("info/registered %i\n", 1);
-	req->add_data_encode("info/quadra_version %i.%i.%i\n", config.major, config.minor, config.patchlevel);
 	req->add_data_encode("info/platform/os %s\n",
 		#if defined(UGS_DIRECTX)
 			"Windows"
@@ -192,4 +180,42 @@ Dword Qserv::getnbrecv() const {
 			val = 0;
 	}
 	return val;
+}
+
+void Qserv::create_req()
+{
+	const char* host;
+	int port;
+	char path[256];
+
+	Url url(config.info.game_server_address);
+	if(!url.getPort())
+		url.setPort(80);
+	if(!strcmp(url.getHost(), ""))
+		url.setHost("quadra.sourceforge.net:80");
+	if(!strcmp(url.getPath(), "/"))
+		url.setPath("/cgi-bin/qserv.pl");
+
+	Url proxy(config.info2.proxy_address);
+	if(!proxy.getPort())
+		proxy.setPort(80);
+
+	if(strlen(proxy.getHost())) {
+		//Use proxy info for host and port, and full game server address for path
+		host = proxy.getHost();
+		port = proxy.getPort();
+		url.getFull(path);
+	}
+	else {
+		//No proxy configuration, use game server address for everything
+		host = url.getHost();
+		port = url.getPort();
+		strcpy(path, url.getPath());
+	}
+
+	//Use IP cache if set
+	if(http_addr)
+		req=new Http_post(host, http_addr, http_port, path);
+	else
+		req=new Http_post(host, port, path);
 }

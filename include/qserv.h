@@ -31,6 +31,7 @@ class Qserv {
 	Http_post *req;
 	char status[256];
 	Dict *reply;
+	void create_req();
 public:
 	static Dword http_addr;
 	static int http_port;

@@ -33,9 +33,11 @@ public:
 	Http_post(const char* aHost, int port, const char *path);
 	Http_post(const char* aHost, Dword hostaddr, int port, const char *path);
 	virtual ~Http_post();
+	void add_data_raw(const Buf &m);
 	void add_data_raw(const char* m);
 	void add_data_encode(const char* m, ...);
 	void send();
+	Buf &get_data() { return data; }
 };
 
 #endif
