@@ -5,7 +5,7 @@
 	* Fixed possibilities of buffer overflow (security related, bug
 	#111543)
 
-	Contributor: Simon Cahuk <simon.cahuk@uni-mb.si>
+	Contributor: Stan Bubrouski <stan@ccs.neu.edu>
 
 	* Improved README file with list of requirements.
 
