@@ -38,7 +38,7 @@ installdirs:
 	mkdir -p $(bindir)
 	mkdir -p $(libgamesdir)
 	mkdir -p $(datagamesdir)
-	mkdir -p $(datadir)
+	mkdir -p $(datadir)/pixmaps
 
 install: installdirs $(TARGETS)
 	$(INSTALL_PROGRAM) quadra $(bindir)/quadra
