@@ -18,7 +18,7 @@
 #
 # $Id$
 
-.PHONY: clean distclean dustclean maintainerclean dist installdirs install
+.PHONY: clean distclean dustclean maintainerclean dist installdirs install ChangeLog
 
 dustclean:
 	rm -f $(wildcard $(shell find . -name 'core' -print) $(shell find . -name '*~' -print) $(shell find . -name '.#*' -print))
@@ -32,7 +32,10 @@ distclean: clean
 maintainerclean: distclean
 	rm -f $(wildcard $(REALCLEAN))
 
-dist: distclean quadra.spec configure manual-dist-stuff
+dist: distclean quadra.spec configure ChangeLog manual-dist-stuff
+
+ChangeLog:
+	-cvs2cl.pl
 
 installdirs:
 	mkdir -p $(bindir)
@@ -62,7 +65,7 @@ configure: configure.in
 
 .PHONY: manual-dist-stuff
 manual-dist-stuff:
-	@echo "remember to regenerate the ChangeLog file."
+	@echo "-----------------------------------------------------------"
 	@echo "remember to edit the version number in the following files:"
 	@echo "packages/readme-win32.txt"
 
