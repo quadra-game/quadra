@@ -1,18 +1,18 @@
 /* -*- Mode: C++; c-basic-offset: 2; tab-width: 2; indent-tabs-mode: nil -*-
- * 
+ *
  * Quadra, an action puzzle game
  * Copyright (C) 1998-2000  Ludus Design
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -837,7 +837,7 @@ void Player_process_key::keyboard_control() {
 	}
 	if(canvas->check_key(5) & RELEASED) {
 		if(rotate_right(true))
-			block_rotated+=2;
+			block_rotated++;
 		else {
 			if(canvas->collide_side_only) {
 				int inc;
@@ -862,7 +862,7 @@ void Player_process_key::keyboard_control() {
 		move_down();
 		canvas->unrelease_key(3);
 	}
-	if(canvas->check_key(6) & RELEASED) {
+	if(canvas->check_key(6) & PRESSED || canvas->check_key(6) & RELEASED) {
 		drop_down();
 		canvas->clear_key(6);
 	}
@@ -1577,7 +1577,7 @@ Player_stamp::Player_stamp(Canvas *c, Packet_stampblock *p): Player_base(c) {
 	for(i=0; i<MAXPLAYERS; i++) {
 		if(canvas->attacks[i] > 0) {
 			canvas->attacks[i]--;
-			if(canvas->attacks[i] == 0 && canvas->last_attacker == i) // si c'etait lui le last_attacker, 
+			if(canvas->attacks[i] == 0 && canvas->last_attacker == i) // si c'etait lui le last_attacker,
 				if(!game->survivor)
 					canvas->last_attacker = 255; // on l'oublie.
 		}
