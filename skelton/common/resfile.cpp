@@ -24,7 +24,9 @@
 #include "res.h"
 #include "resfile.h"
 
+#ifdef UGS_LINUX
 #define stricmp strcasecmp
+#endif
 
 Resdata::Resdata(char *resname, int ressize, Byte *resdata, Resdata *list) {
 	name = resname;
