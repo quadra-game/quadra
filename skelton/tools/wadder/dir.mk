@@ -16,7 +16,7 @@ CLEANS+=tools/wadder/wadder
 
 else
 
-tools/wadder/wadder: tools/wadder/wadder.o lib/libugs.a
+tools/wadder/wadder: tools/wadder/wadder.o lib/libugs_s.a
 	$(LINK.cc) -o $@ $^
 
 endif

@@ -16,7 +16,7 @@ CLEANS+=tools/dumpwad
 
 else
 
-tools/dumpwad: tools/dumpwad.o lib/libugs.a
+tools/dumpwad: tools/dumpwad.o lib/libugs_s.a
 	$(LINK.cc) -o $@ $^
 
 endif

@@ -1,5 +1,8 @@
 2000-11-13  Pierre Phaneuf  <pp@ludusdesign.com>
 
+	* Changed name of the static version of libugs to have a _s
+	appended, so choosing between static and dynamic linking is eased.
+
 	* Corrected the correction of the "fixed possibilities of buffer
 	overflow".
 
