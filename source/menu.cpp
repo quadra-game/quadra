@@ -2100,7 +2100,7 @@ void Menu_stat::step() {
 			else
 				b_restart = new Zone_text_button2(inter, bit, font2, ST_REJOINGAME, 8+(b_stop? b_stop->w+4:0), 455);
     else
-      if(net->active && net->connected() && !game->terminated)
+      if(net->active && net->connected())
         b_restart = new Zone_text_button2(inter, bit, font2, ST_REJOINGAME, 8, 455);
   if(result) {
     if(result == b_quit)
