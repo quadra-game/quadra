@@ -212,7 +212,7 @@ void Video_Dumb::flip() {
   }
 
 #ifdef UGS_LINUX
-  sleep(0);
+  usleep(1);
 #endif
 
   framecount++;
