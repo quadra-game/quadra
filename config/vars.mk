@@ -21,7 +21,7 @@
 CLEAN+=config/depends.mk
 DISTCLEAN+=config/config.mk
 
-CXXFLAGS+=-Wall -pedantic -pipe -Iinclude -Iskelton/include -Iimages
+CXXFLAGS+=-Wall -pedantic -pipe -Iinclude -Iskelton/include -Iimages -DGAMESDIR=$(GAMESDIR)
 
 ARFLAGS=rcs
 

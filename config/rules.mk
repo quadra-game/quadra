@@ -18,10 +18,10 @@
 #
 # $Id$
 
-.PHONY: clean distclean dustclean maintainerclean dist
+.PHONY: clean distclean dustclean maintainerclean dist installdirs install
 
 dustclean:
-	rm -f $(wildcard $(shell find . -name 'core' -print) $(shell find . -name '*~' -print))
+	rm -f $(wildcard $(shell find . -name 'core' -print) $(shell find . -name '*~' -print) $(shell find . -name '.#*' -print))
 
 clean: dustclean
 	rm -f $(wildcard $(CLEAN) $(TARGETS))
@@ -33,6 +33,17 @@ maintainerclean: distclean
 	rm -f $(wildcard $(REALCLEAN))
 
 dist: distclean quadra.spec configure manual-dist-stuff
+
+installdirs:
+	mkdir $(prefix)
+	mkdir $(prefix)/games
+	mkdir $(prefix)/lib
+	mkdir $(prefix)/lib/games
+
+install: installdirs $(TARGETS)
+	$(INSTALL_PROGRAM) quadra $(prefix)/games/quadra
+	$(INSTALL_PROGRAM) quadra-svga.so $(prefix)/lib/games/quadra-svga.so
+	$(INSTALL_DATA) quadra.res $(prefix)/lib/games/quadra.res
 
 quadra.spec: packages/quadra.spec.in
 	sed $^ -e 's/@VERSION@/$(VERSION)/g' > $@

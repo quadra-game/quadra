@@ -1,5 +1,17 @@
 2000-11-30  Pierre Phaneuf  <pp@ludusdesign.com>
 
+	* Restored the --enable-debug configure option.
+
+	* The "dustclean" makefile target now removes CVS temporary files.
+
+	* Made the game directory a build-time option.
+
+	* Made the RPM spec use the "make install".
+
+	* Added an "install" target to the makefile.
+
+	* Removed quadra-svga.so from the quadra package list.
+
 	* Removed dumpwad and wadder from the default target.
 
 2000-11-29  Remi Veilleux  <remz@ludusdesign.com>

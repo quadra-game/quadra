@@ -28,5 +28,16 @@ REALCLEAN:=
 
 CXXDEPS:=
 
-CXXFLAGS=@CXXFLAGS@
+SHELL:=/bin/sh
+INSTALL:=@INSTALL@
+INSTALL_PROGRAM:=@INSTALL_PROGRAM@
+INSTALL_DATA:=@INSTALL_DATA@
+prefix:=@prefix@
+libdir:=@libdir@
+GAMESDIR:=$(libdir)/games
+CXXFLAGS:=@CXXFLAGS@
+
+ifneq ("@debug@", "yes")
+CXXFLAGS+=-DNDEBUG
+endif
 
