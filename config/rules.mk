@@ -42,7 +42,7 @@ installdirs:
 
 install: installdirs $(TARGETS)
 	$(INSTALL_PROGRAM) quadra $(bindir)/quadra
-ifdef ($(UGS_LINUX_SVGA))
+ifdef UGS_LINUX_SVGA
 	$(INSTALL_PROGRAM) quadra-svga.so $(libgamesdir)/quadra-svga.so
 endif
 	$(INSTALL_DATA) quadra.res $(datagamesdir)/quadra.res
