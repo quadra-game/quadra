@@ -1,5 +1,8 @@
 2000-11-13  Pierre Phaneuf  <pp@ludusdesign.com>
 
+	* Corrected the correction of the "fixed possibilities of buffer
+	overflow".
+
 	* Started separating Visual C++ cruft into its own directory.
 
 2000-11-12  Pierre Phaneuf  <pp@ludusdesign.com>

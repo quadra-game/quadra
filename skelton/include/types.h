@@ -35,7 +35,10 @@
 typedef unsigned int Dword;
 typedef unsigned short Word;
 typedef unsigned char Byte;
+
+#ifdef UGS_DIRECTX
 #define snprintf _snprintf
 #define vsnprintf _vsnprintf
+#endif /* UGS_DIRECTX */
 
 #endif
