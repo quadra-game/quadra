@@ -63,7 +63,7 @@ MainLoop;
 sub parseResponse;
 
 sub getGames {
-	my $response = get('http://ludusdesign.com/cgibin/qserv.pl?data=getgames%0ainfo/quadra_version%201.1.7');
+	my $response = get('http://quadra.sourceforge.net/cgi-bin/qserv.pl?data=getgames%0ainfo/quadra_version%201.1.7');
 	return {} unless defined $response;
 
 	my($result, $data) = split "\n", $response, 2;

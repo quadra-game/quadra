@@ -434,7 +434,7 @@ Public game server address:
 Advanced options:
 Invalid game server address.
 Go to the "Option" menu and enter a valid address.
-Default server: http://ludusdesign.com/cgibin/qserv.pl
+Default server: http://quadra.sourceforge.net/cgi-bin/qserv.pl
 Quadra version %i.%i.%i
 NOT REGISTERED
 No Quadra server found at specified address.

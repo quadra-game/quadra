@@ -434,7 +434,7 @@ Adresse du serveur de partie publique:
 Options avancées:
 Adresse de serveur de partie invalide.
 Veuillez retourner au menu "Option" et vérifiez.
-Adresse par défaut: http://ludusdesign.com/cgibin/qserv.pl
+Adresse par défaut: http://quadra.sourceforge.net/cgi-bin/qserv.pl
 Quadra version %i.%i.%i
 NON ENREGISTRÉ
 Aucun serveur de partie Quadra à cette adresse.
