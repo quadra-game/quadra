@@ -14,10 +14,10 @@ AC_PROG_CXX
 AC_PROG_INSTALL
 
 dnl Checks for libraries.
-AC_CHECK_LIB(vga, vga_init,, nosvgalib=1)
-AC_CHECK_LIB(vgagl, gl_setcontext,, nosvgalib=1)
 AC_CHECK_LIB(z, compress,, nozlib=1)
 AC_CHECK_LIB(png, png_create_read_struct,, nolibpng=1)
+AC_CHECK_LIB(vga, vga_init,, nosvgalib=1)
+AC_CHECK_LIB(vgagl, gl_setcontext,, nosvgalib=1)
 
 dnl Checks for header files.
 AC_CHECK_HEADERS(vga.h vgagl.h vgamouse.h vgakeyboard.h,, nosvgalib=1)
