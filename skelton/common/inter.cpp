@@ -554,8 +554,7 @@ void Zone_text_input::draw() {
 				x1 = select_start;
 			}
 			x3 = inter->font->width(st, x1)-2; // -2: removes the 'shrink' added by width()
-			x4 = inter->font->width(st, x2)-2; // -2: removes the 's
-hrink' added by width()
+			x4 = inter->font->width(st, x2)-2; // -2: removes the 'shrink' added by width()
 			pan->rect(x3-panx, 0, x4-x3+2, inter->font->height(), curcolor);
 
 			char tube_char = st[x2];

@@ -394,8 +394,7 @@ void Net_server::playerwantjoin(Packet *p2) {
 							return;
 						}
 					} else {
-						playeraccepted.accepted = 2; // 
-already someone, refuse the player
+						playeraccepted.accepted = 2; // already someone, refuse the player
 					}
 					break;
 				}
