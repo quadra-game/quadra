@@ -136,7 +136,7 @@ void Url::setFull(const char* u) {
 	//    '-' or '.' to be legal in scheme names. It just wouldn't
 	//    feel right (if everybody followed standards, life would
 	//    be boring anyway)
-	sep=strchr(rest, ':');
+	sep=strchr(rest, '://');
 	if(sep) {
 		bool legalscheme=true;
 		char* p;
@@ -151,26 +151,13 @@ void Url::setFull(const char* u) {
 			memcpy(buf, rest, len);
 			buf[len]=0;
 			setScheme(buf);
-			strcpy(rest, sep+1);
+			strcpy(rest, sep+3);
 		}
 		else
 			setScheme("");
 	}
 	else
 		setScheme("");
-	//Skip 2 slashes if present
-	if(rest[0]=='/' && rest[1]=='/') {
-		strcpy(rest, rest+2);
-	}
-	else {
-		//Skip a single '/' if present (we forgive fucked up urls)
-		if(rest[0]=='/') {
-			strcpy(rest, rest+1);
-		}
-		else {
-			//We don't even have 1 slash, no sweat
-		}
-	}
 	//The next slash is supposed to be our path separator
 	sep=strchr(rest, '/');
 	if(sep) {

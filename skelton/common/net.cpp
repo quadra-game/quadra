@@ -311,7 +311,7 @@ Net_connection_tcp::Net_connection_tcp(int p, bool ppacket_based) {
 	tcpbufsize=0;
 	tcppacsize=0;
 
-	tcpsock = socket(PF_INET, SOCK_STREAM, 0);
+	tcpsock = socket(AF_INET, SOCK_STREAM, 0);
 	if(net->getlasterror(tcpsock)) {
 		return;
 	}
@@ -792,7 +792,7 @@ int Net::open_udpsock(Dword adr) {
 	if(!active)
 		return -1;
 	int sock;
-	sock = socket(PF_INET, SOCK_DGRAM, 0);
+	sock = socket(AF_INET, SOCK_DGRAM, 0);
 	if(getlasterror(sock)) {
 		skelton_msgbox("Net::open_udpsock: error creating socket [%s]\n", failed());
 		return -1;
