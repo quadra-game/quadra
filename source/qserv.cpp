@@ -49,7 +49,7 @@ Qserv::Qserv() {
 	if(!strcmp(url.getHost(), ""))
 		url.setHost("ludusdesign.com:80");
 	if(!strcmp(url.getPath(), "/"))
-		url.setPath("/cgibin/qserv.pl");
+		url.setPath("/cgi-bin/qserv.pl");
 
 	Url proxy(config.info2.proxy_address);
 	if(!proxy.getPort())
