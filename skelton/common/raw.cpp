@@ -87,9 +87,9 @@ Raw::Raw(int w, int h2, int ps) {
 
 Raw::~Raw() {
 	if(pic_)
-		delete pic_;
+		delete[] pic_;
 	if(pal_)
-		delete pal_;
+		delete[] pal_;
 }
 
 void Raw::write(Res_dos& res) {

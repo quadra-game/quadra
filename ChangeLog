@@ -1,5 +1,8 @@
 2000-11-20  Pierre Phaneuf  <pp@ludusdesign.com>
 
+	* skelton/common/raw.cpp: fixed small bug with the release of
+	memory.
+
 	* Added support for PNG images.
 
 2000-11-17  Pierre Phaneuf  <pp@ludusdesign.com>
