@@ -56,6 +56,10 @@ const char *keynames[256] = {
 
 #ifdef UGS_LINUX_SVGA
 
+#include "types.h"
+
+RCSID("$Id$")
+
 #include "wraplib.h"
 #include "video.h"
 #include "input_svga.h"
