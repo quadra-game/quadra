@@ -71,7 +71,7 @@ Sound::~Sound() {
 		lpds->Release();
 }
 
-Sample::Sample(Res& re, int nb) {
+Sample::Sample(Res& re, int nb): refcount(1) {
 	iAlloc=0;
 	if(!sound)
 		return;
