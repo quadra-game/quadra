@@ -27,6 +27,7 @@ typedef struct {
 	Sample *fadein, *fadeout, *point, *click, *drip, *glass, *depose;
 	Sample *depose2, *depose3, *depose4, *flash, *levelup, *bonus1, *pause;
 	Sample *enter, *start, *msg, *potato_get, *potato_rid;
+	Sample *minute, *thirty, *twenty, *ten, *five, *four, *three, *two, *one; //-roncli 4/29/01 Added for timer countdown sound effects
 } Samples;
 
 extern Samples sons;

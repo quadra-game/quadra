@@ -1698,14 +1698,11 @@ void Menu_main::step() {
     call(new Fade_out(pal));
   }
   if(result == b_single) {
+    //-roncli 4/29/01 This doesn't suck anymore. :-D
     call(new Fade_in(pal));
-    call(new Single_player(PRESET_SINGLE));
-    call(new Fade_out(pal));
-    //This sucks, see ya in 1.2.0 (maybe :))
-    /*call(new Fade_in(pal));
     call(new Menu_single());
     call(new Fade_out(pal));
-    */
+    
   }
   if(result == b_demo) {
     call(new Fade_in(pal));

@@ -1912,6 +1912,42 @@ void init_stuff(bool need_sound=true, bool need_video=true) {
 		Res_doze res("zingle.wav");
 		sons.potato_rid = new Sample(res, 2);
 	}
+	{ //-roncli 4/29/01 Load countdown samples
+		Res_doze res("t1min.wav");
+		sons.minute = new Sample(res, 2);
+	}
+	{
+		Res_doze res("t30sec.wav");
+		sons.thirty = new Sample(res, 2);
+	}
+	{
+		Res_doze res("t20sec.wav");
+		sons.twenty = new Sample(res, 2);
+	}
+	{
+		Res_doze res("t10sec.wav");
+		sons.ten = new Sample(res, 2);
+	}
+	{
+		Res_doze res("t5sec.wav");
+		sons.five = new Sample(res, 2);
+	}
+	{
+		Res_doze res("t4sec.wav");
+		sons.four = new Sample(res, 2);
+	}
+	{
+		Res_doze res("t3sec.wav");
+		sons.three = new Sample(res, 2);
+	}
+	{
+		Res_doze res("t2sec.wav");
+		sons.two = new Sample(res, 2);
+	}
+	{
+		Res_doze res("t1sec.wav");
+		sons.one = new Sample(res, 2);
+	}
 	cursor = Cursor::New(cur);
 	cursor->set_speed(config.info.mouse_speed);
 	for(i=0; i<8; i++)

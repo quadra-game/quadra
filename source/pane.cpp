@@ -290,6 +290,7 @@ void Pane_pre_start::init() {
 
 Pane_singleplayer::Pane_singleplayer(const Pane_info &p): Pane(p) {
 	if(!playback) {
+		game->paused = true; //-roncli 4/29/01 Pause the game so that the timer doesn't start.
 		int x2=x+15;
 		for(int i=0; i<3; i++) {
 			sprintf(st, ST_STARTBOB,config.player[i].name);
@@ -305,6 +306,7 @@ void Pane_singleplayer::step() {
 	if(!playback) {
 		for(i=0; i<3; i++) {
 			if(Pane::clicked == player[i]) {
+				game->paused = false; //-roncli 4/29/01 Unpause the game so that the timer starts when it should
 				hideexec(new Pane_playerjoin(pi, i));
 			}
 		}

@@ -571,19 +571,47 @@ void Net_list::check_end_game(bool end_it) {
 	if(!game->terminated && !end_signaled && !game->paused) {
 		if(game->game_end == END_TIME) {
 			time_left = game->game_end_value - gettimer();
-			switch(time_left) {
+			switch(time_left) { //-roncli 4/29/01 Moved sound effects for countdown into this switch.
 				case 6000:
+					{ Sfx stmp(sons.minute, 0, 0, -1, 11025); }
+					break;
 				case 3000:
+					{ Sfx stmp(sons.thirty, 0, 0, -1, 11025); }
+					break;
 				case 2000:
+					{ Sfx stmp(sons.twenty, 0, 0, -1, 11025); }
+					break;
 				case 1000:
+					{ Sfx stmp(sons.ten, 0, 0, -1, 11025); }
+					break;
 				case 500:
+					{ Sfx stmp(sons.five, 0, 0, -1, 11025); }
+					break;
 				case 400:
+					{ Sfx stmp(sons.four, 0, 0, -1, 11025); }
+					break;
 				case 300:
+					{ Sfx stmp(sons.three, 0, 0, -1, 11025); }
+					break;
 				case 200:
+					{ Sfx stmp(sons.two, 0, 0, -1, 11025); }
+					break;
 				case 100:
+					{ Sfx stmp(sons.one, 0, 0, -1, 11025); }
+					break;
+			}
+			switch(time_left) {
+				case 6000:	
+				case 3000:	
+				case 2000:	
+				case 1000:	
+				case 500:	
+				case 400:	
+				case 300:	
+				case 200:	
+				case 100:	
 					sprintf(st, ST_SECONDSREMAINING, time_left/100);
 					message(-1, st);
-					{ Sfx stmp(sons.depose4, 0, -300, -1, 22500 - time_left); }
 					break;
 			}
 		}

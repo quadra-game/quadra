@@ -122,6 +122,15 @@ sons/pwap2.wav
 sons/smash2.wav
 sons/splodge.wav
 sons/spring.wav
+sons/t1min.wav
+sons/t1sec.wav
+sons/t2sec.wav
+sons/t3sec.wav
+sons/t4sec.wav
+sons/t5sec.wav
+sons/t10sec.wav
+sons/t20sec.wav
+sons/t30sec.wav
 sons/tapdrip.wav
 sons/water05_1.wav
 sons/water05_2.wav
