@@ -1,5 +1,7 @@
 2000-11-14  Pierre Phaneuf  <pp@ludusdesign.com>
 
+	* Integrated the skelton into the new Makefile system.
+
 	* Added the working directory option to 'wadder'.
 
 	* Put back missing information in the ChangeLog.

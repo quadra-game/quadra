@@ -18,13 +18,7 @@
 #
 # $Id$
 
-CLEAN+=config/depends.mk
-DISTCLEAN+=config/config.mk
+UGS_OBJECTS:=
 
-CXXFLAGS+=-Wall -pedantic -pipe -Iinclude -Iskelton/include -Iimages
-
-ARFLAGS=rcs
-
-# FIXME: temporary hack, until we properly detect stuff
-CXXFLAGS+=-DUGS_LINUX -DUGS_LINUX_X11 -DUGS_LINUX_SVGA
+include $(wildcard skelton/*/vars.mk)
 

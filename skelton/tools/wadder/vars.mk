@@ -18,13 +18,9 @@
 #
 # $Id$
 
-CLEAN+=config/depends.mk
-DISTCLEAN+=config/config.mk
+TARGETS+=skelton/tools/wadder/wadder
 
-CXXFLAGS+=-Wall -pedantic -pipe -Iinclude -Iskelton/include -Iimages
+WADDER_OBJECTS:=$(patsubst %.cpp,%.o,$(wildcard skelton/tools/wadder/*.cpp))
 
-ARFLAGS=rcs
-
-# FIXME: temporary hack, until we properly detect stuff
-CXXFLAGS+=-DUGS_LINUX -DUGS_LINUX_X11 -DUGS_LINUX_SVGA
+CXXDEPS+=$(wildcard skelton/tools/wadder/*.cpp)
 

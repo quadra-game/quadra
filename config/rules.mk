@@ -18,17 +18,13 @@
 #
 # $Id$
 
-.PHONY: clean distclean skelton/lib/libugs_s.a
-
-# FIXME: skelton's makefile should be integrated with this one
-skelton/lib/libugs_s.a:
-	$(MAKE) -C skelton
+.PHONY: clean distclean
 
 clean:
-	rm -f $(shell find . -name 'core' -print) $(shell find . -name '*~' -print) $(shell find . -name '*.o' -print) $(CLEAN) $(TARGETS)
+	rm -f $(wildcard $(CLEAN) $(TARGETS) $(shell find . -name 'core' -print) $(shell find . -name '*~' -print))
 
 distclean: clean
-	rm -f $(DISTCLEAN)
+	rm -f $(wildcard $(DISTCLEAN))
 
 ifneq ($(MAKECMDGOALS),clean)
 ifneq ($(MAKECMDGOALS),distclean)

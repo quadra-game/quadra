@@ -18,13 +18,8 @@
 #
 # $Id$
 
-CLEAN+=config/depends.mk
-DISTCLEAN+=config/config.mk
+skelton/tools/dumpwad: skelton/tools/dumpwad.o skelton/lib/libugs_s.a
+	$(LINK.cc) -o $@ $^
 
-CXXFLAGS+=-Wall -pedantic -pipe -Iinclude -Iskelton/include -Iimages
-
-ARFLAGS=rcs
-
-# FIXME: temporary hack, until we properly detect stuff
-CXXFLAGS+=-DUGS_LINUX -DUGS_LINUX_X11 -DUGS_LINUX_SVGA
+include $(wildcard skelton/tools/*/rules.mk)
 

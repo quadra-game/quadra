@@ -18,13 +18,9 @@
 #
 # $Id$
 
-CLEAN+=config/depends.mk
-DISTCLEAN+=config/config.mk
+skelton/lib/libugs_s.a: $(UGS_OBJECTS)
+	$(AR) $(ARFLAGS) $@ $?
 
-CXXFLAGS+=-Wall -pedantic -pipe -Iinclude -Iskelton/include -Iimages
-
-ARFLAGS=rcs
-
-# FIXME: temporary hack, until we properly detect stuff
-CXXFLAGS+=-DUGS_LINUX -DUGS_LINUX_X11 -DUGS_LINUX_SVGA
+skelton/lib/libugs.so: $(UGS_OBJECTS)
+	$(LINK.cc) $(LOADLIBES) $(LDLIBS) -shared $^ -o $@
 
