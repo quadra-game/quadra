@@ -17,3 +17,4 @@ config.cache
 config.status
 Quadra.desktop
 ChangeLog
+gmon.out
