@@ -1,6 +1,6 @@
 #! /bin/sh
 
-VERSION=1.1.1
+VERSION=@VERSION@
 PREFIX=""
 
 if [ $(id -u) -ne 0 ]; then
