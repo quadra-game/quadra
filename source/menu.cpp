@@ -2075,24 +2075,32 @@ void Menu_stat::init() {
 void Menu_stat::step() {
   Menu_standard::step();
   bool force_blit=false;
-  //Add appropriate button
+  //Add appropriate button(s)
   if(game->server && game->network && !game->terminated && !b_stop)
     b_stop = new Zone_text_button2(inter, bit, font2, ST_STOPGAME, 8, 455);
   //Remove end-of-game button if already terminated
   if(b_stop && game->terminated) {
     delete b_stop;
     b_stop = NULL;
+		// delete the rejoin button when deleting the stop button; it may
+		//   be recreated right after but at least it will be in the correct place
+		delete b_restart;
+		b_restart = NULL;
     video->need_paint = 2;
   }
   if(net->active && !game->server && !net->connected()) {
     delete b_restart;
     b_restart=NULL;
+		video->need_paint = 2;
   }
   if(!playback && !b_restart)
-    if(game->server && game->terminated)
-      b_restart = new Zone_text_button2(inter, bit, font2, ST_RESTARTGAME, 8, 455);
+    if(game->server)
+			if(game->terminated)
+				b_restart = new Zone_text_button2(inter, bit, font2, ST_RESTARTGAME, 8, 455);
+			else
+				b_restart = new Zone_text_button2(inter, bit, font2, ST_REJOINGAME, 8+(b_stop? b_stop->w+4:0), 455);
     else
-      if(!game->server && net->active && net->connected())
+      if(net->active && net->connected() && !game->terminated)
         b_restart = new Zone_text_button2(inter, bit, font2, ST_REJOINGAME, 8, 455);
   if(result) {
     if(result == b_quit)
@@ -2103,8 +2111,12 @@ void Menu_stat::step() {
     }
     if(result == b_restart) {
       if(game->server) {
-        game->stop_stuff();
-        game->restart();
+				if(game->terminated) {
+					game->stop_stuff();
+					game->restart();
+				}
+				else
+					game->abort = false;
         exec(new Call_setfont(pal, new Multi_player_launcher()));
       }
       else {

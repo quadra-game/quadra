@@ -128,7 +128,7 @@ void Multi_player::step() {
 				}
 				else
 					strcpy(st, "e0.png");
-				Png raw(18, 18, col!=-1? 8:2);
+				Raw raw(18, 18, col!=-1? 8:2);
 				Res_dos res(st, RES_CREATE);
 				if(!res.exist) {
 					skelton_msgbox("Can't create file!\n");
