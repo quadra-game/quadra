@@ -46,8 +46,6 @@ Sprite::Sprite(const Bitmap& b, const int hx, const int hy, const bool dx):
 	Bitmap(b[0], b.width, b.height, b.realwidth, COPY)
 {
 	set_hotspot(hx, hy);
-	if(dx)
-		create_directx_surface();
 }
 
 void Sprite::draw(const Bitmap& d, const int dx, const int dy) const {

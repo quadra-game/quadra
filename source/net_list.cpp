@@ -35,10 +35,6 @@
 #include "nglog.h"
 #include "net_list.h"
 
-#ifdef UGS_LINUX
-#define stricmp strcasecmp
-#endif
-
 //Objectives are number of remaining goals to reach before it is
 //  announced. Must end with 0.
 static int frag_objectives[] = {
@@ -1597,7 +1593,7 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 			//Haven't found a connection to drop, look for a player
 			for(i=0; i<MAXPLAYERS; i++) {
 				Canvas *c=get(i);
-				if(c && !stricmp(c->name, params)) {
+				if(c && !strcasecmp(c->name, params)) {
 					send_msg(nc, "Dropping player %s", c->name);
 					server_drop_player(i, DROP_MANUAL);
 					dropped=true;

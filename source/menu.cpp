@@ -62,9 +62,6 @@
 #ifdef UGS_DIRECTX
 #include <shellapi.h>
 #endif
-#ifdef UGS_LINUX
-#define stricmp strcasecmp
-#endif
 
 void Menu_do_nothing::step() {
   if(quitting)
@@ -1399,7 +1396,7 @@ void Menu_register::step() {
       #ifdef _DEBUG // Pour pas pouvoir obtenir une clé avec -debug
       msgbox("Menu_register::step: \n  name=%s\n  crypt=%s\n  pass=%s\n", name, cr.get_digest_string(), pass);
       #endif
-      if(stricmp(cr.get_digest_string(), pass) == 0)
+      if(strcasecmp(cr.get_digest_string(), pass) == 0)
         ok=true;
     }
     if(ok) {

@@ -47,12 +47,8 @@ class Bitmap: public Clipable {
 	Dword const size;
 	T* mem;
 	Byte const fmem;
+  /* FIXME: this is awful. */
 	bool directx;
-	/*#ifdef UGS_DIRECTX // yark de shit: ceci devra aller dans un futur DirectX_Bitmap
-		LPDIRECTDRAWSURFACE directx_surface;
-	#endif*/
-	void copy_surface();
-	void create_directx_surface();
  public:
 	static Bitmap* loadPcx(const char* n);
 	static Bitmap* loadRaw(const char* n);

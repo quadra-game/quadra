@@ -386,44 +386,9 @@ void DirectX_Video_bitmap::line(const int x1, const int y1, const int x2, const 
 }
 
 void DirectX_Video_bitmap::put_bitmap(const Bitmap& d, const int dx, const int dy) const {
-#if 0
-  if(d.directx) {
-    if(clip(dx, dy, d))
-      return;
-    
-    RECT rect;
-    rect.top = clip_y1-dy;
-    rect.left = clip_x1-dx;
-    rect.right = clip_x2-dx+1;  // maudit que c'est poche
-    rect.bottom = clip_y2-dy+1; // le dernier pixel est 'exclu' bordel
-    directx_video->lpddsback->BltFast(clip_x1+pos_x, clip_y1+pos_y, d.directx_surface,&rect, DDBLTFAST_NOCOLORKEY | DDBLTFAST_WAIT);
-  } else {
-#endif
-    d.draw(*currentpage, dx, dy);
-#if 0
-  }
-#endif
+	d.draw(*currentpage, dx, dy);
 }
 
 void DirectX_Video_bitmap::put_sprite(const Sprite& d, const int dx, const int dy) const {
-#if 0
-  if(d.directx) {
-    int tx = dx-d.hot_x;
-    int ty = dy-d.hot_y;
-    if(clip(tx, ty, d))
-      return;
-    
-    RECT rect;
-    rect.top = clip_y1-ty;
-    rect.left = clip_x1-tx;
-    rect.right = clip_x2-tx+1;  // maudit que c'est poche
-    rect.bottom = clip_y2-ty+1; // le dernier pixel est 'exclu' bordel
-    
-    directx_video->lpddsback->BltFast(clip_x1+pos_x, clip_y1+pos_y, d.directx_surface,&rect, DDBLTFAST_SRCCOLORKEY | DDBLTFAST_WAIT);
-  } else {
-#endif
-    d.draw(*currentpage, dx, dy);
-#if 0
-  }
-#endif
+	d.draw(*currentpage, dx, dy);
 }

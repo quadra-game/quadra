@@ -23,7 +23,6 @@
 #include <pwd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#define stricmp strcasecmp
 #endif
 #include <stdlib.h>
 #include "packet.h"

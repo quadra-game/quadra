@@ -87,53 +87,6 @@ Bitmap::Bitmap(const Image& raw, bool dx):
 	initlines();
 	setmem((void*)new Byte[size]);
 	reload(raw);
-	if(dx)
-		create_directx_surface();
-}
-
-void Bitmap::create_directx_surface() {
-/*#ifdef UGS_DIRECTX
-	directx = true;
-	DDSURFACEDESC	ddsd;
-
-	ZeroMemory(&ddsd, sizeof(ddsd));
-	ddsd.dwSize = sizeof(ddsd);
-	ddsd.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH;
-	ddsd.ddsCaps.dwCaps = DDSCAPS_VIDEOMEMORY | DDSCAPS_OFFSCREENPLAIN;
-	ddsd.dwWidth = width;
-	ddsd.dwHeight = height;
-
-	if(video->lpdd->CreateSurface(&ddsd, &directx_surface, NULL) != DD_OK) {
-		ZeroMemory(&ddsd, sizeof(ddsd));
-		ddsd.dwSize = sizeof(ddsd);
-		ddsd.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH;
-		ddsd.dwWidth = width;
-		ddsd.dwHeight = height;
-		ddsd.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY;
-		calldx(video->lpdd->CreateSurface(&ddsd, &directx_surface, NULL));
-	}
-
-	DDCOLORKEY color;
-	color.dwColorSpaceLowValue  = 0;
-	color.dwColorSpaceHighValue = 0;
-	calldx(directx_surface->SetColorKey(DDCKEY_SRCBLT, &color));
-
-	video->add_surface(directx_surface, this);
-	copy_surface();
-#endif*/
-}
-
-void Bitmap::copy_surface() {
-/*#ifdef UGS_DIRECTX
-	DDSURFACEDESC lock;
-	lock.dwSize=sizeof(lock);
-	lock.dwFlags=DDSD_ALL;
-	calldx(directx_surface->Lock(NULL, &lock, DDLOCK_WAIT|DDLOCK_SURFACEMEMORYPTR, NULL));
-	int pitch = lock.lPitch;
-	for(int i=0; i<height; i++)
-		memcpy((Byte *) lock.lpSurface + i*pitch, lines[i], realwidth);
-	calldx(directx_surface->Unlock(NULL));
-#endif*/
 }
 
 void Bitmap::reload(const Image& raw) {
@@ -146,10 +99,6 @@ void Bitmap::initlines() {
 }
 
 Bitmap::~Bitmap() {
-/*#ifdef UGS_DIRECTX
-	if(directx)
-		video->remove_surface(directx_surface, this);
-#endif*/
 	delete[] zlines;
 	delete[] lines;
 	if(fmem)

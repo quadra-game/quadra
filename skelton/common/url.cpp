@@ -24,9 +24,6 @@
 //Pour isalpha:
 #include <ctype.h>
 #include "url.h"
-#ifdef UGS_LINUX
-#define stricmp strcasecmp
-#endif
 
 Url::Url(const char* u) {
 	setFull(u);
@@ -65,12 +62,12 @@ void Url::getFull(char* buf) const {
 }
 
 void Url::setScheme(const char* s) {
-	if(strlen(s)<sizeof(scheme)) {
+	if(strlen(s) < sizeof(scheme)) {
 		strcpy(scheme, s);
 		if(!port) {
-			if(!stricmp(scheme, "http"))
+			if(!strcasecmp(scheme, "http"))
 				port=80;
-			if(!stricmp(scheme, "ftp"))
+			if(!strcasecmp(scheme, "ftp"))
 				port=21;
 			//Add more schemes with default ports here (or don't)
 		}

@@ -39,6 +39,8 @@ typedef unsigned char Byte;
 #ifdef UGS_DIRECTX
 #define snprintf _snprintf
 #define vsnprintf _vsnprintf
+#define strcasecmp stricmp
+typedef int addr_size_t;
 #endif /* UGS_DIRECTX */
 
 #endif

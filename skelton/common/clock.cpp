@@ -46,6 +46,7 @@ char *Clock::time2char(int time) {
 }
 
 char *Clock::absolute_time() {
+	/* FIXME: shouldn't we rather use asctime(3)? */
 	static char st[64];
 #ifdef UGS_LINUX
 	struct timeb time_info;

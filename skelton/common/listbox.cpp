@@ -20,9 +20,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#ifdef UGS_LINUX
-#define stricmp strcasecmp
-#endif
 
 #include "input.h"
 #include "cursor.h"
@@ -115,7 +112,7 @@ void Zone_listbox::end_sort() {
 int Zone_listbox::compare_sort(const void *arg1, const void *arg2) {
 	char *s1 = (*(Listable **) arg1)->list_name;
 	char *s2 = (*(Listable **) arg2)->list_name;
-  return stricmp(s1, s2);
+  return strcasecmp(s1, s2);
 }
 
 

@@ -18,10 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifdef UGS_DIRECTX
-typedef int addr_size_t;
-#endif
-
 #include <stdio.h>
 
 #ifdef UGS_LINUX

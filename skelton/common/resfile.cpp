@@ -24,10 +24,6 @@
 #include "res.h"
 #include "resfile.h"
 
-#ifdef UGS_LINUX
-#define stricmp strcasecmp
-#endif
-
 Resdata::Resdata(char *resname, int ressize, Byte *resdata, Resdata *list) {
 	name = resname;
 	size = ressize;
@@ -106,7 +102,7 @@ int Resfile::get(const char *resname, Byte **resdata) {
 	ptr = list;
 
 	while(ptr != NULL) {
-		if(stricmp(ptr->name, resname) == 0)
+		if(strcasecmp(ptr->name, resname) == 0)
 			break;
 		ptr = ptr->next;
 	}
@@ -127,7 +123,7 @@ void Resfile::remove(const char* resname) {
 	ptr = list;
 
 	while(ptr != NULL) {
-		if(stricmp(ptr->name, resname) == 0)
+		if(strcasecmp(ptr->name, resname) == 0)
 			break;
 		prev = ptr;
 		ptr = ptr->next;

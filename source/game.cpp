@@ -38,9 +38,6 @@
 #include "clock.h"
 #include "http_request.h"
 #include "game.h"
-#ifdef UGS_LINUX
-#define stricmp strcasecmp
-#endif
 
 Game *game=NULL;
 
@@ -810,7 +807,7 @@ void Game::prepare_recording(const char *fn) {
 	//Remove .rec if present
 	int len = strlen(nom);
 	if(len>=4)
-		if(!stricmp(".rec", &nom[len-4]))
+		if(!strcasecmp(".rec", &nom[len-4]))
 			nom[len-4] = 0;
 	//When restarting and recording, auto-increment file name
 	static int record_num = 0;
@@ -848,7 +845,7 @@ void Game::prepare_logging(const char *filename) {
 	//Remove .log if present
 	int len = strlen(nom);
 	if(len>=4)
-		if(!stricmp(".log", &nom[len-4]))
+		if(!strcasecmp(".log", &nom[len-4]))
 			nom[len-4] = 0;
 	//When restarting and logging, auto-increment file name
 	static int slog_num = 0;
