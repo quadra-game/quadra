@@ -1644,8 +1644,17 @@ void Player_stamp::stamp_bloc() {
 			}
 		}
 	canvas->last_x += canvas->bloc->bx;
+	int startline=0;
+	for(j = 0; j < 32; ++j)
+		for(i = 4; i < 14; ++i)
+			if(canvas->occupied[j][i]) {
+				startline = j;
+				// break out of both loops
+				j=32;
+				break;
+			}
 	canvas->snapshot[0]=0;
-	for(j = 12; j < 32; j++)
+	for(j = startline; j < 32; j++)
 		for(i = 4; i < 14; i++) {
 			if(canvas->occupied[j][i]) {
 				char bl[3];

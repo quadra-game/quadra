@@ -99,7 +99,7 @@ public:
 		bool final;
   } bon[20];  //les lignes chiantes en attente
 	Byte last_x;  // position du dernier bloc depose (pour envoie des lignes)
-	char snapshot[401];
+	char snapshot[32*10*2+1]; // 32 lines * 10 columns * 2 chars per block + 1 string terminator
 	Word best_move; //MSB: depth, LSB: complexity
 	Word best_clean; //same here
 	Word best_recurse; //MSB: complexity, LSB: depth
