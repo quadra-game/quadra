@@ -158,7 +158,7 @@ void Input_X11::check() {
         if((Atom)event.xclient.data.l[0] == videox11->delete_win)
           quit_game();
         break;
-      
+
       case Expose:
         if(videox11)
           videox11->dirty2(event.xexpose.x,

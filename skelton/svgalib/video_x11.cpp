@@ -592,21 +592,21 @@ void Video_X11::flip() {
 
     if(do_shm)
       XShmPutImage(display,
-		   window,
-		   gc,
-		   image,
-		   min_x2, min_y2, /* src x, y */
-		   min_x2, min_y2, /* dest x, y */
-		   max_x2-min_x2+1, max_y2-min_y2+1,
-		   false);
+                   window,
+                   gc,
+                   image,
+                   min_x2, min_y2, /* src x, y */
+                   min_x2, min_y2, /* dest x, y */
+                   max_x2-min_x2+1, max_y2-min_y2+1,
+                   false);
     else
       XPutImage(display,
-		window,
-		gc,
-		image,
-		min_x2, min_y2, /* src x, y */
-		min_x2, min_y2, /* dest x, y */
-		max_x2-min_x2+1, max_y2-min_y2+1);
+                window,
+                gc,
+                image,
+                min_x2, min_y2, /* src x, y */
+                min_x2, min_y2, /* dest x, y */
+                max_x2-min_x2+1, max_y2-min_y2+1);
 
     /* so that everything goes through */
     XFlush(display);
