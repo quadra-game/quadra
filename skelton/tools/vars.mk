@@ -18,7 +18,7 @@
 #
 # $Id$
 
-TARGETS+=skelton/tools/dumpwad
+CLEAN+=skelton/tools/dumpwad
 
 CXXDEPS+=$(wildcard skelton/tools/*.cpp)
 
