@@ -72,6 +72,11 @@ public:
 	void default_config();
 	void read();
 	void write();
+
+	//Get the hash value for a player
+	void get_player_hash(Byte* buf, unsigned qplayer);
+	//Get the hash value for a player's team
+	void get_team_hash(Byte* buf, unsigned qplayer);
 };
 
 extern Config config;

@@ -27,6 +27,7 @@
 #include "video.h"
 #include "config.h"
 #include "version.h"
+#include "unicode.h"
 
 RCSID("$Id$")
 
@@ -203,6 +204,31 @@ void Config::write() {
 			res.write(&info2, sizeof(info2));
 		}
 	}
+}
+
+void Config::get_player_hash(Byte* buf, unsigned qplayer) {
+	if(player2[qplayer].ngPasswd[0]) {
+		Unicode uni_p(player[qplayer].name);
+		uni_p.cat(player2[qplayer].ngPasswd);
+		Crypt name_crypt;
+		name_crypt.step(uni_p, uni_p.size());
+		name_crypt.finalize(false);
+		memcpy(buf, name_crypt.get_digest(), 16);
+	}
+	else
+		memset(buf, 0, 16);
+}
+
+void Config::get_team_hash(Byte* buf, unsigned qplayer) {
+	if(player2[qplayer].ngTeam[0] && player2[qplayer].ngTeamPasswd[0]) {
+		Unicode uni_t(player2[qplayer].ngTeam);
+		uni_t.cat(player2[qplayer].ngTeamPasswd);
+		Crypt team_crypt;
+		team_crypt.step(uni_t, uni_t.size());
+		memcpy(buf, team_crypt.get_digest(), 16);
+	}
+	else
+		memset(buf, 0, 16);
 }
 
 Config config;

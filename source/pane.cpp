@@ -1732,16 +1732,7 @@ Pane_playerjoin::Pane_playerjoin(const Pane_info &p, int q):
 	zone.add(status);
 	pjoin.team=config.player[qplayer].color;
 	strcpy(pjoin.name, config.player[qplayer].name);
-	if(config.player2[qplayer].ngPasswd[0]) {
-		Unicode uni_p(pjoin.name);
-		uni_p.cat(config.player2[qplayer].ngPasswd);
-		Crypt name_crypt;
-		name_crypt.step(uni_p, uni_p.size());
-		name_crypt.finalize(false);
-		memcpy(pjoin.player_hash, name_crypt.get_digest(), 16);
-	}
-	else
-		memset(pjoin.player_hash, 0, 16);
+	config.get_player_hash(pjoin.player_hash, qplayer);
 	pjoin.player=qplayer;
 	pjoin.shadow=config.player[qplayer].shadow;
 	pjoin.smooth=config.player[qplayer].smooth;
@@ -1749,15 +1740,7 @@ Pane_playerjoin::Pane_playerjoin(const Pane_info &p, int q):
 	pjoin.v_repeat=config.player2[qplayer].v_repeat;
 	pjoin.handicap=config.player2[qplayer].handicap;
 	strcpy(pjoin.team_name, config.player2[qplayer].ngTeam);
-	if(pjoin.team_name[0] && config.player2[qplayer].ngTeamPasswd[0]) {
-		Unicode uni_t(pjoin.team_name);
-		uni_t.cat(config.player2[qplayer].ngTeamPasswd);
-		Crypt team_crypt;
-		team_crypt.step(uni_t, uni_t.size());
-		memcpy(pjoin.team_hash, team_crypt.get_digest(), 16);
-	}
-	else
-		memset(pjoin.team_hash, 0, 16);
+	config.get_team_hash(pjoin.team_hash, qplayer);
 	eping=new Exec_ping(&pjoin, P_PLAYERACCEPTED, this);
 	got_answer=false;
 	if(close)
@@ -1822,6 +1805,8 @@ Pane_startgame::Pane_startgame(const Pane_info &p, int q, Canvas *c, int pos):
 	canvas = c;
 	if(canvas == NULL) { // if not already there, add new player
 		canvas = new Canvas(qplayer, game->seed, &pi.mp->pal);
+		config.get_player_hash(canvas->player_hash, qplayer);
+		config.get_team_hash(canvas->team_hash, qplayer);
 		if(pos==-1) {
 			// for local game
 			game->net_list.add_player(canvas);
