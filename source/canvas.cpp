@@ -546,7 +546,7 @@ void Canvas::give_line() {
 		enough=i? true:false;
 	}
 	if(game->net_version()>=24) {
-		if(!send_for_clean)
+		if(!send_for_clean && !game->boring_rules)
 			while(i && handicap_crowd >= stamp_per_handicap) {
 				handicap_crowd -= stamp_per_handicap;
 				--i;

@@ -2286,6 +2286,8 @@ void start_game() {
 				char *temp=command_get_param("attack2clean <type> [strength]");
 				p.potato_clean_attack=read_attack_param(temp);
 			}
+			if(command.token("boringrules"))
+				p.boring_rules = true;
 			if(command.token("nolevelup"))
 				p.level_up = false;
 			if(command.token("levelup"))

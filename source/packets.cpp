@@ -224,6 +224,7 @@ void Packet_gameserver::write(Net_buf *p) {
 	for(i=0; i<players.size(); i++) {
 		p->write_dword(players[i]->player_id);
 	}
+	p->write_bool(boring_rules);
 }
 
 bool Packet_gameserver::read(Net_buf *p) {
@@ -295,6 +296,7 @@ bool Packet_gameserver::read(Net_buf *p) {
 	for(i=0; i<num_player; i++) {
 		players[i]->player_id=p->read_dword();
 	}
+	boring_rules=p->read_bool();
 	return true;
 }
 

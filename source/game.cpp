@@ -55,6 +55,7 @@ Game_params::Game_params() {
 	network=true;
 	survivor=false;
 	hot_potato=false;
+	boring_rules = false;
 	set_preset(PRESET_FFA);
 }
 
@@ -133,6 +134,7 @@ Game::Game(Packet_gameserver *p) {
 		potato_normal_attack = p->potato_normal_attack;
 		potato_clean_attack = p->potato_clean_attack;
 	}
+	boring_rules = p->boring_rules;
 	level_up = !p->nolevel_up;
 	level_start = p->level_start;
 	combo_min = p->combo_min;
@@ -203,6 +205,7 @@ Game::Game(Game_params* p) {
 		potato_normal_attack = p->potato_normal_attack;
 		potato_clean_attack = p->potato_clean_attack;
 	}
+	boring_rules = p->boring_rules;
 	level_up = p->level_up;
 	level_start = p->level_start;
 	combo_min = 2;

@@ -129,6 +129,7 @@ public:
 	int seed, game_end_value;
 	Attack normal_attack, potato_normal_attack;
 	Attack clean_attack, potato_clean_attack;
+	bool boring_rules;
 	bool any_attack();
 	bool paused;
 	Word delay_start;
@@ -177,6 +178,7 @@ public:
 	int game_end_value;
 	bool game_public;
 	bool network;
+	bool boring_rules;
 	void set_preset(Game_preset preset);
 	Game_params();
 };
