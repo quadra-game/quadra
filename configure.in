@@ -29,6 +29,7 @@ AC_CHECK_HEADER(png.h,, nolibpng=1)
 dnl Checks for typedefs, structures, and compiler characteristics.
 
 dnl Checks for library functions.
+AC_CHECK_FUNCS(basename)
 
 if test "$with_svgalib" = "yes" -a -n "$nosvgalib"; then
 	AC_MSG_ERROR(Svgalib could not be found.)
