@@ -1,4 +1,4 @@
-#! /usr/bin/perl -w
+#!perl -w
 
 use strict;
 use CGI;
@@ -18,7 +18,7 @@ $player = "" unless $player =~ /[0-9]+/;
 
 my $players;
 
-my $reader = new RecReader("/projects/quadra/stats/games/$recfile.rec", \&processEvent);
+my $reader = new RecReader("games/$recfile.rec", \&processEvent);
 if(!defined $reader) {
 	print $cgi->header('text/plain');
 	print "Can't read '$recfile.rec'\n";

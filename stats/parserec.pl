@@ -1,9 +1,10 @@
-#! /usr/bin/perl -w
+#!perl -w
 
 use strict;
 use RecReader;
 
-my $reader = new RecReader("/projects/quadra/stats/games/bob.rec", \&processEvent);
+my $game = shift;
+my $reader = new RecReader("$game", \&processEvent);
 print $reader->raw_summary if defined $reader;
 
 sub processEvent {
