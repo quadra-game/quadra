@@ -18,7 +18,7 @@
 #
 # $Id$
 
-.PHONY: clean distclean
+.PHONY: clean distclean dustclean
 
 dustclean:
 	rm -f $(wildcard $(shell find . -name 'core' -print) $(shell find . -name '*~' -print))

@@ -1,3 +1,7 @@
+2000-11-29  Pierre Phaneuf  <pp@ludusdesign.com>
+
+	* Added the "dustclean" target to the ".PHONY" target.
+
 2000-11-28  Pierre Phaneuf  <pp@ludusdesign.com>
 
 	* Added a "dustclean" target to the makefile.
