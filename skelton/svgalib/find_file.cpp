@@ -19,7 +19,9 @@
  */
 
 #include <sys/stat.h>
+#ifndef __USE_GNU
 #define __USE_GNU
+#endif
 #include <string.h>
 #include <unistd.h>
 #include <time.h>
