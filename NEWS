@@ -1,5 +1,21 @@
 $Id$
 
+Quadra 1.1.8
+
+ * New handicap system.
+
+ * Improved support for themes.
+
+ * Source code comments partially translated to english.
+
+ * Added some support for statistics.
+
+ * Still more work cleaning up the distribution.
+
+ * HTTP proxy support.
+
+ * Various bugs fixed.
+
 Quadra 1.1.7
 
  * Ongoing work to clean up the distribution.
