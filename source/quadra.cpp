@@ -2147,6 +2147,14 @@ void start_game() {
 	resmanager->loadresfile(fn);
 	snprintf(fn, sizeof(fn) - 1, "%s/quadra%i%i%i.res", dir, Config::major, Config::minor, Config::patchlevel);
 	resmanager->loadresfile(fn);
+	if(command.token("patch") || command.token("theme")) {
+		char *temp=command_get_param("patch <filename>");
+		if(temp[0] != '/' && temp[0] != '\\')
+			snprintf(fn, sizeof(fn) - 1, "%s/%s", dir, temp);
+		else
+			snprintf(fn, sizeof(fn) - 1, "%s", temp);
+		resmanager->loadresfile(fn);
+	}
 	msgbox("Reading config: ");
 	config.read();
 	msgbox("Ok\n");
