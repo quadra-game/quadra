@@ -136,7 +136,7 @@ void Url::setFull(const char* u) {
 	//    '-' or '.' to be legal in scheme names. It just wouldn't
 	//    feel right (if everybody followed standards, life would
 	//    be boring anyway)
-	sep=strchr(rest, '://');
+	sep=strstr(rest, "://");
 	if(sep) {
 		bool legalscheme=true;
 		char* p;
