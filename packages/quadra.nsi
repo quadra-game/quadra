@@ -67,6 +67,15 @@ Section "QSnoop (recommanded)" QSnoopSectionIndex
 	File "QS.dll"
 	File "QSEn.dll"
 	File "QSFr.dll"
+	IfFileExists "$INSTDIR\QSnoop.ini" ini_exists
+	FileOpen $R0 "$INSTDIR\QSnoop.ini" "w"
+	FileWrite $R0 "[General]$\n"
+	FileWrite $R0 "QuadraPath=$INSTDIR\Quadra.exe$\n"
+	FileClose $R0
+
+	ini_exists:
+	AccessControl::GrantOnFile "$INSTDIR\QSnoop.ini" "BUILTIN\USERS" "GenericWrite"
+
 	WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Run" "QSnoop" '"$INSTDIR\QSnoop.exe"'
 SectionEnd	
 
