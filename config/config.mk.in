@@ -63,8 +63,3 @@ UGS_LINUX_X11=1
 CXXFLAGS+=-DUGS_LINUX_X11
 endif
 
-# FIXME: we should be detecting this in the configure script. You can
-# comment this if you want to use the system provided basename(3)
-# function, but having it here doesn't hurt.
-CXXFLAGS+=-DNEED_BASENAME
-

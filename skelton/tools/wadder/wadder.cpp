@@ -108,7 +108,7 @@
  */
 
 #include <stdio.h>
-#ifndef NEED_BASENAME
+#ifdef HAVE_BASENAME
 #include <libgen.h>
 #endif
 #include "stringtable.h"
