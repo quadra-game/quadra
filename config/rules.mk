@@ -47,6 +47,9 @@ ifdef ($(UGS_LINUX_SVGA))
 endif
 	$(INSTALL_DATA) quadra.res $(datagamesdir)/quadra.res
 	$(INSTALL_DATA) images/quadra.xpm $(datadir)/pixmaps/quadra.xpm
+# FIXME: the Quadra.desktop file should go to these places:
+# /etc/X11/applnk/Games/Quadra.desktop
+# /usr/share/gnome/apps/Games/Quadra.desktop
 
 quadra.spec: packages/quadra.spec.in source/config.cpp
 	sed $< -e 's%@VERSION@%$(VERSION)%g' > $@
