@@ -71,7 +71,7 @@ LINK32=link.exe
 # ADD CPP /nologo /W3 /GX /Zi /Od /Ob1 /I "..\include" /I "..\skelton\include" /D "_DEBUG" /D "_CRTDBG_MAP_ALLOC" /D "WIN32" /D "UGS_DIRECTX" /Fr /YX /FD /c
 # SUBTRACT CPP /Gf
 # ADD BASE RSC /l 0xc0c /d "_DEBUG"
-# ADD RSC /l 0xc0c /d "_DEBUG"
+# ADD RSC /l 0xc0c /i "..\include" /d "_DEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
@@ -323,6 +323,10 @@ SOURCE=..\include\texte.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\include\version.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\include\zone.h
 # End Source File
 # Begin Source File
@@ -333,6 +337,10 @@ SOURCE=..\include\zone_list.h
 # Begin Group "Resource files"
 
 # PROP Default_Filter "wav;spr;raw;pcx;pcc;ico;idx;txt;rec"
+# Begin Source File
+
+SOURCE=..\images\window.ico
+# End Source File
 # Begin Source File
 
 SOURCE=.\images\window.ico

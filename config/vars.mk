@@ -29,9 +29,9 @@ ARFLAGS=rcs
 
 # FIXME: this should be the reverse, config.cpp should get values from
 # this makefile using some -D options to the compiler.
-MAJOR:=$(shell grep 'Config::major' source/config.cpp | cut -d= -f2 | bc)
-MINOR:=$(shell grep 'Config::minor' source/config.cpp | cut -d= -f2 | bc)
-PATCHLEVEL:=$(shell grep 'Config::patchlevel' source/config.cpp | cut -d= -f2 | bc)
+MAJOR:=$(shell grep 'VERSION_MAJOR' include/version.h | cut "-d= " -f3 | bc)
+MINOR:=$(shell grep 'VERSION_MINOR' include/version.h | cut "-d= " -f3 | bc)
+PATCHLEVEL:=$(shell grep 'VERSION_PATCHLEVEL' include/version.h | cut "-d= " -f3 | bc)
 VERSION:=$(MAJOR).$(MINOR).$(PATCHLEVEL)
 
 CXXFLAGS+=-DVERSION="$(VERSION)" -DVERSION_MAJOR=$(MAJOR) -DVERSION_MINOR=$(MINOR) -DVERSION_PATCHLEVEL=$(PATCHLEVEL)

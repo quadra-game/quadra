@@ -1,11 +1,12 @@
 #define WIN32_LEAN_AND_MEAN
 #include "windows.h"
+#include "version.h"
 
 WINDOW.ICO              ICON    DISCARDABLE     "..\\images\\window.ico"
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,1,7,0
- PRODUCTVERSION 1,1,7,0
+ FILEVERSION VERSION_MAJOR,VERSION_MINOR,VERSION_PATCHLEVEL,0
+ PRODUCTVERSION VERSION_MAJOR,VERSION_MINOR,VERSION_PATCHLEVEL,0
  FILEFLAGSMASK 0x3fL
  FILEFLAGS 0x0L
  FILEOS 0x40004L
@@ -19,12 +20,12 @@ BEGIN
             VALUE "Comments", "http://quadra.sourceforge.net\0"
             VALUE "CompanyName", "Ludus Design\0"
             VALUE "FileDescription", "Quadra\0"
-            VALUE "FileVersion", "1.1.7\0"
+            VALUE "FileVersion", VERSION_STRING
             VALUE "InternalName", "Quadra\0"
-            VALUE "LegalCopyright", "Copyright © 1998-2000 Ludus Design\0"
+            VALUE "LegalCopyright", "Copyright © 1998-2001 Ludus Design\0"
             VALUE "OriginalFilename", "quadra.exe\0"
             VALUE "ProductName", "Quadra\0"
-            VALUE "ProductVersion", "1.1.7\0"
+            VALUE "ProductVersion", VERSION_STRING
         END
     END
     BLOCK "VarFileInfo"

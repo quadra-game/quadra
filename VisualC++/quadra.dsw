@@ -3,7 +3,7 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
-Project: "Quadra"=.\Quadra.dsp - Package Owner=<4>
+Project: "Quadra"=".\Quadra.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -14,33 +14,33 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name Skelton
     End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "Skelton"=".\Skelton.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "wadder"=".\wadder.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
     Begin Project Dependency
-    Project_Dep_Name wadder
+    Project_Dep_Name Skelton
     End Project Dependency
-}}}
-
-###############################################################################
-
-Project: "Skelton"=.\Skelton.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "wadder"=.\wadder.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
 }}}
 
 ###############################################################################
