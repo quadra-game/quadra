@@ -176,7 +176,7 @@ void Net_list::send(Canvas *c, Byte nb, Byte nc, Byte lx, Attack attack, bool cl
 			if(multiplier && p.nc>8) //Avoid "bad" complexity counts
 				p.nc=8;
 		}
-		if(game->net_version()>=23) {
+		if(game->net_version()==23) {
 			//New handicap code: handicapees send less lines instead of
 			//  receiving more.
 			int diff=0;
@@ -187,6 +187,17 @@ void Net_list::send(Canvas *c, Byte nb, Byte nc, Byte lx, Attack attack, bool cl
 			else
 				p.nb=0;
 			p.nc=nc;
+		}
+		if(game->net_version()>=24) {
+			//Even newer handicap code
+			p.nb = nb;
+			p.nc = nc;
+			if(!clean) {
+				while(p.nb && c->handicaps[i]>=Canvas::stamp_per_handicap) {
+					p.nb--;
+					c->handicaps[i] -= Canvas::stamp_per_handicap;
+				}
+			}
 		}
 		if(p.nb) {
 			sendlines(&p);

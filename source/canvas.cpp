@@ -263,8 +263,10 @@ void Canvas::restart() {
   delete_bloc();
   set_next();
   last_attacker = 255;
-  for(int i=0; i<MAXPLAYERS; i++)
+  for(int i=0; i<MAXPLAYERS; i++) {
     attacks[i] = 0;
+		handicaps[i] = 0;
+	}
   level = game->level_start;
   lines = depth = complexity = bonus = 0;
   level_up = color_flash = 0;

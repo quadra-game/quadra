@@ -109,6 +109,9 @@ public:
 	char msg1[64], msg2[64];
 	Dword frame_start;
 	Byte attacks[MAXPLAYERS], last_attacker;
+	// stuff for latest new handicap code (version 24)
+	enum { stamp_per_handicap = 3 };
+	Byte handicaps[MAXPLAYERS];
 	Inter *inter;
 	Overmind *over;
 	Executor *myself;

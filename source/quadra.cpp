@@ -1607,6 +1607,15 @@ Player_stamp::Player_stamp(Canvas *c, Packet_stampblock *p): Player_base(c) {
 				if(!game->survivor)
 					canvas->last_attacker = 255; // on l'oublie.
 		}
+
+		Canvas* other_canvas = game->net_list.get(i);
+		if(other_canvas) {
+			int diff=0;
+			if(canvas->handicap>other_canvas->handicap)
+				diff=canvas->handicap-other_canvas->handicap;
+			if(canvas->handicaps[i] < diff*Canvas::stamp_per_handicap)
+				canvas->handicaps[i]++;
+		}
 	}
 }
 
@@ -2138,11 +2147,15 @@ void start_game() {
 	resmanager->loadresfile(fn);
 	snprintf(fn, sizeof(fn) - 1, "%s/quadra%i%i%i.res", dir, Config::major, Config::minor, Config::patchlevel);
 	resmanager->loadresfile(fn);
+	msgbox("Reading config: ");
 	config.read();
+	msgbox("Ok\n");
 	//Read script and add to command line options if applicable
 	if(command.token("exec")) {
 		char *temp=command_get_param("exec <filename>");
+		msgbox("Reading script %s: ", temp);
 		read_script(temp);
+		msgbox("Ok\n");
 	}
 	bool dedicated=command.token("dedicated");
 	if(command.token("english") || dedicated)
@@ -2160,7 +2173,9 @@ void start_game() {
 	}
 	for(i=0; i<MAXTEAMS; i++)
 		set_team_name(i, NULL);
+	msgbox("Reading stringtable: ");
 	stringtable=new Stringtable(language);
+	msgbox("Ok\n");
 
 	if(command.token("h help ?")) {
 		display_command_line_help();
@@ -2189,7 +2204,9 @@ void start_game() {
 	if(command.token("nosound")) {
 		no_sound=true;
 	}
+	msgbox("Calling init_stuff: ");
 	init_stuff(!no_sound, !no_video); //No sound when checking demos
+	msgbox("Ok\n");
 	Dword last=0;
 	Dword acc=0;
 	Executor *menu = new Executor();
