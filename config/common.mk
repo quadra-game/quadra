@@ -1,7 +1,7 @@
 # Makefile pour le Universal Game Skelton
 # $Id$
 
-.PHONY: clean niceclean deps
+.PHONY: skelton clean niceclean deps
 
 TARGETS:=
 CLEANS:=
@@ -14,7 +14,10 @@ include config/compiler.mk
 
 include $(wildcard */dir.mk)
 
-all: $(TARGETS)
+all: skelton $(TARGETS)
+
+skelton:
+	$(MAKE) -C skelton
 
 CLEANS+=$(shell find . -name '*.o' -print)
 

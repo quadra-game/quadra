@@ -7,7 +7,6 @@ This is a raw source release. Do not smoke near this package.
 
 Basic instructions:
 
- - type 'make -C skelton'
  - type 'make'
 
 There you go! There is a 'quadra' binary and a 'quadra.res' resource
