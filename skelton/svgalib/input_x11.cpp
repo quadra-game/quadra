@@ -136,40 +136,40 @@ void Input_X11::check() {
       switch(event.type) {
       case KeyPress:
       case KeyRelease:
-	process_key(event);
-	break;
+        process_key(event);
+        break;
 
       case ButtonPress:
       case ButtonRelease:
       case LeaveNotify:
       case MotionNotify:
-	process_mouse(event);
-	break;
+        process_mouse(event);
+        break;
 
       case FocusIn:
-	alt_tab = false;
-	break;
+        alt_tab = false;
+        break;
 
       case FocusOut:
-	alt_tab = true;
-	break;
+        alt_tab = true;
+        break;
 
       case ClientMessage:
-	if((Atom)event.xclient.data.l[0] == videox11->delete_win)
-	  quit_game();
-	break;
+        if((Atom)event.xclient.data.l[0] == videox11->delete_win)
+          quit_game();
+        break;
       
       case Expose:
-	if(videox11)
-	  videox11->dirty2(event.xexpose.x,
-			   event.xexpose.y,
-			   event.xexpose.x+event.xexpose.width,
-			   event.xexpose.y+event.xexpose.height);
-	break;
+        if(videox11)
+          videox11->dirty2(event.xexpose.x,
+                           event.xexpose.y,
+                           event.xexpose.x+event.xexpose.width,
+                           event.xexpose.y+event.xexpose.height);
+        break;
 
       default:
-	skelton_msgbox("Unknown XEvent (%i)\n", event.type);
-	break;
+        skelton_msgbox("Unknown XEvent (%i)\n", event.type);
+        break;
       }
   }
 }
@@ -207,30 +207,30 @@ void Input_X11::process_key(XEvent event) {
 	pause = true;
 	break;
       default:
-	quel_key = key;
+        quel_key = key;
       }
     } else {
       if(ic) {
-	num = XmbLookupString(ic, &event.xkey, buf, 20, &keysym, &status);
+        num = XmbLookupString(ic, &event.xkey, buf, 20, &keysym, &status);
       } else {
-	num = XLookupString(&event.xkey, buf, 20, &keysym, NULL);
+        num = XLookupString(&event.xkey, buf, 20, &keysym, NULL);
       }
       if(num) {
-	switch(buf[0]) {
-	case 27:
-	  quel_key = KEY_ESCAPE;
-	  break;
-	case 10:
-	case 13:
-	  quel_key = KEY_ENTER;
-	  break;
-	default:
-	  if(key_pending < MAXKEY) {
-	    key_buf[key_pending].c = buf[0];
-	    key_buf[key_pending].special = false;
-	    key_pending++;
-	  }
-	}
+        switch(buf[0]) {
+        case 27:
+          quel_key = KEY_ESCAPE;
+          break;
+        case 10:
+        case 13:
+          quel_key = KEY_ENTER;
+          break;
+        default:
+          if(key_pending < MAXKEY) {
+            key_buf[key_pending].c = buf[0];
+            key_buf[key_pending].special = false;
+            key_pending++;
+          }
+        }
       }
     }
     break;
