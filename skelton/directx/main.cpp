@@ -79,22 +79,22 @@ void end_frame() {
 char exe_directory[_MAX_DRIVE+_MAX_DIR+1];
 
 void set_path() {
-	char drive_buf[_MAX_DRIVE];
-  char dir_buf[_MAX_DIR];
-	//+3 in case they "forgot" to count the stupid double quotes
-	char temp_path[_MAX_PATH+3];
-	strcpy(temp_path, GetCommandLine()+1);
-	char *find_fin = strchr(temp_path, '"');
-	if(find_fin)
-		*find_fin = 0;
-	_splitpath(temp_path, drive_buf, dir_buf, NULL, NULL);
-	exe_directory[0] = 0;
-	strcat(exe_directory, drive_buf);
-	strcat(exe_directory, dir_buf);
-	//Remove useless ending \ or /
-	char *c=&exe_directory[strlen(exe_directory)-1];
-	if(*c=='\\' || *c=='/')
-		*c=0;
+	char tmp[_MAX_PATH];
+	if(!GetModuleFileName(NULL, tmp, sizeof(tmp))) {
+		skelton_msgbox("Error getting module filename, using current directory as exe_directory\n");
+		strcpy(exe_directory, ".");
+		return;
+	}
+	char* p = strrchr(tmp, '\\');
+	if(!p)
+		p = strrchr(tmp, '/');
+	if(!p) {
+		skelton_msgbox("Strange module filename, using current directory as exe_directory\n");
+		strcpy(exe_directory, ".");
+		return;
+	}
+	*p = 0;
+	strcpy(exe_directory, tmp);
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
