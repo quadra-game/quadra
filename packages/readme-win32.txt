@@ -28,7 +28,7 @@ You should choose to install in the same folder as your previous version. Your r
 DIRECTX
 
 You'll need to have Microsoft DirectX version 5.0 (or more) for Quadra. If you have Windows NT, you'll need to update to the latest service pack. Please visit our web site for link and info about these requirements at:
-http://www.ludusdesign.com/links.html
+http://quadra.sourceforge.net/
 
 Quadra has been succesfully tested with DirectX 7.0 and DirectX 8.0
 

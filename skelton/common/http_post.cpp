@@ -25,6 +25,7 @@
 #include "error.h"
 #include "version.h"
 #include "net.h"
+#include "../../include/version.h"
 #include "http_post.h"
 
 RCSID("$Id$")
