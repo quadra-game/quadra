@@ -52,6 +52,7 @@ Canvas::Canvas(int qplayer, int game_seed, Palette *p): rnd(game_seed) {
 	z_lines=z_potatolines=z_linestot=z_potatolinestot=NULL;
 	team_potato_lines=team_potato_linestot=0;
 	send_for_clean=false;
+	handicap_crowd=0;
 	potato_team_on_last_stamp=255;
 	potato_lines=0;
 	gone_time=0;
@@ -91,6 +92,7 @@ Canvas::Canvas(int game_seed, Byte team, const char *nam, int ph_repeat, int pv_
 	z_lines=z_potatolines=z_linestot=z_potatolinestot=NULL;
 	team_potato_lines=team_potato_linestot=0;
 	send_for_clean=false;
+	handicap_crowd=0;
 	potato_team_on_last_stamp=255;
 	potato_lines=0;
 	gone_time=0;
@@ -250,6 +252,7 @@ void Canvas::reinit() {
 		idle = 1;
 	dying = false;
 	state = PLAYING;
+	handicap_crowd=0;
 	potato_team_on_last_stamp=255;
 	send_for_clean=false;
 	should_remove_bonus=false;
@@ -274,6 +277,7 @@ void Canvas::restart() {
   idle = 1; // starts 'idle' to allow joins if the game is on pause and the player just started
 	state = PLAYING;
 	dying=false;
+	handicap_crowd=0;
 	potato_team_on_last_stamp=255;
 	send_for_clean=false;
 	should_remove_bonus=false;
@@ -524,7 +528,7 @@ void Canvas::give_line() {
   stats[SCORE].add(score_add);
   i = depth-1;
 	bool enough=(depth >= game->combo_min);
-	if(game->net_version()>=23) {
+	if(game->net_version()==23) {
 		int alive_count=0;
 		for(i=0; i<MAXPLAYERS; i++) {
 			Canvas *c=game->net_list.get(i);
@@ -537,7 +541,18 @@ void Canvas::give_line() {
 		else
 			alive_count=0;
 		i = max(0, depth-1-alive_count);
+		// this is a bug, it should have been done like net_version >= 24 (below)
+		//   but it must remain as is for network compatibility
 		enough=i? true:false;
+	}
+	if(game->net_version()>=24) {
+		if(!send_for_clean)
+			while(i && handicap_crowd >= stamp_per_handicap) {
+				handicap_crowd -= stamp_per_handicap;
+				--i;
+			}
+		if(!i)
+			enough = false;
 	}
 
 	Packet_serverlog log("player_lines_cleared");

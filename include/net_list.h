@@ -100,6 +100,7 @@ public:
 	void client_deconnect(Net_connection *nc);
 	Byte syncpoint;
 	unsigned count_teams(bool include_gone=true) const;
+	unsigned count_alive() const;
 	unsigned size(bool include_gone=true) const;
 	int add_player(Canvas *c);
 	void set_player(Canvas *c, int pos, bool msg);

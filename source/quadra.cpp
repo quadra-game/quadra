@@ -1608,6 +1608,7 @@ Player_stamp::Player_stamp(Canvas *c, Packet_stampblock *p): Player_base(c) {
 					canvas->last_attacker = 255; // on l'oublie.
 		}
 
+		// new handicap code for net_version >= 24
 		Canvas* other_canvas = game->net_list.get(i);
 		if(other_canvas) {
 			int diff=0;
@@ -1617,6 +1618,14 @@ Player_stamp::Player_stamp(Canvas *c, Packet_stampblock *p): Player_base(c) {
 				canvas->handicaps[i]++;
 		}
 	}
+
+	// adjust handicap_crowd considering crowdedness of the game (i.e. number of players alive)
+	int max_handicap_crowd = max(0, int(game->net_list.count_alive())-4);
+	max_handicap_crowd *= Canvas::stamp_per_handicap;
+	if(canvas->handicap_crowd < max_handicap_crowd)
+		++canvas->handicap_crowd;
+	else
+		canvas->handicap_crowd = max_handicap_crowd;
 }
 
 void Player_stamp::init() {

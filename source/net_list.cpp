@@ -198,6 +198,7 @@ void Net_list::send(Canvas *c, Byte nb, Byte nc, Byte lx, Attack attack, bool cl
 					c->handicaps[i] -= Canvas::stamp_per_handicap;
 				}
 			}
+			// c->handicap_crowd is handled in Canvas::give_line
 		}
 		if(p.nb) {
 			sendlines(&p);
@@ -1301,6 +1302,16 @@ unsigned Net_list::count_teams(bool include_gone) const {
 	for(i=0; i<MAXTEAMS; ++i)
 		if(team[i])
 			ret++;
+	return ret;
+}
+
+unsigned Net_list::count_alive() const {
+	unsigned ret=0;
+	for(int i=0; i<MAXPLAYERS; ++i) {
+		Canvas* c = get(i);
+		if(c && c->idle < 2)
+			++ret;
+	}
 	return ret;
 }
 

@@ -111,7 +111,8 @@ public:
 	Byte attacks[MAXPLAYERS], last_attacker;
 	// stuff for latest new handicap code (version 24)
 	enum { stamp_per_handicap = 3 };
-	Byte handicaps[MAXPLAYERS];
+	Byte handicaps[MAXPLAYERS]; // stamp counter vis-a-vis other players
+	Byte handicap_crowd; // similar counter but for the crowdedness factor
 	Inter *inter;
 	Overmind *over;
 	Executor *myself;
