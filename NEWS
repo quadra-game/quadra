@@ -1,5 +1,12 @@
 $Id$
 
+Quadra 1.1.7
+
+ * Registration code now completely removed.
+
+ * All image resources have been converted to PNG format (the disk
+   space requirements of Quadra have been cut in half!).
+
 Quadra 1.1.6
 
  * Version numbering will now be of the "major.minor.patchlevel"
@@ -21,6 +28,7 @@ Quadra 1.1.6
  * Improved README file.
 
 Quadra 1.1.5
+
  * Fixed portability problems to Win32.
 
  * 'skelton' is now built automatically.
@@ -37,5 +45,6 @@ Quadra 1.1.5
     - Simon Cahuk <simon.cahuk@uni-mb.si>
 
 Quadra 1.1.4
+
  * First open source version.
 
