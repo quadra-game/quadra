@@ -2387,7 +2387,7 @@ void start_game() {
 				try {
 					overmind.step();
 				}
-				catch(exception *e) {
+				catch(std::exception *e) {
 					msgbox("Exception caught from overmind.step(): %s\n", e->what());
 				}
 				#ifdef PAINTDETECTOR2000
@@ -2406,7 +2406,7 @@ void start_game() {
 			try {
 				ecran->draw_zone();
 			}
-			catch(exception *e) {
+			catch(std::exception *e) {
 				msgbox("Exception caught from ecran->draw_zone(): %s\n", e->what());
 			}
 

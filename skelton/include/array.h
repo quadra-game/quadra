@@ -37,7 +37,7 @@ public:
 		v.push_back(t);
 	}
 	void add_before(const T& t, int i) {
-		v.insert(&v[i], t);
+		v.insert(v.begin() + i, t);
 	}
 	bool remove_item(const T& t) {
 		for(int i=0; i<size(); i++)
@@ -51,7 +51,7 @@ public:
 		v.pop_back();
 	}
 	void remove(int i) {
-		v.erase(&v[i]);
+		v.erase(v.begin() + i);
 	}
 	int size() const {
 		return v.size();
