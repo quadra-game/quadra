@@ -1,3 +1,7 @@
+2001-03-12  Pierre Phaneuf  <pp@ludusdesign.com>
+
+	* Fixed crashing bug.
+
 2001-03-06  Pierre Phaneuf  <pp@ludusdesign.com>
 
 	* Added the Host: header to the HTTP POST request.

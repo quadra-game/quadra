@@ -96,8 +96,11 @@ void set_team_name(Byte team, const char *name) {
 		da_name=english_teams[team];
 	Packet_serverlog log("team_name");
 	log.add(Packet_serverlog::Var("name", da_name));
-	if(game->net_server)
-		game->net_server->record_packet(&log);
+
+  if(game)
+    if(game->net_server)
+      game->net_server->record_packet(&log);
+
 	log_step(log);
 }
 
