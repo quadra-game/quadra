@@ -229,7 +229,7 @@ void Menu_highscore::start_sync() {
   sync_request = new Qserv();
   if(Highscores::numLocal>=1) {
     char st[1024];
-    Highscores::getFilename(st, 0);
+    Highscores::getFilename(st, 0, sizeof(st));
     demofile=new Res_dos(st, RES_TRY);
     if(!demofile->exist) {
       delete demofile;
@@ -299,7 +299,7 @@ void Menu_highscore::step_sync() {
       const char* rec=d->find("rec");
       if(rec) {
         char fn[1024];
-        Highscores::getGlobalFilename(fn, i);
+        Highscores::getGlobalFilename(fn, i, sizeof(fn));
         Res_dos res(fn, RES_CREATE);
         if(res.exist) {
           Buf out;
@@ -307,7 +307,7 @@ void Menu_highscore::step_sync() {
           Http_request::base64decode(rec, out, strlen(rec));
           msgbox("Menu_highscore::step_sync: decoded size=%i\n", out.size());
           res.write(out.get(), out.size());
-        }
+				}
       }
     }
   }
@@ -349,11 +349,11 @@ void Menu_highscore::step() {
       }
       for(int i=0; i<MAX_SCORE; i++) {
         if(result == playdemo[i]) {
-          Highscores::getFilename(st, i);
+          Highscores::getFilename(st, i, sizeof(st));
           play_demo(st);
         }
         if(result == playdemog[i]) {
-          Highscores::getGlobalFilename(st, i);
+          Highscores::getGlobalFilename(st, i, sizeof(st));
           play_demo(st);
         }
       }

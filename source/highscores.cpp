@@ -33,12 +33,12 @@ Highscores::Best Highscores::bestlocal[MAX_SCORE];
 Highscores::Best Highscores::bestglobal[MAX_SCORE];
 bool Highscores::loaded = false;
 
-void Highscores::getFilename(char* st, int i) {
-	snprintf(st, sizeof(st) - 1, "%s/local%i.rec", quadradir, i);
+void Highscores::getFilename(char* st, int i, int size_of) {
+	snprintf(st, size_of - 1, "%s/local%i.rec", quadradir, i);
 }
 
-void Highscores::getGlobalFilename(char* st, int i) {
-	snprintf(st, sizeof(st) - 1, "%s/global%i.rec", quadradir, i);
+void Highscores::getGlobalFilename(char* st, int i, int size_of) {
+	snprintf(st, size_of - 1, "%s/global%i.rec", quadradir, i);
 }
 
 void Highscores::load() {
@@ -50,7 +50,7 @@ void Highscores::load() {
 	int i;
 	numLocal=0;
 	for(i=0; i<MAX_SCORE; i++) {
-		getFilename(st, i);
+		getFilename(st, i, sizeof(st));
 		Res_compress* res=new Res_compress(st, RES_TRY);
 		bestlocal[i].demo = NULL;
 		if(res->exist) {
@@ -67,7 +67,7 @@ void Highscores::load() {
 			bestlocal[numLocal].demo = tmp;
 			delete res; //  must delete to allow rename (Win95)
 			if(numLocal!=i) {
-				getFilename(st2, numLocal);
+				getFilename(st2, numLocal, sizeof(st2));
 				if(rename(st, st2))
 					msgbox("Warning: Highscore: could not rename '%s' to '%s'\n", st, st2);
 			}
@@ -78,7 +78,7 @@ void Highscores::load() {
 	}
 	numGlobal=0;
 	for(i=0; i<MAX_SCORE; i++) {
-		getGlobalFilename(st, i);
+		getGlobalFilename(st, i, sizeof(st));
 		Res_compress* res=new Res_compress(st, RES_TRY);
 		bestglobal[i].demo = NULL;
 		if(res->exist) {
@@ -95,7 +95,7 @@ void Highscores::load() {
 			bestglobal[numGlobal].demo = tmp;
 			delete res; //  must delete to allow rename (Win95)
 			if(numGlobal!=i) {
-				getGlobalFilename(st2, numGlobal);
+				getGlobalFilename(st2, numGlobal, sizeof(st2));
 				if(rename(st, st2))
 					msgbox("Warning: Highscore: could not rename '%s' to '%s'\n", st, st2);
 			}
@@ -151,10 +151,10 @@ int Highscores::update(Canvas *c) {
 				delete bestlocal[j].demo;
 			bestlocal[j].demo = bestlocal[j-1].demo;
 			bestlocal[j-1].demo = NULL;
-			getFilename(st, j);
+			getFilename(st, j, sizeof(st));
 			if(remove(st) != 0)
 				msgbox("Warning: Highscore: could not delete '%s'\n", st);
-			getFilename(st2, j-1);
+			getFilename(st2, j-1, sizeof(st2));
 			if(rename(st2, st) != 0)
 				msgbox("Warning: Highscore: could not rename '%s' to '%s'\n", st2, st);
 		}
@@ -164,7 +164,7 @@ int Highscores::update(Canvas *c) {
 			Res_compress res(st2, RES_TRY);
 			demo=new Playback(&res);
 		}
-		getFilename(st, ret);
+		getFilename(st, ret, sizeof(st));
 		if(remove(st) == 0)
 			msgbox("Warning: Highscore: '%s' is in the way! Deleting it.\n", st);
 		if(rename(st2, st) != 0)
