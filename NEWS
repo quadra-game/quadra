@@ -2,17 +2,39 @@ $Id$
 
 Quadra 1.1.9
 
-Fixed some byte ordering and alignment issues (for SPARC port), fixed a
-few valgrind warnings (many left, don't worry!), fixed the "crash on
-level change" bug (also known as the sound crash), fixed the trails in
-X11 (I think!) and fixed some warnings in gcc 3.2 (again, many left!).
-    - Damian XXX <FIXME@uwaterloo.ca>
+ * Added a fullscreen mode to the X11 driver, which is now the
+   default. Use "-nofullscreen" if it gives you problems.
 
- * Use the new Quadra master server at SourceForge.
+ * Fixed the "crash on level change" (also known as the sound crash)
+   on Linux.
+    - Damian M Gryski <dgryski@uwaterloo.ca>
+
+ * Fixed the "trails" in X11.
+    - Damian M Gryski <dgryski@uwaterloo.ca>
+
+ * Added a "-nocd" option to avoid using the CD music.
+
+ * Fixed the bad appicon behavior with Window Maker.
 
  * Fixed high CPU usage on recent Linux systems.
 
+ * Use the new Quadra master server at SourceForge.
+
  * Added a User-Agent to Quadra's HTTP client code.
+
+ * Fixed some compilation problems related to "basename".
+
+ * Fixed many bugs related to the SPARC port.
+    - Damian M Gryski <dgryski@uwaterloo.ca>
+
+ * Fixed some compilation warnings for GCC 3.x.
+    - Damian M Gryski <dgryski@uwaterloo.ca>
+    - Hunor "Kacsa" Csordás <hunor@fazekas.hu>
+
+ * Fixed some Valgrind warnings.
+    - Damian M Gryski <dgryski@uwaterloo.ca>
+
+ * Various bugs fixed.
 
 Quadra 1.1.8
 
