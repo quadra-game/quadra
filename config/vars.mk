@@ -19,7 +19,7 @@
 # $Id$
 
 CLEAN+=config/depends.mk
-DISTCLEAN+=config/config.mk
+DISTCLEAN+=config/config.mk ChangeLog.bak
 
 TARGETS+=Quadra.desktop
 
