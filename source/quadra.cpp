@@ -862,7 +862,7 @@ void Player_process_key::keyboard_control() {
 		move_down();
 		canvas->unrelease_key(3);
 	}
-	if(canvas->check_key(6) & PRESSED || canvas->check_key(6) & RELEASED) {
+	if(canvas->check_key(6) & PRESSED) {
 		drop_down();
 		canvas->clear_key(6);
 	}
