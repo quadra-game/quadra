@@ -31,27 +31,14 @@ public:
 	Dword from_addr;
 	Byte buf[NETBUF_SIZE];
 	void write_dword(Dword v) {
-#if BIG_ENDIAN
-           *point++ = (v >> 24) & 0xff;
-           *point++ = (v >> 16) & 0xff;
-           *point++ = (v >> 8)  & 0xff;
-           *point++ = v & 0xff;
-#else
-           *point++ = v & 0xff; v >>= 8;
-           *point++ = v & 0xff; v >>= 8;
-           *point++ = v & 0xff; v >>= 8;
-           *point++ = v & 0xff;
-#endif
+    *point++ = (v >> 24) & 0xff;
+    *point++ = (v >> 16) & 0xff;
+    *point++ = (v >> 8)  & 0xff;
+    *point++ = v & 0xff;
 	}
 	void write_word(Word v) {
-#if BIG_ENDIAN
-           *point++ = (v >> 8)  & 0xff;
-           *point++ = v & 0xff;
-#else
-           *point++ = v & 0xff; v >>= 8;
-           *point++ = v & 0xff;
-#endif
-
+    *point++ = (v >> 8)  & 0xff;
+    *point++ = v & 0xff;
 	}
 	void write_byte(Byte v) {
 		*(Byte *) point = v;
@@ -69,35 +56,21 @@ public:
 	}
 	Dword read_dword() {
 		if(((unsigned int)len())<=NETBUF_SIZE-sizeof(Dword)) {
-                   Dword ret;
-#if BIG_ENDIAN
-                   ret = *point << 24; point++;
-                   ret |= *point << 16; point++;
-                   ret |= *point << 8; point++;
-                   ret |= *point; point++;
-#else
-                   ret = point[3] << 24;
-                   ret |= point[2] << 16;
-                   ret |= point[1] << 8;
-                   ret |= point[0];
-                   point+=4;
-#endif
-			return ret;
+      Dword ret;
+      ret = *point << 24; point++;
+      ret |= *point << 16; point++;
+      ret |= *point << 8; point++;
+      ret |= *point; point++;
+      return ret;
 		}
 		else
 			return 0;
 	}
 	Word read_word() {
 		if(((unsigned int)len())<=NETBUF_SIZE-sizeof(Word)) {
-                   Dword ret;
-#if BIG_ENDIAN
-                   ret = *point << 8; point++;
-                   ret |= *point; point++;
-#else
-                   ret = point[1] << 8;
-                   ret |= point[0];
-                   point+=2;
-#endif
+      Dword ret;
+      ret = *point << 8; point++;
+      ret |= *point; point++;
 			return ret;
 		}
 		else
