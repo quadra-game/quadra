@@ -46,7 +46,7 @@ install: installdirs $(TARGETS)
 	$(INSTALL_DATA) quadra.res $(prefix)/lib/games/quadra.res
 
 quadra.spec: packages/quadra.spec.in source/config.cpp
-	sed $^ -e 's/@VERSION@/$(VERSION)/g' > $@
+	sed $< -e 's/@VERSION@/$(VERSION)/g' > $@
 
 configure: configure.in
 	autoconf
