@@ -1,5 +1,6 @@
 Quadra version 1.1.8 for Windows
-Copyright (c) 1998-2000 Ludus Design inc. All rights reserved.
+Copyright (c) 1998-2001 Ludus Design Inc.
+All rights reserved.
 
 THANK YOU for downloading Quadra. This document contains installing information
 and references to our support for Quadra.
