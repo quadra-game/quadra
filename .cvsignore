@@ -2,6 +2,7 @@
 *.res
 output.txt
 *.rec
+*.qrec
 quadra
 quadra.res
 quadra.spec
