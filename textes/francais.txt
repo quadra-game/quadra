@@ -566,8 +566,8 @@ Vous recevez la
        patate chaude!
 Vous vous débarrassez
     de la patate chaude!
-ngStats log:
-ngWorldStats log:
+
+
 gdesc_fr.txt
 Aveugle
 En attente pour la
@@ -576,8 +576,8 @@ Appuyez sur une
  touche pour repartir.
 %s gagne la manche!
 Personne ne
-·2 Impossible de tracer sous le nom '%s'
-·2 Trace de la partie dans '%s'
+·2 Impossible de tracer
+·2 Trace de la partie
 Points par min.
 Blocks par min.
 Tourne double...

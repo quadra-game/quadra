@@ -126,25 +126,6 @@ Create_game::Create_game(Bitmap *bit, Font *font, Font *font2, const Palette& p,
 	z_record_name = NULL;
 	y+=inc;
 
-	slog = 0;
-	if(!Config::xtreme) {
-		(void)new Zone_text(fteam[7], inter, ST_SLOG, 20, y);
-		temp = new Zone_state_text2(inter, &slog, 20+z->w+10, y);
-		temp->add_string(ST_NO);
-		temp->add_string(ST_YES);
-		slog_watch = temp;
-		slog_watch->add_watch(this);
-		slog_zone = temp;
-		z_slog_name = NULL;
-		strcpy(slog_name, Clock::absolute_time());
-		z_slog_name = NULL;
-		y+=inc;
-	}
-	else {
-		slog_watch = NULL;
-		slog_zone = NULL;
-	}
-
 	save = new Zone_text_button2(inter, bit, font2, ST_SAVESETTING, 20, 450);
 	start = new Zone_text_button2(inter, bit, font2, ST_STARTGAME, 400, 450);
 	cancel = new Zone_text_button2(inter, bit, font2, ST_BACK, 560, 450);
@@ -159,8 +140,6 @@ Create_game::~Create_game() {
 		game_type->remove_watch(this);
 	if(record_watch)
 		record_watch->remove_watch(this);
-	if(slog_watch)
-		slog_watch->remove_watch(this);
 	if(game_descriptions)
 		delete game_descriptions;
 }
@@ -241,16 +220,6 @@ void Create_game::notify() {
 		else 
 			z_record_name = NULL;
 	}
-	if(slog_watch) {
-		if(z_slog_name)
-			delete z_slog_name;
-		if(slog == 1) {
-			int x=slog_zone->x+slog_zone->w+10;
-			z_slog_name = new Zone_text_input(inter, pal, slog_name, 32, x, slog_zone->y, 220);
-		}
-		else 
-			z_slog_name = NULL;
-	}
 }
 
 void Create_game::step() {
@@ -283,10 +252,10 @@ void Create_game::step() {
 		p.game_public=publi;
 		p.network=net_game;
 		(void)new Game(&p);
-		if(record_game == 1)
+		if(record_game == 1) {
 			game->prepare_recording(record_name);
-		if(slog==1)
-			game->prepare_logging(slog_name);
+			game->prepare_logging();
+		}
 		call(new Create_game_start(pal, bit_, inter->font));
 	}
 	if(result==save)

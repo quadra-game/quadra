@@ -400,7 +400,6 @@ void Canvas::add_packet(Canvas *sender, Byte nb, Byte nc, Byte lx, Attack attack
 	log.add(Packet_serverlog::Var("size", attack.type==ATTACK_FULLBLIND? nb*nc:nb));
 	if(game->net_server)
 		game->net_server->record_packet(&log);
-	log_step(log);
 
 	//Nothing further to do if attack is none.
 	if(attack.type==ATTACK_NONE)
@@ -498,7 +497,6 @@ void Canvas::give_line() {
 		log.add(Packet_serverlog::Var("snapshot", snapshot));
 		if(game->net_server)
 			game->net_server->record_packet(&log);
-		log_step(log);
 	}
   switch(depth) {
     case 1: score_add = 250; break;
@@ -549,7 +547,6 @@ void Canvas::give_line() {
 	log.add(Packet_serverlog::Var("points", score_add));
 	if(game->net_server)
 		game->net_server->record_packet(&log);
-	log_step(log);
 
 	Attack clean_att, normal_att;
 	normal_att=game->normal_attack;

@@ -100,8 +100,6 @@ void set_team_name(Byte team, const char *name) {
   if(game)
     if(game->net_server)
       game->net_server->record_packet(&log);
-
-	log_step(log);
 }
 
 bool quitting=false;

@@ -251,7 +251,6 @@ void Quadra_param::client_connect(Net_connection *adr) {
 	log.add(Packet_serverlog::Var("address", st));
 	if(game && game->net_server)
 		game->net_server->record_packet(&log);
-	log_step(log);
 	sprintf(st1, ST_CONNECTFROMBOB, st);
 	message(-1, st1, true, false, true);
 }
@@ -269,7 +268,6 @@ void Quadra_param::client_deconnect(Net_connection *adr) {
 	log.add(Packet_serverlog::Var("id", adr->id()));
 	if(game && game->net_server)
 		game->net_server->record_packet(&log);
-	log_step(log);
 
 	sprintf(st1, ST_DISCONNECTFROMBOB, st);
 	message(-1, st1, true, false, true);

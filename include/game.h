@@ -144,7 +144,7 @@ public:
 	bool gameinfo_completed() const;
 	void endgame();
 	void prepare_recording(const char *fn);
-	void prepare_logging(const char *filename);
+	void prepare_logging();
 	int get_multi_level();
 	void set_seed(Packet_serverrandom *p);
 	char *get_motd();

@@ -566,8 +566,8 @@ You get the
       hot potato!
 You got rid of
     the hot potato!
-ngStats log:
-ngWorldStats log:
+
+
 gdesc_en.txt
 Blind
 Waiting for the
@@ -576,8 +576,8 @@ Press a key to
         restart.
 %s wins the round!
 Nobody
-·2 Unable to log game '%s'
-·2 Logging game as '%s'
+·2 Unable to log game
+·2 Logging game
 Points per min.
 Blocks per min.
 Rotate twice...

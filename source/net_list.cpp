@@ -679,7 +679,6 @@ void Net_list::check_end_game(bool end_it) {
 		log.add(Packet_serverlog::Var("winning_team", team));
 		if(game->net_server)
 			game->net_server->record_packet(&log);
-		log_step(log);
 /*		for(int i=0; i<MAXPLAYERS; i++) {
 			Canvas *c=get(i);
 			if(c) {
@@ -714,7 +713,6 @@ void Net_list::check_end_game(bool end_it) {
 		log.add(Packet_serverlog::Var("reason", reason));
 		if(game->net_server)
 			game->net_server->record_packet(&log);
-		log_step(log);
 	}
 }
 
@@ -844,7 +842,6 @@ bool Net_list::check_first_frag() {
 				Packet_serverlog log("round_start");
 				if(game->net_server)
 					game->net_server->record_packet(&log);
-				log_step(log);
 			}
 		}
 		else {
@@ -863,7 +860,6 @@ bool Net_list::check_first_frag() {
 					log.add(Packet_serverlog::Var("surviving_team", log_team(alive_team)));
 					if(game->net_server)
 						game->net_server->record_packet(&log);
-					log_step(log);
 				}
 				game->valid_frag=false;
 			}
@@ -1209,7 +1205,6 @@ void Net_list::drop_player(Packet_dropplayer *p, bool chat) {
 	log.add(Packet_serverlog::Var("reason", reason));
 	if(game->net_server)
 		game->net_server->record_packet(&log);
-	log_step(log);
 	/*
 	Can't do this crap: see comment in rejoin_player below.
 
@@ -1396,7 +1391,6 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 		log.add(Packet_serverlog::Var("address", st));
 		if(game->net_server)
 			game->net_server->record_packet(&log);
-		log_step(log);
 		message(-1, st, true, false, false, nc);
 		return;
 	}

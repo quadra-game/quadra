@@ -371,7 +371,7 @@ void Single_player_iterate::init() {
 		char fn[1024];
 		snprintf(fn, sizeof(fn) - 1, "%s/last.rec", quadradir);
 		game->prepare_recording(fn);
-		game->prepare_logging(Clock::absolute_time());
+		game->prepare_logging();
 	}
 	call(new Multi_player(&hscore));
 }

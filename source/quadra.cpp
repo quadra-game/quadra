@@ -1149,7 +1149,6 @@ Player_dead::Player_dead(Canvas *c, bool tg): Player_base(c), then_gone(tg) {
 	log.add(Packet_serverlog::Var("type", death_type));
 	if(game && game->net_server)
 		game->net_server->record_packet(&log);
-	log_step(log);
 	i = 11;
 	j = 4;
 	Player_dead::c = 0;
@@ -1264,7 +1263,6 @@ void Player_dead_wait::step() {
 		log.add(Packet_serverlog::Var("id", canvas->id()));
 		if(game && game->net_server)
 			game->net_server->record_packet(&log);
-		log_step(log);
 	}
 	else {
 		if(canvas->bonus && !canvas->bon[0].blind_time && add_bonus)
@@ -1314,7 +1312,6 @@ Player_first_frag::Player_first_frag(Canvas *c): Player_base(c) {
 	log.add(Packet_serverlog::Var("id", canvas->id()));
 	if(game && game->net_server)
 		game->net_server->record_packet(&log);
-	log_step(log);
 }
 
 void Player_first_frag::step() {
@@ -1374,7 +1371,6 @@ Player_gone::Player_gone(Canvas *c, bool chat_msg): Player_base(c) {
 	log.add(Packet_serverlog::Var("id", canvas->id()));
 	if(game && game->net_server)
 		game->net_server->record_packet(&log);
-	log_step(log);
 }
 
 void Player_gone::step() {
@@ -1596,7 +1592,6 @@ Player_stamp::Player_stamp(Canvas *c, Packet_stampblock *p): Player_base(c) {
 	log.add(Packet_serverlog::Var("points", p->score));
 	if(game && game->net_server)
 		game->net_server->record_packet(&log);
-	log_step(log);
 
 	canvas->watch_date = p->date;
 	stamp_bloc();
@@ -1714,7 +1709,6 @@ void Player_wait_respawn::step() {
 		log.add(Packet_serverlog::Var("id", canvas->id()));
 		if(game && game->net_server)
 			game->net_server->record_packet(&log);
-		log_step(log);
 	} else {
 		if(canvas->bonus && !canvas->bon[0].blind_time && add_bonus)
 			call(new Player_add_bonus(canvas));
@@ -2320,10 +2314,7 @@ void start_game() {
 			if(command.token("record")) {
 				char *temp = command_get_param("record <filename>", Clock::absolute_time());
 				game->prepare_recording(temp);
-			}
-			if(command.token("slog")) {
-				char *temp = command_get_param("slog <filename>", Clock::absolute_time());
-				game->prepare_logging(temp);
+				game->prepare_logging();
 			}
 		}
 		else {

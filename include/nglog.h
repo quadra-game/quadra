@@ -21,25 +21,6 @@
 #ifndef _HEADER_NGLOG
 #define _HEADER_NGLOG
 
-#include "res.h"
-
-class Packet_serverlog;
-
-class Log {
-	Res_dos *file;
-	char filename[1024];
-public:
-	bool exist;
-	Log(const char *fname);
-	virtual ~Log();
-	void log_event(const char *st);
-};
-
-bool log_init(const char *filename);
-void log_step(const Packet_serverlog& packet);
-void log_step(const char *st, ...);
-void log_finalize(char *salt);
-
 char *log_team(int t);
 char *log_handicap(int h);
 

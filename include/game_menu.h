@@ -31,13 +31,13 @@ class Create_game: public Menu, public Notifyable {
 	static int game_end_y;
 	Bitmap *bit_;
 	Zone *start, *cancel, *save;
-	Zone *z_record_name, *z_slog_name;
-	char name[32], record_name[32], slog_name[32];
+	Zone *z_record_name;
+	char name[32], record_name[32];
 	Observable *game_type, *game_end_watch;
-	Observable *record_watch, *slog_watch;
-	Zone *record_zone, *slog_zone;
+	Observable *record_watch;
+	Zone *record_zone;
 	int selected, level_up, game_end, game_end_value, game_public;
-	int record_game, slog;
+	int record_game;
 	Zone_text *game_end_text;
 	Zone_text *game_desc[10];
 	Stringtable *game_descriptions;
