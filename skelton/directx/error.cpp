@@ -57,15 +57,7 @@ void COPPER(int a, int b, int c) {
 }
 #endif
 
-void output_msg(char *m) {
-	static Res_dos* out=NULL;
-	if(!out) {
-		out = new Res_dos("output.txt", RES_CREATE);
-		if(out && !out->exist) {
-			delete out;
-			out=NULL;
-		}
-	}
+static void output_msg(char *m) {
 	OutputDebugString(m);
 	int siz=strlen(m);
 	if(m[siz-1] ==10) {
@@ -73,8 +65,9 @@ void output_msg(char *m) {
 		m[siz] = 10;
 		siz++;
 	}
-	if(out && out->exist) // pour pas planter si la creation de 'output.txt' a pas marcher!
-		out->write(m, siz);
+	static Res_dos out("output.txt", RES_CREATE);
+	if(out.exist) // pour pas planter si la creation de 'output.txt' a pas marcher!
+		out.write(m, siz);
 }
 
 void lock_msgbox(const char* m, ...) {
