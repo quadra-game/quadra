@@ -1,5 +1,7 @@
 2000-11-29  Pierre Phaneuf  <pp@ludusdesign.com>
 
+	* Removed unused .cvsentries stuff.
+
 	* Modified the RPM package spec to put quadra-svga.so in a
 	separate quadra-svga package, so that the main quadra package is
 	not dependent on Svgalib.
