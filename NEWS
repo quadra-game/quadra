@@ -1,9 +1,19 @@
 $Id$
 
-Quadra 1.1.9
+Quadra 1.2.0
 
  * Added a fullscreen mode to the X11 driver, which is now the
    default. Use "-nofullscreen" if it gives you problems.
+
+ * Added a "-boringrules" option to disable the reduction in attack
+   strength normally applied in crowded games. This should remove any
+   need to run older version of Quadra for rule purposes.
+
+ * Added a "-connectfile" option to read from a specified file a
+   server address to connect to.
+
+ * Refresh the list of Internet games when returning from creating or
+   joining a game.
 
  * Fixed the "crash on level change" (also known as the sound crash)
    on Linux.
@@ -13,6 +23,9 @@ Quadra 1.1.9
     - Damian M Gryski <dgryski@uwaterloo.ca>
 
  * Added a "-nocd" option to avoid using the CD music.
+
+ * Fixed a bug where exiting Quadra with the "No Music" option
+   selected would stop the CD player if it was running (Linux only).
 
  * Fixed the bad appicon behavior with Window Maker.
 
