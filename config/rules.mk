@@ -62,6 +62,7 @@ configure: configure.in
 
 .PHONY: manual-dist-stuff
 manual-dist-stuff:
+	@echo "remember to regenerate the ChangeLog file."
 	@echo "remember to edit the version number in the following files:"
 	@echo "packages/readme-win32.txt"
 
