@@ -108,9 +108,6 @@
  */
 
 #include <stdio.h>
-#ifdef HAVE_BASENAME
-#include <libgen.h>
-#endif
 #include "stringtable.h"
 #include "res.h"
 
@@ -119,27 +116,21 @@ RCSID("$Id$")
 char *usage = "usage: wadder <working directory> <output res> <input text>\n";
 Resfile *wad;
 
-#ifndef HAVE_BASENAME
 const char *basename(const char* f) {
 	const char* p=(const char*)(f+strlen(f));
 	while(*p != '/' && *p != '\\' && p>=f)
 		p--;
 	return p+1;
 }
-#endif
 
 void addfile(const char* fname) {
 	Res_dos *res;
-	int resnamelen;
 	char *data;
 
 	printf("%s: ", fname);
-
 	res = new Res_dos(fname, RES_TRY);
 	data = new char[res->size()];
 	res->read(data, res->size());
-
-	resnamelen = strlen(basename(fname))+1;
 
 	wad->add(basename(fname), res->size(), data);
 
