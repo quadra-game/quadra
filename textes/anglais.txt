@@ -31,32 +31,32 @@ In fact, you played for %i hours and %i minutes!
 In fact, you played for %i minutes %i seconds.
 You spent about %i seconds checking it.
 Was it enjoyable?  Was it incredibly fun?
-Then, why not invest a couple of bucks and register?
-You can go directly to our web site at this address:
-http://www.ludusdesign.com
-Or send us 10$ by mail at this address:
-207, l'Heureux
-McMasterville (QC) Canada
-J3G 5G2
-And only then you shall be happy for the rest of your life.
-(It will also disable that nag screen...)
+
+
+
+
+
+
+
+
+
 Feel free to distribute Quadra to everyone you can!
 
 We even got a %s version, networkable with yours!
 So watch out for Ludus Design products, and remember:
 We do great stuff for you!
-Thanks for registering Quadra!
-It is your way of encouraging us
-supporting and developing new projects!
-Current user name registration:
+Thanks for downloading Quadra!
 
 
 
 
 
-If you have problems installing or playing, please e-mail us
-at this address:
-support@ludusdesign.com
+
+
+
+
+
+
 
 
 The Quadra team:
@@ -70,7 +70,7 @@ Click on 'Back ·0' to return to main menu
 Quadra(tm) by Ludus Design
 Using Universal Game Skelton(tm)
 UNREGISTERED VERSION. Please register if you like this game!
-REGISTERED VERSION. Thank you!
+Free version released under the GNU Lesser General Public License
 Version number: %i
 Warning: Failed to initialise sound system
 No configuration file found. Using defaults.

@@ -31,32 +31,32 @@ En fait, vous avez joué pendant %i heures et %i minutes!
 En fait, vous avez joué pendant %i minutes %i secondes.
 Vous avez seulement passé %i secondes à l'essayer.
 Est-ce que c'était intéressant? Ou même fabuleux?
-Si oui, alors pourquoi ne pas y investir quelques sous!
-Vous pourrez procéder à l'enregistrement via notre site Web à l'adresse:
-http://www.ludusdesign.com
-Ou si vous préférez, envoyez-nous 10$ par la poste à l'adresse:
-207, l'Heureux
-McMasterville (QC) Canada
-J3G 5G2
-Et alors, vous deviendrez heureux pour le reste de votre vie.
-(ça désactivera aussi le message au début du jeu...)
+
+
+
+
+
+
+
+
+
 N'oubliez pas de copier ce jeu à tout le monde!
 
 Nous avons également une version %s compatible avec la vôtre!
 Alors tenez-vous à l'affût des jeux de Ludus Design, et rappelez-vous:
 On fait des jeux hots, pour vous!
-Merci d'avoir enregistré Quadra!
-Vous nous encouragez ainsi à continuer d'améliorer et
-à développer d'autres projets dans l'avenir!
-L'enregistrement est au nom de:
+Merci d'avoir téléchargé Quadra!
 
 
 
 
 
-Si vous avez des problèmes d'utilisation ou des questions, écrivez-nous
-à cette adresse:
-support@ludusdesign.com
+
+
+
+
+
+
 
 
 L'équipe de Quadra:
@@ -70,7 +70,7 @@ Cliquez sur 'Retour ·0' pour revenir au menu principal
 Quadra(mc)  Ludus Design
 Utilise le "Universal Game Skelton(mc)"
 VERSION NON ENREGISTRÉE. S.V.P. enregistrez si vous aimez ce jeu!
-VERSION ENREGISTRÉE. Merci!
+Version gratuite: distribuée sous les termes de la GNU LGPL
 Version numéro: %i
 Avertissement: Impossible d'initialiser la carte de son
 Fichier de configuration inexistant. Il sera créé.
