@@ -1,4 +1,3 @@
-
 Quadra Source Release
 ---------------------
 $Id$
@@ -20,12 +19,12 @@ Basic instructions:
  - type 'make'
 
 There you go! There is a 'quadra' binary, a 'quadra-svga.so' driver and
-a 'quadra.res' resource file in the quadra/source directory. If not,
+a 'quadra.res' resource file in the top-level directory. If not,
 then something went wrong. :-)
 
 You can run this with the following command (in bash):
 
-QUADRADIR=source source/quadra
+QUADRADIR=. ./quadra
 
 Good luck!
 

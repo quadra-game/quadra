@@ -13,6 +13,9 @@ output.txt
 Debug
 Release
 qsnoop
+quadra
+quadra.res
+quadra-svga.so
 quadra-*
 configure
 config.log
