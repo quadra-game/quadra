@@ -943,6 +943,12 @@ Packet_serverlog::Var::Var(const char* n, unsigned i) {
 	sprintf(value, "%u", i);
 }
 
+Packet_serverlog::Var::Var(const char* n, int i) {
+	strncpy(name, n, sizeof(name));
+	name[sizeof(name)-1]=0;
+	sprintf(value, "%i", i);
+}
+
 Packet_serverlog::Var::Var(const char* n, float f) {
 	strncpy(name, n, sizeof(name));
 	name[sizeof(name)-1]=0;
@@ -983,4 +989,9 @@ bool Packet_serverlog::read(Net_buf* p) {
 		vars.add(v);
 	}
 	return true;
+}
+
+void Packet_serverlog::add(const Var& var)
+{
+	vars.add(var);
 }

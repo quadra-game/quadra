@@ -63,6 +63,7 @@
 #include "unicode.h"
 #include "nglog.h"
 #include "clock.h"
+#include "net_server.h"
 #include "quadra.h"
 
 RCSID("$Id$")
@@ -1143,8 +1144,12 @@ Player_dead::Player_dead(Canvas *c, bool tg): Player_base(c), then_gone(tg) {
 		canvas->stats[CS::SUICIDES].add(1);
 	}
 	Packet_serverlog log("player_dead");
-
-	log_step("player_dead\t%u\t%u\t%s", canvas->id(), fragger? fragger->id():0, death_type);
+	log.add(Packet_serverlog::Var("id", canvas->id()));
+	log.add(Packet_serverlog::Var("fragger_id", fragger? fragger->id():0));
+	log.add(Packet_serverlog::Var("type", death_type));
+	if(game && game->net_server)
+		game->net_server->record_packet(&log);
+	log_step(log);
 	i = 11;
 	j = 4;
 	Player_dead::c = 0;
@@ -1256,8 +1261,10 @@ void Player_dead_wait::step() {
 		canvas->restart();
 		ret();
 		Packet_serverlog log("player_respawn");
-
-		log_step("player_respawn\t%u", canvas->id());
+		log.add(Packet_serverlog::Var("id", canvas->id()));
+		if(game && game->net_server)
+			game->net_server->record_packet(&log);
+		log_step(log);
 	}
 	else {
 		if(canvas->bonus && !canvas->bon[0].blind_time && add_bonus)
@@ -1304,8 +1311,10 @@ Player_first_frag::Player_first_frag(Canvas *c): Player_base(c) {
 	canvas->set_next();
 	canvas->stats[CS::ROUND_WINS].add(1);
 	Packet_serverlog log("player_survived");
-
-	log_step("player_survived\t%u", canvas->id());
+	log.add(Packet_serverlog::Var("id", canvas->id()));
+	if(game && game->net_server)
+		game->net_server->record_packet(&log);
+	log_step(log);
 }
 
 void Player_first_frag::step() {
@@ -1362,8 +1371,10 @@ Player_gone::Player_gone(Canvas *c, bool chat_msg): Player_base(c) {
 		message(-1, st);
 	}
 	Packet_serverlog log("player_gone");
-
-	log_step("player_gone\t%u", canvas->id());
+	log.add(Packet_serverlog::Var("id", canvas->id()));
+	if(game && game->net_server)
+		game->net_server->record_packet(&log);
+	log_step(log);
 }
 
 void Player_gone::step() {
@@ -1576,9 +1587,17 @@ Player_stamp::Player_stamp(Canvas *c, Packet_stampblock *p): Player_base(c) {
 	canvas->stats[CS::SCORE].add(p->score);
 	if(game->net_version()>=23)
 		canvas->stats[CS::PLAYING_TIME].add(p->time_held);
-	Packet_serverlog log("player_stampblock");
 
-	log_step("player_stampblock\t%u\t%i\t%i\t%i\t%i", canvas->id(), canvas->bloc->quel, p->block_rotated, p->time_held, p->score);
+	Packet_serverlog log("player_stampblock");
+	log.add(Packet_serverlog::Var("id", canvas->id()));
+	log.add(Packet_serverlog::Var("block", canvas->bloc->quel));
+	log.add(Packet_serverlog::Var("times_rotated", p->block_rotated));
+	log.add(Packet_serverlog::Var("time_held", p->time_held));
+	log.add(Packet_serverlog::Var("points", p->score));
+	if(game && game->net_server)
+		game->net_server->record_packet(&log);
+	log_step(log);
+
 	canvas->watch_date = p->date;
 	stamp_bloc();
 	if(canvas->bonus && !canvas->bon[0].blind_time)
@@ -1692,8 +1711,10 @@ void Player_wait_respawn::step() {
 		ret();
 		game->removepacket();
 		Packet_serverlog log("player_respawn");
-
-		log_step("player_respawn\t%u", canvas->id());
+		log.add(Packet_serverlog::Var("id", canvas->id()));
+		if(game && game->net_server)
+			game->net_server->record_packet(&log);
+		log_step(log);
 	} else {
 		if(canvas->bonus && !canvas->bon[0].blind_time && add_bonus)
 			call(new Player_add_bonus(canvas));

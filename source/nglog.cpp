@@ -68,6 +68,17 @@ bool log_init(const char *filename) {
 	return local->exist;
 }
 
+void log_step(const Packet_serverlog& packet) {
+	char event[4096];
+	strcpy(event, packet.getType());
+	for(unsigned i=0; i<packet.size(); ++i) {
+		strcat(event, "\t");
+		strcat(event, packet.getVar(i).getValue());
+	}
+	if(local)
+		local->log_event(event);
+}
+
 void log_step(const char *st, ...) {
 	char event[1024];
 	va_list marker;

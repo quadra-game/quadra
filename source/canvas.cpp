@@ -35,6 +35,7 @@
 #include "texte.h"
 #include "chat_text.h"
 #include "nglog.h"
+#include "net_server.h"
 #include "canvas.h"
 
 RCSID("$Id$")
@@ -393,8 +394,13 @@ void Canvas::add_packet(Canvas *sender, Byte nb, Byte nc, Byte lx, Attack attack
 		return;
 
 	Packet_serverlog log("player_attacked");
-
-	log_step("player_attacked\t%u\t%u\t%s\t%i", id(), sender->id(), attack.log_type(), attack.type==ATTACK_FULLBLIND? nb*nc:nb);
+	log.add(Packet_serverlog::Var("id", id()));
+	log.add(Packet_serverlog::Var("attacker_id", sender->id()));
+	log.add(Packet_serverlog::Var("type", attack.log_type()));
+	log.add(Packet_serverlog::Var("size", attack.type==ATTACK_FULLBLIND? nb*nc:nb));
+	if(game->net_server)
+		game->net_server->record_packet(&log);
+	log_step(log);
 
 	//Nothing further to do if attack is none.
 	if(attack.type==ATTACK_NONE)
@@ -485,8 +491,14 @@ void Canvas::give_line() {
 	}
 	if(log_it) {
 		Packet_serverlog log("player_snapshot");
-
-		log_step("player_snapshot\t%i\t%i\t%s\t%i\t%s", id(), depth, send_for_clean? "true":"false", complexity, snapshot);
+		log.add(Packet_serverlog::Var("id", id()));
+		log.add(Packet_serverlog::Var("lines", depth));
+		log.add(Packet_serverlog::Var("clean", send_for_clean? "true":"false"));
+		log.add(Packet_serverlog::Var("combo", complexity));
+		log.add(Packet_serverlog::Var("snapshot", snapshot));
+		if(game->net_server)
+			game->net_server->record_packet(&log);
+		log_step(log);
 	}
   switch(depth) {
     case 1: score_add = 250; break;
@@ -529,8 +541,15 @@ void Canvas::give_line() {
 	}
 
 	Packet_serverlog log("player_lines_cleared");
-
-	log_step("player_lines_cleared\t%u\t%i\t%s\t%i\t%i\t%u", id(), depth, send_for_clean? "true":"false", clean_bonus+(enough? i:0), complexity, score_add);
+	log.add(Packet_serverlog::Var("id", id()));
+	log.add(Packet_serverlog::Var("lines", depth));
+	log.add(Packet_serverlog::Var("clean", send_for_clean? "true":"false"));
+	log.add(Packet_serverlog::Var("attack_size", clean_bonus+(enough? i:0)));
+	log.add(Packet_serverlog::Var("combo", complexity));
+	log.add(Packet_serverlog::Var("points", score_add));
+	if(game->net_server)
+		game->net_server->record_packet(&log);
+	log_step(log);
 
 	Attack clean_att, normal_att;
 	normal_att=game->normal_attack;

@@ -128,8 +128,9 @@ void Net_client::pause(Packet *p2) {
 			game->delay_start = 499; // debut le compte a rebours
 			msgbox("Net_client::pause: starting countdown...\n");
 			Packet_serverlog log("game_start");
-
-			log_step("game_start");
+			if(game->net_server)
+				game->net_server->record_packet(&log);
+			log_step(log);
 			return; // n'enleve pas game->paused tout de suite
 		}
 		if(game->delay_start != 0) {
@@ -140,8 +141,10 @@ void Net_client::pause(Packet *p2) {
 		message(-1, "Game unpaused", true, true);
 		if(p2 && p2->from) {
 			Packet_serverlog log("unpause");
-
-			log_step("unpause\t%u", p2->from->id());
+			log.add(Packet_serverlog::Var("id", p2->from->id()));
+			if(game->net_server)
+				game->net_server->record_packet(&log);
+			log_step(log);
 		}
 	} else {
 		Packet_pause *p=(Packet_pause *) p2;
@@ -159,8 +162,10 @@ void Net_client::pause(Packet *p2) {
 		message(-1, st);
 		if(p2 && p2->from) {
 			Packet_serverlog log("pause");
-
-			log_step("pause\t%u", p2->from->id());
+			log.add(Packet_serverlog::Var("id", p2->from->id()));
+			if(game->net_server)
+				game->net_server->record_packet(&log);
+			log_step(log);
 		}
 	}
 	game->paused=!game->paused;
@@ -384,8 +389,11 @@ void Net_server::playerwantjoin(Packet *p2) {
 							if(p->from!=game->loopback_connection)
 								id=p->from->id();
 							Packet_serverlog log("player_rejoin");
-
-							log_step("player_rejoin\t%u\t%u\t%s", c->id(), id, log_handicap(p->handicap));
+							log.add(Packet_serverlog::Var("id", c->id()));
+							log.add(Packet_serverlog::Var("connection_id", id));
+							log.add(Packet_serverlog::Var("handicap", log_handicap(p->handicap)));
+							record_packet(&log);
+							log_step(log);
 							game->net_list.update_team_names();
 							return;
 						}
@@ -438,8 +446,14 @@ void Net_server::playerwantjoin(Packet *p2) {
 		if(p->from && p->from!=game->loopback_connection)
 			id=p->from->id();
 		Packet_serverlog log("player_join");
-
-		log_step("player_join\t%u\t%u\t%s\t%s\t%s\t%s", canvas->id(), id, log_team(p->team), log_handicap(p->handicap), canvas->name, canvas->team_name);
+		log.add(Packet_serverlog::Var("id", canvas->id()));
+		log.add(Packet_serverlog::Var("connection_id", id));
+		log.add(Packet_serverlog::Var("team", log_team(p->team)));
+		log.add(Packet_serverlog::Var("handicap", log_handicap(p->handicap)));
+		log.add(Packet_serverlog::Var("name", canvas->name));
+		log.add(Packet_serverlog::Var("team_name", canvas->team_name));
+		record_packet(&log);
+		log_step(log);
 	}
 	playeraccepted.answer(p);
 	game->net_list.update_team_names();
@@ -584,8 +598,10 @@ void Net_server::clientchat(Packet *p2) {
 		record_packet(p);
 		if(p && p->from) {
 			Packet_serverlog log("chat");
-
-			log_step("chat\t%u\t%s", p->from!=game->loopback_connection? p->from->id():0, p->text);
+			log.add(Packet_serverlog::Var("id", p->from!=game->loopback_connection? p->from->id():0));
+			log.add(Packet_serverlog::Var("text", p->text));
+			record_packet(&log);
+			log_step(log);
 		}
 	}
 }
@@ -681,11 +697,13 @@ void Net_pendingjoin::step() {
 	pac->from->joined=true;
 	char addr[64];
 	Net::stringaddress(addr, pac->from->address(), pac->from->getdestport());
-	if(pac && pac->from) {
-		Packet_serverlog log("connection_joined");
 
-		log_step("connection_joined\t%u\t%s", pac->from->id(), "true");
-	}
+	Packet_serverlog log("connection_joined");
+	log.add(Packet_serverlog::Var("id", pac->from->id()));
+	if(game->net_server)
+		game->net_server->record_packet(&log);
+	log_step("connection_joined\t%u\t%s", pac->from->id(), "true");
+
 	for(i=0; i<MAXPLAYERS; i++) {
 		Canvas *c = game->net_list.get(i);
 		if(c) {

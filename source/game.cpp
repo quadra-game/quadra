@@ -369,8 +369,11 @@ void Game::restart() {
 			char st[64];
 			Net::stringaddress(st, nc->address(), nc->getdestport());
 			Packet_serverlog log("connect");
-
-			log_step("connect\t%u\t%s", nc->id(), st);
+			log.add(Packet_serverlog::Var("id", nc->id()));
+			log.add(Packet_serverlog::Var("address", st));
+			if(game->net_server)
+				game->net_server->record_packet(&log);
+			log_step(log);
 		}
 	}
 }
@@ -566,8 +569,11 @@ void Game::check_potato() {
 			if(nb_player_alive)
 				reason="cleared_lines";
 			Packet_serverlog log("potato_done");
-
-			log_step("potato_done\t%s\t%s", log_team(potato_team), reason);
+			log.add(Packet_serverlog::Var("team", log_team(potato_team)));
+			log.add(Packet_serverlog::Var("reason", reason));
+			if(game->net_server)
+				game->net_server->record_packet(&log);
+			log_step(log);
 			done_potato(potato_team);
 			potato_team=255;
 		}
@@ -596,8 +602,11 @@ void Game::check_potato() {
 			got_potato(to_team, potato_lines[to_team]);
 			potato_team=to_team;
 			Packet_serverlog log("potato_given");
-
-			log_step("potato_given\t%s\t%i", log_team(to_team), potato_lines[to_team]);
+			log.add(Packet_serverlog::Var("team", log_team(to_team)));
+			log.add(Packet_serverlog::Var("lines", potato_lines[to_team]));
+			if(game->net_server)
+				game->net_server->record_packet(&log);
+			log_step(log);
 		}
 	}
 }
@@ -884,8 +893,6 @@ void Game::prepare_logging(const char *filename) {
 		sprintf(st, ST_GAMELOGGINGAS, nom);
 		message(-1, st, true, false, true);
 		//Begin log output here
-		Packet_serverlog log("info");
-
 		the_log_step("info\tlog_standard\tngLog");
 		the_log_step("info\tlog_version\t1.2");
 		the_log_step("info\tlog_info_url\thttp://www.NetGamesUSA.com/ngLog/");
@@ -899,23 +906,34 @@ void Game::prepare_logging(const char *filename) {
 		#ifdef UGS_LINUX
 		os="Linux";
 		#endif
-		the_log_step("info\tgame_version\t%i.%i.%i\t%s", Config::major, Config::minor, Config::patchlevel, os);
+		char game_version[32];
+		sprintf(game_version, "%i.%i.%i", Config::major, Config::minor, Config::patchlevel);
+
+		Packet_serverlog log("game_information");
+		log.add(Packet_serverlog::Var("version", game_version));
+		log.add(Packet_serverlog::Var("os", os));
+
+		the_log_step("info\tgame_version\t%i.%i.%i\t%s", game_version, os);
 		the_log_step("info\tgame_decoder_ring_url\thttp://ludusdesign.com/decoder_ring.txt");
+
 		Dword addr=net->host_adr_pub[0];
 		char st[64];
 		Net::stringaddress(st, addr);
+
 		the_log_step("info\tserver_address\t%s", st);
+		log.add(Packet_serverlog::Var("server_address", st));
+
 		the_log_step("info\tserver_port\t%i", config.info.port_number);
+		log.add(Packet_serverlog::Var("server_port", config.info.port_number));
+
 		char *abs_time=Clock::absolute_time();
 		the_log_step("info\tabsolute_time\t%s", abs_time);
-
-		Packet_serverlog log2("game_init");
-
 		the_log_step("game_init\t%s", abs_time);
-
-		Packet_serverlog log3("game_param");
+		log.add(Packet_serverlog::Var("absolute_time", abs_time));
 
 		the_log_step("game_param\tname\t%s", name);
+		log.add(Packet_serverlog::Var("game_name", name));
+
 		char *game_type="ffa";
 		if(survivor)
 			game_type="survivor";
@@ -931,17 +949,40 @@ void Game::prepare_logging(const char *filename) {
 				game_type="single_sprint";
 		}
 		the_log_step("game_param\tgame_type\t%s", game_type);
+		log.add(Packet_serverlog::Var("game_type", game_type));
+
 		the_log_step("game_param\tsurvivor\t%s", survivor? "true":"false");
+		log.add(Packet_serverlog::Var("survivor", survivor? "true":"false"));
+
 		the_log_step("game_param\thot_potato\t%s", hot_potato? "true":"false");
+		log.add(Packet_serverlog::Var("hot_potato", hot_potato? "true":"false"));
+
 		the_log_step("game_param\tnormal_attack\t%s\t%i", normal_attack.log_type(), normal_attack.param);
+		log.add(Packet_serverlog::Var("normal_attack", normal_attack.log_type()));
+		log.add(Packet_serverlog::Var("normal_attack_param", normal_attack.param));
+
 		the_log_step("game_param\tclean_attack\t%s\t%i", clean_attack.log_type(), clean_attack.param);
+		log.add(Packet_serverlog::Var("clean_attack", clean_attack.log_type()));
+		log.add(Packet_serverlog::Var("clean_attack_param", clean_attack.param));
+
 		if(hot_potato) {
 			the_log_step("game_param\tpotato_normal_attack\t%s\t%i", potato_normal_attack.log_type(), potato_normal_attack.param);
+			log.add(Packet_serverlog::Var("potato_normal_attack", potato_normal_attack.log_type()));
+			log.add(Packet_serverlog::Var("potato_normal_attack_param", potato_normal_attack.param));
+
 			the_log_step("game_param\tpotato_clean_attack\t%s\t%i", potato_clean_attack.log_type(), potato_clean_attack.param);
+			log.add(Packet_serverlog::Var("potato_clean_attack", potato_clean_attack.log_type()));
+			log.add(Packet_serverlog::Var("potato_clean_attack_param", potato_clean_attack.param));
 		}
 		the_log_step("game_param\tlevel_up\t%s", level_up? "true":"false");
+		log.add(Packet_serverlog::Var("level_up", level_up? "true":"false"));
+
 		the_log_step("game_param\tlevel_start\t%i", level_start);
+		log.add(Packet_serverlog::Var("level_start", level_start));
+
 		the_log_step("game_param\tallow_handicap\t%s", allow_handicap? "true":"false");
+		log.add(Packet_serverlog::Var("allow_handicap", allow_handicap? "true":"false"));
+
 		char *end_type="unknown";
 		switch(game_end) {
 			case END_NEVER: end_type="never"; break;
@@ -952,6 +993,11 @@ void Game::prepare_logging(const char *filename) {
 			default: break;
 		}
 		the_log_step("game_param\tgame_end\t%s\t%i", end_type, game_end_value);
+		log.add(Packet_serverlog::Var("game_end", end_type));
+		log.add(Packet_serverlog::Var("game_end_value", game_end_value));
+
+		if(game->net_server)
+			game->net_server->record_packet(&log);
 	}
 }
 

@@ -23,6 +23,8 @@
 
 #include "res.h"
 
+class Packet_serverlog;
+
 class Log {
 	Res_dos *file;
 	char filename[1024];
@@ -34,6 +36,7 @@ public:
 };
 
 bool log_init(const char *filename);
+void log_step(const Packet_serverlog& packet);
 void log_step(const char *st, ...);
 void log_finalize(char *salt);
 

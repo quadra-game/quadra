@@ -77,7 +77,8 @@ enum Packet_type {
 	P_REMOVEBONUS,
 	P_CLIENTREMOVEBONUS,
 	P_SERVERNAMETEAM,
-	P_GAMESTAT
+	P_GAMESTAT,
+	P_SERVERLOG
 };
 
 class Packet_findgame: public Packet_udp {
@@ -650,6 +651,43 @@ public:
 	}
 	virtual bool read(Net_buf *p);
 	virtual void write(Net_buf *p);
+};
+
+class Packet_serverlog: public Packet_tcp {
+public:
+	class Var {
+	public:
+		Var();
+		Var(const char* n, const char* val);
+		Var(const char* n, unsigned i);
+		Var(const char* n, int i);
+		Var(const char* n, float f);
+
+		bool read(Net_buf* p);
+		void write(Net_buf* p);
+
+		const char* getValue() const { return value; }
+
+	private:
+		char name[64];
+		char value[128];
+	};
+
+	Packet_serverlog(const char* type="unknown") {
+		packet_id = P_SERVERLOG;
+		event_type = type;
+	}
+	virtual bool read(Net_buf* p);
+	virtual void write(Net_buf* p);
+
+	const char* getType() const { return event_type; }
+	void add(const Var& var);
+	unsigned size() const { return vars.size(); }
+	const Var& getVar(unsigned i) const { return vars[i]; }
+
+private:
+	const char* event_type;
+	Array<Var> vars;
 };
 
 #endif

@@ -247,8 +247,11 @@ void Quadra_param::client_connect(Net_connection *adr) {
 	char st[64], st1[256];
 	Net::stringaddress(st, adr->address(), adr->getdestport());
 	Packet_serverlog log("connect");
-
-	log_step("connect\t%u\t%s", adr->id(), st);
+	log.add(Packet_serverlog::Var("id", adr->id()));
+	log.add(Packet_serverlog::Var("address", st));
+	if(game && game->net_server)
+		game->net_server->record_packet(&log);
+	log_step(log);
 	sprintf(st1, ST_CONNECTFROMBOB, st);
 	message(-1, st1, true, false, true);
 }
@@ -261,9 +264,13 @@ void Quadra_param::client_deconnect(Net_connection *adr) {
 		game->net_list.client_deconnect(adr);
 	char st[64], st1[256];
 	Net::stringaddress(st, adr->address(), adr->getdestport());
-	Packet_serverlog log("disconnect");
 
-	log_step("disconnect\t%u", adr->id());
+	Packet_serverlog log("disconnect");
+	log.add(Packet_serverlog::Var("id", adr->id()));
+	if(game && game->net_server)
+		game->net_server->record_packet(&log);
+	log_step(log);
+
 	sprintf(st1, ST_DISCONNECTFROMBOB, st);
 	message(-1, st1, true, false, true);
 	if(!game)
