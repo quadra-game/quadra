@@ -1,5 +1,7 @@
 2000-12-01  Pierre Phaneuf  <pp@ludusdesign.com>
 
+	* Changed the URL in the Windows resource file.
+
 	* Fixed a small bug in the relocation stuff.
 
 2000-11-30  Pierre Phaneuf  <pp@ludusdesign.com>
