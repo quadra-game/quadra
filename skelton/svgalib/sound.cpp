@@ -20,7 +20,6 @@
 
 #include <stdio.h>
 
-#include <mcheck.h>
 #include <linux/soundcard.h>
 #include <sys/ioctl.h>
 
