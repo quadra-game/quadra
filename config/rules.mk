@@ -45,7 +45,7 @@ install: installdirs $(TARGETS)
 	$(INSTALL_PROGRAM) quadra-svga.so $(prefix)/lib/games/quadra-svga.so
 	$(INSTALL_DATA) quadra.res $(prefix)/lib/games/quadra.res
 
-quadra.spec: packages/quadra.spec.in
+quadra.spec: packages/quadra.spec.in source/config.cpp
 	sed $^ -e 's/@VERSION@/$(VERSION)/g' > $@
 
 configure: configure.in

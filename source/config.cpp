@@ -32,9 +32,10 @@ RCSID("$Id$")
 const int Config::game_version = 19;
 int Config::net_version = 23;
 
+/* FIXME: this should be in the makefiles or in an external file */
 const int Config::major = 1;
 const int Config::minor = 1;
-const int Config::patchlevel = 6;
+const int Config::patchlevel = 7;
 /* FIXME: we should remove all occurence of Config::xtreme */
 bool Config::xtreme = false;
 char Config::user_name[64] = {""};
