@@ -20,8 +20,11 @@
 
 .PHONY: clean distclean
 
-clean:
-	rm -f $(wildcard $(CLEAN) $(TARGETS) $(shell find . -name 'core' -print) $(shell find . -name '*~' -print))
+dustclean:
+	rm -f $(wildcard $(shell find . -name 'core' -print) $(shell find . -name '*~' -print))
+
+clean: dustclean
+	rm -f $(wildcard $(CLEAN) $(TARGETS))
 
 distclean: clean
 	rm -f $(wildcard $(DISTCLEAN))

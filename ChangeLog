@@ -1,5 +1,7 @@
 2000-11-28  Pierre Phaneuf  <pp@ludusdesign.com>
 
+	* Added a "dustclean" target to the makefile.
+	
 	* Updated the NEWS file.
 
 	* Moved README.win32 to the packages directory.
