@@ -18,15 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#if 1
-#define Palette gl_palette
-#include <vgamouse.h>
-#include <vgakeyboard.h>
-#include <vga.h>
-#undef Palette
-#else
-#include "svgalib.h"
-#endif
+#include "wraplib.h"
 #include "video.h"
 #include "input_svga.h"
 
@@ -66,8 +58,12 @@ const char *keynames[256] = {
   "", "", "", "", "", "", "", ""
 };
 
+static Svgalib* lib;
+
 Input_Svgalib::Input_Svgalib() {
   struct sigaction newsignals;
+
+  lib = getSvgalib();
 
   tty_fd = 0;
 
@@ -92,7 +88,7 @@ Input_Svgalib::Input_Svgalib() {
 
 Input_Svgalib::~Input_Svgalib() {
   sigaction(SIGUSR2, &oldsignals, NULL);
-  mouse_close();
+  lib->mouse_close();
   deraw();
 
   tcsetattr(0, TCSANOW, &termattr);
@@ -105,7 +101,7 @@ void Input_Svgalib::clear_key() {
   for(int i=0; i<256; i++)
     keys[i] = 0;
   if(israw)
-    keyboard_clearstate();
+    lib->keyboard_clearstate();
 }
 
 void Input_Svgalib::check() {
@@ -122,16 +118,16 @@ void Input_Svgalib::check() {
 
 void Input_Svgalib::deraw() {
   if(israw) {
-    keyboard_close();
+    lib->keyboard_close();
     israw=false;
   }
 }
 
 void Input_Svgalib::reraw() {
   if(!israw) {
-    keyboard_init();
-    keyboard_seteventhandler(Input_Svgalib::keyboard_handler);
-    keyboard_translatekeys(8 /* DONT_CATCH_CTRLC */);
+    lib->keyboard_init();
+    lib->keyboard_seteventhandler(Input_Svgalib::keyboard_handler);
+    lib->keyboard_translatekeys(8 /* DONT_CATCH_CTRLC */);
     israw=true;
   }
 }
@@ -140,10 +136,10 @@ void Input_Svgalib::process_key() {
   int thekey;
 
   if(israw)
-    keyboard_update();
+    lib->keyboard_update();
   else {
     fflush(stdin);
-    thekey = vga_getkey();
+    thekey = lib->vga_getkey();
     if(thekey) {
       switch (thekey) {
       case 27:
@@ -166,12 +162,12 @@ void Input_Svgalib::process_key() {
 
 void Input_Svgalib::process_mouse() {
   mouse.dx = mouse.dy = mouse.dz = 0;
-  mouse_update();
+  lib->mouse_update();
 }
 
 void Input_Svgalib::restore_mouse() {
   mouse_reinit = false;
-  mouse_seteventhandler((void*) Input_Svgalib::mouse_handler);
+  lib->mouse_seteventhandler((void*) Input_Svgalib::mouse_handler);
   mouse.quel = -1;
   for(int i=0; i<4; i++)
     mouse.button[i] = RELEASED;

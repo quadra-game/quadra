@@ -1,3 +1,8 @@
+2000-11-17  Pierre Phaneuf  <pp@ludusdesign.com>
+
+	* Split off all the calls to Svgalib into a dynamically loaded
+	wrapper library.
+
 2000-11-16  Pierre Phaneuf  <pp@ludusdesign.com>
 
 	* Added a --enable-debug option to the configure.in.

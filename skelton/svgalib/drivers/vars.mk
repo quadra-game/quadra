@@ -18,9 +18,7 @@
 #
 # $Id$
 
-UGS_OBJECTS+=$(patsubst %.cpp,%.o,$(wildcard skelton/svgalib/*.cpp))
+SVGADRV_OBJECTS+=skelton/svgalib/drivers/drv_svga.o
 
-CXXDEPS+=$(wildcard skelton/svgalib/*.cpp)
-
-include $(wildcard skelton/svgalib/*/vars.mk)
+CXXDEPS+=$(wildcard skelton/svgalib/drivers/*.cpp)
 
