@@ -575,7 +575,6 @@ void Net_connection_tcp::commit() {
 	if(!size)
 		return;
 	Dword temp = send(tcpsock, (const char *)(outgoing_buf.get()), size, 0);
-	outgoing_buf.resize(0);
 	if(net->getlasterror(temp)) {
 		char st[64];
 		net->stringaddress(st, address(), getdestport());
@@ -583,10 +582,11 @@ void Net_connection_tcp::commit() {
 		_state=disconnected;
 		return;
 	}
-	if(temp != size) {
+	outgoing_buf.remove_from_start(temp);
+	if(outgoing_buf.size() > 16384) {
 		char st[64];
 		net->stringaddress(st, address(), getdestport());
-		skelton_msgbox("Net_connection_tcp::commit: sent %i bytes but packet was %i! Closing %s.\n", temp, size, st);
+		skelton_msgbox("Net_connection_tcp::commit: outgoing_buf size exceeds maximum: %i! Closing %s.\n", outgoing_buf.size(), st);
 		_state=disconnected;
 		return;
 	}
@@ -708,6 +708,7 @@ Net::~Net() {
 void Net::init_local_addresses() {
 	if(!active)
 		return;
+	skelton_msgbox("Net::init_local_addresses: getting hostname\n");
 	if(getlasterror(gethostname(host_name, 1024))) {
 		skelton_msgbox("Net::Net: gethostname() failed. Ignoring\n");
 		host_name[0] = 0;
@@ -733,7 +734,7 @@ void Net::init_local_addresses() {
 				if(a>>16==192*256+168)
 					pub = false;
 				//Same thing for 172.16/12
-				if(a>>20==172*64+16)
+				if(a>>20==172*16+1)
 					pub = false;
 				//And again for 10/8
 				if(a>>24==10)
