@@ -1,3 +1,7 @@
+2001-03-06  Pierre Phaneuf  <pp@ludusdesign.com>
+
+	* Added the Host: header to the HTTP POST request.
+
 2000-12-19  Pierre Phaneuf  <pp@ludusdesign.com>
 
 	* Cleaned up some assignments that confused indent and possibly

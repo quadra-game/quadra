@@ -36,9 +36,10 @@ protected:
 	int size;
 	void sendrequest();
 	bool sent;
+	char* host;
 public:
-	Http_request(const char *host, int port, const Byte *request=NULL, int size=0);
-	Http_request(Dword hostaddr, int port, const Byte *request=NULL, int size=0);
+	Http_request(const char *aHost, int port, const Byte *request=NULL, int size=0);
+	Http_request(const char *aHost, Dword hostaddr, int port, const Byte *request=NULL, int size=0);
 	virtual ~Http_request();
 	Byte *getbuf() const;
 	Dword getsize() const;

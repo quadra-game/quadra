@@ -114,25 +114,37 @@ void Http_request::url_encode(const char *src, Textbuf& dest) {
 	}
 }
 
-Http_request::Http_request(const char *host, int port, const Byte *request, int size) {
+Http_request::Http_request(const char *aHost, int port, const Byte *request, int size) {
 	if(request) {
 		this->request=request;
 		this->size=size? size:strlen((const char *)request);
 	}
-	nc=net->start_other(host, port); // nc peut etre NULL en cas d'erreur!
+	if(aHost) {
+		host = strdup(aHost);
+	} else {
+		host = NULL;
+	}
+	nc=net->start_other(aHost, port); // nc peut etre NULL en cas d'erreur!
 	sent=false;
 }
 
-Http_request::Http_request(Dword hostaddr, int port, const Byte *request, int size) {
+Http_request::Http_request(const char* aHost, Dword hostaddr, int port, const Byte *request, int size) {
 	if(request) {
 		this->request=request;
 		this->size=size? size:strlen((const char *)request);
+	}
+	if(aHost) {
+		host = strdup(aHost);
+	} else {
+		host = NULL;
 	}
 	nc=net->start_other(hostaddr, port); // nc peut etre NULL en cas d'erreur!
 	sent=false;
 }
 
 Http_request::~Http_request() {
+	if(host)
+		free(host);
 	if(nc)
 		delete nc;
 }

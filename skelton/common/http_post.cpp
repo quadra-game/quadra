@@ -23,15 +23,16 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include "error.h"
+#include "net.h"
 #include "http_post.h"
 
 RCSID("$Id$")
 
-Http_post::Http_post(const char *host, int port, const char *path): Http_request(host, port), data(0, 1024) {
+Http_post::Http_post(const char* aHost, int port, const char *path): Http_request(aHost, port), data(0, 1024) {
 	init(path);
 }
 
-Http_post::Http_post(Dword hostaddr, int port, const char *path): Http_request(hostaddr, port), data(0, 1024) {
+Http_post::Http_post(const char* aHost, Dword hostaddr, int port, const char *path): Http_request(aHost, hostaddr, port), data(0, 1024) {
 	init(path);
 }
 
@@ -62,6 +63,11 @@ void Http_post::send() {
 	url.append("POST ");
 	url.append(cgi);
 	url.append(" HTTP/1.0\r\n");
+	if(host) {
+		url.append("Host: ");
+		url.append(host);
+		url.append("\r\n");
+	}
 	//Try to make those idiot proxies behave. Long life e2e!!! :)
 	url.append("Pragma: no-cache\r\n");
 	url.append("Cache-Control: no-cache\r\n");

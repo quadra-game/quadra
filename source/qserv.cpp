@@ -70,7 +70,7 @@ Qserv::Qserv() {
 
 	//Use IP cache if set
 	if(http_addr)
-		req=new Http_post(http_addr, http_port, path);
+		req=new Http_post(host, http_addr, http_port, path);
 	else
 		req=new Http_post(host, port, path);
 

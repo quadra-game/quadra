@@ -30,8 +30,8 @@ class Http_post: public Http_request {
 	char cgi[256];
 	void init(const char *path);
 public:
-	Http_post(const char *host, int port, const char *path);
-	Http_post(Dword hostaddr, int port, const char *path);
+	Http_post(const char* aHost, int port, const char *path);
+	Http_post(const char* aHost, Dword hostaddr, int port, const char *path);
 	virtual ~Http_post();
 	void add_data_raw(const char* m);
 	void add_data_encode(const char* m, ...);
