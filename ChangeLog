@@ -1,3 +1,14 @@
+2000-11-29  Remi Veilleux  <remz@ludusdesign.com>
+
+	* Fixed the 'wadder' Win32 build (was missing libpng)
+
+	* Cleaned up a bit of obsolete .cvsignore entries
+
+	* Disabled 'incremental linking' in Quadra and wadder Win32 build.
+	It was outputing an ugly 'quadra.ilk' in our neat root directory
+	without any possible way to correct it. Anyway: the less 'smart'
+	microsoft option enabled, the better.
+
 2000-11-29  Pierre Phaneuf  <pp@ludusdesign.com>
 
 	* Inserted the RCS Id information in every file.
@@ -24,13 +35,13 @@
 2000-11-28  Pierre Phaneuf  <pp@ludusdesign.com>
 
 	* Added a "dustclean" target to the makefile.
-	
+
 	* Updated the NEWS file.
 
 	* Moved README.win32 to the packages directory.
 
 	* Main makefile targets are now built in the top-level directory.
-	
+
 	* "make clean" now properly removes all object files.
 
 	* Fixed resource file dependencies.
