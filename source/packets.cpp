@@ -121,7 +121,7 @@ void Packet_gameinfo::write(Net_buf *p) {
 bool Packet_gameinfo::read(Net_buf *p) {
 	if(!Packet_udp::read(p))
 		return false;
-	if(!p->read_string(name, 32))
+	if(!p->read_string(name, sizeof(name)))
 		return false;
 	version = p->read_byte();
 	port = p->read_dword();
@@ -134,7 +134,7 @@ bool Packet_gameinfo::read(Net_buf *p) {
 		Byte t=p->read_byte();
 		if(t>=MAXTEAMS)
 			return false;
-		if(!p->read_string(tmp, 40))
+		if(!p->read_string(tmp, sizeof(tmp)))
 			return false;
 		add_player(0, t, tmp, -1, 0);
 	}
@@ -230,7 +230,7 @@ bool Packet_gameserver::read(Net_buf *p) {
 	if(!Packet_ping::read(p))
 		return false;
 	version = p->read_byte();
-	if(!p->read_string(name, 32))
+	if(!p->read_string(name, sizeof(name)))
 		return false;
 	accepted=p->read_bool();
 	game_seed=p->read_dword();
@@ -256,7 +256,7 @@ bool Packet_gameserver::read(Net_buf *p) {
 		Byte t=p->read_byte();
 		if(t>=MAXTEAMS)
 			return false;
-		if(!p->read_string(tmp, 40))
+		if(!p->read_string(tmp, sizeof(tmp)))
 			return false;
 		add_player(quel, t, tmp, 0, 0);
 	}
@@ -312,7 +312,7 @@ bool Packet_chat::read(Net_buf *p) {
 	team = p->read_byte();
 	if(team>=MAXTEAMS || team<-1)
 		return false;
-	if(!p->read_string(text, 256))
+	if(!p->read_string(text, sizeof(text)))
 		return false;
 	to_team = p->read_byte();
 	if(to_team>=MAXTEAMS || to_team<-1)
@@ -333,7 +333,7 @@ bool Packet_playerwantjoin::read(Net_buf *p) {
 	team = p->read_byte();
 	if(team>=MAXTEAMS)
 		return false;
-	if(!p->read_string(name, 40))
+	if(!p->read_string(name, sizeof(name)))
 		return false;
 	player = p->read_byte();
 	if(player>2)
@@ -350,10 +350,10 @@ bool Packet_playerwantjoin::read(Net_buf *p) {
 	handicap = p->read_dword();
 	if(handicap<0 || handicap>4)
 		return false;
-	p->read_mem(player_hash, 16);
-	if(!p->read_string(team_name, 40))
+	p->read_mem(player_hash, sizeof(player_hash));
+	if(!p->read_string(team_name, sizeof(team_name)))
 		return false;
-	p->read_mem(team_hash, 16);
+	p->read_mem(team_hash, sizeof(team_hash));
 	h_repeat = p->read_dword();
 	if(h_repeat<0 || h_repeat>3)
 		return false;
@@ -375,9 +375,9 @@ void Packet_playerwantjoin::write(Net_buf *p) {
 	p->write_dword(smooth);
 	p->write_dword(shadow);
 	p->write_dword(handicap);
-	p->write_mem(player_hash, 16);
+	p->write_mem(player_hash, sizeof(player_hash));
 	p->write_string(team_name);
-	p->write_mem(team_hash, 16);
+	p->write_mem(team_hash, sizeof(team_hash));
 	p->write_dword(h_repeat);
 	p->write_dword(v_repeat);
 }
@@ -388,7 +388,7 @@ bool Packet_player::read(Net_buf *p) {
 	team = p->read_byte();
 	if(team>=MAXTEAMS)
 		return false;
-	if(!p->read_string(name, 40))
+	if(!p->read_string(name, sizeof(name)))
 		return false;
 	player = p->read_byte();
 	if(player>2)
@@ -485,9 +485,9 @@ bool Packet_stat::read(Net_buf *p) {
 	num_stat=p->read_byte();
 	for(int i=0; i<num_stat; i++) {
 		Byte st=p->read_byte();
+		int val=p->read_dword();
 		if(st>=CS::LAST)
 			continue; //Ignore stats we don't know about
-		int val=p->read_dword();
 		add_stat(st, val);
 	}
 	return true;
@@ -517,9 +517,9 @@ bool Packet_gamestat::read(Net_buf *p) {
 	num_stat=p->read_byte();
 	for(int i=0; i<num_stat; i++) {
 		Byte st=p->read_byte();
+		int val=p->read_dword();
 		if(st>=GS::LAST)
 			continue; //Ignore stats we don't know about
-		int val=p->read_dword();
 		add_stat(st, val);
 	}
 	return true;
@@ -920,7 +920,7 @@ bool Packet_servernameteam::read(Net_buf *p) {
 	team=p->read_byte();
 	if(team>=MAXTEAMS)
 		return false;
-	if(!p->read_string(name, 40))
+	if(!p->read_string(name, sizeof(name)))
 		return false;
 	return true;
 }
@@ -955,6 +955,12 @@ Packet_serverlog::Var::Var(const char* n, float f) {
 	sprintf(value, "%f", f);
 }
 
+Packet_serverlog::Packet_serverlog(const char* type) {
+	packet_id = P_SERVERLOG;
+	strncpy(event_type, type, sizeof(event_type));
+	event_type[sizeof(event_type)-1]=0;
+}
+
 bool Packet_serverlog::Var::read(Net_buf* p) {
 	if(!p->read_string(name, sizeof(name)))
 		return false;
@@ -970,6 +976,7 @@ void Packet_serverlog::Var::write(Net_buf* p) {
 
 void Packet_serverlog::write(Net_buf* p) {
 	Packet_tcp::write(p);
+	p->write_string(event_type);
 	p->write_dword(vars.size());
 	for(unsigned i=0; i<vars.size(); i++)
 		vars[i].write(p);
@@ -977,6 +984,8 @@ void Packet_serverlog::write(Net_buf* p) {
 
 bool Packet_serverlog::read(Net_buf* p) {
 	if(!Packet_tcp::read(p))
+		return false;
+	if(!p->read_string(event_type, sizeof(event_type)))
 		return false;
 	vars.clear();
 	unsigned size = p->read_dword();

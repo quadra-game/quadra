@@ -63,7 +63,7 @@ char *Clock::absolute_time() {
 	const time_t ti=get_time();
 	tm *t = localtime(&ti);
 	if(t) {
-		sprintf(st, "%04i.%02i.%02i.%2i.%02i.%02i.%03i.%+2.1f",
+		sprintf(st, "%04i.%02i.%02i.%02i.%02i.%02i.%03i.%+2.1f",
 			t->tm_year+1900,
 			t->tm_mon+1,
 			t->tm_mday,

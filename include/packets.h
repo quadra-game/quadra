@@ -669,14 +669,11 @@ public:
 		const char* getValue() const { return value; }
 
 	private:
-		char name[64];
-		char value[128];
+		char name[128];
+		char value[1024];
 	};
 
-	Packet_serverlog(const char* type="unknown") {
-		packet_id = P_SERVERLOG;
-		event_type = type;
-	}
+	Packet_serverlog(const char* type="unknown");
 	virtual bool read(Net_buf* p);
 	virtual void write(Net_buf* p);
 
@@ -686,7 +683,7 @@ public:
 	const Var& getVar(unsigned i) const { return vars[i]; }
 
 private:
-	const char* event_type;
+	char event_type[64];
 	Array<Var> vars;
 };
 
