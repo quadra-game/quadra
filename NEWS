@@ -2,10 +2,14 @@ $Id$
 
 Quadra 1.1.7
 
+ * Ongoing work to clean up the distribution.
+
  * Registration code now completely removed.
 
  * All image resources have been converted to PNG format (the disk
    space requirements of Quadra have been cut in half!).
+
+ * Various bugs fixed.
 
 Quadra 1.1.6
 
