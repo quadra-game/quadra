@@ -32,20 +32,20 @@ Random::Random(int p) {
 	set_seed(p);
 }
 
-Word Random::rnd(int and) { // better proc
+Word Random::rnd(int _and) { // better proc
 	int tmp;
 	seed = seed * 0x41c64e6d + 0x00003039;
 	tmp = seed >> 10;
 
-	return (Word) (tmp & and);
+	return (Word) (tmp & _and);
 };
 
-Word Random::crap_rnd(int and) { // crappy proc
+Word Random::crap_rnd(int _and) { // crappy proc
 	int tmp;
 	tmp = seed * 0x41c64e6d + 0x00003039;
 	seed = tmp >> 10;
 
-	return (Word) (tmp & and);
+	return (Word) (tmp & _and);
 };
 
 int Random::get_seed() const {

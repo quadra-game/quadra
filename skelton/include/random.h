@@ -30,8 +30,8 @@ public:
 	Random(int p);
 	int get_seed() const;
 	void set_seed(int p);
-	Word rnd(int and=0xFFFF);
-	Word crap_rnd(int and=0xFFFF);
+	Word rnd(int _and=0xFFFF);
+	Word crap_rnd(int _and=0xFFFF);
 };
 
 extern Random ugs_random;

@@ -22,11 +22,13 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <stdlib.h>
-#if __GLIBC_MINOR__ == 1
+
+#if __GLIBC__ > 2 || __GLIBC_MINOR__ >= 1
 #include <db_185.h>
 #else
 #include <db.h>
 #endif
+
 #include "registry.h"
 
 class RegistryLinux: public Registry {

@@ -171,7 +171,7 @@ void Input_Svgalib::process_mouse() {
 
 void Input_Svgalib::restore_mouse() {
   mouse_reinit = false;
-  mouse_seteventhandler(Input_Svgalib::mouse_handler);
+  mouse_seteventhandler((void*) Input_Svgalib::mouse_handler);
   mouse.quel = -1;
   for(int i=0; i<4; i++)
     mouse.button[i] = RELEASED;

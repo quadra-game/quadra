@@ -12,9 +12,8 @@ OPTFLAGS+=-m486 -O6
 DEBUGFLAGS=-ggdb
 
 ifdef RELEASE
-CXX=i386-glibc20-linux-g++
-CXXFLAGS+=-I/usr/i386-glibc20-linux/include/g++ $(OPTFLAGS)
-LDFLAGS+=-L/usr/i386-glibc20-linux/lib -L/home/pp/lib/i386-glibc20-linux
+CXX=g++
+CXXFLAGS+=$(OPTFLAGS)
 else
 CXXFLAGS+=$(DEBUGFLAGS) -D_DEBUG
 endif
