@@ -1,5 +1,13 @@
 $Id$
 
+Quadra 1.1.9
+
+ * Use the new Quadra master server at SourceForge.
+
+ * Fixed high CPU usage on recent Linux systems.
+
+ * Added a User-Agent to Quadra's HTTP client code.
+
 Quadra 1.1.8
 
  * New handicap system.
