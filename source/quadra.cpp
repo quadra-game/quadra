@@ -1821,13 +1821,15 @@ void Player_init::net_call(Packet *p2) {
 }
 
 void init_directory() {
+	strcpy(quadradir, exe_directory);
 #ifdef UGS_DIRECTX
 	if(SHGetFolderPath(0, CSIDL_APPDATA|CSIDL_FLAG_CREATE, 0, SHGFP_TYPE_CURRENT, quadradir) < 0) {
 		msgbox("SHGetFolderPath failed, using exe_directory");
-		strcpy(quadradir, exe_directory);
 	}
-	PathAppend(quadradir, "Quadra");
-	CreateDirectory(quadradir, 0);
+	else {
+		PathAppend(quadradir, "Quadra");
+		CreateDirectory(quadradir, 0);
+	}
 #endif
 #ifdef UGS_LINUX
 	struct passwd *pw = NULL;
