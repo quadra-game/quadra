@@ -425,12 +425,12 @@ public:
 	int seed;
 	Byte bloc, next, next2, next3, bonus, idle, state;
   struct {
-    Byte x;   //position du 'trou'
+    Byte x;   // "hole" position
     Byte color;
 		Byte blind_time;
 		Word hole_pos; //Hole positions
 		bool final;
-  } bon[20];  //les lignes chiantes en attente
+  } bon[20];  // waiting annoyance lines
 	Byte can[32][10];
 	bool occ[32][10];
 	Byte blinded[32][10];

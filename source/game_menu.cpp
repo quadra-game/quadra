@@ -231,7 +231,7 @@ void Create_game::step() {
 	if(result==start) {
 		call(new Fade_in(pal));
 		bool publi = false;
-		if(net_game && !local_net) // force une game non-internet a "public=false" toujours
+		if(net_game && !local_net) // force a non-Internet game to "public=false" always
 			publi = game_public? true:false;
 		if(!name[0])
 			strcpy(name, ST_GAMENONAME);
@@ -333,7 +333,7 @@ Create_game_end::~Create_game_end() {
 }
 
 void Create_game_end::init() {
-	if(!game->game_public) { // si partie pu publique, abort tout!
+	if(!game->game_public) { // if the game isn't public, abort everything
 		ret();
 		return;
 	}

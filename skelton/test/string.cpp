@@ -26,7 +26,7 @@
 
 RCSID("$Id$")
 
-/* Ceci est un test pour Res_doze et stringtable */
+/* This is a test for Res_doze and stringtable */
 
 void start_game() {
 	int i;

@@ -92,7 +92,7 @@ Multi_player::Multi_player(int *got_high) {
 					break;
 				case 2: pane[i] = new Pane_comboinfo(*pane_info[i]); break;
 			}
-		} else { // sinon mode multi_player
+		} else { // else multi_player mode
 			pane[i] = new Pane_option(*pane_info[i]);
 		}
 		pane_exec[i]->add(pane[i]);
@@ -232,8 +232,7 @@ Multi_player::~Multi_player() {
 	if(zone_pause)
 		delete zone_pause;
 	for(i=0; i<3; i++) {
-		pane[i] = NULL; // Tres important car les delete pane_exec[i] detruisent des Pane
-		                //  qui accedent a pane[]
+		pane[i] = NULL; // very important, becase the delete pane_exec[i] destroy Panes that access pane[]
 		overmind.stop(pane_exec[i]);
 		delete pane_exec[i];
 		delete pane_info[i];
@@ -243,7 +242,7 @@ Multi_player::~Multi_player() {
 	delete bit;
 	delete courrier;
 	if(!game->single && !playback)
-		config.write(); // save la config seulement en multi-player ET pas dans une demo
+		config.write(); // save the config only in multi-player AND not in a demo
 }
 
 void Multi_player::check_pause() {
@@ -258,7 +257,7 @@ void Multi_player::check_pause() {
 	if(game->paused != pause) {
 		pause = game->paused;
 		if(pause) {
-			if(game->delay_start == 0) // empeche de faire le son au debut
+			if(game->delay_start == 0) // prevents the sound at the start
 				Sfx stmp(sons.pause, 0, -300, 0, 11025);
 			zone_pause = new Zone_sprite(inter, "gamepaus.png");
 		} else {
@@ -315,7 +314,7 @@ void Demo_multi_player::init_playback() {
 			game->seed = playback->seed;
 	}
 	if(game)
-		game->frame_start = overmind.framecount; // re-ajuste le frame_start avant de commencer le playback
+		game->frame_start = overmind.framecount; // re-adjust the frame_start before starting the playback
 }
 
 Demo_multi_player::~Demo_multi_player() {

@@ -172,7 +172,7 @@ COPPER(30,0,0);
 			if(!wparam && !alt_tab) {
 				alt_tab = true;
 				if(input)
-					input->clear_key(); // pour eviter qu'une touche reste coller
+					input->clear_key(); // to avoid getting a stuck key
 				ShowCursor(TRUE);
 			}
 			break;
@@ -193,7 +193,7 @@ COPPER(30,0,0);
 			return 0;
 		case WM_KEYDOWN:
 			if(input) {
-				if(wparam == 19) // touche 'pause'
+				if(wparam == 19) // 'pause' key
 					input->pause = true;
 				if(wparam >= 16 && wparam <= 46)
 					((Input_DX *) input)->add_key_buf((char) wparam, true);

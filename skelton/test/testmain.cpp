@@ -27,8 +27,7 @@
 
 RCSID("$Id$")
 
-/* Ceci est un test */
-
+/* This is a test */
 
 void start_game() {
 	Res_dos foo("testpic.pcx", RES_READ);

@@ -314,7 +314,7 @@ void Zone_listtext::clicked(int quel) {
 	parent->unselect();
 	if(this->quel < parent->elements.size()) {
 		parent->select(this->quel + parent->first_item);
-		//inter->clicked = parent; // yark!
+		//inter->clicked = parent; // eww!
 		parent->clicked(quel);
 	}
 }
@@ -338,8 +338,8 @@ void Zone_listtext::dirt() {
 void Zone_listtext::entered() {
 	Zone_text::entered();
 	if(parent->val && kb_focusable) {
-	// kb_focusable indique en meme temps que cette zone_listtext contient
-	// actuellement quelque chose
+        /* kb_focusable also indicates that this zone_listtext
+           currently contains something */
 		high=true;
 		dirt();
 	}
@@ -348,8 +348,8 @@ void Zone_listtext::entered() {
 void Zone_listtext::leaved() {
 	Zone_text::leaved();
 	if(parent->val && kb_focusable) {
-	// kb_focusable indique en meme temps que cette zone_listtext contient
-	// actuellement quelque chose
+        /* kb_focusable also indicates that this zone_listtext
+           currently contains something */
 		high=false;
 		dirt();
 	}

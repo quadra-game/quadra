@@ -21,7 +21,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-//Pour isalpha:
+// for isalpha:
 #include <ctype.h>
 #include "url.h"
 

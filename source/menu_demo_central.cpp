@@ -339,7 +339,7 @@ void Menu_demo_central::step() {
 		Listitem *e = (Listitem *) z_list->get_selected();
 		if(e && e->isfolder) {
 			if(!strcmp(e->list_name, "..")) {
-				// traite le .. differemment
+				// treat the .. differently
 				char *t = strrchr(find_directory, '/');
 				if(t)
 					*t = 0;
@@ -365,7 +365,7 @@ void Menu_demo_central::step() {
 				call(new Fade_in(pal));
 				call(new Call_setfont(pal, new Demo_multi_player(play)));
 				call(new Fade_out(pal));
-				// le 'delete play' est fait par ~Demo_multi_player
+				// the 'delete play' is done by ~Demo_multi_player
 				play = NULL;
 			}
 		}
@@ -418,7 +418,7 @@ void Menu_demo_central::reload() {
 		while(!find_file->eof()) {
 			Find_file_entry ff = find_file->get_next_entry();
 			if(ff.is_folder) {
-				if(ff.name[0] == '.' && ff.name[1] == 0) // ignore le repertoire "."
+				if(ff.name[0] == '.' && ff.name[1] == 0) // ignore the "." directory
 					continue;
 				Listitem *e = new Listitem(ff.name, fteam[1]);
 				e->isfolder = true;

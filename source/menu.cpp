@@ -365,7 +365,7 @@ void Menu_highscore::step() {
         status->set_val(ST_HIGHSTATUSCANCELED);
       }
     }
-  } else { // mode 'demo' du menu principal
+  } else { // demo mode of the main menu
     time_demo--;
     if(result || input->quel_key != -1 || time_demo == 0)
       quit = true;
@@ -378,7 +378,7 @@ void Menu_highscore::play_demo(const char *st) {
     call(new Fade_in(pal));
     call(new Call_setfont(pal, new Demo_multi_player(res)));
     call(new Fade_out(pal));
-    // le 'delete res' est fait par ~Demo_multi_player
+    // the 'delete res' is done by ~Demo_multi_player
   } else {
     msgbox("Menu_highscore::step: Unable to open demo '%s'\n", st);
     delete res;
@@ -519,7 +519,7 @@ void Menu_multi_join::step() {
     call(new Create_game(bit_, inter->font, font2_, pal, true, local_net));
   }
   if(result==b_refresh || result==b_refresh_internet) {
-    address[0] = 0; // ignore l'adresse IP ecrite dans la boite
+    address[0] = 0; // ignore the IP address written in the box
     refresh();
   }
   if(result==b_info) {
@@ -641,7 +641,7 @@ void Menu_multi_join::net_call(Packet *p2) {
     sprintf(st, "%s", p->name);
   else
     sprintf(st, "%s", ST_GAMENONAME);
-  Listgame *lg = new Listgame(st, p); // le packet 'p' sera deleter par ~Listgame()
+  Listgame *lg = new Listgame(st, p); // the packet 'p' will be deleted by ~Listgame
 
   int deja = list_game->search(lg);
   if(deja != -1) {
@@ -700,7 +700,7 @@ void Menu_multi_refresh::resolve() {
     parent->join_game(NULL, to, net->port_resolve);
   } else {
     cancel = NULL;
-    call(new Wait_time(50)); // attend 1/2 seconde (au cas ou le host se resolve tres vite)
+    call(new Wait_time(50)); // waits 1/2 second (in case the hosts resolves itself very quickly)
   }
 }
 
@@ -723,7 +723,7 @@ void Menu_multi_refresh::step() {
     } else {
       int port = net->port_resolve;
       if(!port)
-        port = config.info.port_number; // valeur par defaut
+        port = config.info.port_number; // default value
       parent->join_game(NULL, name_temp, port);
       ret();
       return;
@@ -1183,7 +1183,7 @@ void Menu_setup_key::step() {
   Menu::step();
   int i,loop=0;
   for(i=1; i<256; i++) {
-    // refuse la touche 'ENTER' (car dedie au Chat!)
+    // denies the Enter key (it is dedicated to chat)
     if(i == KEY_ENTER)
       continue;
     if(input->keys[i] & PRESSED) {
@@ -1347,7 +1347,7 @@ Menu_option::Menu_option() {
     Png png(res);
     ptemp.load(png);
   }
-  for(int i=184; i<256; i++) // copie les couleurs des blocs de l'image fond0.png
+  for(int i=184; i<256; i++) // copies the colors of the blocs from fond0.png
     pal.setcolor(i, ptemp.r(i), ptemp.g(i), ptemp.b(i));
   inter->set_font(new Font(*fonts.normal, pal, 255,255,255));
   set_fteam_color(pal);
@@ -1636,7 +1636,7 @@ void Menu_main::redraw() {
 void Menu_main::init() {
   Menu::init();
   call(new Menu_main_startmusic());
-  call(new Wait_time(6)); // Pour forcer la palette a se setter AVANT que la musique commence
+  call(new Wait_time(6)); // to force the palette being set BEFORE the music starts
   call(new Setpalette(pal));
   reset_delay();
 }
@@ -1673,7 +1673,7 @@ void Menu_main::step() {
 #ifdef UGS_DIRECTX
   if(result == b_logo) {
     call(new Fade_in(pal));
-    call(new Menu_internet(ST_HELP20)); // adresse du site web :)
+    call(new Menu_internet(ST_HELP20)); // web site URL
     call(new Fade_to(Palette(), pal));
   }
 #endif
@@ -2056,7 +2056,7 @@ void Menu_stat::display() {
       }
       y += 34;
     } else if(score.player_count[team] == 1) {
-      y += 12; // laisse espace entre les joueurs/totaux de chaque team
+      y += 12; // leave space between the players/totals of each team
     }
   }
   video->need_paint = 2;
@@ -2172,7 +2172,7 @@ Menu_multi_book::Menu_multi_book(Bitmap *bit, Font *font, Font *font2, const Pal
   address = adr;
   new Zone_bitmap(inter, bit, 0, 0);
   cancel = new Zone_text_button2(inter, bit, font2, ST_BACK, 560, 450);
-  if(address) { // si address de connexion deja fourni
+  if(address) { // if connecting address already provided
     new Zone_text(inter, ST_CONNECT, 20);
   } else {
     new Zone_text(inter, ST_ADDRESSBOOKTITLE, 20);

@@ -53,7 +53,7 @@ Res_compress::~Res_compress() {
 
 void Res_compress::read_uncompress() {
 	exist = false;
-	Byte *temp = (Byte *) res->buf(); // lit le fichier en entier dans '_buf'
+	Byte *temp = (Byte *) res->buf(); // reads the entire file in '_buf'
 	ressize = *(Dword *) temp;
 	Byte *source = temp + 4;
 	int src_size = res->size() - 4;

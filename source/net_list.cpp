@@ -330,7 +330,7 @@ void Net_list::step_all() {
 			game->removepacket();
 		}
 	}
-	//This sucks, see ya in 1.2.0 (maybe :))
+	//This sucks, see ya in 1.3.0 (maybe :))
 	/*{
 		Packet_servernameteam *p=(Packet_servernameteam *) game->peekpacket(P_SERVERNAMETEAM);
 		if(p) {
@@ -919,7 +919,7 @@ void Net_list::team2name(Byte team, char *st) {
 }
 
 void Net_list::update_team_names() {
-	//This sucks, see ya in 1.2.0 (maybe :))
+	//This sucks, see ya in 1.3.0 (maybe :))
 	return;
 	if(!game->server)
 		return;
@@ -1034,12 +1034,12 @@ bool Net_list::competitive() const {
 	for(int i=0; i<MAXPLAYERS; i++) {
 		c = get(i);
 		if(c) {
-			if(c->idle < 2) { // Vivant
+			if(c->idle < 2) { // alive
 				if(one_team==255) {
 					one_team=c->color;
 				}
 				else {
-					if(one_team!=c->color) { //Un autre vivant dans une autre team
+					if(one_team!=c->color) { // another alive in another team
 						return true;
 					}
 				}
@@ -1060,7 +1060,7 @@ bool Net_list::would_be_competitive() const {
 					one_team=c->color;
 				}
 				else {
-					if(one_team!=c->color) { //Un autre vivant dans une autre team
+					if(one_team!=c->color) { // another alive in another team
 						return true;
 					}
 				}
@@ -1239,7 +1239,7 @@ void Net_list::drop_player(Packet_dropplayer *p, bool chat) {
 	for(int i=0; i<MAXPLAYERS; i++) {
 		Canvas *c2=get(i);
 		if(c2) {
-			c2->attacks[c->num_player] = 0; // flush son total
+			c2->attacks[c->num_player] = 0; // flush its total
 			if(c2->last_attacker == c->num_player)
 				c2->last_attacker = 255;
 		}
@@ -1260,18 +1260,17 @@ void Net_list::rejoin_player(Canvas *c) {
 	for(int i=0; i<MAXPLAYERS; i++) {
 		Canvas *c2=get(i);
 		if(c2) {
-			c2->attacks[c->num_player] = 0; // flush son total
+			c2->attacks[c->num_player] = 0; // flush its total
 			if(c2->last_attacker == c->num_player)
 				c2->last_attacker = 255;
 		}
 	}
 	*/
 	list[c->num_player] = NULL;
-	c->hide(); // ce canvas doit absolument disparaitre lorsqu'il y a rejoin
-	if(!game->server) // si serveur, remote_adr doit etre la net_connection du nouveau proprietaire de ce canvas
+	c->hide(); // this canvas must absolutely disappear when there is a rejoin
+	if(!game->server) // if server, remote_adr must be the net_connection of the new canvas owner
 		c->remote_adr = net->server_addr();
-	// attention: Dans le cas d'un rejoin, le canvas n'est pas deleter, mais on
-	// met NULL dans l'array pour indiquer aux watcheurs de fermer leur fenetre pour ce joueur
+	// warning: in the case of a rejoin, the canvas is not deleted, but we put NULL in the array to indicate to the watchers to close their windows for this player.
 	notify_all();
 	list[c->num_player] = c;
 	//Now tell them about this "new" player
@@ -1306,7 +1305,7 @@ unsigned Net_list::size(bool include_gone) const {
 	return ret;
 }
 
-void Net_list::check_player() { // check pour les join de joueurs
+void Net_list::check_player() { // check for player joins
 	Packet_player *p=(Packet_player *) game->peekpacket(P_PLAYER);
 	if(!p)
 		return;

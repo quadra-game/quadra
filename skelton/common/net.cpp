@@ -297,7 +297,7 @@ Dword Net_connection::getbufsize() const {
 	return buf->size();
 }
 
-//Constructeur pour client_connection et server_connection
+/* constructor for client_connection and server_connection */
 Net_connection_tcp::Net_connection_tcp(int p, bool ppacket_based) {
 	outgoing_buf.reserve(1024);
 	packet_based=ppacket_based;
@@ -354,7 +354,7 @@ Net_connection_tcp::Net_connection_tcp(int p, bool ppacket_based) {
 	skelton_msgbox("Opening TCP socket %i\n",tcpsock);
 }
 
-//Constructeur pour connections acceptées
+/* constructor for accepted connections */
 Net_connection_tcp::Net_connection_tcp(int sock, Dword adr, int port, bool ppacket_based) {
 	outgoing_buf.reserve(1024);
 	packet_based=ppacket_based;
@@ -438,10 +438,10 @@ void Net_connection_tcp::connect(const char* host, int port) {
 	if(net->name_handle==0) {
 #endif /* UGS_DIRECTX */
 		destaddr = net->getaddress(host);
-		if(net->port_resolve) // si 'host' contient un port genre "host:port"
-			destport = net->port_resolve; // override le port en parametre
+		if(net->port_resolve) // if 'host' contains a port, like "host:port"
+			destport = net->port_resolve; // override the specified port
 		msgbox("Net_connection_tcp::connect: host=%s, destaddr=%x port=%i\n", host, destaddr, destport);
-		if(destaddr) { // si resou immediatement
+		if(destaddr) { // if immediately resolved
 			connect(destaddr, destport);
 			return;
 		}
@@ -715,7 +715,7 @@ void Net::init_local_addresses() {
 	}
 	else {
 		skelton_msgbox("Net::Net: gethostname() is %s\n", host_name);
-		// trouve la liste des interfaces IP du cok en cours
+		// find the list of IP interfaces
 		struct hostent *host;
 		host = gethostbyname(host_name);
 		if(host) {
@@ -879,7 +879,7 @@ void Net::step(bool loop_only) {
 			char *temp = failed();
 			if(temp) {
 				skelton_msgbox("Net::step: net error in select(): [%s]. Ignored\n", temp);
-				break; // flush erreur potentiel de net
+				break; // flush a potential network error
 			}
 			if(!tube && done)
 				break;
@@ -1222,12 +1222,12 @@ Dword Net::getaddress(const char *host) {
 	        lAddr = ntohl(*(Dword*)lpstHost->h_addr_list[0]);
 		    }
 			#endif
-			// devrait etre remplacer par ceci (async):
+			// should be replaced by this (async)
 			#ifdef UGS_DIRECTX
 				gethostbyname_cancel();
 				name_handle = WSAAsyncGetHostByName(hwnd, WM_USER, tube, name_buf, MAXGETHOSTSTRUCT);
-				if(name_handle == 0) {// si erreur retourne 0
-					name_resolve = 0; // impossible de résoudre DNS à cause de Winsock et/ou Doze
+				if(name_handle == 0) {// if error return 0 
+					name_resolve = 0; // impossible to resolve DNS because of Winsock and/or Windows
 				}
 			#endif
     }
@@ -1362,7 +1362,7 @@ bool Net::checkerror(int quel) {
 #ifdef UGS_DIRECTX
 	switch(quel) {
 //	case WSAEWOULDBLOCK:	last_error = "The socket is marked as non-blocking and this operation would block."; break;
-	case WSAEWOULDBLOCK: skelton_msgbox("Net::checkerror: WSAEWOULDBLOCK ignored.\n"); return false; // special: pas vraiment une erreur
+	case WSAEWOULDBLOCK: skelton_msgbox("Net::checkerror: WSAEWOULDBLOCK ignored.\n"); return false; // special: not really an error
 	case WSASYSNOTREADY: last_error = "The underlying network subsystem is not ready for network communication."; break;
 	case WSAVERNOTSUPPORTED: last_error = "The version of Winsock API support requested is not provided by this implementation."; break;
 	case WSAEINVAL:	last_error = "Operation invalid or not supported by this Windows Sockets DLL"; break;

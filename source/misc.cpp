@@ -62,7 +62,7 @@ void Fade_to::step() {
 		ret();
 		return;
 	}
-	time_control = TIME_FREEZE; // fade toujours sync avec le display
+	time_control = TIME_FREEZE; // always fade the sync with the display
 	if(fad->step())
 		ret();
 	fad->set();

@@ -59,8 +59,8 @@ void Sprite::draw(const Bitmap& d, const int dx, const int dy) const {
 	for(int y=clip_y1; y<=clip_y2; y++) {
 		for(int i=clip_x1; i<=clip_x2; i++) {
 			Byte pel = *(operator[](y-ty)+(i-tx));
-			// optimisation etant donne que le mask est toujours == 0
-			// a cause de SVGALIB
+			// optimization since the mask is always 0
+			// because of Svgalib
 			if(pel)
 			  d.fast_pel(i, y, pel);
 		}
@@ -157,11 +157,11 @@ int Fontdata::translate(const char **m) const {
 	char c;
 	c = *(*m)++;
 	if(c == 32)
-		return -1;  // code special pour l'espace
+		return -1;  // special code for space
 	if(c > 32 && c < 127)
-		return c-33; // valeur standard
+		return c-33; // standard value
 	switch(c) {
-		// ascii 183 suivit d'un chiffre pour faire un glyph (exemple: ·2)
+		// ascii 183 followed with a number to do a glyph
 		case '·':
 			ret=(int) (*(*m)++)-48 + 133;
 			if(ret<133 || ret>137)

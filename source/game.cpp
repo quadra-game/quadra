@@ -218,7 +218,7 @@ Game::Game(Game_params* p) {
 		game_end_value = game_end_value * 1000; //Kpoints->points
 	game_public = p->game_public;
 	if(!single) {
-		paused = true; // demarre la game sur pause
+		paused = true; // starts the game on pause
 		delay_start=500;
 	}
 	frame_start = overmind.framecount;

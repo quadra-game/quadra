@@ -81,7 +81,7 @@ void Video_X11_24::flip() {
           buf24[(y * width) + x] =
 	    ((PixelValue*)(&colors[vfb[(y * width) +x]]))->pixel;
     } else {
-      /* Conversion du buffer 8 bpp vers un buffer 32 bpp. */
+      /* Conversion of the 8 bpp buffer to a 32 bpp buffer. */
       buf32 = (unsigned long*) image->data;
       for(y = 0; y < 480; y++)
         for(x = min_x[y]; x <= max_x[y]; x++)
@@ -89,7 +89,7 @@ void Video_X11_24::flip() {
 	    colors[vfb[(y * width) + x]];
     }
 
-    /* reset le dirty rect */
+    /* reset the dirty rect */
     for(y = 0; y < 480; y++) {
       min_x[y] = vb->width;
       max_x[y] = 0;

@@ -41,7 +41,7 @@
 RCSID("$Id$")
 
 Canvas::Canvas(int qplayer, int game_seed, Palette *p): rnd(game_seed) {
-// construit un Canvas local
+// constructs a local Canvas
 	snapshot[0]=0;
 	best_move=best_clean=best_recurse=0;
 	memset(player_hash, 0, sizeof(player_hash));
@@ -80,7 +80,7 @@ Canvas::Canvas(int qplayer, int game_seed, Palette *p): rnd(game_seed) {
 }
 
 Canvas::Canvas(int game_seed, Byte team, const char *nam, int ph_repeat, int pv_repeat, bool psmooth, bool pshadow, int phandicap, Net_connection *adr, int qplayer, bool wait_down): rnd(game_seed) {
-// construit un Canvas remote
+// constructs a remote Canvas
 	snapshot[0]=0;
 	best_move=best_clean=best_recurse=0;
 	memset(player_hash, 0, sizeof(player_hash));
@@ -243,7 +243,7 @@ void Canvas::reinit() {
   level = game->level_start;
   lines = depth = complexity = bonus = 0;
   level_up = color_flash = 0;
-  over->framecount = 0; // initialise le compteur lorsque le joueur demarre
+  over->framecount = 0; // initialize the counter when the player starts
 	if(game->net_version()>=23 && game->survivor)
 		idle = 2;
 	else
@@ -269,7 +269,7 @@ void Canvas::restart() {
   lines = depth = complexity = bonus = 0;
   level_up = color_flash = 0;
   calc_speed();
-  idle = 1; // start 'idle' pour permettre de joindre si game sur pause et joueur tout juste demarre
+  idle = 1; // starts 'idle' to allow joins if the game is on pause and the player just started
 	state = PLAYING;
 	dying=false;
 	potato_team_on_last_stamp=255;
@@ -279,7 +279,7 @@ void Canvas::restart() {
 }
 
 void Canvas::clear_key_all() {
-  for(int i=0; i<7; i++) // vide le statut des touches du joueur
+  for(int i=0; i<7; i++) // clears the key states of the player
     clear_key(i);
 }
 
@@ -363,7 +363,7 @@ void Canvas::set_message(const char *m1, const char *m2) {
 }
 
 void Canvas::add_text_scroller(const char *st, int xoffset, int yoffset) {
-	if(inter && !small_watch) { // si canvas visible presentemment
+	if(inter && !small_watch) { // if the canvas is currently visible
 		Executor *tmp2 = new Executor(true);
 		tmp2->add(new Player_text_scroll(this, st, xoffset, yoffset));
 		over->start(tmp2);
@@ -411,9 +411,9 @@ void Canvas::add_packet(Canvas *sender, Byte nb, Byte nc, Byte lx, Attack attack
 	if(temp > 255)
 		temp = 255;
 	attacks[qui] = temp;
-	if(last_attacker != 255) { // si ya un dernier attackant
-		if(attacks[qui] >= attacks[last_attacker]) // si plus gros ou egal au dernier plus hot
-			last_attacker = qui; // c'est lui qui devient le plus hot
+	if(last_attacker != 255) { // if there is a last attacker
+		if(attacks[qui] >= attacks[last_attacker]) // if larger or equal to the last best
+			last_attacker = qui; // it's the one that becomes the best
 	} else
 		last_attacker = qui;
 
@@ -581,9 +581,9 @@ void Canvas::give_line() {
 			message(color, st);
 		}
 	}
-  if(i && enough) { // envoie rien si depth < que combo_min
+  if(i && enough) { // sends nothing if depth < combo_min
 		if(i>=3 && chat_text && !send_for_clean) {
-			// si fait un 'quad' minimum et pas clean
+			// if does a 'quad' minimally and not clean
 			char st[256];
 			if(normal_att.type==ATTACK_NONE)
 				sprintf(st, ST_BOBCLEARSBOBLINEBOB, name, depth, depth!=1? "s":"");
@@ -592,7 +592,7 @@ void Canvas::give_line() {
 			message(color, st);
 		}
     game->net_list.send(this, i, complexity, last_x, normal_att, false);
-    if(inter && !small_watch) { // si canvas visible presentemment
+    if(inter && !small_watch) { // if the canvas is currently visible
 			char st[256];
 			if(depth == 2)
 				sprintf(st, ST_CLEARDOUBLE, score_add);
@@ -743,19 +743,19 @@ void Canvas::change_level(const int level, Palette *pal, Bitmap *bit) {
   }
   {
     Res_doze res(foo0);
-    sons.flash = new Sample(res, 2); // quand fait une ligne (flash)
+    sons.flash = new Sample(res, 2); // when we do a ligne (flash)
   }
   {
     Res_doze res(foo1);
-    sons.depose3 = new Sample(res, 2); // depose
+    sons.depose3 = new Sample(res, 2); // drop
   }
   {
     Res_doze res(foo2);
-    sons.depose2 = new Sample(res, 2); // depose
+    sons.depose2 = new Sample(res, 2); // drop
   }
   {
     Res_doze res(foo3);
-    sons.depose = new Sample(res, 2); // depose
+    sons.depose = new Sample(res, 2); // drop
   }
   {
     Res_doze res(foo4);
@@ -799,8 +799,8 @@ void Canvas::hide() {
 }
 
 Byte Canvas::check_key(int i) {
-  if(ecran && ecran->focus) {  // empeche de controler pendant de l'input dans un zone_text_input qui a le focus
-    clear_key(i); // empeche le 'rotate' de s'effectuer apres un input (car bit 'was released!')
+  if(ecran && ecran->focus) {  // prevents controlling while inputting into a zone_text_input that has the focus
+    clear_key(i); // prevents rotating from happening after an input (because bit 'was released!')
     return 0;
   }
 	else

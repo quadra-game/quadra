@@ -63,16 +63,16 @@ public:
 	bool should_remove_bonus; //Remove bonus when we have the chance
 
 	Dword gone_time;
-  /* valeur possible de canvas->idle:
-    0: busy, canvas non disponible (en recursion)
-    1: idle, fait rien (en mouvement de bloc)
-    2: mort, en attente
-    3: gone, le joueur a quitté le jeu
+  /* possible values of canvas->idle:
+    0: busy, canvas not available (being recursed)
+    1: idle, doing nothing (moving a block)
+    2: dead, waiting
+    3: gone, the player has left the game
   */
 	int idle;
 	State state;
-	bool dying; //Set to true while in Player_dead or Player_firstfrag
-	bool wait_download; //Set when waiting for a P_DOWNLOAD (clients only)
+	bool dying; // Set to true while in Player_dead or Player_firstfrag
+	bool wait_download; // Set when waiting for a P_DOWNLOAD (clients only)
 	bool trying_to_drop;
 	Word watch_date;
 	bool small_watch;
@@ -92,13 +92,13 @@ public:
 	//unit block moved in last Player_check_link anim
 	bool moved[36][18];
   struct {
-    Byte x;   //position du 'trou'
+    Byte x;   // position of the "hole"
     Byte color;
 		Byte blind_time;
 		Word hole_pos; //Hole positions
 		bool final;
-  } bon[20];  //les lignes chiantes en attente
-	Byte last_x;  // position du dernier bloc depose (pour envoie des lignes)
+  } bon[20];  // the waiting annoying lines
+	Byte last_x;  // position of the last dropped block (for line sending)
 	char snapshot[32*10*2+1]; // 32 lines * 10 columns * 2 chars per block + 1 string terminator
 	Word best_move; //MSB: depth, LSB: complexity
 	Word best_clean; //same here
@@ -113,8 +113,8 @@ public:
 	Overmind *over;
 	Executor *myself;
 	int handicap;
-	int level, speed, player; // player: numero de joueur LOCAL (0 a 2)
-	int num_player; // num_player: numero de joueur dans net_list (0 a MAXPLAYERS)
+	int level, speed, player; // player: LOCAL player number (0 to 2)
+	int num_player; // num_player: net_list player number (0 to MAXPLAYERS)
 	int h_repeat, h_repeat_delay;
 	int v_repeat, v_repeat_delay;
 	int continuous;
@@ -172,7 +172,7 @@ public:
 	void setscreen() {
 		screen->setmem();
 	}
-	//Stuff de recording multi-player
+	// multiplayer recording stuff
 	Packet_clientmoves *moves;
 	void start_moves();
 	void send_p_moves();

@@ -243,15 +243,15 @@ Sfx::Sfx(Sample *sam, Dword dwPlayFlags, int vo, int pa, int f, int pos) {
 	}
 }
 
-void Sfx::pan(int pa) {  //-4000=gauche 0=centre 4000=droite
+void Sfx::pan(int pa) {  //-4000=left 0=center 4000=right
 	calldx(buf->SetPan(pa));
 }
 
-void Sfx::freq(int pa) { //200=bas  60000=tres haute
+void Sfx::freq(int pa) { //200=low  60000=very high
 	calldx(buf->SetFrequency(pa));
 }
 
-void Sfx::volume(int pa) { //0=full .. -4000=absent
+void Sfx::volume(int pa) { //0=full .. -4000=nil
 	calldx(buf->SetVolume(pa));
 }
 

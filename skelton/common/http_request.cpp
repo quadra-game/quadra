@@ -70,7 +70,7 @@ void Http_request::base64encode(const Byte *in, Textbuf& out, Dword size) {
 		switch(size%3) {
 			case 1:
 				*end--='=';
-				//pas de break, c'est normal!
+				// no break, it's normal!
 			case 2:
 				*end--='=';
 		}
@@ -109,7 +109,7 @@ void Http_request::url_encode(const char *src, Textbuf& dest) {
 		tmp[0] = *src++;
 		tmp[1] = 0;
 		if(tmp[0] < 48 || tmp[0] > 122 || (tmp[0] >= 58 && tmp[0] <= 64))
-			sprintf(tmp, "%c%02X", '%', (Byte)tmp[0]); // convertit en '%FF' url
+			sprintf(tmp, "%c%02X", '%', (Byte)tmp[0]); // converted to '%FF' url
 		dest.append("%s", tmp);
 	}
 }
@@ -124,7 +124,7 @@ Http_request::Http_request(const char *aHost, int port, const Byte *request, int
 	} else {
 		host = NULL;
 	}
-	nc=net->start_other(aHost, port); // nc peut etre NULL en cas d'erreur!
+	nc=net->start_other(aHost, port); // nc could be NULL in case of error!
 	sent=false;
 }
 
@@ -138,7 +138,7 @@ Http_request::Http_request(const char* aHost, Dword hostaddr, int port, const By
 	} else {
 		host = NULL;
 	}
-	nc=net->start_other(hostaddr, port); // nc peut etre NULL en cas d'erreur!
+	nc=net->start_other(hostaddr, port); // nc could be NULL in case of error!
 	sent=false;
 }
 
@@ -165,7 +165,7 @@ Dword Http_request::getsize() const {
 	return buf.size()? buf.size()-1:0; //Don't count nul byte added in 'done'
 }
 
-bool Http_request::isconnected() const { // indique si la connexion a ete etablie
+bool Http_request::isconnected() const { // indicate if the connection has been established
 	if(nc && nc->state() == Net_connection::connected)
 		return true;
 	return false;

@@ -61,14 +61,14 @@ void Video_X11_16::flip() {
   }
 
   if(max_x > min_x) {
-    // Conversion du buffer 8 bpp vers un buffer 16 bpp.
+    /* conversino of the 8 bpp buffer to a 16 bpp buffer. */
     buf = (unsigned short*) image->data;
     for(y = 0; y < 480; y++)
       for(x = min_x[y]; x <= max_x[y]; x++) {
         buf[(y * width) + x] = colors[vfb[(y * width) + x]];
       }
     
-    /* reset le dirty rect */
+    /* reset the dirty rect */
     for(y = 0; y < 480; y++) {
       min_x[y] = vb->width;
       max_x[y] = 0;

@@ -273,8 +273,8 @@ Video_X11::Video_X11(int w, int h, int b,
   delete_win(0),
   depth(d),
   do_shm(false) {
-  /* NOTE: ont assume que "b" est toujours 8, même si ont essaye de
-     faire le smart à des places (comme "bit = b"). */
+  /* NOTE: we assume that "b" is always 8, even is we try to be
+     wise-asses in some places (like "bit = b"). */
 
   XSetWindowAttributes attribs;
   XGCValues gcvalues;
@@ -432,8 +432,8 @@ Video_X11::Video_X11(int w, int h, int b,
 
     shmctl(shminfo.shmid, IPC_RMID, 0);
 
-    /* voodoo warning: XShmAttach foire horriblement si le serveur X
-       n'est pas local. Soyons futés. */
+    /* voodoo warning: XShmAttach dies an horrible death if the X
+       server is not local. Let's be nifty. */
     XSync(display, False);
     xerror = false;
     if(xoldhandler != xhandler)
@@ -575,7 +575,7 @@ void Video_X11::flip() {
   sleep(0);
 
   if(max_x2 > min_x2) {
-    /* des fois que la frame précédente soit pas finie */
+    /* in case that the last frame is not finished */
     XSync(display, False);
 
     if(do_shm)
@@ -595,11 +595,11 @@ void Video_X11::flip() {
 		min_x2, min_y2, /* src x, y */
 		min_x2, min_y2, /* dest x, y */
 		max_x2-min_x2, max_y2-min_y2);
-  
-    /* pour que tout passe */
+
+    /* so that everything goes through */
     XFlush(display);
 
-    /* reset le dirty rect */
+    /* reset the dirty rect */
     min_x2 = vb->width;
     min_y2 = vb->height;
     max_x2 = 0;

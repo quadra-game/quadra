@@ -47,8 +47,7 @@ Input_X11::Input_X11() {
 
   clear_key();
 
-  /* J'ai le gros nerf du cou toute sorti et j'ai les cheveux d'rette
-     sur la tête. */
+  /* Here, I'm just about to go mad. */
   for(i = 0; i < 256; i++)
     xlate[i] = 0;
 

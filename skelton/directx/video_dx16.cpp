@@ -36,10 +36,10 @@ RCSID("$Id$")
 extern LRESULT CALLBACK windowproc(HWND hwnd, UINT msg,
 				   WPARAM wparam, LPARAM lparam);
 
-/* singleton interne */
+/* internal singleton */
 static Video16 *video16 = NULL;
 
-Surface *screen; // pour permettre a l'applic de connaitre le back buffer
+Surface *screen; // to give to the program access to the back buffer
 
 class Surface_basedx: public Surface {
 public:

@@ -38,47 +38,45 @@ public:
 			   const int w, const int h);
   virtual ~Video_bitmap() { };
 
-  /* remplis un rectangle a la position x,y de largeur w et hauteur h
-     avec la couleur color. */
+  /* fills a rectangle at position 'x','y' of width 'w', height 'h'
+     and color 'color'. */
   virtual void rect(const int x,const int y,const int w,const int h,
 		    const int color) const = 0;
 
-  /* rectangle vide (contour) a la position x,y de largeur w et hauteur h
-     avec la couleur color. */
+  /* empty rectangle at position 'x','y' of width 'w', height 'h' and
+     color 'color'. */
   virtual void box(const int x,const int y,const int w,const int h,
 		   const int color) const = 0;
 
-  /* get un bout de bitmap à partir du Video_bitmap */
+  /* gets a part of bitmap from Video_bitmap */
   virtual void get_bitmap(const Bitmap* bit, const int x, const int y,
 			  const int w, const int h) const = 0;
 
-  /* mets le pel à la position x,y a la couleur c */
+  /* puts a pixel at position 'x','y' with color 'c' */
   virtual void put_pel(const int x, const int y, const Byte c) const = 0;
 
-  /* ligne horizontale partant de x,y et mettant w pels de couleur c
-     vers la droite (?) */
+  /* horizontal line starting from 'x','y', width 'w' and color 'c' */
   virtual void hline(const int y, const int x,
 		     const int w, const Byte c) const = 0;
 
-  /* ligne horizontale partant de x,y et mettant h pels de couleur c
-     vers le bas (?) */
+  /* vertical line starting from 'x','y', height 'h' and color 'c' */
   virtual void vline(const int x, const int y,
 		     const int h, const Byte c) const = 0;
 
-  /* ligne quelquonque de <x1,y1> à <x2,y2> de couleur c */
+  /* line going from 'x1','y1' to 'x2','y2' of color 'c' */
   virtual void line(const int x1, const int y1, const int x2, const int y2,
 		    const Byte c) const = 0;
 
-  /* blit un Bitmap d a la position dx,dy */
+  /* blits a Bitmap to position 'dx','dy' */
   virtual void put_bitmap(const Bitmap& d,
 			  const int dx, const int dy) const = 0;
 
-  /* blit un Sprite (mask) d a la position dx,dy */
+  /* blits a Sprite (mask) 'd' to position 'dx','dy' */
   virtual void put_sprite(const Sprite& d,
 			  const int dx, const int dy) const = 0;
 
-  /* ajuste la mem vidéo pointé par cette video_bitmap
-     dans la page vidéo en background */
+  /* adjust the video memory pointed by this video_bitmap in the
+     background video page */
   virtual void setmem() = 0;
 };
 

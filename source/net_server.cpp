@@ -125,17 +125,17 @@ void Net_client::pause(Packet *p2) {
 	if(game->paused) {
 		if(game->delay_start==500) {
 			message(-1, ST_GAMEWILLSTART);
-			game->delay_start = 499; // debut le compte a rebours
+			game->delay_start = 499; // starts the countdown
 			msgbox("Net_client::pause: starting countdown...\n");
 			Packet_serverlog log("game_start");
 			if(game->net_server)
 				game->net_server->record_packet(&log);
-			return; // n'enleve pas game->paused tout de suite
+			return; // doesn't remove game->paused immediately
 		}
 		if(game->delay_start != 0) {
-			game->delay_start = 0; // force l'arret du compte a rebours s'il etait actif
+			game->delay_start = 0; // force the countdown to stop if it was active
 			msgbox("Net_client::pause: stop countdown...\n");
-			return; // et reste sur pause
+			return; // and stay on pause
 		}
 		message(-1, "Game unpaused", true, true);
 		if(p2 && p2->from) {
@@ -352,24 +352,24 @@ void Net_server::playerwantjoin(Packet *p2) {
 	playeraccepted.accepted = game->server_accept_player;
 	playeraccepted.pos=0;
 	if(game->terminated)
-		playeraccepted.accepted = 3; // la partie est terminee: accepte aucun joueur
+		playeraccepted.accepted = 3; // the game is finished, do not accept players
 	if(playeraccepted.accepted == 0) {
 		for(int i=0; i<MAXPLAYERS; i++) {
 			Canvas *c = game->net_list.get(i);
 			if(c) {
-				if(!strcmp(c->name, p->name) && !memcmp(c->player_hash, p->player_hash, sizeof(c->player_hash))) { // si deja qqun avec ce nom la
-					if(c->idle == 3) { // si joueur 'gone'
+				if(!strcmp(c->name, p->name) && !memcmp(c->player_hash, p->player_hash, sizeof(c->player_hash))) { // if already someone with this name
+					if(c->idle == 3) { // if player is 'gone'
 						if(c->color != p->team) {
-							// si join avec une team differente, drop-le et accepte le nouveau
+							// if joins with a different team, drop him and accept the new one
 							Packet_dropplayer p3;
 							p3.player = i;
 							p3.reason = DROP_AUTO;
 							net->dispatch(&p3, P_DROPPLAYER, game->loopback_connection);
 							record_packet(&p3);
-							game->net_list.drop_player(&p3, true); // drop immediatement le joueur
+							game->net_list.drop_player(&p3, true); // immediately drop the player
 						} else { // si meme team, conserve les stats
-							playeraccepted.accepted = 4; // deja qqun: on va le remplacer ce mec!
-							playeraccepted.pos = i; // indique le numero du joueur a remplacer
+							playeraccepted.accepted = 4; // already someone, we're going to replace this guy!
+							playeraccepted.pos = i; // indicate the number of the player to replace
 							playeraccepted.answer(p);
 
 							Packet_rejoin p_rejoin;
@@ -381,7 +381,7 @@ void Net_server::playerwantjoin(Packet *p2) {
 							p_rejoin.handicap = p->handicap;
 							net->dispatch(&p_rejoin, P_REJOIN);
 							record_packet(&p_rejoin);
-							c->remote_adr = p->from; // le serveur re-ajuste la remote_adr du canvas
+							c->remote_adr = p->from; // the server re-adjuste the remote_adr of the canvas
 							Dword id=0;
 							if(p->from!=game->loopback_connection)
 								id=p->from->id();
@@ -394,7 +394,8 @@ void Net_server::playerwantjoin(Packet *p2) {
 							return;
 						}
 					} else {
-						playeraccepted.accepted = 2; // deja qqun: refuse le joueur
+						playeraccepted.accepted = 2; // 
+already someone, refuse the player
 					}
 					break;
 				}
@@ -420,7 +421,7 @@ void Net_server::playerwantjoin(Packet *p2) {
 	}
 
 	if(playeraccepted.accepted == 0) { // si on accepte le joueur
-		Packet_player player;  // dispatch P_PLAYER a tous (sauf le cok demandant!!).
+		Packet_player player;  // dispatches P_PLAYER to everyone (except the asking host!)
 		strcpy(player.name, p->name);
 		player.player = p->player;
 		player.team = p->team;
@@ -614,7 +615,7 @@ Net_pendingjoin::~Net_pendingjoin() {
 
 void Net_pendingjoin::load_packet_gameserver(Packet_gameserver* resp) {
 	resp->version = game->net_version();
-	resp->accepted = 1; // 'accepted' est inutile depuis Quadra_param->accept_connection()
+	resp->accepted = 1; // 'accepted' is useless since Quadra_param->accept_connection()
 	resp->game_seed = game->seed;
 	resp->paused = game->paused;
 	strcpy(resp->name, game->name);
@@ -631,10 +632,10 @@ void Net_pendingjoin::load_packet_gameserver(Packet_gameserver* resp) {
 	resp->delay_start = game->delay_start;
 	resp->game_end = game->game_end;
 	resp->game_end_value = game->game_end_value;
-	if(game->game_end == 2) { // si game_end == temps en minute
+	if(game->game_end == 2) { // if game_end == time in minutes
 		Dword timer = game->net_list.gettimer();
 		if(timer < (Dword)resp->game_end_value)
-			resp->game_end_value -= timer; // calcul et donne le temps restant seulement!
+			resp->game_end_value -= timer; // computes and gives the remaining time only
 		else
 			resp->game_end_value=0;
 	}
@@ -678,7 +679,7 @@ void Net_pendingjoin::step() {
 	for(i=0; i<MAXPLAYERS; i++) {
  		Canvas *c = game->net_list.get(i);
 		if(c && (!c->idle || c->dying)) {
-			// si un canvas est pas 'idle' (process_key), abandon
+			// if a canvas isn't 'idle' (process_key), abandon
 			msgbox("   Canvas %x is not idle now!\n", c);
 			return;
 		}

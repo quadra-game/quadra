@@ -276,11 +276,9 @@ void Quadra_param::client_deconnect(Net_connection *adr) {
 	for(int j=0; j<MAXPLAYERS; j++) {
 		Canvas *c = game->net_list.get(j);
 		if(c && c->remote_adr == adr) {
-			c->remote_adr = NULL; // cette net_connection est desormais detruite.
+			c->remote_adr = NULL; // this net_connection is now destroyed
 			if(c->idle != 3) { 
-				/* envoie un 'P_GONE' automatique pour tout les joueurs actifs du client qui a ete
-					 deconnecte.
-				*/
+				/* sends an automatic 'P_GONE' for every active players of the client that has been disconnected.  */
 				if(c->idle != 2 && !c->dying) {
 					Packet_dead d;
 					d.player = j;

@@ -286,8 +286,8 @@ void Svgalib_Video::end_frame() {
 void Svgalib_Video::restore() {
   newpal = true;
   need_paint = 2;
-  /* FIXME: ne devrait pas être nécessaire, probablement lié au
-     trouble de signals dans Input_Svgalib. */
+  /* FIXME: shouldn't be necessary, probably related to the
+     problems with signals in Input_Svgalib. */
   lib->vga_setmode(10 /* G640x480x256 */);
 }
 

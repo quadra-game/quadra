@@ -433,7 +433,7 @@ Player_text_scroll::Player_text_scroll(Canvas *c, const char *texte, int xoffset
 }
 
 Player_text_scroll::~Player_text_scroll() {
-	if(game) // si ALT-F4: game est detruit avant ce module... grrr
+	if(game) // if ALT-F4: game is destroyed before this module... grr...
 		game->net_list.remove_watch(this);
 }
 
@@ -577,7 +577,7 @@ void Player_change_level::init() {
 	if(time_control == TIME_FAST)
 		nframe = 3;
 	call(new Fade_to(*canvas->pal, noir, nframe));
-	call(new Wait_time(14)); // juste pour eviter de voir le 'level up' boker
+	call(new Wait_time(14)); // so that the 'level up' doesn't jerk
 	ret();
 }
 
@@ -621,7 +621,7 @@ void Player_check_line::step() {
 		check_clean();
 		call(new Player_flash_lines(canvas));
 	} else {
-		if(canvas->idle < 2) { // si vivant
+		if(canvas->idle < 2) { // if alive
 			//Copy hole positions into moved array so that give_line
 			//  and Net_list::send can use them
 			int i, j;
@@ -629,7 +629,7 @@ void Player_check_line::step() {
 				for(i=0; i<18; i++)
 					canvas->moved[j][i]=hole_pos[j][i];
 			canvas->give_line();
-		} else { // si mort, donne rien.
+		} else { // if dead, useless
 			canvas->depth = 0;
 			canvas->complexity=0;
 			canvas->send_for_clean=0;
@@ -734,7 +734,7 @@ void Player_base::move_down() {
 	if(!canvas->collide(canvas->bloc->bx, t, canvas->bloc->rot)) {
 		canvas->bloc->y += canvas->down_speed;
 		canvas->bloc->by = calc_by(canvas->bloc->y);
-	} else { // sert a 'accoter' le bloc pour qu'il se depose
+	} else { // is used to "settle" the block so that it drops
 		canvas->bloc->y = ((canvas->bloc->by-12)*18<<4)-1;
 	}
 	canvas->set_bit(1);
@@ -884,7 +884,7 @@ void Player_process_key::keyboard_control() {
 	if(bouge_left && !bouge_right && !auto_bouge) {
 		if(hold_left < 2) {
 			if(hold_left == 0)
-				hold_left = canvas->h_repeat_delay+10;	// delai de repetition initiale
+				hold_left = canvas->h_repeat_delay+10;	// initial repeating delay
 			else
 				hold_left = canvas->h_repeat_delay;
 			if(!move_left())
@@ -939,22 +939,22 @@ void Player_process_key::step() {
 	if(playback)
 		playback_control();
 	else {
-		if(canvas->inter) // si canvas invisible, ecoute pas les touches!
+		if(canvas->inter) // if the canvas is hidden, don't listen to keys
 			keyboard_control();
 	}
 
 	canvas->write_byte();
 
-	t = ((canvas->bloc->bx-4)<<4)*18; // calcul la position ou le bloc devrait etre
-	int nx = canvas->bloc->x; // nouvelle position 'x' a obtenir
+	t = ((canvas->bloc->bx-4)<<4)*18; // compute the position where the block should be
+	int nx = canvas->bloc->x; // new position 'x' to obtain
 	if(nx < t) {
 		nx += canvas->side_speed;
-		if(nx > t) // si depasse la position
+		if(nx > t) // if past the position
 			nx = t;
 	}
 	if(nx > t) {
 		nx -= canvas->side_speed;
-		if(nx < t) // si depasse la position
+		if(nx < t) // if past the position
 			nx = t;
 	}
 	t = calc_by(canvas->bloc->y-(17<<4)-15);

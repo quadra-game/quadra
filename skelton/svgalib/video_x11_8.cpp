@@ -69,7 +69,7 @@ void Video_X11_8::flip() {
     newpal = false;
   }
 
-  /* reset le dirty rect */
+  /* reset the dirty rect */
   for(y = 0; y < 480; y++) {
     min_x[y] = vb->width;
     max_x[y] = 0;

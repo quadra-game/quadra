@@ -239,7 +239,8 @@ void Input_Svgalib::keyboard_handler(int scancode, int press) {
 }
 
 void Input_Svgalib::signal_handler(int signal) {
-  /* indique que la souris devra etre re-initer au prochain refresh */
+  /* tells that the mouse should be re-initialized at the next
+     refresh */
   ((Input_Svgalib*)input)->mouse_reinit = true;
 	((Input_Svgalib*)input)->oldsignals.sa_handler(signal);
 }

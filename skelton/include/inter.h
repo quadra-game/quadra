@@ -81,7 +81,7 @@ public:
 	void flush();
 	virtual ~Inter();
 	void process();
-	void select_zone(Zone *z, int quel); // selectionne une zone (donne focus et/ou click)
+	void select_zone(Zone *z, int quel); // selects a zone (gives focus and/or click)
 	bool is_kb_visible() const {
 		return kb_visible;
 	}

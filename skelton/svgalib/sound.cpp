@@ -40,11 +40,11 @@ RCSID("$Id$")
 #define MAXVOICES 8
 #define VOLUMESHIFT 2
 
-/* Infos sur la technique:
+/* General idea:
  *
- * Ça consiste à loader les sons en les normalisant au bit/sample et
- * frequence du device. En faisant ceci, ça nous permet de faire
- * toutes les interpolations qu'on veut d'avance.
+ * Sounds are normalized to the format/frequency used by the
+ * device when they are loaded. By doing this, we can do all
+ * the interpolations that we want in advance.
  */
 
 struct riff_header {
@@ -157,7 +157,7 @@ void Sound::process() {
   for(i = 0; i < (unsigned int)plays.size(); i++) {
     Playing_sfx* p = plays[i];
 
-    if(bps == 8) { // si output 8-bit
+    if(bps == 8) { // if 8-bit output
       Byte* output = (Byte*)fragbuf;
       Byte* input = (Byte*)p->sam->audio_data;
 
@@ -180,14 +180,14 @@ void Sound::process() {
 	*output++ += tmpl;
 
 	if(p->delta_position + p->delta_inc < p->delta_position)
-	  p->pos++; /* si overflow du delta */
+	  p->pos++; /* if delta overflows */
 
 	p->delta_position += p->delta_inc;
 	p->pos += p->inc;
 	if((unsigned int)p->pos >= p->sam->length)
 	  break;
       }
-    } else { // si output 16-bit
+    } else { // if 16-bit output
       signed short* output = (signed short*)fragbuf;
       signed short* input = (signed short*)p->sam->audio_data;
 
@@ -205,7 +205,7 @@ void Sound::process() {
 	}
 	*output++ += tmpl;
 	if(p->delta_position + p->delta_inc < p->delta_position) {
-	  p->pos++; /* si overflow du delta */
+	  p->pos++; /* if delta overflows */
 	}
 
 	p->delta_position += p->delta_inc;
@@ -226,8 +226,8 @@ void Sound::process() {
 }
 
 void Sound::delete_sample(Sample *sam) {
-  // il faut detruire tout les sons qui utilisent un Sample avant de
-  // detruire ce dernier!
+  /* we have to destroy all the sounds that use a Sample before
+     we destroy that Sample! */
   for(int i=0; i<plays.size(); i++) {
     Playing_sfx *p = plays[i];
     if(p->sam == sam) {
@@ -325,14 +325,14 @@ void Sample::resample(char* sample, unsigned int size, unsigned int bps) {
   length = (size * (sound->sampling >> 7)) / (sampling >> 7);
   length = (length * sound->bps) / bps;
 
-  audio_data = malloc(length); // length est en 'byte' ici
+  audio_data = malloc(length); // length is in bytes here
 
   if(!audio_data)
     (void)new Error("Couldn't allocate sample");
 
   if(bps == 8) {
     if(sound->bps == 16)
-      length = length >> 1; // transforme length en 'short'
+      length = length >> 1; // transforms length into a short
 
     unsigned int pos, inc, delta, delta_pos, old_pos;
     pos = delta_pos = 0;
@@ -345,11 +345,11 @@ void Sample::resample(char* sample, unsigned int size, unsigned int bps) {
       if(pos == old_pos && ((bps == 8 && pos < size-1) || (bps == 16 && pos < size - 1))) {
 	if(sound->bps == 8) {
 	  tube = (Byte)sample[pos+1] >> VOLUMESHIFT;
-	  // interpolation cheap
+	  // cheap interpolation
 	  tube = (tube+((Byte *)audio_data)[i-1]) >> 1;
 	} else {
 	  tube = (128 - (Byte)sample[pos+1]) << (8-VOLUMESHIFT);
-	  // interpolation cheap
+	  // cheap interpolation
 	  tube = (tube+((signed short*)audio_data)[i-1]) >> 1;
 	}
       } else {
@@ -365,12 +365,12 @@ void Sample::resample(char* sample, unsigned int size, unsigned int bps) {
 	((signed short*)audio_data)[i] = tube;
 
       pos += inc;
-      if(delta_pos + delta < delta_pos) // si overflow du delta
+      if(delta_pos + delta < delta_pos) // if delta overflows
 	pos++;
       delta_pos += delta;
     }
   } else {
-    (void)new Error("Sound: wave 16-bit non supporte presentement");
+    (void)new Error("Sound: wave 16-bit not currently supported");
   }
 }
 
@@ -411,11 +411,11 @@ Sfx::Sfx(Sample *sam, Dword dwPlayFlags, int vo, int pa, int f, int pos):
 }
 
 void Sfx::stop() {
-  /* TODO: fu fu fu */
+  /* TODO: whistling innocently... */
 }
 
 void Sfx::pan(int pa) {
-  if(!playing) // le son est deja fini!!
+  if(!playing) // the sound is already finished playing
     return;
   if(pa < -4096)
     pa = -4096;
@@ -431,18 +431,19 @@ void Sfx::pan(int pa) {
 }
 
 void Sfx::freq(int pa) {
-  if(!playing) // le son est deja fini!!
+  if(!playing) // the sound is already finished!
     return;
   pa = pa * sound->sampling / playing->sam->sampling;
-  // il faut ajuster la frequence demande selon la freq original du sample!
+  // we must adjust the asked frequency according the original
+  // frequency of the sample
   playing->f = pa;
-  playing->inc = pa / sound->sampling; // calcul l'increment 'entier'
-  // puis calcul l'increment 'delta' qui overflowera a 2^32
+  playing->inc = pa / sound->sampling; // compute the whole increment
+  // then compute the delta increment which will overflow at 2^32
   playing->delta_inc =  (unsigned int) (4294967295U / sound->sampling) * (pa % sound->sampling);
 }
 
 void Sfx::volume(int pa) {
-  if(!playing) // le son est deja fini!!
+  if(!playing) // the sound is already finished!
     return;
   if(pa < -4096)
     pa = -4096;
@@ -450,13 +451,14 @@ void Sfx::volume(int pa) {
 }
 
 void Sfx::position(int pa) {
-  if(!playing) // le son est deja fini!!
+  if(!playing) // the sound is already finished!
     return;
   if(pa == -1)
     pa = 0;
 
   pa = pa * sound->sampling / playing->sam->sampling;
-  // il faut ajuster la position demande selon la freq original du sample!
+  // we have to adjust the asked position according to the original
+  // frequency of the sample
   playing->pos = pa;
   playing->delta_position = 0;
 }

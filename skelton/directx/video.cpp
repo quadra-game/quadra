@@ -38,7 +38,7 @@ RCSID("$Id$")
 extern LRESULT CALLBACK windowproc(HWND hwnd, UINT msg,
 				   WPARAM wparam, LPARAM lparam);
 
-/* singleton interne */
+/* internal singleton */
 DirectX_Video *directx_video = NULL;
 
 DirectX_Video::DirectX_Video(int w, int h, int b, const char *wname) {
@@ -211,7 +211,7 @@ void DirectX_Video::flip() {
 
 	calldx(lpddsprimary->Flip(lpddsback, DDFLIP_WAIT));
 	if(newpal) {
-		// Nouvelle methode pour palette:
+		// new method for palette:
 		int boo;
 		lpdd->GetVerticalBlankStatus(&boo);
 		if(!boo)
@@ -347,8 +347,8 @@ void DirectX_Video_bitmap::rect(const int x,const int y,const int w,const int h,
 	RECT rect;
 	rect.top = clip_y1+pos_y;
 	rect.left = clip_x1+pos_x;
-	rect.right = clip_x2+pos_x+1;  // maudit que c'est poche
-	rect.bottom = clip_y2+pos_y+1; // le dernier pixel est 'exclu' bordel
+	rect.right = clip_x2+pos_x+1;  // damn, this sucks
+	rect.bottom = clip_y2+pos_y+1; // the last pixel is "excluded", shit
 	DDBLTFX ddbltfx;
 	ddbltfx.dwSize = sizeof(ddbltfx);
 	ddbltfx.dwFillColor = color;

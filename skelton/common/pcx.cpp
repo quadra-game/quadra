@@ -41,7 +41,7 @@ Pcx::Pcx(Res& res) {
 	Byte c, num;
 	Byte* out = pic_;
 	int x,i;
-	if(width_ == h.byteperline) { // depack plus rapidement si bonne largeur
+	if(width_ == h.byteperline) { // unpack faster if it is the right width
 		for(i=0; i < height_; i++) {
 			x = 0;
 			while(x < width_) {
@@ -58,7 +58,7 @@ Pcx::Pcx(Res& res) {
 				}
 			}
 		}
-	} else { // maudit PCX de merde avec des mauvais bytes au bout des lignes!!
+	} else { // damn shitty PCX with bad bytes at the end of the lines!
 		for(i=0; i < height_; i++) {
 			x = 0;
 			while(x < h.byteperline) {

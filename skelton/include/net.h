@@ -229,7 +229,7 @@ public:
 	Net(Net_param *np);
 	virtual ~Net();
 
-	//Client+Serveur
+	//Client+Server
 	Net_connection *server_addr();
 	void step(bool loop_only=false);
 	void addwatch(Word id, Net_callable *nc);
@@ -299,11 +299,11 @@ private:
 	void verify_connections();
 	void verify_server_connection();
 
-	/* true si erreur (message dans last_error) */
+	/* true if error (message in last_error) */
 	bool checkerror(int quel);
-	/* verifie si erreur etendu dans WSALasterror ou errno */
+	/* verifies if extended error in WSALasterror or errno */
 	bool getlasterror(int quel);
-	/* quit avec message d'erreur */
+	/* quits with an error message */
 	void callwsa(int quel);
 
 	#ifdef UGS_DIRECTX

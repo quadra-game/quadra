@@ -50,7 +50,7 @@ public:
 		point += num;
 	}
 	void write_string(const char *v) {
-		write_mem(v, strlen(v)+1); // ecrit un string avec son '0'
+		write_mem(v, strlen(v)+1); // write a string with its '0'
 	}
 	Dword read_dword() {
 		if(((unsigned int)len())<=NETBUF_SIZE-sizeof(Dword)) {
@@ -93,7 +93,7 @@ public:
 		else
 			memset(v, 0, num);
 	}
-	bool read_string(char *v, int size) { // lit un string avec son '0'
+	bool read_string(char *v, int size) { // read a string with its '0'
 		do {
 			char c=(char)read_byte();
 			if(c>0 && c<' ')

@@ -181,7 +181,7 @@ void Pane_option::init() {
 	Pane::init();
 	Byte t = config.info.pane[pi.quel_pane];
 	if(!game->network) {
-		if(t==6) // pas de Pane_server en mode local
+		if(t==6) // no Pane_server in local mode
 			t = 0;
 	}
 	if(playback && !playback->single()) {
@@ -465,7 +465,7 @@ void Pane_server::Zone_update_rate::lost_focus(int cancel) {
 		if(port_num >= 0 && port_num <=99 && !playback) {
 			config.info.update_rate = port_num;
 			config.write();
-		} else {  // si invalide, cancel l'entree
+		} else {  // if invalid, cancel the input
 			cancel = 1;
 		}
 	}
@@ -621,7 +621,7 @@ void Pane_server_drop_connection::notify() {
 	for(int i=0; i<net->connections.size(); i++) {
 		Net_connection *nc=net->connections[i];
 		if(nc == game->loopback_connection)
-			continue; // skip l'adresse local
+			continue; // skip the local address
 		char st2[256];
 		Net::stringaddress(st2, nc->address());
 		sprintf(st, "%s:%i", st2, nc->getdestport());
@@ -650,7 +650,7 @@ void Pane_server_drop_connection::step() {
 		List_connection *l = (List_connection *) (list_connection->get_selected());
 		msgbox("Pane_server_drop_connection: dropping address %x (%s)...\n", l->c->address(), l->list_name);
 		l->c->disconnect();
-		notify(); // force un update de la fenetre (pour enlever l'item detruit)
+		notify(); // force an update of the window (to remove the destroyed item)
 	}
 }
 
@@ -812,7 +812,7 @@ void Pane_playerinfo::refresh() {
 		}
 	}
 
-	for(i=0; i<4; i++) // epure ceux 'tagged' qui sont maintenant NULL (car dropper)
+	for(i=0; i<4; i++) // removes those 'tagged' that are now NULL (because they're dropped)
 		if(tagged[i] != -1) {
 			Canvas *c = game->net_list.get(tagged[i]);
 			if(!c)
@@ -830,7 +830,7 @@ void Pane_playerinfo::refresh() {
 		auto_button = new Zone_text_button2(inter, pi.fond, pi.font2, ST_AUTOWATCH, x2+24, y2);
 		zone.add(auto_button);
 		if(auto_watch)
-			activate_auto_watch(); // pour que le bouton soit vert au debut
+			activate_auto_watch(); // so that the button is green at the start
 	}
 
 	if(hiden) {
@@ -858,10 +858,10 @@ void Pane_playerinfo::tag(int q) {
 		if(tagged[i] == -1) {
 			break;
 		}
-	if(i == 4) { // si aucune place de libre: flush le 4e selected
+	if(i == 4) { // if no space left, flush the fourth selected
 		tag(tagged[3]);
 		for(int j=3; j>0; j--)
-			tagged[j] = tagged[j-1]; // rotate les tagged
+			tagged[j] = tagged[j-1]; // rotate the tagged
 		i = 0;
 	}
 	tagged[i] = q;
@@ -946,12 +946,12 @@ void Pane_playerinfo::step() {
 		o_show_val=show_quoi;
 		refresh();
 	}
-	for(j=0; j<4; j++) // epure ceux 'tagged' mais deja affiche dans un autre pane (ou gone)
+	for(j=0; j<4; j++) // removes those 'tagged', but already displayed in another pane (or gone)
 		if(tagged[j] != -1) {
 			Canvas *c = game->net_list.get(tagged[j]);
 			if(c) {
 				if(c->inter != NULL || c->idle==3)
-					tag(tagged[j]); // de-selectionne (car deja affiche ou deconnecte)
+					tag(tagged[j]); // un-select (since already displayed or disconnected)
 			}
 			else
 				tagged[j] = -1;
@@ -984,7 +984,7 @@ void Pane_playerinfo::step() {
 						}
 						else
 							tag(i);
-						if(!auto_watch) //Un tag a la fois seulement si pas auto_watch
+						if(!auto_watch) // one tag at a time only if not auto_watch
 							break;
 					}
 				}
@@ -1027,11 +1027,11 @@ void Pane_playerinfo::step() {
 			}
 
 		if(count == 1) {
-			hidecall(new Pane_startwatch(pi, solo, this)); // fullpane si 1 seul watch
+			hidecall(new Pane_startwatch(pi, solo, this)); // fullpane if only one watch
 		} else {
 			for(int j=0; j<4; j++)
 				if(tagged[j] != -1) {
-					hidecall(new Pane_smallwatch(pi, tagged, this)); // demarre si plus que 1 tagged
+					hidecall(new Pane_smallwatch(pi, tagged, this)); // starts if more than one tagged
 					break;
 				}
 		}
@@ -1044,7 +1044,7 @@ void Pane_playerinfo::auto_watch_closed() {
 
 bool Pane_playerinfo::auto_watch_started() {
 	bool t = auto_watch;
-	deactivate_auto_watch(); // met a OFF temporairement, au cas ou l'usager click sur "Fermer"
+	deactivate_auto_watch(); // disable temporarily, in case the user click on "close"
 	return t;
 }
 
@@ -1183,7 +1183,7 @@ void Chat_interface::process() {
 		chat_text->new_text = false;
 	}
 	if(!playback) {
-		// detecte la touche 'ENTER' (en Doze et/ou en Ux)
+		// detects the Enter key (in Windows and/or in Unix)
 		if(input->quel_key == KEY_ENTER && !inter->focus && inter->focus != zinput) {
 			inter->select_zone(zinput, 0);
 			input->quel_key = -1;
@@ -1193,7 +1193,7 @@ void Chat_interface::process() {
 
 void Chat_interface::notify() {
 	if(z_from) {
-		z_from->nstate = 0; // impoli, mais fuck off
+		z_from->nstate = 0; // not polite, but fuck off
 		for(int i=0; i<3; i++) 
 			z_from->add_string(config.player[i].name, fteam[config.player[i].color]);
 	}
@@ -1688,7 +1688,7 @@ Pane_playerstartup::Pane_playerstartup(const Pane_info &p, int q):
 	list_player = new Zone_listbox2(inter, pi.fond, pi.font2, NULL, x+19, y, 160, 170);
 	zone.add(list_player);
 	game->net_list.add_watch(this);
-	update_player(); // force le 1er update
+	update_player(); // force the first update
 }
 
 Pane_playerstartup::~Pane_playerstartup() {
@@ -1714,8 +1714,8 @@ void Pane_playerstartup::step() {
 	if(clicked == list_team || clicked == color_team) {
 		update_player();
 	}
-	if(clicked == b_start) { // si click start ou que joueur deja demarré (mais caché)
-		config.player[qplayer].color = color; // assigne la couleur selon le choix
+	if(clicked == b_start) { // if start is clicked or the player is already started (but hidden)
+		config.player[qplayer].color = color; // assign the color according to choice
 		config.player2[qplayer].handicap = handicap;
 		Module *m;
 		m = new Pane_playerjoin(pi, qplayer);
@@ -1785,26 +1785,26 @@ void Pane_playerjoin::step() {
 void Pane_playerjoin::net_call(Packet *p2) {
 	got_answer=true;
 	Packet_playeraccepted *p=(Packet_playeraccepted *) p2;
-	if(p->accepted == 0) { // si le join a ete accepte
+	if(p->accepted == 0) { // if the join has been accepted
 		hideexec(new Pane_startgame(pi, qplayer, NULL, p->pos));
-	} else if(p->accepted == 4) { // si ya deja un joueur 'gone' et qu'on le remplace
+	} else if(p->accepted == 4) { // if there is already a 'gone' player and that we replace him
 		hideexec(new Pane_startgame(pi, qplayer, game->net_list.get(p->pos), p->pos));
 	} else {
 		const char *s1 = NULL, *s2 = NULL;
 		switch(p->accepted) {
-			case 1: // serveur refuse tous les joins
+			case 1: // server refuses all joins
 				s1 = ST_PLAYERJOINREFUSED;
 				s2 = ST_PLAYERJOINREFUSED2;
 				break;
-			case 2: // deja qqun avec ce nom la
+			case 2: // already someone with this name
 				s1 = ST_PLAYERJOINALREADY;
 				s2 = ST_PLAYERJOINALREADY2;
 				break;
-			case 3: // partie terminee, pas de join
+			case 3: // game is finished, no join
 				s1 = ST_PLAYERJOINREFUSED3;
 				s2 = ST_PLAYERJOINREFUSED4;
 				break;
-			case 5: // partie pleine. (MAX_PLAYERS)
+			case 5: // full game (MAX_PLAYERS)
 				s1 = ST_PLAYERJOINFULL1;
 				s2 = ST_PLAYERJOINFULL2;
 				break;
@@ -1820,22 +1820,22 @@ Pane_startgame::Pane_startgame(const Pane_info &p, int q, Canvas *c, int pos):
 	delete_zone = true;
 	qplayer = q;
 	canvas = c;
-	if(canvas == NULL) { // si pas deja la, ajoute nouveau joueur
+	if(canvas == NULL) { // if not already there, add new player
 		canvas = new Canvas(qplayer, game->seed, &pi.mp->pal);
 		if(pos==-1) {
-			//Pour game locale
+			// for local game
 			game->net_list.add_player(canvas);
 		}
 		else {
-			//Pour game internet
+			// for Internet game
 			game->net_list.set_player(canvas, pos, true);
 		}
 	}
-	else { // si resume ou affiche en plein ecran
-		if(qplayer!=-1) { // si resume un joueur local
+	else { // if resumed or displayed in full screen
+		if(qplayer!=-1) { // if resuming a local player
 			canvas->clear_key_all();
 			if(canvas->idle == 3)
-				delete_zone = false; // empeche le refresh qui indiquera que ce joueur rejoin car cela delete les zones
+				delete_zone = false; // prevent the refresh that will indicate that this player rejoin since this deletes the zones
 		}
 	}
 	//What the fuck does a canvas need a Palette and Bitmap for,
@@ -1952,8 +1952,8 @@ void Pane_startwatch::step() {
 
 void Pane_startwatch::notify() {
 	Pane_startgame::notify();
-	if(auto_watch) { // si 1 joueur est dropper ou un nouveau arrive, ferme
-		ret(); // car auto_watch va peut etre ouvrir en small watch (ou reouvrir le meme...)
+	if(auto_watch) { // if one player is dropped or a new one arrive, close
+		ret(); // since auto_watch might open in a small watch (or re-open the same)
 		pinfo->auto_watch_closed();
 	}
 }
@@ -2024,7 +2024,7 @@ void Pane_smallwatch::notify() {
 			else
 				compte++;
 		}
-	if(deleted || compte == 0 || auto_watch) { // si pu aucun small_watch d'ouvert
+	if(deleted || compte == 0 || auto_watch) { // if no small_watch left open
 		ret();
 		pinfo->auto_watch_closed();
 	}

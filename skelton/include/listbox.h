@@ -82,10 +82,10 @@ class Zone_listbox: public Zone_watch_int {
 	Zone_listup *zup;
 	Zone_listdown *zdown;
 	Font *font2;
-	Array<Listable *> elements; // liste des elements de la list_box
-	int first_item; // premier item afficher dans la list_box
-	Array<Zone_listtext *> list; // liste des zone_text affichées
-	Array<Listable *> sort_list; // liste temporaire d'element a sorter
+	Array<Listable *> elements; // list of the list_box elements
+	int first_item; // first displayed item in list_box
+	Array<Zone_listtext *> list; // list of the displayed zone_text
+	Array<Listable *> sort_list; // temporary list of elements to sort
 	static int compare_sort(const void *arg1, const void *arg2);
 	Video_bitmap *screen;
 	bool selectable;
@@ -111,7 +111,7 @@ public:
 	void empty();
 	void select(int q);
 	int search(Listable *source);
-	bool in_listbox(const Zone *z); // demande si 'z' est un element de la listbox
+	bool in_listbox(const Zone *z); // asks if 'z' is an element of the listbox
 	void init_sort();
 	void add_sort(Listable *l);
 	void end_sort();

@@ -66,7 +66,7 @@ static void output_msg(char *m) {
 		siz++;
 	}
 	static Res_dos out("output.txt", RES_CREATE);
-	if(out.exist) // pour pas planter si la creation de 'output.txt' a pas marcher!
+	if(out.exist) // so we don't crash if creating 'output.txt' didn't work!
 		out.write(m, siz);
 }
 
