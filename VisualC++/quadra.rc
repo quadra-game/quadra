@@ -22,7 +22,7 @@ BEGIN
             VALUE "FileDescription", "Quadra\0"
             VALUE "FileVersion", VERSION_STRING
             VALUE "InternalName", "Quadra\0"
-            VALUE "LegalCopyright", "Copyright © 1998-2001 Ludus Design\0"
+            VALUE "LegalCopyright", "Copyright © 1998-2003 Ludus Design\0"
             VALUE "OriginalFilename", "quadra.exe\0"
             VALUE "ProductName", "Quadra\0"
             VALUE "ProductVersion", VERSION_STRING
