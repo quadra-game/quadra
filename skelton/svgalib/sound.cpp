@@ -29,6 +29,7 @@
 
 #include "main.h"
 #include "sound.h"
+#include "byteorder.h"
 
 RCSID("$Id$")
 
@@ -70,7 +71,7 @@ struct fmt_chunk {
 
 Sound *sound = NULL;
 
-Sound::Sound(): dspfd(-1), fragbuf(NULL), active(false) {
+Sound::Sound(): dspfd(-1), fragsize(0), fragbuf(NULL), active(false) {
   int i;
 
   dspfd = open(SOUNDDEV, O_WRONLY);
@@ -190,9 +191,10 @@ void Sound::process() {
     } else { // if 16-bit output
       signed short* output = (signed short*)fragbuf;
       signed short* input = (signed short*)p->sam->audio_data;
+      signed short w;
 
       for(unsigned int j=0; j<frag_temp; j++) {
-	signed short tmpl = *(input + p->pos);
+	signed short tmpl = INTELWORD(*(input + p->pos));
 	tmpl = (tmpl * p->vo) >> 8;
 	if(channels == 2) { // stereo output
 	  signed short tmpr = tmpl;
@@ -201,9 +203,11 @@ void Sound::process() {
 	  else if(p->pa < 0)
 	    tmpr = (tmpr * (-p->pa)) >> 8;
 
-	  *output++ += tmpr;
+          w = INTELWORD(*output);
+	  *output++ = INTELWORD(tmpr + w);
 	}
-	*output++ += tmpl;
+        w = INTELWORD(*output);
+	*output++ = INTELWORD(tmpl + w);
 	if(p->delta_position + p->delta_inc < p->delta_position) {
 	  p->pos++; /* if delta overflows */
 	}
@@ -250,7 +254,8 @@ Sound::~Sound() {
     free(fragbuf);
 }
 
-Sample::Sample(Res& re, int nb): audio_data(NULL), sampling(0), length(0) {
+Sample::Sample(Res& re, int nb): audio_data(NULL), sampling(0),
+                                 length(0), refcount(1) {
   char *buffer;
   Dword size;
 
@@ -269,10 +274,10 @@ void Sample::loadriff(const char *res, unsigned int len) {
   char *sample=NULL;
   unsigned int size=0, bps=0;
 
-  if(((struct riff_header *)res)->signature != 0x46464952) /* 'RIFF' */
+  if(((struct riff_header *)res)->signature != INTELDWORD(0x46464952)) /* 'RIFF' */
     (void)new Error("Bad RIFF signature");
 
-  if(((struct riff_header *)res)->type != 0x45564157) /* 'WAVE' */
+  if(((struct riff_header *)res)->type != INTELDWORD(0x45564157)) /* 'WAVE' */
     (void)new Error("RIFF is not a WAVE");
 
   char *ptr = (char *)res + sizeof(struct riff_header);
@@ -281,34 +286,46 @@ void Sample::loadriff(const char *res, unsigned int len) {
   while((ptr < endptr) && (ptr >= res)) {
     char *data = ptr + sizeof(struct chunk_header);
     struct chunk_header *header_ptr = (struct chunk_header *)ptr;
+    unsigned int header_type = UNALIGNEDDWORD(header_ptr->type);
+    unsigned int header_size = UNALIGNEDDWORD(header_ptr->size);
 
-    switch(header_ptr->type) {
+    header_type = INTELDWORD(header_type);
+    header_size = INTELDWORD(header_size);
+
+    switch(header_type) {
     case 0x20746d66: /* 'fmt ' */
       seenfmt = true;
 
-      if(((struct fmt_chunk *)data)->channels != 1)
+      {
+
+      Word w = UNALIGNEDWORD(((struct fmt_chunk *)data)->channels);
+      w = INTELWORD(w);
+
+      if(w != 1)
 	(void)new Error("RIFF/WAVE: unsupported number of channels");
 
-      sampling = ((struct fmt_chunk *)data)->sampling;
-      bps = ((struct fmt_chunk *)data)->bitspersample;
+      Dword d = UNALIGNEDDWORD(((struct fmt_chunk *)data)->sampling);
+      sampling = INTELDWORD(d);
+      w = UNALIGNEDWORD(((struct fmt_chunk *)data)->bitspersample);
+      bps = INTELWORD(w);
       size = 0;
+
+      }
       break;
     case 0x61746164: /* 'data' */
       if(!seenfmt)
 	(void)new Error("RIFF/WAVE: 'data' subchunk seen before 'fmt ' subchunk");
 
-      unsigned int chunksize;
-      chunksize = header_ptr->size;
-      sample = (char*)realloc(sample, size+chunksize);
-      memcpy(sample+size, data, chunksize);
-      size += chunksize;
+      sample = (char*)realloc(sample, size+header_size);
+      memcpy(sample+size, data, header_size);
+      size += header_size;
 
       break;
     default:
       /* ignore unknown chunks/subchunks */
       break;
     }
-    ptr += sizeof(struct chunk_header) + header_ptr->size;
+    ptr += sizeof(struct chunk_header) + header_size;
   }
 
   if(!sample)
@@ -342,6 +359,7 @@ void Sample::resample(char* sample, unsigned int size, unsigned int bps) {
 
     for(i = 0; i < length; i++) {
       int tube;
+      signed short w;
       if(pos == old_pos && ((bps == 8 && pos < size-1) || (bps == 16 && pos < size - 1))) {
 	if(sound->bps == 8) {
 	  tube = (Byte)sample[pos+1] >> VOLUMESHIFT;
@@ -350,7 +368,8 @@ void Sample::resample(char* sample, unsigned int size, unsigned int bps) {
 	} else {
 	  tube = (128 - (Byte)sample[pos+1]) << (8-VOLUMESHIFT);
 	  // cheap interpolation
-	  tube = (tube+((signed short*)audio_data)[i-1]) >> 1;
+          w = INTELWORD(((signed short *)audio_data)[i-1]);
+	  tube = (tube+w) >> 1;
 	}
       } else {
 	if(sound->bps == 8)
@@ -362,7 +381,7 @@ void Sample::resample(char* sample, unsigned int size, unsigned int bps) {
       if(sound->bps == 8)
 	((Byte *)audio_data)[i] = tube;
       else
-	((signed short*)audio_data)[i] = tube;
+	((signed short*)audio_data)[i] = INTELWORD(tube);
 
       pos += inc;
       if(delta_pos + delta < delta_pos) // if delta overflows
@@ -377,6 +396,7 @@ void Sample::resample(char* sample, unsigned int size, unsigned int bps) {
 Sample::~Sample() {
   if(audio_data)
     free(audio_data);
+  if (refcount) msgbox("hrm -- deleting Sample with non-zero refcount?\n");
 }
 
 void Sample::stop() {
@@ -385,9 +405,13 @@ void Sample::stop() {
 Playing_sfx::Playing_sfx(Sfx* thesfx, Sample *thesam, Dword theflags):
   sfx(thesfx), sam(thesam), flags(theflags), vo(0), f(0), pos(0),
   pa(0), delta_inc(0), delta_position(0), inc(0) {
+     sam->refcount++;
 }
 
 Playing_sfx::~Playing_sfx() {
+   if (--sam->refcount == 0) {
+      delete sam;
+   }
   if(sfx)
     sfx->playing = NULL;
 }

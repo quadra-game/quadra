@@ -21,12 +21,14 @@
 #include <stdio.h>
 #include "res.h"
 #include "resfile.h"
+#include "byteorder.h"
 
 RCSID("$Id$")
 
 void Resfile::freeze() {
 	int resnamelen;
 	Resdata *ptr;
+        Dword d;
 
 	res->write(&signature, sizeof(signature));
 
@@ -34,9 +36,11 @@ void Resfile::freeze() {
 
   while(ptr != NULL) {
 		resnamelen = strlen(ptr->name)+1;
-		res->write(&resnamelen, sizeof(resnamelen));
+                d = INTELDWORD(resnamelen);
+		res->write(&d, sizeof(d));
 		res->write(ptr->name, resnamelen);
-		res->write(&ptr->size, sizeof(ptr->size));
+                d = INTELDWORD(ptr->size);
+		res->write(&d, sizeof(d));
 		res->write(ptr->data, ptr->size);
     ptr = ptr->next;
   }

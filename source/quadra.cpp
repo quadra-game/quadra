@@ -25,6 +25,7 @@
 #include <sys/types.h>
 #endif
 #include <stdlib.h>
+#include <exception>
 #include "packet.h"
 #include "types.h"
 #include "net.h"

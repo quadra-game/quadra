@@ -56,6 +56,7 @@ inline int closesocket(int fd) {
 #include "net_buf.h"
 #include "http_request.h"
 #include "net.h"
+#include "byteorder.h"
 
 RCSID("$Id$")
 
@@ -209,7 +210,7 @@ bool Net_connection::checktcp() {
 	if(_state!=connected)
 		return false;
 	if(buf->size()>=sizeof(Word)) {
-		Word s = *(Word *) buf->get();
+		Word s = INTELWORD(*(Word *) buf->get());
 		if(buf->size()>=sizeof(Word)+s)
 			return true;
 	}
@@ -221,7 +222,7 @@ void Net_connection::receivetcp(Net_buf *p) {
 		return;
 	p->from = this;
 	p->from_addr = INADDR_LOOPBACK;
-	Word size = *(Word *) buf->get();
+	Word size = INTELWORD(*(Word *) buf->get());
 	memcpy(p->buf, buf->get()+sizeof(Word), size);
 	buf->remove_from_start(size+sizeof(Word));
 	incoming_inactive=0;
@@ -249,7 +250,7 @@ void Net_connection::sendtcp(Packet *p2) {
 	p2->write(&p);
 	Word size=p.len();
 	static Byte outbuf[1026];
-	*(Word *) outbuf=size;
+	*(Word *) outbuf=INTELWORD(size);
 	memcpy(&outbuf[2], p.buf, size);
 	sendtcp(outbuf, size+2);
 }
@@ -478,7 +479,7 @@ bool Net_connection_tcp::checktcp() {
 		incoming_size+=temp;
 	}
 	if(tcpbufsize>=sizeof(Word)) {
-		Word pacsize=*(Word *)tcpbuf;
+		Word pacsize=INTELWORD(*(Word *)tcpbuf);
 		if(!pacsize || (pacsize >= NETBUF_SIZE && pacsize != (('/'*256) +'/'))) {
 			skelton_msgbox("Garbage received on connection #%i (%04X). Shutting it.\n", tcpsock, pacsize);
 			_state=disconnected; // forcing a graceful shutdown
@@ -554,7 +555,7 @@ void Net_connection_tcp::sendtcp(Packet *p2) {
 	p2->write(&p);
 	Word size=p.len();
 	static Byte outbuf[1026];
-	*(Word *) outbuf=size;
+	*(Word *) outbuf=INTELWORD(size);
 	memcpy(&outbuf[2], p.buf, size);
 	sendtcp(outbuf, size+2);
 }

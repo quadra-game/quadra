@@ -41,9 +41,9 @@ Stringtable::Stringtable(Byte *b, Dword size) {
 }
 
 Stringtable& Stringtable::operator=(const Stringtable& src) {
-	delete table;
+	delete[] table;
 	if(mustfree)
-		delete buf;
+		delete[] buf;
 	mustfree=true;
 	num = src.size();
 	int i;
@@ -115,7 +115,7 @@ void Stringtable::parse(char *buf, Dword size) {
 }
 
 Stringtable::~Stringtable() {
-	delete table;
+	delete[] table;
 	if(mustfree)
-		delete buf;
+		delete[] buf;
 }
