@@ -1,0 +1,50 @@
+Attack quickly and strongly to earn frags!
+
+If you die, press any of your control keys
+to play again.
+
+
+
+
+
+10
+Glory to the last man standing!
+
+The game is divided in rounds. A round ends
+when only one team has any member alive. Then,
+everybody restarts with the same series of
+pieces on a clean canvas.
+
+If you die, you will have to wait until the
+beginning of the next round to play again.
+20
+Enter a breakneck race for points!
+
+There is no way to attack your opponents, so
+the goal is to score as many points as possible.
+
+
+
+
+
+30
+Attack strongly to confuse your opponents!
+
+Instead of receiving lines from your
+attacks, your opponents will receive
+blind pieces. Those pieces will stay
+invisible for 5 seconds after being
+placed.
+
+
+40
+Clear lines to get rid of the hot potato!
+
+The team holding the hot potato receives all the
+attacks from everybody else without being able to
+fight back so it must get rid of the potato as
+fast as possible.
+
+Each team gets the hot potato in turn and must make a
+certain amount of "attack" lines to get rid of it.
+50

@@ -1,0 +1,46 @@
+2000-08-07  Pierre Phaneuf  <pp@ludusdesign.com>
+
+	* Incorporating various changes for public release.
+
+1999-10-26  Pierre Phaneuf  <pp@ludusdesign.com>
+
+	* svgalib/input_x11.cpp: Added bare support for input methods, just
+	enough so that dead keys will work.
+
+1999-10-21  Pierre Phaneuf  <pp@ludusdesign.com>
+
+	* common/net.cpp: added a SO_REUSEADDR socket option to the TCP socket
+	in Linux so that you can restart the game server right away.
+
+1999-10-01  Pierre Phaneuf  <pp@ludusdesign.com>
+
+	* Added a precise frame counter to the Xlib implementation.
+
+	* Improved X dirty rectangle handling a bit to do less superfluous color 
+	conversions.
+
+1999-07-19  Pierre Phaneuf  <pp@ludusdesign.com>
+
+	* X11 keyboard handling is done, and all the drawing primitives
+	are there.
+
+1999-07-14  Pierre Phaneuf  <pp@ludusdesign.com>
+
+	* X11 support is mostly in, missing some drawing primitives,
+	keyboard handling isn't there and sound seems to have some problems.
+
+1999-07-08  Pierre Phaneuf  <pp@ludusdesign.com>
+
+	* The input and video subsystems are now semi-dynamic, with better
+ 	error handling and improved terminal restoration.
+	
+1999-06-04  Pierre Phaneuf  <pp@ludusdesign.com>
+
+	* Disabled the Ctrl-c key in svgalib/input.cpp.
+
+	* Fixed a bug in the RegistryLinux::read() method, there was no
+	terminating NULL at the end of the returned string.
+
+	* Moved alt_tab out of the #ifdef UGS_DIRECTX, Inter::draw_zone()
+ 	needed it.
+

@@ -1,0 +1,51 @@
+Summary: Multiplayer puzzle game
+Name: quadra
+Version: @VERSION@
+Release: 1
+Copyright: Commercial
+Group: Games
+URL: http://ludusdesign.com/
+Source: quadra-%{version}.tar.gz
+Vendor: Ludus Design
+BuildRoot: /var/tmp/quadra-root
+
+%description
+This is the official release %{version} of Quadra, a full-featured
+multiplayer action puzzle game for the X Window System and Svgalib.
+Features include:
+
+ - Recursive block chaining
+ - Blocks shadows
+ - Teams playing
+ - TCP/IP networking (free Internet playing! Supports SOCKS proxies)
+ - Smooth block falling
+ - Sound effects
+ - Watches on other players
+ - Chat window
+ - CD-based music
+ - And much more!
+
+The license is based on the shareware model. You can freely download
+and copy the game. After a 30 day period, you must register or stop
+using it.
+
+%prep
+%setup -q
+
+%build
+echo Binary release, nothing to build.
+
+%install
+mkdir -p $RPM_BUILD_ROOT/usr/games
+mkdir -p $RPM_BUILD_ROOT/usr/lib/games
+install quadra $RPM_BUILD_ROOT/usr/games/quadra
+install quadra.res $RPM_BUILD_ROOT/usr/lib/games/quadra.res
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files
+%defattr(-,root,root)
+%attr(4711,root,root) /usr/games/quadra
+%attr(0644,root,root) /usr/lib/games/quadra.res
+%doc ChangeLog LICENSE README quadra.xpm

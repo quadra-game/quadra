@@ -1,0 +1,27 @@
+-help			Display this message.
+-connect <addr>		Start a multi-player game by connecting to <addr>.
+-server			Create a multi-player game server.
+-dedicated		Create a dedicated server.
+-admin <password>      	Set remote admin password.
+-exec <file>		Execute each line of <file> as an admin command.
+-once			Host a single game, no auto-restart (-dedicated).
+-name <n>		Set game name.
+-ffa			"Free-for-all" game type (default).
+-survivor      		"Survivor" game type.
+-hotpotato		"Hot potato" game type.
+-peace			"Peace" game type.
+-levelup       		Enable level changes every 15 lines.
+-nolevelup		Disable level changes every 15 lines (default).
+-level <n>     		Start players on level <n> (1..9).
+-nohandicap		Prohibit players from setting a handicap.
+-endfrag <x>		Game will end after <x> frags (1..9999).
+-endtime <x>		Game will end after <x> minutes (1..9999).
+-endpoints <x>		Game will end after <x> Kpoints (1..99999).
+-endlines <x>		Game will end after <x> lines (1..99999).
+-public			Make this game public.
+-port <p>      		Listen on specified port (server only).
+
+Miscellaneous options:
+-debug			Enable debug mode
+-play <file>		Play a recorded demo file
+-record <file>		Record a demo file

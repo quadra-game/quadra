@@ -1,0 +1,19 @@
+
+Quadra Source Release
+---------------------
+2000/07/25
+
+This is a raw source release. Do not smoke near this package.
+
+Basic instructions:
+
+ - go in the 'skelton' subdirectory (no, this is not a typo!)
+ - type 'make'
+ - go back in the root directory of the package
+ - type 'make' again
+
+There you go! There is a 'quadra' binary and a 'quadra.res' resource
+file in the quadra/source directory. If not, then something went wrong.
+
+:-)
+

@@ -1,0 +1,50 @@
+Attaquez rapidement et violemment pour gagner des frags!
+
+Si vous mourrez, appuyez sur une de vos touches
+de contrôle pour jouer à nouveau.
+
+
+
+
+
+10
+Gloire au dernier survivant!
+
+La partie est divisée en manches. Une manche se termine
+lorsqu'une seule équipe a des joueurs toujours en vie.
+Alors, tout le monde redémarre avec la même série de blocs
+sur un canevas vide.
+
+Si vous mourrez, vous devrez attendre jusqu'au
+début de la manche suivante pour jouer à nouveau.
+20
+Participez à une course effrenée pour les points!
+
+Il n'y a aucun moyen d'attaquer vos ennemis, alors
+le but est de gagner le plus de points possible.
+
+
+
+
+
+30
+Attaquez fortement pour confondre vos opposants!
+
+Au lieu de recevoir des lignes dues à vos
+attaques, vos opposants recevront des blocs
+aveugles.
+Ces blocs resteront invisibles pour 5 secondes
+après avoir été placés.
+
+
+40
+Effacez des lignes pour vous débarrasser de la patate chaude!
+
+L'équipe tenant la patate chaude reçoit toutes les lignes
+d'attaque des autres sans avoir la possibilité de répliquer.
+Elle doit donc de débarrasser de la patate aussi tôt que
+possible.
+
+Chaque équipe reçoit la patate chaude tour à tour et doit faire
+un certain nombre de lignes d'"attaque" pour s'en débarrasser.
+50
