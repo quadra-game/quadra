@@ -32,6 +32,8 @@ MINOR:=$(shell grep 'Config::minor' source/config.cpp | cut -d= -f2 | bc)
 PATCHLEVEL:=$(shell grep 'Config::patchlevel' source/config.cpp | cut -d= -f2 | bc)
 VERSION:=$(MAJOR).$(MINOR).$(PATCHLEVEL)
 
+CXXFLAGS+=-DVERSION="$(VERSION)" -DVERSION_MAJOR=$(MAJOR) -DVERSION_MINOR=$(MINOR) -DVERSION_PATCHLEVEL=$(PATCHLEVEL)
+
 # FIXME: temporary hack, until we properly detect stuff
 CXXFLAGS+=-DUGS_LINUX
 
