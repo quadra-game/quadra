@@ -59,7 +59,6 @@ void Url::getFull(char* buf) const {
 		sprintf(n, ":%i", getPort());
 		strcat(buf, n);
 	}
-	strcat(buf, "/");
 	strcat(buf, getPath());
 }
 
@@ -96,8 +95,12 @@ void Url::setPort(const Word p) {
 }
 
 void Url::setPath(const char* p) {
-	if(strlen(p)<sizeof(path)) {
-		strcpy(path, p);
+	if(strlen(p)<sizeof(path)-1) {
+		if(p[0] != '/')
+			strcpy(path, "/");
+		else
+			path[0]=0;
+		strcat(path, p);
 	}
 }
 

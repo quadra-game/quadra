@@ -782,7 +782,7 @@ void Game::prepare_recording(const char *fn) {
 	//When restarting and recording, auto-increment file name
 	static int record_num = 0;
 	if(auto_restart || !fn) {
-		sprintf(st, "%04i", record_num++);
+		sprintf(st, ".%04i", record_num++);
 		strcat(nom, st);
 	}
 	strcat(nom, ".rec"); // ajoute .rec
