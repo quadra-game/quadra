@@ -207,10 +207,6 @@ SOURCE=.\common\raw.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\directx\registry.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\directx\res.cpp
 # End Source File
 # Begin Source File
@@ -420,10 +416,6 @@ SOURCE=.\include\random.h
 # Begin Source File
 
 SOURCE=.\include\raw.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\registry.h
 # End Source File
 # Begin Source File
 
