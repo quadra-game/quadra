@@ -27,7 +27,10 @@
 #include <sys/ioctl.h>
 #include <linux/cdrom.h>
 #include "error.h"
+#include "types.h"
 #include "music.h"
+
+RCSID("$Id$")
 
 #define CDROM_DEVICE "/dev/cdrom"
 

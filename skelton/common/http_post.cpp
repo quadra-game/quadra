@@ -25,6 +25,8 @@
 #include "error.h"
 #include "http_post.h"
 
+RCSID("$Id$")
+
 Http_post::Http_post(const char *host, int port, const char *path): Http_request(host, port), data(0, 1024) {
 	init(path);
 }

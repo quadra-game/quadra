@@ -30,6 +30,8 @@
 #include "video.h"
 #include "nglog.h"
 
+RCSID("$Id$")
+
 Net_starter::Net_module::Net_module() {
 	last_video_frame=video->framecount;
 }

@@ -23,6 +23,8 @@
 #include "video.h"
 #include "sprite.h"
 
+RCSID("$Id$")
+
 #define FONT_SIZE (141-32)
 
 void Sprite::set_hotspot(const int hx, const int hy) {

@@ -25,6 +25,8 @@
 #include "res.h"
 #include "pcx.h"
 
+RCSID("$Id$")
+
 /* Ceci est un test */
 
 

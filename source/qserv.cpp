@@ -29,6 +29,8 @@
 #include "video.h"
 #include "qserv.h"
 
+RCSID("$Id$")
+
 Dword Qserv::http_addr=0;
 int Qserv::http_port=0;
 

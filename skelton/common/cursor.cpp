@@ -25,6 +25,8 @@
 #endif
 #include "cursor.h"
 
+RCSID("$Id$")
+
 Cursor* cursor = NULL;
 
 Cursor* Cursor::New(Sprite* s) {

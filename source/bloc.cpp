@@ -22,6 +22,8 @@
 #include "quadra.h"
 #include "bloc.h"
 
+RCSID("$Id$")
+
 Bloc::Bloc(int q, int c, int px, int py) {
 	quel=q;
 	if(c != -1)

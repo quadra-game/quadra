@@ -20,6 +20,8 @@
 
 #include "image_png.h"
 
+RCSID("$Id$")
+
 static void res_read_func(png_structp png,
                           png_bytep data,
                           png_size_t len) {

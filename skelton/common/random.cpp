@@ -22,6 +22,8 @@
 #include "types.h"
 #include "random.h"
 
+RCSID("$Id$")
+
 Random ugs_random;
 
 Random::Random() {

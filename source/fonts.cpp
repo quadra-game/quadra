@@ -22,6 +22,8 @@
 #include "sprite.h"
 #include "fonts.h"
 
+RCSID("$Id$")
+
 void Fonts::init() {
 	{
 		Res_doze res("font.fnt");

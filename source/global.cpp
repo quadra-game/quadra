@@ -24,6 +24,8 @@
 #include "nglog.h"
 #include "global.h"
 
+RCSID("$Id$")
+
 char st[4096] = {""};
 
 char quadradir[1024] = {"."};

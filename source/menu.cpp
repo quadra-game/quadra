@@ -62,6 +62,8 @@
 #include <shellapi.h>
 #endif
 
+RCSID("$Id$")
+
 void Menu_do_nothing::step() {
   if(quitting)
     ret();

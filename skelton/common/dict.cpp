@@ -23,6 +23,8 @@
 #include "error.h"
 #include "dict.h"
 
+RCSID("$Id$")
+
 Dict::Dict(const char *k, const char *v) {
 	if(k) {
 		strncpy(key, k, sizeof(key)-1);

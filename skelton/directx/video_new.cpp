@@ -28,6 +28,8 @@
 #include "video_dx.h"
 #include "video_dx16.h"
 
+RCSID("$Id$")
+
 Video* video = NULL;
 static bool video_8bit = true;
 

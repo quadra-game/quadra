@@ -21,6 +21,8 @@
 #include "dynlib.h"
 #include <stdio.h>
 
+RCSID("$Id$")
+
 void start_game() {
 	DynLib *dlobj;
 	void *test;

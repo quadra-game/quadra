@@ -27,6 +27,8 @@
 #include "input_svga.h"
 #endif
 
+RCSID("$Id$")
+
 Input *input = NULL;
 
 Input* Input::New(bool dumb) {

@@ -38,6 +38,8 @@
 #include "unicode.h"
 #include "pane.h"
 
+RCSID("$Id$")
+
 Pane_info::Pane_info(Bitmap *bit, Font *f2, Inter *in, int j, Multi_player *pmp) {
 	fond = bit;
 	font2 = f2;

@@ -1,5 +1,7 @@
 2000-11-29  Pierre Phaneuf  <pp@ludusdesign.com>
 
+	* Inserted the RCS Id information in every file.
+
 	* source/packets.cpp: fixed a warning.
 
 	* Removed unused .cvsentries stuff.

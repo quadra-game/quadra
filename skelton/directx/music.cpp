@@ -24,6 +24,8 @@
 #include "error.h"
 #include "music.h"
 
+RCSID("$Id$")
+
 //#define MAX_TRACKS 100
 
 class MusicWin32: public Music {

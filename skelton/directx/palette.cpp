@@ -23,6 +23,8 @@
 #include "video.h"
 #include "palette.h"
 
+RCSID("$Id$")
+
 Palette noir;
 
 void Palette::set() {

@@ -32,6 +32,8 @@
 #include "chat_text.h"
 #include "recording.h"
 
+RCSID("$Id$")
+
 Recording *recording = NULL;
 Playback *playback = NULL;
 

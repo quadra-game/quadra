@@ -21,8 +21,11 @@
 #include <dlfcn.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "types.h"
 #include "wraplib.h"
 #include "error.h"
+
+RCSID("$Id$")
 
 static void* drv;
 static Svgalib* svgalib;

@@ -25,6 +25,8 @@
 #include "image_png.h"
 #include "bitmap.h"
 
+RCSID("$Id$")
+
 Bitmap* Bitmap::loadPng(const char* n) {
 	Res_doze res(n);
 	Png png(res);

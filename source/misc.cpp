@@ -25,6 +25,8 @@
 #include "global.h"
 #include "misc.h"
 
+RCSID("$Id$")
+
 Wait_time::Wait_time(int del, bool force) {
 	force_wait = force;
 	delay = del;

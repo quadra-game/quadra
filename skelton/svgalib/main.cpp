@@ -45,6 +45,8 @@ extern "C" int SOCKSinit(char *);
 #include "command.h"
 #include "main.h"
 
+RCSID("$Id$")
+
 bool alt_tab = false;
 Time_mode time_control = TIME_NORMAL;
 char cmd_line[1024];

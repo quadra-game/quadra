@@ -27,6 +27,8 @@
 
 #include "find_file.h"
 
+RCSID("$Id$")
+
 Find_file_entry::Find_file_entry(const char *n, bool f) {
   name[0] = 0;
   name[1023] = 0;

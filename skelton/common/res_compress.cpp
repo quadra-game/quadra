@@ -22,6 +22,8 @@
 #undef FAR
 #include "res_compress.h"
 
+RCSID("$Id$")
+
 Res_compress::Res_compress(const char *fil, Res_mode pmode, bool res_doze) {
 	mode = pmode;
 	ressize = 0;

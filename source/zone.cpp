@@ -27,6 +27,8 @@
 #include "canvas.h"
 #include "zone.h"
 
+RCSID("$Id$")
+
 Zone_next::~Zone_next() {
 	delete back;
 }

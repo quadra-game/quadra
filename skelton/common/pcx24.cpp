@@ -21,6 +21,8 @@
 #include "res.h"
 #include "pcx24.h"
 
+RCSID("$Id$")
+
 Pcx24::Pcx24(Res& res) {
 	Error *error;
 	res.read(&h, sizeof(h));

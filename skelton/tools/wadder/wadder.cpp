@@ -22,6 +22,8 @@
 #include "stringtable.h"
 #include "res.h"
 
+RCSID("$Id$")
+
 char *usage = "usage: wadder <working directory> <output res> <input text>\n";
 Resfile *wad;
 

@@ -22,6 +22,8 @@
 #include "video.h"
 #include "cursor_self.h"
 
+RCSID("$Id$")
+
 Cursor_Self::Cursor_Self(Sprite* s) {
   change_cursor(s);
   set_pos(video->width/2, video->height/2);

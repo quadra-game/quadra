@@ -22,6 +22,8 @@
 #include "res.h"
 #include "resfile.h"
 
+RCSID("$Id$")
+
 void Resfile::freeze() {
 	int resnamelen;
 	Resdata *ptr;

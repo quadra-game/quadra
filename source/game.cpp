@@ -39,6 +39,8 @@
 #include "http_request.h"
 #include "game.h"
 
+RCSID("$Id$")
+
 Game *game=NULL;
 
 Game_params::Game_params() {

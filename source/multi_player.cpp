@@ -44,6 +44,8 @@
 #include "clock.h"
 #include "multi_player.h"
 
+RCSID("$Id$")
+
 Multi_player::Multi_player(int *got_high) {
 	stop=false; //set to true to quit game
 	got_highscore = got_high;

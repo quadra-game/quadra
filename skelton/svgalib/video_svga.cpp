@@ -26,6 +26,8 @@
 #include "main.h"
 #include "cursor.h"
 
+RCSID("$Id$")
+
 static Svgalib* lib;
 
 Svgalib_Video_bitmap* Svgalib_Video_bitmap::New(const int px, const int py,

@@ -27,6 +27,8 @@
 #include "video.h"
 #include "config.h"
 
+RCSID("$Id$")
+
 const int Config::game_version = 19;
 int Config::net_version = 23;
 

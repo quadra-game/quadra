@@ -20,4 +20,6 @@
 
 #include "sons.h"
 
+RCSID("$Id$")
+
 Samples sons;

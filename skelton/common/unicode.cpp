@@ -21,6 +21,8 @@
 #include <string.h>
 #include "unicode.h"
 
+RCSID("$Id$")
+
 Unicode::Unicode(char *s): the_string(strlen(s)*2) {
 	Dword i;
 	for(i=0; i<strlen(s); i++) {

@@ -18,8 +18,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "types.h"
 #include "error.h"
 #include "notify.h"
+
+RCSID("$Id$")
 
 void Observable::add_watch(Notifyable *n) {
 	notes.add(n);

@@ -25,6 +25,8 @@
 #include <ctype.h>
 #include "url.h"
 
+RCSID("$Id$")
+
 Url::Url(const char* u) {
 	setFull(u);
 }

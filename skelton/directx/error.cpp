@@ -32,6 +32,8 @@
 #include "input.h"
 #include "video.h"
 
+RCSID("$Id$")
+
 #ifndef NDEBUG
 int copper=0;
 #endif

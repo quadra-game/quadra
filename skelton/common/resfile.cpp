@@ -24,6 +24,8 @@
 #include "res.h"
 #include "resfile.h"
 
+RCSID("$Id$")
+
 Resdata::Resdata(char *resname, int ressize, Byte *resdata, Resdata *list) {
 	name = resname;
 	size = ressize;

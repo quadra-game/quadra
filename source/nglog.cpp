@@ -28,6 +28,8 @@
 #include "global.h"
 #include "nglog.h"
 
+RCSID("$Id$")
+
 static Log *local=NULL;
 
 static char *__nglog_rel_path="NetGamesUSA.com";

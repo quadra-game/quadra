@@ -20,6 +20,8 @@
 
 #include "color.h"
 
+RCSID("$Id$")
+
 Color::Color(Byte q, Palette& p):	pal(p) {
 	if(q==8)
 		q=7;

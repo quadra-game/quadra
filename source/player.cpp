@@ -20,6 +20,8 @@
 
 #include "player.h"
 
+RCSID("$Id$")
+
 Cok::Cok(Dword a) {
 	in_uid = out_uid = 0;
 	adr = a;

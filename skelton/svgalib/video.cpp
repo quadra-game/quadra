@@ -27,6 +27,8 @@
 #include "video_svga.h"
 #endif
 
+RCSID("$Id$")
+
 Video* video = NULL;
 
 Video_bitmap* Video_bitmap::New(const int px, const int py,

@@ -20,6 +20,8 @@
 
 #include "pcx.h"
 
+RCSID("$Id$")
+
 Pcx::Pcx(Res& res) {
 	Error *error;
 	res.read(&h, sizeof(h));

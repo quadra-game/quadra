@@ -35,6 +35,8 @@
 #include "clock.h"
 #include "game_menu.h"
 
+RCSID("$Id$")
+
 int Create_game::game_end_y=0;
 
 Create_game::Create_game(Bitmap *bit, Font *font, Font *font2, const Palette& p, bool pnet_game, bool plocal_net) {

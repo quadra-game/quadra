@@ -38,6 +38,8 @@
 #include "sprite.h"
 #include "video_x11.h"
 
+RCSID("$Id$")
+
 /*
  * Gack! This is HORRIBLE!
  */

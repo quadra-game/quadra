@@ -33,6 +33,8 @@
 #include "video_dx.h"
 #include "raw.h"
 
+RCSID("$Id$")
+
 extern LRESULT CALLBACK windowproc(HWND hwnd, UINT msg,
 				   WPARAM wparam, LPARAM lparam);
 

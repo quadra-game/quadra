@@ -37,6 +37,8 @@
 #include "nglog.h"
 #include "canvas.h"
 
+RCSID("$Id$")
+
 Canvas::Canvas(int qplayer, int game_seed, Palette *p): rnd(game_seed) {
 // construit un Canvas local
 	snapshot[0]=0;

@@ -25,6 +25,8 @@
 #include "error.h"
 #include "buf.h"
 
+RCSID("$Id$")
+
 Buf::Buf(Dword size, Dword in) {
 	data=NULL;
 	size_=0;
