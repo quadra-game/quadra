@@ -38,6 +38,11 @@ Qserv::Qserv() {
 	req=NULL;
 	status[0]=0;
 	reply=NULL;
+
+	const char* host;
+	int port;
+	char path[256];
+
 	Url url(config.info.game_server_address);
 	if(!url.getPort())
 		url.setPort(80);
@@ -45,10 +50,30 @@ Qserv::Qserv() {
 		url.setHost("ludusdesign.com:80");
 	if(!strcmp(url.getPath(), ""))
 		url.setPath("/cgibin/qserv.pl");
+
+	Url proxy(config.info2.proxy_address);
+	if(!proxy.getPort())
+		proxy.setPort(80);
+
+	if(strlen(proxy.getHost())) {
+		//Use proxy info for host and port, and full game server address for path
+		host = proxy.getHost();
+		port = proxy.getPort();
+		url.getFull(path);
+	}
+	else {
+		//No proxy configuration, use game server address for everything
+		host = url.getHost();
+		port = url.getPort();
+		strcpy(path, url.getPath());
+	}
+
+	//Use IP cache if set
 	if(http_addr)
-		req=new Http_post(http_addr, http_port, url.getPath());
+		req=new Http_post(http_addr, http_port, path);
 	else
-		req=new Http_post(url.getHost(), url.getPort(), url.getPath());
+		req=new Http_post(host, port, path);
+
 	req->add_data_raw("data=");
 }
 

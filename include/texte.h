@@ -457,5 +457,6 @@
 #define ST_RANK ST_BASE(591)
 #define ST_SPEED ST_BASE(592)
 #define ST_COMBO ST_BASE(593)
+#define ST_OPTIONS_PROXY ST_BASE(594)
 
 #endif

@@ -117,6 +117,7 @@ class Menu_option: public Menu_standard {
 	Zone *b_quit;
 	int old_language,old_music,old_mouse_speed,old_port;
 	char old_server[256];
+	char old_proxy[128];
 public:
 	Menu_option();
 	virtual ~Menu_option();

@@ -1389,6 +1389,10 @@ Menu_option::Menu_option() {
   (void)new Zone_text_input(inter, pal, config.info.game_server_address, 255, 380, 310, 240);
   (void)new Zone_text(fteam[3], inter, ST_DEFAULTGAMESERVER, 40, 334);
   strcpy(old_server, config.info.game_server_address);
+
+	(void)new Zone_text(fteam[7], inter, ST_OPTIONS_PROXY, 40, 370);
+	(void)new Zone_text_input(inter, pal, config.info2.proxy_address, 127, 380, 370, 240);
+	strcpy(old_proxy, config.info2.proxy_address);
 }
 
 Menu_option::~Menu_option() {
@@ -1420,7 +1424,7 @@ Menu_option::~Menu_option() {
     for(i=0; i<MAXTEAMS; i++)
       set_team_name(i, NULL);
   }
-  if(strcmp(old_server, config.info.game_server_address)) {
+  if(strcmp(old_server, config.info.game_server_address) || strcmp(old_proxy, config.info2.proxy_address)) {
     Qserv::http_addr=0;
     Qserv::http_port=0;
   }

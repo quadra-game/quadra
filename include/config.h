@@ -32,6 +32,8 @@ public:
 	static bool xtreme;
 	static char user_name[];
 	int warning;
+	//WARNING: Everything in the following structs is pretty much set in stone. A full
+	//         understanding of config.cpp is needed to change anything.
 	struct {
 		int language;
 		int setup_player, cdmusic;
@@ -62,8 +64,7 @@ public:
 		int whole_bunch_of_stuff[11];
 	} player2[3];
 	struct {
-		int some_stuff[16];
-		char yet_more_stuff[64];
+		char proxy_address[128];
 	} info2;
 	char fname[1024];
 	Config();

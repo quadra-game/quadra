@@ -55,7 +55,7 @@ void Config::default_config() {
 	memset(&info2, 0, sizeof(info2));
 	info.language = 0;
 	info.setup_player = 0;
-	info.cdmusic = 1; // 0=no music  1=auto-change  2=loop all
+	info.cdmusic = 0; // 0=no music  1=auto-change  2=loop all
 	info.multi_level = 1;
 	info.unlock_theme = 0;
 	info.port_number = 3456;
@@ -69,7 +69,6 @@ void Config::default_config() {
 	info.game_type = info.level_up = info.level_start = info.combo_min = info.game_end = 0;
 	info.game_public = 1;
 	info.game_end_value = 1;
-	strcpy(info.game_server_address, "");
 
 	for(int i=0; i<3; i++) {
 		sprintf(st,"#%i", i+1);
@@ -161,6 +160,7 @@ void Config::read() {
 	for(i=0; i<10; i++) {
 		info.book[i][255] = 0;
 	}
+	info2.proxy_address[127] = 0;
 }
 
 void fix_str(char *st, Dword len) {
@@ -198,6 +198,7 @@ void Config::write() {
 			}
 			res.write(player, sizeof(player));
 			res.write(player2, sizeof(player2));
+			fix_str(info2.proxy_address, 128);
 			res.write(&info2, sizeof(info2));
 		}
 	}

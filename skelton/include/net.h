@@ -195,6 +195,9 @@ public:
 	virtual Dword getdestaddr() const {
 		return destaddr;
 	}
+	virtual const char* getdesthost() const {
+		return desthost;
+	}
 	virtual int getdestport() const {
 		return destport;
 	}

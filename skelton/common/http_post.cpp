@@ -61,7 +61,11 @@ void Http_post::send() {
 	url.resize(0);
 	url.append("POST ");
 	url.append(cgi);
-	url.append(" HTTP/1.0\r\nContent-type: application/x-www-form-urlencoded\r\nContent-length: ");
+	url.append(" HTTP/1.0\r\n");
+	//Try to make those idiot proxies behave. Long life e2e!!! :)
+	url.append("Pragma: no-cache\r\n");
+	url.append("Cache-Control: no-cache\r\n");
+	url.append("Content-type: application/x-www-form-urlencoded\r\nContent-length: ");
 	char st[16];
 	sprintf(st, "%i\r\n\r\n", data.size());
 	url.append(st);

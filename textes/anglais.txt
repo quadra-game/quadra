@@ -591,3 +591,4 @@ Avg. combo
 Rank
 Speed
 Combos
+HTTP proxy server:
