@@ -33,7 +33,7 @@ class Create_game: public Menu, public Notifyable {
 	Zone *start, *cancel, *save;
 	Zone *z_record_name;
 	char name[32], record_name[32];
-	Observable *game_type, *game_end_watch;
+	Observable *game_type;
 	Observable *record_watch;
 	Zone *record_zone;
 	int selected, level_up, game_end, game_end_value, game_public;
@@ -41,10 +41,11 @@ class Create_game: public Menu, public Notifyable {
 	Zone_text *game_end_text;
 	Zone_text *game_desc[10];
 	Stringtable *game_descriptions;
-	Zone *game_end_selector;
+	class Zone_state_text2 *game_end_selector;
 	Zone_input_numeric *game_end_num;
 	void save_setting();
 	bool net_game, local_net;
+	bool notified;
 	void recreate_game_end();
 public:
 	Create_game(Bitmap *bit, Font *font, Font *font2, const Palette& p, bool pnet_game, bool plocal_net);

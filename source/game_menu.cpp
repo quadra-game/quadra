@@ -105,7 +105,6 @@ Create_game::Create_game(Bitmap *bit, Font *font, Font *font2, const Palette& p,
 
 	game_end = config.info.game_end;
 	game_end_value = config.info.game_end_value;
-	game_end_watch = NULL;
 	game_end_selector = NULL;
 	game_end_text = NULL;
 	game_end_num = NULL;
@@ -134,8 +133,8 @@ Create_game::Create_game(Bitmap *bit, Font *font, Font *font2, const Palette& p,
 }
 
 Create_game::~Create_game() {
-	if(game_end_watch)
-		game_end_watch->remove_watch(this);
+	if(game_end_selector)
+		game_end_selector->remove_watch(this);
 	if(game_type)
 		game_type->remove_watch(this);
 	if(record_watch)
@@ -153,24 +152,21 @@ void Create_game::recreate_game_end() {
 	if(selected!=2 && old_selected==2 && game_end)
 		game_end++;
 	old_selected=selected;
-	if(game_end_watch)
-		game_end_watch->remove_watch(this);
-	if(game_end_selector)
+	if(game_end_selector) {
+		game_end_selector->remove_watch(this);
 		delete game_end_selector;
+	}
 	int y=game_end_y;
 	Zone *z;
 	z=new Zone_text(fteam[7], inter, ST_SETGAMEEND, 20, y);
-	Zone_state_text2 *temp = new Zone_state_text2(inter, &game_end, z->x+z->w+10, y);
-	temp->add_string(ST_GAMEEND1);
+	game_end_selector = new Zone_state_text2(inter, &game_end, z->x+z->w+10, y);
+	game_end_selector->add_string(ST_GAMEEND1);
 	if(selected!=2) //endfrags only when !peace
-		temp->add_string(ST_GAMEEND2);
-	temp->add_string(ST_GAMEEND3);
-	temp->add_string(ST_GAMEEND4);
-	//temp->add_string(ST_GAMEEND5);
-	game_end_selector = temp;
-	game_end_watch = temp;
-	game_end_watch->add_watch(this);
-	z=temp;
+		game_end_selector->add_string(ST_GAMEEND2);
+	game_end_selector->add_string(ST_GAMEEND3);
+	game_end_selector->add_string(ST_GAMEEND4);
+	game_end_selector->add_watch(this);
+	z=game_end_selector;
 	if(game_end_text)
 		delete game_end_text;
 	if(game_end_num)
@@ -203,26 +199,31 @@ void Create_game::recreate_game_end() {
 }
 
 void Create_game::notify() {
-	video->need_paint = 2;
-	int base=selected*10;
-	int i;
-	for(i=0; i<10; i++)
-		if(game_desc[i])
-			game_desc[i]->set_text(game_descriptions->get(base+i));
-	recreate_game_end();
-	if(record_watch) {
-		if(z_record_name)
-			delete z_record_name;
-		if(record_game == 1) {
-			int x=record_zone->x+record_zone->w+10;
-			z_record_name = new Zone_text_input(inter, pal, record_name, 32, x, record_zone->y, 220);
-		}
-		else 
-			z_record_name = NULL;
-	}
+	notified = true;
 }
 
 void Create_game::step() {
+	if(notified) {
+		video->need_paint = 2;
+		int base=selected*10;
+		int i;
+		for(i=0; i<10; i++)
+			if(game_desc[i])
+				game_desc[i]->set_text(game_descriptions->get(base+i));
+		recreate_game_end();
+		if(record_watch) {
+			if(z_record_name)
+				delete z_record_name;
+			if(record_game == 1) {
+				int x=record_zone->x+record_zone->w+10;
+				z_record_name = new Zone_text_input(inter, pal, record_name, 32, x, record_zone->y, 220);
+			}
+			else 
+				z_record_name = NULL;
+		}
+		notified = false;
+	}
+
 	Menu::step();
 	if(input->quel_key == 1 || result==cancel || quitting) {
 		input->quel_key = 0;
