@@ -461,8 +461,8 @@ Join_game::~Join_game() {
 	if(net->connected()) {
 		Packet_bye p;
 		net->sendtcp(&p);
-		net->stop_client();
 	}
+	net->stop_client();
 	if(eping)
 		delete eping;
 	if(game) {
