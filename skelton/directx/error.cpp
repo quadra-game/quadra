@@ -21,6 +21,11 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <mmsystem.h>
+
+#undef DIRECTDRAW_VERSION
+#define DIRECTDRAW_VERSION 0x0300
+#include <ddraw.h>
+
 #include <stdlib.h>
 #include <stdarg.h>
 #include <stdio.h>
