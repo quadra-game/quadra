@@ -32,7 +32,7 @@ int Config::net_version = 23;
 
 const int Config::major = 1;
 const int Config::minor = 1;
-const int Config::patchlevel = 5;
+const int Config::patchlevel = 6;
 bool Config::registered = false;
 /* FIXME: we should remove all occurence of Config::xtreme */
 bool Config::xtreme = false;
