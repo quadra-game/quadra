@@ -3,7 +3,9 @@
 package QServ;
 
 use strict;
-#use lib '/srv/www/perl';
+use lib '/home/groups/q/qu/quadra/perl';
+
+use vars qw($debug %commands %cleanups $datadir $gamesdir $scoresdir $timeout $scores_to_keep $default_demos);
 
 use CGI;
 use CGI::Carp;
@@ -11,9 +13,9 @@ use Data::Dumper;
 #use QServ::HTML;
 #use QServ::Message;
 
-our $debug = 1;
+$debug = 5;
 
-our %commands = (
+%commands = (
 		 postgame => \&do_postgame,
 		 deletegame => \&do_deletegame,
 		 postdemo => \&do_postdemo,
@@ -22,18 +24,18 @@ our %commands = (
 		 %commands
 		);
 
-our %cleanups = (
+%cleanups = (
 		 games => \&cleanup_games,
 		 scores => \&cleanup_scores,
 		 %cleanups
 		);
 
-our $datadir = '/srv/www/data/qserv';
-our $gamesdir = $datadir . '/games';
-our $scoresdir = $datadir . '/scores';
-our $timeout = 180;
-our $scores_to_keep = 100;
-our $default_demos = 5;
+$datadir = '/home/groups/q/qu/quadra/data';
+$gamesdir = $datadir . '/games';
+$scoresdir = $datadir . '/scores';
+$timeout = 180;
+$scores_to_keep = 100;
+$default_demos = 5;
 
 sub set_param {
   my($params, $key, $value) = @_;
@@ -260,7 +262,7 @@ sub main {
     default($cgi, $params);
   }
 
-  if(scalar(keys(%cleanups)) && (($debug >= 2) || !fork())) {
+  if(scalar(keys(%cleanups))) {
     if($debug < 2) {
       close(STDIN);
       close(STDOUT);
