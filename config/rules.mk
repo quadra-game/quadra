@@ -38,6 +38,7 @@ installdirs:
 	mkdir -p $(bindir)
 	mkdir -p $(libgamesdir)
 	mkdir -p $(datagamesdir)
+	mkdir -p $(datadir)
 
 install: installdirs $(TARGETS)
 	$(INSTALL_PROGRAM) quadra $(bindir)/quadra
@@ -45,9 +46,13 @@ ifdef ($(UGS_LINUX_SVGA))
 	$(INSTALL_PROGRAM) quadra-svga.so $(libgamesdir)/quadra-svga.so
 endif
 	$(INSTALL_DATA) quadra.res $(datagamesdir)/quadra.res
+	$(INSTALL_DATA) images/quadra.xpm $(datadir)/pixmaps/quadra.xpm
 
 quadra.spec: packages/quadra.spec.in source/config.cpp
-	sed $< -e 's/@VERSION@/$(VERSION)/g' > $@
+	sed $< -e 's%@VERSION@%$(VERSION)%g' > $@
+
+Quadra.desktop: packages/Quadra.desktop.in config/config.mk
+	sed $< -e 's%@bindir@%$(bindir)%g' -e 's%@datadir@%$(datadir)%g' > $@
 
 configure: configure.in
 	autoconf
