@@ -25,6 +25,13 @@ CXXFLAGS+=-Wall -pedantic -pipe -Iinclude -Iskelton/include -Iimages
 
 ARFLAGS=rcs
 
+# FIXME: this should be the reverse, config.cpp should get values from
+# this makefile using some -D options to the compiler.
+MAJOR:=$(shell grep 'Config::major' source/config.cpp | cut -d= -f2 | bc)
+MINOR:=$(shell grep 'Config::minor' source/config.cpp | cut -d= -f2 | bc)
+PATCHLEVEL:=$(shell grep 'Config::patchlevel' source/config.cpp | cut -d= -f2 | bc)
+VERSION:=$(MAJOR).$(MINOR).$(PATCHLEVEL)
+
 # FIXME: temporary hack, until we properly detect stuff
 CXXFLAGS+=-DUGS_LINUX -DUGS_LINUX_X11 -DUGS_LINUX_SVGA
 

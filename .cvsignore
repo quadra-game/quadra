@@ -15,6 +15,7 @@ Release
 qsnoop
 quadra
 quadra.res
+quadra.spec
 quadra-svga.so
 quadra-*
 configure

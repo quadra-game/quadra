@@ -1,5 +1,8 @@
 2000-11-29  Pierre Phaneuf  <pp@ludusdesign.com>
 
+	* Added maintainer-oriented targets ("maintainerclean" and "dist")
+	to the makefile.
+
 	* Removed obsolete config/compiler.mk file.
 
 	* Changed all uses of _DEBUG to NDEBUG.

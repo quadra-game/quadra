@@ -18,7 +18,7 @@
 #
 # $Id$
 
-.PHONY: clean distclean dustclean
+.PHONY: clean distclean dustclean maintainerclean dist
 
 dustclean:
 	rm -f $(wildcard $(shell find . -name 'core' -print) $(shell find . -name '*~' -print))
@@ -29,23 +29,51 @@ clean: dustclean
 distclean: clean
 	rm -f $(wildcard $(DISTCLEAN))
 
-ifneq ($(MAKECMDGOALS),clean)
-ifneq ($(MAKECMDGOALS),distclean)
+maintainerclean: distclean
+	rm -f $(wildcard $(REALCLEAN))
+
+dist: distclean quadra.spec configure manual-dist-stuff
+
+quadra.spec: packages/quadra.spec.in
+	sed $^ -e 's/@VERSION@/$(VERSION)/g' > $@
+
+configure: configure.in
+	autoconf
+
+.PHONY: manual-dist-stuff
+manual-dist-stuff:
+	@echo "remember to edit the version number in the following files:"
+	@echo "VisualC++/quadra.rc"
+	@echo "packages/readme-win32.txt"
+
+ifeq ($(MAKECMDGOALS),dustclean)
+NODEPENDS:=1
+endif
+ifeq ($(MAKECMDGOALS),clean)
+NODEPENDS:=1
+endif
+ifeq ($(MAKECMDGOALS),distclean)
+NODEPENDS:=1
+endif
+ifeq ($(MAKECMDGOALS),maintainerclean)
+NODEPENDS:=1
+endif
+ifeq ($(MAKECMDGOALS),dist)
+NODEPENDS:=1
+endif
+
+ifndef NODEPENDS
 
 config/config.mk: config/config.mk.in configure
 	@echo "Please run './configure'."
 	@exit 1
 
-configure: configure.in
-	@echo "Please run 'autoconf'."
-	@exit 1
-
 config/depends.mk: config/config.mk
+	@echo "NODEPENDS = $(NODEPENDS)"
 	@echo "Building dependencies file ($@)"
 	@$(foreach DEP,$(CXXDEPS),$(COMPILE.cc) -M $(DEP) | sed -e 's|^.*:|$(dir $(DEP))&|' >> $@;)
 
 -include config/depends.mk
 
-endif
 endif
 
