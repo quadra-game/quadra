@@ -29,8 +29,8 @@
 #include <X11/xpm.h>
 #undef Font
 #include "debug.h"
-#ifndef NDEBUG
 #include "command.h"
+#ifndef NDEBUG
 #ifdef FPSMETER
 #include "overmind.h"
 #endif
