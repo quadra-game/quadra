@@ -1,5 +1,10 @@
 2000-10-25  Pierre Phaneuf  <pp@ludusdesign.com>
 
+	* Fixed possibilities of buffer overflow (security related, bug
+	#111543)
+
+	Contributor: Simon Cahuk <simon.cahuk@uni-mb.si>
+
 	* Improved README file with list of requirements.
 
 2000-10-06  Pierre Phaneuf  <pp@ludusdesign.com>
@@ -23,7 +28,7 @@
 	('and' is now a reserved word, fixes compilation with gcc 2.96)
 	and support for Red Hat 7.0 (db_185.h keeps moving around!).
 
-	Contributor(s): Bernhard Rosenkraenzer <bero@redhat.de>
+	Contributor: Bernhard Rosenkraenzer <bero@redhat.de>
 
 	* Started a release change information file.
 

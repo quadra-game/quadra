@@ -40,7 +40,7 @@ Error::Error(const char* m, ...) {
 	char st[1024];
 	va_list marker;
 	va_start(marker, m);
-	vsprintf(st, m, marker);
+	vsnprintf(st, sizeof(st) - 1, m, marker);
 	va_end(marker);
 	fprintf(stderr, "Error: %s\n", st);
 	exit(1);
@@ -51,9 +51,9 @@ void msgbox(const char* m, ...) {
 		char st[1024];
 		va_list marker;
 		va_start(marker, m);
-		vsprintf(st, m, marker);
+		vsnprintf(st, sizeof(st) - 1, m, marker);
 		va_end(marker);
-		fprintf(stderr, st);
+		fprintf(stderr, "%s", st);
 	}
 }
 
@@ -62,9 +62,9 @@ void skelton_msgbox(const char* m, ...) {
 		char st[1024];
 		va_list marker;
 		va_start(marker, m);
-		vsprintf(st, m, marker);
+		vsnprintf(st, sizeof(st) - 1, m, marker);
 		va_end(marker);
-		fprintf(stderr, st);
+		fprintf(stderr, "%s", st);
 	}
 }
 
@@ -73,9 +73,9 @@ void lock_msgbox(const char* m, ...) {
 		char st[1024];
 		va_list marker;
 		va_start(marker, m);
-		vsprintf(st, m, marker);
+		vsnprintf(st, sizeof(st) - 1, m, marker);
 		va_end(marker);
-		fprintf(stderr, st);
+		fprintf(stderr, "%s", st);
 	}
 }
 

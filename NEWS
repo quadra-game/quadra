@@ -2,6 +2,8 @@ $Id$
 
 Quadra 1.1.6 (in development)
 
+ * Fixed possible security holes.
+
  * Improved README file.
 
 Quadra 1.1.5

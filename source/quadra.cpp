@@ -2104,6 +2104,8 @@ void start_game() {
 	bool demo_play = false;
 	bool demo_verif = false;
 	char buf[512];
+  /* FIXME: rather than using 1024 MAXPATHLEN should be used.  To do
+     so requires all other filename lengths be MAXPATHLEN as well. */
 	char fn[1024];
 
 	init_directory();
@@ -2115,9 +2117,9 @@ void start_game() {
 		dir="/usr/lib/games";
 #endif
 	resmanager=new Resmanager();
-	sprintf(fn, "%s/quadra.res", dir);
+	snprintf(fn, sizeof(fn) - 1, "%s/quadra.res", dir);
 	resmanager->loadresfile(fn);
-	sprintf(fn, "%s/quadra%i%i%i.res", dir, Config::major, Config::minor, Config::patchlevel);
+	snprintf(fn, sizeof(fn) - 1, "%s/quadra%i%i%i.res", dir, Config::major, Config::minor, Config::patchlevel);
 	resmanager->loadresfile(fn);
 	config.read();
 	//Read script and add to command line options if applicable
@@ -2150,14 +2152,14 @@ void start_game() {
 	}
 	if(_debug && command.token("verify")) {
 		char *temp = command_get_param("verify <filename>");
-		strcpy(buf, temp);
+		strncpy(buf, temp, sizeof(buf) - 1);
 		demo_play = true;
 		demo_verif = true;
 		no_sound = true;
 	}
 	if(command.token("play")) {
 		char *temp = command_get_param("play <filename>");
-		strcpy(buf, temp);
+		strncpy(buf, temp, sizeof(buf) - 1);
 		demo_play = true;
 		demo_verif = false;
 	}
@@ -2246,7 +2248,7 @@ void start_game() {
 			}
 			if(command.token("name")) {
 				char *temp = command_get_param("name <game name>");
-				strcpy(buf, temp);
+				strncpy(buf, temp, sizeof(buf) - 1);
 				p.name=buf;
 			}
 			if(command.token("nohandicap"))
@@ -2282,7 +2284,7 @@ void start_game() {
 			if(command.token("admin")) {
 				char *temp = command_get_param("admin <password>");
 				char line[1024];
-				sprintf(line, "/setpasswd %s", temp);
+				snprintf(line, sizeof(line) - 1, "/setpasswd %s", temp);
 				game->net_list.got_admin_line(line, NULL);
 			}
 			if(command.token("record")) {
@@ -2299,7 +2301,7 @@ void start_game() {
 				if(!net->active)
 					(void) new Error("Network failed to initialize or not present\nCan't connect.\n");
 				char *temp = command_get_param("connect <TCP/IP address>");
-				strcpy(buf, temp);
+				strncpy(buf, temp, sizeof(buf) - 1);
 				menu->add(new Menu_startconnect(buf, false));
 				if(config.warning)
 					menu->add(new Menu_setup());
