@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#ifdef UGS_LINUX_X11
+
 #include <signal.h>
 #define Font XFont
 #include <X11/Xlib.h>
@@ -110,3 +112,6 @@ void Video_X11_24::dosetpal(PALETTEENTRY pal[256], int size) {
 
   dirty(0, 0, width-1, height-1);
 }
+
+#endif /* UGS_LINUX_X11 */
+

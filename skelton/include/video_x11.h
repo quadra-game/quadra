@@ -21,6 +21,8 @@
 #ifndef _HEADER_VIDEO_X11
 #define _HEADER_VIDEO_X11
 
+#ifdef UGS_LINUX_X11
+
 #define Font XFont
 #define Cursor XCursor
 #include <X11/Xlib.h>
@@ -126,4 +128,7 @@ public:
   virtual void dosetpal(PALETTEENTRY pal[256], int size);
 };
 
+#endif /* UGS_LINUX_X11 */
+
 #endif /* _HEADER_VIDEO_X11 */
+

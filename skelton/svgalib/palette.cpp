@@ -119,8 +119,10 @@ int Fade::step() {
   if(currentframe==destframe)
     return 1;
   else {
+#ifdef UGS_LINUX_X11
     if(dynamic_cast<Video_X11_8*>(video))
       usleep(3000);
+#endif
     for(int i(0); i<768; i++)
       current[i]+=delta[i];
     currentframe++;

@@ -19,11 +19,13 @@
 # $Id$
 
 quadra: $(QUADRA_OBJECTS) skelton/lib/libugs_s.a
-	$(LINK.cc) -Lskelton/lib -L/usr/X11R6/lib -lX11 -lXext -lXpm -lpng -ldl -lz -o $@ $^
+	$(LINK.cc) -Lskelton/lib $(X_CFLAGS) $(X_LIBS) -lX11 -lXext -lXpm -lpng -ldl -lz -o $@ $^
 
 quadra.res: $(shell cat resources.txt) resources.txt skelton/tools/wadder/wadder
 	skelton/tools/wadder/wadder ./ $@ resources.txt
 
+ifdef UGS_LINUX_SVGA
 quadra-svga.so: $(SVGADRV_OBJECTS)
 	$(LINK.cc) -shared -lvga -lvgagl $^ -o $@
+endif
 

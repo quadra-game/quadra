@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#ifdef UGS_LINUX_SVGA
+
 #include "wraplib.h"
 #include "video_svga.h"
 #include "utils.h"
@@ -294,3 +296,6 @@ void Svgalib_Video::clean_up() {
 
 void Svgalib_Video::snap_shot(int x, int y, int w, int h) {
 }
+
+#endif /* UGS_LINUX_SVGA */
+

@@ -33,5 +33,5 @@ PATCHLEVEL:=$(shell grep 'Config::patchlevel' source/config.cpp | cut -d= -f2 | 
 VERSION:=$(MAJOR).$(MINOR).$(PATCHLEVEL)
 
 # FIXME: temporary hack, until we properly detect stuff
-CXXFLAGS+=-DUGS_LINUX -DUGS_LINUX_X11 -DUGS_LINUX_SVGA
+CXXFLAGS+=-DUGS_LINUX
 

@@ -21,6 +21,8 @@
 #ifndef _HEADER_INPUT_X11
 #define _HEADER_INPUT_X11
 
+#ifdef UGS_LINUX_X11
+
 /* forward declaration un peu laide */
 union _XEvent;
 typedef union _XEvent XEvent;
@@ -45,4 +47,7 @@ public:
   virtual void reraw();
 };
 
+#endif /* UGS_LINUX_X11 */
+
 #endif /* _HEADER_INPUT_X11 */
+

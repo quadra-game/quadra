@@ -18,12 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "wraplib.h"
-#include "video.h"
-#include "input_svga.h"
-
-RCSID("$Id$")
-
 const char *keynames[256] = {
   "", "Escape", "1", "2", "3", "4", "5", "6",
   "7", "8", "9", "0", "-", "=", "Backspace", "Tab",
@@ -59,6 +53,14 @@ const char *keynames[256] = {
   "", "", "", "", "", "", "", "",
   "", "", "", "", "", "", "", ""
 };
+
+#ifdef UGS_LINUX_SVGA
+
+RCSID("$Id$")
+
+#include "wraplib.h"
+#include "video.h"
+#include "input_svga.h"
 
 static Svgalib* lib;
 
@@ -241,3 +243,6 @@ void Input_Svgalib::signal_handler(int signal) {
   ((Input_Svgalib*)input)->mouse_reinit = true;
 	((Input_Svgalib*)input)->oldsignals.sa_handler(signal);
 }
+
+#endif /* UGS_LINUX_SVGA */
+

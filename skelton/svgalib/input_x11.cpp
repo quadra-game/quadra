@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#ifdef UGS_LINUX_X11
+
 #include <X11/keysym.h>
 #include "cursor.h"
 #include "main.h"
@@ -316,4 +318,6 @@ void Input_X11::deraw() {
 void Input_X11::reraw() {
   israw = true;
 }
+
+#endif /* UGS_LINUX_X11 */
 

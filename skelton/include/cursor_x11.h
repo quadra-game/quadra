@@ -21,6 +21,8 @@
 #ifndef _HEADER_CURSOR_X11
 #define _HEADER_CURSOR_X11
 
+#ifdef UGS_LINUX_X11
+
 #include "sprite.h"
 #include "cursor.h"
 
@@ -38,5 +40,7 @@ public:
   virtual void put_back();
   virtual void set_speed(const Byte s);
 };
+
+#endif /* UGS_LINUX_X11 */
 
 #endif /* _HEADER_CURSOR_X11 */

@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#ifdef UGS_LINUX_X11
+
 #include <signal.h>
 #include <unistd.h>
 #include <sys/shm.h>
@@ -642,3 +644,6 @@ void Video_X11::clean_up() {
 void Video_X11::snap_shot(int x, int y, int w, int h) {
   skelton_msgbox("Unimplemented: Video_X11::snap_shot\n");
 }
+
+#endif /* UGS_LINUX_X11 */
+
