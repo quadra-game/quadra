@@ -20,7 +20,7 @@ Here are some key features:
 
 PREVIOUS QUADRA VERSION
 
-If you had previously installed Quadra (such as version 1.1.3), the installer will warn you that it has detected your previous installation. You MUST ensure that Quadra and QSnoop are not currently running before proceding. You can look for QSnoop in your Windows tray-bar. If it's there, close it by left clicking on the small icon and select "Exit".
+If you had previously installed Quadra (such as version 1.1.3), the installer will warn you that it has detected your previous installation. You MUST ensure that Quadra and QSnoop are not currently running before proceding. You can look for QSnoop in your Windows tray-bar. If it's there, close it by right-clicking on the small icon and select "Exit".
 
 You should choose to install in the same folder as your previous version. Your recorded demo files and settings won't be overwritten.
 
