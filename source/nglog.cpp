@@ -64,7 +64,7 @@ void Log::log_event(const char *st) {
 
 bool log_init(const char *filename) {
 	char the_name[1024];
-	sprintf(the_name, sizeof(the_name) - 1, "%s/%s/ngStats/%s/%s", quadradir, __nglog_rel_path, __nglog_ngstats_logdir, filename);
+	snprintf(the_name, sizeof(the_name) - 1, "%s/%s/ngStats/%s/%s", quadradir, __nglog_rel_path, __nglog_ngstats_logdir, filename);
 	local=new Log(the_name);
 	return local->exist;
 }
