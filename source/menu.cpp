@@ -1287,7 +1287,7 @@ Menu_help::Menu_help() {
     (void)new Zone_text(fteam[5], inter, ST_HELP2, 60);
     (void)new Zone_text(fteam[5], inter, ST_HELP3, 100);
     (void)new Zone_text(inter, ST_HELP4, 20, 140);
-    (void)new Zone_text_field(inter, Config::user_name, 320, 140, 310, fteam[1]);
+    //(void)new Zone_text_field(inter, Config::user_name, 320, 140, 310, fteam[1]);
     y = 220;
     b_online=b_register=NULL;
   } else {
@@ -1306,8 +1306,10 @@ Menu_help::Menu_help() {
   (void)new Zone_text(inter, ST_HELP10, 10, y); y+=20;
   (void)new Zone_text(inter, ST_HELP11, 10, y);
   Zone_text *temp;
+/*
   b_email = temp = new Zone_text_select(inter, fteam[4], ST_HELP12, 160, y); // email ludus
   temp->set_font(fteam[6]); y+=40;
+*/
   (void)new Zone_text(fteam[3], inter, ST_HELP15, y); y+=20;
   (void)new Zone_text(inter, ST_HELP16, 10, y); y+=20;
   (void)new Zone_text(inter, ST_HELP17, 10, y); y+=20;
@@ -1335,8 +1337,10 @@ void Menu_help::step() {
 #ifdef UGS_DIRECTX
   if(result == b_www)
     call_internet(ST_HELP20);
+/*
   if(result == b_email)
     call_internet("mailto:support@ludusdesign.com?subject=Quadra");
+*/
   if(result == b_online)
     call_internet(ST_REGISTER9);
 #endif
