@@ -47,7 +47,6 @@ source/quadra: $(OBJECTS)
 	$(LINK.cc) $(QUADRA_OPT) -o $@ $(OBJECTS)
 ifdef RELEASE
 	nm -C $@ | sort > $@.sym
-	strip $@
 endif
 
 source/quadra.res: $(QUADRA_RES)
