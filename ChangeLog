@@ -1,3 +1,9 @@
+2000-11-28  Pierre Phaneuf  <pp@ludusdesign.com>
+
+	* "make clean" now properly removes all object files.
+
+	* Fixed resource file dependencies.
+
 2000-11-27  Remi Veilleux  <remz@ludusdesign.com>
 
 	* Fixed the 'taskbar button' bug in Windows.

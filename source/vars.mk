@@ -22,5 +22,7 @@ TARGETS+=source/quadra source/quadra.res source/quadra-svga.so
 
 QUADRA_OBJECTS:=$(patsubst %.cpp,%.o,$(wildcard source/*.cpp))
 
+CLEAN+=$(QUADRA_OBJECTS)
+
 CXXDEPS+=$(wildcard source/*.cpp)
 

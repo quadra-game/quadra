@@ -21,7 +21,7 @@
 source/quadra: $(QUADRA_OBJECTS) skelton/lib/libugs_s.a
 	$(LINK.cc) -Lskelton/lib -L/usr/X11R6/lib -lX11 -lXext -lXpm -lpng -ldl -lz -o $@ $^
 
-source/quadra.res: $(shell cat resources.txt)
+source/quadra.res: $(shell cat resources.txt) resources.txt skelton/tools/wadder/wadder
 	skelton/tools/wadder/wadder ./ $@ resources.txt
 
 source/quadra-svga.so: $(SVGADRV_OBJECTS)

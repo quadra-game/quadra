@@ -22,5 +22,7 @@ TARGETS+=skelton/tools/wadder/wadder
 
 WADDER_OBJECTS:=$(patsubst %.cpp,%.o,$(wildcard skelton/tools/wadder/*.cpp))
 
+CLEAN+=$(WADDER_OBJECTS)
+
 CXXDEPS+=$(wildcard skelton/tools/wadder/*.cpp)
 
