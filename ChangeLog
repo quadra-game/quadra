@@ -1,3 +1,7 @@
+2000-12-01  Pierre Phaneuf  <pp@ludusdesign.com>
+
+	* Fixed a small bug in the relocation stuff.
+
 2000-11-30  Pierre Phaneuf  <pp@ludusdesign.com>
 
 	* Restored the --enable-debug configure option.
