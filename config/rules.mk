@@ -35,6 +35,7 @@ maintainerclean: distclean
 dist: distclean quadra.spec configure ChangeLog manual-dist-stuff
 
 ChangeLog:
+	rm -f ChangeLog
 	-cvs2cl.pl
 
 installdirs:
