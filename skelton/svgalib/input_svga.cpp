@@ -64,8 +64,6 @@ RCSID("$Id$")
 #include "video.h"
 #include "input_svga.h"
 
-RCSID("$Id$")
-
 static Svgalib* lib;
 
 Input_Svgalib::Input_Svgalib() {
