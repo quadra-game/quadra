@@ -45,8 +45,6 @@ class Recording {
 	void write_hunk(Byte h);
 	void end_single(Canvas *c);
 public:
-	Byte *all_output;
-	Dword all_output_size;
 	Dword frame;
 	void step();
 	Res_compress *res;

@@ -43,7 +43,7 @@ Res_compress::Res_compress(const char *fil, Res_mode pmode, bool res_doze) {
 Res_compress::~Res_compress() {
 	if(mode == RES_WRITE || mode == RES_CREATE) {
 		if(res)
-			write_compress(NULL);
+			write_compress();
 	}
 	if(res)
 		delete res;
@@ -104,13 +104,13 @@ Dword Res_compress::size() {
 	return ressize;
 }
 
-Byte *Res_compress::write_compress(Dword *size) {
+void Res_compress::write_compress() {
 	if(!res)
 		(void)new Error("Trying to write_compress a second time!");
 	if(!res_dos)
 		(void)new Error("Trying to write_compress a Res_doze!");
 	if(!_buf)
-		return NULL;
+		return;
 	unsigned long dest_len = write_pos + 65540;
 	Byte *temp = (Byte *) malloc(dest_len);
 	*((Dword *)temp)=write_pos;
@@ -123,12 +123,5 @@ Byte *Res_compress::write_compress(Dword *size) {
 	delete res_dos;
 	res_dos=NULL;
 	res=NULL;
-	if(size) {
-		*size=dest_len+4;
-	}
-	else {
-		free(temp);
-		temp=NULL;
-	}
-	return temp;
+	free(temp);
 }

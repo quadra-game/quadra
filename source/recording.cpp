@@ -39,15 +39,11 @@ Playback *playback = NULL;
 
 Recording::Recording() {
 	res=NULL;
-	all_output=NULL;
-	all_output_size=0;
 }
 
 Recording::~Recording() {
 	if(res)
 		delete res;
-	if(all_output)
-		free(all_output);
 }
 
 bool Recording::create(const char *n) {
@@ -105,7 +101,7 @@ void Recording::end_multi() {
 	if(game->single)
 		end_single(game->net_list.get(0));
 	write_summary();
-	all_output=res->write_compress(&all_output_size);
+	res->write_compress();
 	delete res;
 	res=NULL;
 }

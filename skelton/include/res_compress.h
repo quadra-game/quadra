@@ -31,7 +31,7 @@ class Res_compress: public Res_mem {
 	mutable Dword write_pos;
 	void read_uncompress();
 public:
-	Byte *write_compress(Dword *size);
+	void write_compress();
 	bool exist;
 	Res_compress(const char *fil, Res_mode pmode=RES_READ, bool res_doze=false);
 	virtual ~Res_compress();
