@@ -62,7 +62,7 @@ Res_dos::~Res_dos() {
 	if(handle != -1)
 		close(handle);
 	if(_buf)
-		delete _buf;
+		delete[] static_cast<Byte*>(_buf);
 }
 
 void Res_dos::position(Dword po) {

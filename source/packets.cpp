@@ -367,7 +367,7 @@ void Packet_playerwantjoin::write(Net_buf *p) {
 	p->write_string(name);
 	p->write_byte(player);
 	if(game->net_version()>=23)
-		p->write_dword(-1);
+		p->write_dword(static_cast<Dword>(-1));
 	else
 		p->write_dword(h_repeat);
 	p->write_dword(smooth);
@@ -428,7 +428,7 @@ void Packet_player::write(Net_buf *p) {
 	p->write_string(name);
 	p->write_byte(player);
 	if(game->net_version()>=23)
-		p->write_dword(-1);
+		p->write_dword(static_cast<Dword>(-1));
 	else
 		p->write_dword(h_repeat);
 	p->write_dword(smooth);
@@ -825,7 +825,7 @@ bool Packet_rejoin::read(Net_buf *p) {
 void Packet_rejoin::write(Net_buf *p) {
 	Packet_playerbase::write(p);
 	if(game->net_version()>=23)
-		p->write_dword(-1);
+		p->write_dword(static_cast<Dword>(-1));
 	else
 		p->write_dword(h_repeat);
 	p->write_dword(smooth);

@@ -1,3 +1,7 @@
+2000-11-15  Pierre Phaneuf  <pp@ludusdesign.com>
+
+	* Fixed some warnings.
+
 2000-11-14  Pierre Phaneuf  <pp@ludusdesign.com>
 
 	* Integrated the skelton into the new Makefile system.
