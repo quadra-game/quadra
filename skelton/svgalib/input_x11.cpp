@@ -147,10 +147,12 @@ void Input_X11::check() {
         break;
 
       case FocusIn:
+        videox11->focus_in(event.xfocus.window);
         alt_tab = false;
         break;
 
       case FocusOut:
+        videox11->focus_out(event.xfocus.window);
         alt_tab = true;
         break;
 
@@ -184,28 +186,33 @@ void Input_X11::process_key(XEvent event) {
   switch(event.type) {
   case KeyPress:
     keys[key] |= PRESSED;
+
+    if(event.xkey.state == Mod1Mask && XLookupKeysym(&event.xkey, 0) == XK_Return) {
+      video->toggle_fullscreen();
+      return;
+    }
     
     if(!key)
       skelton_msgbox("Unknown KeyCode: %i\n", event.xkey.keycode);
-    
+
     if(israw) {
       switch(key) {
       case KEY_RSHIFT:
       case KEY_LSHIFT:
-	shift_key |= SHIFT;
-	break;
+        shift_key |= SHIFT;
+        break;
       case KEY_RALT:
       case KEY_LALT:
-	shift_key |= ALT;
-	break;
+        shift_key |= ALT;
+        break;
       case KEY_RCTRL:
       case KEY_LCTRL:
-	shift_key |= CONTROL;
-	break;
+        shift_key |= CONTROL;
+        break;
       case 101:
       case 119:
-	pause = true;
-	break;
+        pause = true;
+        break;
       default:
         quel_key = key;
       }

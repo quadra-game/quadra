@@ -80,6 +80,7 @@ public:
   void restore();
   void clean_up();
   void snap_shot(int x, int y, int w, int h);
+  void toggle_fullscreen();
 };
 
 #endif /* _HEADER_VIDEO_DX */
