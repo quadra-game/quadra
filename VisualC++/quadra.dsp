@@ -45,7 +45,7 @@ RSC=rc.exe
 # ADD CPP /nologo /W3 /WX /GX /O2 /Ob2 /I "..\include" /I "..\skelton\include" /D "NDEBUG" /D "DEMO_VERSION" /D "WIN32" /D "UGS_DIRECTX" /FD /c
 # SUBTRACT CPP /Fr /YX
 # ADD BASE RSC /l 0xc0c /d "NDEBUG"
-# ADD RSC /l 0x1009 /d "NDEBUG"
+# ADD RSC /l 0x1009 /i "..\include" /d "NDEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo

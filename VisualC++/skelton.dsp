@@ -199,10 +199,6 @@ SOURCE=..\skelton\common\pcx.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\skelton\common\pcx24.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\skelton\common\random.cpp
 # End Source File
 # Begin Source File
@@ -260,10 +256,6 @@ SOURCE=..\skelton\directx\video.cpp
 # Begin Source File
 
 SOURCE=..\skelton\common\video_dumb.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\skelton\directx\video_dx16.cpp
 # End Source File
 # Begin Source File
 
@@ -415,10 +407,6 @@ SOURCE=..\skelton\include\pcx.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\skelton\include\pcx24.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\skelton\include\random.h
 # End Source File
 # Begin Source File
@@ -492,10 +480,6 @@ SOURCE=..\skelton\include\video.h
 # Begin Source File
 
 SOURCE=..\skelton\include\video_dx.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\skelton\include\video_dx16.h
 # End Source File
 # Begin Source File
 
