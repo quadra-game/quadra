@@ -45,6 +45,7 @@ make
 rm -rf $RPM_BUILD_ROOT
 mkdir $RPM_BUILD_ROOT
 %makeinstall
+mkdir -p $RPM_BUILD_ROOT/usr/share/pixmaps
 cp images/quadra.xpm $RPM_BUILD_ROOT/usr/share/pixmaps
 
 %clean
