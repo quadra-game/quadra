@@ -59,6 +59,7 @@ void Http_post::add_data_raw(const char* m) {
 }
 
 void Http_post::send() {
+	char st[256];
 	url.resize(0);
 	url.append("POST ");
 	url.append(cgi);
@@ -68,11 +69,13 @@ void Http_post::send() {
 		url.append(host);
 		url.append("\r\n");
 	}
+	sprintf(st, "User-Agent: Quadra/%i.%i.%i\r\n",
+	        VERSION_MAJOR, VERSION_MINOR, VERSION_PATCHLEVEL);
+  	url.append(st);
 	//Try to make those idiot proxies behave. Long life e2e!!! :)
 	url.append("Pragma: no-cache\r\n");
 	url.append("Cache-Control: no-cache\r\n");
 	url.append("Content-type: application/x-www-form-urlencoded\r\nContent-length: ");
-	char st[16];
 	sprintf(st, "%i\r\n\r\n", data.size());
 	url.append(st);
 	url.append(data.get(), data.size());
