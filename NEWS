@@ -2,6 +2,12 @@ $Id$
 
 Quadra 1.1.9
 
+Fixed some byte ordering and alignment issues (for SPARC port), fixed a
+few valgrind warnings (many left, don't worry!), fixed the "crash on
+level change" bug (also known as the sound crash), fixed the trails in
+X11 (I think!) and fixed some warnings in gcc 3.2 (again, many left!).
+    - Damian XXX <FIXME@uwaterloo.ca>
+
  * Use the new Quadra master server at SourceForge.
 
  * Fixed high CPU usage on recent Linux systems.
