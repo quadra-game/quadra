@@ -283,7 +283,6 @@ Video_X11::Video_X11(int w, int h, int b,
   XSizeHints sizehints;
   Pixmap ico_pixmap;
   Pixmap ico_mask;
-  char *argv[1];
   int tmp_y;
 
   setuid(getuid());  
@@ -344,8 +343,19 @@ Video_X11::Video_X11(int w, int h, int b,
   XSetClassHint(display, window, classhint);
   XFree(classhint);
 
-  argv[0] = "/usr/games/quadra";
-  XSetCommand(display, window, argv, 1);
+  char** argv = static_cast<char**>(alloca(sizeof(char*) * (ux_argc + 1)));
+  char str[PATH_MAX];
+  for(int i = 0; i < ux_argc; i++) {
+    argv[i] = ux_argv[i];
+  }
+  argv[ux_argc] = 0;
+  if(argv[0][0] != '/' && strchr(argv[0], '/')) {
+    char pwd[PATH_MAX];
+    getcwd(pwd, sizeof(pwd));
+    snprintf(str, sizeof(str), "%s/%s", pwd, ux_argv[0]);
+    argv[0] = str;
+  }
+  XSetCommand(display, window, argv, ux_argc);
 
   XpmCreatePixmapFromData(display,
 			  DefaultRootWindow(display),

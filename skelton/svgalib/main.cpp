@@ -47,6 +47,8 @@ extern "C" int SOCKSinit(char *);
 
 RCSID("$Id$")
 
+int ux_argc;
+char** ux_argv;
 bool alt_tab = false;
 Time_mode time_control = TIME_NORMAL;
 char cmd_line[1024];
@@ -89,6 +91,9 @@ int main(int ARGC, char **ARGV, char **ENV) {
 		}
 		else
 			skelton_msgbox("SIGPIPE handler isn't default, ignoring.\n");
+
+  ux_argc = ARGC;
+  ux_argv = ARGV;
 
 	//Copy the whole thing
 	strncpy(exe_directory, ARGV[0], sizeof(exe_directory));
