@@ -63,7 +63,6 @@ configure: configure.in
 .PHONY: manual-dist-stuff
 manual-dist-stuff:
 	@echo "remember to edit the version number in the following files:"
-	@echo "VisualC++/quadra.rc"
 	@echo "packages/readme-win32.txt"
 
 ifeq ($(MAKECMDGOALS),dustclean)
