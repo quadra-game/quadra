@@ -1,6 +1,9 @@
 ; Simple install script for Quadra
 ; Based on example2.nsi
 
+; for SF_SELECTED
+!include Sections.nsh
+
 ; The name of the installer
 Name "Quadra"
 
@@ -32,7 +35,6 @@ DirText "Choose a directory to install in to:"
 
 ; The stuff to install
 Section "Quadra (required)"
-
   SectionIn RO
   
   ; Set output path to the installation directory.
@@ -50,43 +52,56 @@ Section "Quadra (required)"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Quadra" "DisplayName" "Quadra (remove only)"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Quadra" "UninstallString" '"$INSTDIR\uninstall.exe"'
   WriteUninstaller "uninstall.exe"
-  
 SectionEnd
 
-; optional section (can be disabled by the user)
-Section "Start Menu Shortcuts"
+Section "QSnoop (recommanded)" QSnoopSectionIndex
+	File "QSnoop.exe"
+	File "QS.dll"
+	File "QSEn.dll"
+	File "QSFr.dll"
+SectionEnd	
 
+Section "Start Menu Shortcuts (recommanded)"
   CreateDirectory "$SMPROGRAMS\Quadra"
   CreateShortCut "$SMPROGRAMS\Quadra\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
   CreateShortCut "$SMPROGRAMS\Quadra\Quadra.lnk" "$INSTDIR\quadra.exe" "" "$INSTDIR\quadra.exe" 0
-  
+
+  ; install QSnoop shortcut only when the QSnoop section is seleted
+  SectionGetFlags ${QSnoopSectionIndex} $R0
+  IntOp $R0 $R0 & ${SF_SELECTED}
+  IntCmp $R0 ${SF_SELECTED} 0 skip
+    CreateShortCut "$SMPROGRAMS\Quadra\QSnoop.lnk" "$INSTDIR\QSnoop.exe" "" "$INSTDIR\QSnoop.exe" 0
+  skip:
 SectionEnd
 
 ;--------------------------------
 
 ; Uninstaller
-
 UninstallText "This will uninstall Quadra. Hit next to continue or cancel if you've come to your senses."
 
 ; Uninstall section
-
 Section "Uninstall"
-  
-  ; remove registry keys
-  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Quadra"
-  DeleteRegKey HKLM SOFTWARE\Quadra
-
-  ; remove files and uninstaller
+  ; remove files
   Delete $INSTDIR\readme-win32.txt
   Delete $INSTDIR\quadra.exe
   Delete $INSTDIR\quadra.res
+  Delete $INSTDIR\QSnoop.exe
+  Delete $INSTDIR\QS.dll
+  Delete $INSTDIR\QSEn.dll
+  Delete $INSTDIR\QSFr.dll
+
+  ; remove shortcuts, if they exist
+  Delete "$SMPROGRAMS\Quadra\Quadra.lnk"
+  Delete "$SMPROGRAMS\Quadra\QSnoop.lnk"
+  Delete "$SMPROGRAMS\Quadra\Uninstall.lnk"
+  RMDir "$SMPROGRAMS\Quadra"
+
   Delete $INSTDIR\uninstall.exe
 
-  ; remove shortcuts, if any
-  Delete "$SMPROGRAMS\Quadra\*.*"
+  ; remove uninstall registry key for Windows
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Quadra"
 
-  ; remove directories used
-  RMDir "$SMPROGRAMS\Quadra"
+  ; remove install directory
+  ; TODO: move Quadra and QSnoop configuration to the registry and demos to "Application data" to make this work
   RMDir "$INSTDIR"
-
 SectionEnd

@@ -1,4 +1,0 @@
-Quadra version 1.1.8 for Windows
-Copyright (c) 1998-2001 Ludus Design Inc.
-All rights reserved.
-web: http://quadra.sourceforge.net/
