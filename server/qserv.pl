@@ -448,7 +448,7 @@ sub main {
 				$params->{info}{remoteaddr} = $ad;
 			}
 		}
-		#delete $params->{address};
+		delete $params->{address};
 	}
 	else {
 		$params->{info}{remoteaddr} = $q->remote_addr();
