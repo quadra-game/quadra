@@ -1,0 +1,454 @@
+Quadra decoder ring 
+-------------------
+
+General format
+--------------
+Quadra log files follow the ngLog 1.2 logging standard. Each line of
+a log file corresponds to an event and has 2 or more tab-separated
+elements.
+
+The first element is always the 'timestamp' of the event. It is
+described below.
+
+The second element is a string corresponding to the event type that
+has occurred. The following elements (if any) are arguments to the
+event type giving further details about the event. All possible
+event types and their arguments are documented below.
+
+
+Common argument formats
+-----------------------
+A lot of the event's arguments follow some common data formats. Here
+is a list of formats used throughout this document.
+
+  date_time: YYYY.MM.DD.HH.MM.SS.ss.GMT_Ref
+    YYYY: year (1999 - 9999)
+    MM: month (01 - 12)
+    DD: day of the month (01 - 31)
+    HH: hour (00 - 23)
+    SS: seconds (00 - 59)
+    ss: hundredth of a second (00 - 99)
+    GMT_Ref: time zone relative to GMT (-11.5 - +12.0)
+
+  bool: true|false
+
+  address: 999.999.999.999:99999
+    A dotted TCP/IP address. In some cases, the port part (:99999)
+    will not be present.
+
+  id:
+    An id number that is assigned the first time an entity is seen
+    and that is used in subsequent events to refer to that entity.
+
+
+Event time stamps
+-----------------
+The timestamp is the time in seconds since the last "info
+absolute_time <date_time>" event. It's format is a number with two
+decimals (examples: 0.00, 9.99, 3485.45).
+
+
+info event
+----------
+0.00 info <information_type> <arg> <arg> ... <arg> 
+  information_type:
+    Type of information (see list below).
+
+  arg:
+    Arguments/comments. Varies according to information_type (see
+    list below).
+
+The info events present information about the following logfile, the
+game server's version and platform, etc. These events are not used
+as game statistics and do not affect game play. Here's the list of
+the usual information_types and their arguments:
+
+log_standard          <standard>
+log_version           <version>
+log_info_url          <url>
+  The standard name and version followed throughout the log file,
+  with a web page URL where more info about the log standard can be
+  found. Quadra's only supported standard is ngLog, version 1.2.
+
+game_name             <name>
+game_author           <company>
+game_author_url       <url>
+  Always "Quadra", "Ludus Design" and "http://ludusdesign.com"
+  respectively.
+
+game_version          <version> <os> <platform>
+  Quadra version followed by operating system and operating system
+  platform of the server computer.
+
+game_decoder_ring_url <url>
+  Web page URL of the decoder ring (this file).
+
+server_address        <server_ip_address>
+server_port           <server_port>
+  The IP address and port where the server is accepting connections.
+
+absolute_time         <date_time>
+  The date and time the log file was created. The time stamps of
+  subsequent events will be relative to this absolute time. See the
+  format of date_time at the beginning of this document.
+
+
+game_init event
+---------------
+0.00 game_init <date_time> 
+  date_time:
+    Absolute date and time of game creation. Same as that given in
+    the info Absolute_Time event.
+
+Several game_param events will follow this entry with a 0.00
+timestamp.
+
+
+game_param event
+----------------
+0.00 game_param <param_type> <arg> <arg> ... <arg>
+  param_type:
+    Name of the param (see list below).
+  arg:
+    Depends on the param type (see list).
+
+These will specify the various settings of the logged Quadra game.
+Here's a list of acceptable param types with arguments:
+
+name                  <name>
+  Game name.
+
+game_type             <type>
+  type:
+    ffa, survivor, peace, blind, hot_potato, single, single_sprint.
+  This parameter is informationnal in the sense that it could be
+  deduced completely from the other game_params but it's included
+  anyway to make it easy to tell at a glance the type of game that
+  is being logged.
+  Note that the reverse is not true: the game_type doesn't fully
+  describes the game, as each game_types only represents a set of
+  default values that can be altered below.
+
+survivor              <bool>
+hot_potato            <bool>
+  Tells whether survivor and/or hot potato rules are in force.
+
+normal_attack         <type> <param>
+clean_attack          <type> <param>
+potato_normal_attack  <type> <param>
+potato_clean_attack   <type> <param>
+  type:
+    none, lines, blind or fullblind.
+  param:
+    When type==(blind or fullblind), the duration of blindness
+    (1-255, 6 being approximately one second), else 0.
+  These parameters specify the kind of attack available to the
+  players throughout the game. The last two should only be present
+  when hot_potato==true.
+
+level_up              <bool>
+level_start           <level>
+  level:
+    1-20.
+  Indicates whether level (game speed) increases every 15 lines and
+  the starting level upon respawn.
+
+allow_handicap        <bool>
+  Indicates whether setting the handicap is allowed.
+
+game_end              <type> <num>
+  type:
+    never, frags, time, points, or lines.
+  num:
+    0, 1-9999 (frags), 1-9999 (minutes), 1-99999 (thousand points)
+    or 1-99999 (lines) respectively.
+
+
+connect event
+-------------
+S.ss connect <id> <address>
+
+A client computer has connected to the server.
+
+
+connection_joined event
+-----------------------
+S.ss connection_joined <id> <registered>
+  registered:
+    Bool indicating whether this client's Quadra copy is registered.
+
+This connection has gone thru the initial connection handshake and
+can now watch the game. It still needs to perform at least one
+player_join or player_rejoin to start playing.
+
+
+disconnect event
+----------------
+S.ss disconnect <id>
+
+Client computer disconnected from the server.
+
+
+player_join event
+-----------------
+S.ss player_join <id> <connection_id> <team> <handicap> <name>
+                 <team_name>
+  connection_id:
+    id of the connection this player will be playing from (or 0 if
+    playing on the server).
+  name:
+    Player name.
+  team:
+    Player team (orange, cyan, red, purple, yellow, green or blue).
+  handicap:
+    Handicap setting (none, advanced, master, grand_master or god).
+  team_name:
+    Team name or nothing if the player doesn't want to play on a
+    named team.
+
+A new player has joined the game.
+
+
+player_gone event
+-----------------
+S.ss player_gone <id>
+
+This player has left the game. Note that the player id remains
+valid: it can be used again in other events (namely: player_drop and
+player_rejoin).
+
+
+player_rejoin event
+-------------------
+S.ss player_rejoin <id> <connection_id> <handicap>
+
+The (gone) player has rejoined. The rejoined player may be playing
+from a different connection and using a different handicap but the
+player name and team remains the same.
+
+
+player_drop event
+-----------------
+S.ss player_drop <id>
+
+This player has been dropped from the game.
+
+
+game_start event
+----------------
+S.ss game_start
+
+The startup countdown has begun so the players already in the game
+will start playing in 5 seconds. Others may join later.
+
+
+playing_end_signal event
+------------------------
+S.ss playing_end_signal <reason>
+  reason:
+    auto or manual.
+
+Game end is signaled to all players either because the game-end
+condition has been reached or the server operator signaled the end
+of the game manually. The game will effectively end when all players
+have left the game and the winner will then be declared (in the
+playing_end event).
+
+
+playing_end event
+-----------------
+S.ss playing_end <winning team>
+  winning_team:
+    The team who won the game (orange, cyan, red, purple, yellow,
+    green, blue or none (if no winner can be declared)).
+
+The actual gameplay is done and the winner is declared. The events
+following playing_end can only be chat, game_rec or the final
+game_end.
+
+
+game_rec event
+--------------
+S.ss game_rec <rec>
+  rec:
+    Base64 encoded part of the game recording file.
+
+All the game_rec events from game_init to game_end can be separately
+Base64 decoded, each giving a 100 bytes chunk of binary data that
+can then be sticked together (in the same order as they appear in
+the log) to form the game's recording (which is a binary file that
+can be viewed in the "Demo Central" within the game).
+
+
+game_end event
+--------------
+S.ss game_end
+
+This should be the last line of the log file.
+
+
+player_dead event
+-----------------
+S.ss player_dead <id> <fragger_id> <death_type>
+  fragger_id:
+    id of the player who got the frag, or 0 if nobody got it (the
+    player died "naturally").
+  death_type:
+    normal, suicide, left, overkill or maximum_overkill.
+
+
+player_respawn event
+--------------------
+S.ss player_respawn <id>
+
+The (dead) player respawned, either because a new round started (in
+survivor mode) or he pressed a key (non-survivor).
+
+
+round_start event
+-----------------
+S.ss round_start
+
+A new survivor round just started. Should be followed closely by
+player_respawn events for all players.
+
+
+round_end event
+---------------
+S.ss round_end <surviving_team>
+  surviving_team:
+    The team alive at the end of the round (orange, cyan, red,
+    purple, yellow, green, blue or none (if everybody died)).
+
+A survivor round just ended. Should be followed closely by
+player_survived events for all the survivors (if any).
+
+
+player_survived event
+---------------------
+S.ss player_survived <id>
+
+This player survived the survivor round.
+
+
+potato_given
+------------
+S.ss potato_given <team> <lines>
+  team:
+    The team that was given the potato (orange, cyan, red, purple,
+    yellow, green or blue).
+  lines:
+    Number of lines to clear to get rid of the potato.
+
+The team was given the hot potato. It will keep it until either the
+required number of lines is cleared or every team member dies.
+
+
+potato_done
+-----------
+S.ss potato_done <team> <reason>
+  team:
+    The team that just finished with the potato (orange, cyan, red,
+    purple, yellow, green or blue).
+  reason:
+    cleared_lines (the team managed to clear the required number of
+    lines), all_died (every team member died) or all_gone (every
+    team member has gone or has been dropped).
+
+The team is done with the potato.
+
+
+player_stampblock event
+-----------------------
+S.ss player_stampblock <id> <block> <times_rotated> <time_held>
+                       <points>
+  block:
+    0: Cube
+    1: S
+    2: Z
+    3: L
+    4: Inverted L
+    5: I
+    6: T
+  times_rotated:
+    Number of times the block was rotated before being placed.
+  time_held:
+    Hundredths of second the block was held by the player
+  points:
+    Number of points awarded to the player for rapid placement of
+    the block (these include only the points awarded for quickly
+    placing the block; the points for lines eventually cleared as a
+    result of placing the block will be given in a different event).
+
+
+player_lines_cleared event
+--------------------------
+S.ss player_lines_cleared <id> <number_cleared> <clean_canvas>
+                          <attack_size> <recursiveness> <points>
+  number_cleared:
+    Number of lines cleared.
+  clean_canvas:
+    The player has entirely cleared his/her canvas, resulting in
+    bonus attack_size and bonus points (bool).
+  attack_size:
+    Resulting attack strength. The actual effect on opponents depend
+    on the attack type and situation (it is entirely possible that
+    the attack has no effect if the attack type was 'none' but in
+    most playing modes, attack_size lines will appear from the
+    bottom of the opponents' canvas). Also, the real attack size
+    will differ from one opponent to the next because of handicap
+    adjustments.
+  recursiveness:
+    How many recursive steps were needed to get everything settled
+    down (higher numbers indicate more skill or more luck, depending
+    on who you ask).
+  points:
+    Number of points awarded to the player for these lines.
+
+This player cleared some lines. The resulting attack will be logged
+as player_attacked events that should closely follow but the time
+between the actual attack and its effects depend of the lag time of
+all the opponents (in the extreme case, player_attacked events may
+even appear *before* their causal player_lines_cleared event).
+
+
+player_attacked event
+---------------------
+S.ss player_attacked <id> <attacker_id> <type> <size>
+  attacker_id:
+    Player id of the aggressor (or 0 if he has been dropped since).
+  type:
+    lines, blind or fullblind
+  size:
+    Size of the attack (i.e. number of lines, number of blinded
+    blocks or multiplier for the amount of time the canvas will be
+    fully blinded).
+
+This player was attacked. The type of the attack suffered depend on
+the game parameters and, if applicable, the team that was holding
+the hot potato at the time the attacker placed his last block.
+
+
+chat event
+----------
+S.ss chat <connection_id> <text>
+  connection_id:
+    id of the connection where the chat came from.
+  text:
+    Whatever was said.
+
+Someone chatted.
+
+
+pause event
+-----------
+S.ss pause <connection_id>
+
+Game paused.
+
+
+unpause event
+-------------
+S.ss unpause <connection_id>
+
+Game unpaused.
