@@ -2,10 +2,6 @@
 *.res
 output.txt
 *.rec
-*.lnk
-*.PIF
-*.pif
-qsnoop
 quadra
 quadra.res
 quadra.spec
