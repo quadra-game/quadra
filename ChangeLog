@@ -1,3 +1,7 @@
+2000-12-08  Pierre Phaneuf  <pp@ludusdesign.com>
+
+	* Added details about building on Win32 in the README file.
+
 2000-12-04  Pierre Phaneuf  <pp@ludusdesign.com>
 
 	* Made the RPM spec put the XPM icon in the /usr/share/pixmaps

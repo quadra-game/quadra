@@ -2,7 +2,7 @@ Quadra Source Release
 ---------------------
 $Id$
 
-This is a raw source release. Do not smoke near this package.
+This is the Quadra source release.
 
 Requirements:
 
@@ -13,18 +13,34 @@ Requirements:
  - Svgalib (Linux only, optional, http://svgalib.org/)
  - X Window System libraries with XPM support (Linux only)
 
-Basic instructions:
+To compile and install this software on a Unix-like system, do this:
 
- - type './configure'
- - type 'make'
+$ ./configure
+$ make
+$ make install (optional)
 
-There you go! There is a 'quadra' binary, a 'quadra-svga.so' driver and
-a 'quadra.res' resource file in the top-level directory. If not,
+There you go! There is a 'quadra' binary, a 'quadra-svga.so' driver
+and a 'quadra.res' resource file in the top-level directory. If not,
 then something went wrong. :-)
 
 You can run this with the following command (in bash):
 
 QUADRADIR=. ./quadra
 
-Good luck!
+If you ran the "make install" command, then you have 'quadra'
+installed on your system and you can just run it (no need to set
+QUADRADIR).
+
+To compile Quadra on a Windows machine, use the Visual C++ workspace
+and project file in the VisualC++ subdirectory. Make sure you have
+zlib, libpng and DirectX properly installed for development on your
+machine.
+
+If you have any problem, patches, suggestions, bug reports or are
+simply looking for help, please take advantage of the resources
+available on our web site (http://quadra.sourceforge.net/)! Among
+others, we have a support request system, mailing lists, a bug
+tracking system and plenty of other goodies, so come and have fun!
+
+Good luck, and have fun!
 
