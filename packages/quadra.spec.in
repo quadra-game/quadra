@@ -2,7 +2,7 @@ Summary: Multiplayer puzzle game
 Name: quadra
 Version: @VERSION@
 Release: 1
-Copyright: Commercial
+Copyright: LGPL
 Group: Games
 URL: http://ludusdesign.com/
 Source: quadra-%{version}.tar.gz
@@ -24,10 +24,6 @@ Features include:
  - Chat window
  - CD-based music
  - And much more!
-
-The license is based on the shareware model. You can freely download
-and copy the game. After a 30 day period, you must register or stop
-using it.
 
 %prep
 %setup -q
