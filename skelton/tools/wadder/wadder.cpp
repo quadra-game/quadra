@@ -120,8 +120,8 @@ char *usage = "usage: wadder <working directory> <output res> <input text>\n";
 Resfile *wad;
 
 #ifndef HAVE_BASENAME
-char *basename(const char* f) {
-	char* p=(char*)(f+strlen(f));
+const char *basename(const char* f) {
+	const char* p=(const char*)(f+strlen(f));
 	while(*p != '/' && *p != '\\' && p>=f)
 		p--;
 	return p+1;
