@@ -396,7 +396,9 @@ void Net_server::playerwantjoin(Packet *p2) {
 		player.player = p->player;
 		player.team = p->team;
 		Canvas *canvas=new Canvas(game->seed, p->team, p->name, p->h_repeat, p->v_repeat, p->smooth? true:false, p->shadow? true:false, p->handicap, p->from, p->player, false);
+		memcpy(canvas->player_hash, p->player_hash, sizeof(canvas->player_hash));
 		strncpy(canvas->team_name, p->team_name, 40);
+		memcpy(canvas->team_hash, p->team_hash, sizeof(canvas->team_hash));
 		canvas->team_name[39]=0;
 		playeraccepted.pos=game->net_list.add_player(canvas); 
 		player.pos=playeraccepted.pos;
