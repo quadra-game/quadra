@@ -25,3 +25,4 @@ Miscellaneous options:
 -debug			Enable debug mode
 -play <file>		Play a recorded demo file
 -record <file>		Record a demo file
+-nocd			Do not play CD music

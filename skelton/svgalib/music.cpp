@@ -28,6 +28,7 @@
 #include <linux/cdrom.h>
 #include "error.h"
 #include "types.h"
+#include "command.h"
 #include "music.h"
 
 RCSID("$Id$")
@@ -54,7 +55,10 @@ public:
 Music *music=NULL;
 
 Music* Music::alloc() {
-	return new MusicLinux;
+  if(!command.token("nocd"))
+    return new MusicLinux;
+  else
+    return new MusicNull;
 }
 
 MusicLinux::MusicLinux() {

@@ -25,3 +25,4 @@ Options diverses:
 -debug			Mode debug
 -play <file>		Joue un fichier démo enregistré
 -record <file>		Enregistre une démo
+-nocd			Ne pas jouer la musique CD

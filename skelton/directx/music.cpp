@@ -44,7 +44,10 @@ public:
 Music *music=NULL;
 
 Music* Music::alloc() {
-	return new MusicWin32;
+  if(!command.token("nocd"))
+    return new MusicWin32;
+  else
+    return new MusicNull;
 }
 
 MusicWin32::MusicWin32() {
