@@ -296,7 +296,7 @@ Player_flash_lines::Player_flash_lines(Canvas *c): Player_base(c) {
 	anim = 0;
 	canvas->color_flash = 255;
 	if(canvas->inter) {
-		int vo=-300-ugs_random.rnd(255);
+		int vo = -300 - ugs_random.rnd(255);
 		if(!canvas->islocal())
 			vo -= 1000;
 		play_sound(sons.flash, vo, -1, 11000+ugs_random.rnd(127) - (canvas->complexity<<8));
@@ -800,7 +800,7 @@ void Player_process_key::keyboard_control() {
 				if(canvas->bloc->bx<5)
 					inc=1;
 				else
-					inc=-1;
+					inc = -1;
 				if(!canvas->collide(canvas->bloc->bx+inc, canvas->bloc->by, canvas->bloc->rot)) {
 					canvas->bloc->bx+=inc;
 					if(rotate_left()) {
@@ -823,7 +823,7 @@ void Player_process_key::keyboard_control() {
 				if(canvas->bloc->bx<5)
 					inc=1;
 				else
-					inc=-1;
+					inc = -1;
 				if(!canvas->collide(canvas->bloc->bx+inc, canvas->bloc->by, canvas->bloc->rot)) {
 					canvas->bloc->bx+=inc;
 					if(rotate_right()) {
@@ -846,7 +846,7 @@ void Player_process_key::keyboard_control() {
 				if(canvas->bloc->bx<5)
 					inc=1;
 				else
-					inc=-1;
+					inc = -1;
 				if(!canvas->collide(canvas->bloc->bx+inc, canvas->bloc->by, canvas->bloc->rot)) {
 					canvas->bloc->bx+=inc;
 					if(rotate_right(true)) {
@@ -1648,7 +1648,7 @@ void Player_stamp::stamp_bloc() {
 			break;
 	}
 	if(canvas->inter) {
-		int vo=-200-ugs_random.rnd(255);
+		int vo = -200 - ugs_random.rnd(255);
 		if(!canvas->islocal())
 			vo -= 1000;
 		play_sound(dep, vo, i, 10500+ugs_random.rnd(1023));

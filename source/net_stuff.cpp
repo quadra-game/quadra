@@ -307,8 +307,8 @@ void send_msg(Net_connection *nc, char *msg, ...) {
 	va_end(marker);
 	if(nc->packet_based) {
 		Packet_chat p;
-		p.team=-1;
-		p.to_team=-1;
+		p.team = -1;
+		p.to_team = -1;
 		strncpy(p.text, st, 255);
 		p.text[255]=0;
 		if(game && game->loopback_connection==nc)

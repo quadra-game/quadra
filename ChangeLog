@@ -1,5 +1,10 @@
 2000-12-19  Pierre Phaneuf  <pp@ludusdesign.com>
 
+	* Cleaned up some assignments that confused indent and possibly
+	some other older compilers.
+
+	Contributor: Stan Bubrouski <stan@ccs.neu.edu>
+
 	* Improved installation script.
 
 	* Improved build process so that it relocalize better.

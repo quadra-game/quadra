@@ -117,7 +117,7 @@ void Multi_player::step() {
 	if(wait_timer==500) {
 		int col;
 		Byte side;
-		for(col=-1; col<9; col++) {
+		for(col = -1; col<9; col++) {
 			for(side=0; side<16; side++) {
 				char st[32];
 				Bitmap the_bit(18, 18, 18);
@@ -206,7 +206,7 @@ void Multi_player::step() {
 	}
 
 	if(_debug) {
-		int snap_can=-1;
+		int snap_can = -1;
 		if(input->keys[KEY_F2] & PRESSED) {
 			input->keys[KEY_F2] = 0;
 			snap_can = 0;

@@ -474,7 +474,7 @@ void Net_server::clientpause(Packet *p2) {
 	if(!allowed)
 		return;
 	if(game->paused) {
-		p.player=-1;
+		p.player = -1;
 		net->dispatch(&p, P_PAUSE);
 		record_packet(&p);
 	}
@@ -487,7 +487,7 @@ void Net_server::clientpause(Packet *p2) {
 			}
 		}
 		if(i==MAXPLAYERS)
-			i=-1;
+			i = -1;
 		p.player=(signed char) i;
 		net->dispatch(&p, P_PAUSE);
 		record_packet(&p);

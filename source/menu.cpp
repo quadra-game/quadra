@@ -839,12 +839,12 @@ void Menu_multi_internet::parsegames() {
           if(team<0 || team>7)
             team=0;
         }
-        int status=-1;
+        int status = -1;
         temp = d2->find("status");
         if(temp) {
           status = atoi(temp);
           if(status<0 || status>3)
-            status=-1;
+            status = -1;
         }
         int handicap=0;
         temp = d2->find("handicap");

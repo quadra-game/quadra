@@ -814,7 +814,7 @@ bool Net_list::check_first_frag() {
 	}
 	if(allwaiting && onewaiting || all_gone)
 		syncto(Canvas::LAST);
-	int alive_team=-1;
+	int alive_team = -1;
 	for(i=0; i<MAXPLAYERS; i++) {
 		Canvas *c=get(i);
 		if(c && c->idle<2) {
@@ -1566,12 +1566,12 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 			*col=0; //Cut address at ':'
 			port=atoi(col+1);
 			if(!strcmp(col+1, "*"))
-				port=-1;
+				port = -1;
 		}
 		else {
 			//If port wasn't specified, we'll drop every connection
 			//  originating from that addr
-			port=-1;
+			port = -1;
 		}
 		Dword ad=Net::dotted2addr(addr);
 		if(ad!=INADDR_NONE) {

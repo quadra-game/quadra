@@ -964,7 +964,7 @@ void Inter::process() {
 	}
 
 	if(focus) {
-		int lost=-1;
+		int lost = -1;
 		if(input->quel_key == KEY_ESCAPE)
 			lost=1;
 		if(input->quel_key == KEY_ENTER || input->quel_key == KEY_PADENTER)

@@ -814,7 +814,7 @@ void Pane_playerinfo::refresh() {
 		if(tagged[i] != -1) {
 			Canvas *c = game->net_list.get(tagged[i]);
 			if(!c)
-				tagged[i] =-1;
+				tagged[i] = -1;
 		}
 
 	show_button = auto_button = NULL;
@@ -952,7 +952,7 @@ void Pane_playerinfo::step() {
 					tag(tagged[j]); // de-selectionne (car deja affiche ou deconnecte)
 			}
 			else
-				tagged[j]=-1;
+				tagged[j] = -1;
 		}
 
 	if(!Pane::clicked)
@@ -968,7 +968,7 @@ void Pane_playerinfo::step() {
 		clear_tag();
 
 	if((playback && playback->auto_demo) || !auto_watch) {
-		int auto_watch_team=-1;
+		int auto_watch_team = -1;
 		for(i=0; i<MAXPLAYERS; i++) {
 			Canvas *c = game->net_list.get(i);
 			if(c && ((player[i] && player[i]==Pane::clicked) || auto_watch)) {
@@ -1059,8 +1059,8 @@ void Chat_interface::Zone_chat_input::lost_focus(int cancel) {
 		if(parent->buf[0]=='/') {
 			//No player name when sending commands
 			strcpy(p.text, parent->buf);
-			p.team=-1;
-			p.to_team=-1;
+			p.team = -1;
+			p.to_team = -1;
 		}
 		else {
 			sprintf(p.text, "%s: %s", config.player[chat_text->quel_player].name, parent->buf);

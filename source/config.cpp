@@ -148,7 +148,7 @@ void Config::read() {
 		if(player2[i].v_repeat<0 || player2[i].v_repeat>3) {
 			player2[i].v_repeat=2;
 		}
-		player[i].repeat=-1;
+		player[i].repeat = -1;
 		if(player2[i].continuous<0 || player2[i].continuous>1)
 			player2[i].continuous=1;
 		if(player2[i].handicap<0 || player2[i].handicap>4)

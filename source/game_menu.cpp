@@ -166,7 +166,7 @@ Create_game::~Create_game() {
 }
 
 void Create_game::recreate_game_end() {
-	static int old_selected=-1;
+	static int old_selected = -1;
 	//If changed to peace and not endnever, adjust for missing option
 	if(selected==2 && old_selected!=2 && game_end)
 		game_end--;

@@ -118,7 +118,7 @@ class Sfx {
 	Playing_sfx* playing;
 #endif
 public:
-	Sfx(Sample *sam, Dword dwPlayFlags=0, int vo=-1, int pa=-1, int f=-1, int pos=-1);
+	Sfx(Sample *sam, Dword dwPlayFlags=0, int vo = -1, int pa = -1, int f = -1, int pos = -1);
 	void stop();
 	void pan(int pa);  //-4000=gauche 0=centre 4000=droite
 	void freq(int pa); //200=bas  60000=tres haute
