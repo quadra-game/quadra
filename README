@@ -5,6 +5,14 @@ $Id$
 
 This is a raw source release. Do not smoke near this package.
 
+Requirements:
+
+ - a C++ compiler (gcc was tested on Linux and Visual C++ on Windows)
+ - zlib (http://www.info-zip.org/pub/infozip/zlib/)
+ - DirectX 5 (Windows only)
+ - Svgalib (Linux only, http://svgalib.org/)
+ - X Window System libraries with XPM support (Linux only)
+
 Basic instructions:
 
  - type 'make'
