@@ -137,4 +137,3 @@ demos/demo00.rec
 demos/demo01.rec
 demos/demo02.rec
 demos/demo03.rec
-images/xlogo.raw

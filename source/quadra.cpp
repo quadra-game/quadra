@@ -2178,9 +2178,6 @@ void start_game() {
 	//Add Menu_intro so we get back there after -connect, -server or -play
 	//  unless -thenquit option si specified
 	if(!command.token("thenquit"))
-		if(Config::xtreme)
-			menu->add(new Menu_guy());
-		else
 			menu->add(new Menu_intro());
 
 	if(!demo_play) {

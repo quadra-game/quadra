@@ -1,3 +1,7 @@
+2000-11-22  Pierre Phaneuf  <pp@ludusdesign.com>
+
+	* Removed unused image resources.
+
 2000-11-20  Pierre Phaneuf  <pp@ludusdesign.com>
 
 	* skelton/common/raw.cpp: fixed small bug with the release of
