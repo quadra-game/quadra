@@ -1,3 +1,5 @@
+# @configure_input@
+#
 # Quadra - a multiplayer action puzzle game
 # Copyright (C) 2000  Pierre Phaneuf
 #
@@ -18,18 +20,13 @@
 #
 # $Id$
 
-.PHONY: default all
+TARGETS:=
 
-default: all
+CLEAN:=
+DISTCLEAN:=
+REALCLEAN:=
 
--include config/config.mk
+CXXDEPS:=
 
-DISTCLEAN+=config.cache config.log config.status
-REALCLEAN+=configure
-
-include $(wildcard */vars.mk)
-
-include $(wildcard */rules.mk)
-
-all: $(TARGETS)
+CXXFLAGS=@CXXFLAGS@
 

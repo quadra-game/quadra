@@ -18,18 +18,9 @@
 #
 # $Id$
 
-.PHONY: default all
+source/quadra: $(QUADRA_OBJECTS) skelton/lib/libugs_s.a
+	$(LINK.cc) -Lskelton/lib -L/usr/X11R6/lib -lX11 -lXext -lXpm -lvga -lvgagl -lz -o $@ $^
 
-default: all
-
--include config/config.mk
-
-DISTCLEAN+=config.cache config.log config.status
-REALCLEAN+=configure
-
-include $(wildcard */vars.mk)
-
-include $(wildcard */rules.mk)
-
-all: $(TARGETS)
+source/quadra.res: $(shell cat resources.txt)
+	skelton/tools/wadder/wadder $@ resources.txt
 

@@ -1,6 +1,8 @@
 # Makefile pour Quadra
 # $Id$
 
+# FIXME: this file is obsolete
+
 ifndef MAKEFILE_INCLUDED
 
 .PHONY: dist

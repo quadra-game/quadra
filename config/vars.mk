@@ -18,18 +18,11 @@
 #
 # $Id$
 
-.PHONY: default all
+CLEAN+=config/depends.mk
+DISTCLEAN+=config/config.mk
 
-default: all
+CXXFLAGS+=-Wall -pedantic -pipe -Iinclude -Iskelton/include -Iimages
 
--include config/config.mk
-
-DISTCLEAN+=config.cache config.log config.status
-REALCLEAN+=configure
-
-include $(wildcard */vars.mk)
-
-include $(wildcard */rules.mk)
-
-all: $(TARGETS)
+# FIXME: temporary hack, until we properly detect stuff
+CXXFLAGS+=-DUGS_LINUX -DUGS_LINUX_X11 -DUGS_LINUX_SVGA
 

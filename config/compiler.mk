@@ -1,6 +1,8 @@
 # Makefile pour le Universal Game Skelton
 # $Id$
 
+# FIXME: this file is obsolete
+
 include config/target.mk
 
 SKELTON:=skelton

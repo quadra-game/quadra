@@ -18,18 +18,9 @@
 #
 # $Id$
 
-.PHONY: default all
+TARGETS+=source/quadra source/quadra.res
 
-default: all
+QUADRA_OBJECTS:=$(patsubst %.cpp,%.o,$(wildcard source/*.cpp))
 
--include config/config.mk
-
-DISTCLEAN+=config.cache config.log config.status
-REALCLEAN+=configure
-
-include $(wildcard */vars.mk)
-
-include $(wildcard */rules.mk)
-
-all: $(TARGETS)
+CXXDEPS+=$(wildcard source/*.cpp)
 

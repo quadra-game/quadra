@@ -18,18 +18,35 @@
 #
 # $Id$
 
-.PHONY: default all
+.PHONY: clean distclean skelton/lib/libugs_s.a
 
-default: all
+# FIXME: skelton's makefile should be integrated with this one
+skelton/lib/libugs_s.a:
+	$(MAKE) -C skelton
 
--include config/config.mk
+clean:
+	rm -f $(shell find . -name 'core' -print) $(shell find . -name '*~' -print) $(shell find . -name '*.o' -print) $(CLEAN) $(TARGETS)
 
-DISTCLEAN+=config.cache config.log config.status
-REALCLEAN+=configure
+distclean: clean
+	rm -f $(DISTCLEAN)
 
-include $(wildcard */vars.mk)
+ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(MAKECMDGOALS),distclean)
 
-include $(wildcard */rules.mk)
+config/config.mk: config/config.mk.in configure
+	@echo "Please run './configure'."
+	@exit 1
 
-all: $(TARGETS)
+configure: configure.in
+	@echo "Please run 'autoconf'."
+	@exit 1
+
+config/depends.mk: config/config.mk
+	@echo "Building dependencies file ($@)"
+	@$(foreach DEP,$(CXXDEPS),$(COMPILE.cc) -M $(DEP) | sed -e 's|^.*:|$(dir $(DEP))&|' >> $@;)
+
+-include config/depends.mk
+
+endif
+endif
 

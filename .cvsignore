@@ -1,4 +1,3 @@
-.depends
 *.ncb
 *.opt
 *.cfg
@@ -15,3 +14,7 @@ Debug
 Release
 qsnoop
 quadra-*
+configure
+config.log
+config.cache
+config.status
