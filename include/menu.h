@@ -82,7 +82,6 @@ class Menu_main: public Menu {
 	Zone *b_single, *b_multi, *b_setup, *b_help, *b_quit;
 	Zone *b_tut, *b_option, *b_logo, *b_demo;
 	int delay;
-	bool old_registered;
 	int old_language;
 	void reset_delay();
 	void redraw();
@@ -104,21 +103,11 @@ public:
 class Menu_help: public Menu_standard {
 	Font *font2;
 	Zone *b_quit;
-	Zone *b_www, *b_email, *b_online, *b_register;
+	Zone *b_www, *b_email, *b_online;
 	void call_internet(const char *s);
 public:
 	Menu_help();
 	virtual void init();
-	virtual void step();
-};
-
-class Menu_register: public Menu_quit {
-	Zone *b_quit, *b_ok, *z_invalid;
-	Zone_text_input *z_pass;
-	char name[64];
-	char pass[64];
-public:
-	Menu_register(Inter *in, const Palette &p);
 	virtual void step();
 };
 

@@ -1278,26 +1278,13 @@ Menu_help::Menu_help() {
 //  new Zone_clear(inter);
   b_quit = new Zone_text_button2(inter, NULL, font2, ST_BACK, 560, 450);
   int y;
-  if(config.registered) {
-    (void)new Zone_text(inter, ST_HELP1, 20);
-    (void)new Zone_text(fteam[5], inter, ST_HELP2, 60);
-    (void)new Zone_text(fteam[5], inter, ST_HELP3, 100);
-    (void)new Zone_text(inter, ST_HELP4, 20, 140);
-    //(void)new Zone_text_field(inter, Config::user_name, 320, 140, 310, fteam[1]);
-    y = 220;
-    b_online=b_register=NULL;
-  } else {
-    (void)new Zone_text(fteam[5], inter, ST_REGISTER1, 20);
-    (void)new Zone_text(inter, ST_REGISTER2, 80);
-    (void)new Zone_text(inter, ST_REGISTER3, 100);
-    (void)new Zone_text(inter, ST_REGISTER4, 120);
-    (void)new Zone_text(inter, ST_REGISTER5, 140);
-    Zone_text *temp;
-    b_online = temp = new Zone_text_select(inter, fteam[4], ST_REGISTER9, 160, 180); // on-line register
-    temp->set_font(fteam[6]);
-    b_register = new Zone_text_button2(inter, NULL, font2, ST_CLICKREGISTER, 220, 220);
-    y = 260;
-  }
+  (void)new Zone_text(inter, ST_HELP1, 20);
+  (void)new Zone_text(fteam[5], inter, ST_HELP2, 60);
+  (void)new Zone_text(fteam[5], inter, ST_HELP3, 100);
+  (void)new Zone_text(inter, ST_HELP4, 20, 140);
+  //(void)new Zone_text_field(inter, Config::user_name, 320, 140, 310, fteam[1]);
+  y = 220;
+  b_online=NULL;
 
   (void)new Zone_text(inter, ST_HELP10, 10, y); y+=20;
   (void)new Zone_text(inter, ST_HELP11, 10, y);
@@ -1319,9 +1306,7 @@ Menu_help::Menu_help() {
 
 void Menu_help::init() {
   Menu_standard::init();
-  if(config.registered) {
-    Sfx stmp(sons.levelup, 0, 0, 0, 11000);
-  }
+  Sfx stmp(sons.levelup, 0, 0, 0, 11000);
 }
 
 void Menu_help::step() {
@@ -1333,87 +1318,15 @@ void Menu_help::step() {
 #ifdef UGS_DIRECTX
   if(result == b_www)
     call_internet(ST_HELP20);
-/*
-  if(result == b_email)
-    call_internet("mailto:support@ludusdesign.com?subject=Quadra");
-*/
   if(result == b_online)
     call_internet(ST_REGISTER9);
 #endif
-  if(result == b_register) {
-    exec(new Menu_register(inter, pal));
-    //call(new Fade_out(pal));
-  }
 }
 
 void Menu_help::call_internet(const char *s) {
   call(new Fade_in(pal));
   call(new Menu_internet(s));
   call(new Fade_to(Palette(), pal));
-}
-
-Menu_register::Menu_register(Inter *in, const Palette &p): Menu_quit(in) {
-  Bitmap *bit;
-  {
-    Res_doze res("multi.png");
-    Png img(res);
-    bit = new Bitmap(img);
-  }
-  pal=p;
-  set_fteam_color(pal);
-  Font *font2 = fteam[4];
-  new Zone_bitmap(inter, bit, 0, 0, true);
-  //new Zone_clear(inter);
-  b_quit = new Zone_text_button2(inter, NULL, font2, ST_BACK, 560, 450);
-  new Zone_text(fteam[5], inter, ST_REGISTER1, 20);
-  new Zone_text(inter, ST_REGISTER10, 80);
-  name[0] = 0;
-  pass[0] = 0;
-  new Zone_text(inter, ST_NAME, 10, 120);
-  new Zone_text_input(inter, pal, name, 63, 140, 120, 360);
-  new Zone_text(inter, ST_PASSWORD, 10, 160);
-  z_pass = new Zone_text_input(inter, pal, pass, 33, 140, 160, 360);
-  b_ok = new Zone_text_button2(inter, NULL, font2, ST_CLICKREGISTER, 220, 230);
-  z_invalid = NULL;
-}
-
-void Menu_register::step() {
-  Menu_quit::step();
-  if(z_invalid) {
-    delete z_invalid;
-    z_invalid = NULL;
-    video->need_paint = 2;
-  }
-  if(!result)
-    return;
-  if(result == b_quit)
-    quit = true;
-  if(result == b_ok) {
-    bool ok=false;
-    if(strlen(name) > 0 && strlen(pass) > 0) {
-      Crypt cr(name, true);
-      #ifdef _DEBUG // Pour pas pouvoir obtenir une clé avec -debug
-      msgbox("Menu_register::step: \n  name=%s\n  crypt=%s\n  pass=%s\n", name, cr.get_digest_string(), pass);
-      #endif
-      if(strcasecmp(cr.get_digest_string(), pass) == 0)
-        ok=true;
-    }
-    if(ok) {
-      config.registered = true;
-      strncpy(Config::user_name, name, 63);
-      Config::user_name[63] = 0;
-
-      quit = true;
-      exec(new Menu_help());
-      call(new Fade_out(pal));
-    } else {
-      pass[0] = 0;
-      z_pass->set_val(pass);
-      video->need_paint = 2;
-      z_invalid = new Zone_text(inter, ST_PASSWORDINVALID, 280);
-      call(new Wait_time(300, true));
-    }
-  }
 }
 
 Menu_option::Menu_option() {
@@ -1533,14 +1446,8 @@ Menu_intro::Menu_intro() {
   (void)new Zone_clear(inter);
   (void)new Zone_text(inter, ST_INTRO1, 10);
   (void)new Zone_text(inter, ST_INTRO2, 10, 40);
-  if(!config.registered)
-    (void)new Zone_text(font2, inter, ST_INTRO3, 10, 80);
-  else
-    (void)new Zone_text(font2, inter, ST_INTRO4, 10, 80);
-/*  sprintf(st,ST_INTRO5, Config::game_version);
-  new Zone_text(inter, st, 10, 80);
-  sprintf(st,ST_INTRO12, Config::net_version);
-  new Zone_text(inter, st, 10, 100);*/
+  (void)new Zone_text(font2, inter, ST_INTRO4, 10, 80);
+
   y=130;
   warning=0;
   if(!sound) {
@@ -1557,8 +1464,7 @@ Menu_intro::Menu_intro() {
     warning++;
     y += 20;
   }
-  if(config.registered)
-    (void)new Zone_text(inter, ST_INTRO9, 10, y);
+  (void)new Zone_text(inter, ST_INTRO9, 10, y);
   (void)new Zone_text(inter, ST_INTRO10, 10, 430);
   (void)new Zone_text(inter, ST_INTRO11, 10, 450);
   once = false;
@@ -1566,17 +1472,11 @@ Menu_intro::Menu_intro() {
 
 void Menu_intro::init() {
   Menu::init();
-  if(!config.registered)
-    call(new Wait_time(500, true));
   call(new Setpalette(pal));
 }
 
 void Menu_intro::step() {
   Menu::step();
-  if(!config.registered && !once) {
-    (void)new Zone_text(inter, ST_INTRO9, 10, 350);
-    once = true;
-  }
   ret();
   call(new Menu_main());
   call(new Setpalette(noir));
@@ -1723,9 +1623,6 @@ void Menu_main::redraw() {
 
   sprintf(st, ST_QUADRAVERSION, Config::major, Config::minor, Config::patchlevel);
   new Zone_text(inter, st, 460, 430);
-  if(!config.registered)
-    new Zone_text(inter, ST_NOTREGISTERED, 460, 454);
-  old_registered = config.registered;
   old_language = config.info.language;
   b_logo = new Zone_menu(inter, background, "debut8.png", 0, 390);
 }
@@ -1760,8 +1657,6 @@ void Menu_main::step() {
   }
   if(result == b_quit || input->quel_key == 1 || quitting) {
     input->quel_key = -1;
-    if(!config.registered)
-      call(new Menu_quitgame());
     exec(new Fade_out(pal));
   }
   if(result == b_tut) {
@@ -1817,7 +1712,7 @@ void Menu_main::step() {
 //  }
   if(result)
     reset_delay();
-  if(old_registered != config.registered || old_language != config.info.language)
+  if(old_language != config.info.language)
     redraw();
 }
 

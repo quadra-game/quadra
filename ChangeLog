@@ -2,6 +2,9 @@
 
 	* Fixed the 'taskbar button' bug in Windows.
 
+	* Removed completely the 'registration' stuff and cleaned up
+	a bit.
+
 2000-11-25  Remi Veilleux  <remz@ludusdesign.com>
 
 	* Finished the conversion to PNG.

@@ -33,7 +33,6 @@ int Config::net_version = 23;
 const int Config::major = 1;
 const int Config::minor = 1;
 const int Config::patchlevel = 6;
-bool Config::registered = false;
 /* FIXME: we should remove all occurence of Config::xtreme */
 bool Config::xtreme = false;
 char Config::user_name[64] = {""};
@@ -159,10 +158,6 @@ void Config::read() {
 	for(i=0; i<10; i++) {
 		info.book[i][255] = 0;
 	}
-}
-
-void Config::check_register() {
-  registered = true;
 }
 
 void fix_str(char *st, Dword len) {

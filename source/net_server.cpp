@@ -634,7 +634,7 @@ void Net_pendingjoin::step() {
 	char addr[64];
 	Net::stringaddress(addr, pac->from->address(), pac->from->getdestport());
 	if(pac && pac->from)
-		log_step("connection_joined\t%u\t%s", pac->from->id(), pac->registered? "true":"false");
+		log_step("connection_joined\t%u\t%s", pac->from->id(), "true");
 	for(i=0; i<MAXPLAYERS; i++) {
 		Canvas *c = game->net_list.get(i);
 		if(c) {

@@ -112,8 +112,7 @@ void Qserv::add_data(const char *s, ...) {
 
 void Qserv::send() {
 	req->add_data_encode("info/language %i\n", config.info.language);
-	if(config.registered)
-		req->add_data_encode("info/registered %i\n", Config::registered? 1:0);
+	req->add_data_encode("info/registered %i\n", 1);
 	req->add_data_encode("info/quadra_version %i.%i.%i\n", config.major, config.minor, config.patchlevel);
 	req->add_data_encode("info/platform/os %s\n",
 		#if defined(UGS_DIRECTX)

@@ -1878,8 +1878,6 @@ void init_stuff(bool need_sound=true, bool need_video=true) {
 	cursor->set_speed(config.info.mouse_speed);
 	for(i=0; i<8; i++)
 		fteam[i] = new Font(*fonts.normal);
-
-	config.check_register();
 }
 
 void deinit_stuff() {

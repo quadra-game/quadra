@@ -32,7 +32,7 @@ void Packet_wantjoin::write(Net_buf *p) {
 	p->write_byte(net_version);
 	p->write_byte(language);
 	p->write_byte(os);
-	p->write_bool(registered);
+	p->write_bool(true);
 }
 
 bool Packet_wantjoin::read(Net_buf *p) {
@@ -43,7 +43,8 @@ bool Packet_wantjoin::read(Net_buf *p) {
 	net_version=p->read_byte();
 	language=p->read_byte();
 	os=p->read_byte();
-	registered=p->read_bool();
+	// junk: we now ignore the 'registered' flag
+	bool registered=p->read_bool();
 	return true;
 }
 

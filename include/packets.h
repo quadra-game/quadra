@@ -92,7 +92,6 @@ public:
 	Byte net_version;
 	Byte language;
 	Byte os;
-	bool registered;
 	Packet_wantjoin() {
 		packet_id = P_WANTJOIN;
 		net_version=Config::net_version;
@@ -106,7 +105,6 @@ public:
 			#error "What platform???"
 		#endif
 		;
-		registered=Config::registered;
 	}
 	virtual void write(Net_buf *p);
 	virtual bool read(Net_buf *p);
