@@ -66,7 +66,7 @@ Section "Start Menu Shortcuts (recommanded)"
   CreateShortCut "$SMPROGRAMS\Quadra\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
   CreateShortCut "$SMPROGRAMS\Quadra\Quadra.lnk" "$INSTDIR\quadra.exe" "" "$INSTDIR\quadra.exe" 0
 
-  ; install QSnoop shortcut only when the QSnoop section is seleted
+  ; install QSnoop shortcut only when the QSnoop section is selected
   SectionGetFlags ${QSnoopSectionIndex} $R0
   IntOp $R0 $R0 & ${SF_SELECTED}
   IntCmp $R0 ${SF_SELECTED} 0 skip
