@@ -1960,100 +1960,45 @@ void deinit_stuff() {
 			delete fteam[i];
 			fteam[i] = NULL;
 		}
-	if(sons.click) {
-		delete sons.click;
-		sons.click = NULL;
-	}
-	if(sons.point) {
-		delete sons.point;
-		sons.point = NULL;
-	}
-	if(sons.fadeout) {
-		delete sons.fadeout;
-		sons.fadeout = NULL;
-	}
-	if(sons.fadein) {
-		delete sons.fadein;
-		sons.fadein = NULL;
-	}
-	if(sons.drip) {
-		delete sons.drip;
-		sons.drip = NULL;
-	}
-	if(sons.glass) {
-		delete sons.glass;
-		sons.glass = NULL;
-	}
-	if(sons.depose) {
-		delete sons.depose;
-		sons.depose = NULL;
-	}
-	if(sons.depose2) {
-		delete sons.depose2;
-		sons.depose2 = NULL;
-	}
-	if(sons.depose3) {
-		delete sons.depose3;
-		sons.depose3 = NULL;
-	}
-	if(sons.depose4) {
-		delete sons.depose4;
-		sons.depose4 = NULL;
-	}
-	if(sons.flash) {
-		delete sons.flash;
-		sons.flash = NULL;
-	}
-	if(sons.enter) {
-		delete sons.enter;
-		sons.enter = NULL;
-	}
-	if(sons.levelup) {
-		delete sons.levelup;
-		sons.levelup = NULL;
-	}
-	if(sons.bonus1) {
-		delete sons.bonus1;
-		sons.bonus1 = NULL;
-	}
-	if(sons.start) {
-		delete sons.start;
-		sons.start = NULL;
-	}
-	if(sons.pause) {
-		delete sons.pause;
-		sons.pause = NULL;
-	}
-	if(sons.msg) {
-		delete sons.msg;
-		sons.msg = NULL;
-	}
-	if(sons.potato_get) {
-		delete sons.potato_get;
-		sons.potato_get = NULL;
-	}
-	if(sons.potato_rid) {
-		delete sons.potato_rid;
-		sons.potato_rid = NULL;
-	}
-	if(net_starter) {
-		delete net_starter;
-		net_starter=NULL;
-	}
-	if(chat_text) {
-		delete chat_text;
-		chat_text=NULL;
-	}
+
+	delete sons.click; sons.click = NULL;
+	delete sons.point; sons.point = NULL;
+	delete sons.fadeout; sons.fadeout = NULL;
+	delete sons.fadein; sons.fadein = NULL;
+	delete sons.drip; sons.drip = NULL;
+	delete sons.glass; sons.glass = NULL;
+	delete sons.depose; sons.depose = NULL;
+	delete sons.depose2; sons.depose2 = NULL;
+	delete sons.depose3; sons.depose3 = NULL;
+	delete sons.depose4; sons.depose4 = NULL;
+	delete sons.flash; sons.flash = NULL;
+	delete sons.enter; sons.enter = NULL;
+	delete sons.levelup; sons.levelup = NULL;
+	delete sons.bonus1; sons.bonus1 = NULL;
+	delete sons.start; sons.start = NULL;
+	delete sons.pause; sons.pause = NULL;
+	delete sons.msg; sons.msg = NULL;
+	delete sons.potato_get; sons.potato_get = NULL;
+	delete sons.potato_rid; sons.potato_rid = NULL;
+	delete sons.minute; sons.minute = NULL;
+	delete sons.thirty; sons.thirty = NULL;
+	delete sons.twenty; sons.twenty = NULL;
+	delete sons.ten; sons.ten = NULL;
+	delete sons.five; sons.five = NULL;
+	delete sons.four; sons.four = NULL;
+	delete sons.three; sons.three = NULL;
+	delete sons.two; sons.two = NULL;
+	delete sons.one; sons.one = NULL;
+
+	delete net_starter; net_starter=NULL;
+	delete chat_text; chat_text=NULL;
+
 	config.write();
 	Highscores::free();
-	if(cursor) {
-		delete cursor;
-		cursor = NULL;
-	}
-	if(cur) {
-		delete cur;
-		cur=NULL;
-	}
+
+	delete cursor; cursor = NULL;
+	delete cur; cur = NULL;
+
 	fonts.deinit();
 }
 
