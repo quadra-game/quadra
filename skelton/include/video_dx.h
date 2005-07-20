@@ -33,7 +33,7 @@ public:
 	}
 };
 
-class DirectX_Video_bitmap: Video_bitmap {
+class DirectX_Video_bitmap: public Video_bitmap {
 public:
   Bitmap* currentpage;
   DirectX_Video_bitmap(const int px, const int py, const int w, const int h,
