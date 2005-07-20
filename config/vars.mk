@@ -24,7 +24,7 @@ REALCLEAN+=ChangeLog
 
 TARGETS+=Quadra.desktop
 
-CXXFLAGS+=-Wall -pedantic -pipe -Iinclude -Iskelton/include -Iimages -DLIBGAMESDIR=\"$(libgamesdir)\" -DDATAGAMESDIR=\"$(datagamesdir)\"
+CXXFLAGS+=-Wall -pipe -Iinclude -Iskelton/include -Iimages -DLIBGAMESDIR=\"$(libgamesdir)\" -DDATAGAMESDIR=\"$(datagamesdir)\"
 
 ARFLAGS=rcs
 
