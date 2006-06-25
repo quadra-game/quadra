@@ -42,8 +42,7 @@ datagamesdir:=$(datadir)/games
 CXXFLAGS:=@CXXFLAGS@ @DEFS@
 X_CFLAGS:=@X_CFLAGS@
 X_LIBS:=@X_LIBS@
-
-test:=@HAVE_LIBX11@
+LDFLAGS:=@LDFLAGS@
 
 ifneq ("@enable_debug@", "yes")
 CXXFLAGS+=-DNDEBUG
