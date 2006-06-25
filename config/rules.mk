@@ -57,10 +57,10 @@ endif
 # /usr/share/gnome/apps/Games/Quadra.desktop
 
 quadra.spec: packages/quadra.spec.in source/config.cpp
-	sed $< -e 's%@VERSION@%$(VERSION)%g' > $@
+	sed -e 's%@VERSION@%$(VERSION)%g' >$@ <$<
 
 Quadra.desktop: packages/Quadra.desktop.in config/config.mk
-	sed $< -e 's%@bindir@%$(bindir)%g' -e 's%@datadir@%$(datadir)%g' > $@
+	sed -e 's%@bindir@%$(bindir)%g' -e 's%@datadir@%$(datadir)%g' >$@ <$<
 
 configure: configure.in
 	autoconf
