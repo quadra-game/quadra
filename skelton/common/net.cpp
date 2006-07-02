@@ -1043,7 +1043,7 @@ void Net::start_server(bool sock) {
 		else {
 			skelton_msgbox("Ok\n");
 			sockaddr_in sin;
-			addr_size_t len=sizeof(sin);
+			socklen_t len=sizeof(sin);
 			callwsa(getsockname(sc->getFD(), (sockaddr *) &sin, &len));
 			sc->from=ntohl(sin.sin_addr.s_addr);
 			msgbox("server_connection: %p\n", sc);
@@ -1291,7 +1291,7 @@ void Net::packetreceived(Net_buf *nb, bool tcp) {
 
 void Net::receiveudp(int sock, Net_buf *p) {
 	sockaddr_in tsin;
-	addr_size_t tsin_size = sizeof(tsin);
+	socklen_t tsin_size = sizeof(tsin);
 	int temp = recvfrom(sock, (char *) p->buf, NETBUF_SIZE, 0, (sockaddr *) &tsin, &tsin_size);
 	p->from = NULL;
 	p->from_addr = ntohl(tsin.sin_addr.s_addr);
@@ -1314,7 +1314,7 @@ bool Net::accept() {
 	if(!active)
 		return false;
 	sockaddr_in bob;
-	addr_size_t boblen=sizeof(bob);
+	socklen_t boblen=sizeof(bob);
 
 	if(!server_connection || server_connection->state()==Net_connection::invalid)
 		return false;
