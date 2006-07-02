@@ -110,18 +110,12 @@
 #include <stdio.h>
 #include "stringtable.h"
 #include "res.h"
+#include "find_file.h"
 
 RCSID("$Id$")
 
 char *usage = "usage: wadder <working directory> <output res> <input text>\n";
 Resfile *wad;
-
-const char *basename(const char* f) {
-	const char* p=(const char*)(f+strlen(f));
-	while(*p != '/' && *p != '\\' && p>=f)
-		p--;
-	return p+1;
-}
 
 void addfile(const char* fname) {
 	Res_dos *res;
