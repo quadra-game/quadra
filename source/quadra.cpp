@@ -24,7 +24,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #endif
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 #include <shlobj.h>
 #include <shlwapi.h>
 #endif
@@ -1822,7 +1822,7 @@ void Player_init::net_call(Packet *p2) {
 
 void init_directory() {
 	strcpy(quadradir, exe_directory);
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 	if(SHGetFolderPath(0, CSIDL_APPDATA|CSIDL_FLAG_CREATE, 0, SHGFP_TYPE_CURRENT, quadradir) < 0) {
 		msgbox("SHGetFolderPath failed, using exe_directory");
 	}
@@ -2123,7 +2123,7 @@ void read_script(const char *fn, bool second=false) {
 		msgbox("Can't find script %s, ignoring.\n", fn);
 }
 
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 #ifndef NDEBUG
 #include <crtdbg.h>
 #endif
@@ -2136,7 +2136,7 @@ void start_game() {
 		_debug = true;
 		msgbox("Debug mode enabled\n");
 	}
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 #ifndef NDEBUG
 	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
 	_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG);
@@ -2160,13 +2160,12 @@ void start_game() {
 	init_directory();
 
 	char *dir=quadradir;
-#ifdef UGS_LINUX
+#ifdef WIN32
+	dir = exe_directory;
+#else
 	dir = getenv("QUADRADIR");
 	if(!dir)
 		dir = DATAGAMESDIR;
-#endif
-#ifdef UGS_DIRECTX
-	dir = exe_directory;
 #endif
 	resmanager=new Resmanager();
 	snprintf(fn, sizeof(fn) - 1, "%s/quadra.res", dir);
