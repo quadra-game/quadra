@@ -11,8 +11,6 @@ AC_ARG_WITH(libpng,
   [  --with-libpng           Specify location for libpng])
 AC_ARG_ENABLE(debug,
   [  --enable-debug          debugging options])
-AC_ARG_ENABLE(profile,
-  [  --enable-profile        profiling options])
 
 if test ! -z "$with_libpng"; then
    CPPFLAGS="$CPPFLAGS -I$with_libpng"
@@ -99,7 +97,6 @@ fi
 AC_SUBST(with_x)
 AC_SUBST(with_svgalib)
 AC_SUBST(enable_debug)
-AC_SUBST(enable_profile)
 
 AC_CONFIG_HEADERS([include/autoconf.h])
 AC_CONFIG_FILES([config/config.mk])
