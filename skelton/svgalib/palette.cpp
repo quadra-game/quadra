@@ -23,9 +23,7 @@
 #include "types.h"
 #include "palette.h"
 #include "video.h"
-#ifdef UGS_LINUX_X11
 #include "video_x11.h"
-#endif
 
 RCSID("$Id$")
 
@@ -94,7 +92,6 @@ void Fade::newdest(const Palette& dst, int frame) {
   dest=dst;
   int j=0;
 
-#ifdef UGS_LINUX_X11
   /* shit, this is ugly */
   if(dynamic_cast<Video_X11*>(video))
     if(!dynamic_cast<Video_X11_8*>(video)) {
@@ -104,7 +101,6 @@ void Fade::newdest(const Palette& dst, int frame) {
       if(frame < 2)
 	frame = 2;
     }
-#endif
 
   for(int i(0); i<256; i++) {
     delta[j]=((dest.pal[i].peRed<<7)-current[j++])/frame;
@@ -119,10 +115,8 @@ int Fade::step() {
   if(currentframe==destframe)
     return 1;
   else {
-#ifdef UGS_LINUX_X11
     if(dynamic_cast<Video_X11_8*>(video))
       usleep(3000);
-#endif
     for(int i(0); i<768; i++)
       current[i]+=delta[i];
     currentframe++;
@@ -142,3 +136,4 @@ void Fade::set() {
     video->newpal = true;
   }
 }
+

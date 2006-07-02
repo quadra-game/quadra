@@ -48,8 +48,3 @@ ifneq ("@enable_debug@", "yes")
 CXXFLAGS+=-DNDEBUG
 endif
 
-ifeq ("@with_x@", "yes")
-UGS_LINUX_X11=1
-CXXFLAGS+=-DUGS_LINUX_X11
-endif
-
