@@ -20,10 +20,6 @@
 
 TARGETS+=quadra quadra.res
 
-ifdef UGS_LINUX_SVGA
-TARGETS+=quadra-svga.so
-endif
-
 QUADRA_OBJECTS:=$(patsubst %.cpp,%.o,$(wildcard source/*.cpp))
 
 CLEAN+=$(QUADRA_OBJECTS)

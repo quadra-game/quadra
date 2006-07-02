@@ -24,5 +24,3 @@ CLEAN+= $(UGS_OBJECTS)
 
 CXXDEPS+=$(wildcard skelton/svgalib/*.cpp)
 
-include $(wildcard skelton/svgalib/*/vars.mk)
-

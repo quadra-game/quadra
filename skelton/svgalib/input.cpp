@@ -23,13 +23,46 @@
 #ifdef UGS_LINUX_X11
 #include "input_x11.h"
 #endif
-#ifdef UGS_LINUX_SVGA
-#include "input_svga.h"
-#endif
 
 RCSID("$Id$")
 
 Input *input = NULL;
+
+const char *keynames[256] = {
+  "", "Escape", "1", "2", "3", "4", "5", "6",
+  "7", "8", "9", "0", "-", "=", "Backspace", "Tab",
+  "Q", "W", "E", "R", "T", "Y", "U", "I",
+  "O", "P", "[", "]", "Enter", "Ctrl", "A", "S",
+  "D", "F", "G", "H", "J", "K", "L", ";",
+  "'", "`", "Left shift", "\\", "Z", "X", "C", "V",
+  "B", "N", "M", ",", ".", "/", "Right shift", "Pad *",
+  "Alt", "Space", "Caps lock", "F1", "F2", "F3", "F4", "F5",
+  "F6", "F7", "F8", "F9", "F10", "Num lock", "Scrl lock", "Pad 7",
+  "Pad 8", "Pad 9", "Pad -", "Pad 4", "Pad 5", "Pad 6", "Pad +",
+  "Pad 1", "Pad 2", "Pad 3", "Pad 0", "Pad .", "Print scrn", "",
+  "<", "F11", "F12", "", "", "", "", "", "", "","Pad Enter",
+  "Right Ctrl", "Pad /", "PrintScrn", "Alt Char", "Pause",
+  "Home", "Up", "Page Up", "Left", "Right", "End", "Down",
+  "Page Down", "Insert", "Delete",
+  "", "", "", "", "", "", "", "Pause",
+  "", "", "", "", "", "Win left", "Win right", "Win popup",
+  "", "Pause", "", "", "", "", "", "",
+  "", "", "", "", "", "", "", "",
+  "", "", "", "", "", "", "", "",
+  "", "", "", "", "Pad Enter", "2nd Ctrl", "", "",
+  "", "", "", "", "", "", "", "",
+  "", "", "", "", "", "", "", "",
+  "", "", "", "", "", "Pad /", "", "",
+  "2nd Alt", "", "", "", "", "", "", "",
+  "", "", "", "", "", "", "", "Home",
+  "Up", "Page up", "", "Left", "", "Right", "", "End",
+  "Down", "Page down", "Insert", "Del", "", "", "", "",
+  "", "", "", "Win left", "Win right", "Win popup", "", "",
+  "", "", "", "", "", "", "", "",
+  "", "", "", "", "", "", "", "Macro",
+  "", "", "", "", "", "", "", "",
+  "", "", "", "", "", "", "", ""
+};
 
 Input* Input::New(bool dumb) {
   if(dumb)
@@ -39,8 +72,6 @@ Input* Input::New(bool dumb) {
     return new Input_X11;
   else
 #endif
-#ifdef UGS_LINUX_SVGA
-    return new Input_Svgalib;
-#endif
   return NULL;
 }
+

@@ -4,8 +4,6 @@ AC_INIT([quadra])
 AC_CONFIG_SRCDIR([source/quadra.cpp])
 
 AC_PATH_XTRA
-AC_ARG_WITH(svgalib,
-  [  --without-svgalib       Svgalib support])
 AC_ARG_WITH(libpng,
   [  --with-libpng           Specify location for libpng])
 AC_ARG_ENABLE(debug,
@@ -27,15 +25,12 @@ dnl Checks for libraries.
 AC_CHECK_LIB(z, compress,, nozlib=1)
 AC_CHECK_LIB(dl, dlopen,, nodl=1)
 AC_CHECK_LIB(png, png_create_read_struct,, nolibpng=1)
-AC_CHECK_LIB(vga, vga_init,, nosvgalib=1)
-AC_CHECK_LIB(vgagl, gl_setcontext,, nosvgalib=1, -lvga)
 AC_CHECK_LIB(X11, XOpenDisplay,, have_x=no)
 AC_CHECK_LIB(Xext, XShmAttach,, have_x=no)
 AC_CHECK_LIB(Xxf86vm, XF86VidModeSwitchToMode,, have_x=no)
 AC_CHECK_LIB(Xpm, XpmCreatePixmapFromData,, have_x=no)
 
 dnl Checks for header files.
-AC_CHECK_HEADERS(vga.h vgagl.h vgamouse.h vgakeyboard.h,, nosvgalib=1)
 AC_CHECK_HEADERS(X11/Xlib.h X11/xpm.h,, have_x=no)
 AC_CHECK_HEADERS(X11/extensions/XShm.h X11/extensions/xf86vmode.h,,
 	have_x=no, [
@@ -52,16 +47,6 @@ AC_CHECK_HEADERS(mcheck.h)
 dnl Checks for typedefs, structures, and compiler characteristics.
 
 dnl Checks for library functions.
-
-if test "$with_svgalib" = "yes" -a -n "$nosvgalib"; then
-	AC_MSG_ERROR(Svgalib could not be found.)
-fi
-
-if test -z "$with_svgalib" -a -z "$nosvgalib"; then
-	with_svgalib=yes
-else
-	with_svgalib=no
-fi
 
 if test -z "$with_x" -a "$have_x" = "yes"; then
 	with_x=yes
@@ -94,7 +79,6 @@ if test -n "$missing_required"; then
 fi
 
 AC_SUBST(with_x)
-AC_SUBST(with_svgalib)
 AC_SUBST(enable_debug)
 
 AC_CONFIG_HEADERS([include/autoconf.h])

@@ -23,9 +23,6 @@
 #ifdef UGS_LINUX_X11
 #include "video_x11.h"
 #endif
-#ifdef UGS_LINUX_SVGA
-#include "video_svga.h"
-#endif
 
 RCSID("$Id$")
 
@@ -40,9 +37,6 @@ Video_bitmap* Video_bitmap::New(const int px, const int py,
     return obj;
   else
 #endif
-#ifdef UGS_LINUX_SVGA
-    return Svgalib_Video_bitmap::New(px, py, w, h, rw);
-#endif
   return NULL;
 }
 
@@ -54,9 +48,6 @@ Video_bitmap* Video_bitmap::New(const int px, const int py,
   if((obj = Video_bitmap_X11::New(px, py, w, h)))
     return obj;
   else
-#endif
-#ifdef UGS_LINUX_SVGA
-    return Svgalib_Video_bitmap::New(px, py, w, h);
 #endif
   return NULL;
 }
@@ -70,8 +61,6 @@ Video* Video::New(int w, int h, int b, const char *wname, bool dumb) {
     return obj;
   } else
 #endif
-#ifdef UGS_LINUX_SVGA
-      return Svgalib_Video::New(w, h, b, wname);
-#endif
   return NULL;
 }
+

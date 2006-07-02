@@ -6,8 +6,8 @@ Description
 -----------
 
 This is the official release @VERSION@ of Quadra, a full-featured
-multiplayer action puzzle game for the X Window System and Svgalib.
-Features include:
+multiplayer action puzzle game for the X Window System. Features
+include:
 
  - Recursive block chaining
  - Block shadow

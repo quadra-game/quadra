@@ -10,7 +10,6 @@ Requirements:
  - zlib (http://www.info-zip.org/pub/infozip/zlib/)
  - libpng (http://www.libpng.org/pub/png/libpng.html)
  - DirectX 5 (Windows only)
- - Svgalib (Linux only, optional, http://svgalib.org/)
  - X Window System libraries with XPM support (Linux only)
 
 To compile and install this software on a Unix-like system, do this:

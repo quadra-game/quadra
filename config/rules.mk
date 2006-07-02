@@ -47,9 +47,6 @@ installdirs:
 
 install: installdirs $(TARGETS)
 	$(INSTALL_PROGRAM) quadra $(bindir)/quadra
-ifdef UGS_LINUX_SVGA
-	$(INSTALL_PROGRAM) quadra-svga.so $(libgamesdir)/quadra-svga.so
-endif
 	$(INSTALL_DATA) quadra.res $(datagamesdir)/quadra.res
 	$(INSTALL_DATA) images/quadra.xpm $(datadir)/pixmaps/quadra.xpm
 # FIXME: the Quadra.desktop file should go to these places:

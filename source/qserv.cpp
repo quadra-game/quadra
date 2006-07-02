@@ -146,7 +146,7 @@ void Qserv::send() {
 		req->add_data_encode("info/platform/display None\n");
 	else {
 		#if defined(UGS_LINUX)
-		req->add_data_encode("info/platform/display %s\n", video->xwindow ? "Xlib":"Svgalib");
+		req->add_data_encode("info/platform/display Xlib\n");
 		#endif
 		#if defined(UGS_DIRECTX)
 		req->add_data_encode("info/platform/display DirectX\n");

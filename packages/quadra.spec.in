@@ -9,15 +9,10 @@ Source: quadra-%{version}.tar.gz
 Vendor: Ludus Design
 BuildRoot: /var/tmp/quadra-root
 
-%package svga
-Summary: Svgalib driver for Quadra
-Group: Amusements/Games
-Requires: quadra = %{version}
-
 %description
 This is the official release %{version} of Quadra, a full-featured
-multiplayer action puzzle game for the X Window System and Svgalib.
-Features include:
+multiplayer action puzzle game for the X Window System. Features
+include:
 
  - Recursive block chaining
  - Blocks shadows
@@ -29,10 +24,6 @@ Features include:
  - Chat window
  - CD-based music
  - And much more!
-
-%description svga
-This package contains the optional Svgalib driver. Install this
-package if you want to be able to play Quadra in the console.
 
 %prep
 %setup -q
@@ -57,7 +48,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(0644,root,root) /usr/share/games/quadra.res
 %attr(0644,root,root) /usr/share/pixmaps/quadra.xpm
 %doc ChangeLog LICENSE README NEWS
-
-%files svga
-%attr(0755,root,root) /usr/lib/games/quadra-svga.so
 
