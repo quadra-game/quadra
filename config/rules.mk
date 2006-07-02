@@ -59,7 +59,7 @@ quadra.spec: packages/quadra.spec.in source/config.cpp
 Quadra.desktop: packages/Quadra.desktop.in config/config.mk
 	sed -e 's%@bindir@%$(bindir)%g' -e 's%@datadir@%$(datadir)%g' >$@ <$<
 
-configure: configure.in
+configure: configure.ac
 	autoreconf
 
 .PHONY: manual-dist-stuff
