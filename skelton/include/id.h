@@ -37,6 +37,8 @@ public:
 	virtual Dword id() {
 		return the_id;
 	}
+	virtual ~Identifyable() {
+	}
 };
 
 #endif

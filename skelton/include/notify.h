@@ -25,6 +25,8 @@
 class Notifyable {
 public:
 	virtual void notify()=0;
+	virtual ~Notifyable() {
+	}
 };
 
 class Observable {

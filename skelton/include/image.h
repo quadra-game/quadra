@@ -30,6 +30,8 @@ class Image {
 	virtual Byte* pic() const=0;
 	virtual Byte* pal() const=0;
 	virtual int palettesize() const=0;
+	virtual ~Image() {
+	}
 };
 
 #endif

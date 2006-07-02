@@ -89,6 +89,8 @@ public:
 	virtual char *get_motd() {
 		return "Hello!";
 	}
+	virtual ~Net_param() {
+	}
 };
 
 class Exec_ping: public Net_callable {
