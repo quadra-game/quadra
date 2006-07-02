@@ -24,8 +24,10 @@
 #include <socks.h>
 extern "C" int SOCKSinit(char *);
 #endif
+#ifdef HAVE_MCHECK_H
 #ifndef NDEBUG
 #include <mcheck.h>
+#endif
 #endif
 #include <stdlib.h>
 #include <signal.h>
@@ -70,8 +72,10 @@ char exe_directory[1024];
 static bool ignore_sigpipe=false;
 
 int main(int ARGC, char **ARGV, char **ENV) {
+#ifdef HAVE_MCHECK_H
 #ifndef NDEBUG
   mcheck(NULL);
+#endif
 #endif
   INIT_DEBUG;
 #ifdef SOCKS
