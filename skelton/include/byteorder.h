@@ -1,7 +1,15 @@
 
 #ifdef UGS_LINUX
+#ifdef HAVE_MACHINE_ENDIAN_H
+#include <machine/endian.h>
+#else
 #include <endian.h>
+#endif
+#ifdef HAVE_MACHINE_BYTE_ORDER_H
+#include <machine/byte_order.h>
+#else
 #include <byteswap.h>
+#endif
 #elif defined(UGS_DIRECTX)
 #define LITTLE_ENDIAN 4321
 #define BIG_ENDIAN 1234
@@ -11,8 +19,13 @@
 #endif
 
 #if (BYTE_ORDER == BIG_ENDIAN)
+#ifdef HAVE_MACHINE_BYTE_ORDER_H
+#define INTELWORD(x) NXSwapShort(x)
+#define INTELDWORD(x) NXSwapLong(x)
+#else
 #define INTELWORD(x) bswap_16(x)
 #define INTELDWORD(x) bswap_32(x)
+#endif
 #elif (BYTE_ORDER == LITTLE_ENDIAN)
 #define INTELWORD(x) (x)
 #define INTELDWORD(x) (x)
