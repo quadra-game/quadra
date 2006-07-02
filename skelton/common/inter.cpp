@@ -1004,8 +1004,6 @@ void Inter::process() {
 						in = NULL;
 						tag(kb_focus);
 						kb_visible = true;
-						if(cursor)
-							cursor->visible = false;
 					}
 					input->quel_key = -1;
 				}
@@ -1074,12 +1072,6 @@ void Inter::process() {
 					}
 				}
 			}
-		}
-	}
-	if(cursor && !cursor->visible) {
-		if(last_mouse_x != cursor->x || last_mouse_y != cursor->y) {
-			// the mouse moved, make the pointer reappear
-			cursor->visible = true;
 		}
 	}
 

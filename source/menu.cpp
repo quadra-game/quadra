@@ -26,7 +26,6 @@
 #include "image_png.h"
 #include "qserv.h"
 #include "http_request.h"
-#include "cursor.h"
 #include "crypt.h"
 #include "res_compress.h"
 #include "quadra.h"
@@ -1376,7 +1375,6 @@ Menu_option::Menu_option() {
 
   (void)new Zone_text(fteam[7], inter, ST_SETMOUSESPEED, 40, 160);
   (void)new Zone_input_numeric(inter, &config.info.mouse_speed, 4, 1, 255, pal, 380, 160, 60);
-  old_mouse_speed = config.info.mouse_speed;
   old_port = config.info.port_number;
 
   (void)new Zone_text(inter, ST_ADVANCEDOPTION, 40, 220);
@@ -1434,10 +1432,6 @@ void Menu_option::step() {
   Menu_standard::step();
   if(result == b_quit)
     quit = true;
-  if(old_mouse_speed != config.info.mouse_speed) {
-    cursor->set_speed(config.info.mouse_speed);
-    old_mouse_speed = config.info.mouse_speed;
-  }
 }
 
 Menu_intro::Menu_intro() {

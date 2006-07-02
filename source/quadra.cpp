@@ -1980,8 +1980,7 @@ void init_stuff(bool need_sound=true, bool need_video=true) {
 		Res_doze res("t1sec.wav");
 		sons.one = new Sample(res, 2);
 	}
-	cursor = Cursor::New(cur);
-	cursor->set_speed(config.info.mouse_speed);
+	cursor = new Cursor;
 	for(i=0; i<8; i++)
 		fteam[i] = new Font(*fonts.normal);
 }

@@ -115,7 +115,7 @@ class Menu_option: public Menu_standard {
 	Bitmap *bit;
 	Font *font2;
 	Zone *b_quit;
-	int old_language,old_music,old_mouse_speed,old_port;
+	int old_language,old_music,old_port;
 	char old_server[256];
 	char old_proxy[128];
 public:

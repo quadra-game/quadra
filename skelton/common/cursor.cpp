@@ -18,17 +18,16 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "video.h"
-#include "cursor_self.h"
-#include "cursor_x11.h"
 #include "cursor.h"
 
-RCSID("$Id$")
+Cursor* cursor = 0;
 
-Cursor* cursor = NULL;
+Cursor::Cursor():
+  x(0),
+  y(0) {
+}
 
-Cursor* Cursor::New(Sprite* s) {
-	if(video->xwindow)
-		return new Cursor_X11();
-	return new Cursor_Self(s);
+void Cursor::set_pos(int px, int py) {
+  x = px;
+  y = py;
 }

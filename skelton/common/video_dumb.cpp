@@ -29,6 +29,7 @@
 #include "cursor.h"
 #include "net.h"
 #include "video_dumb.h"
+#include "sprite.h"
 
 RCSID("$Id$")
 
@@ -228,17 +229,9 @@ void Video_Dumb::dosetpal(PALETTEENTRY pal[256], int size) {
 
 void Video_Dumb::start_frame() {
   lock();
-  if(cursor) {
-    cursor->put_back();
-    cursor->move();
-  }
 }
 
 void Video_Dumb::end_frame() {
-  if(cursor) {
-    cursor->get_back();
-    cursor->draw();
-  }
   flip();
 }
 
