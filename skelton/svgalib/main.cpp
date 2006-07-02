@@ -19,6 +19,7 @@
  */
 
 /* version Linux */
+#include "autoconf.h"
 #ifdef SOCKS
 #include <stdio.h>
 #include <socks.h>

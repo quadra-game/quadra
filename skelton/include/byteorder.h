@@ -1,3 +1,4 @@
+#include "autoconf.h"
 
 #ifdef UGS_LINUX
 #ifdef HAVE_MACHINE_ENDIAN_H

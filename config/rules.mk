@@ -63,7 +63,7 @@ Quadra.desktop: packages/Quadra.desktop.in config/config.mk
 	sed -e 's%@bindir@%$(bindir)%g' -e 's%@datadir@%$(datadir)%g' >$@ <$<
 
 configure: configure.in
-	autoconf
+	autoreconf
 
 .PHONY: manual-dist-stuff
 manual-dist-stuff:
