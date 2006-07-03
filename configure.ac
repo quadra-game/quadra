@@ -4,10 +4,11 @@ AC_INIT([quadra])
 AC_CONFIG_SRCDIR([source/quadra.cpp])
 
 AC_PATH_XTRA
+
 AC_ARG_WITH(libpng,
-  [  --with-libpng           Specify location for libpng])
+	AS_HELP_STRING([--with-libpng], [Specify location for libpng]))
 AC_ARG_ENABLE(debug,
-  [  --enable-debug          debugging options])
+	AS_HELP_STRING([--enable-debug], [debugging options]))
 
 if test ! -z "$with_libpng"; then
    CPPFLAGS="$CPPFLAGS -I$with_libpng"
