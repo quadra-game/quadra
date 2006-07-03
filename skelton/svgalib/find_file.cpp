@@ -104,7 +104,7 @@ Find_file_entry Find_file_Unix::get_next_entry() {
   else
     isdir = S_ISDIR(sbuf.st_mode);
   
-  Find_file_entry f(basename(buf), isdir);
+  Find_file_entry f(mybasename(buf), isdir);
   
   f.size = sbuf.st_size;
   strncpy(f.date, ctime(&sbuf.st_mtime), 1023);

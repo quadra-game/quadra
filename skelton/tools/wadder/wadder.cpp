@@ -126,7 +126,7 @@ void addfile(const char* fname) {
 	data = new char[res->size()];
 	res->read(data, res->size());
 
-	wad->add(basename(fname), res->size(), data);
+	wad->add(mybasename(fname), res->size(), data);
 
 	delete res;
 	delete data;
