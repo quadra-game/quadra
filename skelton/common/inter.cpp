@@ -947,6 +947,7 @@ void Inter::flush() {
 	kb_focus = NULL;
 	kb_x = kb_y = 0;
 	kb_anim = 0;
+	assert(input);
 	input->quel_key = -1;
 }
 
