@@ -23,8 +23,8 @@
 Cursor* cursor = 0;
 
 Cursor::Cursor():
-  x(0),
-  y(0) {
+  x(-1),
+  y(-1) {
 }
 
 void Cursor::set_pos(int px, int py) {
