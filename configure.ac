@@ -76,6 +76,8 @@ fi
 
 AC_SUBST(enable_debug)
 
+AC_DEFINE(UGS_LINUX,, [FIXME: temporary hack, until we properly detect stuff])
+
 AC_CONFIG_HEADERS([include/autoconf.h])
 AC_CONFIG_FILES([config/config.mk])
 AC_OUTPUT
