@@ -18,6 +18,8 @@
 #
 # $Id$
 
+LINK.o=$(LINK.cc)
+
 CLEAN+=config/depends.mk
 DISTCLEAN+=config/config.mk ChangeLog.bak gmon.out
 REALCLEAN+=ChangeLog
