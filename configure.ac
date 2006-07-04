@@ -30,6 +30,7 @@ AC_CHECK_LIB(Xext, XShmAttach, X_LIBS="$X_LIBS -lXext", have_x=no)
 AC_CHECK_LIB(Xxf86vm, XF86VidModeSwitchToMode, X_LIBS="$X_LIBS -lXxf86vm",
 		      have_x=no)
 AC_CHECK_LIB(Xpm, XpmCreatePixmapFromData, X_LIBS="$X_LIBS -lXpm", have_x=no)
+AC_CHECK_LIB(SDL, SDL_Init)
 
 dnl Checks for header files.
 AC_CHECK_HEADERS(X11/Xlib.h X11/xpm.h,, have_x=no)
@@ -44,6 +45,7 @@ AC_CHECK_HEADERS(machine/byte_order.h)
 AC_CHECK_HEADERS(linux/cdrom.h)
 AC_CHECK_HEADERS(linux/soundcard.h)
 AC_CHECK_HEADERS(mcheck.h)
+AC_CHECK_HEADERS([SDL.h SDL/SDL.h])
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 
