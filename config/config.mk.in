@@ -39,12 +39,9 @@ libdir:=@libdir@
 libgamesdir:=$(libdir)/games
 datadir:=@datadir@
 datagamesdir:=$(datadir)/games
-CXXFLAGS:=@CXXFLAGS@ @CPPFLAGS@
+CXXFLAGS:=@CXXFLAGS@
+CPPFLAGS:=@CPPFLAGS@
+LDFLAGS:=@LDFLAGS@
 X_CFLAGS:=@X_CFLAGS@
 X_LIBS:=@X_LIBS@
-LDFLAGS:=@LDFLAGS@
-
-ifneq ("@enable_debug@", "yes")
-CXXFLAGS+=-DNDEBUG
-endif
 

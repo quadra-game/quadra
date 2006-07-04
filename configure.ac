@@ -74,7 +74,9 @@ if test -n "$missing_required"; then
 	AC_MSG_ERROR([Required dependencies missing.])
 fi
 
-AC_SUBST(enable_debug)
+if test "$enable_debug" != "yes"; then
+   	CPPFLAGS="$CPPFLAGS -DNDEBUG"
+fi
 
 AC_DEFINE(UGS_LINUX,, [FIXME: temporary hack, until we properly detect stuff])
 
