@@ -19,6 +19,7 @@
  */
 
 #include <stdio.h>
+#include "autoconf.h"
 
 #ifdef UGS_LINUX
 #ifdef SOCKS
