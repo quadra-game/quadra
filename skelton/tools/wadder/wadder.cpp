@@ -177,5 +177,3 @@ int main(int ARGC, char **ARGV, char **ENV) {
 	return 0;
 }
 
-void start_game(void) {
-}
