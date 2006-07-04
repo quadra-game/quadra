@@ -18,8 +18,8 @@
 #
 # $Id$
 
-quadra: $(QUADRA_OBJECTS) skelton/lib/libugs_s.a
-	$(LINK.cc) -Lskelton/lib $(X_CFLAGS) $(X_LIBS) -o $@ $^ -lX11 -lXext -lXxf86vm -lXpm -lpng -ldl -lz
+source/quadra: LDLIBS+=$(X_LIBS) -lpng -lz
+source/quadra: $(QUADRA_OBJECTS) skelton/lib/libugs_s.a
 
 quadra.res: $(shell cat resources.txt) resources.txt skelton/tools/wadder/wadder
 	skelton/tools/wadder/wadder ./ $@ resources.txt

@@ -46,7 +46,7 @@ installdirs:
 	mkdir -p $(datadir)/pixmaps
 
 install: installdirs $(TARGETS)
-	$(INSTALL_PROGRAM) quadra $(bindir)/quadra
+	$(INSTALL_PROGRAM) source/quadra $(bindir)/quadra
 	$(INSTALL_DATA) quadra.res $(datagamesdir)/quadra.res
 	$(INSTALL_DATA) images/quadra.xpm $(datadir)/pixmaps/quadra.xpm
 # FIXME: the Quadra.desktop file should go to these places:

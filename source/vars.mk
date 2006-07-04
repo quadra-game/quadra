@@ -18,7 +18,7 @@
 #
 # $Id$
 
-TARGETS+=quadra quadra.res
+TARGETS+=source/quadra quadra.res
 
 QUADRA_OBJECTS:=$(patsubst %.cpp,%.o,$(wildcard source/*.cpp))
 
