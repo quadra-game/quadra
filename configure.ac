@@ -24,7 +24,6 @@ LDFLAGS="$LDFLAGS$X_LIBS"
 
 dnl Checks for libraries.
 AC_CHECK_LIB(z, compress,, nozlib=1)
-AC_CHECK_LIB(dl, dlopen,, nodl=1)
 AC_CHECK_LIB(png, png_create_read_struct,, nolibpng=1)
 AC_CHECK_LIB(X11, XOpenDisplay,, have_x=no)
 AC_CHECK_LIB(Xext, XShmAttach,, have_x=no)
@@ -53,11 +52,6 @@ if test -z "$with_x" -a "$have_x" = "yes"; then
 	with_x=yes
 else
 	with_x=no
-fi
-
-if test -n "$nodl"; then
-	AC_MSG_WARN([dl is required and could not be found!])
-	missing_required=yes
 fi
 
 if test -n "$nozlib"; then
