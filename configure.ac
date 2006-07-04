@@ -73,7 +73,6 @@ if test -n "$missing_required"; then
 	AC_MSG_ERROR([Required dependencies missing.])
 fi
 
-AC_SUBST(with_x)
 AC_SUBST(enable_debug)
 
 AC_CONFIG_HEADERS([include/autoconf.h])
