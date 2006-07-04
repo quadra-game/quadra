@@ -19,6 +19,7 @@
  */
 
 #include <string.h>
+#include "autoconf.h"
 #include "input.h"
 #include "net.h"
 #include "qserv.h"

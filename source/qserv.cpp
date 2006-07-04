@@ -21,6 +21,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include "autoconf.h"
 #include "config.h"
 #include "url.h"
 #include "http_post.h"
