@@ -65,9 +65,11 @@ const char *keynames[256] = {
 Input* Input::New(bool dumb) {
   if(dumb)
     return new Input_Dumb();
+#ifndef X_DISPLAY_MISSING
   if(video->xwindow)
     return new Input_X11;
   else
+#endif
     return NULL;
 }
 

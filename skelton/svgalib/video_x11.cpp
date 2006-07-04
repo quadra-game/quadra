@@ -21,6 +21,8 @@
 #include <signal.h>
 #include <unistd.h>
 #include <sys/shm.h>
+#include "autoconf.h"
+#ifndef X_DISPLAY_MISSING
 #define Font XFont
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -772,3 +774,4 @@ void Video_X11::toggle_fullscreen() {
   fullscreen = !fullscreen;
 }
 
+#endif /* X_DISPLAY_MISSING */

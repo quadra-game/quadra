@@ -19,6 +19,8 @@
  */
 
 #include <signal.h>
+#include "autoconf.h"
+#ifndef X_DISPLAY_MISSING
 #define Font XFont
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -90,3 +92,4 @@ void Video_X11_8::dosetpal(PALETTEENTRY pal[256], int size) {
   XStoreColors(display, cmap, colors, size);
 }
 
+#endif /* X_DISPLAY_MISSING */

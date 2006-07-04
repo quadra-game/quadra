@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include "autoconf.h"
 #include "types.h"
 #include "palette.h"
 #include "video.h"
@@ -92,6 +93,7 @@ void Fade::newdest(const Palette& dst, int frame) {
   dest=dst;
   int j=0;
 
+#ifndef X_DISPLAY_MISSING
   /* shit, this is ugly */
   if(dynamic_cast<Video_X11*>(video))
     if(!dynamic_cast<Video_X11_8*>(video)) {
@@ -101,6 +103,7 @@ void Fade::newdest(const Palette& dst, int frame) {
       if(frame < 2)
 	frame = 2;
     }
+#endif /* X_DISPLAY_MISSING */
 
   for(int i(0); i<256; i++) {
     delta[j]=((dest.pal[i].peRed<<7)-current[j++])/frame;
@@ -115,8 +118,10 @@ int Fade::step() {
   if(currentframe==destframe)
     return 1;
   else {
+#ifndef X_DISPLAY_MISSING
     if(dynamic_cast<Video_X11_8*>(video))
       usleep(3000);
+#endif /* X_DISPLAY_MISSING */
     for(int i(0); i<768; i++)
       current[i]+=delta[i];
     currentframe++;

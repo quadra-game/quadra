@@ -18,6 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "autoconf.h"
 #include "video.h"
 #include "video_dumb.h"
 #include "video_x11.h"
@@ -30,9 +31,11 @@ Video_bitmap* Video_bitmap::New(const int px, const int py,
 				const int w, const int h, const int rw) {
   Video_bitmap* obj;
 
+#ifndef X_DISPLAY_MISSING
   if((obj = Video_bitmap_X11::New(px, py, w, h, rw)))
     return obj;
   else
+#endif /* X_DISPLAY_MISSING */
     return NULL;
 }
 
@@ -40,9 +43,11 @@ Video_bitmap* Video_bitmap::New(const int px, const int py,
 				const int w, const int h) {
   Video_bitmap* obj;
 
+#ifndef X_DISPLAY_MISSING
   if((obj = Video_bitmap_X11::New(px, py, w, h)))
     return obj;
   else
+#endif /* X_DISPLAY_MISSING */
     return NULL;
 }
 
@@ -50,9 +55,11 @@ Video* Video::New(int w, int h, int b, const char *wname, bool dumb) {
 	if(dumb)
 		return Video_Dumb::New(w, h, b, wname);
   Video* obj;
+#ifndef X_DISPLAY_MISSING
   if((obj = Video_X11::New(w, h, b, wname))) {
     return obj;
   } else
+#endif /* X_DISPLAY_MISSING */
     return NULL;
 }
 

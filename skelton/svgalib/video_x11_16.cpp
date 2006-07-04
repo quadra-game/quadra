@@ -19,6 +19,8 @@
  */
 
 #include <signal.h>
+#include "autoconf.h"
+#ifndef X_DISPLAY_MISSING
 #define Font XFont
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -101,3 +103,4 @@ void Video_X11_16::dosetpal(PALETTEENTRY pal[256], int size) {
   dirty(0, 0, width-1, height-1);
 }
 
+#endif /* X_DISPLAY_MISSING */

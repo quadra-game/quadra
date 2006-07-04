@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "autoconf.h"
+#ifndef X_DISPLAY_MISSING
 #include <X11/keysym.h>
 #include "cursor.h"
 #include "main.h"
@@ -323,3 +325,4 @@ void Input_X11::reraw() {
   israw = true;
 }
 
+#endif /* X_DISPLAY_MISSING */
