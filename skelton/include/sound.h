@@ -21,6 +21,8 @@
 #ifndef _HEADER_SOUND
 #define _HEADER_SOUND
 
+#include "autoconf.h"
+
 #ifdef UGS_DIRECTX
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>

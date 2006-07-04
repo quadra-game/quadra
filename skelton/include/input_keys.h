@@ -21,6 +21,8 @@
 #ifndef _HEADER_INPUT_KEYS
 #define _HEADER_INPUT_KEYS
 
+#include "autoconf.h"
+
 #define PRESSED 1
 #define RELEASED 2
 

@@ -21,6 +21,7 @@
 #ifndef _HEADER_MAIN
 #define _HEADER_MAIN
 
+#include "autoconf.h"
 #include "types.h"
 
 #ifdef UGS_DIRECTX

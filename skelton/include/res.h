@@ -23,6 +23,7 @@
 
 #include <stdlib.h>
 #include <fcntl.h>
+#include "autoconf.h"
 #include "resfile.h"
 #include "resmanager.h"
 
