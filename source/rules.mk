@@ -18,6 +18,10 @@
 #
 # $Id$
 
+ifeq '$(shell uname -s)' 'Darwin'
+#source/quadra: LDLIBS+=source/macosx/SDLMain.o -framework SDL -framework Cocoa
+endif
+
 source/quadra: LDLIBS+=$(X_LIBS) -lpng -lz
 source/quadra: $(QUADRA_OBJECTS) skelton/lib/libugs_s.a
 
