@@ -20,6 +20,13 @@
 
 /* version Linux */
 #include "autoconf.h"
+
+#if defined(HAVE_SDL_H)
+#include "SDL.h"
+#elif defined(HAVE_SDL_SDL_H)
+#include "SDL/SDL.h"
+#endif
+
 #ifdef SOCKS
 #include <stdio.h>
 #include <socks.h>
@@ -72,7 +79,7 @@ char exe_directory[1024];
 
 static bool ignore_sigpipe=false;
 
-int main(int ARGC, char **ARGV, char **ENV) {
+int main(int ARGC, char **ARGV) {
 #ifdef HAVE_MCHECK_H
 #ifndef NDEBUG
   mcheck(NULL);
