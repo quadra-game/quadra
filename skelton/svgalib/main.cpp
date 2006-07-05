@@ -62,7 +62,6 @@ char** ux_argv;
 bool alt_tab = false;
 Time_mode time_control = TIME_NORMAL;
 char cmd_line[1024];
-void quit_game();
 
 void start_frame() {
   if(sound)
