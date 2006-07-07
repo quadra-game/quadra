@@ -18,12 +18,8 @@
 #
 # $Id$
 
-ifeq '$(shell uname -s)' 'Darwin'
-#source/quadra: LDLIBS+=source/macosx/SDLMain.o -framework SDL -framework Cocoa
-endif
-
-source/quadra: LDLIBS+=$(X_LIBS) -lpng -lz
-source/quadra: $(QUADRA_OBJECTS) skelton/lib/libugs_s.a
+source/quadra: LDLIBS+=$(X_LIBS) $(SDL_LIBS) -lpng -lz
+source/quadra: $(QUADRA_OBJECTS) $(SDL_MAIN_OBJ) skelton/lib/libugs_s.a
 
 quadra.res: $(shell cat resources.txt) resources.txt skelton/tools/wadder/wadder
 	skelton/tools/wadder/wadder ./ $@ resources.txt

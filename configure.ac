@@ -30,7 +30,7 @@ AC_CHECK_LIB(Xext, XShmAttach, X_LIBS="$X_LIBS -lXext", have_x=no)
 AC_CHECK_LIB(Xxf86vm, XF86VidModeSwitchToMode, X_LIBS="$X_LIBS -lXxf86vm",
 		      have_x=no)
 AC_CHECK_LIB(Xpm, XpmCreatePixmapFromData, X_LIBS="$X_LIBS -lXpm", have_x=no)
-AC_CHECK_LIB(SDL, SDL_Init)
+AC_CHECK_LIB(SDL, SDL_Init, SDL_LIBS="-lsdl", nosdl=1)
 
 dnl Checks for header files.
 AC_CHECK_HEADERS(X11/Xlib.h X11/xpm.h,, have_x=no)
@@ -46,6 +46,11 @@ AC_CHECK_HEADERS(linux/cdrom.h)
 AC_CHECK_HEADERS(linux/soundcard.h)
 AC_CHECK_HEADERS(mcheck.h)
 AC_CHECK_HEADERS([SDL.h SDL/SDL.h])
+
+save_CFLAGS="$CFLAGS"
+CFLAGS="$CFLAGS -x objective-c"
+AC_CHECK_HEADERS(Cocoa/Cocoa.h)
+CFLAGS="$save_CFLAGS"
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 
@@ -80,6 +85,13 @@ if test "$enable_debug" != "yes"; then
    	CPPFLAGS="$CPPFLAGS -DNDEBUG"
 fi
 
+if test "$ac_cv_header_Cocoa_Cocoa_h" = "yes"; then
+   	SDL_MAIN_OBJ="source/macosx/SDLMain.o"
+	SDL_LIBS="-framework SDL -framework Cocoa"
+fi
+
+AC_SUBST(SDL_MAIN_OBJ, [$SDL_MAIN_OBJ])
+AC_SUBST(SDL_LIBS, [$SDL_LIBS])
 AC_DEFINE(UGS_LINUX,, [FIXME: temporary hack, until we properly detect stuff])
 
 AC_CONFIG_HEADERS([include/autoconf.h])
