@@ -88,6 +88,17 @@ int main(int ARGC, char **ARGV) {
 #ifdef SOCKS
   SOCKSinit(ARGV[0]);
 #endif
+
+  // FIXME: This is because SDL defines the Xlib symbols as well for
+  // its internal usage (exporting those is a bug in SDL!), and we
+  // need it to initialize them so that we can use them.
+  SDL_putenv("SDL_VIDEODRIVER=x11");
+
+  if(SDL_Init(SDL_INIT_VIDEO) == -1) {
+    fprintf(stderr, "Could not initialize SDL: %s\n", SDL_GetError());
+    return 1;
+  }
+
   atexit(delete_obj);
 	struct sigaction signals;
 	if(sigaction(SIGPIPE, NULL, &signals) < 0)
@@ -175,13 +186,12 @@ void delete_obj() {
 			ignore_sigpipe=false;
 		}
 	}
+
+  SDL_Quit();
+
   msgbox("ending delete_obj...\n");
 }
 
 Dword getmsec() {
-  struct timeval thetime;
-
-  gettimeofday(&thetime, NULL);
-
-  return (thetime.tv_sec*1000)+(thetime.tv_usec/1000);
+  return SDL_GetTicks();
 }
