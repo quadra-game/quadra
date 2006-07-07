@@ -97,7 +97,6 @@ public:
   virtual void end_frame();
   virtual void setpal(const Palette& p) ;
   virtual void restore();
-  virtual void clean_up();
   virtual void snap_shot(int x, int y, int w, int h);
   void focus_in(Window w);
   void focus_out(Window w);

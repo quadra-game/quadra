@@ -19,6 +19,11 @@
  */
 
 #include "autoconf.h"
+#if defined(HAVE_SDL_H)
+#include "SDL.h"
+#elif defined(HAVE_SDL_SDL_H)
+#include "SDL/SDL.h"
+#endif
 #include "video.h"
 #include "video_dumb.h"
 #include "video_x11.h"
@@ -55,6 +60,7 @@ Video* Video::New(int w, int h, int b, const char *wname, bool dumb) {
 	if(dumb)
 		return Video_Dumb::New(w, h, b, wname);
   Video* obj;
+
 #ifndef X_DISPLAY_MISSING
   if((obj = Video_X11::New(w, h, b, wname))) {
     return obj;

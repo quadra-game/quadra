@@ -119,7 +119,6 @@ int main(int ARGC, char **ARGV) {
   }
 
   start_game();
-  quit_game();
   return 0;
 }
 
@@ -177,12 +176,6 @@ void delete_obj() {
 		}
 	}
   msgbox("ending delete_obj...\n");
-}
-
-void quit_game() {
-  if(video)
-    video->clean_up();
-  exit(0);
 }
 
 Dword getmsec() {

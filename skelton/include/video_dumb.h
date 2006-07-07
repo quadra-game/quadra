@@ -66,7 +66,6 @@ public:
   virtual void setpal(const Palette& p);
   virtual void dosetpal(PALETTEENTRY pal[256], int size);
   virtual void restore();
-  virtual void clean_up();
   virtual void snap_shot(int x, int y, int w, int h);
   virtual void toggle_fullscreen();
 };

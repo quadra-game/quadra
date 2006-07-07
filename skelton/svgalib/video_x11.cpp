@@ -637,7 +637,7 @@ void Video_X11::unlock() {
 
 void Video_X11::start_frame() {
   if(quit)
-    quit_game();
+    exit(0);
 
   lock();
 }
@@ -711,9 +711,6 @@ void Video_X11::setpal(const Palette& p) {
 void Video_X11::restore() {
   newpal = true;
   need_paint = 2;
-}
-
-void Video_X11::clean_up() {
 }
 
 void Video_X11::snap_shot(int x, int y, int w, int h) {

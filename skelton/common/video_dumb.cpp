@@ -240,9 +240,6 @@ void Video_Dumb::restore() {
   need_paint = 2;
 }
 
-void Video_Dumb::clean_up() {
-}
-
 void Video_Dumb::snap_shot(int x, int y, int w, int h) {
 }
 

@@ -19,6 +19,11 @@
  */
 
 #include "autoconf.h"
+#if defined(HAVE_SDL_H)
+#include "SDL.h"
+#elif defined(HAVE_SDL_SDL_H)
+#include "SDL/SDL.h"
+#endif
 #ifndef X_DISPLAY_MISSING
 #include <X11/keysym.h>
 #include "cursor.h"
@@ -158,7 +163,7 @@ void Input_X11::check() {
 
       case ClientMessage:
         if((Atom)event.xclient.data.l[0] == videox11->delete_win)
-          quit_game();
+          exit(0);
         break;
 
       case Expose:
