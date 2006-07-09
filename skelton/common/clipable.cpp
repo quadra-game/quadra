@@ -22,8 +22,6 @@
 #include "bitmap.h"
 #include "clipable.h"
 
-RCSID("$Id$")
-
 int Clipable::clip_x1;
 int Clipable::clip_x2;
 int Clipable::clip_y1;

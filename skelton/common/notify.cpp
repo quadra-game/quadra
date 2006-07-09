@@ -22,8 +22,6 @@
 #include "error.h"
 #include "notify.h"
 
-RCSID("$Id$")
-
 void Observable::add_watch(Notifyable *n) {
 	notes.add(n);
 }

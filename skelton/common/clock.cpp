@@ -23,8 +23,6 @@
 #include <stdio.h>
 #include "clock.h"
 
-RCSID("$Id$")
-
 Clock::Clock() {
 }
 

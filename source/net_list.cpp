@@ -35,8 +35,6 @@
 #include "nglog.h"
 #include "net_list.h"
 
-RCSID("$Id$")
-
 //Objectives are number of remaining goals to reach before it is
 //  announced. Must end with 0.
 static int frag_objectives[] = {

@@ -23,8 +23,6 @@
 #include "resfile.h"
 #include "byteorder.h"
 
-RCSID("$Id$")
-
 void Resfile::freeze() {
 	int resnamelen;
 	Resdata *ptr;

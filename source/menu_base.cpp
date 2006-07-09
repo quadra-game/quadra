@@ -26,8 +26,6 @@
 #include "quadra.h"
 #include "menu_base.h"
 
-RCSID("$Id$")
-
 void Menu_quit::step() {
 	Menu::step();
 	if(input->quel_key == 1 || quitting)

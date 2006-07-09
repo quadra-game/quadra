@@ -29,8 +29,6 @@
 #include "version.h"
 #include "unicode.h"
 
-RCSID("$Id$")
-
 const int Config::game_version = 19;
 int Config::net_version = 24;
 

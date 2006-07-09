@@ -71,8 +71,6 @@
 #include "net_server.h"
 #include "quadra.h"
 
-RCSID("$Id$")
-
 Sprite *cur;
 
 Color *color[9];

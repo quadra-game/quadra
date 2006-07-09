@@ -26,8 +26,6 @@
 #include "video.h"
 #include "video_x11.h"
 
-RCSID("$Id$")
-
 Palette noir;
 
 void Palette::set() {

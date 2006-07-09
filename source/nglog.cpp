@@ -28,8 +28,6 @@
 #include "global.h"
 #include "nglog.h"
 
-RCSID("$Id$")
-
 char *log_team(int t) {
 	char *team="none";
 	switch(t) {

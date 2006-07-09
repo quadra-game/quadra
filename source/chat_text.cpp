@@ -27,8 +27,6 @@
 #include "nglog.h"
 #include "chat_text.h"
 
-RCSID("$Id$")
-
 Chat_text *chat_text=NULL;
 int Chat_text::quel_player=0;
 

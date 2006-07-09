@@ -24,8 +24,6 @@
 #include "command.h"
 #include "types.h"
 
-RCSID("$Id$")
-
 Command::Command() {
 	st[0] = 0;
 }

@@ -23,8 +23,6 @@
 #include "net_buf.h"
 #include "packet.h"
 
-RCSID("$Id$")
-
 Packet::Packet() {
 	istcp=false;
 	from=NULL;

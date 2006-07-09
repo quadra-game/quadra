@@ -32,8 +32,6 @@
 #include "video_x11.h"
 #include <X11/Xutil.h>
 
-RCSID("$Id$")
-
 static KeyCode xlate[256];
 
 Input_X11::Input_X11() {

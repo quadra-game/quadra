@@ -46,8 +46,6 @@ documentation and/or software.
 #include "types.h"
 #include "crypt.h"
 
-RCSID("$Id$")
-
 #define S11 7
 #define S12 12
 #define S13 17

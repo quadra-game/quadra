@@ -59,8 +59,6 @@ inline int closesocket(int fd) {
 #include "net.h"
 #include "byteorder.h"
 
-RCSID("$Id$")
-
 IP_addr::IP_addr(const IP_addr& o) {
 	set(o.ip, o.mask);
 }

@@ -25,8 +25,6 @@
 #include "error.h"
 #include "buf.h"
 
-RCSID("$Id$")
-
 Buf::Buf(const Buf &buf) {
 	data=NULL;
 	size_=0;

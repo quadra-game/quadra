@@ -28,8 +28,6 @@
 #include "video_dumb.h"
 #include "video_x11.h"
 
-RCSID("$Id$")
-
 Video* video = NULL;
 
 Video_bitmap* Video_bitmap::New(const int px, const int py,

@@ -22,8 +22,6 @@
 #include "main.h"
 #include "input_dumb.h"
 
-RCSID("$Id$")
-
 Input_Dumb::Input_Dumb() {
 	mouse.dx = mouse.dy = mouse.dz = 0;
 	mouse.quel = -1;

@@ -38,8 +38,6 @@
 #include "net_server.h"
 #include "canvas.h"
 
-RCSID("$Id$")
-
 Canvas::Canvas(int qplayer, int game_seed, Palette *p): rnd(game_seed) {
 // constructs a local Canvas
 	snapshot[0]=0;

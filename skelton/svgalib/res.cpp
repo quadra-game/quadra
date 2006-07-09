@@ -21,8 +21,6 @@
 #include <sys/stat.h>
 #include "res.h"
 
-RCSID("$Id$")
-
 Res_mem::Res_mem() {
 	pos = 0;
 	_buf = NULL;

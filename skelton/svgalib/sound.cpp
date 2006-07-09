@@ -33,8 +33,6 @@
 #include "sound.h"
 #include "byteorder.h"
 
-RCSID("$Id$")
-
 #define SOUNDDEV "/dev/dsp"
 #define CHUNKSIZEBITS 13
 #define CHANNELNUMBER 2

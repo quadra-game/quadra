@@ -22,8 +22,6 @@
 #include "input_dumb.h"
 #include "input_x11.h"
 
-RCSID("$Id$")
-
 Input *input = NULL;
 
 const char *keynames[256] = {

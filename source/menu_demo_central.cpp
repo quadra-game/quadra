@@ -35,8 +35,6 @@
 #include "multi_player.h"
 #include "menu_demo_central.h"
 
-RCSID("$Id$")
-
 class Zone_change_dir: public Zone_text_input {
 	Menu_demo_central *menu_demo_central;
 public:

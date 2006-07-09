@@ -34,8 +34,6 @@
 #include "command.h"
 #include "music.h"
 
-RCSID("$Id$")
-
 #ifdef HAVE_LINUX_CDROM_H
 
 #define CDROM_DEVICE "/dev/cdrom"

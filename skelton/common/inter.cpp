@@ -28,8 +28,6 @@
 #include "image_png.h"
 #include "res.h"
 
-RCSID("$Id$")
-
 int Inter::last_mouse_x = -1, Inter::last_mouse_y = -1;
 bool Inter::kb_visible = false;
 

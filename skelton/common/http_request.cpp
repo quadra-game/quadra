@@ -23,8 +23,6 @@
 #include "net.h"
 #include "http_request.h"
 
-RCSID("$Id$")
-
 char Http_request::base64table[] = {
   'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
   'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',

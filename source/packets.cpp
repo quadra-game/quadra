@@ -26,8 +26,6 @@
 #include "canvas.h"
 #include "packets.h"
 
-RCSID("$Id$")
-
 void Packet_wantjoin::write(Net_buf *p) {
 	Packet_ping::write(p);
 	p->write_byte(1);

@@ -20,8 +20,6 @@
 
 #include "zone_list.h"
 
-RCSID("$Id$")
-
 void Zone_list::deleteall() {
 	zone.deleteall();
 }

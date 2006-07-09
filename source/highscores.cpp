@@ -27,8 +27,6 @@
 #include "global.h"
 #include "highscores.h"
 
-RCSID("$Id$")
-
 int Highscores::numLocal=0;
 int Highscores::numGlobal=0;
 Highscores::Best Highscores::bestlocal[MAX_SCORE];

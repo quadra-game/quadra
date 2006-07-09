@@ -55,8 +55,6 @@ extern "C" int SOCKSinit(char *);
 #include "command.h"
 #include "main.h"
 
-RCSID("$Id$")
-
 int ux_argc;
 char** ux_argv;
 bool alt_tab = false;

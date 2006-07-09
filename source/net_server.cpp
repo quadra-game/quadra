@@ -29,8 +29,6 @@
 #include "nglog.h"
 #include "net_server.h"
 
-RCSID("$Id$")
-
 Net_client::Net_client() {
 	msgbox("Net_client::Net_client\n");
 	net->addwatch(P_GAMESTAT, this);

@@ -21,8 +21,6 @@
 #include "types.h"
 #include "debug.h"
 
-RCSID("$Id$")
-
 #ifndef NDEBUG
 
 AllocNode* Debug::allocs = NULL;
