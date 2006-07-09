@@ -97,6 +97,7 @@ public:
   virtual void flip() = 0;
   virtual void start_frame() = 0;
   virtual void end_frame() = 0;
+  virtual void dirty(int x1, int y1, int x2, int y2) = 0;
   virtual void setpal(const Palette& p) = 0;
   virtual void dosetpal(PALETTEENTRY pal[256], int size) = 0;
   virtual void restore() = 0;

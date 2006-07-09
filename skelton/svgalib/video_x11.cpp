@@ -103,8 +103,7 @@ void Video_bitmap_X11::rect(const int x,const int y,const int w,const int h,
     memset(&bp[clip_x1], color, clip_w);
   }
 
-  ((Video_X11*)video)->dirty(clip_x1, clip_y1,
-			     clip_x1+clip_w-1, clip_y2);
+  video->dirty(clip_x1, clip_y1, clip_x1+clip_w-1, clip_y2);
 }
 
 void Video_bitmap_X11::box(const int x,const int y,const int w,const int h,
@@ -127,31 +126,28 @@ void Video_bitmap_X11::get_bitmap(const Bitmap* bit, const int x, const int y,
 
   src.draw(*bit, clip_x1-x, clip_y1-y);
 
-  ((Video_X11*)video)->dirty(clip_x1+pos_x, clip_y1+pos_y,
-			     clip_x1+pos_x+clip_w, clip_y2+pos_y);
+  video->dirty(clip_x1+pos_x, clip_y1+pos_y,
+               clip_x1+pos_x+clip_w, clip_y2+pos_y);
 }
 
 void Video_bitmap_X11::put_pel(const int x, const int y, const Byte c) const {
   fb->put_pel(x, y, c);
 
-  ((Video_X11*)video)->dirty(x+pos_x, y+pos_y,
-			     x+pos_x, y+pos_y);
+  video->dirty(x+pos_x, y+pos_y, x+pos_x, y+pos_y);
 }
 
 void Video_bitmap_X11::hline(const int y, const int x,
 			     const int w, const Byte c) const {
   fb->hline(y, x, w, c);
 
-  ((Video_X11*)video)->dirty(x+pos_x, y+pos_y,
-			     x+w+pos_x, y+pos_y);
+  video->dirty(x+pos_x, y+pos_y, x+w+pos_x, y+pos_y);
 }
 
 void Video_bitmap_X11::vline(const int x, const int y,
 			     const int h, const Byte c) const {
   fb->vline(x, y, h, c);
 
-  ((Video_X11*)video)->dirty(x+pos_x, y+pos_y,
-			     x+pos_x, y+h+pos_y);
+  video->dirty(x+pos_x, y+pos_y, x+pos_x, y+h+pos_y);
 }
 
 void Video_bitmap_X11::line(const int x1, const int y1,
@@ -159,24 +155,21 @@ void Video_bitmap_X11::line(const int x1, const int y1,
 			    const Byte c) const {
   fb->line(x1, y1, x2, y2, c);
 
-  ((Video_X11*)video)->dirty(x1+pos_x, y1+pos_y,
-			     x2+pos_x, y2+pos_y);
+  video->dirty(x1+pos_x, y1+pos_y, x2+pos_x, y2+pos_y);
 }
 
 void Video_bitmap_X11::put_bitmap(const Bitmap& d,
 				  const int dx, const int dy) const {
   d.draw(*fb, dx, dy);
 
-  ((Video_X11*)video)->dirty(dx+pos_x, dy+pos_y,
-			     dx+d.width+pos_x-1, dy+d.height+pos_y);
+  video->dirty(dx+pos_x, dy+pos_y, dx+d.width+pos_x-1, dy+d.height+pos_y);
 }
 
 void Video_bitmap_X11::put_sprite(const Sprite& d,
 				  const int dx, const int dy) const {
   d.draw(*fb, dx, dy);
 
-  ((Video_X11*)video)->dirty(dx+pos_x, dy+pos_y,
-			     dx+d.width+pos_x, dy+d.height+pos_y);
+  video->dirty(dx+pos_x, dy+pos_y, dx+d.width+pos_x, dy+d.height+pos_y);
 }
 
 void Video_bitmap_X11::setmem() {

@@ -197,6 +197,9 @@ Video_Dumb::~Video_Dumb() {
 #endif
 }
 
+void Video_Dumb::dirty(int x1, int y1, int x2, int y2) {
+}
+
 void Video_Dumb::lock() {
   vb->setmem();
 }
