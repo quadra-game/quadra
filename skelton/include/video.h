@@ -86,7 +86,8 @@ public:
   Video_bitmap *vb;
   Byte newpal;
   Palette pal;
-  int width, height, bit;
+  unsigned int width, height;
+  int bit;
   int need_paint;
   int pitch;
   Dword framecount;
