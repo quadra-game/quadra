@@ -87,11 +87,6 @@ int main(int ARGC, char **ARGV) {
   SOCKSinit(ARGV[0]);
 #endif
 
-  // FIXME: This is because SDL defines the Xlib symbols as well for
-  // its internal usage (exporting those is a bug in SDL!), and we
-  // need it to initialize them so that we can use them.
-  SDL_putenv("SDL_VIDEODRIVER=x11");
-
   if(SDL_Init(SDL_INIT_VIDEO) == -1) {
     fprintf(stderr, "Could not initialize SDL: %s\n", SDL_GetError());
     return 1;
