@@ -19,6 +19,11 @@
  */
 
 #include "autoconf.h"
+#if defined(HAVE_SDL_H)
+#include "SDL.h"
+#elif defined(HAVE_SDL_SDL_H)
+#include "SDL/SDL.h"
+#endif
 #ifdef UGS_LINUX
 #include <pwd.h>
 #include <sys/stat.h>
@@ -2458,12 +2463,13 @@ void start_game() {
 		end_frame();
 
 #ifndef NDEBUG
-		if(input->keys[KEY_F8] & PRESSED) // F8 = buckage
+    Uint8 *keystate = SDL_GetKeyState(NULL);
+    if(keystate[SDLK_F8]) // F8 = buckage
 			for(int j=0; j<8000000; j++)
 				;
-		if(input->keys[KEY_F9] & PRESSED) // F9 = slow motion mode
+    if(keystate[SDLK_F9]) // F8 = slow motion mode
 			time_control = TIME_SLOW;
-		if(input->keys[KEY_F10] & PRESSED) // F10 = turbo mode
+    if(keystate[SDLK_F10]) // F8 = turbo mode
 			time_control = TIME_FAST;
 #endif
 
