@@ -275,17 +275,17 @@ void Input_X11::process_mouse(XEvent event) {
     switch(event.xbutton.button) {
     case 1:
       if(mouse.button[0] == RELEASED)
-	mouse.quel = 0;
+        mouse.quel = 0;
       mouse.button[0] = PRESSED;
       break;
     case 2:
       if(mouse.button[1] == RELEASED)
-	mouse.quel = 1;
+        mouse.quel = 1;
       mouse.button[1] = PRESSED;
       break;
     case 3:
       if(mouse.button[2] == RELEASED)
-	mouse.quel = 2;
+        mouse.quel = 2;
       mouse.button[2] = PRESSED;
       break;
     }
