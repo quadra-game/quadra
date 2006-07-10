@@ -19,6 +19,7 @@
  */
 
 #include <assert.h>
+#include <stdlib.h>
 #include "autoconf.h"
 #if defined(HAVE_SDL_H)
 #include "SDL.h"

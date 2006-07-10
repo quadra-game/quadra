@@ -18,6 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include <stdlib.h>
 #include "autoconf.h"
 #if defined(HAVE_SDL_H)
 #include "SDL.h"
