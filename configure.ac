@@ -30,7 +30,7 @@ AC_CHECK_LIB(Xext, XShmAttach, X_LIBS="$X_LIBS -lXext", have_x=no, $X_LIBS)
 AC_CHECK_LIB(Xxf86vm, XF86VidModeSwitchToMode, X_LIBS="$X_LIBS -lXxf86vm",
 		      have_x=no, $X_LIBS)
 AC_CHECK_LIB(Xpm, XpmCreatePixmapFromData, X_LIBS="$X_LIBS -lXpm", have_x=no, $X_LIBS)
-AC_CHECK_LIB(SDL, SDL_Init, SDL_LIBS="-lsdl", nosdl=1)
+AC_CHECK_LIB(SDL, SDL_Init, SDL_LIBS="-lSDL", nosdl=1)
 
 dnl Checks for header files.
 AC_CHECK_HEADERS(X11/Xlib.h X11/xpm.h,, have_x=no)
