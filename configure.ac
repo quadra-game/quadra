@@ -25,11 +25,11 @@ LDFLAGS="$LDFLAGS$X_LIBS"
 dnl Checks for libraries.
 AC_CHECK_LIB(z, compress,, nozlib=1)
 AC_CHECK_LIB(png, png_create_read_struct,, nolibpng=1)
-AC_CHECK_LIB(X11, XOpenDisplay, X_LIBS="$X_LIBS -lX11", have_x=no)
-AC_CHECK_LIB(Xext, XShmAttach, X_LIBS="$X_LIBS -lXext", have_x=no)
+AC_CHECK_LIB(X11, XOpenDisplay, X_LIBS="$X_LIBS -lX11", have_x=no, $X_LIBS)
+AC_CHECK_LIB(Xext, XShmAttach, X_LIBS="$X_LIBS -lXext", have_x=no, $X_LIBS)
 AC_CHECK_LIB(Xxf86vm, XF86VidModeSwitchToMode, X_LIBS="$X_LIBS -lXxf86vm",
-		      have_x=no)
-AC_CHECK_LIB(Xpm, XpmCreatePixmapFromData, X_LIBS="$X_LIBS -lXpm", have_x=no)
+		      have_x=no, $X_LIBS)
+AC_CHECK_LIB(Xpm, XpmCreatePixmapFromData, X_LIBS="$X_LIBS -lXpm", have_x=no, $X_LIBS)
 AC_CHECK_LIB(SDL, SDL_Init, SDL_LIBS="-lsdl", nosdl=1)
 
 dnl Checks for header files.
