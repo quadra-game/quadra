@@ -73,30 +73,11 @@ public:
 	void clear() {
 		v.clear();
 	}
-	void sort() {
-		bool done;
-		do {
-			done=true;
-			int i;
-			for(i=0; i<size()-1; i++) {
-				if(*v[i]<*v[i+1]) {
-					T tmp=v[i];
-					v[i]=v[i+1];
-					v[i+1]=tmp;
-					done=false;
-					break;
-				}
-			}
-		} while(!done);
-	}
 	void deleteall() {
 		while(size()) {
 			delete last();
 			removelast();
 		}
-	}
-	const T& last() const {
-		return v[size()-1];
 	}
 	T& last() {
 		return v[size()-1];
