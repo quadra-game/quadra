@@ -33,9 +33,9 @@ Bitmap* Bitmap::loadPng(const char* n) {
 
 Bitmap::Bitmap(int w, int h, int rw):
 		Clipable(w, h),
-		realwidth(rw*sizeof(T)),
+		realwidth(rw*sizeof(Byte)),
 		zlines(new int[height]),
-		lines(new T*[height]),
+		lines(new Byte*[height]),
 		size(h*rw),
 		fmem(1) {
 	directx = false;
@@ -48,7 +48,7 @@ Bitmap::Bitmap(void* m, int w, int h, int rw):
 		Clipable(w, h),
 		realwidth(rw),
 		zlines(new int[height]),
-		lines(new T*[height]),
+		lines(new Byte*[height]),
 		size(h*rw),
 		fmem(0) {
 	directx = false;
@@ -60,7 +60,7 @@ Bitmap::Bitmap(void* m, int w, int h, int rw, int bob):
 	  Clipable(w, h),
 		realwidth(rw),
 		zlines(new int[height]),
-		lines(new T*[height]),
+		lines(new Byte*[height]),
 		size(h*rw),
 		fmem(1) {
 	directx = false;
@@ -71,9 +71,9 @@ Bitmap::Bitmap(void* m, int w, int h, int rw, int bob):
 
 Bitmap::Bitmap(const Image& raw, bool dx):
 	  Clipable(raw.width(), raw.height()),
-	  realwidth(width*sizeof(T)),
+	  realwidth(width*sizeof(Byte)),
 	  zlines(new int[height]),
-	  lines(new T*[height]),
+	  lines(new Byte*[height]),
 	  size(height*realwidth),
 	  fmem(1) {
 	directx = false;
@@ -98,7 +98,7 @@ Bitmap::~Bitmap() {
 		delete[] mem;
 }
 
-void Bitmap::clear(const T color) const {
+void Bitmap::clear(const Byte color) const {
 	memset(mem, color, size);
 }
 
@@ -120,7 +120,7 @@ void Bitmap::hline(const int y, const int x, const int w, const Byte color) cons
 	memset(operator[](y)+clip_x1, color, clip_w);
 }
 
-void Bitmap::vline(const int x, const int y, const int h, const T color) const {
+void Bitmap::vline(const int x, const int y, const int h, const Byte color) const {
 	if(clip(x, y, 1, h))
 		return;
 	for(int i=clip_y1; i<=clip_y2; i++)
