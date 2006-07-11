@@ -72,11 +72,6 @@ void Dumb_Video_bitmap::box(const int x, const int y,
 			       const int color) const {
 }
 
-void Dumb_Video_bitmap::get_bitmap(const Bitmap* bit, const int x, const int y,
-			      const int w, const int h) const {
-  clip(x, y, w, h);
-}
-
 void Dumb_Video_bitmap::put_pel(const int x, const int y, const Byte c) const {
   clip(x, y, 1, 1);
 }
@@ -89,11 +84,6 @@ void Dumb_Video_bitmap::hline(const int y, const int x,
 void Dumb_Video_bitmap::vline(const int x, const int y, const int h,
 			 const Byte c) const {
   clip(x, y, 1, h);
-}
-
-void Dumb_Video_bitmap::line(const int x1, const int y1,
-const int x2, const int y2, const Byte c) const {
-	clip(x1, y1, x2, y2);
 }
 
 void Dumb_Video_bitmap::put_bitmap(const Bitmap& d, const int dx,

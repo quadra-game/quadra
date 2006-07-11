@@ -43,11 +43,9 @@ public:
   virtual ~Video_bitmap_SDL();
   virtual void rect(int, int, int, int, int) const;
   virtual void box(int, int, int, int, int) const;
-  virtual void get_bitmap(const Bitmap*, int, int, int, int) const;
   virtual void put_pel(int, int, Byte) const;
   virtual void hline(int, int, int, Byte) const;
   virtual void vline(int, int, int, Byte) const;
-  virtual void line(int, int, int, int, Byte) const;
   virtual void put_bitmap(const Bitmap&, int, int) const;
   virtual void put_sprite(const Sprite&, int, int) const;
   virtual void setmem();
@@ -145,10 +143,6 @@ void Video_bitmap_SDL::box(int, int, int, int, int) const {
   assert(false);
 }
 
-void Video_bitmap_SDL::get_bitmap(const Bitmap*, int, int, int, int) const {
-  assert(false);
-}
-
 void Video_bitmap_SDL::put_pel(int x, int y, Byte c) const {
   fb->put_pel(x, y, c);
 }
@@ -159,10 +153,6 @@ void Video_bitmap_SDL::hline(int y, int x, int w, Byte c) const {
 
 void Video_bitmap_SDL::vline(int x, int y, int h, Byte c) const {
   fb->vline(x, y, h, c);
-}
-
-void Video_bitmap_SDL::line(int, int, int, int, Byte) const {
-  assert(false);
 }
 
 void Video_bitmap_SDL::put_bitmap(const Bitmap &d, int dx, int dy) const {

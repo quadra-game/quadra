@@ -48,10 +48,6 @@ public:
   virtual void box(const int x,const int y,const int w,const int h,
 		   const int color) const = 0;
 
-  /* gets a part of bitmap from Video_bitmap */
-  virtual void get_bitmap(const Bitmap* bit, const int x, const int y,
-			  const int w, const int h) const = 0;
-
   /* puts a pixel at position 'x','y' with color 'c' */
   virtual void put_pel(const int x, const int y, const Byte c) const = 0;
 
@@ -62,10 +58,6 @@ public:
   /* vertical line starting from 'x','y', height 'h' and color 'c' */
   virtual void vline(const int x, const int y,
 		     const int h, const Byte c) const = 0;
-
-  /* line going from 'x1','y1' to 'x2','y2' of color 'c' */
-  virtual void line(const int x1, const int y1, const int x2, const int y2,
-		    const Byte c) const = 0;
 
   /* blits a Bitmap to position 'dx','dy' */
   virtual void put_bitmap(const Bitmap& d,

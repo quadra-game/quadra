@@ -114,22 +114,6 @@ void Video_bitmap_X11::box(const int x,const int y,const int w,const int h,
   vline(x+w-1, y, h, color);
 }
 
-void Video_bitmap_X11::get_bitmap(const Bitmap* bit, const int x, const int y,
-				  const int w, const int h) const {
-  if(clip(x, y, w, h))
-    return;
-
-  Bitmap src((*fb)[clip_y1]+clip_x1,
-	     clip_w,
-	     clip_y2-clip_y1+1,
-	     fb->realwidth);
-
-  src.draw(*bit, clip_x1-x, clip_y1-y);
-
-  video->dirty(clip_x1+pos_x, clip_y1+pos_y,
-               clip_x1+pos_x+clip_w, clip_y2+pos_y);
-}
-
 void Video_bitmap_X11::put_pel(const int x, const int y, const Byte c) const {
   fb->put_pel(x, y, c);
 
@@ -148,14 +132,6 @@ void Video_bitmap_X11::vline(const int x, const int y,
   fb->vline(x, y, h, c);
 
   video->dirty(x+pos_x, y+pos_y, x+pos_x, y+h+pos_y);
-}
-
-void Video_bitmap_X11::line(const int x1, const int y1,
-			    const int x2, const int y2,
-			    const Byte c) const {
-  fb->line(x1, y1, x2, y2, c);
-
-  video->dirty(x1+pos_x, y1+pos_y, x2+pos_x, y2+pos_y);
 }
 
 void Video_bitmap_X11::put_bitmap(const Bitmap& d,
