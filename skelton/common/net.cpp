@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "net.h"
+
 #include <stdio.h>
 #include "autoconf.h"
 
@@ -56,7 +58,6 @@ inline int closesocket(int fd) {
 #include "buf.h"
 #include "net_buf.h"
 #include "http_request.h"
-#include "net.h"
 #include "byteorder.h"
 
 IP_addr::IP_addr(const IP_addr& o) {

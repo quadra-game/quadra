@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "net_server.h"
+
 #include "game.h"
 #include "canvas.h"
 #include "chat_text.h"
@@ -27,7 +29,7 @@
 #include "sons.h"
 #include "recording.h"
 #include "nglog.h"
-#include "net_server.h"
+#include "packets.h"
 
 Net_client::Net_client() {
 	msgbox("Net_client::Net_client\n");

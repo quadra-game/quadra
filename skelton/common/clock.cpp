@@ -18,10 +18,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "clock.h"
+
 #include <time.h>
 #include <sys/timeb.h>
 #include <stdio.h>
-#include "clock.h"
 
 Clock::Clock() {
 }

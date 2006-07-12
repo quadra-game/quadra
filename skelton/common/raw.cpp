@@ -18,11 +18,12 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "raw.h"
+
 #include <string.h>
 #include <stdio.h>
 #include "error.h"
 #include "res.h"
-#include "raw.h"
 
 char Raw::Head::signature[]={0x6d, 0x68, 0x77, 0x61, 0x6e, 0x68};
 

@@ -18,13 +18,14 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "packets.h"
+
 #include "net_buf.h"
 #include "error.h"
 #include "net_stuff.h"
 #include "stats.h"
 #include "config.h"
 #include "canvas.h"
-#include "packets.h"
 
 void Packet_wantjoin::write(Net_buf *p) {
 	Packet_ping::write(p);

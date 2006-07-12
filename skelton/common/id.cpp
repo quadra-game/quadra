@@ -21,3 +21,4 @@
 #include "id.h"
 
 Dword Identifyable::next_id=1;
+

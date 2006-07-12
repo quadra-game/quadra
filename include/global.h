@@ -21,6 +21,8 @@
 #ifndef _HEADER_GLOBAL
 #define _HEADER_GLOBAL
 
+#include "types.h"
+
 #define MAXPLAYERS 8
 #define MAXTEAMS 8
 
@@ -35,6 +37,13 @@ void set_team_name(Byte team, const char *name);
 
 extern bool quitting;
 extern const char built[];
+
+enum Drop_reason {
+	DROP_AUTO,
+	DROP_MANUAL,
+	DROP_INVALID_BLOCK,
+	DROP_LAST
+};
 
 void quit_fast();
 

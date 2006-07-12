@@ -18,11 +18,12 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "palette.h"
+
 #include <stdio.h>
 #include <unistd.h>
 #include "autoconf.h"
 #include "types.h"
-#include "palette.h"
 #include "video.h"
 #include "video_x11.h"
 

@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "quadra.h"
+
 #include "autoconf.h"
 #if defined(HAVE_SDL_H)
 #include "SDL.h"
@@ -35,7 +37,7 @@
 #endif
 #include <stdlib.h>
 #include <exception>
-#include "packet.h"
+#include "packets.h"
 #include "types.h"
 #include "net.h"
 #include "video.h"
@@ -74,7 +76,6 @@
 #include "nglog.h"
 #include "clock.h"
 #include "net_server.h"
-#include "quadra.h"
 
 Sprite *cur;
 

@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "find_file.h"
+
 #include <sys/stat.h>
 #ifndef __USE_GNU
 #define __USE_GNU
@@ -26,8 +28,6 @@
 #include <unistd.h>
 #include <time.h>
 #include <glob.h>
-
-#include "find_file.h"
 
 Find_file_entry::Find_file_entry(const char *n, bool f) {
   name[0] = 0;

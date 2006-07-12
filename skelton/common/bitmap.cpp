@@ -18,12 +18,13 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "bitmap.h"
+
 #include <string.h>
 #include "types.h"
 #include "video.h"
 #include "res.h"
 #include "image_png.h"
-#include "bitmap.h"
 
 Bitmap* Bitmap::loadPng(const char* n) {
 	Res_doze res(n);

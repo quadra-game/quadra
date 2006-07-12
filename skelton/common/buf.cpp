@@ -18,12 +18,13 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "buf.h"
+
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
 #include <stdio.h>
 #include "error.h"
-#include "buf.h"
 
 Buf::Buf(const Buf &buf) {
 	data=NULL;

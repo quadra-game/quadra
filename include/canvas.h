@@ -35,6 +35,7 @@
 #include "id.h"
 
 class Zone_next;
+class Packet_clientmoves;
 
 class Canvas: public CS, public Identifyable {
 public:

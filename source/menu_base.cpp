@@ -18,13 +18,14 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "menu_base.h"
+
 #include "input.h"
 #include "inter.h"
 #include "texte.h"
 #include "global.h"
 #include "zone.h"
 #include "quadra.h"
-#include "menu_base.h"
 
 void Menu_quit::step() {
 	Menu::step();

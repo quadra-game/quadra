@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "net_list.h"
+
 #include "types.h"
 #include "error.h"
 #include "canvas.h"
@@ -33,7 +35,7 @@
 #include "net_server.h"
 #include "quadra.h"
 #include "nglog.h"
-#include "net_list.h"
+#include "packets.h"
 
 //Objectives are number of remaining goals to reach before it is
 //  announced. Must end with 0.

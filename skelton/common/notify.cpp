@@ -18,9 +18,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "notify.h"
+
 #include "types.h"
 #include "error.h"
-#include "notify.h"
 
 void Observable::add_watch(Notifyable *n) {
 	notes.add(n);

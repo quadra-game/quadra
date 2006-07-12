@@ -34,6 +34,8 @@ public:
 };
 
 class Recording;
+class Packet_wantjoin;
+class Packet_gameserver;
 
 class Net_server: public Net_callable {
 	Array<Executor *> pendings;

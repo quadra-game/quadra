@@ -21,19 +21,7 @@
 #ifndef _HEADER_NET_STUFF
 #define _HEADER_NET_STUFF
 
-enum Drop_reason {
-	DROP_AUTO,
-	DROP_MANUAL,
-	DROP_INVALID_BLOCK,
-	DROP_LAST
-};
-
-#include "types.h"
-#include "array.h"
-#include "global.h"
-#include "packets.h"
 #include "net.h"
-#include "net_call.h"
 #include "overmind.h"
 
 class Net_starter {

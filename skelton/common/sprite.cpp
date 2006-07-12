@@ -18,10 +18,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "sprite.h"
+
 #include "types.h"
 #include "bitmap.h"
 #include "video.h"
-#include "sprite.h"
 #include "byteorder.h"
 
 #define FONT_SIZE (141-32)

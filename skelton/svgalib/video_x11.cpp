@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "video_x11.h"
+
 #include <signal.h>
 #include <unistd.h>
 #include <sys/shm.h>
@@ -38,7 +40,6 @@
 #include "main.h"
 #include "bitmap.h"
 #include "sprite.h"
-#include "video_x11.h"
 
 /*
  * Gack! This is HORRIBLE!

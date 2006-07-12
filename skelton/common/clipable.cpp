@@ -18,9 +18,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "clipable.h"
+
 #include "array.h"
 #include "bitmap.h"
-#include "clipable.h"
 
 int Clipable::clip_x1;
 int Clipable::clip_x2;

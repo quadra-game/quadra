@@ -18,8 +18,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <string.h>
 #include "unicode.h"
+
+#include <string.h>
 
 Unicode::Unicode(char *s): the_string(strlen(s)*2) {
 	Dword i;

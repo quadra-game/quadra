@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "music.h"
+
 #include "autoconf.h"
 #ifndef NDEBUG
 #include <stdio.h>
@@ -32,7 +34,6 @@
 #include "error.h"
 #include "types.h"
 #include "command.h"
-#include "music.h"
 
 #ifdef HAVE_LINUX_CDROM_H
 

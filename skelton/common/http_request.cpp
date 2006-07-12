@@ -18,10 +18,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "http_request.h"
+
 #include <stdio.h>
 #include "error.h"
 #include "net.h"
-#include "http_request.h"
 
 char Http_request::base64table[] = {
   'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',

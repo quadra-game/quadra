@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "game_menu.h"
+
 #include "input.h"
 #include "config.h"
 #include "multi_player.h"
@@ -33,7 +35,6 @@
 #include "main.h"
 #include "nglog.h"
 #include "clock.h"
-#include "game_menu.h"
 
 int Create_game::game_end_y=0;
 

@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "menu_demo_central.h"
+
 #include "inter.h"
 #include "bitmap.h"
 #include "dict.h"
@@ -33,7 +35,7 @@
 #include "recording.h"
 #include "game.h"
 #include "multi_player.h"
-#include "menu_demo_central.h"
+#include "packets.h"
 
 class Zone_change_dir: public Zone_text_input {
 	Menu_demo_central *menu_demo_central;

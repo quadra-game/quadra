@@ -33,6 +33,7 @@
 
 class Multi_player;
 class Pane_option;
+class Canvas;
 
 class Pane_info {
 public:

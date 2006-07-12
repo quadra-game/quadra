@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "video.h"
+
 #include <assert.h>
 #include "autoconf.h"
 #if defined(HAVE_SDL_H)
@@ -25,7 +27,6 @@
 #elif defined(HAVE_SDL_SDL_H)
 #include "SDL/SDL.h"
 #endif
-#include "video.h"
 #include "video_dumb.h"
 #include "video_x11.h"
 #include "bitmap.h"

@@ -24,6 +24,7 @@
 #include "menu_base.h"
 #include "zone_list.h"
 #include "score.h"
+#include "listbox.h"
 
 class Zone;
 class Bitmap;

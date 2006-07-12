@@ -18,13 +18,14 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "global.h"
+
 #include "types.h"
 #include "sound.h"
 #include "config.h"
 #include "nglog.h"
 #include "net_server.h"
 #include "game.h"
-#include "global.h"
 #include "packets.h"
 
 char st[4096] = {""};

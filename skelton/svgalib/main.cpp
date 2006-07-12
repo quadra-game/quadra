@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "main.h"
+
 /* version Linux */
 #include "autoconf.h"
 
@@ -53,7 +55,6 @@ extern "C" int SOCKSinit(char *);
 #include "overmind.h"
 #include "resfile.h"
 #include "command.h"
-#include "main.h"
 
 int ux_argc;
 char** ux_argv;

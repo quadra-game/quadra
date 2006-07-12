@@ -24,8 +24,8 @@
 #include "autoconf.h"
 #include "packet.h"
 #include "array.h"
-#include "net_stuff.h"
 #include "game.h"
+#include "net_stuff.h"
 #include "config.h"
 #include "track.h"
 

@@ -19,6 +19,7 @@
  */
 
 #include "pcx.h"
+
 #include "byteorder.h"
 
 Pcx::Pcx(Res& res) {

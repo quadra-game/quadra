@@ -18,10 +18,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "command.h"
+
 #include <ctype.h>
 #include <string.h>
 #include "error.h"
-#include "command.h"
 #include "types.h"
 
 Command::Command() {

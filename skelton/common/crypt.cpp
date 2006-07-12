@@ -40,11 +40,12 @@ These notices must be retained in any copies of any part of this
 documentation and/or software.
 */
 
+#include "crypt.h"
+
 #include <memory.h>
 #include <string.h>
 #include <stdio.h>
 #include "types.h"
-#include "crypt.h"
 
 #define S11 7
 #define S12 12

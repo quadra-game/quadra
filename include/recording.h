@@ -28,6 +28,7 @@
 class Res_compress;
 class Res;
 class Canvas;
+class Packet_gameserver;
 
 class Recording {
 	TRACKED;

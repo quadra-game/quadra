@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "qserv.h"
+
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -28,7 +30,6 @@
 #include "dict.h"
 #include "stringtable.h"
 #include "video.h"
-#include "qserv.h"
 
 Dword Qserv::http_addr=0;
 int Qserv::http_port=0;

@@ -18,12 +18,12 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "listbox.h"
+
 #include <stdio.h>
 #include <string.h>
-
 #include "input.h"
 #include "cursor.h"
-#include "listbox.h"
 
 Zone_listbox::Zone_listbox(Inter* in, Bitmap *fond, Font *f, int *pval, int px, int py, int pw, int ph):
 	Zone_watch_int(in, pval, px, py, pw, ph) {

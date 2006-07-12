@@ -18,9 +18,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "fonts.h"
+
 #include "res.h"
 #include "sprite.h"
-#include "fonts.h"
 
 void Fonts::init() {
 	{

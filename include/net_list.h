@@ -21,16 +21,17 @@
 #ifndef _HEADER_NET_LIST
 #define _HEADER_NET_LIST
 
-#include "array.h"
+#include <string.h>
 #include "notify.h"
-#include "net.h"
-#include "score.h"
-#include "overmind.h"
-#include "net_stuff.h"
+#include "global.h"
 #include "stats.h"
-#include "game.h"
+#include "score.h"
+#include "attack.h"
+#include "overmind.h"
 
 class Canvas;
+class IP_addr;
+class Net_connection;
 
 class Lastline {
 public:

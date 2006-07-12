@@ -18,8 +18,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <sys/stat.h>
 #include "res.h"
+
+#include <sys/stat.h>
 
 Res_mem::Res_mem() {
 	pos = 0;

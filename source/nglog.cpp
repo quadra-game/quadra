@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "nglog.h"
+
 #ifdef UGS_DIRECTX
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -26,7 +28,6 @@
 #include "game.h"
 #include "overmind.h"
 #include "global.h"
-#include "nglog.h"
 
 char *log_team(int t) {
 	char *team="none";

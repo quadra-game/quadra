@@ -23,6 +23,7 @@
 
 #include "net_stuff.h"
 #include "net_call.h"
+#include "packets.h"
 
 class Game;
 class Stringtable;

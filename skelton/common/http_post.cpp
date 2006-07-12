@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "http_post.h"
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -25,7 +27,6 @@
 #include "error.h"
 #include "version.h"
 #include "net.h"
-#include "http_post.h"
 
 Http_post::Http_post(const char* aHost, int port, const char *path): Http_request(aHost, port), data(0, 1024) {
 	init(path);

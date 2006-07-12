@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "input_x11.h"
+
 #include <stdlib.h>
 #include "autoconf.h"
 #if defined(HAVE_SDL_H)
@@ -29,7 +31,6 @@
 #include <X11/keysym.h>
 #include "cursor.h"
 #include "main.h"
-#include "input_x11.h"
 #include "video_x11.h"
 #include <X11/Xutil.h>
 

@@ -18,9 +18,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "input_dumb.h"
+
 #include "error.h"
 #include "main.h"
-#include "input_dumb.h"
 
 Input_Dumb::Input_Dumb() {
 	mouse.dx = mouse.dy = mouse.dz = 0;
@@ -66,3 +67,4 @@ void Input_Dumb::add_key_buf(char c, bool special) {
 void Input_Dumb::restore() {
   clear_key();
 }
+

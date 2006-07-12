@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "chat_text.h"
+
 #include <string.h>
 #include "config.h"
 #include "net_stuff.h"
@@ -25,7 +27,7 @@
 #include "canvas.h"
 #include "game.h"
 #include "nglog.h"
-#include "chat_text.h"
+#include "packets.h"
 
 Chat_text *chat_text=NULL;
 int Chat_text::quel_player=0;

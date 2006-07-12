@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "game.h"
+
 #include <string.h>
 #include "autoconf.h"
 #include "input.h"
@@ -38,7 +40,6 @@
 #include "nglog.h"
 #include "clock.h"
 #include "http_request.h"
-#include "game.h"
 
 Game *game=NULL;
 

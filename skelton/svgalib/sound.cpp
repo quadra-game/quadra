@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "sound.h"
+
 #include <stdio.h>
 
 #include "autoconf.h"
@@ -30,7 +32,6 @@
 #include "types.h"
 
 #include "main.h"
-#include "sound.h"
 #include "byteorder.h"
 
 #define SOUNDDEV "/dev/dsp"

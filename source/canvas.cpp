@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "canvas.h"
+
 #include <stdio.h>
 #include "music.h"
 #include "input.h"
@@ -36,7 +38,7 @@
 #include "chat_text.h"
 #include "nglog.h"
 #include "net_server.h"
-#include "canvas.h"
+#include "packets.h"
 
 Canvas::Canvas(int qplayer, int game_seed, Palette *p): rnd(game_seed) {
 // constructs a local Canvas

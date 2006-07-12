@@ -19,10 +19,10 @@
  */
 
 // "bloc" is simply "block" in french.
+#include "bloc.h"
 
 #include "color.h"
 #include "quadra.h"
-#include "bloc.h"
 
 Bloc::Bloc(int q, int c, int px, int py) {
 	quel=q;

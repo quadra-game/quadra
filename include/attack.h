@@ -18,35 +18,44 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _HEADER_FIND_FILE
-#define _HEADER_FIND_FILE
+#ifndef _HEADER_ATTACK
+#define _HEADER_ATTACK
 
-#include <string.h>
-#include "types.h"
-
-class Find_file_entry {
-public:
-  char name[1024];
-  bool is_folder;
-  Dword size;
-  char date[1024];
-  Find_file_entry(const char *n, bool f);
+enum Attack_type {
+	ATTACK_LINES,
+	ATTACK_NONE,
+	ATTACK_BLIND,
+	ATTACK_FULLBLIND,
+	ATTACK_LAST
 };
 
-class Find_file {
+class Attack {
 public:
-  virtual ~Find_file() { }
-  static Find_file* New(const char *n);
-  static void get_current_directory(char *s);
-  virtual bool eof() = 0;
-  virtual Find_file_entry get_next_entry() = 0;
+	Attack_type type;
+	int param;
+	Attack() {
+		type=ATTACK_LINES;
+		param=0;
+	}
+	char *log_type() {
+		switch(type) {
+			case ATTACK_LINES: return "lines";
+			case ATTACK_NONE: return "none";
+			case ATTACK_BLIND: return "blind";
+			case ATTACK_FULLBLIND: return "fullblind";
+			default: return "unknown";
+		}
+		return "unknown";
+	}
 };
 
-static const char *mybasename(const char* f) {
-	const char* p=(const char*)(f+strlen(f));
-	while(*p != '/' && *p != '\\' && p>=f)
-		p--;
-	return p+1;
-}
+enum End_type {
+	END_NEVER,
+	END_FRAG,
+	END_TIME,
+	END_POINTS,
+	END_LINES,
+	END_LAST
+};
 
 #endif
