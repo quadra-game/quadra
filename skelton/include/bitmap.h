@@ -33,24 +33,23 @@ class Video_bitmap;
 class Bitmap;
 
 class Bitmap: public Clipable {
-	//friend class Video;
-	//friend class Video_bitmap;
+private:
 	void initlines();
- public:
+public:
 	int const realwidth;
- protected:
+private:
 	int* zlines;
 	Byte** const lines;
 	Dword const size;
 	Byte* mem;
 	Byte const fmem;
-  /* FIXME: this is awful. */
-	bool directx;
- public:
+public:
 	static Bitmap* loadPng(const char* n);
 	Bitmap(int w, int h, int rw); // empty bitmap
 	Bitmap(void* m, int w, int h, int rw); // bitmap pointing to existing memory
+protected:
 	Bitmap(void* m, int w, int h, int rw, int bob); // copies memory in bitmap
+public:
 	Bitmap(const Image& raw, bool dx=false);
 	virtual ~Bitmap();
 	void reload(const Image& raw);
@@ -66,12 +65,15 @@ class Bitmap: public Clipable {
 	void draw(const Video_bitmap* d, const int dx, const int dy) const;
 	void hline(const int y, const int x, const int w, const Byte color) const;
 	void vline(const int x, const int y, const int h, const Byte color) const;
+private:
 	void line(const int x1, const int y1, const int x2, const int y2,
 		const Byte color) const;
+public:
 	void put_pel(const int x, const int y, const Byte color) const;
 	void fast_pel(const int x, const int y, const Byte color) const {
 		*(operator[](y)+x) = color;
 	}
+private:
 	void clear(const Byte color) const;
 };
 
