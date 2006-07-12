@@ -21,21 +21,26 @@
 #ifndef _HEADER_CANVAS
 #define _HEADER_CANVAS
 
-#include "types.h"
-#include "bloc.h"
-#include "bitmap.h"
-#include "inter.h"
 #include "random.h"
-#include "net.h"
-#include "overmind.h"
 #include "stats.h"
-#include "game.h"
-#include "net_stuff.h"
-#include "buf.h"
+#include "array.h"
 #include "id.h"
+#include "global.h"
+#include "attack.h"
+#include "video.h"
+#include "buf.h"
 
 class Zone_next;
 class Packet_clientmoves;
+class Bloc;
+class Net_connection;
+class Zone;
+class Palette;
+class Bitmap;
+class Executor;
+class Overmind;
+class Inter;
+class Sprite;
 
 class Canvas: public CS, public Identifyable {
 public:

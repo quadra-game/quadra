@@ -30,6 +30,7 @@
 #include "recording.h"
 #include "nglog.h"
 #include "packets.h"
+#include "bloc.h"
 
 Net_client::Net_client() {
 	msgbox("Net_client::Net_client\n");

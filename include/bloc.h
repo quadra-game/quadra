@@ -21,7 +21,9 @@
 #ifndef _HEADER_BLOC
 #define _HEADER_BLOC
 
-#include "bitmap.h"
+#include "types.h"
+
+class Video_bitmap;
 
 /* pieces of Tetris from 0 to 6 :
    0 = Cube

@@ -27,6 +27,8 @@
 #include "sons.h"
 #include "texte.h"
 #include "canvas.h"
+#include "bloc.h"
+#include "game.h"
 
 Zone_next::~Zone_next() {
 	delete back;
