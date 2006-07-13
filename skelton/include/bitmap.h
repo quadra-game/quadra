@@ -33,12 +33,9 @@ class Video_bitmap;
 class Bitmap;
 
 class Bitmap: public Clipable {
-private:
-	void initlines();
 public:
 	int const realwidth;
 private:
-	int* zlines;
 	Byte** const lines;
 	Dword const size;
 	Byte* mem;
@@ -56,7 +53,7 @@ public:
 	void setmem(const void* m) {
 		mem=(Byte*)m;
 		for(int i(0); i<height; i++)
-			lines[i]=(Byte*) (((Byte *)mem)+zlines[i]);
+			lines[i]=(Byte*) (((Byte *)mem)+(i*realwidth));
 	}
 	Byte* operator[](const int y) const {
 		return lines[y];
@@ -65,16 +62,10 @@ public:
 	void draw(const Video_bitmap* d, const int dx, const int dy) const;
 	void hline(const int y, const int x, const int w, const Byte color) const;
 	void vline(const int x, const int y, const int h, const Byte color) const;
-private:
-	void line(const int x1, const int y1, const int x2, const int y2,
-		const Byte color) const;
-public:
 	void put_pel(const int x, const int y, const Byte color) const;
 	void fast_pel(const int x, const int y, const Byte color) const {
 		*(operator[](y)+x) = color;
 	}
-private:
-	void clear(const Byte color) const;
 };
 
 #endif
