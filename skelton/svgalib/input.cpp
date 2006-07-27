@@ -100,7 +100,6 @@ Input_SDL::Input_SDL() {
 
   pause = false;
 
-  mouse.dx = mouse.dy = mouse.dz = 0;
   mouse.quel = -1;
   for(i = 0; i < 4; i++)
     mouse.button[i] = RELEASED;
@@ -132,8 +131,6 @@ void Input_SDL::check() {
       exit(0);
       break;
     case SDL_MOUSEMOTION:
-      fprintf(stderr, "event: mousemotion(%i, %i)\n",
-              event.motion.x, event.motion.y);
       if(cursor)
         cursor->set_pos(event.motion.x, event.motion.y);
       break;

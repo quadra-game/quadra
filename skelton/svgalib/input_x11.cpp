@@ -42,8 +42,6 @@ Input_X11::Input_X11() {
  
   videox11 = dynamic_cast<Video_X11*>(video);
 
-  mouse.dx = mouse.dy = mouse.dz = 0;
-
   mouse.quel = -1;
   for(i = 0; i < 4; i++)
     mouse.button[i] = RELEASED;

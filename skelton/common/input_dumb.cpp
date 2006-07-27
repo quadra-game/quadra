@@ -24,7 +24,6 @@
 #include "main.h"
 
 Input_Dumb::Input_Dumb() {
-	mouse.dx = mouse.dy = mouse.dz = 0;
 	mouse.quel = -1;
 	int i;
 	for(i=0; i<4; i++)
@@ -53,7 +52,6 @@ void Input_Dumb::process_key() {
 }
 
 void Input_Dumb::process_mouse() {
-	mouse.dx = mouse.dy = mouse.dz = 0;
 }
 
 void Input_Dumb::add_key_buf(char c, bool special) {
