@@ -856,16 +856,14 @@ Inter::Inter() {
 	first_zone = 0;
 	font = NULL;
 	kb_x = kb_y = 0;
-	kb_active = true;
 	flush();
 }
 
 Inter::Inter(Inter *in) {
-	for(int i=0; i<in->nzone(); i++)
+	for(int i=0; i<in->zone.size(); i++)
 		add(in->zone[i]);
-	first_zone = nzone();
+	first_zone = zone.size();
 	set_font(in->font, false);
-	kb_active = true;
 	flush();
 }
 
@@ -890,14 +888,14 @@ void Inter::draw_zone() {
 			dirt_all();
 			video->need_paint--;
 		}
-		for(i=0; i<nzone(); i++) {
+		for(i=0; i<zone.size(); i++) {
 			if(zone[i]->dirty && zone[i]->enabled >=0 && !zone[i]->stay_on_top) {
 				zone[i]->dirty--;
 				zone[i]->draw();
 			}
 		}
 		kb_draw_focus();
-		for(i=0; i<nzone(); i++) {
+		for(i=0; i<zone.size(); i++) {
 			if(zone[i]->enabled >=0 && zone[i]->stay_on_top) {
 				zone[i]->draw();
 			}
@@ -906,55 +904,14 @@ void Inter::draw_zone() {
 }
 
 void Inter::dirt_all() {
-	for(int i=0; i<nzone(); i++)
+	for(int i=0; i<zone.size(); i++)
 		zone[i]->dirt();
 }
 
 Zone* Inter::do_frame() {
-	process();
-	return clicked;
-}
-
-void Inter::remove(Zone *z) {
-	for(int i=0; i<nzone(); i++)
-		if(zone[i] == z) {
-			remove(i);
-			break;
-		}
-}
-
-void Inter::remove(int i) {
-	if(in == zone[i])
-		in = NULL;
-	if(focus == zone[i])
-		focus = NULL;
-	if(kb_visible && kb_focus == zone[i])
-		kb_focus = NULL;
-	if(double_clicked_first == zone[i]) {
-		double_clicked_first = NULL;
-		double_click_delay = 0;
-	}
-	zone.remove(i);
-}
-
-void Inter::flush() {
-	while(first_zone != nzone())
-		delete zone[first_zone];
-	in = NULL;
-	focus = NULL;
-	clicked = double_clicked = double_clicked_first = NULL;
-	double_click_delay = 0;
-	kb_focus = NULL;
-	kb_x = kb_y = 0;
-	kb_anim = 0;
-	assert(input);
-	input->quel_key = -1;
-}
-
-void Inter::process() {
 	int i;
 	clicked = double_clicked = NULL;
-	for(i = nzone()-1; i >= first_zone; i--)
+	for(i = zone.size()-1; i >= first_zone; i--)
 		if(zone[i]->enabled >=0)
 			zone[i]->process();
 
@@ -984,31 +941,29 @@ void Inter::process() {
 				de_tag(kb_focus); // we must untag it
 				kb_focus = NULL;
 			}
-			if(kb_active) {
-				if(kb_check_key(KEY_DOWNARROW) || kb_check_key(KEY_UPARROW) ||
-					kb_check_key(KEY_LEFTARROW) || kb_check_key(KEY_RIGHTARROW) ||
-					kb_check_key(KEY_TAB)) {
-					kb_focus=NULL;
-					if(in) {
-						if(in->kb_focusable)
-							kb_focus = in;
-						else if(in->parent && in->parent->kb_focusable) {
-							kb_focus = in->parent;
-						}
-					}
-					if(!kb_focus)
-						kb_focus = kb_find_upmost();
-					if(kb_focus) { // if there is a focusable zone in the whole interface
-						last_mouse_x = cursor->x;
-						last_mouse_y = cursor->y;
-						kb_anim = 0;
-						in = NULL;
-						tag(kb_focus);
-						kb_visible = true;
-					}
-					input->quel_key = -1;
-				}
-			}
+      if(kb_check_key(KEY_DOWNARROW) || kb_check_key(KEY_UPARROW) ||
+         kb_check_key(KEY_LEFTARROW) || kb_check_key(KEY_RIGHTARROW) ||
+         kb_check_key(KEY_TAB)) {
+        kb_focus=NULL;
+        if(in) {
+          if(in->kb_focusable)
+            kb_focus = in;
+          else if(in->parent && in->parent->kb_focusable) {
+            kb_focus = in->parent;
+          }
+        }
+        if(!kb_focus)
+          kb_focus = kb_find_upmost();
+        if(kb_focus) { // if there is a focusable zone in the whole interface
+          last_mouse_x = cursor->x;
+          last_mouse_y = cursor->y;
+          kb_anim = 0;
+          in = NULL;
+          tag(kb_focus);
+          kb_visible = true;
+        }
+        input->quel_key = -1;
+      }
 		} else {
 			if(last_mouse_x != cursor->x || last_mouse_y != cursor->y || alt_tab) {
 				// the mouse has moved, remove the kb_focus
@@ -1077,7 +1032,7 @@ void Inter::process() {
 	}
 
 	if(!kb_visible) {
-		for(i=nzone()-1; i >= first_zone; i--) {
+		for(i=zone.size()-1; i >= first_zone; i--) {
 			if(zone[i]->in() && zone[i]->enabled >=0) {
 				if(focus) {
 					if(input->mouse.quel != -1) {
@@ -1110,6 +1065,40 @@ void Inter::process() {
 	}
 	if(double_click_delay)
 		double_click_delay--;
+
+	return clicked;
+}
+
+void Inter::remove(Zone *z) {
+	for(int i=0; i<zone.size(); i++)
+		if(zone[i] == z) {
+      if(in == z)
+        in = NULL;
+      if(focus == z)
+        focus = NULL;
+      if(kb_visible && kb_focus == z)
+        kb_focus = NULL;
+      if(double_clicked_first == z) {
+        double_clicked_first = NULL;
+        double_click_delay = 0;
+      }
+      zone.remove(i);
+			break;
+		}
+}
+
+void Inter::flush() {
+	while(first_zone != zone.size())
+		delete zone[first_zone];
+	in = NULL;
+	focus = NULL;
+	clicked = double_clicked = double_clicked_first = NULL;
+	double_click_delay = 0;
+	kb_focus = NULL;
+	kb_x = kb_y = 0;
+	kb_anim = 0;
+	assert(input);
+	input->quel_key = -1;
 }
 
 void Inter::de_tag(Zone *z) {
@@ -1126,15 +1115,6 @@ void Inter::tag(Zone *z) {
 		z->entered();
 	kb_x = z->x;
 	kb_y = z->y;
-}
-
-void Inter::kb_deactivate() {
-	kb_active = false;
-	kb_visible = false;
-}
-
-void Inter::kb_reactivate() {
-	kb_active = true;
 }
 
 void Inter::kb_alloc_key(const int i) {
@@ -1158,7 +1138,7 @@ bool Inter::kb_check_key(const int i) const {
 Zone *Inter::kb_find_upmost() {
 	int best_y = 999;
 	Zone *best = NULL;
-	for(int i = nzone()-1; i >= first_zone; i--)
+	for(int i = zone.size()-1; i >= first_zone; i--)
 		if(zone[i]->enabled >=0 && zone[i]->kb_focusable)
 			if(zone[i]->y < best_y) {
 				best = zone[i];
@@ -1170,7 +1150,7 @@ Zone *Inter::kb_find_upmost() {
 Zone *Inter::kb_find_downmost() {
 	int best_y = -1;
 	Zone *best = NULL;
-	for(int i = nzone()-1; i >= first_zone; i--)
+	for(int i = zone.size()-1; i >= first_zone; i--)
 		if(zone[i]->enabled >=0 && zone[i]->kb_focusable)
 			if(zone[i]->y > best_y) {
 				best = zone[i];
@@ -1182,7 +1162,7 @@ Zone *Inter::kb_find_downmost() {
 Zone *Inter::kb_find_down() {
 	int best_y = 9999999, dist;
 	Zone *best = NULL;
-	for(int i = nzone()-1; i >= first_zone; i--) {
+	for(int i = zone.size()-1; i >= first_zone; i--) {
 		Zone *z = zone[i];
 		if(z->enabled >=0 && z->kb_focusable)
 			if(z->y > kb_y && (abs(z->x - kb_x)>>1) < z->y - kb_y) {
@@ -1199,7 +1179,7 @@ Zone *Inter::kb_find_down() {
 Zone *Inter::kb_find_up() {
 	int best_y = 9999999, dist;
 	Zone *best = NULL;
-	for(int i = nzone()-1; i >= first_zone; i--) {
+	for(int i = zone.size()-1; i >= first_zone; i--) {
 		Zone *z = zone[i];
 		if(z->enabled >=0 && z->kb_focusable)
 			if(z->y < kb_y && (abs(z->x - kb_x)>>1) < kb_y - z->y) {
@@ -1216,7 +1196,7 @@ Zone *Inter::kb_find_up() {
 Zone *Inter::kb_find_right() {
 	int best_y = 9999999, dist;
 	Zone *best = NULL;
-	for(int i = nzone()-1; i >= first_zone; i--) {
+	for(int i = zone.size()-1; i >= first_zone; i--) {
 		Zone *z = zone[i];
 		if(z->enabled >=0 && z->kb_focusable)
 			if(z->x > kb_x && (abs(z->y - kb_y)>>1) < z->x - kb_x) {
@@ -1233,7 +1213,7 @@ Zone *Inter::kb_find_right() {
 Zone *Inter::kb_find_left() {
 	int best_y = 9999999, dist;
 	Zone *best = NULL;
-	for(int i = nzone()-1; i >= first_zone; i--) {
+	for(int i = zone.size()-1; i >= first_zone; i--) {
 		Zone *z = zone[i];
 		if(z->enabled >=0 && z->kb_focusable)
 			if(z->x < kb_x && (abs(z->y - kb_y)>>1) < kb_x - z->x) {
@@ -1250,7 +1230,7 @@ Zone *Inter::kb_find_left() {
 Zone *Inter::kb_find_closest() {
 	int best_y = 9999999, dist;
 	Zone *best = NULL;
-	for(int i = nzone()-1; i >= first_zone; i--) {
+	for(int i = zone.size()-1; i >= first_zone; i--) {
 		Zone *z = zone[i];
 		if(z->enabled >=0 && z->kb_focusable) {
 			dist = (z->x - kb_x)*(z->x - kb_x) + (z->y - kb_y)*(z->y - kb_y);
@@ -1265,10 +1245,10 @@ Zone *Inter::kb_find_closest() {
 
 Zone *Inter::kb_find_prev() {
 	int i;
-	int debut =nzone()-1;
+	int debut = zone.size() - 1;
 
 	// find the currently focused zone
-	for(i = nzone()-1; i >= first_zone; i--) {
+	for(i = zone.size()-1; i >= first_zone; i--) {
 		Zone *z = zone[i];
 		if(z == kb_focus) {
 			debut = i;
@@ -1282,7 +1262,7 @@ Zone *Inter::kb_find_prev() {
 			return z;
 	}
 	// if there is nothing good, restart from the end (to loop)
-	for(i = nzone()-1; i >= first_zone; i--) {
+	for(i = zone.size()-1; i >= first_zone; i--) {
 		Zone *z = zone[i];
 		if(z->enabled >=0 && z->kb_focusable)
 			return z;
@@ -1295,7 +1275,7 @@ Zone *Inter::kb_find_next() {
 	int debut =0;
 
 	// find the currently focused zone
-	for(i = nzone()-1; i >= first_zone; i--) {
+	for(i = zone.size()-1; i >= first_zone; i--) {
 		Zone *z = zone[i];
 		if(z == kb_focus) {
 			debut = i;
@@ -1303,13 +1283,13 @@ Zone *Inter::kb_find_next() {
 		}
 	}
 	// then find the next focusable zone
-	for(i = debut+1; i < nzone(); i++) {
+	for(i = debut+1; i < zone.size(); i++) {
 		Zone *z = zone[i];
 		if(z->enabled >=0 && z->kb_focusable)
 			return z;
 	}
 	// if there is nothing good, restart from the start (to loop)
-	for(i = first_zone; i < nzone(); i++) {
+	for(i = first_zone; i < zone.size(); i++) {
 		Zone *z = zone[i];
 		if(z->enabled >=0 && z->kb_focusable)
 			return z;

@@ -20,15 +20,11 @@
 
 #ifndef HEADER_INTER
 #define HEADER_INTER
-#include "error.h"
-#include "array.h"
-#include "types.h"
-#include "video.h"
-#include "bitmap.h"
+
 #include "sprite.h"
+#include "video.h"
 
 class Zone;
-class Inter;
 
 class Inter {
 	Zone* in;
@@ -37,7 +33,6 @@ class Inter {
 	static int last_mouse_x, last_mouse_y;
 	static bool kb_visible;
 	int kb_x, kb_y, kb_anim;
-	bool kb_active;
 	int double_click_delay;
 	Zone *double_clicked_first;
 	Array<int> kb_keys;
@@ -57,36 +52,32 @@ class Inter {
 	bool kb_check_key(const int i) const;
 public:
 	Font* font;
+private:
 	bool del_font;
 	Array<Zone *> zone;
+public:
 	Zone* focus;
-	Zone* clicked, *double_clicked;
+	Zone* clicked;
+  Zone* double_clicked;
 	Inter();
 	Inter(Inter *in);
-	void set_font(Font* f1, bool del=true); // del=true if we must delete 'font'
-	int nzone() const {
-		return zone.size();
-	}
+  // del=true if we must delete 'font'
+	void set_font(Font* f1, bool del=true);
 	void add(Zone* zon, bool back=false) {
 		if(back)
 			zone.add_before(zon, 0);
 		else
 			zone.add(zon);
 	}
-	void remove(int i);
+
 	void remove(Zone *z);
 	Zone* do_frame();
 	void dirt_all();
 	void draw_zone();
 	void flush();
 	virtual ~Inter();
-	void process();
-	void select_zone(Zone *z, int quel); // selects a zone (gives focus and/or click)
-	bool is_kb_visible() const {
-		return kb_visible;
-	}
-	void kb_deactivate();
-	void kb_reactivate();
+  // selects a zone (gives focus and/or click)
+	void select_zone(Zone *z, int quel);
 	void kb_alloc_key(const int i);
 	void kb_free_key(const int i);
 };
