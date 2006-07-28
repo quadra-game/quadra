@@ -35,42 +35,6 @@
 
 Input *input = NULL;
 
-const char *keynames[256] = {
-  "", "Escape", "1", "2", "3", "4", "5", "6",
-  "7", "8", "9", "0", "-", "=", "Backspace", "Tab",
-  "Q", "W", "E", "R", "T", "Y", "U", "I",
-  "O", "P", "[", "]", "Enter", "Ctrl", "A", "S",
-  "D", "F", "G", "H", "J", "K", "L", ";",
-  "'", "`", "Left shift", "\\", "Z", "X", "C", "V",
-  "B", "N", "M", ",", ".", "/", "Right shift", "Pad *",
-  "Alt", "Space", "Caps lock", "F1", "F2", "F3", "F4", "F5",
-  "F6", "F7", "F8", "F9", "F10", "Num lock", "Scrl lock", "Pad 7",
-  "Pad 8", "Pad 9", "Pad -", "Pad 4", "Pad 5", "Pad 6", "Pad +",
-  "Pad 1", "Pad 2", "Pad 3", "Pad 0", "Pad .", "Print scrn", "",
-  "<", "F11", "F12", "", "", "", "", "", "", "","Pad Enter",
-  "Right Ctrl", "Pad /", "PrintScrn", "Alt Char", "Pause",
-  "Home", "Up", "Page Up", "Left", "Right", "End", "Down",
-  "Page Down", "Insert", "Delete",
-  "", "", "", "", "", "", "", "Pause",
-  "", "", "", "", "", "Win left", "Win right", "Win popup",
-  "", "Pause", "", "", "", "", "", "",
-  "", "", "", "", "", "", "", "",
-  "", "", "", "", "", "", "", "",
-  "", "", "", "", "Pad Enter", "2nd Ctrl", "", "",
-  "", "", "", "", "", "", "", "",
-  "", "", "", "", "", "", "", "",
-  "", "", "", "", "", "Pad /", "", "",
-  "2nd Alt", "", "", "", "", "", "", "",
-  "", "", "", "", "", "", "", "Home",
-  "Up", "Page up", "", "Left", "", "Right", "", "End",
-  "Down", "Page down", "Insert", "Del", "", "", "", "",
-  "", "", "", "Win left", "Win right", "Win popup", "", "",
-  "", "", "", "", "", "", "", "",
-  "", "", "", "", "", "", "", "Macro",
-  "", "", "", "", "", "", "", "",
-  "", "", "", "", "", "", "", ""
-};
-
 class Input_SDL: public Input {
 public:
   Input_SDL();
@@ -167,6 +131,38 @@ void Input_SDL::check() {
         mouse.button[2] = RELEASED;
         break;
       }
+      break;
+    case SDL_KEYDOWN:
+      fprintf(stderr, "event: keydown\n");
+      keys[event.key.keysym.scancode] |= PRESSED;
+
+      switch(event.key.keysym.mod) {
+      case SDLK_RSHIFT:
+      case SDLK_LSHIFT:
+        fprintf(stderr, "shift pressed\n");
+        shift_key |= SHIFT;
+        break;
+      case SDLK_RALT:
+      case SDLK_LALT:
+        fprintf(stderr, "alt pressed\n");
+        shift_key |= ALT;
+        break;
+      case SDLK_RCTRL:
+      case SDLK_LCTRL:
+        fprintf(stderr, "control pressed\n");
+        shift_key |= CONTROL;
+        break;
+      case SDLK_PAUSE:
+        pause = true;
+        break;
+      default:
+        quel_key = event.key.keysym.scancode;
+      }
+
+      break;
+    case SDL_KEYUP:
+      fprintf(stderr, "event: keyup\n");
+      keys[event.key.keysym.scancode] = RELEASED;
       break;
     default:
       fprintf(stderr, "event: unknown\n");

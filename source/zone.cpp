@@ -267,11 +267,9 @@ void Zone_text_button2::clicked(int quel) {
 
 Zone_set_key::Zone_set_key(Inter* in, int *pv, int px, int py):
 	Zone_state_text(in, pv, px, py) {
-	for(int i=0; i<256; i++) {
-		if(keynames[i][0] == 0)
-			add_string(ST_UNKNOWN);
-		else
-			add_string(keynames[i]);
+	for(int i = 0; i < 256; ++i) {
+    // FIXME: This should call SDL_GetKeyName to find the name.
+    add_string(ST_UNKNOWN);
 	}
 }
 
