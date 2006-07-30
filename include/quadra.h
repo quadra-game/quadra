@@ -39,8 +39,6 @@ extern Overmind overmind;
 extern Color* color[];
 extern Font *fteam[];
 
-extern Sprite *cur;
-
 void raw_draw_bloc(const Video_bitmap* bit, int x, int y, Byte side, Color* col);
 void raw_draw_bloc_corner(const Video_bitmap* bit, int x, int y, Byte side, Color* col, Byte to[4]);
 void raw_small_draw_bloc(const Video_bitmap* bit, int x, int y, Byte side, Color* col);

@@ -77,8 +77,6 @@
 #include "clock.h"
 #include "net_server.h"
 
-Sprite *cur;
-
 Color *color[9];
 Font *fteam[8];
 
@@ -1857,14 +1855,6 @@ void init_stuff(bool need_sound=true, bool need_video=true) {
 		(void)new Error("Could not initialize video subsystem");
 
 	fonts.init();
-	if(!video->xwindow) {
-		Res_doze res("cursor.png");
-		Png png(res);
-		Bitmap bitmap(png);
-		cur = new Sprite(bitmap, 0, 0);
-	}
-	else
-		cur=NULL;
 	//If we init a dumb video, we need a dumb input too
 	input = Input::New(!need_video);
 	if(need_sound && need_video) { // don't need sound if no video
@@ -2032,7 +2022,6 @@ void deinit_stuff() {
 	Highscores::free();
 
 	delete cursor; cursor = NULL;
-	delete cur; cur = NULL;
 
 	fonts.deinit();
 }
@@ -2409,9 +2398,9 @@ void start_game() {
 				overmind.step();
 		}
 		else {
-			#ifdef PAINTDETECTOR2000
+#ifdef PAINTDETECTOR2000
 			bool sounded=false;
-			#endif
+#endif
 			while(acc>=10) {
 				if(reset_time) { // remet 'normal' seulement si au moins 1 frame s'est ecoule
 					time_control = TIME_NORMAL;
@@ -2424,12 +2413,12 @@ void start_game() {
 				catch(std::exception *e) {
 					msgbox("Exception caught from overmind.step(): %s\n", e->what());
 				}
-				#ifdef PAINTDETECTOR2000
+#ifdef PAINTDETECTOR2000
 				if(video->need_paint==2 && !sounded) {
 					Sfx stmp(sons.msg, 0, 0, 0, 11025);
 					sounded=true;
 				}
-				#endif
+#endif
 				reset_time=true;
 				if(time_control == TIME_FREEZE)
 					break;
@@ -2444,7 +2433,7 @@ void start_game() {
 				msgbox("Exception caught from ecran->draw_zone(): %s\n", e->what());
 			}
 
-			#ifdef FRAMECOUNTER
+#ifdef FRAMECOUNTER
 			static Dword lastvideoframe=0, lastoverframe=0;
 			if(ecran->font) {
 				if(overmind.framecount-lastoverframe > 500) {
@@ -2459,7 +2448,7 @@ void start_game() {
 				sprintf(st, "%i", up);
 				ecran->font->draw(st, video->vb, 0, 0);
 			}
-			#endif /* FRAMECOUNTER */
+#endif /* FRAMECOUNTER */
 		}
 		end_frame();
 
