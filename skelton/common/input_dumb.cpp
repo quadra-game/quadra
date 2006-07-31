@@ -54,14 +54,6 @@ void Input_Dumb::process_key() {
 void Input_Dumb::process_mouse() {
 }
 
-void Input_Dumb::add_key_buf(char c, bool special) {
-  if(key_pending < MAXKEY) {
-    key_buf[key_pending].c = c;
-    key_buf[key_pending].special = special;
-    key_pending++;
-  }
-}
-
 void Input_Dumb::restore() {
   clear_key();
 }

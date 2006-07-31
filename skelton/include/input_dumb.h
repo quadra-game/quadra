@@ -29,7 +29,6 @@ public:
   virtual ~Input_Dumb();
   void process_mouse();
   void process_key();
-	void add_key_buf(char c, bool special=false);
   virtual void clear_key();
   virtual void check() {
     process_key();
