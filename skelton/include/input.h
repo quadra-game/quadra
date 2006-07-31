@@ -21,6 +21,13 @@
 #ifndef _HEADER_INPUT
 #define _HEADER_INPUT
 
+#include "autoconf.h"
+#if defined(HAVE_SDL_H)
+#include "SDL.h"
+#elif defined(HAVE_SDL_SDL_H)
+#include "SDL/SDL.h"
+#endif
+
 #include "types.h"
 #include "input_keys.h"
 
@@ -36,12 +43,10 @@ public:
     Byte button[4];
     int quel;
   } mouse;
-  struct {
-    bool special;
-    char c;
-  } key_buf[MAXKEY];
+  char key_buf[MAXKEY];
   Byte keys[256];
   bool pause;
+  SDL_keysym last_key;
   int quel_key;
   int shift_key;
   int key_pending;

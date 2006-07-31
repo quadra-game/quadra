@@ -271,7 +271,6 @@ protected:
 	char* val;
 	int focus, curpos, actual_len, maxlen, panx, maxwidth;
 	void input_char(const Byte c);
-	void check_clipboard();
 	Font *font_selected;
 	int select_start;
 	Byte curcolor;

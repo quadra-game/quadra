@@ -20,6 +20,12 @@
 
 #include "inter.h"
 
+#include "autoconf.h"
+#if defined(HAVE_SDL_H)
+#include "SDL.h"
+#elif defined(HAVE_SDL_SDL_H)
+#include "SDL/SDL.h"
+#endif
 #include <assert.h>
 #include "video.h"
 #include "bitmap.h"
@@ -493,7 +499,7 @@ void Zone_text_input::clicked(int quel) {
 		first_click = false;
 	} else {
 		first_click = true;
-		if(input->shift_key & SHIFT) {
+		if(SDL_GetModState() & KMOD_SHIFT) {
 			if(select_start == -1)
 				select_start = curpos;
 		} else {
@@ -584,10 +590,8 @@ void Zone_text_input::lost_focus(int cancel) {
 void Zone_text_input::process() {
 	Byte c;
 	if(focus) {
-		// clipboard support in Windows
-		check_clipboard();
 		for(int i=0; i<input->key_pending; i++) {
-			c = input->key_buf[i].c;
+			c = input->key_buf[i];
 			if((c == 8) || (c == 127)) {  // backspace
 				if(!cut_selection()) { // if nothing selected has been cut,
 					if(curpos > 0) { // proceed to a normal backspace
@@ -595,37 +599,6 @@ void Zone_text_input::process() {
 						memmove(&st[curpos], &st[curpos+1], actual_len - curpos);
 						actual_len--;
 					}
-				}
-				continue;
-			}
-			if(input->key_buf[i].special) { // moving keys and others
-				if(c == 46) {// delete
-					if(!cut_selection()) { // if nothing selected has been cut,
-						if(curpos != actual_len) { // proceed with a normal delete
-							memmove(&st[curpos], &st[curpos+1], actual_len - curpos);
-							actual_len--;
-						}
-					}
-				}
-				if(c==37 || c==39 || c==36 || c==35) {
-					if(input->shift_key & SHIFT) {
-							if(select_start == -1)
-								select_start = curpos;
-					} else {
-						select_start = -1;
-					}
-				}
-				if(c == 37 && curpos > 0) { // left arrow
-					curpos--;
-				}
-				if(c == 39 && curpos != actual_len) { // right arrow
-					curpos++;
-				}
-				if(c == 36) { // home
-					curpos = 0;
-				}
-				if(c == 35) { // end
-					curpos = actual_len;
 				}
 				continue;
 			}
@@ -684,70 +657,6 @@ bool Zone_text_input::cut_selection() {
 	select_start = -1;
 	curpos = x1;
 	return true;
-}
-
-void Zone_text_input::check_clipboard() {
-#ifdef UGS_DIRECTX
-	if(input->shift_key != CONTROL)
-		return;
-	if(!input->keys[DIK_V] & PRESSED && !input->keys[DIK_C] & PRESSED && !input->keys[DIK_X] & PRESSED)
-		return;
-	if(!OpenClipboard(NULL)) {
-		skelton_msgbox("  Error opening clipboard.\n");
-		return;
-	}
-	if(input->keys[DIK_V] & PRESSED) {
-		input->keys[DIK_V] = 0;
-		HANDLE h = GetClipboardData(CF_TEXT);
-		if(h == NULL) {
-			skelton_msgbox("  Error getting clipboard data.\n");
-		} else {
-			char *clip = (char *) h;
-			cut_selection();
-			int ma = strlen(clip);
-			for(int i=0; i<ma; i++)
-				input_char(clip[i]);
-		}
-	}
-	bool cut=false,copy=false;
-	if(input->keys[DIK_X] & PRESSED) {
-		input->keys[DIK_X] = 0;
-		cut = true;
-	}
-	if(input->keys[DIK_C] & PRESSED) {
-		input->keys[DIK_C] = 0;
-		copy = true;
-	}
-	if(copy || cut) {
-		int x1, x2;
-		if(select_start > curpos) {
-			x1 = curpos;
-			x2 = select_start;
-		} else {
-			x2 = curpos;
-			x1 = select_start;
-		}
-		int ma = x2-x1+1;
-		if(ma > 1) {
-			HANDLE mem = GlobalAlloc(GMEM_MOVEABLE|GMEM_DDESHARE, ma);
-			LPVOID buf = GlobalLock(mem);
-			memcpy((char *) buf, &st[x1], ma-1);
-			((char *)buf)[ma-1] = 0;
-			GlobalUnlock(mem);
-			HANDLE h = SetClipboardData(CF_TEXT, mem);
-			if(h == NULL) {
-				skelton_msgbox("  Error setting clipboard data.\n");
-			} else {
-				if(cut) {
-					cut_selection();
-				}
-			}
-		} else {
-			skelton_msgbox("  nothing selected. aborting.\n",ma);
-		}
-	}
-	CloseClipboard();
-#endif
 }
 
 void Zone_text_input::leaved() {
@@ -880,27 +789,23 @@ void Inter::set_font(Font* f1, bool del) {
 
 void Inter::draw_zone() {
 	int i;
-#ifdef UGS_DIRECTX
-	if(!alt_tab)
-#endif
-	{
-		if(video->need_paint) {
-			dirt_all();
-			video->need_paint--;
-		}
-		for(i=0; i<zone.size(); i++) {
-			if(zone[i]->dirty && zone[i]->enabled >=0 && !zone[i]->stay_on_top) {
-				zone[i]->dirty--;
-				zone[i]->draw();
-			}
-		}
-		kb_draw_focus();
-		for(i=0; i<zone.size(); i++) {
-			if(zone[i]->enabled >=0 && zone[i]->stay_on_top) {
-				zone[i]->draw();
-			}
-		}
-	}
+
+  if(video->need_paint) {
+    dirt_all();
+    video->need_paint--;
+  }
+  for(i = 0; i < zone.size(); ++i) {
+    if(zone[i]->dirty && zone[i]->enabled >=0 && !zone[i]->stay_on_top) {
+      zone[i]->dirty--;
+      zone[i]->draw();
+    }
+  }
+  kb_draw_focus();
+  for(i = 0; i < zone.size(); ++i) {
+    if(zone[i]->enabled >=0 && zone[i]->stay_on_top) {
+      zone[i]->draw();
+    }
+  }
 }
 
 void Inter::dirt_all() {

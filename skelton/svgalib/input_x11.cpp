@@ -236,9 +236,8 @@ void Input_X11::process_key(XEvent event) {
           break;
         default:
           if(key_pending < MAXKEY) {
-            key_buf[key_pending].c = buf[0];
-            key_buf[key_pending].special = false;
-            key_pending++;
+            key_buf[key_pending] = buf[0];
+            ++key_pending;
           }
         }
       }

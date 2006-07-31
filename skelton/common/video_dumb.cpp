@@ -20,11 +20,6 @@
 
 #include "video_dumb.h"
 
-#include "autoconf.h"
-#ifdef UGS_DIRECTX
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#endif
 #include "utils.h"
 #include "error.h"
 #include "input.h"
@@ -103,48 +98,12 @@ void Dumb_Video_bitmap::put_sprite(const Sprite& d, const int dx,
 void Dumb_Video_bitmap::setmem() {
 }
 
-#ifdef UGS_DIRECTX
-LRESULT CALLBACK dumbwindowproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
-	switch(msg) {
-		case WM_DESTROY:
-			PostQuitMessage(0);
-			break;
-/*		case WM_CHAR:
-			if(input)
-				((Input_DX *) input)->add_key_buf((char) wparam);
-			return 0;*/
-/*		case WM_KEYDOWN:
-			if(input) {
-				if(wparam == 19) // touche 'pause'
-					input->pause = true;
-				if(wparam >= 16 && wparam <= 46)
-					((Input_DX *) input)->add_key_buf((char) wparam, true);
-			}
-			return 0;*/
-		case WM_USER:
-			if(net) {
-				int err = WSAGETASYNCERROR(lparam);
-				net->gethostbyname_completed(err == 0);
-			}
-			return 0;
-	}
-	return DefWindowProc(hwnd, msg, wparam, lparam);
-}
-#endif
-
 Video_Dumb* Video_Dumb::New(int w, int h, int b, const char *wname) {
   return new Video_Dumb(w, h, b, wname);
 }
 
 Video_Dumb::Video_Dumb(int w, int h, int b, const char *wname) {
 	video_is_dumb=true;
-
-#ifdef UGS_LINUX
-  setuid(getuid());
-  setgid(getgid());
-  seteuid(getuid());
-  setegid(getgid());
-#endif
 
   xwindow = false;
   width = w;
@@ -154,38 +113,12 @@ Video_Dumb::Video_Dumb(int w, int h, int b, const char *wname) {
   newpal = true;
   need_paint = 2;
 
-#ifdef UGS_DIRECTX
-	BOOL rc;
- 	WNDCLASS wc;
-	wc.style = CS_DBLCLKS;
-	wc.lpfnWndProc = dumbwindowproc;
-	wc.cbClsExtra = 0;
-	wc.cbWndExtra = 0;
-	wc.hInstance = hinst;
-	wc.hIcon = LoadIcon(hinst, "window.ico");
-	wc.hCursor = NULL;
-	wc.hbrBackground = NULL;
-	wc.lpszMenuName = NULL;
-	wc.lpszClassName = "SkeltonClass";
-	rc = RegisterClass(&wc);
-	if(!rc)
-		new Error("Can't register class");
-	hwnd = CreateWindowEx(0, "SkeltonClass", wname, WS_MINIMIZE|WS_POPUPWINDOW|WS_CAPTION|WS_SYSMENU, 100, 100, 200, 50, NULL, NULL, hinst, NULL);
-	if(hwnd == NULL)
-		new Error("Can't create window");
-#endif
-
   vb = Dumb_Video_bitmap::New(0, 0, w, h);
 }
 
 Video_Dumb::~Video_Dumb() {
   if(vb)
     delete vb;
-#ifdef UGS_DIRECTX
-	ShowWindow(hwnd, SW_HIDE);
-	DestroyWindow(hwnd);
-	UnregisterClass("SkeltonClass", hinst);
-#endif
 }
 
 void Video_Dumb::dirty(int x1, int y1, int x2, int y2) {
@@ -203,10 +136,6 @@ void Video_Dumb::flip() {
     pal.set();
     newpal = false;
   }
-
-#ifdef UGS_LINUX
-  usleep(1);
-#endif
 
   framecount++;
 }
