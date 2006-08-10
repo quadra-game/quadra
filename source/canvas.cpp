@@ -820,22 +820,25 @@ void Canvas::hide() {
 }
 
 Byte Canvas::check_key(int i) {
-  if(ecran && ecran->focus) {  // prevents controlling while inputting into a zone_text_input that has the focus
-    clear_key(i); // prevents rotating from happening after an input (because bit 'was released!')
+  if(ecran && ecran->focus) {  // prevents controlling while inputting
+                               // into a zone_text_input that has the
+                               // focus
+    clear_key(i); // prevents rotating from happening after an input
+                  // (because bit 'was released!')
     return 0;
-  }
-	else
-		if(i<5)
+  } else {
+		if(i < 5)
 			return input->keys[config.player[player].key[i]];
 		else
-			return input->keys[config.player2[player].key[i-5]];
+			return input->keys[config.player2[player].key[i - 5]];
+  }
 }
 
 void Canvas::clear_key(int i) {
-	if(i<5)
+	if(i < 5)
 		input->keys[config.player[player].key[i]] = 0;
 	else
-		input->keys[config.player2[player].key[i-5]] = 0;
+		input->keys[config.player2[player].key[i - 5]] = 0;
 }
 
 void Canvas::unrelease_key(int i) {

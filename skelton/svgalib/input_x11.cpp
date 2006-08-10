@@ -111,8 +111,6 @@ Input_X11::~Input_X11() {
 void Input_X11::clear_key() {
   int i;
 
-  shift_key = 0;
-  quel_key = -1;
   key_pending = 0;
   
   for(i = 0; i < 256; i++)
@@ -202,22 +200,19 @@ void Input_X11::process_key(XEvent event) {
       switch(key) {
       case KEY_RSHIFT:
       case KEY_LSHIFT:
-        shift_key |= SHIFT;
         break;
       case KEY_RALT:
       case KEY_LALT:
-        shift_key |= ALT;
         break;
       case KEY_RCTRL:
       case KEY_LCTRL:
-        shift_key |= CONTROL;
         break;
       case 101:
       case 119:
         pause = true;
         break;
       default:
-        quel_key = key;
+        break;
       }
     } else {
       if(ic) {
@@ -228,11 +223,11 @@ void Input_X11::process_key(XEvent event) {
       if(num) {
         switch(buf[0]) {
         case 27:
-          quel_key = KEY_ESCAPE;
+          //quel_key = KEY_ESCAPE;
           break;
         case 10:
         case 13:
-          quel_key = KEY_ENTER;
+          //quel_key = KEY_ENTER;
           break;
         default:
           if(key_pending < MAXKEY) {
@@ -249,15 +244,12 @@ void Input_X11::process_key(XEvent event) {
     switch(key) {
     case KEY_RSHIFT:
     case KEY_LSHIFT:
-      shift_key &= ~SHIFT;
       break;
     case KEY_RALT:
     case KEY_LALT:
-      shift_key &= ~ALT;
       break;
     case KEY_RCTRL:
     case KEY_LCTRL:
-      shift_key &= ~CONTROL;
       break;
     }
     break;

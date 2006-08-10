@@ -29,7 +29,7 @@
 
 void Menu_quit::step() {
 	Menu::step();
-	if(input->quel_key == 1 || quitting)
+	if(input->last_key.sym == SDLK_ESCAPE || quitting)
 		quit = true;
 	if(quit)
 		exec(new Fade_out(pal));
@@ -50,8 +50,8 @@ Menu_net_problem::Menu_net_problem(const char *s, const char *context, Bitmap *b
 
 void Menu_net_problem::step() {
 	Menu::step();
-	if(input->quel_key == 1 || result==cancel) {
-		input->quel_key = 0;
+	if(input->last_key.sym == SDLK_ESCAPE || result == cancel) {
+		input->last_key.sym = SDLK_UNKNOWN;
 		ret();
 	}
 }

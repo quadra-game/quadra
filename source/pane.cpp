@@ -1182,10 +1182,10 @@ void Chat_interface::process() {
 		chat_text->new_text = false;
 	}
 	if(!playback) {
-		// detects the Enter key (in Windows and/or in Unix)
-		if(input->quel_key == KEY_ENTER && !inter->focus && inter->focus != zinput) {
+		// detects the return key
+		if(input->last_key.sym == SDLK_RETURN && !inter->focus && inter->focus != zinput) {
 			inter->select_zone(zinput, 0);
-			input->quel_key = -1;
+			input->last_key.sym = SDLK_UNKNOWN;
 		}
 	}
 }

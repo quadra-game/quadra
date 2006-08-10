@@ -21,6 +21,12 @@
 #ifndef HEADER_INTER
 #define HEADER_INTER
 
+#include "autoconf.h"
+#if defined(HAVE_SDL_H)
+#include "SDL.h"
+#elif defined(HAVE_SDL_SDL_H)
+#include "SDL/SDL.h"
+#endif
 #include "sprite.h"
 #include "video.h"
 
@@ -49,7 +55,7 @@ class Inter {
 	void kb_draw_focus();
 	void de_tag(Zone *z);
 	void tag(Zone *z);
-	bool kb_check_key(const int i) const;
+	bool kb_check_key(SDLKey i) const;
 public:
 	Font* font;
 private:
@@ -253,8 +259,8 @@ public:
 class Zone_state_text: public Zone_state {
 	Zone_panel* pan;
 public:
-	const char* state[256];
-	Font* fonts[256];
+	const char* state[SDLK_LAST];
+	Font* fonts[SDLK_LAST];
 	Zone_state_text(Inter* in, int *pval, int px, int py, int pw=50, int ph=20);
 	virtual ~Zone_state_text() {
 		delete pan;

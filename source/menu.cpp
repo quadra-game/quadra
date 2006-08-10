@@ -365,7 +365,7 @@ void Menu_highscore::step() {
     }
   } else { // demo mode of the main menu
     time_demo--;
-    if(result || input->quel_key != -1 || time_demo == 0)
+    if(result || input->last_key.sym != SDLK_UNKNOWN || time_demo == 0)
       quit = true;
   }
 }
@@ -502,7 +502,7 @@ public:
 
 void Menu_multi_join::step() {
   Menu::step();
-  if(input->quel_key == 1 || quitting) {
+  if(input->last_key.sym == SDLK_ESCAPE || quitting) {
     ret();
     return;
   }
@@ -727,9 +727,9 @@ void Menu_multi_refresh::step() {
       return;
     }
   }
-  if(result == cancel || input->quel_key == 1) {
+  if(result == cancel || input->last_key.sym == SDLK_ESCAPE) {
     net->gethostbyname_cancel();
-    input->quel_key = 0;
+    input->last_key.sym = SDLK_UNKNOWN;
     ret();
   }
 }
@@ -773,8 +773,8 @@ void Menu_multi_internet::step() {
   }
   if(done)
     parsegames();
-  if(result == cancel || input->quel_key == 1) {
-    input->quel_key = 0;
+  if(result == cancel || input->last_key.sym == SDLK_ESCAPE) {
+    input->last_key.sym = SDLK_UNKNOWN;
     ret();
   }
 }
@@ -1146,7 +1146,7 @@ Menu_setup_all_key::Menu_setup_all_key(Inter *in, Zone_set_key *k[]): Menu(in) {
 void Menu_setup_all_key::step() {
   static char touche[7] = {0, 1, 3, 4, 2, 5, 6};
   Menu::step();
-  if(quel > 6 || input->keys[1] & PRESSED) {
+  if(quel > 6 || input->keys[SDLK_ESCAPE] & PRESSED) {
     ret();
     return;
   }
@@ -1179,13 +1179,13 @@ void Menu_setup_key::init() {
 
 void Menu_setup_key::step() {
   Menu::step();
-  int i,loop=0;
-  for(i=1; i<256; i++) {
+  int loop = 0;
+  for(int i = SDLK_FIRST; i < SDLK_LAST; ++i) {
     // denies the Enter key (it is dedicated to chat)
-    if(i == KEY_ENTER)
+    if(i == SDLK_RETURN)
       continue;
     if(input->keys[i] & PRESSED) {
-      loop=i;
+      loop = i;
       break;
     }
   }
@@ -1194,7 +1194,7 @@ void Menu_setup_key::step() {
       *(key->val) = loop;
       key->process();
     }
-    input->quel_key = -1;
+    input->last_key.sym = SDLK_UNKNOWN;
     ret();
   }
 }
@@ -1654,8 +1654,8 @@ void Menu_main::step() {
     call(new Fade_out(pal));
     reset_delay();
   }
-  if(result == b_quit || input->quel_key == 1 || quitting) {
-    input->quel_key = -1;
+  if(result == b_quit || input->last_key.sym == SDLK_ESCAPE || quitting) {
+    input->last_key.sym = SDLK_UNKNOWN;
     exec(new Fade_out(pal));
   }
   if(result == b_tut) {
@@ -2163,8 +2163,8 @@ Menu_multi_checkip::Menu_multi_checkip(Bitmap *bit, Font *font, Font *font2, con
 
 void Menu_multi_checkip::step() {
   Menu::step();
-  if(input->quel_key == 1 || result==cancel) {
-    input->quel_key = 0;
+  if(input->last_key.sym == SDLK_ESCAPE || result == cancel) {
+    input->last_key.sym = SDLK_UNKNOWN;
     ret();
   }
 }
@@ -2200,8 +2200,8 @@ void Menu_multi_book::init() {
 
 void Menu_multi_book::step() {
   Menu::step();
-  if(input->quel_key == KEY_ESCAPE || result==cancel) {
-    input->quel_key = 0;
+  if(input->last_key.sym == SDLK_ESCAPE || result == cancel) {
+    input->last_key.sym = SDLK_UNKNOWN;
     if(looking)
       net->gethostbyname_cancel();
     config.write();

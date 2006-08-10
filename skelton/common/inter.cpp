@@ -20,12 +20,6 @@
 
 #include "inter.h"
 
-#include "autoconf.h"
-#if defined(HAVE_SDL_H)
-#include "SDL.h"
-#elif defined(HAVE_SDL_SDL_H)
-#include "SDL/SDL.h"
-#endif
 #include <assert.h>
 #include "video.h"
 #include "bitmap.h"
@@ -491,7 +485,6 @@ void Zone_text_input::clicked(int quel) {
 		actual_len = curpos;
 		select_start = 0; // select_all by default
 		panx = 0;
-		input->deraw();
 		input->clear_key();
 		Zone_panel::clicked(quel);
 		high = true;
@@ -584,13 +577,12 @@ void Zone_text_input::lost_focus(int cancel) {
 		strcpy(st, val);
 	else
 		strcpy(val, st);
-	input->reraw();
 }
 
 void Zone_text_input::process() {
 	Byte c;
 	if(focus) {
-		for(int i=0; i<input->key_pending; i++) {
+		for(unsigned int i = 0; i < input->key_pending; ++i) {
 			c = input->key_buf[i];
 			if((c == 8) || (c == 127)) {  // backspace
 				if(!cut_selection()) { // if nothing selected has been cut,
@@ -828,16 +820,17 @@ Zone* Inter::do_frame() {
 
 	if(focus) {
 		int lost = -1;
-		if(input->quel_key == KEY_ESCAPE)
-			lost=1;
-		if(input->quel_key == KEY_ENTER || input->quel_key == KEY_PADENTER)
-			lost=0;
+		if(input->last_key.sym == SDLK_ESCAPE)
+			lost = 1;
+		if(input->last_key.sym == SDLK_RETURN
+       || input->last_key.sym == SDLK_KP_ENTER)
+			lost = 0;
 		if(lost != -1) {
 			focus->lost_focus(lost);
 			if(!kb_visible && in != focus)
 				focus->leaved();
 			focus = NULL;
-			input->quel_key = -1;
+			input->last_key.sym = SDLK_UNKNOWN;
 		}
 	} else {
 		// keyboard control stuff
@@ -846,9 +839,9 @@ Zone* Inter::do_frame() {
 				de_tag(kb_focus); // we must untag it
 				kb_focus = NULL;
 			}
-      if(kb_check_key(KEY_DOWNARROW) || kb_check_key(KEY_UPARROW) ||
-         kb_check_key(KEY_LEFTARROW) || kb_check_key(KEY_RIGHTARROW) ||
-         kb_check_key(KEY_TAB)) {
+      if(kb_check_key(SDLK_DOWN) || kb_check_key(SDLK_UP) ||
+         kb_check_key(SDLK_LEFT) || kb_check_key(SDLK_RIGHT) ||
+         kb_check_key(SDLK_TAB)) {
         kb_focus=NULL;
         if(in) {
           if(in->kb_focusable)
@@ -867,7 +860,7 @@ Zone* Inter::do_frame() {
           tag(kb_focus);
           kb_visible = true;
         }
-        input->quel_key = -1;
+        input->last_key.sym = SDLK_UNKNOWN;
       }
 		} else {
 			if(last_mouse_x != cursor->x || last_mouse_y != cursor->y || alt_tab) {
@@ -891,28 +884,28 @@ Zone* Inter::do_frame() {
 			if(kb_visible) {
 				bool bouge = false;
 				Zone *temp = NULL;
-				if(kb_check_key(KEY_DOWNARROW)) {
+				if(kb_check_key(SDLK_DOWN)) {
 					temp = kb_find_down();
 					bouge = true;
 				}
-				if(kb_check_key(KEY_TAB)) {
+				if(kb_check_key(SDLK_TAB)) {
 					temp = kb_find_next();
 					bouge = true;
 				}
-				if(kb_check_key(KEY_TAB) && input->shift_key & SHIFT) {
+				if(kb_check_key(SDLK_TAB) && input->last_key.mod & KMOD_SHIFT) {
 					temp = kb_find_prev();
 					bouge = true;
 				}
-				if(kb_check_key(KEY_UPARROW)) {
+				if(kb_check_key(SDLK_UP)) {
 					temp = kb_find_up();
 					bouge = true;
 				}
-				if(kb_check_key(KEY_RIGHTARROW)) {
+				if(kb_check_key(SDLK_RIGHT)) {
 					temp = kb_find_right();
 					if(temp)
 						bouge = true;
 				}
-				if(kb_check_key(KEY_LEFTARROW)) {
+				if(kb_check_key(SDLK_LEFT)) {
 					temp = kb_find_left();
 					if(temp)
 						bouge = true;
@@ -923,13 +916,15 @@ Zone* Inter::do_frame() {
 						tag(temp);
 						kb_focus = temp;
 					}
-					input->quel_key = -1;
+					input->last_key.sym = SDLK_UNKNOWN;
 				}
 
-				if(input->quel_key == KEY_ENTER || input->quel_key == KEY_PADENTER || kb_check_key(KEY_SPACE)) {
+				if(input->last_key.sym == SDLK_RETURN
+           || input->last_key.sym == SDLK_KP_ENTER
+           || kb_check_key(SDLK_SPACE)) {
 					if(kb_focus) {
 						select_zone(kb_focus, 0);
-						input->quel_key = -1;
+						input->last_key.sym = SDLK_UNKNOWN;
 					}
 				}
 			}
@@ -1003,7 +998,7 @@ void Inter::flush() {
 	kb_x = kb_y = 0;
 	kb_anim = 0;
 	assert(input);
-	input->quel_key = -1;
+	input->last_key.sym = SDLK_UNKNOWN;
 }
 
 void Inter::de_tag(Zone *z) {
@@ -1030,9 +1025,9 @@ void Inter::kb_free_key(const int i) {
 	kb_keys.remove_item(i);
 }
 
-bool Inter::kb_check_key(const int i) const {
-	if(input->quel_key == i) {
-		for(int j=0; j<kb_keys.size(); j++)
+bool Inter::kb_check_key(SDLKey i) const {
+	if(input->last_key.sym == i) {
+		for(int j = 0; j < kb_keys.size(); ++j)
 			if(i == kb_keys[j])
 				return false;
 		return true;

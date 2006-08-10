@@ -165,8 +165,8 @@ void Multi_player::step() {
 	}*/
 
 	if(playback && playback->auto_demo)
-		if(result || input->quel_key != -1) {
-			input->quel_key = -1;
+		if(result || input->last_key.sym != SDLK_UNKNOWN) {
+			input->last_key.sym = SDLK_UNKNOWN;
 			stop = true;
 		}
 
@@ -186,7 +186,7 @@ void Multi_player::step() {
 		}
 		stop = true;
 	}
-	if(input->quel_key == KEY_ESCAPE)
+	if(input->last_key.sym == SDLK_ESCAPE)
 		game->abort = true;
 	if(game->abort)
 		stop = true;
@@ -202,26 +202,6 @@ void Multi_player::step() {
 			*menu_stat = new Menu_stat();
 		exec(new Fade_out(pal));
 		return;
-	}
-
-	if(_debug) {
-		int snap_can = -1;
-		if(input->keys[KEY_F2] & PRESSED) {
-			input->keys[KEY_F2] = 0;
-			snap_can = 0;
-		}
-		if(input->keys[KEY_F3] & PRESSED) {
-			input->keys[KEY_F3] = 0;
-			snap_can = 1;
-		}
-		if(input->keys[KEY_F4] & PRESSED) {
-			input->keys[KEY_F4] = 0;
-			snap_can = 2;
-		}
-		if(snap_can != -1) {
-			video->vb->rect(snap_can * 214+142, 0, 60, 30, 0);
-			video->snap_shot(snap_can * 214+6, 0, 203, 401);
-		}
 	}
 }
 
@@ -396,9 +376,8 @@ void Zone_slow_play::waiting() {
 
 void Zone_slow_play::process() {
 	Zone_text_button2::process();
-	if(high && (input->keys[KEY_ENTER] & PRESSED || input->keys[KEY_SPACE] & PRESSED)) {
+	if(high && (input->keys[SDLK_RETURN] & PRESSED || input->keys[SDLK_SPACE] & PRESSED))
 		time_control = TIME_SLOW;
-	}
 }
 
 Zone_fast_play::Zone_fast_play(Inter *in, Bitmap *bit, Font *f, const char *t, int px, int py):
@@ -414,9 +393,8 @@ void Zone_fast_play::waiting() {
 
 void Zone_fast_play::process() {
 	Zone_text_button2::process();
-	if(high && (input->keys[KEY_ENTER] & PRESSED || input->keys[KEY_SPACE] & PRESSED)) {
+	if(high && (input->keys[SDLK_RETURN] & PRESSED || input->keys[SDLK_SPACE] & PRESSED))
 		time_control = TIME_FAST;
-	}
 }
 
 void Multi_player_launcher::init() {

@@ -41,8 +41,6 @@ public:
   virtual ~Input_SDL();
   virtual void clear_key();
   virtual void check();
-  virtual void deraw();
-  virtual void reraw();
 };
 
 Input* Input::New(bool dumb) {
@@ -60,12 +58,10 @@ Input* Input::New(bool dumb) {
 }
 
 Input_SDL::Input_SDL() {
-  int i;
-
   pause = false;
 
   mouse.quel = -1;
-  for(i = 0; i < 4; i++)
+  for(int i = 0; i < 4; ++i)
     mouse.button[i] = RELEASED;
 
   clear_key();
@@ -75,13 +71,10 @@ Input_SDL::~Input_SDL() {
 }
 
 void Input_SDL::clear_key() {
-  int i;
-
-  shift_key = 0;
-  quel_key = -1;
+  last_key.sym = SDLK_UNKNOWN;
   key_pending = 0;
   
-  for(i = 0; i < 256; i++)
+  for(int i = SDLK_FIRST; i < SDLK_LAST; ++i)
     keys[i] = 0;
 }
 
@@ -91,15 +84,15 @@ void Input_SDL::check() {
   while(SDL_PollEvent(&event)) {
     switch(event.type) {
     case SDL_QUIT:
-      fprintf(stderr, "event: quit\n");
       exit(0);
       break;
+
     case SDL_MOUSEMOTION:
       if(cursor)
         cursor->set_pos(event.motion.x, event.motion.y);
       break;
+
     case SDL_MOUSEBUTTONDOWN:
-      fprintf(stderr, "event: mousebuttondown\n");
       switch(event.button.button) {
       case SDL_BUTTON_LEFT:
         if(mouse.button[0] == RELEASED)
@@ -118,8 +111,8 @@ void Input_SDL::check() {
         break;
       }
       break;
+
     case SDL_MOUSEBUTTONUP:
-      fprintf(stderr, "event: mousebuttonup\n");
       switch(event.button.button) {
       case SDL_BUTTON_LEFT:
         mouse.button[0] = RELEASED;
@@ -132,50 +125,33 @@ void Input_SDL::check() {
         break;
       }
       break;
+
     case SDL_KEYDOWN:
-      fprintf(stderr, "event: keydown\n");
-      keys[event.key.keysym.scancode] |= PRESSED;
-
-      switch(event.key.keysym.mod) {
-      case SDLK_RSHIFT:
-      case SDLK_LSHIFT:
-        fprintf(stderr, "shift pressed\n");
-        shift_key |= SHIFT;
-        break;
-      case SDLK_RALT:
-      case SDLK_LALT:
-        fprintf(stderr, "alt pressed\n");
-        shift_key |= ALT;
-        break;
-      case SDLK_RCTRL:
-      case SDLK_LCTRL:
-        fprintf(stderr, "control pressed\n");
-        shift_key |= CONTROL;
-        break;
-      case SDLK_PAUSE:
+      if(event.key.keysym.sym == SDLK_p && event.key.keysym.mod & KMOD_META)
         pause = true;
-        break;
-      default:
-        quel_key = event.key.keysym.scancode;
+      else if(event.key.keysym.sym == SDLK_RETURN
+              && event.key.keysym.mod & KMOD_META)
+        video->toggle_fullscreen();
+      else if(event.key.keysym.sym == SDLK_q
+              && event.key.keysym.mod & KMOD_META)
+        exit(0);
+      else {
+        keys[event.key.keysym.sym] |= PRESSED;
+        last_key = event.key.keysym;
+        if(event.key.keysym.unicode & 0xff && key_pending < MAXKEY) {
+          key_buf[key_pending] = event.key.keysym.unicode & 0xff;
+          ++key_pending;
+        }
       }
+      break;
 
-      break;
     case SDL_KEYUP:
-      fprintf(stderr, "event: keyup\n");
-      keys[event.key.keysym.scancode] = RELEASED;
+      keys[event.key.keysym.sym] = RELEASED;
       break;
+
     default:
-      fprintf(stderr, "event: unknown\n");
       break;
     }
   }
-}
-
-void Input_SDL::deraw() {
-  assert(false);
-}
-
-void Input_SDL::reraw() {
-  assert(false);
 }
 

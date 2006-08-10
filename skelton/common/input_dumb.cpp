@@ -29,7 +29,6 @@ Input_Dumb::Input_Dumb() {
 	for(i=0; i<4; i++)
 		mouse.button[i] = 0;
 
-	quel_key = -1;
 	pause = false;
 	for(i=0; i<256; i++)
 		keys[i] = 0;
@@ -41,8 +40,6 @@ Input_Dumb::~Input_Dumb() {
 
 void Input_Dumb::clear_key() {
 	process_key(); // empties the key queue
-	shift_key = 0;
-	quel_key = -1;
 	key_pending = 0;
 	for(int i=0; i<256; i++)
 		keys[i] = 0;

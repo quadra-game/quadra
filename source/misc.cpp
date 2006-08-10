@@ -42,8 +42,8 @@ void Wait_time::step() {
 void Wait_event::step() {
 	if(ecran)
 		ecran->do_frame();
-	if(input->quel_key != -1 || (ecran && ecran->clicked)) {
-		input->quel_key = -1;
+	if(input->last_key.sym != SDLK_UNKNOWN || (ecran && ecran->clicked)) {
+		input->last_key.sym = SDLK_UNKNOWN;
 		ret();
 	}
 }
