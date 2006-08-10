@@ -58,6 +58,8 @@ Input* Input::New(bool dumb) {
 }
 
 Input_SDL::Input_SDL() {
+  SDL_EnableUNICODE(1);
+
   pause = false;
 
   mouse.quel = -1;
