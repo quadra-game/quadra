@@ -132,10 +132,13 @@ Video_bitmap_SDL::~Video_bitmap_SDL() {
 void Video_bitmap_SDL::rect(int x, int y, int w, int h, int color) const {
   SDL_Rect rect;
 
-  rect.x = x;
-  rect.y = y;
-  rect.w = w;
-  rect.h = h;
+  if(clip(x, y, w, h))
+    return;
+
+  rect.x = clip_x1 + pos_x;
+  rect.y = clip_y1 + pos_y;
+  rect.w = clip_x2 - clip_x1 + 1;
+  rect.h = clip_y2 - clip_y1 + 1;
 
   SDL_FillRect(static_cast<Video_SDL*>(video)->screen, &rect, color);
 }
@@ -215,6 +218,9 @@ void Video_SDL::end_frame() {
   }
 
   SDL_UpdateRect(screen, 0, 0, 0, 0);
+  SDL_Delay(0);
+
+  ++framecount;
 }
 
 void Video_SDL::dirty(int, int, int, int) {
@@ -248,6 +254,6 @@ void Video_SDL::snap_shot(int, int, int, int) {
 }
 
 void Video_SDL::toggle_fullscreen() {
-  assert(false);
+  SDL_WM_ToggleFullScreen(screen);
 }
 
