@@ -198,15 +198,6 @@ void Input_X11::process_key(XEvent event) {
 
     if(israw) {
       switch(key) {
-      case KEY_RSHIFT:
-      case KEY_LSHIFT:
-        break;
-      case KEY_RALT:
-      case KEY_LALT:
-        break;
-      case KEY_RCTRL:
-      case KEY_LCTRL:
-        break;
       case 101:
       case 119:
         pause = true;
@@ -241,17 +232,6 @@ void Input_X11::process_key(XEvent event) {
 
   case KeyRelease:
     keys[key] = RELEASED;
-    switch(key) {
-    case KEY_RSHIFT:
-    case KEY_LSHIFT:
-      break;
-    case KEY_RALT:
-    case KEY_LALT:
-      break;
-    case KEY_RCTRL:
-    case KEY_LCTRL:
-      break;
-    }
     break;
 
   default:

@@ -29,11 +29,9 @@
 #endif
 
 #include "types.h"
-#include "input_keys.h"
 
-#define SHIFT 1
-#define ALT 2
-#define CONTROL 4
+#define PRESSED 1
+#define RELEASED 2
 
 #define MAXKEY 32
 
