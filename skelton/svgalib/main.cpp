@@ -148,7 +148,7 @@ void delete_obj() {
   }
   if(video) {
     msgbox("deleting video...\n");
-    DELETE(video);
+    delete video;
     video=NULL;
   }
   if(music) {
