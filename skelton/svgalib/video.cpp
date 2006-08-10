@@ -28,7 +28,6 @@
 #include "SDL/SDL.h"
 #endif
 #include "video_dumb.h"
-#include "video_x11.h"
 #include "bitmap.h"
 #include "sprite.h"
 
@@ -54,30 +53,12 @@ public:
 
 Video_bitmap* Video_bitmap::New(const int px, const int py,
 				const int w, const int h, const int rw) {
-  Video_bitmap* obj;
-
   return new Video_bitmap_SDL(px, py, w, h, rw);
-
-#ifndef X_DISPLAY_MISSING
-  if((obj = Video_bitmap_X11::New(px, py, w, h, rw)))
-    return obj;
-  else
-#endif /* X_DISPLAY_MISSING */
-    return NULL;
 }
 
 Video_bitmap* Video_bitmap::New(const int px, const int py,
 				const int w, const int h) {
-  Video_bitmap* obj;
-
   return new Video_bitmap_SDL(px, py, w, h, video->pitch);
-
-#ifndef X_DISPLAY_MISSING
-  if((obj = Video_bitmap_X11::New(px, py, w, h)))
-    return obj;
-  else
-#endif /* X_DISPLAY_MISSING */
-    return NULL;
 }
 
 class Video_SDL: public Video {
@@ -100,19 +81,12 @@ public:
 };
 
 Video* Video::New(int w, int h, int b, const char *wname, bool dumb) {
-	if(dumb)
-		return Video_Dumb::New(w, h, b, wname);
-  Video* obj;
-
   assert(w == 640 && h == 480 && b == 8);
-  return new Video_SDL;
 
-#ifndef X_DISPLAY_MISSING
-  if((obj = Video_X11::New(w, h, b, wname))) {
-    return obj;
-  } else
-#endif /* X_DISPLAY_MISSING */
-    return NULL;
+  if(dumb)
+    return Video_Dumb::New(w, h, b, wname);
+  else
+    return new Video_SDL;
 }
 
 Video_bitmap_SDL::Video_bitmap_SDL(const int px, const int py,

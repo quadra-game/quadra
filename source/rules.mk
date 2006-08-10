@@ -18,7 +18,7 @@
 #
 # $Id$
 
-source/quadra: LDLIBS+=$(X_LIBS) $(SDL_LIBS) -lpng -lz
+source/quadra: LDLIBS+=$(SDL_LIBS) -lpng -lz
 source/quadra: $(QUADRA_OBJECTS) $(SDL_MAIN_OBJ) skelton/lib/libugs_s.a
 
 quadra.res: $(shell cat resources.txt) resources.txt skelton/tools/wadder/wadder

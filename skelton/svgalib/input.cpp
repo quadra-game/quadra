@@ -30,7 +30,6 @@
 #endif
 #include "video.h"
 #include "input_dumb.h"
-#include "input_x11.h"
 #include "cursor.h"
 
 Input *input = NULL;
@@ -46,15 +45,8 @@ public:
 Input* Input::New(bool dumb) {
   if(dumb)
     return new Input_Dumb();
-
-  return new Input_SDL;
-
-#ifndef X_DISPLAY_MISSING
-  if(video->xwindow)
-    return new Input_X11;
   else
-#endif
-    return NULL;
+    return new Input_SDL;
 }
 
 Input_SDL::Input_SDL() {
