@@ -21,16 +21,6 @@
 #ifndef _HEADER_SOUND
 #define _HEADER_SOUND
 
-#include "autoconf.h"
-
-#ifdef UGS_DIRECTX
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <windowsx.h>
-#include <mmsystem.h>
-#include <dsound.h>
-#endif
-
 #include "array.h"
 #include "res.h"
 
@@ -43,9 +33,6 @@ class Playing_sfx;
 class Sound {
 	friend class Sample;
 	friend class Sfx;
-#ifdef UGS_DIRECTX
-	LPDIRECTSOUND lpds;
-#endif
 #ifdef UGS_LINUX
 	int dspfd;
 	unsigned int channels;
@@ -68,19 +55,6 @@ public:
 
 class Sample {
 	friend class Sfx;
-#ifdef UGS_DIRECTX
-	BYTE *pbWaveData;
-	DWORD cbWaveSize;
-	int iAlloc;
-	int iCurrent;
-	IDirectSoundBuffer* buffers[64];
-
-	IDirectSoundBuffer *DSLoadSoundBuffer(void *res);
-	void DSFillSoundBuffer(IDirectSoundBuffer *pDSB, BYTE *pbWaveData, DWORD cbWaveSize);
-	void DSParseWaveResource(void *res, WAVEFORMATEX **ppWaveHeader, BYTE **ppbWaveData,DWORD *pcbWaveSize);
-	//void DSReloadSoundBuffer(IDirectSoundBuffer *pDSB, LPCTSTR lpName);
-	IDirectSoundBuffer *getfreebuffer();
-#endif
 #ifdef UGS_LINUX
 	void loadriff(const char *res, unsigned int size);
 	void resample(char* sample, unsigned int size, unsigned int bps);
@@ -113,9 +87,6 @@ public:
 #endif
 
 class Sfx {
-#ifdef UGS_DIRECTX
-	IDirectSoundBuffer *buf;
-#endif
 #ifdef UGS_LINUX
 	friend class Playing_sfx;
 	Playing_sfx* playing;
