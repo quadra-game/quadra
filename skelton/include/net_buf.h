@@ -91,8 +91,8 @@ public:
 		else
 			return false;
 	}
-	void read_mem(void *v, int num) {
-		if(len()<=NETBUF_SIZE-num) {
+	void read_mem(void *v, unsigned int num) {
+		if(len() <= NETBUF_SIZE - num) {
 			memcpy(v, point, num);
 			point += num;
 		}
@@ -124,7 +124,7 @@ public:
 	void reset() {
 		point = buf;
 	}
-	const int len() const {
+	const unsigned int len() const {
 		return point - buf;
 	}
 };
