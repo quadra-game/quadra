@@ -7,6 +7,8 @@ AC_ARG_WITH(libpng,
 	AS_HELP_STRING([--with-libpng], [Specify location for libpng]))
 AC_ARG_ENABLE(debug,
 	AS_HELP_STRING([--enable-debug], [debugging options]))
+AC_ARG_ENABLE(framerate,
+	AS_HELP_STRING([--enable-framerate], [framerate indicator]))
 
 if test ! -z "$with_libpng"; then
    CPPFLAGS="$CPPFLAGS -I$with_libpng"
@@ -53,6 +55,10 @@ fi
 
 if test -n "$missing_required"; then
 	AC_MSG_ERROR([Required dependencies missing.])
+fi
+
+if test "$enable_framerate" = "yes"; then
+   	AC_DEFINE(FRAMECOUNTER,, [Framerate indicator])
 fi
 
 if test "$enable_debug" != "yes"; then
