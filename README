@@ -43,3 +43,10 @@ tracking system and plenty of other goodies, so come and have fun!
 
 Good luck, and have fun!
 
+Building on Mac OS X
+--------------------
+
+FIXME...
+
+/configure --enable-debug --with-libpng=$HOME/src/libpng-1.2.10 LDFLAGS="-F$HOME/Library/Frameworks" CPPFLAGS="-I$HOME/Library/Frameworks/SDL.framework/Headers"
+
