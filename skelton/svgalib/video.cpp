@@ -117,8 +117,11 @@ void Video_bitmap_SDL::rect(int x, int y, int w, int h, int color) const {
   SDL_FillRect(static_cast<Video_SDL*>(video)->screen, &rect, color);
 }
 
-void Video_bitmap_SDL::box(int, int, int, int, int) const {
-  assert(false);
+void Video_bitmap_SDL::box(int x, int y, int w, int h, int c) const {
+  hline(y, x, w, c);
+  hline(y + h - 1, x, w, c);
+  vline(x, y, h, c);
+  vline(x + w - 1, y, h, c);
 }
 
 void Video_bitmap_SDL::put_pel(int x, int y, Byte c) const {
