@@ -31,6 +31,7 @@
 #include "video.h"
 #include "input_dumb.h"
 #include "cursor.h"
+#include "global.h"
 
 Input *input = NULL;
 
@@ -78,7 +79,7 @@ void Input_SDL::check() {
   while(SDL_PollEvent(&event)) {
     switch(event.type) {
     case SDL_QUIT:
-      exit(0);
+      quitting = true;
       break;
 
     case SDL_MOUSEMOTION:
