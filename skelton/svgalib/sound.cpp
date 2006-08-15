@@ -380,19 +380,18 @@ Sfx::Sfx(Sample *sam, Dword dwPlayFlags, int vo, int pa, int f, int pos):
     return;
 
   SDL_LockAudio();
-  if(sound->plays.size() == MAXVOICES)
-    return;
+  if(sound->plays.size() < MAXVOICES) {
+    playing = new Playing_sfx(this, sam, dwPlayFlags);
+
+    volume(vo);
+    pan(pa);
+    freq(f);
+    position(pos);
+
+    sound->start(playing);
+  }
+
   SDL_UnlockAudio();
-
-
-  playing = new Playing_sfx(this, sam, dwPlayFlags);
-
-  volume(vo);
-  pan(pa);
-  freq(f);
-  position(pos);
-
-  sound->start(playing);
 }
 
 void Sfx::pan(int pa) {
