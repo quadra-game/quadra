@@ -22,23 +22,15 @@
 
 #include <stdio.h>
 
-#include "autoconf.h"
-#ifdef HAVE_LINUX_SOUNDCARD_H
-#include <linux/soundcard.h>
-#include <sys/ioctl.h>
-#endif
-
+#include "byteorder.h"
 #include "error.h"
+#include "main.h"
 #include "types.h"
 
-#include "main.h"
-#include "byteorder.h"
-
-#define SOUNDDEV "/dev/dsp"
-#define CHUNKSIZEBITS 13
 #define CHANNELNUMBER 2
 #define SAMPLINGRATE 44100
-#define BITSPERSAMPLE 16
+#define AUDIOFORMAT AUDIO_S16
+//#define AUDIOFORMAT AUDIO_U8
 #define MAXVOICES 8
 #define VOLUMESHIFT 2
 
@@ -72,194 +64,135 @@ struct fmt_chunk {
 
 Sound *sound = NULL;
 
-#ifndef HAVE_LINUX_SOUNDCARD_H
+Sound::Sound(): active(false) {
+  SDL_AudioSpec wantedspec;
 
-Sound::Sound(): dspfd(-1), fragsize(0), fragbuf(NULL), active(false) {
-}
+  memset(&wantedspec, 0, sizeof(wantedspec));
+  wantedspec.freq = SAMPLINGRATE;
+  wantedspec.format = AUDIOFORMAT;
+  wantedspec.channels = CHANNELNUMBER;
+  wantedspec.callback = Sound::process;
 
-void Sound::process() {
-}
-
-Sound::~Sound() {
-}
-
-Sample::Sample(Res& re, int nb): audio_data(NULL), sampling(0),
-                                 length(0), refcount(1) {
-}
-
-Sample::~Sample() {
-}
-
-Sfx::Sfx(Sample *sam, Dword dwPlayFlags, int vo, int pa, int f, int pos):
-  playing(NULL) {
-}
-
-Sfx::~Sfx() {
-}
-
-#else
-
-Sound::Sound(): dspfd(-1), fragsize(0), fragbuf(NULL), active(false) {
-  int i;
-
-  dspfd = open(SOUNDDEV, O_WRONLY);
-  if(dspfd == -1) {
-    perror(SOUNDDEV);
+  if(SDL_OpenAudio(&wantedspec, &spec) == -1) {
+    skelton_msgbox("SDL_OpenAudio failed: %s\n", SDL_GetError());
     return;
   }
 
-  i = 0x00020000 | CHUNKSIZEBITS;
-  if(ioctl(dspfd, SNDCTL_DSP_SETFRAGMENT, &i) == -1) {
-    perror(SOUNDDEV);
-    return;
-  }
-
-  if(i != (0x00020000 | CHUNKSIZEBITS)) {
-    skelton_msgbox("sound: warning, could not set fragment size\n");
-  }
-
-  if(ioctl(dspfd, SNDCTL_DSP_GETBLKSIZE, &fragsize) == -1) {
-    perror(SOUNDDEV);
-    return;
-  }
-
-  fragbuf = malloc(fragsize);
-
-  bps = BITSPERSAMPLE;
-  if(ioctl(dspfd, SNDCTL_DSP_SAMPLESIZE, &bps) == -1) {
-    perror(SOUNDDEV);
-    return;
-  }
-
-  if(bps != BITSPERSAMPLE) {
-    skelton_msgbox("sound: warning, could not set sample size to %i bits\n", BITSPERSAMPLE);
-  }
-
-  channels = CHANNELNUMBER;
-  if(ioctl(dspfd, SNDCTL_DSP_CHANNELS, &channels) == -1) {
-    perror(SOUNDDEV);
-    return;
-  }
-
-  if(channels != CHANNELNUMBER) {
-    skelton_msgbox("sound: warning, could not set number of channels\n");
-  }
-
-  if(channels != 1 && channels != 2) {
-    skelton_msgbox("  Sound card doesn't support neither mono or stereo output. Sound disabled.\n");
-    return;
-  }
-
-  sampling = SAMPLINGRATE;
-  if(ioctl(dspfd, SNDCTL_DSP_SPEED, &sampling) == -1) {
-    perror(SOUNDDEV);
-    return;
-  }
-
-  if(sampling != SAMPLINGRATE) {
+  if(spec.freq != SAMPLINGRATE)
     skelton_msgbox("sound: warning, could not set sampling rate\n");
+
+  if(spec.format != AUDIOFORMAT)
+    skelton_msgbox("sound: warning, did not get preferred audio format\n");
+
+  if(spec.format != AUDIO_S16 && spec.format != AUDIO_U8) {
+    skelton_msgbox("sound: unsupported audio format, disabling\n");
+    SDL_CloseAudio();
+    return;
   }
+
+  if(spec.channels != CHANNELNUMBER)
+    skelton_msgbox("sound: warning, could not set number of channels\n");
+
+  if(spec.channels != 1 && spec.channels != 2) {
+    skelton_msgbox("sound: neither mono or stereo supported, disabling\n");
+    SDL_CloseAudio();
+    return;
+  }
+
+  SDL_PauseAudio(0);
 
   active = true;
   skelton_msgbox("Sound::Sound: opened succesfully.\n");
 }
 
-void Sound::process() {
+void Sound::process(void *userdata, Uint8 *stream, int len) {
   unsigned int i;
-  audio_buf_info info;
 
-  if(ioctl(dspfd, SNDCTL_DSP_GETOSPACE, &info) == -1)
-    return;
+  memset(stream, sound->spec.silence, len);
+  unsigned int frag_temp = len;
 
-  if(info.fragments == 0)
-    return;
-
-  memset(fragbuf, 0, fragsize);
-  unsigned int frag_temp = fragsize;
-
-  if(bps == 16)
+  if(sound->spec.format == AUDIO_S16)
     frag_temp = frag_temp >> 1;
 
-  if(channels == 2)
+  if(sound->spec.channels == 2)
     frag_temp = frag_temp >> 1;
 
-  for(i = 0; i < (unsigned int)plays.size(); i++) {
-    Playing_sfx* p = plays[i];
+  for(i = 0; i < (unsigned int)sound->plays.size(); i++) {
+    Playing_sfx* p = sound->plays[i];
 
-    if(bps == 8) { // if 8-bit output
-      Byte* output = (Byte*)fragbuf;
+    if(sound->spec.format == AUDIO_U8) { // if 8-bit output
+      Byte* output = (Byte*)stream;
       Byte* input = (Byte*)p->sam->audio_data;
 
       for(unsigned int j=0; j<frag_temp; j++) {
-	Byte tmpl = *(input + p->pos);
-	Byte tmpr;
+        Byte tmpl = *(input + p->pos);
+        Byte tmpr;
 
-	tmpl = ((int) tmpl * p->vo) >> 8;
+        tmpl = ((int) tmpl * p->vo) >> 8;
 
-	if(channels == 2) { // stereo output
-	  tmpr = tmpl;
-	  if(p->pa > 0)
-	    tmpl = ((int) tmpl * (p->pa)) >> 8;
-	  else if(p->pa < 0)
-	    tmpr = ((int) tmpr * (-p->pa)) >> 8;
+        if(sound->spec.channels == 2) { // stereo output
+          tmpr = tmpl;
+          if(p->pa > 0)
+            tmpl = ((int) tmpl * (p->pa)) >> 8;
+          else if(p->pa < 0)
+            tmpr = ((int) tmpr * (-p->pa)) >> 8;
 
-	  *output++ += tmpr;
-	}
+          *output++ += tmpr;
+        }
 
-	*output++ += tmpl;
+        *output++ += tmpl;
 
-	if(p->delta_position + p->delta_inc < p->delta_position)
-	  p->pos++; /* if delta overflows */
+        if(p->delta_position + p->delta_inc < p->delta_position)
+          p->pos++; /* if delta overflows */
 
-	p->delta_position += p->delta_inc;
-	p->pos += p->inc;
-	if((unsigned int)p->pos >= p->sam->length)
-	  break;
+        p->delta_position += p->delta_inc;
+        p->pos += p->inc;
+        if((unsigned int)p->pos >= p->sam->length)
+          break;
       }
-    } else { // if 16-bit output
-      signed short* output = (signed short*)fragbuf;
+    } else { // AUDIO_S16 format
+      signed short* output = (signed short*)stream;
       signed short* input = (signed short*)p->sam->audio_data;
       signed short w;
 
       for(unsigned int j=0; j<frag_temp; j++) {
-	signed short tmpl = INTELWORD(*(input + p->pos));
-	tmpl = (tmpl * p->vo) >> 8;
-	if(channels == 2) { // stereo output
-	  signed short tmpr = tmpl;
-	  if(p->pa > 0)
-	    tmpl = (tmpl * (p->pa)) >> 8;
-	  else if(p->pa < 0)
-	    tmpr = (tmpr * (-p->pa)) >> 8;
+        signed short tmpl = INTELWORD(*(input + p->pos));
+        tmpl = (tmpl * p->vo) >> 8;
+        if(sound->spec.channels == 2) { // stereo output
+          signed short tmpr = tmpl;
+          if(p->pa > 0)
+            tmpl = (tmpl * (p->pa)) >> 8;
+          else if(p->pa < 0)
+            tmpr = (tmpr * (-p->pa)) >> 8;
 
           w = INTELWORD(*output);
-	  *output++ = INTELWORD(tmpr + w);
-	}
+          *output++ = INTELWORD(tmpr + w);
+        }
         w = INTELWORD(*output);
-	*output++ = INTELWORD(tmpl + w);
-	if(p->delta_position + p->delta_inc < p->delta_position) {
-	  p->pos++; /* if delta overflows */
-	}
+        *output++ = INTELWORD(tmpl + w);
+        if(p->delta_position + p->delta_inc < p->delta_position) {
+          p->pos++; /* if delta overflows */
+        }
 
-	p->delta_position += p->delta_inc;
-	p->pos += p->inc;
-	if((unsigned int)p->pos >= p->sam->length)
-	  break;
+        p->delta_position += p->delta_inc;
+        p->pos += p->inc;
+        if((unsigned int)p->pos >= p->sam->length)
+          break;
       }
     }
 
     if((unsigned int)p->pos >= p->sam->length) {
-      plays.remove(i);
+      sound->plays.remove(i);
       i--;
       delete p;
     }
   }
-
-  write(dspfd, fragbuf, fragsize);
 }
 
 void Sound::delete_sample(Sample *sam) {
   /* we have to destroy all the sounds that use a Sample before
      we destroy that Sample! */
+  SDL_LockAudio();
   for(int i=0; i<plays.size(); i++) {
     Playing_sfx *p = plays[i];
     if(p->sam == sam) {
@@ -268,18 +201,18 @@ void Sound::delete_sample(Sample *sam) {
       delete p;
     }
   }
+  SDL_UnlockAudio();
 }
 
 void Sound::start(Playing_sfx* play) {
+  SDL_LockAudio();
   plays.add(play);
+  SDL_UnlockAudio();
 }
 
 Sound::~Sound() {
-  if(dspfd != -1)
-    close(dspfd);
-
-  if(fragbuf)
-    free(fragbuf);
+  if(active)
+    SDL_CloseAudio();
 }
 
 Sample::Sample(Res& re, int nb): audio_data(NULL), sampling(0),
@@ -367,8 +300,8 @@ void Sample::loadriff(const char *res, unsigned int len) {
 void Sample::resample(char* sample, unsigned int size, unsigned int bps) {
   unsigned int i;
 
-  length = (size * (sound->sampling >> 7)) / (sampling >> 7);
-  length = (length * sound->bps) / bps;
+  length = (size * (sound->spec.freq >> 7)) / (sampling >> 7);
+  length = (length * (sound->spec.format & 0xff)) / bps;
 
   audio_data = malloc(length); // length is in bytes here
 
@@ -376,7 +309,7 @@ void Sample::resample(char* sample, unsigned int size, unsigned int bps) {
     (void)new Error("Couldn't allocate sample");
 
   if(bps == 8) {
-    if(sound->bps == 16)
+    if((sound->spec.format & 0xff) == 16)
       length = length >> 1; // transforms length into a short
 
     unsigned int pos, inc, delta, delta_pos, old_pos;
@@ -389,7 +322,7 @@ void Sample::resample(char* sample, unsigned int size, unsigned int bps) {
       int tube;
       signed short w;
       if(pos == old_pos && ((bps == 8 && pos < size-1) || (bps == 16 && pos < size - 1))) {
-	if(sound->bps == 8) {
+	if((sound->spec.format & 0xff) == 8) {
 	  tube = (Byte)sample[pos+1] >> VOLUMESHIFT;
 	  // cheap interpolation
 	  tube = (tube+((Byte *)audio_data)[i-1]) >> 1;
@@ -400,13 +333,13 @@ void Sample::resample(char* sample, unsigned int size, unsigned int bps) {
 	  tube = (tube+w) >> 1;
 	}
       } else {
-	if(sound->bps == 8)
+	if((sound->spec.format & 0xff) == 8)
 	  tube = (Byte)sample[pos] >> VOLUMESHIFT;
 	else
 	  tube = (128 - (Byte)sample[pos]) << (8-VOLUMESHIFT);
 	old_pos = pos;
       }
-      if(sound->bps == 8)
+      if((sound->spec.format & 0xff) == 8)
 	((Byte *)audio_data)[i] = tube;
       else
 	((signed short*)audio_data)[i] = INTELWORD(tube);
@@ -425,9 +358,6 @@ Sample::~Sample() {
   if(audio_data)
     free(audio_data);
   if (refcount) msgbox("hrm -- deleting Sample with non-zero refcount?\n");
-}
-
-void Sample::stop() {
 }
 
 Playing_sfx::Playing_sfx(Sfx* thesfx, Sample *thesam, Dword theflags):
@@ -449,8 +379,11 @@ Sfx::Sfx(Sample *sam, Dword dwPlayFlags, int vo, int pa, int f, int pos):
   if(!sound || !sam || !sound->active)
     return;
 
+  SDL_LockAudio();
   if(sound->plays.size() == MAXVOICES)
     return;
+  SDL_UnlockAudio();
+
 
   playing = new Playing_sfx(this, sam, dwPlayFlags);
 
@@ -460,10 +393,6 @@ Sfx::Sfx(Sample *sam, Dword dwPlayFlags, int vo, int pa, int f, int pos):
   position(pos);
 
   sound->start(playing);
-}
-
-void Sfx::stop() {
-  /* TODO: whistling innocently... */
 }
 
 void Sfx::pan(int pa) {
@@ -485,13 +414,13 @@ void Sfx::pan(int pa) {
 void Sfx::freq(int pa) {
   if(!playing) // the sound is already finished!
     return;
-  pa = pa * sound->sampling / playing->sam->sampling;
+  pa = pa * sound->spec.freq / playing->sam->sampling;
   // we must adjust the asked frequency according the original
   // frequency of the sample
   playing->f = pa;
-  playing->inc = pa / sound->sampling; // compute the whole increment
+  playing->inc = pa / sound->spec.freq; // compute the whole increment
   // then compute the delta increment which will overflow at 2^32
-  playing->delta_inc =  (unsigned int) (4294967295U / sound->sampling) * (pa % sound->sampling);
+  playing->delta_inc =  (unsigned int) (4294967295U / sound->spec.freq) * (pa % sound->spec.freq);
 }
 
 void Sfx::volume(int pa) {
@@ -508,7 +437,7 @@ void Sfx::position(int pa) {
   if(pa == -1)
     pa = 0;
 
-  pa = pa * sound->sampling / playing->sam->sampling;
+  pa = pa * sound->spec.freq / playing->sam->sampling;
   // we have to adjust the asked position according to the original
   // frequency of the sample
   playing->pos = pa;
@@ -520,4 +449,3 @@ Sfx::~Sfx() {
     playing->sfx = NULL;
 }
 
-#endif

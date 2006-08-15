@@ -21,57 +21,45 @@
 #ifndef _HEADER_SOUND
 #define _HEADER_SOUND
 
+#include "autoconf.h"
+#if defined(HAVE_SDL_H)
+#include "SDL.h"
+#elif defined(HAVE_SDL_SDL_H)
+#include "SDL/SDL.h"
+#endif
 #include "array.h"
 #include "res.h"
 
 class Sample;
 class Sfx;
-#ifdef UGS_LINUX
 class Playing_sfx;
-#endif
 
 class Sound {
 	friend class Sample;
 	friend class Sfx;
-#ifdef UGS_LINUX
-	int dspfd;
-	unsigned int channels;
-	unsigned int sampling;
-	unsigned int bps;
-	unsigned int fragsize;
-	void *fragbuf;
+  SDL_AudioSpec spec;
 	Array<Playing_sfx*> plays;
-#endif
+	static void process(void *userdata, Uint8 *stream, int len);
 public:
 	bool active;
 	Sound();
-#ifdef UGS_LINUX
-	void process();
 	void start(Playing_sfx* play);
-#endif
 	void delete_sample(Sample *sam);
 	virtual ~Sound();
 };
 
 class Sample {
 	friend class Sfx;
-#ifdef UGS_LINUX
 	void loadriff(const char *res, unsigned int size);
 	void resample(char* sample, unsigned int size, unsigned int bps);
-#endif
 public:
-#ifdef UGS_LINUX
 	void *audio_data;
 	unsigned int sampling;
 	unsigned int length;
-#endif
 	Sample(Res& re, int nb);
 	virtual ~Sample();
-	void stop();
 	int refcount;
 };
-
-#ifdef UGS_LINUX
 
 class Playing_sfx {
 public:
@@ -84,23 +72,17 @@ public:
 	Playing_sfx(Sfx* thesfx, Sample *thesam, Dword theflags=0);
 	virtual ~Playing_sfx();
 };
-#endif
 
 class Sfx {
-#ifdef UGS_LINUX
 	friend class Playing_sfx;
 	Playing_sfx* playing;
-#endif
 public:
 	Sfx(Sample *sam, Dword dwPlayFlags=0, int vo = -1, int pa = -1, int f = -1, int pos = -1);
-	void stop();
 	void pan(int pa);  //-4000=left 0=center 4000=right
 	void freq(int pa); //200=low  60000=very high
 	void volume(int pa);  //0=full .. -4000=nil
 	void position(int pa);
-#ifdef UGS_LINUX
 	virtual ~Sfx();
-#endif
 };
 
 extern Sound* sound;

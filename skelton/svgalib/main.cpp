@@ -63,8 +63,6 @@ Time_mode time_control = TIME_NORMAL;
 char cmd_line[1024];
 
 void start_frame() {
-  if(sound)
-    sound->process();
   input->check();
   video->start_frame();
 }
