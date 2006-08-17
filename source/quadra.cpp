@@ -430,7 +430,7 @@ void Player_base::play_sound(Sample *s, int vol, int pan, int freq) {
 		freq = freq*2/3;
 	if(time_control == TIME_FAST)
 		freq = freq*3/2;
-	Sfx stmp(s, 0, vol, pan, freq);
+  Sound::play(s, vol, pan, freq);
 }
 
 Player_text_scroll::Player_text_scroll(Canvas *c, const char *texte, int xoffset, int yoffset): Player_base(c) {
@@ -1873,107 +1873,39 @@ void init_stuff(bool need_sound=true, bool need_video=true) {
 		music = NULL;
 
 	for(i=0; i<256; i++)
-		noir.setcolor(i, 40,40,40);
+		noir.setcolor(i, 40, 40, 40);
 
 	chat_text = new Chat_text(fonts.normal, 212);
 	net_starter = new Net_starter();
-	{
-		Res_doze res("cuckoo.wav");
-		sons.pause = new Sample(res, 2);
-	}
-	{
-		Res_doze res("hooter03.wav");
-		sons.start = new Sample(res,2);
-	}
-	{
-		Res_doze res("Whizz1.wav");
-		sons.bonus1 = new Sample(res, 2);
-	}
-	{
-		Res_doze res("glissup.wav");
-		sons.levelup = new Sample(res, 2);
-	}
-	{
-		Res_doze res("Clang3.wav");
-		sons.depose4 = new Sample(res, 2); // quand le canvas 'coule'
-	}
+  sons.pause = new Sample(Res_doze("cuckoo.wav"));
+  sons.start = new Sample(Res_doze("hooter03.wav"));
+  sons.bonus1 = new Sample(Res_doze("Whizz1.wav"));
+  sons.levelup = new Sample(Res_doze("glissup.wav"));
+  // when the canvas 'flows'
+  sons.depose4 = new Sample(Res_doze("Clang3.wav"));
 	sons.flash = NULL;
 	sons.depose3 = NULL;
 	sons.depose2 = NULL;
 	sons.depose = NULL;
 	sons.drip = NULL;
-	{
-		Res_doze res("Glass01.wav");
-		sons.glass = new Sample(res, 2);
-	}
-	{
-		Res_doze res("Tapdrip.wav");
-		sons.enter = new Sample(res, 2);
-	}
-	{
-		Res_doze res("W_BAYO_0.wav");
-		sons.fadein = new Sample(res, 2);
-	}
-	{
-		Res_doze res("fadeout.wav");
-		sons.fadeout = new Sample(res, 2);
-	}
-	{
-		Res_doze res("click_1.wav");
-		sons.point = new Sample(res, 2);
-	}
-	{
-		Res_doze res("Blip1.wav");
-		sons.click = new Sample(res, 2);
-	}
-	{
-		Res_doze res("handbell.wav");
-		sons.msg = new Sample(res, 2);
-	}
-	{
-		Res_doze res("potato_get.wav");
-		sons.potato_get = new Sample(res, 2);
-	}
-	{
-		Res_doze res("zingle.wav");
-		sons.potato_rid = new Sample(res, 2);
-	}
-	{ //-roncli 4/29/01 Load countdown samples
-		Res_doze res("t1min.wav");
-		sons.minute = new Sample(res, 2);
-	}
-	{
-		Res_doze res("t30sec.wav");
-		sons.thirty = new Sample(res, 2);
-	}
-	{
-		Res_doze res("t20sec.wav");
-		sons.twenty = new Sample(res, 2);
-	}
-	{
-		Res_doze res("t10sec.wav");
-		sons.ten = new Sample(res, 2);
-	}
-	{
-		Res_doze res("t5sec.wav");
-		sons.five = new Sample(res, 2);
-	}
-	{
-		Res_doze res("t4sec.wav");
-		sons.four = new Sample(res, 2);
-	}
-	{
-		Res_doze res("t3sec.wav");
-		sons.three = new Sample(res, 2);
-	}
-	{
-		Res_doze res("t2sec.wav");
-		sons.two = new Sample(res, 2);
-	}
-	{
-		Res_doze res("t1sec.wav");
-		sons.one = new Sample(res, 2);
-	}
+  sons.glass = new Sample(Res_doze("Glass01.wav"));
+  sons.enter = new Sample(Res_doze("Tapdrip.wav"));
+  sons.fadein = new Sample(Res_doze("W_BAYO_0.wav"));
+  sons.fadeout = new Sample(Res_doze("fadeout.wav"));
+  sons.point = new Sample(Res_doze("click_1.wav"));
+  sons.click = new Sample(Res_doze("Blip1.wav"));
+  sons.msg = new Sample(Res_doze("handbell.wav"));
+  sons.potato_get = new Sample(Res_doze("potato_get.wav"));
+  sons.potato_rid = new Sample(Res_doze("zingle.wav"));
+  sons.minute = new Sample(Res_doze("t1min.wav"));
+  sons.thirty = new Sample(Res_doze("t30sec.wav"));
+  sons.twenty = new Sample(Res_doze("t20sec.wav"));
+  sons.ten = new Sample(Res_doze("t10sec.wav"));
+  sons.five = new Sample(Res_doze("t5sec.wav"));
+  sons.four = new Sample(Res_doze("t4sec.wav"));
+  sons.three = new Sample(Res_doze("t3sec.wav"));
+  sons.two = new Sample(Res_doze("t2sec.wav"));
+  sons.one = new Sample(Res_doze("t1sec.wav"));
 	cursor = new Cursor;
 	for(i=0; i<8; i++)
 		fteam[i] = new Font(*fonts.normal);

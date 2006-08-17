@@ -583,33 +583,35 @@ void Net_list::check_end_game(bool end_it) {
 	if(!game->terminated && !end_signaled && !game->paused) {
 		if(game->game_end == END_TIME) {
 			time_left = game->game_end_value - gettimer();
-			switch(time_left) { //-roncli 4/29/01 Moved sound effects for countdown into this switch.
+      // 2001-04-29: Moved sound effects for countdown into this
+      // switch. -- roncli
+			switch(time_left) {
 				case 6000:
-					{ Sfx stmp(sons.minute, 0, 0, -1, 11025); }
+          Sound::play(sons.minute, 0, -1, 11025);
 					break;
 				case 3000:
-					{ Sfx stmp(sons.thirty, 0, 0, -1, 11025); }
+					Sound::play(sons.thirty, 0, -1, 11025);
 					break;
 				case 2000:
-					{ Sfx stmp(sons.twenty, 0, 0, -1, 11025); }
+					Sound::play(sons.twenty, 0, -1, 11025);
 					break;
 				case 1000:
-					{ Sfx stmp(sons.ten, 0, 0, -1, 11025); }
+					Sound::play(sons.ten, 0, -1, 11025);
 					break;
 				case 500:
-					{ Sfx stmp(sons.five, 0, 0, -1, 11025); }
+					Sound::play(sons.five, 0, -1, 11025);
 					break;
 				case 400:
-					{ Sfx stmp(sons.four, 0, 0, -1, 11025); }
+					Sound::play(sons.four, 0, -1, 11025);
 					break;
 				case 300:
-					{ Sfx stmp(sons.three, 0, 0, -1, 11025); }
+					Sound::play(sons.three, 0, -1, 11025);
 					break;
 				case 200:
-					{ Sfx stmp(sons.two, 0, 0, -1, 11025); }
+					Sound::play(sons.two, 0, -1, 11025);
 					break;
 				case 100:
-					{ Sfx stmp(sons.one, 0, 0, -1, 11025); }
+					Sound::play(sons.one, 0, -1, 11025);
 					break;
 			}
 			switch(time_left) {
@@ -662,7 +664,7 @@ void Net_list::check_end_game(bool end_it) {
 				sprintf(st2, ST_BOBBOBSREMAINING, remaining, unit);
 				strcat(st, st2);
 				message(-1, st);
-				{ Sfx stmp(sons.depose4, 0, -300, -1, 22500 - freq_change); }
+				Sound::play(sons.depose4, -300, -1, 22500 - freq_change);
 			}
 		}
 	}
@@ -691,9 +693,9 @@ void Net_list::check_end_game(bool end_it) {
 				//  (still suspense! :))
 				sprintf(st, ST_GAMETIED);
 				message(-1, st);
-				{ Sfx stmp(sons.levelup, 0, 0, -1, 18050); }
-				{ Sfx stmp(sons.levelup, 0, 0, -1, 18100); }
-				{ Sfx stmp(sons.levelup, 0, 0, -1, 18150); }
+				Sound::play(sons.levelup, 0, -1, 18050);
+				Sound::play(sons.levelup, 0, -1, 18100);
+				Sound::play(sons.levelup, 0, -1, 18150);
 			}
 		}
 		else
@@ -748,7 +750,7 @@ void Net_list::check_end_game(bool end_it) {
 		game->removepacket();
 		game->endgame();
 		message(-1, ST_GAMEEND);
-		Sfx stmp(sons.start, 0, -300, 0, 11025);
+    Sound::play(sons.start, -300, 0, 11025);
 		Packet_serverlog log("playing_end_signal");
 		log.add(Packet_serverlog::Var("reason", reason));
 		if(game->net_server)

@@ -762,26 +762,11 @@ void Canvas::change_level(const int level, Palette *pal, Bitmap *bit) {
       foo4="Tapdrip.wav";
       break;
   }
-  {
-    Res_doze res(foo0);
-    sons.flash = new Sample(res, 2); // when we do a ligne (flash)
-  }
-  {
-    Res_doze res(foo1);
-    sons.depose3 = new Sample(res, 2); // drop
-  }
-  {
-    Res_doze res(foo2);
-    sons.depose2 = new Sample(res, 2); // drop
-  }
-  {
-    Res_doze res(foo3);
-    sons.depose = new Sample(res, 2); // drop
-  }
-  {
-    Res_doze res(foo4);
-    sons.drip = new Sample(res, 2); // rotate
-  }
+  sons.flash = new Sample(Res_doze(foo0)); // when we do a ligne (flash)
+  sons.depose3 = new Sample(Res_doze(foo1)); // drop
+  sons.depose2 = new Sample(Res_doze(foo2)); // drop
+  sons.depose = new Sample(Res_doze(foo3)); // drop
+  sons.drip = new Sample(Res_doze(foo4)); // rotate
 }
 
 void Canvas::clear_tmp() {

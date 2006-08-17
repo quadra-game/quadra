@@ -163,7 +163,7 @@ Menu_highscore::Menu_highscore(int hscore, int *playagain, bool show_playb) {
       (void)new Zone_text_numeric(courrier2, inter, &Highscores::bestlocal[i].score, x+160, y, 80);
       (void)new Zone_text_numeric(courrier2, inter, &Highscores::bestlocal[i].lines, x+260, y, 80);
       (void)new Zone_text_numeric(courrier2, inter, &Highscores::bestlocal[i].level, x+360, y, 80);
-      Sfx stmp(sons.levelup, 0, 0, 0, 11000);
+      Sound::play(sons.levelup, 0, 0, 11000);
     } else {
       (void)new Zone_text(inter, Highscores::bestlocal[i].name, x, y);
       (void)new Zone_text_numeric(courrier, inter, &Highscores::bestlocal[i].score, x+160, y, 80);
@@ -1306,7 +1306,7 @@ Menu_help::Menu_help() {
 
 void Menu_help::init() {
   Menu_standard::init();
-  Sfx stmp(sons.levelup, 0, 0, 0, 11000);
+  Sound::play(sons.levelup, 0, 0, 11000);
 }
 
 void Menu_help::step() {
@@ -1484,76 +1484,6 @@ void Menu_intro::step() {
 
 Menu_intro::~Menu_intro() {
   delete font2;
-}
-
-Menu_guy::Menu_guy() {
-#if 0
-  /* FIXME: we should remove this */
-  Bitmap *bit;
-  {
-    Res_doze res("xlogo.png");
-    Png pcx(res);
-    bit = new Bitmap(pcx);
-    pal.load(pcx);
-  }
-  (void)new Zone_bitmap(inter, bit, 0, 0, true);
-  /*{
-    Res_doze res("Raglamp.wav");
-    son = new Sample(res, 2);
-  }*/
-#endif
-}
-
-Menu_guy::~Menu_guy() {
-  //delete son;
-}
-
-void Menu_guy::init() {
-  Menu::init();
-  call(new Fade_to(pal, noir, 64));
-}
-
-void Menu_guy::step() {
-  Menu::step();
-  exec(new Menu_intro());
-  call(new Fade_to(noir, pal, 64));
-  call(new Wait_time(300));
-  //Sfx stmp(son, 0, 0, 0, 22050);
-}
-
-Menu_ugs::Menu_ugs() {
-#if 0
-  /* FIXME: this should be removed */
-  Bitmap *bit;
-  {
-    Res_doze res("Ugs.pcx");
-    Pcx pcx(res);
-    bit = new Bitmap(pcx);
-    pal.load(pcx);
-  }
-  new Zone_bitmap(inter, bit, 0, 0, true);
-  {
-    Res_doze res("Flamenco.wav");
-    son = new Sample(res, 2);
-  }
-#endif
-}
-
-Menu_ugs::~Menu_ugs() {
-  delete son;
-}
-
-void Menu_ugs::init() {
-  Menu::init();
-  call(new Fade_to(pal, noir, 64));
-}
-
-void Menu_ugs::step() {
-  Menu::step();
-  exec(new Menu_main());
-  call(new Fade_to(noir, pal, 64));
-  call(new Wait_time(300));
-  Sfx stmp(son, 0, 0, 0, 22050);
 }
 
 void Menu_main_startmusic::init() {

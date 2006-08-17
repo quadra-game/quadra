@@ -31,58 +31,40 @@
 #include "res.h"
 
 class Sample;
-class Sfx;
 class Playing_sfx;
 
 class Sound {
 	friend class Sample;
-	friend class Sfx;
+  friend class Playing_sfx;
   SDL_AudioSpec spec;
 	Array<Playing_sfx*> plays;
-	static void process(void *userdata, Uint8 *stream, int len);
+	static void audio_callback(void *userdata, Uint8 *stream, int len);
 public:
 	bool active;
+
+	static void play(Sample *_sam, int _vol, int _pan, int _freq);
 	Sound();
-	void start(Playing_sfx* play);
 	void delete_sample(Sample *sam);
 	virtual ~Sound();
 };
 
 class Sample {
-	friend class Sfx;
+  friend class Sound;
+  friend class Playing_sfx;
+  void load(Res& re);
 	void loadriff(const char *res, unsigned int size);
 	void resample(char* sample, unsigned int size, unsigned int bps);
-public:
 	void *audio_data;
 	unsigned int sampling;
 	unsigned int length;
-	Sample(Res& re, int nb);
-	virtual ~Sample();
-	int refcount;
-};
-
-class Playing_sfx {
 public:
-	Sfx* sfx;
-	Sample *sam;
-	Dword flags;
-	unsigned int vo, f, pos;
-	int pa;
-	unsigned int delta_inc, delta_position, inc;
-	Playing_sfx(Sfx* thesfx, Sample *thesam, Dword theflags=0);
-	virtual ~Playing_sfx();
-};
-
-class Sfx {
-	friend class Playing_sfx;
-	Playing_sfx* playing;
-public:
-	Sfx(Sample *sam, Dword dwPlayFlags=0, int vo = -1, int pa = -1, int f = -1, int pos = -1);
-	void pan(int pa);  //-4000=left 0=center 4000=right
-	void freq(int pa); //200=low  60000=very high
-	void volume(int pa);  //0=full .. -4000=nil
-	void position(int pa);
-	virtual ~Sfx();
+	unsigned int refcount;
+	Sample(Res& re);
+  // It's a mystery to me why the previous constructor isn't
+  // sufficient, but on recent versions of gcc, it isn't, so here we
+  // are.
+  Sample(Res_doze re);
+	~Sample();
 };
 
 extern Sound* sound;

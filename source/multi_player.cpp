@@ -237,7 +237,7 @@ void Multi_player::check_pause() {
 		pause = game->paused;
 		if(pause) {
 			if(game->delay_start == 0) // prevents the sound at the start
-				Sfx stmp(sons.pause, 0, -300, 0, 11025);
+        Sound::play(sons.pause, -300, 0, 11025);
 			zone_pause = new Zone_sprite(inter, "gamepaus.png");
 		} else {
 			if(zone_pause)
@@ -248,7 +248,7 @@ void Multi_player::check_pause() {
 	} else {
 		if(game->delay_start && game->delay_start != 500) {
 			if(game->delay_start == 1) {
-				Sfx stmp(sons.start, 0, -300, 0, 11025);
+        Sound::play(sons.start, -300, 0, 11025);
 				return;
 			}
 			int chiffre = game->delay_start / 100;
@@ -259,7 +259,7 @@ void Multi_player::check_pause() {
 				sprintf(st, "game_%i.png", chiffre+1);
 				zone_pause = new Zone_sprite(inter, st);
 				last_countdown = chiffre;
-				Sfx stmp(sons.pause, 0, -300, 0, 20025);
+        Sound::play(sons.pause, -300, 0, 20025);
 			}
 		}
 	}

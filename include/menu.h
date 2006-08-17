@@ -54,24 +54,6 @@ public:
 	virtual void step();
 };
 
-class Menu_guy: public Menu {
-	Sample *son;
-public:
-	Menu_guy();
-	virtual ~Menu_guy();
-	virtual void init();
-	virtual void step();
-};
-
-class Menu_ugs: public Menu {
-	Sample *son;
-public:
-	Menu_ugs();
-	virtual ~Menu_ugs();
-	virtual void init();
-	virtual void step();
-};
-
 class Menu_main_startmusic: public Module {
 public:
 	virtual void init();

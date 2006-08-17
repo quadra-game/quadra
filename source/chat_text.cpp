@@ -84,7 +84,7 @@ void Chat_text::add_text(int team, const char *text, bool sound) {
 	new_text = true;
 
 	if(game && !game->single && team != -1 && sound)
-		Sfx stmp(sons.fadeout, 0, -200, 0, 28000);
+    Sound::play(sons.fadeout, -200, 0, 28000);
 }
 
 void Chat_text::scroll_up() {
@@ -121,7 +121,7 @@ void Chat_text::net_call(Packet *p2) {
 	if(ok || (game && game->server)) {
 		if(last_sound-overmind.framecount>=4) {
 			last_sound=overmind.framecount;
-			Sfx stmp(sons.msg, 0, 0, 0, 11025);
+      Sound::play(sons.msg, 0, 0, 11025);
 		}
 		message(p->team|16, p->text, false, true, !ok);
 	}

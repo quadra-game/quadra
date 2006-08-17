@@ -225,43 +225,43 @@ Zone_menu::~Zone_menu() {
 }
 
 void Zone_menu::entered() {
-	Sfx stmp(sons.point, 0, -2000, 0, 22000+ugs_random.rnd(2047));
+  Sound::play(sons.point, -2000, 0, 22000 + ugs_random.rnd(2047));
 	Zone_bitmap::entered();
 }
 
 void Zone_menu::clicked(int quel) {
-	Sfx stmp(sons.click, 0, -1000, 0, 14000+ugs_random.rnd(511));
+  Sound::play(sons.click, -1000, 0, 14000 + ugs_random.rnd(511));
 	Zone_bitmap::clicked(quel);
 }
 
 void Zone_listbox2::clicked(int quel) {
-	Sfx stmp(sons.enter, 0, -800, 0, 28000+ugs_random.rnd(1023));
+  Sound::play(sons.enter, -800, 0, 28000 + ugs_random.rnd(1023));
 	Zone_listbox::clicked(quel);
 }
 
 void Zone_state_text2::clicked(int quel) {
-	Sfx stmp(sons.enter, 0, -800, 0, 26000+ugs_random.rnd(1023));
+  Sound::play(sons.enter, -800, 0, 26000 + ugs_random.rnd(1023));
 	Zone_state_text::clicked(quel);
 	notify_all();
 }
 
 void Zone_text_select2::entered() {
-	Sfx stmp(sons.enter, 0, -1000, 0, 22000+ugs_random.rnd(1023));
+  Sound::play(sons.enter, -1000, 0, 22000 + ugs_random.rnd(1023));
 	Zone_text_select::entered();
 }
 
 void Zone_text_select2::clicked(int quel) {
-	Sfx stmp(sons.glass, 0, -200, 0, 14000+ugs_random.rnd(511));
+  Sound::play(sons.glass, -200, 0, 14000 + ugs_random.rnd(511));
 	Zone_text_select::clicked(quel);
 }
 
 void Zone_text_button2::entered() {
-	Sfx stmp(sons.enter, 0, -1000, 0, 22000+ugs_random.rnd(1023));
+  Sound::play(sons.enter, -1000, 0, 22000 + ugs_random.rnd(1023));
 	Zone_text_button::entered();
 }
 
 void Zone_text_button2::clicked(int quel) {
-	Sfx stmp(sons.glass, 0, -200, 0, 14000+ugs_random.rnd(511));
+  Sound::play(sons.glass, -200, 0, 14000 + ugs_random.rnd(511));
 	Zone_text_button::clicked(quel);
 }
 

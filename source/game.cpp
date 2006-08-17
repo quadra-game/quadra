@@ -402,7 +402,7 @@ void Game::got_potato(Byte team, int lines) {
 			if(c->islocal()) {
 				c->add_text_scroller(ST_YOUGOTPOTATO1, 4, -20);
 				c->add_text_scroller(ST_YOUGOTPOTATO2, 4);
-				Sfx stmp(sons.potato_get, 0, -1200, 0, 44100);
+        Sound::play(sons.potato_get, -1200, 0, 44100);
 			}
 			c->potato_lines=0;
 			c->team_potato_lines=0;
@@ -433,7 +433,7 @@ void Game::done_potato(Byte team) {
 			if(c->islocal() && !(c->dying || c->idle>=2)) {
 				c->add_text_scroller(ST_YOUGOTRIDOFPOTATO1, 4, -40);
 				c->add_text_scroller(ST_YOUGOTRIDOFPOTATO2, 4, -20);
-				Sfx stmp(sons.potato_rid, 0, -300, 0, 11025);
+        Sound::play(sons.potato_rid, -300, 0, 11025);
 			}
 			int x, y;
 			for(y = 0; y < 36; y++)

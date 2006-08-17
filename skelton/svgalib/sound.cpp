@@ -64,6 +64,28 @@ struct fmt_chunk {
 
 Sound *sound = NULL;
 
+class Playing_sfx {
+public:
+	Sample *sam;
+	unsigned int vo, f, pos;
+	int pa;
+	unsigned int delta_inc, delta_position, inc;
+	Playing_sfx(Sample *_sam, int _vol, int _pan, int _freq);
+	virtual ~Playing_sfx();
+};
+
+void Sound::play(Sample *_sam, int _vol, int _pan, int _freq) {
+  if(!sound || !sound->active || !_sam)
+    return;
+
+  SDL_LockAudio();
+
+  if(sound->plays.size() < MAXVOICES)
+    sound->plays.add(new Playing_sfx(_sam, _vol, _pan, _freq));
+
+  SDL_UnlockAudio();
+}
+
 Sound::Sound(): active(false) {
   SDL_AudioSpec wantedspec;
 
@@ -71,7 +93,7 @@ Sound::Sound(): active(false) {
   wantedspec.freq = SAMPLINGRATE;
   wantedspec.format = AUDIOFORMAT;
   wantedspec.channels = CHANNELNUMBER;
-  wantedspec.callback = Sound::process;
+  wantedspec.callback = Sound::audio_callback;
 
   if(SDL_OpenAudio(&wantedspec, &spec) == -1) {
     skelton_msgbox("SDL_OpenAudio failed: %s\n", SDL_GetError());
@@ -105,7 +127,7 @@ Sound::Sound(): active(false) {
   skelton_msgbox("Sound::Sound: opened succesfully.\n");
 }
 
-void Sound::process(void *userdata, Uint8 *stream, int len) {
+void Sound::audio_callback(void *userdata, Uint8 *stream, int len) {
   unsigned int i;
 
   memset(stream, sound->spec.silence, len);
@@ -204,19 +226,24 @@ void Sound::delete_sample(Sample *sam) {
   SDL_UnlockAudio();
 }
 
-void Sound::start(Playing_sfx* play) {
-  SDL_LockAudio();
-  plays.add(play);
-  SDL_UnlockAudio();
-}
-
 Sound::~Sound() {
   if(active)
     SDL_CloseAudio();
 }
 
-Sample::Sample(Res& re, int nb): audio_data(NULL), sampling(0),
-                                 length(0), refcount(1) {
+Sample::Sample(Res& re):
+  audio_data(NULL), sampling(0),
+  length(0), refcount(1) {
+  load(re);
+}
+
+Sample::Sample(Res_doze re):
+  audio_data(NULL), sampling(0),
+  length(0), refcount(1) {
+  load(re);
+}
+
+void Sample::load(Res& re) {
   char *buffer;
   Dword size;
 
@@ -232,13 +259,15 @@ Sample::Sample(Res& re, int nb): audio_data(NULL), sampling(0),
 void Sample::loadriff(const char *res, unsigned int len) {
   bool seenfmt = false;
 
-  char *sample=NULL;
-  unsigned int size=0, bps=0;
+  char *sample = NULL;
+  unsigned int size = 0, bps = 0;
 
-  if(((struct riff_header *)res)->signature != INTELDWORD(0x46464952)) /* 'RIFF' */
+  /* 'RIFF' */
+  if(((struct riff_header *)res)->signature != INTELDWORD(0x46464952))
     (void)new Error("Bad RIFF signature");
 
-  if(((struct riff_header *)res)->type != INTELDWORD(0x45564157)) /* 'WAVE' */
+  /* 'WAVE' */
+  if(((struct riff_header *)res)->type != INTELDWORD(0x45564157))
     (void)new Error("RIFF is not a WAVE");
 
   char *ptr = (char *)res + sizeof(struct riff_header);
@@ -256,26 +285,23 @@ void Sample::loadriff(const char *res, unsigned int len) {
     switch(header_type) {
     case 0x20746d66: /* 'fmt ' */
       seenfmt = true;
-
       {
+        Word w = UNALIGNEDWORD(((struct fmt_chunk *)data)->channels);
+        w = INTELWORD(w);
 
-      Word w = UNALIGNEDWORD(((struct fmt_chunk *)data)->channels);
-      w = INTELWORD(w);
+        if(w != 1)
+          (void)new Error("RIFF/WAVE: unsupported number of channels");
 
-      if(w != 1)
-	(void)new Error("RIFF/WAVE: unsupported number of channels");
-
-      Dword d = UNALIGNEDDWORD(((struct fmt_chunk *)data)->sampling);
-      sampling = INTELDWORD(d);
-      w = UNALIGNEDWORD(((struct fmt_chunk *)data)->bitspersample);
-      bps = INTELWORD(w);
-      size = 0;
-
+        Dword d = UNALIGNEDDWORD(((struct fmt_chunk *)data)->sampling);
+        sampling = INTELDWORD(d);
+        w = UNALIGNEDWORD(((struct fmt_chunk *)data)->bitspersample);
+        bps = INTELWORD(w);
+        size = 0;
       }
       break;
     case 0x61746164: /* 'data' */
       if(!seenfmt)
-	(void)new Error("RIFF/WAVE: 'data' subchunk seen before 'fmt ' subchunk");
+        (void)new Error("RIFF/WAVE: 'data' subchunk seen before 'fmt ' subchunk");
 
       sample = (char*)realloc(sample, size+header_size);
       memcpy(sample+size, data, header_size);
@@ -322,31 +348,31 @@ void Sample::resample(char* sample, unsigned int size, unsigned int bps) {
       int tube;
       signed short w;
       if(pos == old_pos && ((bps == 8 && pos < size-1) || (bps == 16 && pos < size - 1))) {
-	if((sound->spec.format & 0xff) == 8) {
-	  tube = (Byte)sample[pos+1] >> VOLUMESHIFT;
-	  // cheap interpolation
-	  tube = (tube+((Byte *)audio_data)[i-1]) >> 1;
-	} else {
-	  tube = (128 - (Byte)sample[pos+1]) << (8-VOLUMESHIFT);
-	  // cheap interpolation
+        if((sound->spec.format & 0xff) == 8) {
+          tube = (Byte)sample[pos+1] >> VOLUMESHIFT;
+          // cheap interpolation
+          tube = (tube+((Byte *)audio_data)[i-1]) >> 1;
+        } else {
+          tube = (128 - (Byte)sample[pos+1]) << (8-VOLUMESHIFT);
+          // cheap interpolation
           w = INTELWORD(((signed short *)audio_data)[i-1]);
-	  tube = (tube+w) >> 1;
-	}
+          tube = (tube+w) >> 1;
+        }
       } else {
-	if((sound->spec.format & 0xff) == 8)
-	  tube = (Byte)sample[pos] >> VOLUMESHIFT;
-	else
-	  tube = (128 - (Byte)sample[pos]) << (8-VOLUMESHIFT);
-	old_pos = pos;
+        if((sound->spec.format & 0xff) == 8)
+          tube = (Byte)sample[pos] >> VOLUMESHIFT;
+        else
+          tube = (128 - (Byte)sample[pos]) << (8-VOLUMESHIFT);
+        old_pos = pos;
       }
       if((sound->spec.format & 0xff) == 8)
-	((Byte *)audio_data)[i] = tube;
+        ((Byte *)audio_data)[i] = tube;
       else
-	((signed short*)audio_data)[i] = INTELWORD(tube);
+        ((signed short*)audio_data)[i] = INTELWORD(tube);
 
       pos += inc;
       if(delta_pos + delta < delta_pos) // if delta overflows
-	pos++;
+        pos++;
       delta_pos += delta;
     }
   } else {
@@ -357,94 +383,43 @@ void Sample::resample(char* sample, unsigned int size, unsigned int bps) {
 Sample::~Sample() {
   if(audio_data)
     free(audio_data);
-  if (refcount) msgbox("hrm -- deleting Sample with non-zero refcount?\n");
+  if(refcount)
+    msgbox("hrm -- deleting Sample with non-zero refcount?\n");
 }
 
-Playing_sfx::Playing_sfx(Sfx* thesfx, Sample *thesam, Dword theflags):
-  sfx(thesfx), sam(thesam), flags(theflags), vo(0), f(0), pos(0),
-  pa(0), delta_inc(0), delta_position(0), inc(0) {
-     sam->refcount++;
+Playing_sfx::Playing_sfx(Sample *_sam, int _vol, int _pan, int _freq):
+  sam(_sam), pos(0),
+  delta_position(0) {
+  ++sam->refcount;
+
+  if(_vol < -4096)
+    _vol = -4096;
+  vo = (_vol + 4096) >> 4;
+
+  if(_pan < -4096)
+    _pan = -4096;
+  if(_pan > 4096)
+    _pan = 4096;
+  _pan = _pan >> 4;
+  if(_pan > 0)
+    pa = 256 - _pan;
+  else if(_pan < 0)
+    pa = -_pan - 256;
+  else if(_pan == 0)
+    pa = 0;
+
+  _freq = _freq * sound->spec.freq / sam->sampling;
+  // we must adjust the asked frequency according the original
+  // frequency of the sample
+  f = _freq;
+  // compute the whole increment
+  inc = _freq / sound->spec.freq;
+  // then compute the delta increment which will overflow at 2^32
+  delta_inc =  (unsigned int) (4294967295U / sound->spec.freq) * (_freq % sound->spec.freq);
 }
 
 Playing_sfx::~Playing_sfx() {
-   if (--sam->refcount == 0) {
+   if (--sam->refcount == 0)
       delete sam;
-   }
-  if(sfx)
-    sfx->playing = NULL;
-}
-
-Sfx::Sfx(Sample *sam, Dword dwPlayFlags, int vo, int pa, int f, int pos):
-  playing(NULL) {
-  if(!sound || !sam || !sound->active)
-    return;
-
-  SDL_LockAudio();
-  if(sound->plays.size() < MAXVOICES) {
-    playing = new Playing_sfx(this, sam, dwPlayFlags);
-
-    volume(vo);
-    pan(pa);
-    freq(f);
-    position(pos);
-
-    sound->start(playing);
-  }
-
-  SDL_UnlockAudio();
-}
-
-void Sfx::pan(int pa) {
-  if(!playing) // the sound is already finished playing
-    return;
-  if(pa < -4096)
-    pa = -4096;
-  if(pa > 4096)
-    pa = 4096;
-  pa = pa >> 4;
-  if(pa > 0)
-    playing->pa = 256-pa;
-  else if(pa < 0)
-    playing->pa = -pa-256;
-  else if(pa == 0)
-    playing->pa = 0;
-}
-
-void Sfx::freq(int pa) {
-  if(!playing) // the sound is already finished!
-    return;
-  pa = pa * sound->spec.freq / playing->sam->sampling;
-  // we must adjust the asked frequency according the original
-  // frequency of the sample
-  playing->f = pa;
-  playing->inc = pa / sound->spec.freq; // compute the whole increment
-  // then compute the delta increment which will overflow at 2^32
-  playing->delta_inc =  (unsigned int) (4294967295U / sound->spec.freq) * (pa % sound->spec.freq);
-}
-
-void Sfx::volume(int pa) {
-  if(!playing) // the sound is already finished!
-    return;
-  if(pa < -4096)
-    pa = -4096;
-  playing->vo = (pa+4096) >> 4;
-}
-
-void Sfx::position(int pa) {
-  if(!playing) // the sound is already finished!
-    return;
-  if(pa == -1)
-    pa = 0;
-
-  pa = pa * sound->spec.freq / playing->sam->sampling;
-  // we have to adjust the asked position according to the original
-  // frequency of the sample
-  playing->pos = pa;
-  playing->delta_position = 0;
-}
-
-Sfx::~Sfx() {
-  if(playing)
-    playing->sfx = NULL;
 }
 
