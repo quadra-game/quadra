@@ -18,6 +18,6 @@
 #
 # $Id$
 
-skelton/tools/wadder/wadder: $(WADDER_OBJECTS) skelton/lib/libugs_s.a
+skelton/tools/wadder/wadder: $(WADDER_OBJECTS)
 	$(LINK.cc) -o $@ $^
 

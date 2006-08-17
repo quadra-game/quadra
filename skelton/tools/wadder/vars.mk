@@ -19,6 +19,13 @@
 # $Id$
 
 WADDER_OBJECTS:=$(patsubst %.cpp,%.o,$(wildcard skelton/tools/wadder/*.cpp))
+WADDER_OBJECTS+= \
+	skelton/common/resfile.o \
+	skelton/common/resmanager.o \
+	skelton/common/reswriter.o \
+	skelton/common/stringtable.o \
+	skelton/svgalib/error.o \
+	skelton/svgalib/res.o
 
 CLEAN+=$(WADDER_OBJECTS) skelton/tools/wadder/wadder
 
