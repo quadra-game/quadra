@@ -101,13 +101,7 @@ void set_team_name(Byte team, const char *name) {
       game->net_server->record_packet(&log);
 }
 
-bool quitting=false;
-
-void quit_fast() {
-	quitting=true;
-	if(sound)
-		sound->active=false;
-}
+bool quitting = false;
 
 const char built[]=
 "Built on " \

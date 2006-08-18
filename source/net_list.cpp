@@ -573,7 +573,7 @@ void Net_list::check_end_game(bool end_it) {
 			else {
 				//Quit when -dedicated -once and all connections are gone
 				if(net->connections.size()==1 && video_is_dumb)
-					quit_fast();
+          quitting = true;
 			}
 		}
 	}
@@ -1843,7 +1843,7 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 		game->net_server->clientpause(&p);
 	}
 	if(!strcmp(cmd, "quit") && trusted) {
-		quit_fast();
+    quitting = true;
 		send_end_signal(false);
 		send_msg(nc, "Shutting down server");
 	}

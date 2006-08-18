@@ -64,30 +64,57 @@ struct fmt_chunk {
 
 Sound *sound = NULL;
 
+class SampleData {
+  unsigned int refcnt;
+
+  ~SampleData() {
+    if(audio_data)
+      free(audio_data);
+  }
+  
+public:
+	void *audio_data;
+	unsigned int sampling;
+	unsigned int length;
+
+  SampleData(void* _data, unsigned int _freq, unsigned int _len):
+    refcnt(1), audio_data(_data), sampling(_freq), length(_len) {
+  }
+  void ref() {
+    ++refcnt;
+  }
+  void unref() {
+    if(--refcnt == 0)
+      delete this;
+  }
+};
+
 class Playing_sfx {
 public:
-	Sample *sam;
+	SampleData *sam;
 	unsigned int vo, f, pos;
 	int pa;
 	unsigned int delta_inc, delta_position, inc;
-	Playing_sfx(Sample *_sam, int _vol, int _pan, int _freq);
+	Playing_sfx(SampleData *_sam, int _vol, int _pan, int _freq, int _realfreq);
 	virtual ~Playing_sfx();
 };
 
 void Sound::play(Sample *_sam, int _vol, int _pan, int _freq) {
-  if(!sound || !sound->active || !_sam)
+  if(!sound || !_sam | !_sam->data)
     return;
 
   SDL_LockAudio();
 
   if(sound->plays.size() < MAXVOICES)
-    sound->plays.add(new Playing_sfx(_sam, _vol, _pan, _freq));
+    sound->plays.add(new Playing_sfx(_sam->data, _vol, _pan, _freq,
+                                     sound->spec.freq));
 
   SDL_UnlockAudio();
 }
 
-Sound::Sound(): active(false) {
+Sound* Sound::New() {
   SDL_AudioSpec wantedspec;
+  SDL_AudioSpec spec;
 
   memset(&wantedspec, 0, sizeof(wantedspec));
   wantedspec.freq = SAMPLINGRATE;
@@ -97,7 +124,7 @@ Sound::Sound(): active(false) {
 
   if(SDL_OpenAudio(&wantedspec, &spec) == -1) {
     skelton_msgbox("SDL_OpenAudio failed: %s\n", SDL_GetError());
-    return;
+    return NULL;
   }
 
   if(spec.freq != SAMPLINGRATE)
@@ -109,7 +136,7 @@ Sound::Sound(): active(false) {
   if(spec.format != AUDIO_S16 && spec.format != AUDIO_U8) {
     skelton_msgbox("sound: unsupported audio format, disabling\n");
     SDL_CloseAudio();
-    return;
+    return NULL;
   }
 
   if(spec.channels != CHANNELNUMBER)
@@ -118,20 +145,22 @@ Sound::Sound(): active(false) {
   if(spec.channels != 1 && spec.channels != 2) {
     skelton_msgbox("sound: neither mono or stereo supported, disabling\n");
     SDL_CloseAudio();
-    return;
+    return NULL;
   }
 
-  SDL_PauseAudio(0);
+  return new Sound(spec);
+}
 
-  active = true;
-  skelton_msgbox("Sound::Sound: opened succesfully.\n");
+Sound::Sound(const SDL_AudioSpec& _spec):
+  spec(_spec) {
+  SDL_PauseAudio(0);
+  skelton_msgbox("sound: opened succesfully.\n");
 }
 
 void Sound::audio_callback(void *userdata, Uint8 *stream, int len) {
-  unsigned int i;
-
   memset(stream, sound->spec.silence, len);
-  unsigned int frag_temp = len;
+
+  unsigned int frag_temp(len);
 
   if(sound->spec.format == AUDIO_S16)
     frag_temp = frag_temp >> 1;
@@ -139,7 +168,7 @@ void Sound::audio_callback(void *userdata, Uint8 *stream, int len) {
   if(sound->spec.channels == 2)
     frag_temp = frag_temp >> 1;
 
-  for(i = 0; i < (unsigned int)sound->plays.size(); i++) {
+  for(unsigned int i = 0; i < (unsigned int)sound->plays.size(); i++) {
     Playing_sfx* p = sound->plays[i];
 
     if(sound->spec.format == AUDIO_U8) { // if 8-bit output
@@ -211,56 +240,27 @@ void Sound::audio_callback(void *userdata, Uint8 *stream, int len) {
   }
 }
 
-void Sound::delete_sample(Sample *sam) {
-  /* we have to destroy all the sounds that use a Sample before
-     we destroy that Sample! */
-  SDL_LockAudio();
-  for(int i=0; i<plays.size(); i++) {
-    Playing_sfx *p = plays[i];
-    if(p->sam == sam) {
-      plays.remove(i);
-      i--;
-      delete p;
-    }
-  }
-  SDL_UnlockAudio();
-}
-
 Sound::~Sound() {
-  if(active)
-    SDL_CloseAudio();
+  SDL_CloseAudio();
 }
 
-Sample::Sample(Res& re):
-  audio_data(NULL), sampling(0),
-  length(0), refcount(1) {
-  load(re);
+Sample::Sample(Res& re) {
+  if(sound)
+    loadriff(re);
 }
 
-Sample::Sample(Res_doze re):
-  audio_data(NULL), sampling(0),
-  length(0), refcount(1) {
-  load(re);
+Sample::Sample(Res_doze re) {
+  if(sound)
+    loadriff(re);
 }
 
-void Sample::load(Res& re) {
-  char *buffer;
-  Dword size;
-
-  if(!sound)
-    return;
-
-  buffer = (char *)re.buf();
-  size = re.size();
-
-  loadriff(buffer, size);
-}
-
-void Sample::loadriff(const char *res, unsigned int len) {
-  bool seenfmt = false;
-
-  char *sample = NULL;
-  unsigned int size = 0, bps = 0;
+void Sample::loadriff(Res& _res) {
+  const char* res(static_cast<const char *>(_res.buf()));
+  unsigned int len(_res.size());
+  bool seenfmt(false);
+	unsigned int sampling(0);
+  char *sample(NULL);
+  unsigned int size(0), bps(0);
 
   /* 'RIFF' */
   if(((struct riff_header *)res)->signature != INTELDWORD(0x46464952))
@@ -318,51 +318,52 @@ void Sample::loadriff(const char *res, unsigned int len) {
   if(!sample)
     (void)new Error("Error loading sample");
 
-  resample(sample, size, bps);
+  data = sound->normalize(sample, size, sampling, bps);
 
   free(sample);
 }
 
-void Sample::resample(char* sample, unsigned int size, unsigned int bps) {
-  unsigned int i;
+SampleData* Sound::normalize(char* _sample, unsigned int _size,
+                             unsigned int _freq, unsigned int _bps) {
+	unsigned int length;
 
-  length = (size * (sound->spec.freq >> 7)) / (sampling >> 7);
-  length = (length * (sound->spec.format & 0xff)) / bps;
+  length = (_size * (sound->spec.freq >> 7)) / (_freq >> 7);
+  length = (length * (sound->spec.format & 0xff)) / _bps;
 
-  audio_data = malloc(length); // length is in bytes here
+	void *audio_data = malloc(length); // length is in bytes here
 
   if(!audio_data)
     (void)new Error("Couldn't allocate sample");
 
-  if(bps == 8) {
+  if(_bps == 8) {
     if((sound->spec.format & 0xff) == 16)
       length = length >> 1; // transforms length into a short
 
     unsigned int pos, inc, delta, delta_pos, old_pos;
     pos = delta_pos = 0;
     old_pos = 1;
-    inc = size / length;
-    delta = (unsigned int) (4294967295U / length) * (size % length);
+    inc = _size / length;
+    delta = (unsigned int) (4294967295U / length) * (_size % length);
 
-    for(i = 0; i < length; i++) {
+    for(unsigned int i = 0; i < length; i++) {
       int tube;
       signed short w;
-      if(pos == old_pos && ((bps == 8 && pos < size-1) || (bps == 16 && pos < size - 1))) {
+      if(pos == old_pos && ((_bps == 8 && pos < _size - 1) || (_bps == 16 && pos < _size - 1))) {
         if((sound->spec.format & 0xff) == 8) {
-          tube = (Byte)sample[pos+1] >> VOLUMESHIFT;
+          tube = (Byte)_sample[pos+1] >> VOLUMESHIFT;
           // cheap interpolation
           tube = (tube+((Byte *)audio_data)[i-1]) >> 1;
         } else {
-          tube = (128 - (Byte)sample[pos+1]) << (8-VOLUMESHIFT);
+          tube = (128 - (Byte)_sample[pos+1]) << (8-VOLUMESHIFT);
           // cheap interpolation
           w = INTELWORD(((signed short *)audio_data)[i-1]);
           tube = (tube+w) >> 1;
         }
       } else {
         if((sound->spec.format & 0xff) == 8)
-          tube = (Byte)sample[pos] >> VOLUMESHIFT;
+          tube = (Byte)_sample[pos] >> VOLUMESHIFT;
         else
-          tube = (128 - (Byte)sample[pos]) << (8-VOLUMESHIFT);
+          tube = (128 - (Byte)_sample[pos]) << (8-VOLUMESHIFT);
         old_pos = pos;
       }
       if((sound->spec.format & 0xff) == 8)
@@ -375,22 +376,20 @@ void Sample::resample(char* sample, unsigned int size, unsigned int bps) {
         pos++;
       delta_pos += delta;
     }
-  } else {
+  } else
     (void)new Error("Sound: wave 16-bit not currently supported");
-  }
+
+  return new SampleData(audio_data, _freq, length);
 }
 
 Sample::~Sample() {
-  if(audio_data)
-    free(audio_data);
-  if(refcount)
-    msgbox("hrm -- deleting Sample with non-zero refcount?\n");
+  if(data)
+    data->unref();
 }
 
-Playing_sfx::Playing_sfx(Sample *_sam, int _vol, int _pan, int _freq):
-  sam(_sam), pos(0),
-  delta_position(0) {
-  ++sam->refcount;
+Playing_sfx::Playing_sfx(SampleData *_sam, int _vol, int _pan, int _freq, int _realfreq):
+  sam(_sam), pos(0), delta_position(0) {
+  sam->ref();
 
   if(_vol < -4096)
     _vol = -4096;
@@ -408,18 +407,17 @@ Playing_sfx::Playing_sfx(Sample *_sam, int _vol, int _pan, int _freq):
   else if(_pan == 0)
     pa = 0;
 
-  _freq = _freq * sound->spec.freq / sam->sampling;
+  _freq = _freq * _realfreq / sam->sampling;
   // we must adjust the asked frequency according the original
   // frequency of the sample
   f = _freq;
   // compute the whole increment
-  inc = _freq / sound->spec.freq;
+  inc = _freq / _realfreq;
   // then compute the delta increment which will overflow at 2^32
-  delta_inc =  (unsigned int) (4294967295U / sound->spec.freq) * (_freq % sound->spec.freq);
+  delta_inc =  (unsigned int) (4294967295U / _realfreq) * (_freq % _realfreq);
 }
 
 Playing_sfx::~Playing_sfx() {
-   if (--sam->refcount == 0)
-      delete sam;
+  sam->unref();
 }
 

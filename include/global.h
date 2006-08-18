@@ -45,6 +45,4 @@ enum Drop_reason {
 	DROP_LAST
 };
 
-void quit_fast();
-
 #endif

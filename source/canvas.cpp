@@ -679,16 +679,11 @@ void Canvas::change_level(const int level, Palette *pal, Bitmap *bit) {
   video->need_paint = 2;
   delete res;
 
-  if(sons.flash && (--sons.flash->refcount == 0))
-    delete sons.flash;
-  if(sons.depose3 && (--sons.depose3->refcount == 0))
-    delete sons.depose3;
-  if(sons.depose2 && (--sons.depose2->refcount == 0))
-    delete sons.depose2;
-  if(sons.depose && (--sons.depose->refcount == 0))
-    delete sons.depose;
-  if(sons.drip && (--sons.drip->refcount == 0))
-    delete sons.drip;
+  delete sons.flash;
+  delete sons.depose3;
+  delete sons.depose2;
+  delete sons.depose;
+  delete sons.drip;
 
   sons.flash = sons.depose3 = sons.depose2 = sons.depose = sons.drip = NULL;
   char *foo0, *foo1, *foo2, *foo3, *foo4;

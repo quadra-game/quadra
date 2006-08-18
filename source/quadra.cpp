@@ -1857,13 +1857,9 @@ void init_stuff(bool need_sound=true, bool need_video=true) {
 	fonts.init();
 	//If we init a dumb video, we need a dumb input too
 	input = Input::New(!need_video);
-	if(need_sound && need_video) { // don't need sound if no video
-		sound = new Sound();
-		if(!sound->active) {
-			delete sound;
-			sound = NULL;
-		}
-	}
+  // don't need sound if no video
+	if(need_sound && need_video)
+		sound = Sound::New();
 	else
 		sound = NULL;
 

@@ -31,38 +31,30 @@
 #include "res.h"
 
 class Sample;
+class SampleData;
 class Playing_sfx;
 
 class Sound {
-	friend class Sample;
-  friend class Playing_sfx;
   SDL_AudioSpec spec;
 	Array<Playing_sfx*> plays;
 	static void audio_callback(void *userdata, Uint8 *stream, int len);
+	Sound(const SDL_AudioSpec& _spec);
 public:
-	bool active;
-
 	static void play(Sample *_sam, int _vol, int _pan, int _freq);
-	Sound();
-	void delete_sample(Sample *sam);
-	virtual ~Sound();
+  static Sound* New();
+  SampleData* normalize(char* _sample, unsigned int _size,
+                        unsigned int _freq, unsigned int _bps);
+	~Sound();
 };
 
 class Sample {
   friend class Sound;
-  friend class Playing_sfx;
-  void load(Res& re);
-	void loadriff(const char *res, unsigned int size);
-	void resample(char* sample, unsigned int size, unsigned int bps);
-	void *audio_data;
-	unsigned int sampling;
-	unsigned int length;
+  SampleData* data;
+	void loadriff(Res& _res);
 public:
-	unsigned int refcount;
 	Sample(Res& re);
   // It's a mystery to me why the previous constructor isn't
-  // sufficient, but on recent versions of gcc, it isn't, so here we
-  // are.
+  // sufficient, but it isn't, so here we are.
   Sample(Res_doze re);
 	~Sample();
 };
