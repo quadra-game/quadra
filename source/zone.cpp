@@ -225,43 +225,43 @@ Zone_menu::~Zone_menu() {
 }
 
 void Zone_menu::entered() {
-  Sound::play(sons.point, -2000, 0, 22000 + ugs_random.rnd(2047));
+  sons.point->play(-2000, 0, 22000 + ugs_random.rnd(2047));
 	Zone_bitmap::entered();
 }
 
 void Zone_menu::clicked(int quel) {
-  Sound::play(sons.click, -1000, 0, 14000 + ugs_random.rnd(511));
+  sons.click->play(-1000, 0, 14000 + ugs_random.rnd(511));
 	Zone_bitmap::clicked(quel);
 }
 
 void Zone_listbox2::clicked(int quel) {
-  Sound::play(sons.enter, -800, 0, 28000 + ugs_random.rnd(1023));
+  sons.enter->play(-800, 0, 28000 + ugs_random.rnd(1023));
 	Zone_listbox::clicked(quel);
 }
 
 void Zone_state_text2::clicked(int quel) {
-  Sound::play(sons.enter, -800, 0, 26000 + ugs_random.rnd(1023));
+  sons.enter->play(-800, 0, 26000 + ugs_random.rnd(1023));
 	Zone_state_text::clicked(quel);
 	notify_all();
 }
 
 void Zone_text_select2::entered() {
-  Sound::play(sons.enter, -1000, 0, 22000 + ugs_random.rnd(1023));
+  sons.enter->play(-1000, 0, 22000 + ugs_random.rnd(1023));
 	Zone_text_select::entered();
 }
 
 void Zone_text_select2::clicked(int quel) {
-  Sound::play(sons.glass, -200, 0, 14000 + ugs_random.rnd(511));
+  sons.glass->play(-200, 0, 14000 + ugs_random.rnd(511));
 	Zone_text_select::clicked(quel);
 }
 
 void Zone_text_button2::entered() {
-  Sound::play(sons.enter, -1000, 0, 22000 + ugs_random.rnd(1023));
+  sons.enter->play(-1000, 0, 22000 + ugs_random.rnd(1023));
 	Zone_text_button::entered();
 }
 
 void Zone_text_button2::clicked(int quel) {
-  Sound::play(sons.glass, -200, 0, 14000 + ugs_random.rnd(511));
+  sons.glass->play(-200, 0, 14000 + ugs_random.rnd(511));
 	Zone_text_button::clicked(quel);
 }
 

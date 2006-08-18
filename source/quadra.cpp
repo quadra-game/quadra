@@ -430,7 +430,7 @@ void Player_base::play_sound(Sample *s, int vol, int pan, int freq) {
 		freq = freq*2/3;
 	if(time_control == TIME_FAST)
 		freq = freq*3/2;
-  Sound::play(s, vol, pan, freq);
+  s->play(vol, pan, freq);
 }
 
 Player_text_scroll::Player_text_scroll(Canvas *c, const char *texte, int xoffset, int yoffset): Player_base(c) {

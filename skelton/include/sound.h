@@ -30,7 +30,6 @@
 #include "array.h"
 #include "res.h"
 
-class Sample;
 class SampleData;
 class Playing_sfx;
 
@@ -40,15 +39,14 @@ class Sound {
 	static void audio_callback(void *userdata, Uint8 *stream, int len);
 	Sound(const SDL_AudioSpec& _spec);
 public:
-	static void play(Sample *_sam, int _vol, int _pan, int _freq);
   static Sound* New();
   SampleData* normalize(char* _sample, unsigned int _size,
                         unsigned int _freq, unsigned int _bps);
+  void start(SampleData* _sam, int _vol, int _pan, int _freq);
 	~Sound();
 };
 
 class Sample {
-  friend class Sound;
   SampleData* data;
 	void loadriff(Res& _res);
 public:
@@ -56,6 +54,7 @@ public:
   // It's a mystery to me why the previous constructor isn't
   // sufficient, but it isn't, so here we are.
   Sample(Res_doze re);
+	void play(int _vol, int _pan, int _freq);
 	~Sample();
 };
 

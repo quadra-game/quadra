@@ -1099,7 +1099,7 @@ void Chat_interface::Zone_to_team::clicked(int quel) {
 		}
 	} while(vide);
 
-  Sound::play(sons.enter, -800, 0, 26000 + ugs_random.rnd(1023));
+  sons.enter->play(-800, 0, 26000 + ugs_random.rnd(1023));
 }
 
 Chat_interface::Chat_interface(Inter *in, const Palette &pal, Bitmap *bit, int px, int py, int pw, int ph, Video_bitmap *scr): Zone(in) {

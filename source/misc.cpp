@@ -69,12 +69,12 @@ void Fade_to::step() {
 
 void Fade_in::init() {
 	Fade_to::init();
-  Sound::play(sons.fadein, -400, 0, 11000 + ugs_random.rnd(511));
+  sons.fadein->play(-400, 0, 11000 + ugs_random.rnd(511));
 }
 
 void Fade_out::init() {
 	Fade_to::init();
-  Sound::play(sons.fadeout, -400, 0, 22000 + ugs_random.rnd(511));
+  sons.fadeout->play(-400, 0, 22000 + ugs_random.rnd(511));
 }
 
 Setpalette::Setpalette(const Palette& p): pal(p) {

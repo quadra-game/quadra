@@ -587,31 +587,31 @@ void Net_list::check_end_game(bool end_it) {
       // switch. -- roncli
 			switch(time_left) {
 				case 6000:
-          Sound::play(sons.minute, 0, -1, 11025);
+          sons.minute->play(0, -1, 11025);
 					break;
 				case 3000:
-					Sound::play(sons.thirty, 0, -1, 11025);
+					sons.thirty->play(0, -1, 11025);
 					break;
 				case 2000:
-					Sound::play(sons.twenty, 0, -1, 11025);
+					sons.twenty->play(0, -1, 11025);
 					break;
 				case 1000:
-					Sound::play(sons.ten, 0, -1, 11025);
+					sons.ten->play(0, -1, 11025);
 					break;
 				case 500:
-					Sound::play(sons.five, 0, -1, 11025);
+					sons.five->play(0, -1, 11025);
 					break;
 				case 400:
-					Sound::play(sons.four, 0, -1, 11025);
+					sons.four->play(0, -1, 11025);
 					break;
 				case 300:
-					Sound::play(sons.three, 0, -1, 11025);
+					sons.three->play(0, -1, 11025);
 					break;
 				case 200:
-					Sound::play(sons.two, 0, -1, 11025);
+					sons.two->play(0, -1, 11025);
 					break;
 				case 100:
-					Sound::play(sons.one, 0, -1, 11025);
+					sons.one->play(0, -1, 11025);
 					break;
 			}
 			switch(time_left) {
@@ -664,7 +664,7 @@ void Net_list::check_end_game(bool end_it) {
 				sprintf(st2, ST_BOBBOBSREMAINING, remaining, unit);
 				strcat(st, st2);
 				message(-1, st);
-				Sound::play(sons.depose4, -300, -1, 22500 - freq_change);
+				sons.depose4->play(-300, -1, 22500 - freq_change);
 			}
 		}
 	}
@@ -693,9 +693,9 @@ void Net_list::check_end_game(bool end_it) {
 				//  (still suspense! :))
 				sprintf(st, ST_GAMETIED);
 				message(-1, st);
-				Sound::play(sons.levelup, 0, -1, 18050);
-				Sound::play(sons.levelup, 0, -1, 18100);
-				Sound::play(sons.levelup, 0, -1, 18150);
+				sons.levelup->play(0, -1, 18050);
+				sons.levelup->play(0, -1, 18100);
+				sons.levelup->play(0, -1, 18150);
 			}
 		}
 		else
@@ -750,7 +750,7 @@ void Net_list::check_end_game(bool end_it) {
 		game->removepacket();
 		game->endgame();
 		message(-1, ST_GAMEEND);
-    Sound::play(sons.start, -300, 0, 11025);
+    sons.start->play(-300, 0, 11025);
 		Packet_serverlog log("playing_end_signal");
 		log.add(Packet_serverlog::Var("reason", reason));
 		if(game->net_server)

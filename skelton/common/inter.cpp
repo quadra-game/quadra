@@ -21,14 +21,10 @@
 #include "inter.h"
 
 #include <assert.h>
-#include "video.h"
-#include "bitmap.h"
 #include "input.h"
 #include "main.h"
-#include "sound.h"
 #include "cursor.h"
 #include "image_png.h"
-#include "res.h"
 
 int Inter::last_mouse_x = -1, Inter::last_mouse_y = -1;
 bool Inter::kb_visible = false;

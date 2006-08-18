@@ -99,19 +99,6 @@ public:
 	virtual ~Playing_sfx();
 };
 
-void Sound::play(Sample *_sam, int _vol, int _pan, int _freq) {
-  if(!sound || !_sam | !_sam->data)
-    return;
-
-  SDL_LockAudio();
-
-  if(sound->plays.size() < MAXVOICES)
-    sound->plays.add(new Playing_sfx(_sam->data, _vol, _pan, _freq,
-                                     sound->spec.freq));
-
-  SDL_UnlockAudio();
-}
-
 Sound* Sound::New() {
   SDL_AudioSpec wantedspec;
   SDL_AudioSpec spec;
@@ -323,6 +310,18 @@ void Sample::loadriff(Res& _res) {
   free(sample);
 }
 
+void Sound::start(SampleData* _sam, int _vol, int _pan, int _freq) {
+  if(!_sam)
+    return;
+
+  SDL_LockAudio();
+
+  if(sound->plays.size() < MAXVOICES)
+    sound->plays.add(new Playing_sfx(_sam, _vol, _pan, _freq, spec.freq));
+
+  SDL_UnlockAudio();
+}
+
 SampleData* Sound::normalize(char* _sample, unsigned int _size,
                              unsigned int _freq, unsigned int _bps) {
 	unsigned int length;
@@ -380,6 +379,11 @@ SampleData* Sound::normalize(char* _sample, unsigned int _size,
     (void)new Error("Sound: wave 16-bit not currently supported");
 
   return new SampleData(audio_data, _freq, length);
+}
+
+void Sample::play(int _vol, int _pan, int _freq) {
+  if(this && sound)
+    sound->start(data, _vol, _pan, _freq);
 }
 
 Sample::~Sample() {

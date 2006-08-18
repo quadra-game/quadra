@@ -163,7 +163,7 @@ Menu_highscore::Menu_highscore(int hscore, int *playagain, bool show_playb) {
       (void)new Zone_text_numeric(courrier2, inter, &Highscores::bestlocal[i].score, x+160, y, 80);
       (void)new Zone_text_numeric(courrier2, inter, &Highscores::bestlocal[i].lines, x+260, y, 80);
       (void)new Zone_text_numeric(courrier2, inter, &Highscores::bestlocal[i].level, x+360, y, 80);
-      Sound::play(sons.levelup, 0, 0, 11000);
+      sons.levelup->play(0, 0, 11000);
     } else {
       (void)new Zone_text(inter, Highscores::bestlocal[i].name, x, y);
       (void)new Zone_text_numeric(courrier, inter, &Highscores::bestlocal[i].score, x+160, y, 80);
@@ -1306,7 +1306,7 @@ Menu_help::Menu_help() {
 
 void Menu_help::init() {
   Menu_standard::init();
-  Sound::play(sons.levelup, 0, 0, 11000);
+  sons.levelup->play(0, 0, 11000);
 }
 
 void Menu_help::step() {
