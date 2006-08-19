@@ -13,7 +13,7 @@ use Data::Dumper;
 use QServ::HTML;
 #use QServ::Message;
 
-$debug = 2;
+$debug = 1;
 
 %commands = (
 		 postgame => \&do_postgame,
