@@ -76,6 +76,7 @@
 #include "nglog.h"
 #include "clock.h"
 #include "net_server.h"
+#include "update.h"
 
 Color *color[9];
 Font *fteam[8];
@@ -2160,6 +2161,11 @@ void start_game() {
 	msgbox("Calling init_stuff: ");
 	init_stuff(!no_sound, !no_video); //No sound when checking demos
 	msgbox("Ok\n");
+
+  // Start auto-updater.
+  if(!no_video)
+    (void)new AutoUpdater;
+
 	Dword last=0;
 	Dword acc=0;
 	Executor *menu = new Executor();
