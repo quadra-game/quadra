@@ -186,7 +186,7 @@ bool Http_request::done() {
 	if(!sent)
 		sendrequest();
 	Byte tmp[4096];
-	Dword tube=nc->receivetcp(tmp, 4096);
+	Dword tube=nc->receivetcp(tmp, sizeof(tmp));
 	if(tube)
 		buf.append(tmp, tube);
 	if(!tube && nc->state()==Net_connection::disconnected) {

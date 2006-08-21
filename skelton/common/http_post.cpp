@@ -75,8 +75,8 @@ void Http_post::send() {
 	}
 	sprintf(st, "User-Agent: Quadra/%i.%i.%i\r\n",
 	        VERSION_MAJOR, VERSION_MINOR, VERSION_PATCHLEVEL);
-  	url.append(st);
-	//Try to make those idiot proxies behave. Long life e2e!!! :)
+  url.append(st);
+	// Try to make those idiot proxies behave. Long life e2e!!! :)
 	url.append("Pragma: no-cache\r\n");
 	url.append("Cache-Control: no-cache\r\n");
 	url.append("Content-type: application/x-www-form-urlencoded\r\nContent-length: ");
@@ -85,9 +85,9 @@ void Http_post::send() {
 	url.append(data.get(), data.size());
 	request = (Byte*)url.get();
 	size = url.size();
-	/*
+#if 0
 	st[0]=0;
-	url.append((Byte*)st, 1); //So the following msgbox won't crash
+	url.append((Byte*)st, 1); // So the following msgbox won't crash
 	msgbox("Http_post::send: data: \n{\n%s\n} size=%i\n", request, size);
-	*/
+#endif
 }
