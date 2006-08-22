@@ -21,7 +21,6 @@
 #include "canvas.h"
 
 #include <stdio.h>
-#include "music.h"
 #include "input.h"
 #include "random.h"
 #include "bloc.h"
@@ -649,8 +648,6 @@ void Canvas::give_line() {
 void Canvas::change_level_single() {
   change_level(level, pal, bit);
   //video->setpal(*pal);
-  if(config.info.cdmusic == 1)
-    music->play(level+1);
   if(level <= 10 && (level-1) > config.info.unlock_theme && !playback) {
     config.info.unlock_theme = level-1;
     config.write();

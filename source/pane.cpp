@@ -25,7 +25,6 @@
 #include "quadra.h"
 #include "config.h"
 #include "multi_player.h"
-#include "music.h"
 #include "chat_text.h"
 #include "bloc.h"
 #include "game.h"
@@ -438,8 +437,6 @@ void Pane_selectscheme::step() {
 			Canvas::change_level(i+1, pal, bit);
 			pi.inter->font->colorize(*pal, 255, 255, 255);
 			pi.mp->courrier->colorize(*pal, 255, 255, 255);
-			if(config.info.cdmusic == 1)
-				music->play(i+2, true);
 			video->setpal(*pal);
 			if(!playback) {
 				config.info.multi_level = i+1;

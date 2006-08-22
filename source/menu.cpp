@@ -37,7 +37,6 @@
 #include "inter.h"
 #include "input.h"
 #include "dict.h"
-#include "music.h"
 #include "multi_player.h"
 #include "misc.h"
 #include "zone.h"
@@ -1363,6 +1362,7 @@ Menu_option::Menu_option() {
   }
   old_language = config.info.language;
 
+  // FIXME: Configuration for the removed CD music player. Should be taken out.
   (void)new Zone_text(fteam[7], inter, ST_SELECTCDMUSIC, 40, 130);
   {
     Zone_state_text2 *temp =  new Zone_state_text2(inter, &config.info.cdmusic, 380, 130);
@@ -1370,7 +1370,6 @@ Menu_option::Menu_option() {
     temp->add_string(ST_CDMUSIC2);
     temp->add_string(ST_CDMUSIC3);
   }
-  old_music = config.info.cdmusic;
 
   (void)new Zone_text(fteam[7], inter, ST_SETMOUSESPEED, 40, 160);
   (void)new Zone_input_numeric(inter, &config.info.mouse_speed, 4, 1, 255, pal, 380, 160, 60);
@@ -1394,18 +1393,6 @@ Menu_option::Menu_option() {
 
 Menu_option::~Menu_option() {
   config.write();
-  if(old_music != config.info.cdmusic) {
-    if(config.info.cdmusic == 2) {
-      music->play(1, true);
-      return;
-    }
-    if(old_music == 0) {
-      music->play(1);
-    }
-    if(config.info.cdmusic == 0) {
-      music->stop();
-    }
-  }
   if(old_language != config.info.language) {
     delete stringtable;
     char *language;
@@ -1486,14 +1473,6 @@ Menu_intro::~Menu_intro() {
   delete font2;
 }
 
-void Menu_main_startmusic::init() {
-  if(config.info.cdmusic == 1)
-    music->play(1);
-  if(config.info.cdmusic == 2)
-    music->play(1, true);
-  ret();
-}
-
 Menu_main::Menu_main() {
   {
     Res_doze res("debuto.png");
@@ -1558,7 +1537,7 @@ void Menu_main::redraw() {
 
 void Menu_main::init() {
   Menu::init();
-  call(new Menu_main_startmusic());
+  // FIXME: The following line might not be necessary without the music.
   call(new Wait_time(6)); // to force the palette being set BEFORE the music starts
   call(new Setpalette(pal));
   reset_delay();

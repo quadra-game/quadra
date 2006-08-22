@@ -46,7 +46,6 @@
 #include "palette.h"
 #include "input.h"
 #include "sound.h"
-#include "music.h"
 #include "sprite.h"
 #include "bitmap.h"
 #include "inter.h"
@@ -1863,11 +1862,6 @@ void init_stuff(bool need_sound=true, bool need_video=true) {
 		sound = Sound::New();
 	else
 		sound = NULL;
-
-	if(need_video)
-		music = Music::alloc();
-	else
-		music = NULL;
 
 	for(i=0; i<256; i++)
 		noir.setcolor(i, 40, 40, 40);

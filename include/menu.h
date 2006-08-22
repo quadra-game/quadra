@@ -54,11 +54,6 @@ public:
 	virtual void step();
 };
 
-class Menu_main_startmusic: public Module {
-public:
-	virtual void init();
-};
-
 class Menu_main: public Menu {
 	Zone_bitmap *z_back;
 	Zone *b_single, *b_multi, *b_setup, *b_help, *b_quit;

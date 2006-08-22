@@ -50,7 +50,6 @@ extern "C" int SOCKSinit(char *);
 #include "input.h"
 #include "sound.h"
 #include "cursor.h"
-#include "music.h"
 #include "stringtable.h"
 #include "overmind.h"
 #include "resfile.h"
@@ -148,13 +147,6 @@ void delete_obj() {
     msgbox("deleting video...\n");
     delete video;
     video=NULL;
-  }
-  if(music) {
-    skelton_msgbox("stopping and deleting music...\n");
-    music->stop();
-    music->close();
-    delete music;
-    music=NULL;
   }
   if(stringtable) {
     msgbox("deleting stringtable...\n");
