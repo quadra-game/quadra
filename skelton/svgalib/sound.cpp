@@ -231,12 +231,14 @@ Sound::~Sound() {
   SDL_CloseAudio();
 }
 
-Sample::Sample(Res& re) {
+Sample::Sample(Res& re):
+  data(NULL) {
   if(sound)
     loadriff(re);
 }
 
-Sample::Sample(Res_doze re) {
+Sample::Sample(Res_doze re):
+  data(NULL) {
   if(sound)
     loadriff(re);
 }
