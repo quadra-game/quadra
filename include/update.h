@@ -23,6 +23,8 @@
 #include "overmind.h"
 
 class AutoUpdater: public Module_thread {
+public:
+  static void start();
 };
 
 #endif /* _HEADER_UPDATE */

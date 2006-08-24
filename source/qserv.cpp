@@ -68,16 +68,16 @@ bool Qserv::done() {
 	}
 	else {
 		Stringtable st(req->getbuf(), req->getsize());
-		int i=0;
-		for(i=0; i<st.size(); i++)
-			if(strlen(st.get(i))==0) { //end of HTTP header
-				i++; // Skip blank line
-				if(i>=st.size())
+		int i;
+		for(i = 0; i < st.size(); ++i)
+			if(strlen(st.get(i)) == 0) { //end of HTTP header
+				++i; // Skip blank line
+				if(i >= st.size())
 					strcpy(status, "");
 				else {
-					strncpy(status, st.get(i), sizeof(status)-1);
-					status[sizeof(status)-1]=0;
-					i++; // Skip status line
+					strncpy(status, st.get(i), sizeof(status) - 1);
+					status[sizeof(status) - 1] = 0;
+					++i; // Skip status line
 				}
 				break;
 			}
@@ -189,13 +189,21 @@ void Qserv::create_req()
 	int port;
 	char path[256];
 
+  Url defaulturl(config.info3.default_game_server_address);
+  if(!defaulturl.getPort())
+    defaulturl.setPort(80);
+  if(!strcmp(defaulturl.getHost(), ""))
+    defaulturl.setHost("quadra.sourceforge.net:80");
+  if(!strcmp(defaulturl.getPath(), "/"))
+    defaulturl.setPath("/cgi-bin/qserv.pl");
+
 	Url url(config.info.game_server_address);
 	if(!url.getPort())
-		url.setPort(80);
+		url.setPort(defaulturl.getPort());
 	if(!strcmp(url.getHost(), ""))
-		url.setHost("ludusdesign.com:80");
+		url.setHost(defaulturl.getHost());
 	if(!strcmp(url.getPath(), "/"))
-		url.setPath("/cgi-bin/qserv.pl");
+		url.setPath(defaulturl.getPath());
 
 	Url proxy(config.info2.proxy_address);
 	if(!proxy.getPort())

@@ -2154,11 +2154,11 @@ void start_game() {
 	}
 	msgbox("Calling init_stuff: ");
 	init_stuff(!no_sound, !no_video); //No sound when checking demos
-	msgbox("Ok\n");
+  msgbox("Ok\n");
 
-  // Start auto-updater.
+  // Start auto-updater, but only if we have video enabled.
   if(!no_video)
-    (void)new AutoUpdater;
+    AutoUpdater::start();
 
 	Dword last=0;
 	Dword acc=0;
