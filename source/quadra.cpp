@@ -70,6 +70,7 @@
 #include "clock.h"
 #include "net_server.h"
 #include "quadra.h"
+#include "update.h"
 
 RCSID("$Id$")
 
@@ -2240,7 +2241,12 @@ void start_game() {
 	}
 	msgbox("Calling init_stuff: ");
 	init_stuff(!no_sound, !no_video); //No sound when checking demos
-	msgbox("Ok\n");
+  msgbox("Ok\n");
+
+  // Start auto-updater, but only if we have video enabled.
+  if(!no_video)
+    AutoUpdater::start();
+
 	Dword last=0;
 	Dword acc=0;
 	Executor *menu = new Executor();

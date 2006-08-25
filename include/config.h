@@ -2,6 +2,7 @@
  * 
  * Quadra, an action puzzle game
  * Copyright (C) 1998-2000  Ludus Design
+ * Copyright (C) 2006 Pierre Phaneuf <pphaneuf@users.sourceforge.net>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,6 +22,7 @@
 #ifndef _HEADER_CONFIG
 #define _HEADER_CONFIG
 
+#include <time.h>
 #include "types.h"
 
 class Config {
@@ -32,8 +34,11 @@ public:
 	static bool xtreme;
 	static char user_name[];
 	int warning;
-	//WARNING: Everything in the following structs is pretty much set in stone. A full
-	//         understanding of config.cpp is needed to change anything.
+	/*
+   * WARNING: Everything in the following structs is pretty much set
+   *          in stone. A full understanding of config.cpp is needed
+   *          to change anything.
+   */
 	struct {
 		int language;
 		int setup_player, cdmusic;
@@ -66,6 +71,12 @@ public:
 	struct {
 		char proxy_address[128];
 	} info2;
+  struct {
+    time_t last_update;
+    char last_modified[64];
+    bool new_version;
+    char default_game_server_address[256];
+  } info3;
 	char fname[1024];
 	Config();
 	virtual ~Config();

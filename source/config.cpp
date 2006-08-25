@@ -55,6 +55,7 @@ void Config::default_config() {
 	memset(player, 0, sizeof(player));
 	memset(player2, 0, sizeof(player2));
 	memset(&info2, 0, sizeof(info2));
+	memset(&info3, 0, sizeof(info3));
 	info.language = 0;
 	info.setup_player = 0;
 	info.cdmusic = 0; // 0=no music  1=auto-change  2=loop all
@@ -104,13 +105,15 @@ void Config::read() {
 	memset(player, 0, sizeof(player));
 	memset(player2, 0, sizeof(player2));
 	memset(&info2, 0, sizeof(info2));
+	memset(&info3, 0, sizeof(info3));
 	warning = 0;
 	if(!res.exist) {
 		default_config();
 		warning = 1;
 	} else {
 		if(res.size() != (sizeof(version) + sizeof(info) + sizeof(player)) &&
-		   res.size() != (sizeof(version) + sizeof(info) + sizeof(player) + sizeof(player2) + sizeof(info2))) {
+		   res.size() != (sizeof(version) + sizeof(info) + sizeof(player) + sizeof(player2) + sizeof(info2)) &&
+       res.size() != (sizeof(version) + sizeof(info) + sizeof(player) + sizeof(player2) + sizeof(info2) + sizeof(info3))) {
 			default_config();
 			warning = 2;
 		} else {
@@ -125,6 +128,7 @@ void Config::read() {
 				//Those may not be present, but the default is all-zero anyway
 				res.read(player2, sizeof(player2));
 				res.read(&info2, sizeof(info2));
+				res.read(&info3, sizeof(info3));
 			}
 		}
 	}
@@ -163,18 +167,20 @@ void Config::read() {
 		info.book[i][255] = 0;
 	}
 	info2.proxy_address[127] = 0;
+	info3.last_modified[63] = 0;
+	info3.default_game_server_address[255] = 0;
 }
 
 void fix_str(char *st, Dword len) {
-	bool in_str=true;
-	Dword i;
-	for(i=0; i<len; i++)
+	bool in_str(true);
+
+	for(Dword i = 0; i < len; ++i)
 		if(!in_str)
-			st[i]=0;
+			st[i] = 0;
 		else
 			if(!st[i])
-				in_str=false;
-	st[len-1]=0;
+				in_str = false;
+	st[len - 1] = 0;
 }
 
 void Config::write() {
@@ -202,6 +208,9 @@ void Config::write() {
 			res.write(player2, sizeof(player2));
 			fix_str(info2.proxy_address, 128);
 			res.write(&info2, sizeof(info2));
+			fix_str(info3.last_modified, 64);
+			fix_str(info3.default_game_server_address, 256);
+			res.write(&info3, sizeof(info3));
 		}
 	}
 }
