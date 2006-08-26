@@ -20,10 +20,6 @@
 
 #include "palette.h"
 
-#include <stdio.h>
-#include <unistd.h>
-#include "autoconf.h"
-#include "types.h"
 #include "video.h"
 
 Palette noir;
