@@ -21,12 +21,7 @@
 #ifndef _HEADER_SOUND
 #define _HEADER_SOUND
 
-#include "autoconf.h"
-#if defined(HAVE_SDL_H)
 #include "SDL.h"
-#elif defined(HAVE_SDL_SDL_H)
-#include "SDL/SDL.h"
-#endif
 #include "array.h"
 #include "res.h"
 

@@ -21,11 +21,7 @@
 #include "quadra.h"
 
 #include "autoconf.h"
-#if defined(HAVE_SDL_H)
 #include "SDL.h"
-#elif defined(HAVE_SDL_SDL_H)
-#include "SDL/SDL.h"
-#endif
 #ifdef UGS_LINUX
 #include <pwd.h>
 #include <sys/stat.h>

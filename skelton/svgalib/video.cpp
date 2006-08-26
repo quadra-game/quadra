@@ -21,12 +21,7 @@
 #include "video.h"
 
 #include <assert.h>
-#include "autoconf.h"
-#if defined(HAVE_SDL_H)
 #include "SDL.h"
-#elif defined(HAVE_SDL_SDL_H)
-#include "SDL/SDL.h"
-#endif
 #include "video_dumb.h"
 #include "bitmap.h"
 #include "sprite.h"

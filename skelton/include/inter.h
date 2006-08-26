@@ -21,12 +21,7 @@
 #ifndef HEADER_INTER
 #define HEADER_INTER
 
-#include "autoconf.h"
-#if defined(HAVE_SDL_H)
 #include "SDL.h"
-#elif defined(HAVE_SDL_SDL_H)
-#include "SDL/SDL.h"
-#endif
 #include "sprite.h"
 #include "video.h"
 

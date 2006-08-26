@@ -22,12 +22,7 @@
 
 #include <assert.h>
 #include <stdlib.h>
-#include "autoconf.h"
-#if defined(HAVE_SDL_H)
 #include "SDL.h"
-#elif defined(HAVE_SDL_SDL_H)
-#include "SDL/SDL.h"
-#endif
 #include "video.h"
 #include "input_dumb.h"
 #include "cursor.h"

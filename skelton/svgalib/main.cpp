@@ -20,15 +20,9 @@
 
 #include "main.h"
 
-/* version Linux */
-#include "autoconf.h"
-
-#if defined(HAVE_SDL_H)
 #include "SDL.h"
-#elif defined(HAVE_SDL_SDL_H)
-#include "SDL/SDL.h"
-#endif
 
+#include "autoconf.h"
 #ifdef SOCKS
 #include <stdio.h>
 #include <socks.h>

@@ -32,7 +32,7 @@ AC_CHECK_HEADERS(machine/byte_order.h)
 AC_CHECK_HEADERS(linux/cdrom.h)
 AC_CHECK_HEADERS(linux/soundcard.h)
 AC_CHECK_HEADERS(mcheck.h)
-AC_CHECK_HEADERS([SDL.h SDL/SDL.h])
+AC_CHECK_HEADERS(SDL.h)
 
 save_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -x objective-c"
