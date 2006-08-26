@@ -5,7 +5,6 @@ demos/demo03.rec
 fonts/courrier.fnt
 fonts/font.fnt
 images/black.png
-images/cursor.png
 images/debut0f.png
 images/debut0.png
 images/debut1f.png
