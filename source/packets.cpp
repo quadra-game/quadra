@@ -22,7 +22,7 @@
 #include "error.h"
 #include "net_stuff.h"
 #include "stats.h"
-#include "config.h"
+#include "cfgfile.h"
 #include "canvas.h"
 #include "packets.h"
 

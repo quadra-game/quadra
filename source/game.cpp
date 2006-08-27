@@ -27,7 +27,7 @@
 #include "packets.h"
 #include "net_stuff.h"
 #include "net_server.h"
-#include "config.h"
+#include "cfgfile.h"
 #include "canvas.h"
 #include "chat_text.h"
 #include "texte.h"

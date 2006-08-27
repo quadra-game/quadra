@@ -21,7 +21,7 @@
 #include "input.h"
 #include "zone_text_clock.h"
 #include "quadra.h"
-#include "config.h"
+#include "cfgfile.h"
 #include "multi_player.h"
 #include "music.h"
 #include "chat_text.h"

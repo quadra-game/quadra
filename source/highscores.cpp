@@ -21,7 +21,7 @@
 #include <stdlib.h>
 #include "res_compress.h"
 #include "quadra.h"
-#include "config.h"
+#include "cfgfile.h"
 #include "recording.h"
 #include "canvas.h"
 #include "global.h"

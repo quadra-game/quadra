@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "cfgfile.h"
+
 #include <string.h>
 #include <stdio.h>
 #include "input.h"
@@ -25,7 +27,6 @@
 #include "global.h"
 #include "crypt.h"
 #include "video.h"
-#include "config.h"
 #include "version.h"
 #include "unicode.h"
 

@@ -20,7 +20,7 @@
 
 #include "types.h"
 #include "sound.h"
-#include "config.h"
+#include "cfgfile.h"
 #include "nglog.h"
 #include "net_server.h"
 #include "game.h"

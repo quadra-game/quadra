@@ -30,7 +30,7 @@
 #include "crypt.h"
 #include "res_compress.h"
 #include "quadra.h"
-#include "config.h"
+#include "cfgfile.h"
 #include "sprite.h"
 #include "overmind.h"
 #include "inter.h"

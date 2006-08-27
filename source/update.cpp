@@ -20,7 +20,7 @@
 
 #include "update.h"
 
-#include "config.h"
+#include "cfgfile.h"
 #include "dict.h"
 #include "http_request.h"
 #include "stringtable.h"

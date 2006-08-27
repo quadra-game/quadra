@@ -19,7 +19,7 @@
  */
 
 #include "input.h"
-#include "config.h"
+#include "cfgfile.h"
 #include "multi_player.h"
 #include "game.h"
 #include "net_stuff.h"

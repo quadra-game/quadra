@@ -23,7 +23,7 @@
 #include "chat_text.h"
 #include "texte.h"
 #include "global.h"
-#include "config.h"
+#include "cfgfile.h"
 #include "sons.h"
 #include "recording.h"
 #include "nglog.h"
