@@ -19,8 +19,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef _HEADER_CONFIG
-#define _HEADER_CONFIG
+#ifndef _HEADER_CFGFILE
+#define _HEADER_CFGFILE
 
 #include <time.h>
 #include "types.h"
