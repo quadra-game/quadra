@@ -20,7 +20,7 @@
 
 #include <stdio.h>
 
-#include "autoconf.h"
+#include "config.h"
 #ifdef HAVE_LINUX_SOUNDCARD_H
 #include <linux/soundcard.h>
 #include <sys/ioctl.h>
