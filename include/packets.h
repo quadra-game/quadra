@@ -97,7 +97,9 @@ public:
 	Packet_wantjoin() {
 		packet_id = P_WANTJOIN;
 		net_version=Config::net_version;
-		language=config.info.language;
+    // FIXME: Integers aren't the best way to communicate these
+    // information.
+		language = 0;
 		os=
 		#if defined(UGS_DIRECTX)
 			1

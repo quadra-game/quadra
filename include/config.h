@@ -40,7 +40,7 @@ public:
    *          to change anything.
    */
 	struct {
-		int language;
+		int xlanguage;
 		int setup_player, cdmusic;
 		Byte multi_level, unlock_theme;
 		int port_number, mouse_speed;

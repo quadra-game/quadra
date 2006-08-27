@@ -27,18 +27,17 @@
 #include "chat_text.h"
 #include "game.h"
 #include "net_stuff.h"
-#include "texte.h"
 #include "global.h"
 #include "sons.h"
-#include "main.h" //For alt_tab
+#include "main.h"
 #include "recording.h"
 #include "net_server.h"
 #include "quadra.h"
 #include "nglog.h"
 #include "packets.h"
 
-//Objectives are number of remaining goals to reach before it is
-//  announced. Must end with 0.
+// Objectives are number of remaining goals to reach before it is
+// announced. Must end with 0.
 static int frag_objectives[] = {
 	20, 10, 5, 4, 3, 2, 1, 0
 };
@@ -283,18 +282,18 @@ void Net_list::set_player(Canvas *c, int pos, bool msg) {
 		if(c->handicap!=2) {
 			const char *h;
 			switch(c->handicap) {
-				case 0: h=ST_BEGINNER; break;
-				case 1: h=ST_APPRENTICE; break;
-				case 2: h=ST_INTERMEDIATE; break;
-				case 3: h=ST_MASTER; break;
+				case 0: h= "Beginner"; break;
+				case 1: h = "Apprentice"; break;
+				case 2: h = "Normal"; break;
+				case 3: h = "Master"; break;
 				default:
-				case 4: h=ST_GRANDMASTER; break;
+				case 4: h = "Grand Master"; break;
 			}
 			sprintf(name, "%s (%s)", c->name, h);
 		}
 		else
 			strcpy(name, c->name);
-		sprintf(st, ST_BOBJOIN, name, team_name[c->color]);
+		sprintf(st, "%s joined %s team.", name, team_name[c->color]);
 		message(-1, st);
 	}
 	//If a canvas was replaced, keep it's id for the new canvas
@@ -427,8 +426,8 @@ void Net_list::step_all() {
 		}
 		else {
 			if(!demo_completed) {
-				message(-1, ST_DEMOCOMPLETED);
-				demo_completed=true;
+				message(-1, "·2 Demo completed");
+				demo_completed = true;
 			}
 		}
 	}
@@ -624,7 +623,7 @@ void Net_list::check_end_game(bool end_it) {
 				case 300:	
 				case 200:	
 				case 100:	
-					sprintf(st, ST_SECONDSREMAINING, time_left/100);
+					sprintf(st, "%i seconds remaining!", time_left/100);
 					message(-1, st);
 					break;
 			}
@@ -653,15 +652,21 @@ void Net_list::check_end_game(bool end_it) {
 				char unit[64];
 				int freq_change;
 				switch(game->game_end) {
-					case END_FRAG: strcpy(unit, ST_FRAG); freq_change = 100 * remaining; break;
-					case END_POINTS: strcpy(unit, ST_POINT); freq_change = (int)(0.01 * remaining); break;
-					case END_LINES: strcpy(unit, ST_LINE); freq_change = 10 * remaining; break;
+					case END_FRAG:
+            strcpy(unit, "frag"); freq_change = 100 * remaining;
+            break;
+					case END_POINTS:
+            strcpy(unit, "point"); freq_change = (int)(0.01 * remaining);
+            break;
+					case END_LINES:
+            strcpy(unit, "line"); freq_change = 10 * remaining;
+            break;
 					default: strcpy(unit, "frog"); freq_change = 0; break;
 				}
 				if(remaining!=1)
 					strcat(unit, "s");
 				char st2[256];
-				sprintf(st2, ST_BOBBOBSREMAINING, remaining, unit);
+				sprintf(st2, " is %i %s from victory!", remaining, unit);
 				strcat(st, st2);
 				message(-1, st);
 				sons.depose4->play(-300, -1, 22500 - freq_change);
@@ -688,10 +693,10 @@ void Net_list::check_end_game(bool end_it) {
 	if(could_end)
 		if(draw) {
 			if(something_changed || (game->game_end==END_TIME && time_left==0)) {
-				//Drawn at a total higher or equal to end_value: suspense!
-				//  or maybe timer just elapsed and the game is drawn
-				//  (still suspense! :))
-				sprintf(st, ST_GAMETIED);
+				// Drawn at a total higher or equal to end_value: suspense! Or
+				// maybe timer just elapsed and the game is drawn (still
+				// suspense! :))
+				sprintf(st, "Game tied!");
 				message(-1, st);
 				sons.levelup->play(0, -1, 18050);
 				sons.levelup->play(0, -1, 18100);
@@ -699,21 +704,21 @@ void Net_list::check_end_game(bool end_it) {
 			}
 		}
 		else
-			should_end=true;
+			should_end = true;
 
 	if(!end_it) {
-		//Don't signal the end of the game if it's not a good time
-		//  (i.e. we're in the middle of a survivor round)
-		should_end=false;
+		// Don't signal the end of the game if it's not a good time
+		// (i.e. we're in the middle of a survivor round)
+		should_end = false;
 	}
 	if(!winner_signaled && game->terminated && all_gone()) {
-		//Winner found for the first time, declare winner
-		winner_signaled=true;
-		char *team="none";
+		// Winner found for the first time, declare winner.
+		winner_signaled = true;
+		char *team = "none";
 		if(score.team_stats[leading_team].stats[CS::SCORE].get_value()) {
 			char st[256];
 			team2name(leading_team, st);
-			strcat(st, ST_WINSGAME);
+			strcat(st, " wins the game!");
 			message(-1, st);
 			team=log_team(leading_team);
 		}
@@ -721,21 +726,6 @@ void Net_list::check_end_game(bool end_it) {
 		log.add(Packet_serverlog::Var("winning_team", team));
 		if(game->net_server)
 			game->net_server->record_packet(&log);
-/*		for(int i=0; i<MAXPLAYERS; i++) {
-			Canvas *c=get(i);
-			if(c) {
-				int total_cleared=c->stats[CS::LINESTOT].get_value();
-				int total_sent=0;
-				int s;
-				for(s=CS::CLEAR01; s<CS::CLEARMORE; s++)
-					total_sent+=(s-CS::CLEAR00)*c->stats[s].get_value();
-				for(s=CS::CLEAR14; s<CS::CLEAR20; s++)
-					total_sent+=(s-CS::CLEAR14+14)*c->stats[s].get_value();
-				char st[256];
-				sprintf(st, "%s: %.2f", c->name, total_sent*100.0/total_cleared);
-				message(c->color, st);
-			}
-		}*/
 	}
 	if(game->server)
 		if(should_end)
@@ -749,7 +739,7 @@ void Net_list::check_end_game(bool end_it) {
 			reason="manual";
 		game->removepacket();
 		game->endgame();
-		message(-1, ST_GAMEEND);
+		message(-1, "·2 Game terminates.");
     sons.start->play(-300, 0, 11025);
 		Packet_serverlog log("playing_end_signal");
 		log.add(Packet_serverlog::Var("reason", reason));
@@ -874,8 +864,8 @@ bool Net_list::check_first_frag() {
 	if(alive_team!=-1)
 		team2name(alive_team, st1);
 	else
-		strcpy(st1, ST_NOBODY);
-	sprintf(st, ST_BOBWINSROUND, st1);
+		strcpy(st1, "Nobody");
+	sprintf(st, "%s wins the round!", st1);
 	if(syncpoint==Canvas::LAST) {
 		if(competitive()) {
 			if(!game->valid_frag) {
@@ -929,7 +919,7 @@ void Net_list::team2name(Byte team, char *st) {
 	if(count==1)
 		strcpy(st, c2->name);
 	else
-		sprintf(st, ST_BOBTEAM, team_name[team]);
+		sprintf(st, "%s team", team_name[team]);
 }
 
 void Net_list::update_team_names() {
@@ -1100,7 +1090,7 @@ void Net_list::check_pause() {
 	if(game->delay_start && game->delay_start != 500) {
 		game->delay_start--;
 		if(game->delay_start == 0) {
-			message(-1, ST_GAMESTARTNOW);
+			message(-1, "·2 Game starts!");
 			game->paused = false;
 		}
 	}
@@ -1245,7 +1235,7 @@ void Net_list::drop_player(Packet_dropplayer *p, bool chat) {
 		return;
 
 	if(chat) {
-		sprintf(st, ST_BOBWASDROP, c->name);
+		sprintf(st, "%s was dropped by server!", c->name);
 		message(-1, st);
 	}
 

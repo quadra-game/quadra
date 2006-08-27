@@ -20,6 +20,7 @@
 
 #ifndef _HEADER_TEXTE
 #define _HEADER_TEXTE
+
 #include "stringtable.h"
 
 #define ST_BASE(x) (stringtable->get(x-1))

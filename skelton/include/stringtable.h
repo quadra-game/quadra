@@ -20,6 +20,7 @@
 
 #ifndef _HEADER_STRINGTABLE
 #define _HEADER_STRINGTABLE
+
 #include "res.h"
 
 class Stringtable {
@@ -43,7 +44,5 @@ public:
 			return "###";
 	}
 };
-
-extern Stringtable *stringtable;
 
 #endif

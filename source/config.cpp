@@ -55,7 +55,7 @@ void Config::default_config() {
 	memset(player2, 0, sizeof(player2));
 	memset(&info2, 0, sizeof(info2));
 	memset(&info3, 0, sizeof(info3));
-	info.language = 0;
+	info.xlanguage = 0;
 	info.setup_player = 0;
 	info.cdmusic = 0; // 0=no music  1=auto-change  2=loop all
 	info.multi_level = 1;

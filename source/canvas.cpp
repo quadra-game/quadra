@@ -33,7 +33,6 @@
 #include "global.h"
 #include "sons.h"
 #include "recording.h"
-#include "texte.h"
 #include "chat_text.h"
 #include "nglog.h"
 #include "net_server.h"
@@ -583,18 +582,18 @@ void Canvas::give_line() {
 			if(normal_att.type==ATTACK_NONE) {
 				num=depth;
 				if(num>1)
-					sprintf(st, ST_CLEANBOBCLEARSBOBLINES, name, num);
+					sprintf(st, "Clean canvas: %s clears %i lines!", name, num);
 				else
-					sprintf(st, ST_CLEANBOBCLEARS1LINE, name);
+					sprintf(st, "Clean canvas: %s clears 1 line!", name);
 			}
 			else {
 				num=clean_bonus;
 				if(enough)
 					num+=i;
 				if(num>1)
-					sprintf(st, ST_BOBCLEANBOBLINES, name, num);
+					sprintf(st, "Clean canvas: %s sends %i lines!", name, num);
 				else
-					sprintf(st, ST_BOBCLEAN1LINE, name);
+					sprintf(st, "Clean canvas: %s sends 1 line!", name);
 			}
 			message(color, st);
 		}
@@ -603,23 +602,23 @@ void Canvas::give_line() {
 		if(i>=3 && chat_text && !send_for_clean) {
 			// if does a 'quad' minimally and not clean
 			char st[256];
-			if(normal_att.type==ATTACK_NONE)
-				sprintf(st, ST_BOBCLEARSBOBLINEBOB, name, depth, depth!=1? "s":"");
+			if(normal_att.type == ATTACK_NONE)
+				sprintf(st, "%s clears %i line%s.", name, depth, depth!=1? "s":"");
 			else
-				sprintf(st, ST_SENDLINES, name, i, i!=1? "s":"");
+				sprintf(st, "%s sends %i line%s.", name, i, i != 1 ? "s" : "");
 			message(color, st);
 		}
     game->net_list.send(this, i, complexity, last_x, normal_att, false);
     if(inter && !small_watch) { // if the canvas is currently visible
 			char st[256];
 			if(depth == 2)
-				sprintf(st, ST_CLEARDOUBLE, score_add);
+				sprintf(st, "Double! %i pts", score_add);
 			if(depth == 3)
-				sprintf(st, ST_CLEARTRIPLE, score_add);
+				sprintf(st, "Triple! %i pts", score_add);
 			if(depth == 4)
-				sprintf(st, ST_CLEARQUAD, score_add);
+				sprintf(st, "Quad! %i pts", score_add);
 			if(depth > 4)
-				sprintf(st, ST_CLEARMORE, depth, score_add);
+				sprintf(st, "%i-lines! %i pts", depth, score_add);
 			add_text_scroller(st, 20);
     }
   }

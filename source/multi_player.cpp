@@ -31,7 +31,6 @@
 #include "chat_text.h"
 #include "game.h"
 #include "global.h"
-#include "texte.h"
 #include "net_stuff.h"
 #include "recording.h"
 #include "sons.h"
@@ -92,71 +91,17 @@ Multi_player::Multi_player(int *got_high) {
 		overmind.start(pane_exec[i]);
 	}
 	if(playback && playback->single() && !playback->auto_demo) {
-		(void)new Zone_slow_play(inter, bit, font2, ST_SLOWPLAY, 430, 420);
-		(void)new Zone_fast_play(inter, bit, font2, ST_FASTPLAY, 430, 450);
-		b_quit = new Zone_text_button2(inter, bit, font2, ST_BACK, 560, 455);
+		(void)new Zone_slow_play(inter, bit, font2, "Slow motion", 430, 420);
+		(void)new Zone_fast_play(inter, bit, font2, "Fast forward", 430, 450);
+		b_quit = new Zone_text_button2(inter, bit, font2, "Back ·0", 560, 455);
 	}
 	else {
-		b_quit=NULL;
+		b_quit = NULL;
 	}
 }
 
 void Multi_player::step() {
 	Menu_fadein::step();
-
-/* Generate small pics for ngStatsQuadra
-	static Dword wait_timer=0;
-	wait_timer++;
-	if(wait_timer==500) {
-		int col;
-		Byte side;
-		for(col = -1; col<9; col++) {
-			for(side=0; side<16; side++) {
-				char st[32];
-				Bitmap the_bit(18, 18, 18);
-				if(col!=-1) {
-					raw_draw_bloc(video->vb, 0, 0, side, color[col]);
-					video->vb->get_bitmap(&the_bit, 0, 0, 18, 18);
-					sprintf(st, "%c%c.png", '0'+col, 'a'+side);
-				}
-				else
-					strcpy(st, "e0.png");
-				Raw raw(18, 18, col!=-1? 8:2);
-				Res_dos res(st, RES_CREATE);
-				if(!res.exist) {
-					skelton_msgbox("Can't create file!\n");
-					return;
-				}
-				raw.write(res);
-				int i;
-				Byte pa[3];
-				if(col!=-1)
-					for(i=color[col]->shade(0); i<color[col]->shade(0)+8; i++) {
-						pa[0] = pal.r(i);
-						pa[1] = pal.g(i);
-						pa[2] = pal.b(i);
-						res.write(pa, 3);
-					}
-				else {
-					pa[0]=0;
-					pa[1]=0;
-					pa[2]=0;
-					res.write(pa, 3);
-					pa[0]=255;
-					pa[1]=255;
-					pa[2]=255;
-					res.write(pa, 3);
-				}
-				for(i=0; i<18; i++) {
-					Byte pel[18];
-					memcpy(pel, the_bit[i], 18);
-					for(int j=0; j<18; j++)
-						pel[j] = pel[j] & 7;
-					res.write(pel, 18);
-				}
-			}
-		}
-	}*/
 
 	if(playback && playback->auto_demo)
 		if(result || input->last_key.sym != SDLK_UNKNOWN) {

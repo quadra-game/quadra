@@ -25,7 +25,6 @@
 #include "config.h"
 #include "quadra.h"
 #include "sons.h"
-#include "texte.h"
 #include "canvas.h"
 #include "bloc.h"
 #include "game.h"
@@ -269,7 +268,7 @@ Zone_set_key::Zone_set_key(Inter* in, int *pv, int px, int py):
 	Zone_state_text(in, pv, px, py) {
 	for(int i = SDLK_FIRST; i < SDLK_LAST; ++i) {
     char *keyname = SDL_GetKeyName(static_cast<SDLKey>(i));
-    add_string(keyname ? keyname : ST_UNKNOWN);
+    add_string(keyname ? keyname : "<Unknown>");
 	}
 }
 

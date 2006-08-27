@@ -20,21 +20,21 @@
 
 #include "game_menu.h"
 
-#include "input.h"
-#include "config.h"
-#include "multi_player.h"
-#include "game.h"
-#include "net_stuff.h"
-#include "chat_text.h"
-#include "texte.h"
-#include "global.h"
-#include "menu_base.h"
-#include "quadra.h"
-#include "menu.h"
 #include "canvas.h"
-#include "main.h"
-#include "nglog.h"
+#include "chat_text.h"
 #include "clock.h"
+#include "config.h"
+#include "game.h"
+#include "global.h"
+#include "input.h"
+#include "main.h"
+#include "menu.h"
+#include "menu_base.h"
+#include "multi_player.h"
+#include "net_stuff.h"
+#include "nglog.h"
+#include "quadra.h"
+#include "stringtable.h"
 
 int Create_game::game_end_y=0;
 
@@ -49,37 +49,37 @@ Create_game::Create_game(Bitmap *bit, Font *font, Font *font2, const Palette& p,
 	int y=20, inc=30;
 	Zone *z;
 
-	(void)new Zone_text(inter, ST_CREATEGAMETITLE, y);
+	(void)new Zone_text(inter, "Create game", y);
 	y+=inc;
 	y+=inc;
 
 	strcpy(name, config.info.game_name);
 	game_public = config.info.game_public;
-	z=new Zone_text(fteam[7], inter, ST_ENTERGAMENAME, 20, y);
+	z=new Zone_text(fteam[7], inter, "Name:", 20, y);
 	z=new Zone_text_input(inter, pal, name, 32, 20+z->w+10, y, 320-10-20-z->w-10);
 	int name_x=z->x;
 	//This one is created here to line up stuff
-	z=new Zone_text(fteam[7], inter, ST_GAMESPEED, 340, y+inc);
+	z = new Zone_text(fteam[7], inter, "Level up:", 340, y+inc);
 	int public_x=340+z->w+10;
 	if(net_game) {
 		if(!local_net) {
-			(void)new Zone_text(fteam[7], inter, ST_ALLOWPUBLICGAME, 340, y);
+			(void)new Zone_text(fteam[7], inter, "Public:", 340, y);
 			Zone_state_text *temp = new Zone_state_text2(inter, &game_public, public_x, y);
-			temp->add_string(ST_NO);
-			temp->add_string(ST_YES);
+			temp->add_string("No");
+			temp->add_string("Yes");
 		}
 	}
 	y+=inc;
 
-	z=new Zone_text(fteam[7], inter, ST_SELECTGAMETYPE, 20, y);
+	z=new Zone_text(fteam[7], inter, "Type:", 20, y);
 	selected = config.info.game_type;
 	{
 		Zone_state_text2 *temp = new Zone_state_text2(inter, &selected, name_x, y);
-		temp->add_string(ST_GAMETYPE1);
-		temp->add_string(ST_GAMETYPE2);
-		temp->add_string(ST_GAMETYPE4);
-		temp->add_string(ST_GAMETYPE5);
-		temp->add_string(ST_GAMETYPE3);
+		temp->add_string("Free for all");
+		temp->add_string("Survivor");
+		temp->add_string("Peace");
+		temp->add_string("Blind");
+		temp->add_string("Hot potato");
 		game_type = temp;
 	}
 	game_type->add_watch(this);
@@ -87,8 +87,8 @@ Create_game::Create_game(Bitmap *bit, Font *font, Font *font2, const Palette& p,
 	level_up = config.info.level_up;
 	{
 		Zone_state_text2 *temp = new Zone_state_text2(inter, &level_up, public_x, y);
-		temp->add_string(ST_GAMELEVELUP1);
-		temp->add_string(ST_GAMELEVELUP2);
+		temp->add_string("At 15 lines");
+		temp->add_string("Disabled");
 	}
 
 	y+=inc;
@@ -100,7 +100,7 @@ Create_game::Create_game(Bitmap *bit, Font *font, Font *font2, const Palette& p,
 	}
 	game_desc[9]=NULL; //Only 9 lines displayed finally...
 	y+=inc/2;
-	game_descriptions=new Stringtable(ST_GAMETYPEDESCRIPTIONS);
+	game_descriptions = new Stringtable("gdesc_en.txt");
 
 	game_end = config.info.game_end;
 	game_end_value = config.info.game_end_value;
@@ -112,11 +112,11 @@ Create_game::Create_game(Bitmap *bit, Font *font, Font *font2, const Palette& p,
 	y+=inc;
 	y+=inc;
 
-	z=new Zone_text(fteam[7], inter, ST_RECORDGAME, 20, y);
+	z=new Zone_text(fteam[7], inter, "Record game demo:", 20, y);
 	record_game = 0;
 	Zone_state_text2 *temp = new Zone_state_text2(inter, &record_game, 20+z->w+10, y);
-	temp->add_string(ST_NO);
-	temp->add_string(ST_YES);
+	temp->add_string("No");
+	temp->add_string("Yes");
 	record_watch = temp;
 	record_watch->add_watch(this);
 	record_zone = temp;
@@ -124,9 +124,9 @@ Create_game::Create_game(Bitmap *bit, Font *font, Font *font2, const Palette& p,
 	z_record_name = NULL;
 	y+=inc;
 
-	save = new Zone_text_button2(inter, bit, font2, ST_SAVESETTING, 20, 450);
-	start = new Zone_text_button2(inter, bit, font2, ST_STARTGAME, 400, 450);
-	cancel = new Zone_text_button2(inter, bit, font2, ST_BACK, 560, 450);
+	save = new Zone_text_button2(inter, bit, font2, "·2 Save settings", 20, 450);
+	start = new Zone_text_button2(inter, bit, font2, "·2 Create game", 400, 450);
+	cancel = new Zone_text_button2(inter, bit, font2, "Back ·0", 560, 450);
 
 	notify();
 }
@@ -157,13 +157,13 @@ void Create_game::recreate_game_end() {
 	}
 	int y=game_end_y;
 	Zone *z;
-	z=new Zone_text(fteam[7], inter, ST_SETGAMEEND, 20, y);
+	z=new Zone_text(fteam[7], inter, "The game ends when:", 20, y);
 	game_end_selector = new Zone_state_text2(inter, &game_end, z->x+z->w+10, y);
-	game_end_selector->add_string(ST_GAMEEND1);
+	game_end_selector->add_string("Never");
 	if(selected!=2) //endfrags only when !peace
-		game_end_selector->add_string(ST_GAMEEND2);
-	game_end_selector->add_string(ST_GAMEEND3);
-	game_end_selector->add_string(ST_GAMEEND4);
+		game_end_selector->add_string("Frags");
+	game_end_selector->add_string("Time");
+	game_end_selector->add_string("Points");
 	game_end_selector->add_watch(this);
 	z=game_end_selector;
 	if(game_end_text)
@@ -174,21 +174,21 @@ void Create_game::recreate_game_end() {
 	switch(game_end+(selected==2 && game_end? 1:0)) {
 		case 1:
 			game_end_num = new Zone_input_numeric(inter, &game_end_value, 5, 1, 9999, pal, num_x, y, 50);
-			game_end_text = new Zone_text(fteam[7], inter, ST_GAMEENDFRAG, text_x, y);
+			game_end_text = new Zone_text(fteam[7], inter, "frags.", text_x, y);
 			break;
 		case 2:
 			game_end_num = new Zone_input_numeric(inter, &game_end_value, 5, 1, 9999, pal, num_x, y, 50);
-			game_end_text = new Zone_text(fteam[7], inter, ST_GAMEENDMINUTE, text_x, y);
+			game_end_text = new Zone_text(fteam[7], inter, "minutes.", text_x, y);
 			break;
 		case 3:
 			game_end_num = new Zone_input_numeric(inter, &game_end_value, 5, 1, 99999, pal, num_x, y, 50);
 			char st[64];
-			sprintf(st, "x 1000 %s", ST_GAMEENDSCORE);
+			sprintf(st, "x 1000 %s", "points.");
 			game_end_text = new Zone_text(fteam[7], inter, st, text_x, y);
 			break;
 		case 4:
 			game_end_num = new Zone_input_numeric(inter, &game_end_value, 5, 1, 99999, pal, num_x, y, 50);
-			game_end_text = new Zone_text(fteam[7], inter, ST_GAMEENDLINES, text_x, y);
+			game_end_text = new Zone_text(fteam[7], inter, "lines.", text_x, y);
 			break;
 		default:
 			game_end_text = NULL;
@@ -234,7 +234,7 @@ void Create_game::step() {
 		if(net_game && !local_net) // force a non-Internet game to "public=false" always
 			publi = game_public? true:false;
 		if(!name[0])
-			strcpy(name, ST_GAMENONAME);
+			strcpy(name, "[No name]");
 		Game_params p;
 		p.name=name;
 		switch(selected) {
@@ -278,7 +278,7 @@ Create_game_start::Create_game_start(const Palette &pal_, Bitmap *bit, Font *fon
 	pal(pal_) {
 	bit_ = bit;
 	font_ = font;
-	sprintf(st, ST_GAMEBOBCREATED, game->name);
+	sprintf(st, "Game %s created.", game->name);
 	message(-1, st, true, false, true);
 }
 
@@ -299,7 +299,9 @@ void Create_game_start::init() {
 	char *tube;
 	tube = net->failed();
 	if(tube) {
-		exec(new Menu_net_problem(tube, ST_CREATESERVERFAILED, bit_, font_));
+		exec(new Menu_net_problem(tube, "Unable to create server. "
+                              "Check your network configuration.",
+                              bit_, font_));
 		return;
 	}
 
@@ -324,9 +326,9 @@ void Create_game_start::init() {
 Create_game_end::Create_game_end(const Palette &pal_, Bitmap *bit, Font *font): pal(pal_) {
 	inter->set_font(font, false);
 	new Zone_bitmap(inter, bit, 0, 0);
-	new Zone_text(fteam[7], inter, ST_UPDATINGGAMESERVER, 140);
-	new Zone_text(fteam[7], inter, ST_ONEMOMENTPLEASE, 180);
-	cancel = new Zone_text_button2(inter, bit, font, ST_CLICKTOCANCEL, 250);
+	new Zone_text(fteam[7], inter, "Updating public game server", 140);
+	new Zone_text(fteam[7], inter, "One moment please...", 180);
+	cancel = new Zone_text_button2(inter, bit, font, "·2 Cancel", 250);
 }
 
 Create_game_end::~Create_game_end() {
@@ -360,22 +362,22 @@ Join_game::Join_game(Bitmap *bit, Font *font, Font *font2, const Palette& p, con
 	font2_ = font2;
 	inter->set_font(font, false);
 	(void)new Zone_bitmap(inter, bit, 0, 0);
-	(void)new Zone_text(inter, ST_JOINGAMETITLE, 20);
+	(void)new Zone_text(inter, "Join game", 20);
 	if(n) {
-		sprintf(st, ST_WAITJOINGAME, n);
+		sprintf(st, "Attempting to connect with game %s...", n);
 	} else {
 		char tube[256], tube2[256];
 		Net::stringaddress(tube, sa);
 		if(port) {
 			sprintf(tube2, "%s:%i", tube, port);
-			sprintf(st, ST_WAITJOINGAME3, tube2);
+			sprintf(st, "Searching for Quadra server at address %s...", tube2);
 		} else {
-			sprintf(st, ST_WAITJOINGAME3, tube);
+			sprintf(st, "Searching for Quadra server at address %s...", tube);
 		}
 	}
 	msgbox("Join_game::Join_game: address=%x, port=%i, n=[%s]\n", address, port, n? n:"NULL");
 	status = new Zone_text(fteam[7], inter, st, 210);
-	cancel = new Zone_text_button2(inter, bit, font2, ST_BACK, 560, 450);
+	cancel = new Zone_text_button2(inter, bit, font2, "Back ·0", 560, 450);
 
 	eping=NULL;
 	delay = 0;
@@ -387,7 +389,7 @@ void Join_game::init() {
 		net->start_client(address, port);
 		char *tube = net->failed();
 		if(tube) {
-			exec(new Menu_net_problem(tube, ST_JOINGAMEFAILED, bit_, inter->font));
+			exec(new Menu_net_problem(tube, "Unable to establish network connection. Try another TCP/IP address.", bit_, inter->font));
 		}
 	}
 }
@@ -401,24 +403,24 @@ void Join_game::step() {
 	bool connect = net->connected();
 	char *tube = net->failed();
 	if(tube) {
-		exec(new Menu_net_problem(tube, ST_JOINGAMEFAILED, bit_, inter->font));
+		exec(new Menu_net_problem(tube, "Unable to establish network connection. Try another TCP/IP address.", bit_, inter->font));
 		return;
 	}
 	if(connect && !eping) {
-		status->set_text(ST_WAITJOINGAME2);
+		status->set_text("Connected. Waiting for server reply...");
 		video->need_paint = 2;
 		eping=new Exec_ping(&pac, P_GAMESERVER, this);
 	}
 	if(eping && !connect) {
-		status->set_text(ST_NOTQUADRASERVER);
-		(void)new Zone_text(fteam[7], inter, ST_JOINREFUSED2, 240);
+		status->set_text("The host responding is not a Quadra server.");
+		(void)new Zone_text(fteam[7], inter, "Please click on 'Back ·0' and select another game.", 240);
 		video->need_paint = 2;
 		delete eping;
 		eping=NULL;
 	}
 	delay++;
 	if(delay == 4000) {
-		(void)new Zone_text(fteam[7], inter, ST_WAITJOINGAMEDELAY, 270);
+		(void)new Zone_text(fteam[7], inter, "No response from server. You can continue to wait or abort this operation.", 270);
 	}
 }
 
@@ -426,8 +428,8 @@ void Join_game::net_call(Packet *p2) {
 	Packet_gameserver *p=(Packet_gameserver *) p2;
 	bool ok = true;
 	if(!p->accepted) {
-		status->set_text(ST_JOINREFUSED);
-		(void)new Zone_text(fteam[7], inter, ST_JOINREFUSED2, 240);
+		status->set_text("The administrator refused your request.");
+		(void)new Zone_text(fteam[7], inter, "Please click on 'Back ·0' and select another game.", 240);
 		video->need_paint = 2;
 		ok = false;
 	}
@@ -437,21 +439,23 @@ void Join_game::net_call(Packet *p2) {
 	//  games of net_version==22.
 	if(p->version < 20 || (p->version > Config::net_version && p->version != 22)) {
 		if(p->version < Config::net_version) {
-			sprintf(st, ST_JOINOLDERVERSION, p->version);
+			sprintf(st, "The Quadra server is using an older version (%i).",
+              p->version);
 			status->set_text(st);
-			sprintf(st, ST_JOINOLDERVERSION2, Config::net_version);
+			sprintf(st, "The server must be updated to your version %i.",
+              Config::net_version);
 			(void)new Zone_text(fteam[7], inter, st, 240);
 		} else {
-			sprintf(st, ST_JOINNEWERVERSION, p->version);
+			sprintf(st, "The Quadra server is using a more recent version (%i).", p->version);
 			status->set_text(st);
-			(void)new Zone_text(fteam[7], inter, ST_JOINNEWERVERSION2, 240);
+			(void)new Zone_text(fteam[7], inter, "Please check for Quadra update at our web site 'quadra.sourceforge.net'.", 240);
 		}
 		video->need_paint = 2;
 		ok = false;
 	}
 	if(ok) {
 		(void)new Game(p);
-		sprintf(st,ST_GAMEBOBJOINED, game->name);
+		sprintf(st, "Game %s joined.", game->name);
 		message(-1, st);
 		exec(new Join_download(bit_, inter->font, font2_, pal, rejoin));
 	}
@@ -481,8 +485,8 @@ Join_download::Join_download(Bitmap *bit, Font *font, Font *font2, const Palette
 	nb_current = nb_percent = 0;
 	inter->set_font(font, false);
 	new Zone_bitmap(inter, bit, 0, 0);
-	new Zone_text(inter, ST_JOINGAMETITLE, 120);
-	new Zone_text(fteam[7], inter, ST_JOINDOWNLOADING, 210);
+	new Zone_text(inter, "Join game", 120);
+	new Zone_text(fteam[7], inter, "Connected. Downloading game information...", 210);
 	new Zone_text(fteam[7], inter, "%", 340, 240);
 	new Zone_text_field(inter, &nb_percent, 290, 240, 40);
 }
@@ -492,7 +496,9 @@ Join_download::~Join_download() {
 
 void Join_download::step() {
 	if(!net->connected()) {
-		exec(new Menu_net_problem(ST_DOWNLOADDECONNECT1, ST_DOWNLOADDECONNECT2, bit_, inter->font));
+		exec(new Menu_net_problem("The connection with the server has been lost.",
+                              "Try connecting again, or select another server.",
+                              bit_, inter->font));
 		return;
 	}
 	nb_current=0;

@@ -127,9 +127,8 @@ void delete_obj() {
     net=NULL;
   }
   if(sound) {
-    msgbox("deleting sound...");
+    msgbox("deleting sound...\n");
     delete sound;
-    msgbox(" done\n");
     sound=NULL;
   }
   if(input) {
@@ -141,11 +140,6 @@ void delete_obj() {
     msgbox("deleting video...\n");
     delete video;
     video=NULL;
-  }
-  if(stringtable) {
-    msgbox("deleting stringtable...\n");
-    delete stringtable;
-    stringtable=NULL;
   }
   if(cursor) {
     msgbox("deleting cursor..\n");

@@ -33,7 +33,6 @@
 #include "config.h"
 #include "canvas.h"
 #include "chat_text.h"
-#include "texte.h"
 #include "recording.h"
 #include "global.h"
 #include "sons.h"
@@ -400,8 +399,8 @@ void Game::got_potato(Byte team, int lines) {
 		Canvas *c=net_list.get(i);
 		if(c && c->color==team) {
 			if(c->islocal()) {
-				c->add_text_scroller(ST_YOUGOTPOTATO1, 4, -20);
-				c->add_text_scroller(ST_YOUGOTPOTATO2, 4);
+				c->add_text_scroller("You get the", 4, -20);
+				c->add_text_scroller("      hot potato!", 4);
         sons.potato_get->play(-1200, 0, 44100);
 			}
 			c->potato_lines=0;
@@ -418,9 +417,9 @@ void Game::got_potato(Byte team, int lines) {
 	char st[1024];
 	if(chat_text) {
 		net_list.team2name(team, st);
-		strcat(st, ST_GETSPOTATO);
+		strcat(st, " gets the hot potato!");
 		message(-1, st);
-		sprintf(st, ST_CLEARBOBLINES, lines);
+		sprintf(st, "Clear %i lines.", lines);
 		message(-1, st);
 	}
 }
@@ -431,8 +430,8 @@ void Game::done_potato(Byte team) {
 		Canvas *c=net_list.get(i);
 		if(c && c->color==team) {
 			if(c->islocal() && !(c->dying || c->idle>=2)) {
-				c->add_text_scroller(ST_YOUGOTRIDOFPOTATO1, 4, -40);
-				c->add_text_scroller(ST_YOUGOTRIDOFPOTATO2, 4, -20);
+				c->add_text_scroller("You got rid of", 4, -40);
+				c->add_text_scroller("    the hot potato!", 4, -20);
         sons.potato_rid->play(-300, 0, 11025);
 			}
 			int x, y;
@@ -728,9 +727,9 @@ void Game::sendgameinfo(bool quit) {
 	gameinfo=new Qserv();
 	char *msg = net->failed();
 	if(msg) {
-		sprintf(st, ST_NETWORKERRORLOOKINGBOB, msg);
+		sprintf(st, "·2 Network error while looking for game server: %s.", msg);
 		message(-1, st, true, false, true);
-		message(-1, ST_GAMENOTPUBLIC, true, false, true);
+		message(-1, "·2 Aborting: Game won't be public.", true, false, true);
 		http_failed = true;
 		delete gameinfo;
 		gameinfo = NULL;
@@ -747,12 +746,8 @@ void Game::stepgameinfo() {
 	if(gameinfo) {
 		if(gameinfo->done()) {
 			const char *status=gameinfo->get_status();
-			if(status==NULL || (strcmp(status, "Game added") && strcmp(status, "Game updated"))) {
-				message(-1, ST_INVALIDSERVERRESPONSE, true, false, true);
-				/*message(-1, ST_GAMENOTPUBLIC, true, false, true);
-				http_failed = true;
-				game_public = false;*/
-			}
+			if(status==NULL || (strcmp(status, "Game added") && strcmp(status, "Game updated")))
+				message(-1, "·2 Invalid game server response.", true, false, true);
 			delete gameinfo;
 			gameinfo=NULL;
 		}
@@ -790,14 +785,14 @@ void Game::prepare_recording(const char *fn) {
 	}
 	strcat(nom, ".qrec"); // ajoute .qrec
 	if(!recording->create(nom)) {
-		sprintf(st, ST_GAMENOTRECORDEDAS, nom);
+		sprintf(st, "·2 Unable to record game '%s'", nom);
 		message(-1, st, true, false, true);
 		msgbox("Game::prepare_recording: Warning: could not create demo file\n");
 		delete recording; // si la creation du fichier a pas marcher
 		recording=NULL;
 	}
 	else {
-		sprintf(st, ST_GAMERECORDINGAS, nom);
+		sprintf(st, "·2 Recording game as '%s'", nom);
 		message(-1, st, true, false, true);
 		Packet_gameserver p;
 		Net_pendingjoin::load_packet_gameserver(&p);

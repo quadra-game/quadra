@@ -58,7 +58,6 @@
 #include "net_stuff.h"
 #include "chat_text.h"
 #include "recording.h"
-#include "texte.h"
 #include "canvas.h"
 #include "global.h"
 #include "sons.h"
@@ -678,7 +677,7 @@ void Player_check_line::check_clean() {
 		for(i = 4; i < 14; i++)
 			if(canvas->occupied[j][i])
 				return;
-	canvas->add_text_scroller(ST_CLEANCANVAS);
+	canvas->add_text_scroller("Clean Canvas!!");
 	if(game->net_version()<23)
 		canvas->stats[CS::SCORE].add(5000);
 	canvas->send_for_clean=true;
@@ -1092,14 +1091,14 @@ Player_dead::Player_dead(Canvas *c, bool tg): Player_base(c), then_gone(tg) {
 	msgbox("\n");
 	if(fragger) {
 		fragger->stats[CS::FRAG].add(1);
-		sprintf(st, ST_BOBFRAGBOB, fragger->name, c->name);
+		sprintf(st, "%s fragged %s!", fragger->name, c->name);
 		message(fragger->color, st);
 
 		couleur = fragger->color<<4; // couleur du 'fragger'
-		sprintf(st, ST_YOUFRAGBOB, c->name);
+		sprintf(st, "Fragged %s!", c->name);
 		fragger->add_text_scroller(st);
 	} else {
-		sprintf(st, ST_BOBDIED, c->name);
+		sprintf(st, "%s died.", c->name);
 		message(-1, st);
 		couleur = 8<<4; // gris pour mort naturelle
 	}
@@ -1217,9 +1216,9 @@ void Player_dead_wait::init() {
 	if(game->single || game->delay_start)
 		return;
 	if(game->survivor)
-		canvas->set_message(ST_WAITINGFORROUND1, ST_WAITINGFORROUND2);
+		canvas->set_message("Waiting for the", "        next round...");
 	else
-		canvas->set_message(ST_WAITINGFORKEY1, ST_WAITINGFORKEY2);
+		canvas->set_message("Press a key to", "        restart.");
 }
 
 void Player_dead_wait::step() {
@@ -1367,7 +1366,7 @@ Player_gone::Player_gone(Canvas *c, bool chat_msg): Player_base(c) {
 	canvas->delete_bloc();
 	canvas->set_next();
 	if(chat_msg) {
-		sprintf(st, ST_BOBHASGONE, canvas->name);
+		sprintf(st, "%s has left the game.", canvas->name);
 		message(-1, st);
 	}
 	Packet_serverlog log("player_gone");
@@ -1406,7 +1405,7 @@ void Player_gone::step() {
 		canvas->smooth = p->smooth? true:false;
 		canvas->shadow = p->shadow? true:false;
 		canvas->handicap = p->handicap;
-		sprintf(st, ST_BOBREJOIN, canvas->long_name(true, false));
+		sprintf(st, "%s has joined back!", canvas->long_name(true, false));
 		message(-1, st);
 		msgbox("Player_gone::step: player %i is no longer a goner! Rejoining.\n", p->player);
 		game->removepacket();
@@ -1569,7 +1568,7 @@ Player_stamp::Player_stamp(Canvas *c, Packet_stampblock *p): Player_base(c) {
 	canvas->bloc->by=p->y;
 	if(canvas->collide(p->x, p->y, p->rotate) || !canvas->collide(p->x, p->y+1, p->rotate)) {
 		char st[256];
-		sprintf(st, ST_BOBINVALIDBLOCK, canvas->name);
+		sprintf(st, "*** %s dropped an invalid block! ***", canvas->name);
 		if(game->server) {
 			message(-1, st, true, false, true);
 			game->net_list.server_drop_player(canvas->num_player, DROP_INVALID_BLOCK);
@@ -1992,21 +1991,13 @@ Attack read_attack_param(const char *s) {
 
 void display_command_line_help() {
 	char st[4096];
-	const char *res;
-	switch(config.info.language) {
-		default:
-		case 0:
-			res="help_en.txt"; break;
-		case 1:
-			res="help_fr.txt"; break;
-	}
-	Res_doze cmdline(res);
+	Res_doze cmdline("help_en.txt");
 	Dword size = min(sizeof(st)-1, cmdline.size());
 	strncpy(st, (char *)cmdline.buf(), size);
 	st[size] = 0;
 	if(video)
 		delete video;
-	user_output(ST_CMDLINE, st);
+	user_output("Quadra - Command line", st);
 }
 
 void read_script(const char *fn, bool second=false) {
@@ -2102,24 +2093,9 @@ void start_game() {
 		msgbox("Ok\n");
 	}
 	bool dedicated=command.token("dedicated");
-	if(command.token("english") || dedicated)
-		config.info.language=0;
-	if(command.token("french"))
-		config.info.language=1;
-	char *language;
 	int i;
-	switch(config.info.language) {
-		default:
-		case 0:
-			language="anglais.txt"; break;
-		case 1:
-			language="francais.txt"; break;
-	}
 	for(i=0; i<MAXTEAMS; i++)
 		set_team_name(i, NULL);
-	msgbox("Reading stringtable: ");
-	stringtable=new Stringtable(language);
-	msgbox("Ok\n");
 
 	if(command.token("h help ?")) {
 		display_command_line_help();

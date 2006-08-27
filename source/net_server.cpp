@@ -23,7 +23,6 @@
 #include "game.h"
 #include "canvas.h"
 #include "chat_text.h"
-#include "texte.h"
 #include "global.h"
 #include "config.h"
 #include "sons.h"
@@ -81,7 +80,7 @@ Net_client::~Net_client() {
 	net->removewatch(P_MOVES, this);
 	net->removewatch(P_SERVERNAMETEAM, this);
 	net->removewatch(P_GAMESTAT, this);
-	//Intricate, isn't it? :)
+	// Intricate, isn't it? :)
 	if(game->single)
 		net->stop_client();
 }
@@ -125,7 +124,7 @@ void Net_client::pause(Packet *p2) {
 	msgbox("Net_client::pause\n");
 	if(game->paused) {
 		if(game->delay_start==500) {
-			message(-1, ST_GAMEWILLSTART);
+			message(-1, "·2 Game will start in 5 seconds...");
 			game->delay_start = 499; // starts the countdown
 			msgbox("Net_client::pause: starting countdown...\n");
 			Packet_serverlog log("game_start");
@@ -149,15 +148,15 @@ void Net_client::pause(Packet *p2) {
 		Packet_pause *p=(Packet_pause *) p2;
 		const char *pn;
 		if(p->player == -1)
-			pn = ST_SERVER;
+			pn = "server";
 		else {
 			Canvas *c=game->net_list.get(p->player);
 			if(c)
 				pn = c->name;
 			else
-				pn = ST_SERVER;
+				pn = "server";
 		}
-		sprintf(st, ST_PAUSEDBYBOB, pn);
+		sprintf(st, "Game paused by %s.", pn);
 		message(-1, st);
 		if(p2 && p2->from) {
 			Packet_serverlog log("pause");
