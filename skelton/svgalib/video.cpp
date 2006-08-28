@@ -21,6 +21,7 @@
 #include "video.h"
 
 #include <assert.h>
+#include <alloca.h>
 #include "SDL.h"
 #include "video_dumb.h"
 #include "bitmap.h"
@@ -205,8 +206,10 @@ void Video_SDL::setpal(const Palette &p) {
 }
 
 void Video_SDL::dosetpal(PALETTEENTRY pal[256], int size) {
-  SDL_Color colors[size];
+  SDL_Color *colors;
   int i;
+
+  colors = static_cast<SDL_Color*>(alloca(sizeof(SDL_Color) * size));
 
   for(i = 0; i < size; i++) {
     colors[i].r = pal[i].peRed;
