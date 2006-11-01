@@ -37,7 +37,7 @@ dist: distclean quadra.spec configure ChangeLog manual-dist-stuff
 
 ChangeLog:
 	rm -f ChangeLog
-	-cvs2cl.pl
+	-svn log -v > $@
 
 installdirs:
 	mkdir -p $(bindir)
