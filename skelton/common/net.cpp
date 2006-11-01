@@ -41,7 +41,6 @@
 #include <netdb.h>
 #include <string.h>
 #include <fcntl.h>
-typedef size_t addr_size_t;
 inline int closesocket(int fd) {
 	return close(fd);
 }
