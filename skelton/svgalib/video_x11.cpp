@@ -332,6 +332,8 @@ Video_X11::Video_X11(int w, int h, int b,
 
   attribs.colormap = DefaultColormap(display, DefaultScreen(display));
 
+  skelton_msgbox("X11: color depth = %i\n", depth);
+
   window = XCreateWindow(display,
                          DefaultRootWindow(display),
                          0, 0, /* X, Y relative to parent window */
