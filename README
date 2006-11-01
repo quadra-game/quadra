@@ -1,10 +1,10 @@
 Quadra Source Release
----------------------
-$Id$
+=====================
 
 This is the Quadra source release.
 
-Requirements:
+Requirements
+------------
 
  - a C++ compiler (gcc was tested on Linux and Visual C++ on Windows)
  - zlib (http://www.info-zip.org/pub/infozip/zlib/)
@@ -12,8 +12,12 @@ Requirements:
  - DirectX 5 (Windows only)
  - X Window System libraries with XPM support (Linux only)
 
+Building on Unix-style systems
+------------------------------
+
 To compile and install this software on a Unix-like system, do this:
 
+$ make (if you checked out the source code from Subversion)
 $ ./configure
 $ make
 $ make install (optional)
@@ -30,16 +34,22 @@ If you ran the "make install" command, then you have 'quadra'
 installed on your system and you can just run it (no need to set
 QUADRADIR).
 
+Building on Windows systems
+---------------------------
+
 To compile Quadra on a Windows machine, use the Visual C++ workspace
 and project file in the VisualC++ subdirectory. Make sure you have
 zlib, libpng and DirectX properly installed for development on your
 machine.
 
+Any questions?
+--------------
+
 If you have any problem, patches, suggestions, bug reports or are
 simply looking for help, please take advantage of the resources
 available on our web site (http://quadra.sourceforge.net/)! Among
 others, we have a support request system, mailing lists, a bug
-tracking system and plenty of other goodies, so come and have fun!
+tracking system and plenty of other goodies, check it out!
 
 Good luck, and have fun!
 
