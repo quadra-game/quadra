@@ -66,7 +66,7 @@ void Video_X11_24::flip() {
   };
 #pragma pack()
 
-  unsigned long* buf32;
+  unsigned int* buf32;
   Pixel3* buf24;
   int x, y;
 
@@ -85,7 +85,7 @@ void Video_X11_24::flip() {
 	    ((PixelValue*)(&colors[vfb[(y * width) +x]]))->pixel;
     } else {
       /* Conversion of the 8 bpp buffer to a 32 bpp buffer. */
-      buf32 = (unsigned long*) image->data;
+      buf32 = reinterpret_cast<unsigned int*>(image->data);
       for(y = 0; y < 480; y++)
         for(x = min_x[y]; x <= max_x[y]; x++)
           buf32[(y * width) + x] =
