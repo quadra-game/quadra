@@ -28,7 +28,7 @@ CXXFLAGS+=-Wall -pipe -Iinclude -Iskelton/include -Iimages -DLIBGAMESDIR=\"$(lib
 
 ARFLAGS=rcs
 
-# FIXME: this should be the reverse, config.cpp should get values from
+# FIXME: this should be the reverse, version.h should get values from
 # this makefile using some -D options to the compiler.
 MAJOR:=$(shell grep 'VERSION_MAJOR' include/version.h | cut -d" " -f3 | bc)
 MINOR:=$(shell grep 'VERSION_MINOR' include/version.h | cut -d" " -f3 | bc)

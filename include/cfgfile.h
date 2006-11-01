@@ -36,7 +36,7 @@ public:
 	int warning;
 	/*
    * WARNING: Everything in the following structs is pretty much set
-   *          in stone. A full understanding of config.cpp is needed
+   *          in stone. A full understanding of cfgfile.cpp is needed
    *          to change anything.
    */
 	struct {
