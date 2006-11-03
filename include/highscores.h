@@ -45,7 +45,7 @@ public:
 	static void getFilename(char* st, int i, int size_of);
 	static void getGlobalFilename(char* st, int i, int size_of);
 	static void load();
-	static void free();
+	static void freemem();
 	static int update(Canvas* c);
 };
 

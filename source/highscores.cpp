@@ -108,7 +108,7 @@ void Highscores::load() {
 	}
 }
 
-void Highscores::free() {
+void Highscores::freemem() {
 	int i;
 
 	if(!loaded)

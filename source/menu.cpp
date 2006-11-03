@@ -310,7 +310,7 @@ void Menu_highscore::step_sync() {
     }
   }
   status->set_val(ST_HIGHSTATUSCOMPLETED);
-  Highscores::free();
+  Highscores::freemem();
   Highscores::load();
   int y=70;
   refresh_global(y);

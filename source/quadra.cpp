@@ -2027,7 +2027,7 @@ void deinit_stuff() {
 	delete chat_text; chat_text=NULL;
 
 	config.write();
-	Highscores::free();
+	Highscores::freemem();
 
 	delete cursor; cursor = NULL;
 	delete cur; cur = NULL;
