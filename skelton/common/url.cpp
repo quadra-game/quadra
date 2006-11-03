@@ -77,7 +77,7 @@ void Url::setScheme(const char* s) {
 
 void Url::setHost(const char* h) {
 	unsigned int len;
-	char* sep=strchr(h, ':');
+	const char* sep(strchr(h, ':'));
 	if(sep) {
 		port=atoi(sep+1);
 		len=sep-h;
