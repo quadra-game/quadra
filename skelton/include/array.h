@@ -21,6 +21,7 @@
 #ifndef _HEADER_ARRAY
 #define _HEADER_ARRAY
 
+#include <stdlib.h>
 #include <vector>
 
 #include "config.h"
