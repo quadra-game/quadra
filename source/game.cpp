@@ -38,6 +38,7 @@
 #include "clock.h"
 #include "http_request.h"
 #include "game.h"
+#include "config.h"
 
 RCSID("$Id$")
 

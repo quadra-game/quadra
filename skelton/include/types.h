@@ -21,6 +21,8 @@
 #ifndef _HEADER_TYPES
 #define _HEADER_TYPES
 
+#include "config.h"
+
 #ifndef max
 #define max(a,b) (((a) > (b)) ? (a) : (b))
 #endif

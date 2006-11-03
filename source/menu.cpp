@@ -57,6 +57,7 @@
 #include "main.h"
 #include "canvas.h"
 #include "menu.h"
+#include "config.h"
 
 #ifdef UGS_DIRECTX
 #include <shellapi.h>

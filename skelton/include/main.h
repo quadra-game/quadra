@@ -22,6 +22,7 @@
 #define _HEADER_MAIN
 
 #include "types.h"
+#include "config.h"
 
 #ifdef UGS_DIRECTX
 	#define WIN32_LEAN_AND_MEAN

@@ -20,6 +20,8 @@
 
 #include <stdio.h>
 
+#include "config.h"
+
 #ifdef UGS_LINUX
 #ifdef SOCKS
 #include <socks.h>

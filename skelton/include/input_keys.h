@@ -24,6 +24,8 @@
 #define PRESSED 1
 #define RELEASED 2
 
+#include "config.h"
+
 #if defined(UGS_DIRECTX)
 
 #undef DIRECTINPUT_VERSION

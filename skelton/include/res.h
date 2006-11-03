@@ -25,6 +25,7 @@
 #include <fcntl.h>
 #include "resfile.h"
 #include "resmanager.h"
+#include "config.h"
 
 #ifdef UGS_LINUX
 	#include <unistd.h>

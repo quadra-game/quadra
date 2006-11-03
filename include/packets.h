@@ -27,6 +27,7 @@
 #include "game.h"
 #include "cfgfile.h"
 #include "track.h"
+#include "config.h"
 
 enum Packet_type {
 	P_CHAT,

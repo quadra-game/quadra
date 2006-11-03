@@ -27,6 +27,7 @@
 #include "inter.h"
 #include "image_png.h"
 #include "res.h"
+#include "config.h"
 
 RCSID("$Id$")
 

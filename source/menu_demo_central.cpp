@@ -34,6 +34,7 @@
 #include "game.h"
 #include "multi_player.h"
 #include "menu_demo_central.h"
+#include "config.h"
 
 RCSID("$Id$")
 

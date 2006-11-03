@@ -28,6 +28,7 @@
 #include "stringtable.h"
 #include "video.h"
 #include "qserv.h"
+#include "config.h"
 
 RCSID("$Id$")
 

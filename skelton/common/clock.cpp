@@ -22,6 +22,7 @@
 #include <sys/timeb.h>
 #include <stdio.h>
 #include "clock.h"
+#include "config.h"
 
 RCSID("$Id$")
 
