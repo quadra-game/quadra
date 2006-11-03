@@ -21,15 +21,16 @@
 #ifndef _HEADER_RANDOM
 #define _HEADER_RANDOM
 
+#include <time.h>
 #include "types.h"
 
 class Random {
-	int seed;
+	time_t seed;
 public:
 	Random();
-	Random(int p);
-	int get_seed() const;
-	void set_seed(int p);
+	Random(time_t p);
+	time_t get_seed() const;
+	void set_seed(time_t p);
 	Word rnd(int _and=0xFFFF);
 	Word crap_rnd(int _and=0xFFFF);
 };

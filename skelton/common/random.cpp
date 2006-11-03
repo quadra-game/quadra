@@ -30,7 +30,7 @@ Random::Random() {
 	set_seed(time(NULL));
 }
 
-Random::Random(int p) {
+Random::Random(time_t p) {
 	set_seed(p);
 }
 
@@ -50,10 +50,10 @@ Word Random::crap_rnd(int _and) { // crappy proc
 	return (Word) (tmp & _and);
 };
 
-int Random::get_seed() const {
+time_t Random::get_seed() const {
 	return seed;
 }
 
-void Random::set_seed(int p) {
+void Random::set_seed(time_t p) {
 	seed = p;
 }
