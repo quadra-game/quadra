@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include "res.h"
 #include "resfile.h"
-#include "byteorder.h"
+#include "SDL.h"
 
 void Resfile::freeze() {
 	int resnamelen;
@@ -34,10 +34,10 @@ void Resfile::freeze() {
 
   while(ptr != NULL) {
 		resnamelen = strlen(ptr->name)+1;
-                d = INTELDWORD(resnamelen);
+                d = SDL_SwapLE32(resnamelen);
 		res->write(&d, sizeof(d));
 		res->write(ptr->name, resnamelen);
-                d = INTELDWORD(ptr->size);
+                d = SDL_SwapLE32(ptr->size);
 		res->write(&d, sizeof(d));
 		res->write(ptr->data, ptr->size);
     ptr = ptr->next;

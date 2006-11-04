@@ -24,7 +24,7 @@
 #include <string.h>
 #include "error.h"
 #include "res.h"
-#include "byteorder.h"
+#include "SDL.h"
 
 Resdata::Resdata(char *resname, int ressize, Byte *resdata, Resdata *list) {
 	name = resname;
@@ -78,13 +78,13 @@ void Resfile::thaw() {
 
 	do {
 		res->read(&resnamelen, sizeof(resnamelen));
-		resnamelen = INTELDWORD(resnamelen);
+		resnamelen = SDL_SwapLE32(resnamelen);
 		if(resnamelen == 0)
 			break;
 		resname = new char[resnamelen];
 		res->read(resname, resnamelen);
 		res->read(&ressize, sizeof(ressize));
-		ressize = INTELDWORD(ressize);
+		ressize = SDL_SwapLE32(ressize);
 		resdata = new Byte[ressize];
 		res->read(resdata, ressize);
 

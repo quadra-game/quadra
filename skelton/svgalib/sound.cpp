@@ -194,7 +194,7 @@ void Sound::audio_callback(void *userdata, Uint8 *stream, int len) {
       signed short w;
 
       for(unsigned int j=0; j<frag_temp; j++) {
-        signed short tmpl = INTELWORD(*(input + p->pos));
+        signed short tmpl = SDL_SwapLE16(*(input + p->pos));
         tmpl = (tmpl * p->vo) >> 8;
         if(sound->spec.channels == 2) { // stereo output
           signed short tmpr = tmpl;
@@ -203,11 +203,11 @@ void Sound::audio_callback(void *userdata, Uint8 *stream, int len) {
           else if(p->pa < 0)
             tmpr = (tmpr * (-p->pa)) >> 8;
 
-          w = INTELWORD(*output);
-          *output++ = INTELWORD(tmpr + w);
+          w = SDL_SwapLE16(*output);
+          *output++ = SDL_SwapLE16(tmpr + w);
         }
-        w = INTELWORD(*output);
-        *output++ = INTELWORD(tmpl + w);
+        w = SDL_SwapLE16(*output);
+        *output++ = SDL_SwapLE16(tmpl + w);
         if(p->delta_position + p->delta_inc < p->delta_position) {
           p->pos++; /* if delta overflows */
         }
@@ -252,11 +252,11 @@ void Sample::loadriff(Res& _res) {
   unsigned int size(0), bps(0);
 
   /* 'RIFF' */
-  if(((struct riff_header *)res)->signature != INTELDWORD(0x46464952))
+  if(((struct riff_header *)res)->signature != SDL_SwapLE32(0x46464952))
     (void)new Error("Bad RIFF signature");
 
   /* 'WAVE' */
-  if(((struct riff_header *)res)->type != INTELDWORD(0x45564157))
+  if(((struct riff_header *)res)->type != SDL_SwapLE32(0x45564157))
     (void)new Error("RIFF is not a WAVE");
 
   char *ptr = (char *)res + sizeof(struct riff_header);
@@ -268,23 +268,23 @@ void Sample::loadriff(Res& _res) {
     unsigned int header_type = UNALIGNEDDWORD(header_ptr->type);
     unsigned int header_size = UNALIGNEDDWORD(header_ptr->size);
 
-    header_type = INTELDWORD(header_type);
-    header_size = INTELDWORD(header_size);
+    header_type = SDL_SwapLE32(header_type);
+    header_size = SDL_SwapLE32(header_size);
 
     switch(header_type) {
     case 0x20746d66: /* 'fmt ' */
       seenfmt = true;
       {
         Word w = UNALIGNEDWORD(((struct fmt_chunk *)data)->channels);
-        w = INTELWORD(w);
+        w = SDL_SwapLE16(w);
 
         if(w != 1)
           (void)new Error("RIFF/WAVE: unsupported number of channels");
 
         Dword d = UNALIGNEDDWORD(((struct fmt_chunk *)data)->sampling);
-        sampling = INTELDWORD(d);
+        sampling = SDL_SwapLE32(d);
         w = UNALIGNEDWORD(((struct fmt_chunk *)data)->bitspersample);
-        bps = INTELWORD(w);
+        bps = SDL_SwapLE16(w);
         size = 0;
       }
       break;
@@ -357,7 +357,7 @@ SampleData* Sound::normalize(char* _sample, unsigned int _size,
         } else {
           tube = (128 - (Byte)_sample[pos+1]) << (8-VOLUMESHIFT);
           // cheap interpolation
-          w = INTELWORD(((signed short *)audio_data)[i-1]);
+          w = SDL_SwapLE16(((signed short *)audio_data)[i-1]);
           tube = (tube+w) >> 1;
         }
       } else {
@@ -370,7 +370,7 @@ SampleData* Sound::normalize(char* _sample, unsigned int _size,
       if((sound->spec.format & 0xff) == 8)
         ((Byte *)audio_data)[i] = tube;
       else
-        ((signed short*)audio_data)[i] = INTELWORD(tube);
+        ((signed short*)audio_data)[i] = SDL_SwapLE16(tube);
 
       pos += inc;
       if(delta_pos + delta < delta_pos) // if delta overflows

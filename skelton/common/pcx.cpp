@@ -20,8 +20,6 @@
 
 #include "pcx.h"
 
-#include "byteorder.h"
-
 Pcx::Pcx(Res& res) {
 	Error *error;
 	res.read(&h, sizeof(h));

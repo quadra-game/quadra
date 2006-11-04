@@ -23,7 +23,7 @@
 #include "types.h"
 #include "bitmap.h"
 #include "video.h"
-#include "byteorder.h"
+#include "SDL.h"
 
 #define FONT_SIZE (141-32)
 
@@ -95,12 +95,12 @@ Fontdata::Fontdata(Res &res, int s) {
 	int w, h, rw;
 	for(int i=0; i<FONT_SIZE; i++) {
 		res.read(&w, sizeof(int));
-                w = INTELDWORD(w);
+                w = SDL_SwapLE32(w);
 		if(w != 0) {
 			res.read(&h, sizeof(int));
-                        h = INTELDWORD(h);
+                        h = SDL_SwapLE32(h);
 			res.read(&rw, sizeof(int));
-                        rw = INTELDWORD(rw);
+                        rw = SDL_SwapLE32(rw);
 			tmp = new Bitmap(w, h, rw);
 			res.read((*tmp)[0], rw*h);
 			spr[i] = new Sprite(*tmp, 0, 0, 0);

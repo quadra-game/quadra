@@ -29,8 +29,6 @@ AC_CHECK_LIB(SDL, SDL_Init, SDL_LIBS="-lSDL", nosdl=1)
 dnl Checks for header files.
 AC_CHECK_HEADER(zlib.h,, nozlib=1)
 AC_CHECK_HEADER(png.h,, nolibpng=1)
-AC_CHECK_HEADERS(machine/endian.h)
-AC_CHECK_HEADERS(machine/byte_order.h)
 AC_CHECK_HEADERS(SDL.h)
 
 save_CFLAGS="$CFLAGS"

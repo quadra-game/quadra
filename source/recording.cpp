@@ -32,7 +32,6 @@
 #include "stringtable.h"
 #include "clock.h"
 #include "chat_text.h"
-#include "byteorder.h"
 
 Recording *recording = NULL;
 Playback *playback = NULL;
@@ -55,7 +54,7 @@ void Recording::write_hunk(Byte h) {
 	int i;
 	if(!res)
 		return;
-	i = INTELDWORD(h);
+	i = SDL_SwapLE32(h);
 	res->write(&i, sizeof(h));
 }
 
@@ -72,12 +71,12 @@ void Recording::write_packet(Packet* p) {
 	if(!res)
 		return;
 	write_hunk(11);
-	Dword d = INTELDWORD(frame);
+	Dword d = SDL_SwapLE32(frame);
 	res->write(&d, sizeof(d));
 	Net_buf n;
 	p->write(&n);
 	Word size=n.len();
-	Word w = INTELWORD(size);
+	Word w = SDL_SwapLE16(size);
 	res->write(&w, sizeof(w));
 	res->write(n.buf, size);
 }
@@ -94,11 +93,11 @@ void Recording::end_single(Canvas* c) {
 	lines=c->stats[CS::LINESCUR].get_value();
 	level=c->level;
 	res->write(playername, sizeof(playername));
-	Dword d = INTELDWORD(score);
+	Dword d = SDL_SwapLE32(score);
 	res->write(&d, sizeof(d));
-	d = INTELDWORD(lines);
+	d = SDL_SwapLE32(lines);
 	res->write(&d, sizeof(d));
-	d = INTELDWORD(level);
+	d = SDL_SwapLE32(level);
 	res->write(&d, sizeof(d));
 }
 
@@ -124,7 +123,7 @@ void Recording::write_summary() {
 
 	Dword size=buf.len();
 	write_hunk(13);
-	Dword d = INTELDWORD(size);
+	Dword d = SDL_SwapLE32(size);
 	res->write(&d, sizeof(d));
 	res->write(buf.get(), size);
 }
@@ -247,10 +246,10 @@ void Playback::read_all() {
 
 void Playback::read_seed() {
 	res->read(&seed, sizeof(seed));
-	seed = INTELDWORD(seed);
+	seed = SDL_SwapLE32(seed);
 	for(int i=0; i<3; i++) {
 		res->read(&player[i].repeat, sizeof(player[0].repeat));
-		player[i].repeat = INTELDWORD(player[i].repeat);
+		player[i].repeat = SDL_SwapLE32(player[i].repeat);
 	}
 }
 
@@ -273,11 +272,11 @@ void Playback::read_info() {
 	res->read(&player[0].name, sizeof(player[0].name));
 	player[0].name[sizeof(player[0].name)-1]=0;
 	res->read(&score, sizeof(score));
-	score = INTELDWORD(score);
+	score = SDL_SwapLE32(score);
 	res->read(&lines, sizeof(lines));
-	lines = INTELDWORD(lines);
+	lines = SDL_SwapLE32(lines);
 	res->read(&level, sizeof(level));
-	level = INTELDWORD(level);
+	level = SDL_SwapLE32(level);
 }
 
 void Playback::read_packet() {
@@ -285,9 +284,9 @@ void Playback::read_packet() {
 	Word size=0;
 	Net_buf n;
 	res->read(&frame, sizeof(frame));
-	frame = INTELDWORD(frame);
+	frame = SDL_SwapLE32(frame);
 	res->read(&size, sizeof(size));
-	size = INTELWORD(size);
+	size = SDL_SwapLE16(size);
 	if(size>sizeof(n.buf))
 		return;
 	res->read(n.buf, size);
@@ -326,7 +325,7 @@ void Playback::read_packet() {
 void Playback::read_summary() {
 	Dword size;
 	res->read(&size, sizeof(size));
-	size = INTELDWORD(size);
+	size = SDL_SwapLE32(size);
 	Buf buf(size+1);
 	res->read(buf.get(), size);
 	buf[size]=0;

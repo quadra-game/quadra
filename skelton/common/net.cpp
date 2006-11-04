@@ -21,10 +21,10 @@
 #include "net.h"
 
 #include <stdio.h>
-#include "autoconf.h"
 
 #include "config.h"
 
+#include "SDL.h"
 #ifdef UGS_LINUX
 #include <unistd.h>
 #ifndef __STRICT_ANSI__
@@ -55,7 +55,6 @@ inline int closesocket(int fd) {
 #include "buf.h"
 #include "net_buf.h"
 #include "http_request.h"
-#include "byteorder.h"
 
 IP_addr::IP_addr(const IP_addr& o) {
 	set(o.ip, o.mask);
@@ -207,7 +206,7 @@ bool Net_connection::checktcp() {
 	if(_state!=connected)
 		return false;
 	if(buf->size()>=sizeof(Word)) {
-		Word s = INTELWORD(*(Word *) buf->get());
+		Word s = SDL_SwapLE16(*(Word *) buf->get());
 		if(buf->size()>=sizeof(Word)+s)
 			return true;
 	}
@@ -219,7 +218,7 @@ void Net_connection::receivetcp(Net_buf *p) {
 		return;
 	p->from = this;
 	p->from_addr = INADDR_LOOPBACK;
-	Word size = INTELWORD(*(Word *) buf->get());
+	Word size = SDL_SwapLE16(*(Word *) buf->get());
 	memcpy(p->buf, buf->get()+sizeof(Word), size);
 	buf->remove_from_start(size+sizeof(Word));
 	incoming_inactive=0;
@@ -247,7 +246,7 @@ void Net_connection::sendtcp(Packet *p2) {
 	p2->write(&p);
 	Word size=p.len();
 	static Byte outbuf[1026];
-	*(Word *) outbuf=INTELWORD(size);
+	*(Word *) outbuf=SDL_SwapLE16(size);
 	memcpy(&outbuf[2], p.buf, size);
 	sendtcp(outbuf, size+2);
 }
@@ -476,7 +475,7 @@ bool Net_connection_tcp::checktcp() {
 		incoming_size+=temp;
 	}
 	if(tcpbufsize>=sizeof(Word)) {
-		Word pacsize=INTELWORD(*(Word *)tcpbuf);
+		Word pacsize=SDL_SwapLE16(*(Word *)tcpbuf);
 		if(!pacsize || (pacsize >= NETBUF_SIZE && pacsize != (('/'*256) +'/'))) {
 			skelton_msgbox("Garbage received on connection #%i (%04X). Shutting it.\n", tcpsock, pacsize);
 			_state=disconnected; // forcing a graceful shutdown
@@ -552,7 +551,7 @@ void Net_connection_tcp::sendtcp(Packet *p2) {
 	p2->write(&p);
 	Word size=p.len();
 	static Byte outbuf[1026];
-	*(Word *) outbuf=INTELWORD(size);
+	*(Word *) outbuf=SDL_SwapLE16(size);
 	memcpy(&outbuf[2], p.buf, size);
 	sendtcp(outbuf, size+2);
 }

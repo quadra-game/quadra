@@ -22,7 +22,7 @@
 
 #include "zlib.h"
 #undef FAR
-#include "byteorder.h"
+#include "SDL.h"
 
 Res_compress::Res_compress(const char *fil, Res_mode pmode, bool res_doze) {
 	mode = pmode;
@@ -54,7 +54,7 @@ Res_compress::~Res_compress() {
 void Res_compress::read_uncompress() {
 	exist = false;
 	Byte *temp = (Byte *) res->buf(); // reads the entire file in '_buf'
-	ressize = INTELDWORD(*(Dword *) temp);
+	ressize = SDL_SwapLE32(*(Dword *) temp);
 	Byte *source = temp + 4;
 	int src_size = res->size() - 4;
 	skelton_msgbox("Res_compress::Res_compress: Reading compressed file original size = %i, compressed = %i\n", ressize, src_size);
@@ -113,7 +113,7 @@ void Res_compress::write_compress() {
 		return;
 	unsigned long dest_len = write_pos + 65540;
 	Byte *temp = (Byte *) malloc(dest_len);
-	*((Dword *)temp)=INTELDWORD(write_pos);
+	*((Dword *)temp)=SDL_SwapLE32(write_pos);
 	int error = compress(temp+4, &dest_len, _buf, write_pos);
 	if(error != Z_OK) {
 		(void) new Error("Unable to compress file, error #%i", error);
