@@ -31,8 +31,6 @@ AC_CHECK_HEADER(zlib.h,, nozlib=1)
 AC_CHECK_HEADER(png.h,, nolibpng=1)
 AC_CHECK_HEADERS(machine/endian.h)
 AC_CHECK_HEADERS(machine/byte_order.h)
-AC_CHECK_HEADERS(linux/cdrom.h)
-AC_CHECK_HEADERS(linux/soundcard.h)
 AC_CHECK_HEADERS(SDL.h)
 
 save_CFLAGS="$CFLAGS"

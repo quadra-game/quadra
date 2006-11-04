@@ -12,7 +12,7 @@ include:
  - Recursive block chaining
  - Block shadow
  - Team play
- - TCP/IP networking (free Internet play! Supports SOCKS proxies)
+ - TCP/IP networking (free Internet play!)
  - Smooth block falling
  - Sound effects
  - Watches on other players

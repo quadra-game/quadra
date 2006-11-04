@@ -26,10 +26,6 @@
 #include "config.h"
 
 #ifdef UGS_LINUX
-#ifdef SOCKS
-#include <socks.h>
-#undef read
-#endif
 #include <unistd.h>
 #ifndef __STRICT_ANSI__
 #define I_SET_STRICT_ANSI

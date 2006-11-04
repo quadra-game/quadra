@@ -23,11 +23,6 @@
 #include "SDL.h"
 
 #include "config.h"
-#ifdef SOCKS
-#include <stdio.h>
-#include <socks.h>
-extern "C" int SOCKSinit(char *);
-#endif
 #include <stdlib.h>
 #include <signal.h>
 
@@ -63,15 +58,6 @@ char exe_directory[1024];
 static bool ignore_sigpipe=false;
 
 int main(int ARGC, char **ARGV) {
-#ifdef HAVE_MCHECK_H
-#ifndef NDEBUG
-  mcheck(NULL);
-#endif
-#endif
-#ifdef SOCKS
-  SOCKSinit(ARGV[0]);
-#endif
-
   if(SDL_Init(SDL_INIT_VIDEO) == -1) {
     fprintf(stderr, "Could not initialize SDL: %s\n", SDL_GetError());
     return 1;
