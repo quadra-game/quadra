@@ -28,15 +28,9 @@
 #include <socks.h>
 extern "C" int SOCKSinit(char *);
 #endif
-#ifdef HAVE_MCHECK_H
-#ifndef NDEBUG
-#include <mcheck.h>
-#endif
-#endif
 #include <stdlib.h>
 #include <signal.h>
 
-#include "debug.h"
 #include "types.h"
 #include "net.h"
 #include "video.h"
@@ -74,7 +68,6 @@ int main(int ARGC, char **ARGV) {
   mcheck(NULL);
 #endif
 #endif
-  INIT_DEBUG;
 #ifdef SOCKS
   SOCKSinit(ARGV[0]);
 #endif
