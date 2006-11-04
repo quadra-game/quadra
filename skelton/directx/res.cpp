@@ -56,7 +56,7 @@ Res_dos::Res_dos(const char *fil, Res_mode mode) {
 			flag = O_CREAT|O_TRUNC|O_RDWR;
 			break;
 	}
-	handle = open(fil, O_BINARY | flag, S_IREAD | S_IWRITE);
+	handle = _open(fil, O_BINARY | flag, S_IREAD | S_IWRITE);
 	if(handle == -1) {
 		if(mode == RES_TRY || mode == RES_CREATE)
 			exist = false;
@@ -67,7 +67,7 @@ Res_dos::Res_dos(const char *fil, Res_mode mode) {
 
 Res_dos::~Res_dos() {
 	if(handle != -1)
-		close(handle);
+		_close(handle);
 	if(_buf)
 		delete _buf;
 }
@@ -78,12 +78,12 @@ Dword Res_dos::size() {
 
 
 void Res_dos::position(Dword po) {
-	lseek(handle, po, SEEK_SET);
+	_lseek(handle, po, SEEK_SET);
 }
 
 int Res_dos::read(void *b, int nb) {
 	Error* error;
-	int n = ::read(handle, b, nb);
+	int n = _read(handle, b, nb);
 	if(n < 0)
 		error = new Error("Error reading file");
 	return n;
@@ -91,7 +91,7 @@ int Res_dos::read(void *b, int nb) {
 
 void Res_dos::write(const void *b, int nb) {
 	Error* error;
-	if(::write(handle, b, nb) != nb)
+	if(_write(handle, b, nb) != nb)
 		error = new Error("Error writing file");
 }
 
