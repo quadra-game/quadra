@@ -9,6 +9,8 @@ AC_ARG_WITH(libpng,
 	AS_HELP_STRING([--with-libpng], [Specify location for libpng]))
 AC_ARG_ENABLE(debug,
 	AS_HELP_STRING([--enable-debug], [debugging options]))
+AC_ARG_ENABLE(version-check,
+	AS_HELP_STRING([--disable-version-check], [New version notification]))
 
 if test ! -z "$with_libpng"; then
    CPPFLAGS="$CPPFLAGS -I$with_libpng"
@@ -53,6 +55,10 @@ if test -z "$with_x" -a "$have_x" = "yes"; then
 	with_x=yes
 else
 	with_x=no
+fi
+
+if test "$enable_version_check" != "no"; then
+   	AC_DEFINE(ENABLE_VERSION_CHECK, 1, [Check for new versions.])
 fi
 
 if test -n "$nodl"; then

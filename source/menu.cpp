@@ -1472,12 +1472,14 @@ Menu_intro::Menu_intro() {
     y += 20;
   }
   (void)new Zone_text(inter, ST_INTRO9, 10, y);
+#ifdef ENABLE_VERSION_CHECK
   if(config.info3.new_version) {
     (void)new Zone_text(font2, inter, "A new version of Quadra is available!",
                         10, y + 40);
     (void)new Zone_text(font2, inter, "Get it at http://quadra.sf.net/",
                         10, y + 60);
   }
+#endif
   (void)new Zone_text(inter, ST_INTRO10, 10, 430);
   (void)new Zone_text(inter, ST_INTRO11, 10, 450);
   once = false;

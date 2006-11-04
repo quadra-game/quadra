@@ -178,7 +178,7 @@ void AutoUpdaterImpl::step() {
     if(reply.find_sub("version")) {
       val = reply.find_sub("version")->find(UPDATE_VERSION_KEY);
       if(val && strcmp(VERSION_STRING, val) != 0)
-	config.info3.new_version = true;
+        config.info3.new_version = true;
     }
 
     if(*last_mod)
