@@ -27,7 +27,6 @@
 #endif
 #ifdef UGS_DIRECTX
 #include <shlobj.h>
-#include <shlwapi.h>
 #endif
 #include <stdlib.h>
 #include <exception>
@@ -1829,7 +1828,7 @@ void init_directory() {
 		msgbox("SHGetFolderPath failed, using exe_directory");
 	}
 	else {
-		PathAppend(quadradir, "Quadra");
+		strcat(quadradir, "\\Quadra");
 		CreateDirectory(quadradir, 0);
 	}
 #endif
@@ -2125,12 +2124,6 @@ void read_script(const char *fn, bool second=false) {
 		msgbox("Can't find script %s, ignoring.\n", fn);
 }
 
-#ifdef UGS_DIRECTX
-#ifndef NDEBUG
-#include <crtdbg.h>
-#endif
-#endif
-
 void start_game() {
 	if(command.token("113"))
 		Config::net_version = 20;
@@ -2138,17 +2131,6 @@ void start_game() {
 		_debug = true;
 		msgbox("Debug mode enabled\n");
 	}
-#ifdef UGS_DIRECTX
-#ifndef NDEBUG
-	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
-	_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG);
-	_CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_DEBUG);
-
-	int tmpDbgFlag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
-	tmpDbgFlag |= _CRTDBG_ALLOC_MEM_DF /*| _CRTDBG_DELAY_FREE_MEM_DF | _CRTDBG_CHECK_ALWAYS_DF*/ | _CRTDBG_LEAK_CHECK_DF;
-	_CrtSetDbgFlag(tmpDbgFlag);
-#endif
-#endif
 
 	bool no_video = false;
 	bool no_sound = false;

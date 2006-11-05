@@ -23,6 +23,12 @@
 #include "net.h"
 #include "http_request.h"
 
+// Hack: strdup is apparently 'deprecated' on Visual C++ 2005
+// and is replaced by _strdup
+#ifdef WIN32
+#define strdup _strdup
+#endif
+
 RCSID("$Id$")
 
 char Http_request::base64table[] = {

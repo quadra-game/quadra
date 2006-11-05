@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="Skelton"
 	ProjectGUID="{4F659A89-F685-4D71-B8DF-3EBCD3246665}"
 	RootNamespace="Skelton"
@@ -42,19 +42,20 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\skelton\include,..\include"
-				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;_CRTDBG_MAP_ALLOC;_CRT_SECURE_NO_DEPRECATE"
+				AdditionalIncludeDirectories="..\include,..\skelton\include"
+				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOW;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="true"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\Debug/Skelton.pch"
 				AssemblerListingLocation=".\Debug/"
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/"
-				BrowseInformation="2"
+				BrowseInformation="0"
 				BrowseInformationFile=".\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -118,7 +119,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="2"
 				AdditionalIncludeDirectories="..\skelton\include,..\include"
-				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS"
+				PreprocessorDefinitions="NDEBUG;WIN32"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -129,6 +130,7 @@
 				WarningLevel="3"
 				WarnAsError="true"
 				SuppressStartupBanner="true"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -327,28 +329,6 @@
 			</File>
 			<File
 				RelativePath="..\skelton\common\cursor_self.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\skelton\common\debug.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1204,10 +1184,6 @@
 			</File>
 			<File
 				RelativePath="..\skelton\include\cursor_self.h"
-				>
-			</File>
-			<File
-				RelativePath="..\skelton\include\debug.h"
 				>
 			</File>
 			<File

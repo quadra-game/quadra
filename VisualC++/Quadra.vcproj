@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="Quadra"
 	ProjectGUID="{AD0452B7-E9CE-4236-BE28-0792F3220DF4}"
 	>
@@ -44,7 +44,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="2"
 				AdditionalIncludeDirectories="..\include,..\skelton\include"
-				PreprocessorDefinitions="NDEBUG;DEMO_VERSION;WIN32"
+				PreprocessorDefinitions="NDEBUG;WIN32"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -55,6 +55,7 @@
 				WarningLevel="3"
 				WarnAsError="true"
 				SuppressStartupBanner="true"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -70,14 +71,14 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib ddraw.lib dxguid.lib dinput.lib dsound.lib skelton.lib wsock32.lib zlib.lib libpng.lib shlwapi.lib"
+				AdditionalDependencies="msvcrt.lib LIBCPMT.LIB winmm.lib ddraw.lib dxguid.lib dinput.lib dsound.lib skelton.lib wsock32.lib zlib.lib libpng.lib shlwapi.lib"
 				OutputFile="..\quadra.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="release,../../zlib/zlib/release"
+				AdditionalLibraryDirectories="release"
+				IgnoreAllDefaultLibraries="true"
 				ProgramDatabaseFile=".\Release/quadra.pdb"
-				GenerateMapFile="true"
-				MapFileName=".\Release/quadra.map"
+				MapFileName=""
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -139,18 +140,19 @@
 				Optimization="0"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="..\include,..\skelton\include"
-				PreprocessorDefinitions="_DEBUG;_CRTDBG_MAP_ALLOC;WIN32;_CRT_SECURE_NO_DEPRECATE"
+				PreprocessorDefinitions="_DEBUG;WIN32;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="true"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\Debug/Quadra.pch"
 				AssemblerListingLocation=".\Debug/"
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/"
-				BrowseInformation="2"
+				BrowseInformation="0"
 				BrowseInformationFile=".\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,16 +168,17 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib ddraw.lib dxguid.lib dinput.lib dsound.lib skelton.lib wsock32.lib zlib.lib libpng.lib shlwapi.lib"
+				AdditionalDependencies="msvcrtd.lib LIBCPMTD.LIB winmm.lib ddraw.lib dxguid.lib dinput.lib dsound.lib skelton.lib wsock32.lib zlib.lib libpng.lib shlwapi.lib"
 				OutputFile="..\quadra.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="debug,../../zlib/zlib/debug"
-				IgnoreDefaultLibraryNames="libc.lib"
+				AdditionalLibraryDirectories="debug"
+				IgnoreAllDefaultLibraries="true"
+				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/quadra.pdb"
-				GenerateMapFile="true"
-				MapFileName=".\Debug/quadra.map"
+				GenerateMapFile="false"
+				MapFileName=""
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -981,11 +984,11 @@
 			Filter="wav;spr;raw;pcx;pcc;ico;idx;txt;rec"
 			>
 			<File
-				RelativePath="images\window.ico"
+				RelativePath="..\images\window.ico"
 				>
 			</File>
 			<File
-				RelativePath="..\images\window.ico"
+				RelativePath="images\window.ico"
 				>
 			</File>
 		</Filter>
