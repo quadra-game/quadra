@@ -835,7 +835,7 @@ bool Net_list::check_first_frag() {
 		if(syncpoint==Canvas::WAITFORRESTART) {
 			Packet_serverrandom *p=new Packet_serverrandom();
 			Random rand;
-			p->seed=rand.get_seed();
+			p->seed=(Dword)rand.get_seed();
 			net->dispatch(p, P_SERVERRANDOM, game->loopback_connection);
 			if(game->net_server)
 				game->net_server->record_packet(p);
@@ -1813,7 +1813,7 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 	}
 	if(!strcmp(cmd, "autodrop")) {
 		if(params[0] && trusted) {
-			float i=atof(params);
+			float i=(float)atof(params);
 			gone_time_limit=(Dword) (i*100.0);
 		}
 		if(gone_time_limit)
