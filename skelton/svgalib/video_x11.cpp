@@ -28,7 +28,6 @@
 #include <X11/Xutil.h>
 #include <X11/xpm.h>
 #undef Font
-#include "debug.h"
 #include "command.h"
 #ifndef NDEBUG
 #ifdef FPSMETER
@@ -82,8 +81,7 @@ Video_bitmap_X11::Video_bitmap_X11(const int px, const int py,
 }
 
 Video_bitmap_X11::~Video_bitmap_X11() {
-  if(VERIFY(fb))
-    delete fb;
+  delete fb;
 }
 
 void Video_bitmap_X11::rect(const int x,const int y,const int w,const int h,
@@ -190,12 +188,12 @@ Video* Video_X11::New(int w, int h, int b, const char *wname) {
   Display* display;
   XVisualInfo visualinfo;
 
-  if(!VERIFY(getenv("DISPLAY")))
+  if(!getenv("DISPLAY"))
     return NULL;
 
   display = XOpenDisplay(NULL);
 
-  if(!VERIFY(display)) {
+  if(!display) {
     msgbox("Could not open [DISPLAY=%s]", getenv("DISPLAY"));
     return NULL;
   }
@@ -212,7 +210,7 @@ Video* Video_X11::New(int w, int h, int b, const char *wname) {
 		      8,
 		      PseudoColor,
 		      &visualinfo)) {
-    return NEW(Video_X11_8, (w, h, b, wname, display, visualinfo.visual));
+    return new Video_X11_8(w, h, b, wname, display, visualinfo.visual);
   };
 
   if(XMatchVisualInfo(display,
@@ -220,7 +218,7 @@ Video* Video_X11::New(int w, int h, int b, const char *wname) {
 		      16,
 		      TrueColor,
 		      &visualinfo)) {
-    return NEW(Video_X11_16, (w, h, b, wname, display, visualinfo.visual, 16));
+    return new Video_X11_16(w, h, b, wname, display, visualinfo.visual, 16);
   };
 
   if(XMatchVisualInfo(display,
@@ -228,7 +226,7 @@ Video* Video_X11::New(int w, int h, int b, const char *wname) {
 		      15,
 		      TrueColor,
 		      &visualinfo)) {
-    return NEW(Video_X11_16, (w, h, b, wname, display, visualinfo.visual, 15));
+    return new Video_X11_16(w, h, b, wname, display, visualinfo.visual, 15);
   };
 
   if(XMatchVisualInfo(display,
@@ -236,7 +234,7 @@ Video* Video_X11::New(int w, int h, int b, const char *wname) {
 		      24,
 		      TrueColor,
 		      &visualinfo)) {
-    return NEW(Video_X11_24, (w, h, b, wname, display, visualinfo.visual));
+    return new Video_X11_24(w, h, b, wname, display, visualinfo.visual);
   };
 
   msgbox("X11: Could not find any compatible visual.\n");

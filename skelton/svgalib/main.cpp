@@ -33,7 +33,6 @@ extern "C" int SOCKSinit(char *);
 #include <stdlib.h>
 #include <signal.h>
 
-#include "debug.h"
 #include "types.h"
 #include "net.h"
 #include "video.h"
@@ -78,7 +77,6 @@ int main(int ARGC, char **ARGV, char **ENV) {
   mcheck(NULL);
 #endif
 #endif
-  INIT_DEBUG;
 #ifdef SOCKS
   SOCKSinit(ARGV[0]);
 #endif
@@ -138,7 +136,7 @@ void delete_obj() {
   }
   if(video) {
     msgbox("deleting video...\n");
-    DELETE(video);
+    delete video;
     video=NULL;
   }
   if(music) {

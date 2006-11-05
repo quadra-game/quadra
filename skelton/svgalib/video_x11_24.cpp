@@ -26,7 +26,6 @@
 #include <X11/Xutil.h>
 #include <X11/xpm.h>
 #undef Font
-#include "debug.h"
 #include "main.h"
 #include "bitmap.h"
 #include "sprite.h"
