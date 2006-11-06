@@ -71,12 +71,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msvcrt.lib LIBCPMT.LIB winmm.lib ddraw.lib dxguid.lib dinput.lib dsound.lib skelton.lib wsock32.lib zlib.lib libpng.lib shlwapi.lib"
+				AdditionalDependencies="kernel32.lib shell32.lib user32.lib winmm.lib ddraw.lib dxguid.lib dinput.lib dsound.lib skelton.lib wsock32.lib zlib.lib libpng.lib shlwapi.lib"
 				OutputFile="..\quadra.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="release"
-				IgnoreAllDefaultLibraries="true"
 				ProgramDatabaseFile=".\Release/quadra.pdb"
 				MapFileName=""
 				SubSystem="2"
@@ -168,12 +167,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msvcrtd.lib LIBCPMTD.LIB winmm.lib ddraw.lib dxguid.lib dinput.lib dsound.lib skelton.lib wsock32.lib zlib.lib libpng.lib shlwapi.lib"
+				AdditionalDependencies="kernel32.lib shell32.lib user32.lib winmm.lib ddraw.lib dxguid.lib dinput.lib dsound.lib skelton.lib wsock32.lib zlib.lib libpng.lib shlwapi.lib"
 				OutputFile="..\quadra.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="debug"
-				IgnoreAllDefaultLibraries="true"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/quadra.pdb"
