@@ -25,7 +25,12 @@
 
 class Cursor {
 protected:
-  Cursor() { };
+  Cursor():
+    visible(true),
+    x(0),
+    y(0)
+  {
+  }
 public:
   bool visible;
   int x, y;
