@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include "res.h"
 #include "resfile.h"
-#include "SDL.h"
+#include "SDL_endian.h"
 
 void Resfile::freeze() {
 	int resnamelen;

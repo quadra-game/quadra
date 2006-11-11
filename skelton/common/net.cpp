@@ -25,6 +25,7 @@
 #include "config.h"
 
 #include "SDL.h"
+#include "SDL_endian.h"
 #ifdef UGS_LINUX
 #include <unistd.h>
 #ifndef __STRICT_ANSI__

@@ -32,6 +32,7 @@
 #include "stringtable.h"
 #include "clock.h"
 #include "chat_text.h"
+#include "SDL_endian.h"
 
 Recording *recording = NULL;
 Playback *playback = NULL;

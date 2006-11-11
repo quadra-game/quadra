@@ -23,7 +23,7 @@
 #include "types.h"
 #include "bitmap.h"
 #include "video.h"
-#include "SDL.h"
+#include "SDL_endian.h"
 
 #define FONT_SIZE (141-32)
 

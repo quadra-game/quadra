@@ -22,7 +22,7 @@
 
 #include "zlib.h"
 #undef FAR
-#include "SDL.h"
+#include "SDL_endian.h"
 
 Res_compress::Res_compress(const char *fil, Res_mode pmode, bool res_doze) {
 	mode = pmode;

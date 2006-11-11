@@ -24,7 +24,7 @@
 #include <string.h>
 #include "error.h"
 #include "res.h"
-#include "SDL.h"
+#include "SDL_endian.h"
 
 Resdata::Resdata(char *resname, int ressize, Byte *resdata, Resdata *list) {
 	name = resname;

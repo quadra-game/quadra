@@ -26,6 +26,7 @@
 #include "error.h"
 #include "main.h"
 #include "types.h"
+#include "SDL_endian.h"
 
 #define CHANNELNUMBER 2
 #define SAMPLINGRATE 44100
