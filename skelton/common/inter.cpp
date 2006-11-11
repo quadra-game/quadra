@@ -211,7 +211,8 @@ void Zone_state_text::draw() {
 	pan->draw();
 	video->vb->vline(x, y, h, 255);
 	video->vb->hline(y, x, w, 255);
-	fonts[last_val]->draw(state[last_val], pan->pan, CENTER, 0);
+  if (last_val < sizeof(fonts) / sizeof(*fonts))
+    fonts[last_val]->draw(state[last_val], pan->pan, CENTER, 0);
 }
 
 void Zone_state_text::leaved() {
