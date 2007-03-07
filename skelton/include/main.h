@@ -21,17 +21,9 @@
 #ifndef _HEADER_MAIN
 #define _HEADER_MAIN
 
-#include "autoconf.h"
+#include "config.h"
 #include "types.h"
 #include "config.h"
-
-#ifdef UGS_DIRECTX
-	#define WIN32_LEAN_AND_MEAN
-	#include <windows.h>
-	#include <windowsx.h>
-	extern HINSTANCE hinst;
-	extern HWND hwnd;
-#endif
 
 #ifdef UGS_LINUX
 extern int ux_argc;
@@ -46,8 +38,6 @@ enum Time_mode {
 };
 
 extern Time_mode time_control;
-
-extern bool alt_tab;
 
 extern char exe_directory[];
 

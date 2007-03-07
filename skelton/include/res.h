@@ -23,21 +23,13 @@
 
 #include <stdlib.h>
 #include <fcntl.h>
-#include "autoconf.h"
+#include "config.h"
 #include "resfile.h"
 #include "resmanager.h"
 #include "config.h"
 
 #ifdef UGS_LINUX
 	#include <unistd.h>
-#endif
-
-#ifdef UGS_DIRECTX
-	#define WIN32_LEAN_AND_MEAN
-	#include <windows.h>
-	#include <windowsx.h>
-	#include <mmsystem.h>
-	#include <io.h>
 #endif
 
 #include "track.h"
@@ -84,20 +76,6 @@ public:
 		return pos;
 	}
 };
-
-#ifdef ONVEUTDESRESDOZEPOCHES
-class Res_doze: public Res_mem {
-	HRSRC hResInfo;
-public:
-	Res_doze(LPCTSTR lpName);
-	virtual ~Res_doze() {
-		FreeResource(hResInfo);
-	}
-	virtual Dword size() {
-		return SizeofResource(NULL, hResInfo);
-	}
-};
-#endif
 
 class Res_doze: public Res_mem {
 	unsigned int ressize;

@@ -860,7 +860,7 @@ Zone* Inter::do_frame() {
         input->last_key.sym = SDLK_UNKNOWN;
       }
 		} else {
-			if(last_mouse_x != cursor->x || last_mouse_y != cursor->y || alt_tab) {
+			if(last_mouse_x != cursor->x || last_mouse_y != cursor->y) {
 				// the mouse has moved, remove the kb_focus
 				kb_visible = false;
 				if(kb_focus) {

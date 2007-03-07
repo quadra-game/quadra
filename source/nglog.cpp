@@ -22,10 +22,6 @@
 
 #include "config.h"
 
-#ifdef UGS_DIRECTX
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#endif
 #include <stdio.h>
 #include "game.h"
 #include "overmind.h"

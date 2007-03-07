@@ -26,21 +26,9 @@
 extern bool _debug;
 extern bool skelton_debug;
 
-#ifdef UGS_DIRECTX
-	#ifndef NDEBUG
-		extern int copper;
-		void COPPER(int a, int b, int c);
-		void debug_point();
-	#else
-		#define COPPER(a,b,c) ;
-	#endif
-	void calldx(long hr);
-#endif
-
 extern void delete_obj();
 void msgbox(const char* m, ...);
 void skelton_msgbox(const char* m, ...);
-void lock_msgbox(const char* m, ...);
 void user_output(const char* title, const char *msg);
 
 class Error {

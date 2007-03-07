@@ -21,7 +21,7 @@
 #ifndef _HEADER_PACKETS
 #define _HEADER_PACKETS
 
-#include "autoconf.h"
+#include "config.h"
 #include "packet.h"
 #include "array.h"
 #include "game.h"

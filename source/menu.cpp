@@ -1510,7 +1510,7 @@ void Menu_main::init() {
 }
 
 void Menu_main::reset_delay() {
-  delay = 3000;
+  delay = 12000;
 }
 
 void Menu_main::step() {

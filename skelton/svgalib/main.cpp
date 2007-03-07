@@ -18,6 +18,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#ifdef WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#endif
+
 #include "main.h"
 
 #include "SDL.h"
@@ -40,13 +45,23 @@
 
 int ux_argc;
 char** ux_argv;
-bool alt_tab = false;
 Time_mode time_control = TIME_NORMAL;
 char cmd_line[1024];
 
 void start_frame() {
-  input->check();
-  video->start_frame();
+	// RV: Peek for async winsock message 'WM_USER' (host name resolving)
+#ifdef UGS_DIRECTX
+	MSG msg;
+	while(PeekMessage(&msg, NULL, WM_USER, WM_USER, PM_REMOVE))
+	{
+		if(net) {
+			int err = WSAGETASYNCERROR(msg.lParam);
+			net->gethostbyname_completed(err == 0);
+		}
+	}
+#endif
+	input->check();
+	video->start_frame();
 }
 
 void end_frame() {
@@ -57,13 +72,49 @@ char exe_directory[1024];
 
 static bool ignore_sigpipe=false;
 
-int main(int ARGC, char **ARGV) {
+#ifdef WIN32
+
+void set_path() {
+	char tmp[_MAX_PATH];
+	if(!GetModuleFileName(NULL, tmp, sizeof(tmp))) {
+		skelton_msgbox("Error getting module filename, using current directory as exe_directory\n");
+		strcpy(exe_directory, ".");
+		return;
+	}
+	char* p = strrchr(tmp, '\\');
+	if(!p)
+		p = strrchr(tmp, '/');
+	if(!p) {
+		skelton_msgbox("Strange module filename, using current directory as exe_directory\n");
+		strcpy(exe_directory, ".");
+		return;
+	}
+	*p = 0;
+	strcpy(exe_directory, tmp);
+}
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
+ 	command.add(lpCmdLine);
+	set_path();
+
+	if(SDL_Init(SDL_INIT_VIDEO) == -1) {
+		fprintf(stderr, "Could not initialize SDL: %s\n", SDL_GetError());
+		return 1;
+	}
+
+	start_game();
+	delete_obj();
+	return 0;
+}
+#endif
+
+int main(int ARGC, char *ARGV[]) {
   if(SDL_Init(SDL_INIT_VIDEO) == -1) {
     fprintf(stderr, "Could not initialize SDL: %s\n", SDL_GetError());
     return 1;
   }
 
-  atexit(delete_obj);
+#ifndef WIN32
 	struct sigaction signals;
 	if(sigaction(SIGPIPE, NULL, &signals) < 0)
 		skelton_msgbox("Can't get SIGPIPE signal handler, ignoring.\n");
@@ -77,7 +128,7 @@ int main(int ARGC, char **ARGV) {
 		}
 		else
 			skelton_msgbox("SIGPIPE handler isn't default, ignoring.\n");
-
+#endif
   ux_argc = ARGC;
   ux_argv = ARGV;
 
@@ -125,6 +176,7 @@ void delete_obj() {
     delete cursor;
     cursor=NULL;
   }
+#ifndef WIN32
 	if(ignore_sigpipe) {
 		msgbox("restoring default SIGPIPE handler...\n");
 		struct sigaction sigs;
@@ -137,7 +189,7 @@ void delete_obj() {
 			ignore_sigpipe=false;
 		}
 	}
-
+#endif
   SDL_Quit();
 
   msgbox("ending delete_obj...\n");

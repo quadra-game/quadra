@@ -47,6 +47,7 @@ Input* Input::New(bool dumb) {
 
 Input_SDL::Input_SDL() {
   SDL_EnableUNICODE(1);
+  SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
   pause = false;
 
@@ -74,7 +75,8 @@ void Input_SDL::check() {
   while(SDL_PollEvent(&event)) {
     switch(event.type) {
     case SDL_QUIT:
-      quitting = true;
+      delete_obj();
+      exit(0);
       break;
 
     case SDL_MOUSEMOTION:
@@ -117,14 +119,18 @@ void Input_SDL::check() {
       break;
 
     case SDL_KEYDOWN:
-      if(event.key.keysym.sym == SDLK_p && event.key.keysym.mod & KMOD_META)
+      if((event.key.keysym.sym == SDLK_p && event.key.keysym.mod & (KMOD_META|KMOD_ALT))
+		 || event.key.keysym.sym == SDLK_PAUSE)
         pause = true;
       else if(event.key.keysym.sym == SDLK_RETURN
-              && event.key.keysym.mod & KMOD_META)
+		  && event.key.keysym.mod & (KMOD_META|KMOD_ALT))
         video->toggle_fullscreen();
       else if(event.key.keysym.sym == SDLK_q
-              && event.key.keysym.mod & KMOD_META)
+          && event.key.keysym.mod & (KMOD_META|KMOD_ALT))
+	  {
+	    delete_obj();
         exit(0);
+	  }
       else {
         keys[event.key.keysym.sym] |= PRESSED;
         last_key = event.key.keysym;

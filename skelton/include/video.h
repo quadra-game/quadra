@@ -92,7 +92,7 @@ public:
   virtual void end_frame() = 0;
   virtual void dirty(int x1, int y1, int x2, int y2) = 0;
   virtual void setpal(const Palette& p) = 0;
-  virtual void dosetpal(PALETTEENTRY pal[256], int size) = 0;
+  virtual void dosetpal(SPalette pal[256], int size) = 0;
   virtual void restore() = 0;
   virtual void snap_shot(int x, int y, int w, int h) = 0;
   virtual void toggle_fullscreen() = 0;

@@ -175,3 +175,6 @@ int main(int ARGC, char **ARGV, char **ENV) {
 	return 0;
 }
 
+// RV: this function is needed by error.cpp to clean up subsystems
+void delete_obj() {
+}

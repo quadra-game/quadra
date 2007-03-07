@@ -18,6 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "SDL_syswm.h"
 #include "net.h"
 
 #include <stdio.h>
@@ -1223,9 +1224,21 @@ Dword Net::getaddress(const char *host) {
 			// should be replaced by this (async)
 			#ifdef UGS_DIRECTX
 				gethostbyname_cancel();
-				name_handle = WSAAsyncGetHostByName(hwnd, WM_USER, tube, name_buf, MAXGETHOSTSTRUCT);
-				if(name_handle == 0) {// if error return 0 
-					name_resolve = 0; // impossible to resolve DNS because of Winsock and/or Windows
+				// RV: Obtain 'hwnd' information from SDL
+				SDL_SysWMinfo info;
+				SDL_VERSION(&info.version);
+				if(SDL_GetWMInfo(&info) == 1)
+				{
+					HWND hwnd = info.window;
+					name_handle = WSAAsyncGetHostByName(hwnd, WM_USER, tube, name_buf, MAXGETHOSTSTRUCT);
+					if(name_handle == 0) {// if error return 0 
+						name_resolve = 0; // impossible to resolve DNS because of Winsock and/or Windows
+					}
+				}
+				else // If SDL failed to get HWND, return DNS failure
+				{
+					name_handle = 0;
+					name_resolve = 0;
 				}
 			#endif
     }

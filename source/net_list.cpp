@@ -402,15 +402,14 @@ void Net_list::step_all() {
 		sendlines(p);
 		game->removepacket();
 	}
-	if(game->network || !alt_tab) {
-		game->count_playing_time();
-		for(i=0; i<MAXPLAYERS; i++) {
-			Canvas *c=get(i);
-			if(c) {
-				c->over->step();
-			}
+	game->count_playing_time();
+	for(i=0; i<MAXPLAYERS; i++) {
+		Canvas *c=get(i);
+		if(c) {
+			c->over->step();
 		}
 	}
+
 	score.updateFromGame();
 	if(playback && !playback->old_mode) {
 		Demo_packet dp=playback->next_packet();

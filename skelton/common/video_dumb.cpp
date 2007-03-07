@@ -145,7 +145,7 @@ void Video_Dumb::setpal(const Palette& p) {
   newpal=true;
 }
 
-void Video_Dumb::dosetpal(PALETTEENTRY pal[256], int size) {
+void Video_Dumb::dosetpal(SPalette pal[256], int size) {
 }
 
 void Video_Dumb::start_frame() {

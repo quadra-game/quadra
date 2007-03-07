@@ -23,27 +23,21 @@
 
 #include "config.h"
 
-#ifdef UGS_DIRECTX
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#endif
 #include <stdio.h>
 #include "types.h"
 #include "error.h"
 #include "image.h"
 #include "utils.h"
 
-#ifndef UGS_DIRECTX
 typedef struct {
   Byte peRed, peGreen, peBlue, peFlags;
-} PALETTEENTRY;
-#endif
+} SPalette;
 
 class Palette {
 private:
   friend class Fade;
   friend class Remap;
-  PALETTEENTRY pal[256];
+  SPalette pal[256];
 public:
   int size;
   Palette() {

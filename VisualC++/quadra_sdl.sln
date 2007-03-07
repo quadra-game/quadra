@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual C++ Express 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Quadra", "Quadra.vcproj", "{AD0452B7-E9CE-4236-BE28-0792F3220DF4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wadder", "wadder.vcproj", "{EB40D336-0541-4E2D-A49E-1936F05A201E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AD0452B7-E9CE-4236-BE28-0792F3220DF4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AD0452B7-E9CE-4236-BE28-0792F3220DF4}.Debug|Win32.Build.0 = Debug|Win32
+		{AD0452B7-E9CE-4236-BE28-0792F3220DF4}.Release|Win32.ActiveCfg = Release|Win32
+		{AD0452B7-E9CE-4236-BE28-0792F3220DF4}.Release|Win32.Build.0 = Release|Win32
+		{EB40D336-0541-4E2D-A49E-1936F05A201E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EB40D336-0541-4E2D-A49E-1936F05A201E}.Debug|Win32.Build.0 = Debug|Win32
+		{EB40D336-0541-4E2D-A49E-1936F05A201E}.Release|Win32.ActiveCfg = Release|Win32
+		{EB40D336-0541-4E2D-A49E-1936F05A201E}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
