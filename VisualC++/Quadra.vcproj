@@ -71,7 +71,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="kernel32.lib shell32.lib user32.lib winmm.lib wsock32.lib zlib.lib libpng.lib shlwapi.lib sdl.lib SDLmain.lib"
+				AdditionalDependencies="winmm.lib dxguid.lib sdl.lib wsock32.lib shlwapi.lib zlib.lib libpng.lib"
 				OutputFile="..\quadra.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -79,6 +79,7 @@
 				ProgramDatabaseFile=".\Release/quadra.pdb"
 				MapFileName=""
 				SubSystem="2"
+				ImportLibrary=".\Release\quadra.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -167,7 +168,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="sdl.lib wsock32.lib shlwapi.lib zlib.lib libpng.lib"
+				IgnoreImportLibrary="false"
+				AdditionalDependencies="winmm.lib dxguid.lib sdl.lib wsock32.lib shlwapi.lib zlib.lib libpng.lib"
 				OutputFile="..\quadra.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -178,6 +180,7 @@
 				GenerateMapFile="false"
 				MapFileName=""
 				SubSystem="2"
+				ImportLibrary=".\Debug\quadra.lib"
 				TargetMachine="1"
 			/>
 			<Tool
