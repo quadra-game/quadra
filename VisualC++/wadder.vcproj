@@ -70,11 +70,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies=" winmm.lib ddraw.lib dxguid.lib dinput.lib dsound.lib skelton.lib wsock32.lib zlib.lib libpng.lib"
+				AdditionalDependencies="user32.lib winmm.lib ddraw.lib dxguid.lib dinput.lib dsound.lib skelton.lib wsock32.lib zlib.lib libpng.lib"
 				OutputFile=".\Release/wadder.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="release"
+				IgnoreDefaultLibraryNames="libc.lib, msvcrt.lib, libcd.lib, libcmtd.lib, msvcrtd.lib"
 				ProgramDatabaseFile=".\Release/wadder.pdb"
 				MapFileName=""
 				SubSystem="1"
@@ -166,12 +167,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies=" winmm.lib ddraw.lib dxguid.lib dinput.lib dsound.lib skelton.lib wsock32.lib zlib.lib libpng.lib"
+				AdditionalDependencies="user32.lib winmm.lib ddraw.lib dxguid.lib dinput.lib dsound.lib skelton.lib wsock32.lib zlib.lib libpng.lib"
 				OutputFile=".\Debug/wadder.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="debug"
-				IgnoreDefaultLibraryNames=""
+				IgnoreDefaultLibraryNames="libc.lib, libcmt.lib, msvcrt.lib, libcd.lib, msvcrtd.lib"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/wadder.pdb"
 				SubSystem="1"
