@@ -52,6 +52,7 @@ Input_SDL::Input_SDL() {
   pause = false;
 
   mouse.quel = -1;
+  mouse.wheel = 0;
   for(int i = 0; i < 4; ++i)
     mouse.button[i] = RELEASED;
 
@@ -71,6 +72,7 @@ void Input_SDL::clear_key() {
 
 void Input_SDL::check() {
   SDL_Event event;
+  mouse.wheel = 0;
 
   while(SDL_PollEvent(&event)) {
     switch(event.type) {
@@ -101,6 +103,12 @@ void Input_SDL::check() {
           mouse.quel = 2;
         mouse.button[2] = PRESSED;
         break;
+      case SDL_BUTTON_WHEELUP:
+		mouse.wheel = 1;
+		break;
+      case SDL_BUTTON_WHEELDOWN:
+		mouse.wheel = -1;
+		break;
       }
       break;
 

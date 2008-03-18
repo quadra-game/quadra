@@ -164,10 +164,9 @@ void Zone_listbox::process() {
 	Zone_watch_int::process();
 	if(input) {
 		if(cursor->x > x && cursor->x < x+w && cursor->y > y && cursor->y < y+h) {
-			int z = 0; // FIXME: used to be input->mouse.dz, for wheel support.
-			if(z > 0)
+			if(input->mouse.wheel > 0)
 				zup->clicked(0);
-			if(z < 0)
+			if(input->mouse.wheel < 0)
 				zdown->clicked(0);
 		}
 	}

@@ -35,6 +35,7 @@ public:
   struct {
     Byte button[4];
     int quel;
+    int wheel;
   } mouse;
   char key_buf[MAXKEY];
   unsigned int key_pending;
