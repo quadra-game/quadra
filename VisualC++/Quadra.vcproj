@@ -41,8 +41,12 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
+				Optimization="3"
 				InlineFunctionExpansion="2"
+				FavorSizeOrSpeed="2"
+				OmitFramePointers="true"
+				EnableFiberSafeOptimizations="true"
+				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories="..\include,..\skelton\include"
 				PreprocessorDefinitions="NDEBUG;WIN32"
 				StringPooling="true"
@@ -1357,11 +1361,11 @@
 			Filter="wav;spr;raw;pcx;pcc;ico;idx;txt;rec"
 			>
 			<File
-				RelativePath="..\images\window.ico"
+				RelativePath="images\window.ico"
 				>
 			</File>
 			<File
-				RelativePath="images\window.ico"
+				RelativePath="..\images\window.ico"
 				>
 			</File>
 		</Filter>
