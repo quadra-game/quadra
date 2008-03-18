@@ -90,15 +90,11 @@ void Game_params::set_preset(Game_preset preset) {
 			clean_attack.param=12;
 			break;
 		case PRESET_SINGLE:
-			normal_attack.type=ATTACK_NONE;
-			clean_attack.type=ATTACK_NONE;
 			single=true;
 			network=false;
 			level_up=true;
 			break;
 		case PRESET_SINGLE_SPRINT:
-			normal_attack.type=ATTACK_NONE;
-			clean_attack.type=ATTACK_NONE;
 			single=true;
 			network=false;
 			game_end=END_TIME;
