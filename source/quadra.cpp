@@ -2136,6 +2136,7 @@ void start_game() {
 	bool no_sound = false;
 	bool demo_play = false;
 	bool demo_verif = false;
+	bool demo_verified_and_valid = false;
 	char buf[512];
   /* FIXME: rather than using 1024 MAXPATHLEN should be used.  To do
      so requires all other filename lengths be MAXPATHLEN as well. */
@@ -2205,6 +2206,7 @@ void start_game() {
 		strncpy(buf, temp, sizeof(buf) - 1);
 		demo_play = true;
 		demo_verif = true;
+		demo_verified_and_valid = false;
 		no_video = true;
 		no_sound = true;
 	}
@@ -2380,6 +2382,8 @@ void start_game() {
 		if(res->exist) {
 			menu->add(new Demo_multi_player(res));
 			// le 'delete res' est fait par ~Demo_multi_player
+			if(playback)
+				playback->set_verification_flag(&demo_verified_and_valid);
 		}
 		else {
 			msgbox("Unable to open demo '%s'\n", buf);
@@ -2481,4 +2485,7 @@ void start_game() {
 
 	deinit_stuff();
 	delete resmanager;
+
+	if(demo_verif)
+		quit_game(demo_verified_and_valid? 0 : 1);
 }

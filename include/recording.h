@@ -69,6 +69,7 @@ class Dict;
 
 class Playback {
 	Res *res;
+	bool *verification_flag;
 	Byte read_hunk();
 	void read_all(); //Sole caller of next 6
 	void read_seed();
@@ -99,6 +100,8 @@ public:
 	int score, lines, level, multi_level;
 	Playback(Res* r);
 	virtual ~Playback();
+	void set_verification_flag(bool *p);
+	bool verify_summary(const Game *game);
 	Byte get_byte();
 	bool check_scores(Canvas* c);
 	Demo_packet next_packet();

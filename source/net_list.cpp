@@ -430,6 +430,7 @@ void Net_list::step_all() {
 				message(-1, ST_DEMOCOMPLETED);
 				demo_completed=true;
 			}
+			playback->verify_summary(game);
 		}
 	}
 

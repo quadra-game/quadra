@@ -72,6 +72,7 @@ class Net_client;
 class Qserv;
 class Game_params;
 class Recording;
+class Dict;
 
 //Gotchas:
 //Constructing a Game sets ::game to this
@@ -94,6 +95,7 @@ public:
 	void restart();
 	void count_playing_time();
 	void addgameinfo(Textbuf *tb);
+	bool verifygameinfo(const Dict *sum) const;
 	Dword frame_start;
 	bool wants_moves;
 	Net_server *net_server;

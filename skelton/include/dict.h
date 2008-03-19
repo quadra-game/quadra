@@ -37,8 +37,10 @@ public:
 	Dword size() const;
 	const char *get_key() const;
 	const char *find(const char *s) const;
-	Dict *find_sub(const char *s) const;
-	Dict *get_sub(const int i) const;
+	Dict *find_sub(const char *s);
+	Dict *get_sub(const int i);
+	const Dict *find_sub(const char *s) const;
+	const Dict *get_sub(const int i) const;
 };
 
 #endif
