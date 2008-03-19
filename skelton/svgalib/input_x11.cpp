@@ -1,18 +1,18 @@
 /* -*- Mode: C++; c-basic-offset: 2; tab-width: 2; indent-tabs-mode: nil -*-
- * 
+ *
  * Quadra, an action puzzle game
  * Copyright (C) 1998-2000  Ludus Design
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -34,7 +34,7 @@ static KeyCode xlate[256];
 Input_X11::Input_X11() {
   int i;
   Video_X11* videox11;
- 
+
   videox11 = dynamic_cast<Video_X11*>(video);
 
   mouse.dx = mouse.dy = mouse.dz = 0;
@@ -56,7 +56,7 @@ Input_X11::Input_X11() {
 
   //xlate[] = SCANCODE_LESS;			// 86
   //xlate[] = SCANCODE_BREAK;		// 101
-  
+
   for(i = 94; i < 97; i++)
     xlate[i] = i - 8;
 
@@ -111,7 +111,7 @@ void Input_X11::clear_key() {
   shift_key = 0;
   quel_key = -1;
   key_pending = 0;
-  
+
   for(i = 0; i < 256; i++)
     keys[i] = 0;
 }
@@ -158,7 +158,7 @@ void Input_X11::check() {
 
       case ClientMessage:
         if((Atom)event.xclient.data.l[0] == videox11->delete_win)
-          quit_game();
+          quit_game(0);
         break;
 
       case Expose:
@@ -191,7 +191,7 @@ void Input_X11::process_key(XEvent event) {
       video->toggle_fullscreen();
       return;
     }
-    
+
     if(!key)
       skelton_msgbox("Unknown KeyCode: %i\n", event.xkey.keycode);
 
@@ -287,7 +287,7 @@ void Input_X11::process_mouse(XEvent event) {
       break;
     }
     break;
-    
+
   case ButtonRelease:
     switch(event.xbutton.button) {
     case 1:
@@ -301,11 +301,11 @@ void Input_X11::process_mouse(XEvent event) {
       break;
     }
     break;
-    
+
   case LeaveNotify:
     cursor->set_pos(-1, -1);
     break;
-    
+
   case MotionNotify:
     if(cursor)
       cursor->set_pos(event.xmotion.x, event.xmotion.y);

@@ -1,18 +1,18 @@
 /* -*- Mode: C++; c-basic-offset: 2; tab-width: 2; indent-tabs-mode: nil -*-
- * 
+ *
  * Quadra, an action puzzle game
  * Copyright (C) 1998-2000  Ludus Design
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -238,7 +238,7 @@ Video* Video_X11::New(int w, int h, int b, const char *wname) {
   };
 
   msgbox("X11: Could not find any compatible visual.\n");
- 
+
   return NULL;
 }
 
@@ -292,7 +292,7 @@ Video_X11::Video_X11(int w, int h, int b,
   int vm_event_base;
   int vm_error_base;
 
-  setuid(getuid());  
+  setuid(getuid());
   setgid(getgid());
   seteuid(getuid());
   setegid(getgid());
@@ -591,7 +591,7 @@ void Video_X11::dirty(int x1, int y1, int x2, int y2) {
       if(min_x[y] < 0)
 	min_x[y] = 0;
     }
-    
+
     if(x2 > max_x[y]) {
       max_x[y] = x2;
       if(max_x[y] >= vb->width)
@@ -637,7 +637,7 @@ void Video_X11::unlock() {
 
 void Video_X11::start_frame() {
   if(quit)
-    quit_game();
+    quit_game(0);
 
   lock();
 }

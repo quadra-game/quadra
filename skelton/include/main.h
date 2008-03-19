@@ -51,7 +51,7 @@ extern bool alt_tab;
 extern char exe_directory[];
 
 void start_game();
-void quit_game();
+void quit_game(int status);
 void start_frame();
 void end_frame();
 Dword getmsec();

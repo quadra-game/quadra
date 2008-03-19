@@ -1,18 +1,18 @@
 /* -*- Mode: C++; c-basic-offset: 2; tab-width: 2; indent-tabs-mode: nil -*-
- * 
+ *
  * Quadra, an action puzzle game
  * Copyright (C) 1998-2000  Ludus Design
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -54,7 +54,7 @@ char** ux_argv;
 bool alt_tab = false;
 Time_mode time_control = TIME_NORMAL;
 char cmd_line[1024];
-void quit_game();
+void quit_game(int status);
 
 void start_frame() {
   if(sound)
@@ -111,7 +111,7 @@ int main(int ARGC, char **ARGV, char **ENV) {
   }
 
   start_game();
-  quit_game();
+  quit_game(0);
   return 0;
 }
 
@@ -171,10 +171,10 @@ void delete_obj() {
   msgbox("ending delete_obj...\n");
 }
 
-void quit_game() {
+void quit_game(int status) {
   if(video)
     video->clean_up();
-  exit(0);
+  exit(status);
 }
 
 Dword getmsec() {

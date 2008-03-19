@@ -38,7 +38,7 @@ RCSID("$Id$")
 
 bool alt_tab=false;
 Time_mode time_control=TIME_NORMAL;
-void quit_game();
+void quit_game(int status);
 HINSTANCE hinst;
 HWND hwnd;
 
@@ -59,7 +59,7 @@ COPPER(0,0,30);
 	}
 COPPER(0,0,0);
 	if(quit)
-		quit_game();
+		quit_game(0);
 	Sleep(1);
 	if(!alt_tab) {
 		if(input)
@@ -102,7 +102,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	command.add(lpCmdLine);
 	set_path();
 	start_game();
-	quit_game();
+	quit_game(0);
 	return 0;
 }
 
@@ -149,11 +149,11 @@ void delete_obj() {
 	skelton_msgbox("ending delete_obj...\n");
 }
 
-void quit_game() {
+void quit_game(int status) {
 	if(video)
 		video->clean_up();
 	delete_obj();
-	exit(0);
+	exit(status);
 }
 
 LRESULT CALLBACK windowproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {

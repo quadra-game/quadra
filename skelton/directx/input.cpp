@@ -210,7 +210,7 @@ void Input_DX::process_key() {
 		}
 	}
 	if(keys[KEY_F4] & PRESSED && (keys[KEY_LALT] & PRESSED || keys[KEY_RALT] & PRESSED))
-		quit_game();
+		quit_game(0);
 	if(keys[KEY_LCTRL] && keys[DIK_NUMLOCK]) { // ignore control+num_lock since "pause" conflicts
 		keys[KEY_LCTRL] = 0;
 		keys[DIK_NUMLOCK] = 0;

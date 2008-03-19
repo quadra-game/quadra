@@ -2205,6 +2205,7 @@ void start_game() {
 		strncpy(buf, temp, sizeof(buf) - 1);
 		demo_play = true;
 		demo_verif = true;
+		no_video = true;
 		no_sound = true;
 	}
 	if(command.token("play")) {
@@ -2235,7 +2236,7 @@ void start_game() {
 	Executor *menu = new Executor();
 	//Add Menu_intro so we get back there after -connect, -server or -play
 	//  unless -thenquit option si specified
-	if(!command.token("thenquit"))
+	if(!command.token("thenquit") && !demo_verif)
 			menu->add(new Menu_intro());
 
 	if(!demo_play) {
