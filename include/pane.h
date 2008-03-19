@@ -29,7 +29,6 @@
 #include "net_stuff.h"
 #include "score.h"
 #include "notify.h"
-#include "track.h"
 
 class Multi_player;
 class Pane_option;
@@ -47,7 +46,6 @@ public:
 };
 
 class Pane: public Zone, public Module, public Zone_list {
-	TRACKED;
 	friend class Multi_player;
 protected:
 	Video_bitmap *screen;

@@ -30,7 +30,6 @@ class Res;
 class Canvas;
 
 class Recording {
-	TRACKED;
 	char playername[40];
 	int score, lines, level;
 	/*
@@ -69,7 +68,6 @@ public:
 class Dict;
 
 class Playback {
-	TRACKED;
 	Res *res;
 	Byte read_hunk();
 	void read_all(); //Sole caller of next 6

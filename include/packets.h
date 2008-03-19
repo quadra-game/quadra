@@ -26,7 +26,6 @@
 #include "net_stuff.h"
 #include "game.h"
 #include "cfgfile.h"
-#include "track.h"
 #include "config.h"
 
 enum Packet_type {
@@ -288,7 +287,6 @@ public:
 };
 
 class Packet_playerbase: public Packet_tcp {
-	TRACKED;
 public:
 	Byte player;
 	Packet_playerbase() {

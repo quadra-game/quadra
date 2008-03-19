@@ -58,7 +58,6 @@ enum End_type {
 	END_LAST
 };
 
-#include "track.h"
 #include "array.h"
 #include "types.h"
 #include "buf.h"
@@ -78,7 +77,6 @@ class Recording;
 //Constructing a Game sets ::game to this
 //Destroying a Game sets ::game to NULL
 class Game: public GS {
-	TRACKED;
 	friend class Net_list;
 	Array<Packet *> stack;
 	Qserv *gameinfo;

@@ -21,14 +21,12 @@
 #ifndef _HEADER_PACKET
 #define _HEADER_PACKET
 
-#include "track.h"
 #include "types.h"
 
 class Net_buf;
 class Net_connection;
 
 class Packet {
-	TRACKED;
 public:
 	bool istcp;
 	Net_connection *from;

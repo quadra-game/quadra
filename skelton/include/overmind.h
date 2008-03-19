@@ -21,7 +21,6 @@
 #ifndef _HEADER_OVERMIND
 #define _HEADER_OVERMIND
 
-#include "track.h"
 #include "array.h"
 #include "types.h"
 #include "inter.h"
@@ -51,7 +50,6 @@ public:
 };
 
 class Module {
-	TRACKED;
 	friend class Executor;
 protected:
 	Executor* parent;
