@@ -51,7 +51,3 @@ void Input_Dumb::process_key() {
 void Input_Dumb::process_mouse() {
 }
 
-void Input_Dumb::restore() {
-  clear_key();
-}
-

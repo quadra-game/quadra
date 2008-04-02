@@ -4,6 +4,7 @@
 	Version="8.00"
 	Name="Quadra"
 	ProjectGUID="{AD0452B7-E9CE-4236-BE28-0792F3220DF4}"
+	RootNamespace="Quadra"
 	>
 	<Platforms>
 		<Platform
@@ -75,11 +76,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib dxguid.lib sdl.lib wsock32.lib shlwapi.lib zlib.lib libpng.lib"
+				AdditionalDependencies="libcmt.lib libcpmt.lib winmm.lib dxguid.lib sdl.lib wsock32.lib shlwapi.lib zlib.lib libpng.lib"
 				OutputFile="..\quadra.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories=""
+				IgnoreAllDefaultLibraries="true"
 				ProgramDatabaseFile=".\Release/quadra.pdb"
 				MapFileName=""
 				SubSystem="2"
@@ -166,6 +168,7 @@
 				PreprocessorDefinitions="_DEBUG"
 				Culture="3084"
 				AdditionalIncludeDirectories="..\include"
+				ResourceOutputFileName="$(IntDir)/$(InputName).res"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -173,11 +176,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="false"
-				AdditionalDependencies="winmm.lib dxguid.lib sdl.lib wsock32.lib shlwapi.lib zlib.lib libpng.lib"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib winmm.lib dxguid.lib sdl.lib wsock32.lib shlwapi.lib zlib.lib libpng.lib"
 				OutputFile="..\quadra.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories=""
+				IgnoreAllDefaultLibraries="true"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/quadra.pdb"
@@ -1016,6 +1020,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\attack.h"
+				>
+			</File>
+			<File
 				RelativePath="..\skelton\include\bitmap.h"
 				>
 			</File>
@@ -1136,6 +1144,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\skelton\include\input_dumb.h"
+				>
+			</File>
+			<File
 				RelativePath="..\skelton\include\input_dx.h"
 				>
 			</File>
@@ -1173,6 +1185,10 @@
 			</File>
 			<File
 				RelativePath="..\include\multi_player.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\multi_provider.h"
 				>
 			</File>
 			<File
@@ -1236,6 +1252,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\player.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\qserv.h"
 				>
 			</File>
@@ -1273,6 +1293,10 @@
 			</File>
 			<File
 				RelativePath="resource.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\score.h"
 				>
 			</File>
 			<File
@@ -1344,6 +1368,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\skelton\include\video_dumb.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\zone.h"
 				>
 			</File>
@@ -1360,10 +1388,6 @@
 			Name="Resource files"
 			Filter="wav;spr;raw;pcx;pcc;ico;idx;txt;rec"
 			>
-			<File
-				RelativePath="images\window.ico"
-				>
-			</File>
 			<File
 				RelativePath="..\images\window.ico"
 				>

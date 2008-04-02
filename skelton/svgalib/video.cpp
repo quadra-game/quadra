@@ -31,6 +31,8 @@
 #include "bitmap.h"
 #include "sprite.h"
 #include "command.h"
+#include "version.h"
+#include "image_png.h"
 
 Video* video = NULL;
 
@@ -69,19 +71,15 @@ protected:
   bool fullscreen;
   void SetVideoMode();
 public:
-  SDL_Surface *screen;
+  SDL_Surface *screen_surf; // This is the real screen, 16-bit or 32-bit or whatever. We don't care.
+  SDL_Surface *paletted_surf; // This is our temporary palette 'screen' where we actually draw
 
   Video_SDL();
   virtual ~Video_SDL();
-  virtual void lock();
-  virtual void unlock();
-  virtual void flip();
   virtual void start_frame();
   virtual void end_frame();
-  virtual void dirty(int, int, int, int);
   virtual void setpal(const Palette&);
   virtual void dosetpal(SPalette*, int);
-  virtual void restore();
   virtual void snap_shot(int, int, int, int);
   virtual void toggle_fullscreen();
 };
@@ -120,7 +118,7 @@ void Video_bitmap_SDL::rect(int x, int y, int w, int h, int color) const {
   rect.w = clip_x2 - clip_x1 + 1;
   rect.h = clip_y2 - clip_y1 + 1;
 
-  SDL_FillRect(static_cast<Video_SDL*>(video)->screen, &rect, color);
+  SDL_FillRect(static_cast<Video_SDL*>(video)->paletted_surf, &rect, color);
 }
 
 void Video_bitmap_SDL::box(int x, int y, int w, int h, int c) const {
@@ -152,17 +150,15 @@ void Video_bitmap_SDL::put_sprite(const Sprite &d, int dx, int dy) const {
 
 void Video_bitmap_SDL::setmem() {
   Video_SDL *vid = static_cast<Video_SDL*>(video);
-  unsigned char *vfb = static_cast<unsigned char *>(vid->screen->pixels);
+  unsigned char *vfb = static_cast<unsigned char *>(vid->paletted_surf->pixels);
   if(fb)
-    fb->setmem(vfb + (pos_y * vid->screen->pitch) + pos_x);
+    fb->setmem(vfb + (pos_y * vid->paletted_surf->pitch) + pos_x);
 }
 
 Video_SDL::Video_SDL() {
-  xwindow = true;
   vb = Video_bitmap::New(0, 0, 640, 480, 640);
   width = 640;
   height = 480;
-  bit = 8;
   framecount = 0;
 
   fullscreen = false;
@@ -180,22 +176,12 @@ Video_SDL::~Video_SDL() {
   delete vb;
 }
 
-void Video_SDL::lock() {
-  assert(false);
-}
-
-void Video_SDL::unlock() {
-  assert(false);
-}
-
-void Video_SDL::flip() {
-  assert(false);
-}
-
 void Video_SDL::start_frame() {
   if(vb)
     vb->setmem();
 }
+
+#include "cursor.h"
 
 void Video_SDL::end_frame() {
   if (newpal) {
@@ -203,7 +189,12 @@ void Video_SDL::end_frame() {
     newpal = false;
   }
 
-  SDL_UpdateRect(screen, 0, 0, 0, 0);
+	SDL_BlitSurface(paletted_surf, NULL, screen_surf, NULL);
+  SDL_UpdateRect(screen_surf, 0, 0, 0, 0);
+  /*
+  Byte* pix = (Byte*) screen->pixels;
+  Byte b = pix[cursor->x + cursor->y*screen->pitch];
+  msgbox("pixel at cursor=%i\n", b);*/
 
 	// RV: Make system sleep a little bit to keep framerate around 100 FPS
 	{
@@ -234,32 +225,24 @@ void Video_SDL::end_frame() {
   ++framecount;
 }
 
-void Video_SDL::dirty(int, int, int, int) {
-  assert(false);
-}
-
 void Video_SDL::setpal(const Palette &p) {
   pal = p;
   newpal = true;
 }
 
 void Video_SDL::dosetpal(SPalette pal[256], int size) {
-  SDL_Color *colors;
-  int i;
+	SDL_Color *colors;
+	int i;
 
-  colors = static_cast<SDL_Color*>(alloca(sizeof(SDL_Color) * size));
+	colors = static_cast<SDL_Color*>(alloca(sizeof(SDL_Color) * size));
 
-  for(i = 0; i < size; i++) {
-    colors[i].r = pal[i].peRed;
-    colors[i].g = pal[i].peGreen;
-    colors[i].b = pal[i].peBlue;
-  }
+	for(i = 0; i < size; i++) {
+		colors[i].r = pal[i].peRed;
+		colors[i].g = pal[i].peGreen;
+		colors[i].b = pal[i].peBlue;
+	}
 
-  SDL_SetPalette(screen, SDL_LOGPAL|SDL_PHYSPAL, colors, 0, size);
-}
-
-void Video_SDL::restore() {
-  assert(false);
+	SDL_SetPalette(paletted_surf, SDL_LOGPAL, colors, 0, size);
 }
 
 void Video_SDL::snap_shot(int, int, int, int) {
@@ -273,11 +256,38 @@ void Video_SDL::toggle_fullscreen() {
 
 void Video_SDL::SetVideoMode()
 {
-  int flags = SDL_SWSURFACE | SDL_HWPALETTE;
+	// Set window title and window icon using SDL
+	{
+		char st[256];
+		sprintf(st, "Quadra %s", VERSION_STRING);
+		SDL_WM_SetCaption(st, NULL);
+		Res_doze res("window_newicon.png");
+		Png img(res);
+		SDL_Surface* surf = SDL_CreateRGBSurfaceFrom(img.pic(), img.width(), img.height(), 8, img.width(), 0, 0, 0, 0);
+		{
+			SDL_Color *colors = static_cast<SDL_Color*>(alloca(sizeof(SDL_Color) * img.palettesize()));
+
+			for(int i = 0; i < img.palettesize(); i++) {
+				Byte* palindex = img.pal() + i*3;
+				colors[i].r = palindex[0];
+				colors[i].g = palindex[1];
+				colors[i].b = palindex[2];
+			}
+			SDL_SetPalette(surf, SDL_LOGPAL, colors, 0, img.palettesize());
+		}
+		// Fetch colorkey from top-left pixel value
+		SDL_SetColorKey(surf, SDL_SRCCOLORKEY, img.pic()[0]);
+
+		SDL_WM_SetIcon(surf, NULL);
+		SDL_FreeSurface(surf);
+	}
+
+  int flags = SDL_HWSURFACE;
   if(fullscreen) flags |= SDL_FULLSCREEN;
-  screen = SDL_SetVideoMode(640, 480, 8, flags);
-  assert(screen);
-  pitch = screen->pitch;
+  screen_surf = SDL_SetVideoMode(640, 480, 0, flags);
+  assert(screen_surf);
+  paletted_surf = SDL_CreateRGBSurface(SDL_SWSURFACE, 640, 480, 8, 0, 0, 0, 0);
+  pitch = paletted_surf->pitch;
   need_paint = 2;
   newpal = true;
 }

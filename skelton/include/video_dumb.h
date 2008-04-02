@@ -54,15 +54,10 @@ public:
   static Video_Dumb* New(int w, int h, int b, const char *wname);
   Video_Dumb(int w, int h, int b, const char *wname);
   virtual ~Video_Dumb();
-  virtual void lock();
-  virtual void unlock();
-  virtual void flip();
   virtual void start_frame();
   virtual void end_frame();
-  virtual void dirty(int x1, int y1, int x2, int y2);
   virtual void setpal(const Palette& p);
   virtual void dosetpal(SPalette pal[256], int size);
-  virtual void restore();
   virtual void snap_shot(int x, int y, int w, int h);
   virtual void toggle_fullscreen();
 };

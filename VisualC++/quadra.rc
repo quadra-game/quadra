@@ -1,3 +1,4 @@
+#include "winver.h"
 #include "version.h"
 
 WINDOW.ICO              ICON    DISCARDABLE     "..\\images\\window.ico"
@@ -15,12 +16,12 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "http://quadra.sourceforge.net\0"
+            VALUE "Comments", "http://code.google.com/p/quadra/\0"
             VALUE "CompanyName", "Ludus Design\0"
             VALUE "FileDescription", "Quadra\0"
             VALUE "FileVersion", VERSION_STRING
             VALUE "InternalName", "Quadra\0"
-            VALUE "LegalCopyright", "Copyright © 1998-2003 Ludus Design\0"
+            VALUE "LegalCopyright", "Copyright © 1998-2008 Ludus Design\0"
             VALUE "OriginalFilename", "quadra.exe\0"
             VALUE "ProductName", "Quadra\0"
             VALUE "ProductVersion", VERSION_STRING

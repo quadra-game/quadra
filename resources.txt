@@ -75,6 +75,7 @@ images/setupf7.png
 images/setupf8.png
 images/setupf9.png
 images/setup.png
+images/window_newicon.png
 sons/blip1.wav
 sons/bloop.wav
 sons/bubble2.wav

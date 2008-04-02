@@ -105,10 +105,8 @@ Video_Dumb* Video_Dumb::New(int w, int h, int b, const char *wname) {
 Video_Dumb::Video_Dumb(int w, int h, int b, const char *wname) {
 	video_is_dumb=true;
 
-  xwindow = false;
   width = w;
   height = h;
-  bit = b;
   framecount = 0;
   newpal = true;
   need_paint = 2;
@@ -121,25 +119,6 @@ Video_Dumb::~Video_Dumb() {
     delete vb;
 }
 
-void Video_Dumb::dirty(int x1, int y1, int x2, int y2) {
-}
-
-void Video_Dumb::lock() {
-  vb->setmem();
-}
-
-void Video_Dumb::unlock() {
-}
-
-void Video_Dumb::flip() {
-  if(newpal) {
-    pal.set();
-    newpal = false;
-  }
-
-  framecount++;
-}
-
 void Video_Dumb::setpal(const Palette& p) {
   pal = p;
   newpal=true;
@@ -149,16 +128,14 @@ void Video_Dumb::dosetpal(SPalette pal[256], int size) {
 }
 
 void Video_Dumb::start_frame() {
-  lock();
 }
 
 void Video_Dumb::end_frame() {
-  flip();
-}
-
-void Video_Dumb::restore() {
-  newpal = true;
-  need_paint = 2;
+  if(newpal) {
+    pal.set();
+    newpal = false;
+  }
+  framecount++;
 }
 
 void Video_Dumb::snap_shot(int x, int y, int w, int h) {

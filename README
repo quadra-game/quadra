@@ -9,7 +9,7 @@ Requirements
  - a C++ compiler (gcc was tested on Linux and Visual C++ on Windows)
  - zlib (http://www.info-zip.org/pub/infozip/zlib/)
  - libpng (http://www.libpng.org/pub/png/libpng.html)
- - DirectX 5 (Windows only)
+ - SDL (http://www.libsdl.org/)
  - X Window System libraries with XPM support (Linux only)
 
 Building on Unix-style systems
@@ -47,10 +47,28 @@ your system!) and then adding a "--with-libpng=/path/to/libpng" to the
 Building on Windows
 -------------------
 
-To compile Quadra on a Windows machine, use the Visual C++ workspace
-and project file in the VisualC++ subdirectory. Make sure you have
-zlib, libpng and DirectX properly installed for development on your
-machine.
+To compile Quadra on a Windows machine, look for the folder 'VisualC++'
+and open up 'quadra_sdl.sln' (tested using Visual C++ 2005 Express
+Edition). Go in menu Tools / Options, and select Projects and Solutions,
+VC++ Directories. Make sure you have zlib, libpng and SDL paths in both
+'include files' and 'library files'.
+I have tested with the following version:
+  zlib-1.2.3
+  libpng-1.2.12
+  SDL-1.2.11
+By default, your workspace should be set to 'Debug'. Build the solution.
+Fix any missing lib or includes if necessary. If all builds, don't 
+launch the app yet. You now need to build the main ressource file using
+'wadder', an utility that was built in the Quadra solution. You can
+launch this utility through a batch file called 'res.bat' found in the
+same folder as the VC++ solution. If the tool works properly, it should
+output a 'quadra.res' in the parent folder, along with 'quadra.exe' which
+*should* already be there (simply by building the solution).
+Important notice: For a "more" enjoyable debugging/developping experience,
+I recommand you pass a command argument '-nofullscreen' in VC properties
+under Configuration Properties / Debugging. Else you might end up getting
+stuck on a breakpoint in a 640x480x8 bit display mode with a locked 
+keyboard.
 
 Any questions?
 --------------

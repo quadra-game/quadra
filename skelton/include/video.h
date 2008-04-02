@@ -74,26 +74,19 @@ public:
 
 class Video {
 public:
-  bool xwindow;
   Video_bitmap *vb;
   Byte newpal;
   Palette pal;
   unsigned int width, height;
-  int bit;
   int need_paint;
   int pitch;
   Dword framecount;
   static Video* New(int w, int h, int b, const char *wname, bool dumb=false);
   virtual ~Video() { };
-  virtual void lock() = 0;
-  virtual void unlock() = 0;
-  virtual void flip() = 0;
   virtual void start_frame() = 0;
   virtual void end_frame() = 0;
-  virtual void dirty(int x1, int y1, int x2, int y2) = 0;
   virtual void setpal(const Palette& p) = 0;
   virtual void dosetpal(SPalette pal[256], int size) = 0;
-  virtual void restore() = 0;
   virtual void snap_shot(int x, int y, int w, int h) = 0;
   virtual void toggle_fullscreen() = 0;
 };
