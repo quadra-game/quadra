@@ -2280,9 +2280,6 @@ void start_game() {
 				overmind.step();
 		}
 		else {
-#ifdef PAINTDETECTOR2000
-			bool sounded=false;
-#endif
 			while(acc>=10) {
 				if(reset_time) { // remet 'normal' seulement si au moins 1 frame s'est ecoule
 					time_control = TIME_NORMAL;
@@ -2295,12 +2292,6 @@ void start_game() {
 				catch(std::exception *e) {
 					msgbox("Exception caught from overmind.step(): %s\n", e->what());
 				}
-#ifdef PAINTDETECTOR2000
-				if(video->need_paint==2 && !sounded) {
-					Sfx stmp(sons.msg, 0, 0, 0, 11025);
-					sounded=true;
-				}
-#endif
 				reset_time=true;
 				if(time_control == TIME_FREEZE)
 					break;

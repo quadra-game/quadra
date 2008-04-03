@@ -69,7 +69,7 @@ void Zone_listbox::draw() {
 }
 
 void Zone_listbox::dirt() {
-	if(dirty != 2) {
+	if(dirty != 1) {
 		Zone_watch_int::dirt();
 		zup->dirt();
 		zdown->dirt();

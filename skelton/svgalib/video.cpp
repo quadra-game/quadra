@@ -52,6 +52,7 @@ public:
   virtual void put_bitmap(const Bitmap&, const int, const int) const;
   virtual void put_sprite(const Sprite&, const int, const int) const;
   virtual void setmem();
+	void clip_dirty(int x, int y, int w, int h) const;
 };
 
 Video_bitmap* Video_bitmap::New(const int px, const int py,
@@ -69,6 +70,11 @@ protected:
   int needsleep;
   int lastticks;
   bool fullscreen;
+	bool mDirtyEmpty;
+	int mDirtyX1;
+	int mDirtyY1;
+	int mDirtyX2;
+	int mDirtyY2;
   void SetVideoMode();
 public:
   SDL_Surface *screen_surf; // This is the real screen, 16-bit or 32-bit or whatever. We don't care.
@@ -82,6 +88,7 @@ public:
   virtual void dosetpal(SPalette*, int);
   virtual void snap_shot(int, int, int, int);
   virtual void toggle_fullscreen();
+  void set_dirty(int x1, int y1, int x2, int y2);
 };
 
 Video* Video::New(int w, int h, int b, const char *wname, bool dumb) {
@@ -119,9 +126,11 @@ void Video_bitmap_SDL::rect(int x, int y, int w, int h, int color) const {
   rect.h = clip_y2 - clip_y1 + 1;
 
   SDL_FillRect(static_cast<Video_SDL*>(video)->paletted_surf, &rect, color);
+  clip_dirty(x, y, w, h); 
 }
 
 void Video_bitmap_SDL::box(int x, int y, int w, int h, int c) const {
+  clip_dirty(x, y, w, h); 
   hline(y, x, w, c);
   hline(y + h - 1, x, w, c);
   vline(x, y, h, c);
@@ -129,22 +138,34 @@ void Video_bitmap_SDL::box(int x, int y, int w, int h, int c) const {
 }
 
 void Video_bitmap_SDL::put_pel(int x, int y, Byte c) const {
+  clip_dirty(x, y, 1, 1); 
   fb->put_pel(x, y, c);
 }
 
 void Video_bitmap_SDL::hline(int y, int x, int w, Byte c) const {
+  clip_dirty(x, y, w, 1); 
   fb->hline(y, x, w, c);
 }
 
 void Video_bitmap_SDL::vline(int x, int y, int h, Byte c) const {
+  clip_dirty(x, y, 1, h); 
   fb->vline(x, y, h, c);
 }
 
+void Video_bitmap_SDL::clip_dirty(int x, int y, int w, int h) const {
+  if(clip(x, y, w, h))
+    return;
+  Video_SDL *vid = static_cast<Video_SDL*>(video);
+  vid->set_dirty(pos_x+clip_x1, pos_y+clip_y1, pos_x+clip_x2, pos_y+clip_y2);
+}
+
 void Video_bitmap_SDL::put_bitmap(const Bitmap &d, int dx, int dy) const {
+  clip_dirty(dx, dy, d.width, d.height); 
   d.draw(*fb, dx, dy);
 }
 
 void Video_bitmap_SDL::put_sprite(const Sprite &d, int dx, int dy) const {
+  clip_dirty(dx, dy, d.width, d.height); 
   d.draw(*fb, dx, dy);
 }
 
@@ -170,6 +191,7 @@ Video_SDL::Video_SDL() {
 
   lastticks = SDL_GetTicks();
   needsleep = 0;
+  mDirtyEmpty = true;
 }
 
 Video_SDL::~Video_SDL() {
@@ -187,14 +209,21 @@ void Video_SDL::end_frame() {
   if (newpal) {
     pal.set();
     newpal = false;
+    set_dirty(0, 0, width, height);
   }
 
-	SDL_BlitSurface(paletted_surf, NULL, screen_surf, NULL);
-  SDL_UpdateRect(screen_surf, 0, 0, 0, 0);
-  /*
-  Byte* pix = (Byte*) screen->pixels;
-  Byte b = pix[cursor->x + cursor->y*screen->pitch];
-  msgbox("pixel at cursor=%i\n", b);*/
+	// Draw and convert only the dirty region to screen
+	if(!mDirtyEmpty)
+	{
+		SDL_Rect rect;
+		rect.x = mDirtyX1;
+		rect.y = mDirtyY1;
+		rect.w = mDirtyX2 - mDirtyX1 + 1;
+		rect.h = mDirtyY2 - mDirtyY1 + 1;
+		SDL_BlitSurface(paletted_surf, &rect, screen_surf, &rect);
+		SDL_UpdateRect(screen_surf, rect.x, rect.y, rect.w, rect.h);
+		mDirtyEmpty = true;
+	}
 
 	// RV: Make system sleep a little bit to keep framerate around 100 FPS
 	{
@@ -290,4 +319,23 @@ void Video_SDL::SetVideoMode()
   pitch = paletted_surf->pitch;
   need_paint = 2;
   newpal = true;
+}
+
+void Video_SDL::set_dirty(int x1, int y1, int x2, int y2)
+{
+	if(mDirtyEmpty)
+	{
+		mDirtyX1 = x1;
+		mDirtyY1 = y1;
+		mDirtyX2 = x2;
+		mDirtyY2 = y2;
+		mDirtyEmpty = false;
+	}
+	else
+	{
+		if(x1 < mDirtyX1) mDirtyX1 = x1;
+		if(y1 < mDirtyY1) mDirtyY1 = y1;
+		if(x2 > mDirtyX2) mDirtyX2 = x2;
+		if(y2 > mDirtyY2) mDirtyY2 = y2;
+	}
 }

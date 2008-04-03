@@ -103,7 +103,7 @@ public:
 		enabled++;
 	}
 	virtual void dirt() {
-		dirty = 2;
+		dirty = 1;
 	}
 	virtual void draw() { } //called when the zone is dirty
 	virtual int in() const;

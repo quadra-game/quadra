@@ -781,7 +781,7 @@ void Inter::draw_zone() {
 
   if(video->need_paint) {
     dirt_all();
-    video->need_paint--;
+    video->need_paint = 0; // RV: Only draw *once*: we are no longer running in backbuffer mode
   }
   for(i = 0; i < zone.size(); ++i) {
     if(zone[i]->dirty && zone[i]->enabled >=0 && !zone[i]->stay_on_top) {
