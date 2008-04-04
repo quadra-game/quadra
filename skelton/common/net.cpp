@@ -389,13 +389,20 @@ Net_connection_tcp::~Net_connection_tcp() {
 		char buf[1024];
 		skelton_msgbox("Shutting down...");
 		if(shutdown(tcpsock, 1) != SOCKET_ERROR) {
-			while(net->checkreceive(tcpsock) > 0)	{
-				int i = recv(tcpsock, buf, 1024, 0);
-				if(i <= 0)
-					break;
-				skelton_msgbox("%i bytes,", i);
+			if(!net)
+			{
+				skelton_msgbox("oops, net is already gone!\n");
 			}
-			skelton_msgbox("Done!\n");
+			else
+			{
+				while(net->checkreceive(tcpsock) > 0)	{
+					int i = recv(tcpsock, buf, 1024, 0);
+					if(i <= 0)
+						break;
+					skelton_msgbox("%i bytes,", i);
+				}
+				skelton_msgbox("Done!\n");
+			}
 		} else {
 			skelton_msgbox("Ignoring shutdown error.\n");
 		}
