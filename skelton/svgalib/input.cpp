@@ -133,8 +133,10 @@ void Input_SDL::check() {
       else if(event.key.keysym.sym == SDLK_RETURN
 		  && event.key.keysym.mod & (KMOD_META|KMOD_ALT))
         video->toggle_fullscreen();
-      else if(event.key.keysym.sym == SDLK_q
+      else if((event.key.keysym.sym == SDLK_q
           && event.key.keysym.mod & (KMOD_META|KMOD_ALT))
+          || (event.key.keysym.sym == SDLK_F4
+          && event.key.keysym.mod & (KMOD_ALT)))
 	  {
 	    delete_obj();
         exit(0);

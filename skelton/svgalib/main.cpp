@@ -145,6 +145,7 @@ int main(int ARGC, char *ARGV[]) {
   }
 
   start_game();
+  delete_obj();
   return 0;
 }
 

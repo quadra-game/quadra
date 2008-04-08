@@ -1179,23 +1179,23 @@ void Menu_setup_key::init() {
 void Menu_setup_key::step() {
   Menu::step();
   int loop = 0;
-  for(int i = SDLK_FIRST; i < SDLK_LAST; ++i) {
-    // denies the Enter key (it is dedicated to chat)
-    if(i == SDLK_RETURN)
-      continue;
+  for(int i = SDLK_FIRST; i < SDLK_LAST; ++i) {   
     if(input->keys[i] & PRESSED) {
       loop = i;
       break;
     }
   }
-  if(loop > 0) {
-    if(loop > 1) {
-      *(key->val) = loop;
-      key->process();
-    }
-    input->last_key.sym = SDLK_UNKNOWN;
-    ret();
-  }
+  if(loop == 0) return;
+  
+	input->last_key.sym = SDLK_UNKNOWN;
+  // denies Enter (reserved for multiplayer chat)
+	if(loop == SDLK_RETURN) return;
+	if(loop != SDLK_ESCAPE)
+	{
+		*(key->val) = loop;
+		key->process();
+	}
+	ret();
 }
 
 Menu_quitgame::Menu_quitgame() {
