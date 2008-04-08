@@ -37,6 +37,7 @@ public:
     int quel;
     int wheel;
   } mouse;
+  SDLKey key_sym_buf[MAXKEY];
   char key_buf[MAXKEY];
   unsigned int key_pending;
   Byte keys[SDLK_LAST];

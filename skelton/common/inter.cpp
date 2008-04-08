@@ -577,11 +577,10 @@ void Zone_text_input::lost_focus(int cancel) {
 }
 
 void Zone_text_input::process() {
-	Byte c;
 	if(focus) {
 		for(unsigned int i = 0; i < input->key_pending; ++i) {
-			c = input->key_buf[i];
-			if((c == 8) || (c == 127)) {  // backspace
+			SDLKey sym = input->key_sym_buf[i];
+			if(sym == SDLK_BACKSPACE) {  // backspace
 				if(!cut_selection()) { // if nothing selected has been cut,
 					if(curpos > 0) { // proceed to a normal backspace
 						curpos--;
@@ -591,11 +590,47 @@ void Zone_text_input::process() {
 				}
 				continue;
 			}
-			if(c == 1) { // CTRL-A (select all)
+
+			// moving keys and others
+			if(sym == SDLK_DELETE) { // delete 
+				if(!cut_selection()) { // if nothing selected has been cut,
+					if(curpos != actual_len) { // proceed with a normal delete
+						memmove(&st[curpos], &st[curpos+1], actual_len - curpos);
+						actual_len--; 
+					}
+				}
+			}
+			if(sym==SDLK_LEFT || sym==SDLK_RIGHT || sym==SDLK_HOME || sym==SDLK_END) {
+				if(SDL_GetModState() & KMOD_SHIFT) {
+					if(select_start == -1)
+						select_start = curpos;
+				} else {
+					select_start = -1;
+				}
+			}
+			if(sym == SDLK_LEFT && curpos > 0) { // left arrow
+				curpos--;
+			}
+			if(sym == SDLK_RIGHT && curpos != actual_len) { // right arrow
+				curpos++;
+			}
+			if(sym == SDLK_HOME) { // home
+				curpos = 0;
+			}
+			if(sym == SDLK_END) { // end
+				curpos = actual_len;
+			}
+
+			if(sym == SDLK_a && SDL_GetModState() & KMOD_CTRL) { // CTRL-A (select all)
 				curpos = actual_len;
 				select_start = 0;
 			}
-			input_char(c);
+			Byte c = input->key_buf[i];
+			// If 'c' is a valid unicode character, add it to input field
+			if(c)
+			{
+				input_char(c);
+			}
 		}
 		input->key_pending = 0;
 		focus++;
@@ -618,7 +653,7 @@ void Zone_text_input::input_char(const Byte c) {
 			actual_len++;
 		}
 		if(maxwidth != -1) {
-			if(inter->font->width(st) > maxwidth) {
+			while(inter->font->width(st) > maxwidth) {
 				actual_len--;
 				if(curpos > actual_len)
 					curpos = actual_len;
@@ -822,6 +857,9 @@ Zone* Inter::do_frame() {
 		if(input->last_key.sym == SDLK_RETURN
        || input->last_key.sym == SDLK_KP_ENTER)
 			lost = 0;
+		if(input->last_key.sym == SDLK_TAB) {
+			lost = 0;
+		}
 		if(lost != -1) {
 			focus->lost_focus(lost);
 			if(!kb_visible && in != focus)

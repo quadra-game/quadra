@@ -144,8 +144,9 @@ void Input_SDL::check() {
       else {
         keys[event.key.keysym.sym] |= PRESSED;
         last_key = event.key.keysym;
-        if(event.key.keysym.unicode & 0xff && key_pending < MAXKEY) {
+        if(key_pending < MAXKEY) {
           key_buf[key_pending] = event.key.keysym.unicode & 0xff;
+          key_sym_buf[key_pending] = event.key.keysym.sym;
           ++key_pending;
         }
       }
