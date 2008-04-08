@@ -85,6 +85,7 @@
 				ProgramDatabaseFile=".\Release/quadra.pdb"
 				MapFileName=""
 				SubSystem="2"
+				LinkTimeCodeGeneration="1"
 				ImportLibrary=".\Release\quadra.lib"
 				TargetMachine="1"
 			/>
@@ -177,7 +178,7 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="false"
 				AdditionalDependencies="libcmtd.lib libcpmtd.lib winmm.lib dxguid.lib sdl.lib wsock32.lib shlwapi.lib zlib.lib libpng.lib"
-				OutputFile="..\quadra.exe"
+				OutputFile="..\quadra_debug.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories=""

@@ -246,72 +246,17 @@ Sample::Sample(Res_doze re):
 }
 
 void Sample::loadriff(Res& _res) {
-  const char* res(static_cast<const char *>(_res.buf()));
-  unsigned int len(_res.size());
-  bool seenfmt(false);
-	unsigned int sampling(0);
-  char *sample(NULL);
-  unsigned int size(0), bps(0);
-
-  /* 'RIFF' */
-  if(((struct riff_header *)res)->signature != SDL_SwapLE32(0x46464952))
-    (void)new Error("Bad RIFF signature");
-
-  /* 'WAVE' */
-  if(((struct riff_header *)res)->type != SDL_SwapLE32(0x45564157))
-    (void)new Error("RIFF is not a WAVE");
-
-  char *ptr = (char *)res + sizeof(struct riff_header);
-  char *endptr = (char *)res + len - 3;
-
-  while((ptr < endptr) && (ptr >= res)) {
-    char *data = ptr + sizeof(struct chunk_header);
-    struct chunk_header *header_ptr = (struct chunk_header *)ptr;
-    unsigned int header_type = UNALIGNEDDWORD(header_ptr->type);
-    unsigned int header_size = UNALIGNEDDWORD(header_ptr->size);
-
-    header_type = SDL_SwapLE32(header_type);
-    header_size = SDL_SwapLE32(header_size);
-
-    switch(header_type) {
-    case 0x20746d66: /* 'fmt ' */
-      seenfmt = true;
-      {
-        Word w = UNALIGNEDWORD(((struct fmt_chunk *)data)->channels);
-        w = SDL_SwapLE16(w);
-
-        if(w != 1)
-          (void)new Error("RIFF/WAVE: unsupported number of channels");
-
-        Dword d = UNALIGNEDDWORD(((struct fmt_chunk *)data)->sampling);
-        sampling = SDL_SwapLE32(d);
-        w = UNALIGNEDWORD(((struct fmt_chunk *)data)->bitspersample);
-        bps = SDL_SwapLE16(w);
-        size = 0;
-      }
-      break;
-    case 0x61746164: /* 'data' */
-      if(!seenfmt)
-        (void)new Error("RIFF/WAVE: 'data' subchunk seen before 'fmt ' subchunk");
-
-      sample = (char*)realloc(sample, size+header_size);
-      memcpy(sample+size, data, header_size);
-      size += header_size;
-
-      break;
-    default:
-      /* ignore unknown chunks/subchunks */
-      break;
-    }
-    ptr += sizeof(struct chunk_header) + header_size;
-  }
-
-  if(!sample)
-    (void)new Error("Error loading sample");
-
-  data = sound->normalize(sample, size, sampling, bps);
-
-  free(sample);
+	SDL_AudioSpec spec;
+	Uint8 *audio_buf;
+	Uint32 audio_len;
+	SDL_AudioSpec *wav = SDL_LoadWAV_RW(SDL_RWFromConstMem(_res.buf(), _res.size()), true, &spec, &audio_buf, &audio_len);
+	if(!wav)
+	{
+		(void)new Error("SDL_LoadWAV_RW: Can't load WAVE file: bad file format?");
+	}
+	
+	data = sound->normalize((char*) audio_buf, audio_len, spec.freq, spec.format);
+	SDL_FreeWAV(audio_buf);
 }
 
 void Sound::start(SampleData* _sam, int _vol, int _pan, int _freq) {
