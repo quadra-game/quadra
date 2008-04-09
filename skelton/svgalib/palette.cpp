@@ -88,9 +88,12 @@ void Fade::newdest(const Palette& dst, int frame) {
   int j=0;
 
   for(int i(0); i<256; i++) {
-    delta[j]=((dest.pal[i].peRed<<7)-current[j++])/frame;
-    delta[j]=((dest.pal[i].peGreen<<7)-current[j++])/frame;
-    delta[j]=((dest.pal[i].peBlue<<7)-current[j++])/frame;
+    delta[j]=((dest.pal[i].peRed<<7)-current[j])/frame;
+	j++;
+    delta[j]=((dest.pal[i].peGreen<<7)-current[j])/frame;
+	j++;
+    delta[j]=((dest.pal[i].peBlue<<7)-current[j])/frame;
+	j++;
   }
   currentframe=0;
   destframe=frame;
