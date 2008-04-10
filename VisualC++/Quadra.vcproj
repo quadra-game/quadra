@@ -76,7 +76,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmt.lib libcpmt.lib winmm.lib dxguid.lib sdl.lib wsock32.lib shlwapi.lib zlib.lib libpng.lib"
+				AdditionalDependencies="libcmt.lib libcpmt.lib winmm.lib sdl.lib wsock32.lib shlwapi.lib zlib.lib libpng.lib"
 				OutputFile="..\quadra.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -177,7 +177,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="false"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib winmm.lib dxguid.lib sdl.lib wsock32.lib shlwapi.lib zlib.lib libpng.lib"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib winmm.lib sdl.lib wsock32.lib shlwapi.lib zlib.lib libpng.lib"
 				OutputFile="..\quadra_debug.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"

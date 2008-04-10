@@ -54,8 +54,19 @@ VC++ Directories. Make sure you have zlib, libpng and SDL paths in both
 'include files' and 'library files'.
 I have tested with the following version:
   zlib-1.2.3
-  libpng-1.2.12
-  SDL-1.2.11
+  libpng-1.2.12 (see below for build instruction)
+  SDL-1.2.13
+(note: on my system, I have added these paths to include files:
+	C:\work\zlib-1.2.3
+	C:\work\libpng-1.2.12
+	C:\work\SDL-1.2.13\include
+
+	and these paths to library files:
+	C:\work\libpng-1.2.12\projects\visualc71\Win32_LIB_Release
+	C:\work\zlib-1.2.3\projects\visualc6\Win32_LIB_Release
+	C:\work\SDL-1.2.13\lib
+Your setup should be relatively similar.)
+
 By default, your workspace should be set to 'Debug'. Build the solution.
 Fix any missing lib or includes if necessary. If all builds, don't 
 launch the app yet. You now need to build the main ressource file using
@@ -69,6 +80,25 @@ I recommand you pass a command argument '-nofullscreen' in VC properties
 under Configuration Properties / Debugging. Else you might end up getting
 stuck on a breakpoint in a 640x480x8 bit display mode with a locked 
 keyboard.
+
+How to build LIBPNG on Windows
+------------------------------
+I am using libpng-1.2.12 but newer version should work mostly the same way.
+Open up libpng-1.2.12\projects\visualc71\libpng.sln. Select your current
+configuration as 'LIB Release' in order to compile a .lib that Quadra will
+link to. Edit the project setting (configuration LIB Release). In 
+'Configuration Properties' / 'C/C++' / 'Code Generation', make sure that
+'Runtime Library' is set to 'Multi-Thread (/MT)'. Build.
+
+How to build ZLIB on Windows
+----------------------------
+I am using zlib-1.2.3 and like libpng, newer version should work too. Open
+up zlib-1.2.3\projects\visualc6\zlib.sln (or zlib.dsw if the solution does
+not exist, and Visual Studio will ask to create a solution). Select the 
+configuration as 'LIB Release', Edit the project setting. In 
+'Configuration Properties' / 'C/C++' / 'Code Generation', make sure that
+'Runtime Library' is set to 'Multi-Thread (/MT)'. Build.
+
 
 Any questions?
 --------------

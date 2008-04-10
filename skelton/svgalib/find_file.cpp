@@ -109,10 +109,3 @@ Find_file_entry Find_file_Unix::get_next_entry() {
   
   return f;
 }
-
-static const char *mybasename(const char* f) {
-	const char* p=(const char*)(f+strlen(f));
-	while(*p != '/' && *p != '\\' && p>=f)
-		p--;
-	return p+1;
-}
