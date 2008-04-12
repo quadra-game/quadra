@@ -48,6 +48,7 @@ public:
   Find_file_Unix(const char *n);
   virtual ~Find_file_Unix();
   virtual bool eof();
+  virtual bool has_error();
   virtual Find_file_entry get_next_entry();
 };
 
@@ -83,6 +84,12 @@ Find_file_Unix::~Find_file_Unix() {
 
 bool Find_file_Unix::eof() {
   return !(globbuf.gl_pathc-count);
+}
+
+// RV: Is there a way to detect that the path passed to glob() is not valid?
+bool Find_file_Unix::has_error()
+{
+	return false;
 }
 
 Find_file_entry Find_file_Unix::get_next_entry() {

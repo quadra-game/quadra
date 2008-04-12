@@ -19,6 +19,8 @@
  */
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include <stdlib.h>
+#include <errno.h>
 #include <time.h>
 #include <string.h>
 #include <io.h>
@@ -37,10 +39,12 @@ class Find_file_directx: public Find_file {
 	struct _finddata_t c_file;
 	long hFile;
 	bool terminated;
+	bool error_status;
 public:
 	Find_file_directx(const char *n);
 	virtual ~Find_file_directx();
 	virtual bool eof();
+	virtual bool has_error();
 	virtual Find_file_entry get_next_entry();
 };
 
@@ -74,13 +78,23 @@ void Find_file::get_current_directory(char *s) {
 
 Find_file_directx::Find_file_directx(const char *n) {
 	terminated = false;
+	error_status = false;
 	if((hFile = _findfirst(n, &c_file)) == -1L) {
 		terminated = true;
+		if(errno != ENOENT)
+		{
+			error_status = true;
+		}
 	}
 }
 
 Find_file_directx::~Find_file_directx() {
 	_findclose(hFile);
+}
+
+bool Find_file_directx::has_error()
+{
+	return error_status;
 }
 
 bool Find_file_directx::eof() {

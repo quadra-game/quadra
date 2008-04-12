@@ -408,7 +408,7 @@ void Menu_demo_central::reload() {
 	z_status->set_val("");
 
 	//Remove slashes from the end
-	char *temp=find_directory+strlen(find_directory);
+	char *temp=find_directory+strlen(find_directory)-1;
 	while(temp>=find_directory) {
 		if(*temp == '/')
 			*temp=0;
@@ -423,6 +423,12 @@ void Menu_demo_central::reload() {
 	msgbox("Menu_demo_central::find_all: Finding directories in [%s]...\n", temp_search);
 	{
 		Find_file *find_file = Find_file::New(temp_search);
+		if(find_file->has_error())
+		{
+			z_status->set_val("Warning: Invalid path.");
+			delete find_file;
+			return;
+		}
 		z_list->init_sort();
 		while(!find_file->eof()) {
 			Find_file_entry ff = find_file->get_next_entry();

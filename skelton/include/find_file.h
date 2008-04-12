@@ -40,6 +40,7 @@ public:
   static void get_current_directory(char *s);
   virtual bool eof() = 0;
   virtual Find_file_entry get_next_entry() = 0;
+  virtual bool has_error() = 0;
 };
 
 inline const char *mybasename(const char* f) {
