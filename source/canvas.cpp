@@ -801,8 +801,10 @@ Byte Canvas::check_key(int i) {
                                // focus
     clear_key(i); // prevents rotating from happening after an input
                   // (because bit 'was released!')
+    input->allow_key_repeat(true);
     return 0;
   } else {
+		input->allow_key_repeat(false);
 		if(i < 5)
 			return input->keys[config.player[player].key[i]];
 		else

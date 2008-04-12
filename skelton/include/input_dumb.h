@@ -27,16 +27,7 @@ class Input_Dumb: public Input {
 public:
   Input_Dumb();
   virtual ~Input_Dumb();
-  void process_mouse();
-  void process_key();
-  virtual void clear_key();
-  virtual void check() {
-    process_key();
-    process_mouse();
-  }
-  virtual void deraw() { };
-  virtual void reraw() { };
-  void restore();
+  virtual void check() { }
 };
 
 #endif /* _HEADER_INPUT_DUMB */

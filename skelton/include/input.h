@@ -42,11 +42,14 @@ public:
   unsigned int key_pending;
   Byte keys[SDLK_LAST];
   bool pause;
+  bool allow_repeat;
   SDL_keysym last_key;
   static Input* New(bool dumb = false);
+  Input();
   virtual ~Input() { };
-  virtual void clear_key() = 0;
+  void clear_key();
   virtual void check() = 0;
+  void allow_key_repeat(bool _allow);
 };
 
 extern Input* input;

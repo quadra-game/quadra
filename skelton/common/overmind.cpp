@@ -19,6 +19,7 @@
  */
 
 #include "overmind.h"
+#include "input.h"
 
 Overmind overmind;
 Inter* ecran = NULL;
@@ -179,6 +180,7 @@ Menu::~Menu() {
 void Menu::init() {
 	old_ecran=ecran;
 	ecran = inter;
+	input->allow_key_repeat(true);
 }
 
 void Menu::step() {

@@ -24,30 +24,7 @@
 #include "main.h"
 
 Input_Dumb::Input_Dumb() {
-	mouse.quel = -1;
-	int i;
-	for(i=0; i<4; i++)
-		mouse.button[i] = 0;
-
-	pause = false;
-	for(i=0; i<256; i++)
-		keys[i] = 0;
-	clear_key();
 }
 
 Input_Dumb::~Input_Dumb() {
 }
-
-void Input_Dumb::clear_key() {
-	process_key(); // empties the key queue
-	key_pending = 0;
-	for(int i=0; i<256; i++)
-		keys[i] = 0;
-}
-
-void Input_Dumb::process_key() {
-}
-
-void Input_Dumb::process_mouse() {
-}
-

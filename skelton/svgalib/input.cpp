@@ -30,11 +30,45 @@
 
 Input *input = NULL;
 
+Input::Input()
+{
+  pause = false;
+  allow_repeat = false;
+
+  mouse.quel = -1;
+  mouse.wheel = 0;
+  for(int i = 0; i < 4; ++i)
+    mouse.button[i] = RELEASED;
+
+  clear_key();
+}
+
+void Input::clear_key() {
+  last_key.sym = SDLK_UNKNOWN;
+  key_pending = 0;
+  
+  for(int i = SDLK_FIRST; i < SDLK_LAST; ++i)
+    keys[i] = 0;
+}
+
+void Input::allow_key_repeat(bool _allow)
+{
+	if(allow_repeat == _allow) return;
+	allow_repeat = _allow;
+	if(allow_repeat)
+	{
+		SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+	}
+	else
+	{
+		SDL_EnableKeyRepeat(0, 0);
+	}
+}
+
 class Input_SDL: public Input {
 public:
   Input_SDL();
   virtual ~Input_SDL();
-  virtual void clear_key();
   virtual void check();
 };
 
@@ -47,27 +81,9 @@ Input* Input::New(bool dumb) {
 
 Input_SDL::Input_SDL() {
   SDL_EnableUNICODE(1);
-  SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
-
-  pause = false;
-
-  mouse.quel = -1;
-  mouse.wheel = 0;
-  for(int i = 0; i < 4; ++i)
-    mouse.button[i] = RELEASED;
-
-  clear_key();
 }
 
 Input_SDL::~Input_SDL() {
-}
-
-void Input_SDL::clear_key() {
-  last_key.sym = SDLK_UNKNOWN;
-  key_pending = 0;
-  
-  for(int i = SDLK_FIRST; i < SDLK_LAST; ++i)
-    keys[i] = 0;
 }
 
 void Input_SDL::check() {
