@@ -164,7 +164,7 @@ void Input_SDL::check() {
         if(key_pending < MAXKEY) {
 		  if(event.key.keysym.unicode <= 255)
 		  {
-			key_buf[key_pending] = event.key.keysym.unicode;
+			key_buf[key_pending] = event.key.keysym.unicode & 0xff;
           }
 		  else
 		  {
