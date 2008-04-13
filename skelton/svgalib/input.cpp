@@ -58,10 +58,12 @@ void Input::allow_key_repeat(bool _allow)
 	if(allow_repeat)
 	{
 		SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+		SDL_EnableUNICODE(1);
 	}
 	else
 	{
 		SDL_EnableKeyRepeat(0, 0);
+		SDL_EnableUNICODE(0);
 	}
 }
 
@@ -80,7 +82,6 @@ Input* Input::New(bool dumb) {
 }
 
 Input_SDL::Input_SDL() {
-  SDL_EnableUNICODE(1);
 }
 
 Input_SDL::~Input_SDL() {
@@ -161,7 +162,14 @@ void Input_SDL::check() {
         keys[event.key.keysym.sym] |= PRESSED;
         last_key = event.key.keysym;
         if(key_pending < MAXKEY) {
-          key_buf[key_pending] = event.key.keysym.unicode & 0xff;
+		  if(event.key.keysym.unicode <= 255)
+		  {
+			key_buf[key_pending] = event.key.keysym.unicode;
+          }
+		  else
+		  {
+			key_buf[key_pending] = 0;
+		  }
           key_sym_buf[key_pending] = event.key.keysym.sym;
           ++key_pending;
         }

@@ -601,6 +601,7 @@ void Zone_text_input::process() {
 						actual_len--; 
 					}
 				}
+				continue;
 			}
 			if(sym==SDLK_LEFT || sym==SDLK_RIGHT || sym==SDLK_HOME || sym==SDLK_END) {
 				if(SDL_GetModState() & KMOD_SHIFT) {
@@ -612,20 +613,25 @@ void Zone_text_input::process() {
 			}
 			if(sym == SDLK_LEFT && curpos > 0) { // left arrow
 				curpos--;
+				continue;
 			}
 			if(sym == SDLK_RIGHT && curpos != actual_len) { // right arrow
 				curpos++;
+				continue;
 			}
 			if(sym == SDLK_HOME) { // home
 				curpos = 0;
+				continue;
 			}
 			if(sym == SDLK_END) { // end
 				curpos = actual_len;
+				continue;
 			}
 
-			if(sym == SDLK_a && SDL_GetModState() & KMOD_CTRL) { // CTRL-A (select all)
+			if(sym == SDLK_a && (SDL_GetModState() & (KMOD_CTRL | KMOD_META))) { // CTRL-A (select all)
 				curpos = actual_len;
 				select_start = 0;
+				continue;
 			}
 			Byte c = input->key_buf[i];
 			// If 'c' is a valid unicode character, add it to input field
