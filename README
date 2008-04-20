@@ -58,15 +58,16 @@ Building on Windows
 
 To compile Quadra on a Windows machine, use the Visual C++ workspace
 and project file in the VisualC++ subdirectory. Make sure you have
-zlib, libpng and DirectX properly installed for development on your
-machine.
+zlib, libpng and DirectX (August 2007 SDK or earlier) properly installed
+for development on your machine. Run "res.bat" after building to create
+the resource file (quadra.res).
 
 Any questions?
 --------------
 
 If you have any problem, patches, suggestions, bug reports or are
 simply looking for help, please take advantage of the resources
-available on our web site (http://quadra.sourceforge.net/)! Among
+available on our web site (http://quadra.googlecode.com/)! Among
 others, we have a support request system, mailing lists, a bug
 tracking system and plenty of other goodies, check it out!
 

@@ -44,8 +44,6 @@ Quadra 1.2.0
 
  * Fixed high CPU usage on recent Linux systems.
 
- * Use the new Quadra master server at SourceForge.
-
  * Added a User-Agent to Quadra's HTTP client code.
 
  * Fixed some compilation problems related to "basename".
