@@ -1388,7 +1388,8 @@ Menu_option::Menu_option() {
 
   (void)new Zone_text(fteam[7], inter, ST_SETGAMESERVER, 40, 310);
   (void)new Zone_text_input(inter, pal, config.info.game_server_address, 255, 380, 310, 240);
-  (void)new Zone_text(fteam[3], inter, ST_DEFAULTGAMESERVER, 40, 334);
+  snprintf(st, sizeof(st), ST_DEFAULTGAMESERVER, config.info3.default_game_server_address);
+  (void)new Zone_text(fteam[3], inter, st, 40, 334);
   strcpy(old_server, config.info.game_server_address);
 
 	(void)new Zone_text(fteam[7], inter, ST_OPTIONS_PROXY, 40, 370);
@@ -1475,7 +1476,7 @@ Menu_intro::Menu_intro() {
   if(config.info3.new_version) {
     (void)new Zone_text(font2, inter, "A new version of Quadra is available!",
                         10, y + 40);
-    (void)new Zone_text(font2, inter, "Get it at http://quadra.sf.net/",
+    (void)new Zone_text(font2, inter, "Get it at http://quadra.googlecode.com/",
                         10, y + 60);
   }
   (void)new Zone_text(inter, ST_INTRO10, 10, 430);

@@ -64,7 +64,7 @@ Rémi Veilleux: Programmation, design, graphisme
 Stéphane Lajoie: Programmation
 Pierre Phaneuf: Conversion Linux
 Notre site Web:
-http://quadra.sourceforge.net/
+http://quadra.googlecode.com/
 Ceci est une version démo gratuite et distribuable.
 Cliquez sur 'Retour ·0' pour revenir au menu principal
 Quadra(mc)  Ludus Design
@@ -379,7 +379,7 @@ Veuillez essayer un autre serveur, ou changer votre numéro de port.
 Le serveur Quadra utilise une version antérieure (%i) à la vôtre.
 Ce serveur devra être mis à jour à votre version %i.
 Le serveur Quadra utilise une version plus récente (%i) que la vôtre.
-Veuillez consulter notre site web pour les mises à jour 'quadra.sourceforge.net'.
+Veuillez consulter notre site web pour les mises à jour 'quadra.googlecode.com'.
 Carnet d'adresses
 Connecter
 Recherche de %s...
@@ -434,7 +434,7 @@ Adresse du serveur de partie publique:
 Options avancées:
 Adresse de serveur de partie invalide.
 Veuillez retourner au menu "Option" et vérifiez.
-Adresse par défaut: http://quadra.sourceforge.net/cgi-bin/qserv.pl
+Adresse par défaut: %s
 Quadra version %i.%i.%i
 NON ENREGISTRÉ
 Aucun serveur de partie Quadra à cette adresse.
