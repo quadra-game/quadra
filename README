@@ -6,11 +6,11 @@ This is the Quadra source release.
 Requirements
 ------------
 
- - a C++ compiler (gcc was tested on Linux and Visual C++ on Windows)
- - zlib (http://www.info-zip.org/pub/infozip/zlib/)
- - libpng (http://www.libpng.org/pub/png/libpng.html)
- - SDL (http://www.libsdl.org/)
- - X Window System libraries with XPM support (Linux only)
+ - a standard-compliant C++ compiler (gcc 4.0 was tested on Linux and
+   Visual C++ 2008 on Windows)
+ - zlib 1.2 or greater (http://www.info-zip.org/pub/infozip/zlib/)
+ - libpng 1.2.0 or greater (http://www.libpng.org/pub/png/libpng.html)
+ - SDL 1.2.10 or greater (http://www.libsdl.org/)
 
 On Ubuntu, the following packages are needed to build:
 
