@@ -136,6 +136,7 @@ void Video_Dumb::end_frame() {
     newpal = false;
   }
   framecount++;
+  SDL_Delay(5);
 }
 
 void Video_Dumb::snap_shot(int x, int y, int w, int h) {
