@@ -77,7 +77,7 @@ Fichier de configuration inexistant. Il sera créé.
 Avertissement: Mauvaise version du fichier de configuration. Il sera effacé.
 Appuyez sur quelque chose pour continuer...
 Quadra, Universal Game Skelton et le logo Ludus Design sont des marques
-de commerce de Ludus Design, Copyright (C) 1998-2000. Tous droits réservés.
+de commerce de Ludus Design, Copyright (C) 1998-2008. Tous droits réservés.
 Quadra - Statistiques de fin de partie
 Pour l'équipe %s:
 Les statistiques ne sont disponibles que dans la version complète.
