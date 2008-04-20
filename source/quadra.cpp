@@ -2371,6 +2371,7 @@ void start_game() {
 					(void) new Error("Network failed to initialize or not present\nCan't connect.\n");
 				char *temp = command_get_param("connect <TCP/IP address>");
 				strncpy(buf, temp, sizeof(buf) - 1);
+				buf[sizeof(buf)-1] = 0;
 				menu->add(new Menu_startconnect(buf, false));
 				if(config.warning)
 					menu->add(new Menu_setup());
