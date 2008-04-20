@@ -10,7 +10,7 @@ Requirements
    Visual C++ 2008 on Windows)
  - zlib 1.2 or greater (http://www.info-zip.org/pub/infozip/zlib/)
  - libpng 1.2.0 or greater (http://www.libpng.org/pub/png/libpng.html)
- - SDL 1.2.10 or greater (http://www.libsdl.org/)
+ - SDL 1.2.12 or greater (http://www.libsdl.org/)
 
 On Ubuntu, the following packages are needed to build:
 
