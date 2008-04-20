@@ -21,7 +21,7 @@
 #include "menu.h"
 
 #include <stdlib.h>
-
+#include "version.h"
 #include "canvas.h"
 #include "chat_text.h"
 #include "color.h"
@@ -1424,10 +1424,11 @@ Menu_intro::Menu_intro() {
     y += 20;
   }
   (void)new Zone_text(inter, "Hit something to continue...", 10, y);
-  if(config.info3.new_version) {
+  if(strcmp(VERSION_STRING, config.info3.latest_version) != 0)
+  {
     (void)new Zone_text(font2, inter, "A new version of Quadra is available!",
                         10, y + 40);
-    (void)new Zone_text(font2, inter, "Get it at http://quadra.sf.net/",
+    (void)new Zone_text(font2, inter, "Get it at http://quadra.googlecode.com",
                         10, y + 60);
   }
   (void)new Zone_text(inter, "Quadra, Universal Game Skelton and the "
@@ -1454,7 +1455,9 @@ Menu_intro::~Menu_intro() {
   delete font2;
 }
 
-Menu_main::Menu_main() {
+Menu_main::Menu_main():
+	version_warning(false)
+{
   {
     Res_doze res("debuto.png");
     Png png(res);
@@ -1492,9 +1495,9 @@ void Menu_main::redraw() {
     bit.draw(*background, 227, 345);
   }
 
-  sprintf(st, "Quadra version %i.%i.%i",
-          Config::major, Config::minor, Config::patchlevel);
+  sprintf(st, "Quadra version %i.%i.%i", Config::major, Config::minor, Config::patchlevel);
   new Zone_text(inter, st, 460, 430);
+  
   b_logo = new Zone_menu(inter, background, "debut8.png", 0, 390);
 }
 
@@ -1508,7 +1511,17 @@ void Menu_main::init() {
 }
 
 void Menu_main::reset_delay() {
-  delay = 12000;
+	delay = 12000;
+  
+	if(!version_warning)
+	{
+		if(strcmp(VERSION_STRING, config.info3.latest_version) != 0)
+		{
+			(void)new Zone_text(inter, "New version available", 455, 445);
+			(void)new Zone_text(inter, "Get it at http://quadra.googlecode.com", 330, 460);
+			version_warning = true;
+		}
+	}
 }
 
 void Menu_main::step() {

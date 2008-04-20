@@ -448,7 +448,7 @@ void Join_game::net_call(Packet *p2) {
 		} else {
 			sprintf(st, "The Quadra server is using a more recent version (%i).", p->version);
 			status->set_text(st);
-			(void)new Zone_text(fteam[7], inter, "Please check for Quadra update at our web site 'quadra.sourceforge.net'.", 240);
+			(void)new Zone_text(fteam[7], inter, "Please check for Quadra update at our web site 'quadra.googlecode.com'.", 240);
 		}
 		video->need_paint = 2;
 		ok = false;

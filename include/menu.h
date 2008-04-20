@@ -60,6 +60,7 @@ class Menu_main: public Menu {
 	Zone *b_tut, *b_option, *b_logo, *b_demo;
 	int delay;
 	int old_language;
+	bool version_warning;
 	void reset_delay();
 	void redraw();
 public:
