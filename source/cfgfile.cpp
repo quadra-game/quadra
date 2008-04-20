@@ -133,6 +133,11 @@ void Config::read() {
 			}
 		}
 	}
+	
+	if(info3.latest_version[0] == 0)
+	{
+		strcpy(info3.latest_version, VERSION_STRING);
+	}
 
 	for(i=0; i<3; i++) {
 		player[i].name[39] = 0;
@@ -170,6 +175,7 @@ void Config::read() {
 	info2.proxy_address[127] = 0;
 	info3.last_modified[63] = 0;
 	info3.default_game_server_address[255] = 0;
+	info3.latest_version[255] = 0;
 }
 
 void fix_str(char *st, Dword len) {
@@ -211,6 +217,7 @@ void Config::write() {
 			res.write(&info2, sizeof(info2));
 			fix_str(info3.last_modified, 64);
 			fix_str(info3.default_game_server_address, 256);
+			fix_str(info3.latest_version, 256);
 			res.write(&info3, sizeof(info3));
 		}
 	}

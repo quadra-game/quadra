@@ -74,8 +74,8 @@ public:
   struct {
     time_t last_update;
     char last_modified[64];
-    bool new_version;
     char default_game_server_address[256];
+    char latest_version[256];
   } info3;
 	char fname[1024];
 	Config();

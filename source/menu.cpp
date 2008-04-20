@@ -20,6 +20,7 @@
 
 #include <stdlib.h>
 #include "utils.h"
+#include "version.h"
 #include "color.h"
 #include "random.h"
 #include "net.h"
@@ -1473,10 +1474,11 @@ Menu_intro::Menu_intro() {
     y += 20;
   }
   (void)new Zone_text(inter, ST_INTRO9, 10, y);
-  if(config.info3.new_version) {
+  if(strcmp(VERSION_STRING, config.info3.latest_version) != 0)
+  {
     (void)new Zone_text(font2, inter, "A new version of Quadra is available!",
                         10, y + 40);
-    (void)new Zone_text(font2, inter, "Get it at http://quadra.googlecode.com/",
+    (void)new Zone_text(font2, inter, "Get it at http://quadra.googlecode.com",
                         10, y + 60);
   }
   (void)new Zone_text(inter, ST_INTRO10, 10, 430);
@@ -1579,7 +1581,9 @@ void Menu_main_startmusic::init() {
   ret();
 }
 
-Menu_main::Menu_main() {
+Menu_main::Menu_main():
+	version_warning(false)
+{
   {
     Res_doze res("debuto.png");
     Png png(res);
@@ -1638,6 +1642,7 @@ void Menu_main::redraw() {
   sprintf(st, ST_QUADRAVERSION, Config::major, Config::minor, Config::patchlevel);
   new Zone_text(inter, st, 460, 430);
   old_language = config.info.language;
+  
   b_logo = new Zone_menu(inter, background, "debut8.png", 0, 390);
 }
 
@@ -1650,7 +1655,17 @@ void Menu_main::init() {
 }
 
 void Menu_main::reset_delay() {
-  delay = 3000;
+	delay = 12000;
+  
+	if(!version_warning)
+	{
+		if(strcmp(VERSION_STRING, config.info3.latest_version) != 0)
+		{
+			(void)new Zone_text(inter, "New version available", 455, 445);
+			(void)new Zone_text(inter, "Get it at http://quadra.googlecode.com", 330, 460);
+			version_warning = true;
+		}
+	}
 }
 
 void Menu_main::step() {
