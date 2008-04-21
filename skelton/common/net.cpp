@@ -595,6 +595,19 @@ void Net_connection_tcp::commit() {
 }
 
 Net_connection::Netstate Net_connection_tcp::state() {
+	if(_state==connected && outgoing_buf.size() > 0) {
+		fd_set wfds;
+		FD_ZERO(&wfds);
+		FD_SET(tcpsock, &wfds);
+
+		timeval empty_tv;
+		empty_tv.tv_sec = 0;
+		empty_tv.tv_usec = 0;
+
+		int retval = select(tcpsock+1, NULL, &wfds, NULL, &empty_tv);
+		if(retval > 0)
+			commit();
+	}
 	if(_state<waitingfordns || _state==disconnected || _state==connected) {
 		return _state;
 	}
