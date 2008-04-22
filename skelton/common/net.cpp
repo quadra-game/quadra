@@ -1017,7 +1017,7 @@ void Net::sendudp(Dword to, Packet *p) {
 		int temp = sendto(udpsock[i], (const char *) nb.buf, nb.len(), 0, (sockaddr *) &udpsin, sizeof(udpsin));
 		if(getlasterror(temp))
 			return; // failed!
-		if(temp != nb.len()) {
+		if(temp != static_cast<int>(nb.len())) {
 			last_error = "Protocol UDP did not send all requested data";
 			return; // failed!
 		}

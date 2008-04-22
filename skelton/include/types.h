@@ -37,8 +37,7 @@
 #if defined(lint)
 #define RCSID(x) /* empty */
 #else
-static const char *rcsid(const char *);
-#define RCSID(x) static const char *rcsid(const char *s) { return rcsid(x); }
+#define RCSID(x) static inline const char *rcsid(const char *s) { return rcsid(x); }
 #endif
 
 typedef unsigned int Dword;
