@@ -29,11 +29,7 @@ extern bool skelton_debug;
 extern void delete_obj();
 void msgbox(const char* m, ...);
 void skelton_msgbox(const char* m, ...);
+void fatal_msgbox(const char* m, ...);
 void user_output(const char* title, const char *msg);
-
-class Error {
-public:
-	Error(const char* m, ...);
-};
 
 #endif

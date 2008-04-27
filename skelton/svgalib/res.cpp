@@ -29,7 +29,6 @@ Res_mem::Res_mem() {
 
 Res_dos::Res_dos(const char *fil, Res_mode mode) {
 	int flag;
-	Error* error;
 	_buf = NULL;
 	exist = 1;
 	flag = 0;
@@ -50,7 +49,7 @@ Res_dos::Res_dos(const char *fil, Res_mode mode) {
 		if(mode == RES_TRY || mode == RES_CREATE)
 			exist = 0;
 		else
-			error = new Error("Unable to open file '%s'", fil);
+			fatal_msgbox("Unable to open file '%s'", fil);
 }
 
 Dword Res_dos::size() {
@@ -71,17 +70,15 @@ void Res_dos::position(Dword po) {
 }
 
 int Res_dos::read(void *b, int nb) {
-	Error* error;
 	int n = ::read(handle, b, nb);
 	if(n < 0)
-		error = new Error("Error reading file");
+		fatal_msgbox("Error reading file");
 	return n;
 }
 
 void Res_dos::write(const void *b, int nb) {
-	Error* error;
 	if(::write(handle, b, nb) != nb)
-		error = new Error("Error writing file");
+		fatal_msgbox("Error writing file");
 }
 
 const void* Res_dos::buf() {
@@ -89,7 +86,7 @@ const void* Res_dos::buf() {
 		return _buf;
 	_buf = new Byte[size()];
 	if(_buf == NULL)
-		(void)new Error("Not enough memory");
+		fatal_msgbox("Not enough memory");
 	read(_buf, size());
 	return _buf;
 }

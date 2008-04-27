@@ -62,14 +62,14 @@ void Res_compress::read_uncompress() {
 		if(mode == RES_TRY)
 			return;
 		else
-			(void) new Error("Unable to uncompress file.\n");
+			fatal_msgbox("Unable to uncompress file.\n");
 	}
 	_buf = (Byte *) malloc(ressize);
 	if(_buf == NULL) {
 		if(mode == RES_TRY)
 			return;
 		else
-			(void) new Error("Out of memory allocating buffer (%i bytes)\n",ressize);
+			fatal_msgbox("Out of memory allocating buffer (%i bytes)\n",ressize);
 	}
 
 	unsigned long dest_len = ressize;
@@ -78,13 +78,13 @@ void Res_compress::read_uncompress() {
 		if(mode == RES_TRY)
 			return;
 		else
-			(void) new Error("Unable to uncompress file, error #%i", error);
+			fatal_msgbox("Unable to uncompress file, error #%i", error);
 	}
 	if(dest_len != ressize) {
 		if(mode == RES_TRY)
 			return;
 		else
-			(void) new Error("Error uncompressing, destination len should be:%i but returned:%i",ressize,dest_len);
+			fatal_msgbox("Error uncompressing, destination len should be:%i but returned:%i",ressize,dest_len);
 	}
 	exist = true;
 }
@@ -94,7 +94,7 @@ void Res_compress::write(const void *b, int nb) {
 		ressize = ressize + max(nb, 16384);
 		_buf = (Byte *) realloc(_buf, ressize);
 		if(_buf == NULL)
-			(void) new Error("Unable to reallocate buffer (need %i bytes)\n", ressize);
+			fatal_msgbox("Unable to reallocate buffer (need %i bytes)\n", ressize);
 	}
 	memcpy(_buf + write_pos, b, nb);
 	write_pos += nb;
@@ -106,9 +106,9 @@ Dword Res_compress::size() {
 
 void Res_compress::write_compress() {
 	if(!res)
-		(void)new Error("Trying to write_compress a second time!");
+		fatal_msgbox("Trying to write_compress a second time!");
 	if(!res_dos)
-		(void)new Error("Trying to write_compress a Res_doze!");
+		fatal_msgbox("Trying to write_compress a Res_doze!");
 	if(!_buf)
 		return;
 	unsigned long dest_len = write_pos + 65540;
@@ -116,7 +116,7 @@ void Res_compress::write_compress() {
 	*((Dword *)temp)=SDL_SwapLE32(write_pos);
 	int error = compress(temp+4, &dest_len, _buf, write_pos);
 	if(error != Z_OK) {
-		(void) new Error("Unable to compress file, error #%i", error);
+		fatal_msgbox("Unable to compress file, error #%i", error);
 	}
 	skelton_msgbox("Res_compress::write_compress: writing file, original was %i, packed = %i\n", write_pos, dest_len);
 	res_dos->write(temp, dest_len+4);

@@ -85,7 +85,7 @@ void Buf::reserve(Dword s) {
 	if(s>capacity) {
 		data = (Byte*)realloc(data, s);
 		if(!data)
-			(void)new Error("Out of memory!");
+			fatal_msgbox("Out of memory!");
 		capacity=s;
 	}
 }
@@ -139,7 +139,7 @@ void Textbuf::reserve(Dword size) {
 	bool init=data? false:true;
 	data=(char*)realloc(data, wanted);
 	if(!data)
-		(void)new Error("Out of memory!");
+		fatal_msgbox("Out of memory!");
 	capacity=wanted;
 	if(init)
 		data[0]=0;

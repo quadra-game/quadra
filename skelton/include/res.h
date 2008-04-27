@@ -82,7 +82,7 @@ public:
 	Res_doze(const char *resname) {
 		ressize = resmanager->get(resname, &_buf);
 		if(!_buf)
-			(void) new Error("Unable to find resource: %s", resname);
+			fatal_msgbox("Unable to find resource: %s", resname);
 	}
 	virtual ~Res_doze() {
 	}

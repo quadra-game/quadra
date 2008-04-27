@@ -21,20 +21,19 @@
 #include "pcx.h"
 
 Pcx::Pcx(Res& res) {
-	Error *error;
 	res.read(&h, sizeof(h));
 	if(h.nplane != 1)
-		error = new Error("This PCX file has more than 1 plane!");
+		fatal_msgbox("This PCX file has more than 1 plane!");
 	if(h.version != 5)
-		error = new Error("PCX file must be version 5");
+		fatal_msgbox("PCX file must be version 5");
 	width_ = h.x2-h.x1+1;
 	height_ = h.y2-h.y1+1;
 	pic_=new Byte[width_*height_];
 	if(pic_==NULL)
-		error = new Error("Not enough memory to load PCX");
+		fatal_msgbox("Not enough memory to load PCX");
 	pal_=new Byte[256*3];
 	if(pal_==NULL)
-		error = new Error("Not enough memory to load PCX");
+		fatal_msgbox("Not enough memory to load PCX");
 	Byte* buf = (Byte *) res.buf();
 	Byte c, num;
 	Byte* out = pic_;
@@ -79,7 +78,7 @@ Pcx::Pcx(Res& res) {
 		}
 	}
 	if(*buf++ != 12)
-		error = new Error("Can't find palette in PCX file");
+		fatal_msgbox("Can't find palette in PCX file");
 	cpy(pal_, buf, 768);
 }
 

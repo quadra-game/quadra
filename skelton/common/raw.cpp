@@ -40,17 +40,16 @@ void Raw::Head::xlat() {
 #undef swap
 
 Raw::Raw(Res& res) {
-	Error *error;
 	res.read(&h, sizeof(h));
 	h.xlat();
 	if(strncmp(h.sig, Head::signature, sizeof(h.sig)))
-		error = new Error("Invalid raw image file");
+		fatal_msgbox("Invalid raw image file");
 	if(h.palettesize<1) {
 		pal_=NULL;
 		pic_=new Byte[h.width*h.height*2];
 		Byte *temp=new Byte[h.width*h.height*3];
 		if(pic_==NULL || temp==NULL)
-			error = new Error("Not enough memory to load image");
+			fatal_msgbox("Not enough memory to load image");
 		res.read(temp, h.width*h.height*3);
 		Byte r,g,b;
 		for(int y=0; y<h.height; y++)
@@ -64,11 +63,11 @@ Raw::Raw(Res& res) {
 	} else {
 		pal_=new Byte[h.palettesize*3];
 		if(pal_==NULL)
-			error = new Error("Not enough memory to load image");
+			fatal_msgbox("Not enough memory to load image");
 		res.read(pal_, h.palettesize*3);
 		pic_=new Byte[h.width*h.height];
 		if(pic_==NULL)
-			error = new Error("Not enough memory to load image");
+			fatal_msgbox("Not enough memory to load image");
 		res.read(pic_, h.width*h.height);
 	}
 }

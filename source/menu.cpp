@@ -378,7 +378,7 @@ Net_starter* net_starter=NULL;
 
 Net_starter::Net_starter() {
   if(net)
-    (void) new Error("Net already started!\n");
+    fatal_msgbox("Net already started!\n");
   time_control = TIME_FREEZE;
   net=new Net(new Quadra_param());
   if(!net->active) {

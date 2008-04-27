@@ -251,9 +251,7 @@ void Sample::loadriff(Res& _res) {
 	Uint32 audio_len;
 	SDL_AudioSpec *wav = SDL_LoadWAV_RW(SDL_RWFromConstMem(_res.buf(), _res.size()), true, &spec, &audio_buf, &audio_len);
 	if(!wav)
-	{
-		(void)new Error("SDL_LoadWAV_RW: Can't load WAVE file: bad file format?");
-	}
+		fatal_msgbox("SDL_LoadWAV_RW: Can't load WAVE file: bad file format?");
 	
 	data = sound->normalize((char*) audio_buf, audio_len, spec.freq, spec.format);
 	SDL_FreeWAV(audio_buf);
@@ -281,7 +279,7 @@ SampleData* Sound::normalize(char* _sample, unsigned int _size,
 	void *audio_data = malloc(length); // length is in bytes here
 
   if(!audio_data)
-    (void)new Error("Couldn't allocate sample");
+    fatal_msgbox("Couldn't allocate sample");
 
   if(_bps == 8) {
     if((sound->spec.format & 0xff) == 16)
@@ -325,7 +323,7 @@ SampleData* Sound::normalize(char* _sample, unsigned int _size,
       delta_pos += delta;
     }
   } else
-    (void)new Error("Sound: wave 16-bit not currently supported");
+    fatal_msgbox("Sound: wave 16-bit not currently supported");
 
   return new SampleData(audio_data, _freq, length);
 }

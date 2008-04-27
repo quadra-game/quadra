@@ -841,7 +841,7 @@ void Packet_rejoin::write(Net_buf *p) {
 
 void Packet_moves::start_byte() {
 	if(size==255)
-		(void)new Error("Packet_moves too big!");
+		fatal_msgbox("Packet_moves too big!");
 	moves[size]=0;
 }
 

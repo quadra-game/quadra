@@ -1846,7 +1846,7 @@ void init_stuff(bool need_sound=true, bool need_video=true) {
 	video = Video::New(640, 480, 8, "Quadra", !need_video);
 
 	if(!video)
-		(void)new Error("Could not initialize video subsystem");
+		fatal_msgbox("Could not initialize video subsystem");
 
 	fonts.init();
 	//If we init a dumb video, we need a dumb input too
@@ -1947,10 +1947,8 @@ char *command_get_param(const char *t, char *def=NULL) {
 	char *temp = command.get_param();
 	if(!temp)
 		temp=def;
-	if(!temp) {
-		sprintf(st, "Command line parameter not found for '%s'", t);
-		(void) new Error(st);
-	}
+	if(!temp)
+		fatal_msgbox("Command line parameter not found for '%s'", t);
 	return temp;
 }
 
@@ -2128,13 +2126,13 @@ void start_game() {
 	if(!demo_play) {
 		if(command.token("server") || dedicated) {
 			if(!net->active)
-				(void) new Error("Network failed to initialize or not present\nCan't start server.\n");
+				fatal_msgbox("Network failed to initialize or not present\nCan't start server.\n");
 			buf[0] = 0;
 			if(command.token("port")) {
 				char *temp = command_get_param("port <TCP/IP port>");
 				int port = atoi(temp);
 				if(port<=0 || port>=65535)
-					(void) new Error("Illegal port number.\n");
+					fatal_msgbox("Illegal port number.\n");
 				config.info.port_number = port;
 			}
 			Game_params p;
@@ -2252,7 +2250,7 @@ void start_game() {
 			}
 			if(command.token("connect")) {
 				if(!net->active)
-					(void) new Error("Network failed to initialize or not present\nCan't connect.\n");
+					fatal_msgbox("Network failed to initialize or not present\nCan't connect.\n");
 				char *temp = command_get_param("connect <TCP/IP address>");
 				strncpy(buf, temp, sizeof(buf) - 1);
 				buf[sizeof(buf)-1] = 0;

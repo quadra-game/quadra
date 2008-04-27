@@ -37,15 +37,15 @@ Png::Png(Res& res) : w(0), h(0), palsize(0), pal_(NULL), pic_(NULL) {
 
   png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
   if(!png)
-    (void)new Error("Unable to initialize libpng");
+    fatal_msgbox("Unable to initialize libpng");
 
   info = png_create_info_struct(png);
   if(!info)
-    (void)new Error("Unable to create info of libpng");
+    fatal_msgbox("Unable to create info of libpng");
 
   end_info = png_create_info_struct(png);
   if(!end_info)
-    (void)new Error("Unable to create end_info of libpng");
+    fatal_msgbox("Unable to create end_info of libpng");
 
   png_set_read_fn(png, &res, res_read_func);
 
@@ -55,19 +55,19 @@ Png::Png(Res& res) : w(0), h(0), palsize(0), pal_(NULL), pic_(NULL) {
   h = png_get_image_height(png, info);
 
   if(png_get_bit_depth(png, info) != 8)
-    (void)new Error("png is not 8 bit depth");
+    fatal_msgbox("png is not 8 bit depth");
 
   if(png_get_color_type(png, info) != PNG_COLOR_TYPE_PALETTE)
-    (void)new Error("png is not paletted");
+    fatal_msgbox("png is not paletted");
 
   if(!png_get_valid(png, info, PNG_INFO_PLTE))
-    (void)new Error("png palette info chunk missing");
+    fatal_msgbox("png palette info chunk missing");
 
   png_get_PLTE(png, info, &pngpal, reinterpret_cast<int*>(&palsize));
 
   pal_ = new Byte[palsize * 3];
   if(!pal_)
-    (void)new Error("out of memory");
+    fatal_msgbox("out of memory");
 
   for(i = 0; i < palsize; i++)
     reinterpret_cast<png_color*>(pal_)[i] = pngpal[i];
