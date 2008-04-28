@@ -65,17 +65,6 @@ void skelton_msgbox(const char* m, ...) {
 	}
 }
 
-void lock_msgbox(const char* m, ...) {
-	if(_debug) {
-		char st[1024];
-		va_list marker;
-		va_start(marker, m);
-		vsnprintf(st, sizeof(st) - 1, m, marker);
-		va_end(marker);
-		fprintf(stderr, "%s", st);
-	}
-}
-
 void user_output(const char* title, const char *msg) {
 	printf("%s\n%s\n",title,msg);
 }
