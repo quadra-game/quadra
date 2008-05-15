@@ -74,8 +74,7 @@ void Http_post::send() {
 		url.append(host);
 		url.append("\r\n");
 	}
-	sprintf(st, "User-Agent: Quadra/%i.%i.%i\r\n",
-	        VERSION_MAJOR, VERSION_MINOR, VERSION_PATCHLEVEL);
+	sprintf(st, "User-Agent: Quadra/%s\r\n", VERSION_STRING);
   	url.append(st);
 	//Try to make those idiot proxies behave. Long life e2e!!! :)
 	url.append("Pragma: no-cache\r\n");

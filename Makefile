@@ -25,7 +25,7 @@ default: all
 -include config/config.mk
 
 DISTCLEAN+=config.cache config.log config.status
-REALCLEAN+=configure quadra.spec
+REALCLEAN+=configure quadra.spec packages/readme-win32.txt packages/quadra.nsi
 
 include $(wildcard */vars.mk)
 
