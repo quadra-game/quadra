@@ -57,6 +57,10 @@ else
 	with_x=no
 fi
 
+if test "$enable_version_check" != "no"; then
+   	AC_DEFINE(ENABLE_VERSION_CHECK, 1, [Check for new versions.])
+fi
+
 if test -n "$nodl"; then
 	AC_MSG_WARN([dl is required and could not be found!])
 	missing_required=yes

@@ -1479,6 +1479,7 @@ Menu_intro::Menu_intro() {
     y += 20;
   }
   (void)new Zone_text(inter, ST_INTRO9, 10, y);
+#ifdef ENABLE_VERSION_CHECK
   if(strcmp(VERSION_STRING, config.info3.latest_version) != 0)
   {
     (void)new Zone_text(font2, inter, "A new version of Quadra is available!",
@@ -1486,6 +1487,7 @@ Menu_intro::Menu_intro() {
     (void)new Zone_text(font2, inter, "Get it at http://quadra.googlecode.com",
                         10, y + 60);
   }
+#endif
   (void)new Zone_text(inter, ST_INTRO10, 10, 430);
   (void)new Zone_text(inter, ST_INTRO11, 10, 450);
   once = false;
