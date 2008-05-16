@@ -29,7 +29,6 @@
 #define UPDATE_HOST "quadra.googlecode.com"
 #define UPDATE_PORT 80
 #define UPDATE_PATH "/svn/version.txt"
-#define UPDATE_VERSION_KEY "stable"
 
 class AutoUpdaterImpl: public AutoUpdater {
   Http_request *req;
@@ -175,7 +174,12 @@ void AutoUpdaterImpl::step() {
 	       "%s", val);
 
     if(reply.find_sub("version")) {
-      val = reply.find_sub("version")->find(UPDATE_VERSION_KEY);
+      const char* version_key = "unstable";
+
+      if(VERSION_MINOR % 2 == 0)
+	version_key = "stable";
+
+      val = reply.find_sub("version")->find(version_key);
       if(val)
 	  {
 		int s = sizeof(config.info3.latest_version);
