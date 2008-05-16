@@ -435,7 +435,7 @@ Advanced options:
 Invalid game server address.
 Go to the "Option" menu and enter a valid address.
 Default server: %s
-Quadra version %i.%i.%i
+Quadra version %s
 NOT REGISTERED
 No Quadra server found at specified address.
 Either the server is down, or this address isn't a Quadra game server.

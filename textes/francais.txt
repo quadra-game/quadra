@@ -435,7 +435,7 @@ Options avancées:
 Adresse de serveur de partie invalide.
 Veuillez retourner au menu "Option" et vérifiez.
 Adresse par défaut: %s
-Quadra version %i.%i.%i
+Quadra version %s
 NON ENREGISTRÉ
 Aucun serveur de partie Quadra à cette adresse.
 Le serveur peut être en panne, ou l'adresse n'est pas un serveur Quadra.

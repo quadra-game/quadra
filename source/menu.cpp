@@ -1646,8 +1646,8 @@ void Menu_main::redraw() {
     bit.draw(*background, 227, 345);
   }
 
-  sprintf(st, ST_QUADRAVERSION, Config::major, Config::minor, Config::patchlevel);
-  new Zone_text(inter, st, 460, 430);
+  sprintf(st, ST_QUADRAVERSION, VERSION_STRING);
+  new Zone_text(inter, st, 450, 430);
   old_language = config.info.language;
   
   b_logo = new Zone_menu(inter, background, "debut8.png", 0, 390);
