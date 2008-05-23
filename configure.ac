@@ -29,7 +29,8 @@ AC_CHECK_LIB(SDL, SDL_Init, SDL_LIBS="-lSDL", nosdl=1)
 dnl Checks for header files.
 AC_CHECK_HEADER(zlib.h,, nozlib=1)
 AC_CHECK_HEADER(png.h,, nolibpng=1)
-AC_CHECK_HEADERS(SDL.h)
+AC_CHECK_HEADER(SDL.h)
+AC_CHECK_HEADERS(sys/utsname.h)
 
 save_CFLAGS="$CFLAGS"
 CFLAGS="$CFLAGS -x objective-c"
@@ -39,6 +40,7 @@ CFLAGS="$save_CFLAGS"
 dnl Checks for typedefs, structures, and compiler characteristics.
 
 dnl Checks for library functions.
+AC_CHECK_FUNCS(uname)
 
 if test "$enable_version_check" != "no"; then
    	AC_DEFINE(ENABLE_VERSION_CHECK, 1, [Check for new versions.])
@@ -78,4 +80,3 @@ AC_DEFINE(UGS_LINUX, 1, [FIXME: temporary hack, until we properly detect stuff.]
 AC_CONFIG_HEADERS([include/autoconf.h])
 AC_CONFIG_FILES([config/config.mk])
 AC_OUTPUT
-

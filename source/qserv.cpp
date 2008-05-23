@@ -23,6 +23,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include <errno.h>
 #include "config.h"
 #include "cfgfile.h"
 #include "url.h"
@@ -32,6 +33,11 @@
 #include "video.h"
 #include "config.h"
 #include "version.h"
+#include "SDL_video.h"
+
+#ifdef HAVE_SYS_UTSNAME_H
+#include <sys/utsname.h>
+#endif
 
 Dword Qserv::http_addr=0;
 int Qserv::http_port=0;
@@ -142,24 +148,26 @@ void Qserv::send() {
   // we'll fake it for the moment.
 	req->add_data_encode("info/language 0\n");
 	req->add_data_encode("info/quadra_version %s\n", VERSION_STRING);
-	req->add_data_encode("info/platform/os %s\n",
-		#if defined(UGS_DIRECTX)
-			"Windows"
-		#elif defined(UGS_LINUX)
-			"Linux i386"
-		#else
-			#error "What platform???"
-		#endif
-	);
+#if defined(HAVE_SYS_UTSNAME_H) && defined(HAVE_UNAME)
+	struct utsname unameinfo;
+	if (uname(&unameinfo) == 0)
+		req->add_data_encode("info/platform/os %s/%s\n", unameinfo.sysname,
+		                     unameinfo.machine);
+	else {
+		req->add_data_encode("info/platform/os unknown\n");
+		skelton_msgbox("uname: %s\n", strerror(errno));
+	}
+#elif defined(WIN32)
+	req->add_data_encode("info/platform/os Windows\n");
+#else
+#error "What platform???"
+#endif
 	if(video_is_dumb)
 		req->add_data_encode("info/platform/display None\n");
 	else {
-		#if defined(UGS_LINUX)
-		req->add_data_encode("info/platform/display Xlib\n");
-		#endif
-		#if defined(UGS_DIRECTX)
-		req->add_data_encode("info/platform/display DirectX\n");
-		#endif
+		char buf[512];
+		req->add_data_encode("info/platform/display %s\n",
+		                     SDL_VideoDriverName(buf, sizeof(buf)));
 	}
 	req->send();
 }
