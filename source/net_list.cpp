@@ -34,6 +34,7 @@
 #include "quadra.h"
 #include "nglog.h"
 #include "net_list.h"
+#include "version.h"
 
 RCSID("$Id$")
 
@@ -1577,7 +1578,7 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 		}
 	}
 	if(!strcmp(cmd, "version")) {
-		send_msg(nc, "Quadra %i.%i.%i", Config::major, Config::minor, Config::patchlevel);
+		send_msg(nc, "Quadra %s", VERSION_STRING);
 		send_msg(nc, "%s", built);
 	}
 	if(!strcmp(cmd, "bye") && nc) {
