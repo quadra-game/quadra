@@ -1840,8 +1840,13 @@ void init_directory() {
 #endif
 }
 
-void init_stuff(bool need_sound=true, bool need_video=true) {
+static void init_stuff(bool need_sound, bool need_video) {
 	int i;
+
+  if(SDL_Init(SDL_INIT_VIDEO) == -1) {
+    fprintf(stderr, "Could not initialize SDL: %s\n", SDL_GetError());
+    exit(1);
+  }
 
 	video = Video::New(640, 480, 8, "Quadra", !need_video);
 

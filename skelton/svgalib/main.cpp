@@ -97,11 +97,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
  	command.add(lpCmdLine);
 	set_path();
 
-	if(SDL_Init(SDL_INIT_VIDEO) == -1) {
-		fprintf(stderr, "Could not initialize SDL: %s\n", SDL_GetError());
-		return 1;
-	}
-
 	start_game();
 	delete_obj();
 	return 0;
@@ -109,11 +104,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif
 
 int main(int ARGC, char *ARGV[]) {
-  if(SDL_Init(SDL_INIT_VIDEO) == -1) {
-    fprintf(stderr, "Could not initialize SDL: %s\n", SDL_GetError());
-    return 1;
-  }
-
 #ifndef WIN32
 	struct sigaction signals;
 	if(sigaction(SIGPIPE, NULL, &signals) < 0)
