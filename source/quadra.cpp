@@ -2094,7 +2094,7 @@ void display_command_line_help() {
 			res="help_fr.txt"; break;
 	}
 	Res_doze cmdline(res);
-	Dword size = min(sizeof(st)-1, cmdline.size());
+	Dword size = min(static_cast<Dword>(sizeof(st)-1), cmdline.size());
 	strncpy(st, (char *)cmdline.buf(), size);
 	st[size] = 0;
 	if(video)
@@ -2107,7 +2107,7 @@ void read_script(const char *fn, bool second=false) {
 	Res_dos script(fn);
 	if(script.exist) {
 		//-2 because Stringtable is strange
-		Dword size = min(sizeof(st)-2, script.size());
+		Dword size = min(static_cast<Dword>(sizeof(st)-2), script.size());
 		strncpy(st, (char *)script.buf(), size);
 		st[size] = 0;
 		Stringtable str((Byte *)st, size);
