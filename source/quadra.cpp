@@ -74,6 +74,9 @@
 
 RCSID("$Id$")
 
+using std::max;
+using std::min;
+
 Sprite *cur;
 
 Color *color[9];
@@ -975,7 +978,7 @@ void Player_process_key::step() {
 		p.y=canvas->bloc->by;
 		p.player=canvas->num_player;
 		if(game->net_version()<23) {
-			i = max(overmind.framecount - canvas->frame_start - 50, 0);
+			i = max(overmind.framecount - canvas->frame_start - 50, static_cast<unsigned int>(0));
 			p.score=max(0, 100 - i) >> 1;
 		}
 		else
@@ -1107,7 +1110,7 @@ Player_dead::Player_dead(Canvas *c, bool tg): Player_base(c), then_gone(tg) {
 		couleur = 8<<4; // gris pour mort naturelle
 	}
 	canvas->stats[CS::DEATH].add(1);
-	char *death_type="normal";
+	const char *death_type="normal";
 	//Suicide: less than 9 unit blocks in the 2 lines right
 	//  below the top
 	int num_units=0;
@@ -2035,8 +2038,8 @@ void deinit_stuff() {
 	fonts.deinit();
 }
 
-char *command_get_param(const char *t, char *def=NULL) {
-	char *temp = command.get_param();
+const char *command_get_param(const char *t, const char *def=NULL) {
+	const char *temp = command.get_param();
 	if(!temp)
 		temp=def;
 	if(!temp) {
@@ -2144,7 +2147,7 @@ void start_game() {
 
 	init_directory();
 
-	char *dir=quadradir;
+	const char *dir=quadradir;
 #ifdef UGS_LINUX
 	dir = getenv("QUADRADIR");
 	if(!dir)
@@ -2159,7 +2162,7 @@ void start_game() {
 	snprintf(fn, sizeof(fn) - 1, "%s/quadra%i%i%i.res", dir, Config::major, Config::minor, Config::patchlevel);
 	resmanager->loadresfile(fn);
 	if(command.token("patch") || command.token("theme")) {
-		char *temp=command_get_param("patch <filename>");
+		const char *temp=command_get_param("patch <filename>");
 		if(temp[0] != '/' && temp[0] != '\\')
 			snprintf(fn, sizeof(fn) - 1, "%s/%s", dir, temp);
 		else
@@ -2171,7 +2174,7 @@ void start_game() {
 	msgbox("Ok\n");
 	//Read script and add to command line options if applicable
 	if(command.token("exec")) {
-		char *temp=command_get_param("exec <filename>");
+		const char *temp=command_get_param("exec <filename>");
 		msgbox("Reading script %s: ", temp);
 		read_script(temp);
 		msgbox("Ok\n");
@@ -2181,7 +2184,7 @@ void start_game() {
 		config.info.language=0;
 	if(command.token("french"))
 		config.info.language=1;
-	char *language;
+	const char *language;
 	int i;
 	switch(config.info.language) {
 		default:
@@ -2202,7 +2205,7 @@ void start_game() {
 		return;
 	}
 	if(_debug && command.token("verify")) {
-		char *temp = command_get_param("verify <filename>");
+		const char *temp = command_get_param("verify <filename>");
 		strncpy(buf, temp, sizeof(buf) - 1);
 		demo_play = true;
 		demo_verif = true;
@@ -2211,7 +2214,7 @@ void start_game() {
 		no_sound = true;
 	}
 	if(command.token("play")) {
-		char *temp = command_get_param("play <filename>");
+		const char *temp = command_get_param("play <filename>");
 		strncpy(buf, temp, sizeof(buf) - 1);
 		demo_play = true;
 		demo_verif = false;
@@ -2247,7 +2250,7 @@ void start_game() {
 				(void) new Error("Network failed to initialize or not present\nCan't start server.\n");
 			buf[0] = 0;
 			if(command.token("port")) {
-				char *temp = command_get_param("port <TCP/IP port>");
+				const char *temp = command_get_param("port <TCP/IP port>");
 				int port = atoi(temp);
 				if(port<=0 || port>=65535)
 					(void) new Error("Illegal port number.\n");
@@ -2264,34 +2267,34 @@ void start_game() {
 				p.set_preset(PRESET_PEACE);
 			if(command.token("blind")) {
 				p.set_preset(PRESET_BLIND);
-				char *temp = command_get_param("blind <n>", "30");
+				const char *temp = command_get_param("blind <n>", "30");
 				Dword time=atoi(temp);
-				time=min(max(time, 0), 255);
+				time=min(max(time, static_cast<Dword>(0)), static_cast<Dword>(255));
 				p.normal_attack.param=time;
 				p.clean_attack.param=time;
 			}
 			if(command.token("fullblind")) {
 				p.set_preset(PRESET_FULLBLIND);
-				char *temp = command_get_param("fullblind <n>", "12");
+				const char *temp = command_get_param("fullblind <n>", "12");
 				Dword time=atoi(temp);
-				time=min(max(time, 0), 255);
+				time=min(max(time, static_cast<Dword>(0)), static_cast<Dword>(255));
 				p.normal_attack.param=time;
 				p.clean_attack.param=time;
 			}
 			if(command.token("attack")) {
-				char *temp=command_get_param("attack <type> [strength]");
+				const char *temp=command_get_param("attack <type> [strength]");
 				p.normal_attack=read_attack_param(temp);
 			}
 			if(command.token("attackclean")) {
-				char *temp=command_get_param("attackclean <type> [strength]");
+				const char *temp=command_get_param("attackclean <type> [strength]");
 				p.clean_attack=read_attack_param(temp);
 			}
 			if(command.token("attack2")) {
-				char *temp=command_get_param("attack2 <type> [strength]");
+				const char *temp=command_get_param("attack2 <type> [strength]");
 				p.potato_normal_attack=read_attack_param(temp);
 			}
 			if(command.token("attack2clean")) {
-				char *temp=command_get_param("attack2clean <type> [strength]");
+				const char *temp=command_get_param("attack2clean <type> [strength]");
 				p.potato_clean_attack=read_attack_param(temp);
 			}
 			if(command.token("boringrules"))
@@ -2301,12 +2304,12 @@ void start_game() {
 			if(command.token("levelup"))
 				p.level_up = true;
 			if(command.token("level")) {
-				char *temp = command_get_param("level <level number>");
+				const char *temp = command_get_param("level <level number>");
 				p.level_start = atoi(temp);
 				p.level_start = min(max(p.level_start, 1), 40);
 			}
 			if(command.token("name")) {
-				char *temp = command_get_param("name <game name>");
+				const char *temp = command_get_param("name <game name>");
 				strncpy(buf, temp, sizeof(buf) - 1);
 				p.name=buf;
 			}
@@ -2323,7 +2326,7 @@ void start_game() {
 			if(command.token("endscore"))
 				p.game_end = END_POINTS;
 			if(p.game_end != END_NEVER) {
-				char *temp = command_get_param("endfrag/endtime/endpoints <number>");
+				const char *temp = command_get_param("endfrag/endtime/endpoints <number>");
 				p.game_end_value = atoi(temp);
 				p.game_end_value = min(max(p.game_end_value, 1), p.game_end<=END_TIME? 9999:99999);
 			}
@@ -2337,24 +2340,24 @@ void start_game() {
 				game->wants_moves = false;
 			//Read script a second time, now that game is created
 			if(command.token("exec")) {
-				char *temp=command_get_param("exec <filename>");
+				const char *temp=command_get_param("exec <filename>");
 				read_script(temp, true);
 			}
 			if(command.token("admin")) {
-				char *temp = command_get_param("admin <password>");
+				const char *temp = command_get_param("admin <password>");
 				char line[1024];
 				snprintf(line, sizeof(line) - 1, "/setpasswd %s", temp);
 				game->net_list.got_admin_line(line, NULL);
 			}
 			if(command.token("record")) {
-				char *temp = command_get_param("record <filename>", Clock::absolute_time());
+				const char *temp = command_get_param("record <filename>", Clock::absolute_time());
 				game->prepare_recording(temp);
 				game->prepare_logging();
 			}
 		}
 		else {
 			if(command.token("connectfile")) {
-				char *temp = command_get_param("connectfile <filename>");
+				const char *temp = command_get_param("connectfile <filename>");
 				char st[1024];
 				Res_dos file(temp);
 				if(file.exist) {
@@ -2369,7 +2372,7 @@ void start_game() {
 			if(command.token("connect")) {
 				if(!net->active)
 					(void) new Error("Network failed to initialize or not present\nCan't connect.\n");
-				char *temp = command_get_param("connect <TCP/IP address>");
+				const char *temp = command_get_param("connect <TCP/IP address>");
 				strncpy(buf, temp, sizeof(buf) - 1);
 				buf[sizeof(buf)-1] = 0;
 				menu->add(new Menu_startconnect(buf, false));

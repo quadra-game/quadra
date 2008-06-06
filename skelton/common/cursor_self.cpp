@@ -24,6 +24,8 @@
 
 RCSID("$Id$")
 
+using std::max;
+
 Cursor_Self::Cursor_Self(Sprite* s) {
   change_cursor(s);
   set_pos(video->width/2, video->height/2);
@@ -68,7 +70,7 @@ void Cursor_Self::set_limit(int x1, int y1, int x2, int y2) {
 }
 
 void Cursor_Self::set_speed(const Byte s) {
-  speed = max(1, s);
+  speed = max(static_cast<Byte>(1), s);
   pool_x = pool_y = 0;
 }
 

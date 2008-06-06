@@ -394,7 +394,7 @@ Video_X11::Video_X11(int w, int h, int b,
   }
 
   classhint = XAllocClassHint();
-  classhint->res_name = "LudusSkelton";
+  classhint->res_name = const_cast<char*>("LudusSkelton");
   classhint->res_class = (char*)wname;
   XSetClassHint(display, window, classhint);
   XFree(classhint);
@@ -415,7 +415,7 @@ Video_X11::Video_X11(int w, int h, int b,
 
   XpmCreatePixmapFromData(display,
 			  DefaultRootWindow(display),
-			  quadra_xpm,
+			  const_cast<char**>(quadra_xpm),
 			  &ico_pixmap,
 			  &ico_mask,
 			  NULL);

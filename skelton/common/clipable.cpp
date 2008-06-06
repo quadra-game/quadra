@@ -24,6 +24,9 @@
 
 RCSID("$Id$")
 
+using std::max;
+using std::min;
+
 int Clipable::clip_x1;
 int Clipable::clip_x2;
 int Clipable::clip_y1;

@@ -37,7 +37,7 @@ public:
 		type=ATTACK_LINES;
 		param=0;
 	}
-	char *log_type() {
+	const char *log_type() {
 		switch(type) {
 			case ATTACK_LINES: return "lines";
 			case ATTACK_NONE: return "none";

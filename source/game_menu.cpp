@@ -297,7 +297,7 @@ Create_game_start::~Create_game_start() {
 }
 
 void Create_game_start::init() {
-	char *tube;
+	const char *tube;
 	tube = net->failed();
 	if(tube) {
 		exec(new Menu_net_problem(tube, ST_CREATESERVERFAILED, bit_, font_));
@@ -386,7 +386,7 @@ void Join_game::init() {
 	Menu::init();
 	if(!rejoin) {
 		net->start_client(address, port);
-		char *tube = net->failed();
+		const char *tube = net->failed();
 		if(tube) {
 			exec(new Menu_net_problem(tube, ST_JOINGAMEFAILED, bit_, inter->font));
 		}
@@ -400,7 +400,7 @@ void Join_game::step() {
 		ret();
 	}
 	bool connect = net->connected();
-	char *tube = net->failed();
+	const char *tube = net->failed();
 	if(tube) {
 		exec(new Menu_net_problem(tube, ST_JOINGAMEFAILED, bit_, inter->font));
 		return;

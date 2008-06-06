@@ -511,7 +511,7 @@ void Game::check_potato() {
 			net->dispatch(&p, P_SERVERPOTATO, loopback_connection);
 			if(net_server)
 				net_server->record_packet(&p);
-			char *reason="all_gone";
+			const char *reason="all_gone";
 			if(nb_player)
 				reason="all_died";
 			if(nb_player_alive)
@@ -765,7 +765,7 @@ void Game::sendgameinfo(bool quit) {
 	if(gameinfo)
 		delete gameinfo;
 	gameinfo=new Qserv();
-	char *msg = net->failed();
+	const char *msg = net->failed();
 	if(msg) {
 		sprintf(st, ST_NETWORKERRORLOOKINGBOB, msg);
 		message(-1, st, true, false, true);
@@ -847,7 +847,7 @@ void Game::prepare_recording(const char *fn) {
 void Game::prepare_logging() {
 	is_slogging=true;
 	//Begin log output here
-	char *os;
+	const char *os;
 	#ifdef UGS_DIRECTX
 	os="Windows";
 	#endif
@@ -872,7 +872,7 @@ void Game::prepare_logging() {
 
 	log.add(Packet_serverlog::Var("game_name", name));
 
-	char *game_type="ffa";
+	const char *game_type="ffa";
 	if(survivor)
 		game_type="survivor";
 	if(normal_attack.type==ATTACK_NONE && clean_attack.type==ATTACK_NONE)
@@ -911,7 +911,7 @@ void Game::prepare_logging() {
 
 	log.add(Packet_serverlog::Var("allow_handicap", allow_handicap? "true":"false"));
 
-	char *end_type="unknown";
+	const char *end_type="unknown";
 	switch(game_end) {
 		case END_NEVER: end_type="never"; break;
 		case END_FRAG: end_type="frags"; break;
