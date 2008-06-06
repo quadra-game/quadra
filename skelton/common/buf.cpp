@@ -121,16 +121,20 @@ void Textbuf::append(const char* s, ...) {
 	char st[32768];
 	va_list marker;
 	va_start(marker, s);
-	vsprintf(st, s, marker);
+	if (vsnprintf(st, sizeof(st), s, marker) >= static_cast<int>(sizeof(st)))
+		(void)new Error("Textbuf::append overflow");
 	va_end(marker);
+	appendraw(st);
+}
+
+void Textbuf::appendraw(const char* s) {
 	if(data) {
-		reserve(strlen(data)+strlen(st)+1);
-	}
-	else {
-		reserve(strlen(st)+1);
+		reserve(strlen(data)+strlen(s)+1);
+	} else {
+		reserve(strlen(s)+1);
 	}
 	if(data)
-		strcat(data, st);
+		strcat(data, s);
 }
 
 void Textbuf::reserve(Dword size) {
