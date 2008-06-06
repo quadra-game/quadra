@@ -729,12 +729,8 @@ void Net::init_local_addresses() {
 		struct hostent *host;
 		host = gethostbyname(host_name);
 		if(host) {
-			Dword *s = (Dword *) *host->h_addr_list;
-			while(*(char *) s && (char *) s < host->h_name) {
-				Dword adr = ntohl(*s);
-				host_adr.add(adr);
-				s++;
-			}
+			for (Dword** curptr = reinterpret_cast<Dword**>(host->h_addr_list); *curptr; ++curptr)
+				host_adr.add(ntohl(**curptr));
 			Dword fallback = INADDR_LOOPBACK;
 			//Even better than what the NetGames guys do! :)
 			for(int i=0; i<host_adr.size(); i++) {
