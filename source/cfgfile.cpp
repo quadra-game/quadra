@@ -29,6 +29,7 @@
 #include "video.h"
 #include "version.h"
 #include "unicode.h"
+#include "quadra.h"
 
 const int Config::game_version = 19;
 int Config::net_version = 24;

@@ -34,6 +34,7 @@
 #include "config.h"
 #include "version.h"
 #include "SDL_video.h"
+#include "quadra.h"
 
 #ifdef HAVE_SYS_UTSNAME_H
 #include <sys/utsname.h>

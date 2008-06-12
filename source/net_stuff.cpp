@@ -30,6 +30,7 @@
 #include "chat_text.h"
 #include "video.h"
 #include "nglog.h"
+#include "quadra.h"
 
 Net_starter::Net_module::Net_module() {
 	last_video_frame=video->framecount;

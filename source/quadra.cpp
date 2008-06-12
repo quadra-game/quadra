@@ -76,6 +76,7 @@ using std::min;
 
 Color *color[9];
 Font *fteam[8];
+bool video_is_dumb = false;
 
 void set_fteam_color(const Palette& pal) {
 	fteam[0]->colorize(pal, 255,125,0);
@@ -1846,12 +1847,17 @@ void init_directory() {
 static void init_stuff(bool need_sound, bool need_video) {
 	int i;
 
+	if (!need_video) {
+		video_is_dumb = true;
+		SDL_putenv("SDL_VIDEODRIVER=dummy");
+	}
+
   if(SDL_Init(SDL_INIT_VIDEO) == -1) {
     fprintf(stderr, "Could not initialize SDL: %s\n", SDL_GetError());
     exit(1);
   }
 
-	video = Video::New(640, 480, 8, "Quadra", !need_video);
+	video = Video::New();
 
 	if(!video)
 		fatal_msgbox("Could not initialize video subsystem");

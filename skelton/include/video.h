@@ -81,7 +81,7 @@ public:
   int need_paint;
   int pitch;
   Dword framecount;
-  static Video* New(int w, int h, int b, const char *wname, bool dumb=false);
+  static Video* New();
   virtual ~Video() { };
   virtual void start_frame() = 0;
   virtual void end_frame() = 0;
@@ -92,6 +92,5 @@ public:
 };
 
 extern Video* video;
-extern bool video_is_dumb;
 
 #endif

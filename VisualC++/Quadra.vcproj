@@ -960,10 +960,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\skelton\common\video_dumb.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\source\zone.cpp"
 				>
 				<FileConfiguration
@@ -1366,10 +1362,6 @@
 			</File>
 			<File
 				RelativePath="..\skelton\include\video.h"
-				>
-			</File>
-			<File
-				RelativePath="..\skelton\include\video_dumb.h"
 				>
 			</File>
 			<File

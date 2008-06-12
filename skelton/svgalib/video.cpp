@@ -27,7 +27,6 @@
 #include <alloca.h>
 #endif
 #include "SDL.h"
-#include "video_dumb.h"
 #include "bitmap.h"
 #include "sprite.h"
 #include "command.h"
@@ -91,13 +90,8 @@ public:
   void set_dirty(int x1, int y1, int x2, int y2);
 };
 
-Video* Video::New(int w, int h, int b, const char *wname, bool dumb) {
-  assert(w == 640 && h == 480 && b == 8);
-
-  if(dumb)
-    return Video_Dumb::New(w, h, b, wname);
-  else
-    return new Video_SDL;
+Video* Video::New() {
+	return new Video_SDL;
 }
 
 Video_bitmap_SDL::Video_bitmap_SDL(const int px, const int py,
