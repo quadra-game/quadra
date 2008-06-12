@@ -28,9 +28,8 @@ public:
   int width, height;
   /* return values variables */
   static int clip_x1, clip_x2, clip_y1, clip_y2, clip_w;
-  Clipable(int w, int h) {
-    width = w;
-    height = h;
+  Clipable(int w, int h):
+    width(w), height(h) {
   }
   /* 'true' if out of range */
   bool clip(const int x, const int y, const int w, const int h) const;
