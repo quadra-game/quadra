@@ -37,31 +37,14 @@ Video* video = NULL;
 
 class Video_SDL;
 
-class Video_bitmap_SDL: public Video_bitmap {
-public:
-  Bitmap *fb;
-  Video_bitmap_SDL(const int px, const int py,
-                   const int w, const int h, const int rw);
-  virtual ~Video_bitmap_SDL();
-  virtual void rect(const int, const int, const int, const int, const int) const;
-  virtual void box(const int, const int, const int, const int, const int) const;
-  virtual void put_pel(const int, const int, const Byte) const;
-  virtual void hline(const int, const int, const int, const Byte) const;
-  virtual void vline(const int, const int, const int, const Byte) const;
-  virtual void put_bitmap(const Bitmap&, const int, const int) const;
-  virtual void put_sprite(const Sprite&, const int, const int) const;
-  virtual void setmem();
-	void clip_dirty(int x, int y, int w, int h) const;
-};
-
 Video_bitmap* Video_bitmap::New(const int px, const int py,
 				const int w, const int h, const int rw) {
-  return new Video_bitmap_SDL(px, py, w, h, rw);
+  return new Video_bitmap(px, py, w, h, rw);
 }
 
 Video_bitmap* Video_bitmap::New(const int px, const int py,
 				const int w, const int h) {
-  return new Video_bitmap_SDL(px, py, w, h, video->pitch);
+  return new Video_bitmap(px, py, w, h, video->pitch);
 }
 
 class Video_SDL: public Video {
@@ -94,21 +77,20 @@ Video* Video::New() {
 	return new Video_SDL;
 }
 
-Video_bitmap_SDL::Video_bitmap_SDL(const int px, const int py,
-                                   const int w, const int h, const int rw) {
-  width = w;
-  height = h;
-  pos_x = px;
-  pos_y = py;
-  fb = new Bitmap(NULL, w, h, rw);
+Video_bitmap::Video_bitmap(const int px, const int py, const int w,
+                           const int h, const int rw):
+  Clipable(w, h),
+  pos_x(px),
+  pos_y(py),
+  fb(new Bitmap(NULL, w, h, rw)) {
 }
 
-Video_bitmap_SDL::~Video_bitmap_SDL() {
+Video_bitmap::~Video_bitmap() {
   if(fb)
     delete fb;
 }
 
-void Video_bitmap_SDL::rect(int x, int y, int w, int h, int color) const {
+void Video_bitmap::rect(int x, int y, int w, int h, int color) const {
   SDL_Rect rect;
 
   if(clip(x, y, w, h))
@@ -123,7 +105,7 @@ void Video_bitmap_SDL::rect(int x, int y, int w, int h, int color) const {
   clip_dirty(x, y, w, h); 
 }
 
-void Video_bitmap_SDL::box(int x, int y, int w, int h, int c) const {
+void Video_bitmap::box(int x, int y, int w, int h, int c) const {
   clip_dirty(x, y, w, h); 
   hline(y, x, w, c);
   hline(y + h - 1, x, w, c);
@@ -131,39 +113,39 @@ void Video_bitmap_SDL::box(int x, int y, int w, int h, int c) const {
   vline(x + w - 1, y, h, c);
 }
 
-void Video_bitmap_SDL::put_pel(int x, int y, Byte c) const {
+void Video_bitmap::put_pel(int x, int y, Byte c) const {
   clip_dirty(x, y, 1, 1); 
   fb->put_pel(x, y, c);
 }
 
-void Video_bitmap_SDL::hline(int y, int x, int w, Byte c) const {
+void Video_bitmap::hline(int y, int x, int w, Byte c) const {
   clip_dirty(x, y, w, 1); 
   fb->hline(y, x, w, c);
 }
 
-void Video_bitmap_SDL::vline(int x, int y, int h, Byte c) const {
+void Video_bitmap::vline(int x, int y, int h, Byte c) const {
   clip_dirty(x, y, 1, h); 
   fb->vline(x, y, h, c);
 }
 
-void Video_bitmap_SDL::clip_dirty(int x, int y, int w, int h) const {
+void Video_bitmap::clip_dirty(int x, int y, int w, int h) const {
   if(clip(x, y, w, h))
     return;
   Video_SDL *vid = static_cast<Video_SDL*>(video);
   vid->set_dirty(pos_x+clip_x1, pos_y+clip_y1, pos_x+clip_x2, pos_y+clip_y2);
 }
 
-void Video_bitmap_SDL::put_bitmap(const Bitmap &d, int dx, int dy) const {
+void Video_bitmap::put_bitmap(const Bitmap &d, int dx, int dy) const {
   clip_dirty(dx, dy, d.width, d.height); 
   d.draw(*fb, dx, dy);
 }
 
-void Video_bitmap_SDL::put_sprite(const Sprite &d, int dx, int dy) const {
+void Video_bitmap::put_sprite(const Sprite &d, int dx, int dy) const {
   clip_dirty(dx, dy, d.width, d.height); 
   d.draw(*fb, dx, dy);
 }
 
-void Video_bitmap_SDL::setmem() {
+void Video_bitmap::setmem() {
   Video_SDL *vid = static_cast<Video_SDL*>(video);
   unsigned char *vfb = static_cast<unsigned char *>(vid->paletted_surf->pixels);
   if(fb)

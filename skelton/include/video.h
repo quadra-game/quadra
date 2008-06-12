@@ -28,48 +28,55 @@ class Bitmap;
 class Sprite;
 
 class Video_bitmap: public Clipable {
-protected:
-  Video_bitmap(): Clipable(0, 0) { };
+private:
+  Video_bitmap::Video_bitmap(const int px, const int py, const int w,
+                             const int h, const int rw);
+
 public:
   int pos_x, pos_y;
   static Video_bitmap* New(const int px, const int py,
 			   const int w, const int h, const int rw);
   static Video_bitmap* New(const int px, const int py,
 			   const int w, const int h);
-  virtual ~Video_bitmap() { };
+  virtual ~Video_bitmap();
 
   /* fills a rectangle at position 'x','y' of width 'w', height 'h'
      and color 'color'. */
   virtual void rect(const int x,const int y,const int w,const int h,
-		    const int color) const = 0;
+		    const int color) const;
 
   /* empty rectangle at position 'x','y' of width 'w', height 'h' and
      color 'color'. */
   virtual void box(const int x,const int y,const int w,const int h,
-		   const int color) const = 0;
+		   const int color) const;
 
   /* puts a pixel at position 'x','y' with color 'c' */
-  virtual void put_pel(const int x, const int y, const Byte c) const = 0;
+  virtual void put_pel(const int x, const int y, const Byte c) const;
 
   /* horizontal line starting from 'x','y', width 'w' and color 'c' */
   virtual void hline(const int y, const int x,
-		     const int w, const Byte c) const = 0;
+		     const int w, const Byte c) const;
 
   /* vertical line starting from 'x','y', height 'h' and color 'c' */
   virtual void vline(const int x, const int y,
-		     const int h, const Byte c) const = 0;
+		     const int h, const Byte c) const;
 
   /* blits a Bitmap to position 'dx','dy' */
   virtual void put_bitmap(const Bitmap& d,
-			  const int dx, const int dy) const = 0;
+			  const int dx, const int dy) const;
 
   /* blits a Sprite (mask) 'd' to position 'dx','dy' */
   virtual void put_sprite(const Sprite& d,
-			  const int dx, const int dy) const = 0;
+			  const int dx, const int dy) const;
 
   /* adjust the video memory pointed by this video_bitmap in the
      background video page */
-  virtual void setmem() = 0;
+  virtual void setmem();
+
+private:
+  void clip_dirty(int x, int y, int w, int h) const;
+
+  Bitmap *fb;
 };
 
 class Video {
