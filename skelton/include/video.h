@@ -21,6 +21,7 @@
 #ifndef _HEADER_VIDEO
 #define _HEADER_VIDEO
 
+#include "SDL.h"
 #include "clipable.h"
 #include "palette.h"
 
@@ -81,6 +82,15 @@ private:
 
 class Video {
 public:
+	Video();
+  virtual ~Video();
+  virtual void start_frame();
+  virtual void end_frame();
+  virtual void setpal(const Palette& p);
+  virtual void dosetpal(SPalette pal[256], int size);
+  virtual void snap_shot(int x, int y, int w, int h);
+  virtual void toggle_fullscreen();
+
   Video_bitmap *vb;
   Byte newpal;
   Palette pal;
@@ -88,14 +98,23 @@ public:
   int need_paint;
   int pitch;
   Dword framecount;
-  static Video* New();
-  virtual ~Video() { };
-  virtual void start_frame() = 0;
-  virtual void end_frame() = 0;
-  virtual void setpal(const Palette& p) = 0;
-  virtual void dosetpal(SPalette pal[256], int size) = 0;
-  virtual void snap_shot(int x, int y, int w, int h) = 0;
-  virtual void toggle_fullscreen() = 0;
+  SDL_Surface *paletted_surf; // This is our temporary palette 'screen' where we actually draw
+
+protected:
+	friend class Video_bitmap;
+	
+  void SetVideoMode();
+  void set_dirty(int x1, int y1, int x2, int y2);
+
+  int needsleep;
+  int lastticks;
+  bool fullscreen;
+	bool mDirtyEmpty;
+	int mDirtyX1;
+	int mDirtyY1;
+	int mDirtyX2;
+	int mDirtyY2;
+  SDL_Surface *screen_surf; // This is the real screen, 16-bit or 32-bit or whatever. We don't care.
 };
 
 extern Video* video;

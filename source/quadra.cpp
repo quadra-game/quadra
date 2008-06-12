@@ -1857,7 +1857,7 @@ static void init_stuff(bool need_sound, bool need_video) {
     exit(1);
   }
 
-	video = Video::New();
+	video = new Video;
 
 	if(!video)
 		fatal_msgbox("Could not initialize video subsystem");

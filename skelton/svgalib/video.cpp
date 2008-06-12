@@ -26,7 +26,6 @@
 #else
 #include <alloca.h>
 #endif
-#include "SDL.h"
 #include "bitmap.h"
 #include "sprite.h"
 #include "command.h"
@@ -34,8 +33,6 @@
 #include "image_png.h"
 
 Video* video = NULL;
-
-class Video_SDL;
 
 Video_bitmap* Video_bitmap::New(const int px, const int py,
 				const int w, const int h, const int rw) {
@@ -45,36 +42,6 @@ Video_bitmap* Video_bitmap::New(const int px, const int py,
 Video_bitmap* Video_bitmap::New(const int px, const int py,
 				const int w, const int h) {
   return new Video_bitmap(px, py, w, h, video->pitch);
-}
-
-class Video_SDL: public Video {
-protected:
-  int needsleep;
-  int lastticks;
-  bool fullscreen;
-	bool mDirtyEmpty;
-	int mDirtyX1;
-	int mDirtyY1;
-	int mDirtyX2;
-	int mDirtyY2;
-  void SetVideoMode();
-public:
-  SDL_Surface *screen_surf; // This is the real screen, 16-bit or 32-bit or whatever. We don't care.
-  SDL_Surface *paletted_surf; // This is our temporary palette 'screen' where we actually draw
-
-  Video_SDL();
-  virtual ~Video_SDL();
-  virtual void start_frame();
-  virtual void end_frame();
-  virtual void setpal(const Palette&);
-  virtual void dosetpal(SPalette*, int);
-  virtual void snap_shot(int, int, int, int);
-  virtual void toggle_fullscreen();
-  void set_dirty(int x1, int y1, int x2, int y2);
-};
-
-Video* Video::New() {
-	return new Video_SDL;
 }
 
 Video_bitmap::Video_bitmap(const int px, const int py, const int w,
@@ -101,7 +68,7 @@ void Video_bitmap::rect(int x, int y, int w, int h, int color) const {
   rect.w = clip_x2 - clip_x1 + 1;
   rect.h = clip_y2 - clip_y1 + 1;
 
-  SDL_FillRect(static_cast<Video_SDL*>(video)->paletted_surf, &rect, color);
+  SDL_FillRect(static_cast<Video*>(video)->paletted_surf, &rect, color);
   clip_dirty(x, y, w, h); 
 }
 
@@ -131,8 +98,7 @@ void Video_bitmap::vline(int x, int y, int h, Byte c) const {
 void Video_bitmap::clip_dirty(int x, int y, int w, int h) const {
   if(clip(x, y, w, h))
     return;
-  Video_SDL *vid = static_cast<Video_SDL*>(video);
-  vid->set_dirty(pos_x+clip_x1, pos_y+clip_y1, pos_x+clip_x2, pos_y+clip_y2);
+  video->set_dirty(pos_x+clip_x1, pos_y+clip_y1, pos_x+clip_x2, pos_y+clip_y2);
 }
 
 void Video_bitmap::put_bitmap(const Bitmap &d, int dx, int dy) const {
@@ -146,13 +112,12 @@ void Video_bitmap::put_sprite(const Sprite &d, int dx, int dy) const {
 }
 
 void Video_bitmap::setmem() {
-  Video_SDL *vid = static_cast<Video_SDL*>(video);
-  unsigned char *vfb = static_cast<unsigned char *>(vid->paletted_surf->pixels);
+  unsigned char *vfb = static_cast<unsigned char *>(video->paletted_surf->pixels);
   if(fb)
-    fb->setmem(vfb + (pos_y * vid->paletted_surf->pitch) + pos_x);
+    fb->setmem(vfb + (pos_y * video->paletted_surf->pitch) + pos_x);
 }
 
-Video_SDL::Video_SDL() {
+Video::Video() {
   vb = Video_bitmap::New(0, 0, 640, 480, 640);
   width = 640;
   height = 480;
@@ -170,18 +135,18 @@ Video_SDL::Video_SDL() {
   mDirtyEmpty = true;
 }
 
-Video_SDL::~Video_SDL() {
+Video::~Video() {
   delete vb;
 }
 
-void Video_SDL::start_frame() {
+void Video::start_frame() {
   if(vb)
     vb->setmem();
 }
 
 #include "cursor.h"
 
-void Video_SDL::end_frame() {
+void Video::end_frame() {
   if (newpal) {
     pal.set();
     newpal = false;
@@ -230,12 +195,12 @@ void Video_SDL::end_frame() {
   ++framecount;
 }
 
-void Video_SDL::setpal(const Palette &p) {
+void Video::setpal(const Palette &p) {
   pal = p;
   newpal = true;
 }
 
-void Video_SDL::dosetpal(SPalette pal[256], int size) {
+void Video::dosetpal(SPalette pal[256], int size) {
 	SDL_Color *colors;
 	int i;
 
@@ -250,16 +215,16 @@ void Video_SDL::dosetpal(SPalette pal[256], int size) {
 	SDL_SetPalette(paletted_surf, SDL_LOGPAL, colors, 0, size);
 }
 
-void Video_SDL::snap_shot(int, int, int, int) {
+void Video::snap_shot(int, int, int, int) {
   assert(false);
 }
 
-void Video_SDL::toggle_fullscreen() {
+void Video::toggle_fullscreen() {
   fullscreen = !fullscreen;
   SetVideoMode();
 }
 
-void Video_SDL::SetVideoMode()
+void Video::SetVideoMode()
 {
 	// Set window title and window icon using SDL
 	{
@@ -297,7 +262,7 @@ void Video_SDL::SetVideoMode()
   newpal = true;
 }
 
-void Video_SDL::set_dirty(int x1, int y1, int x2, int y2)
+void Video::set_dirty(int x1, int y1, int x2, int y2)
 {
 	if(mDirtyEmpty)
 	{
