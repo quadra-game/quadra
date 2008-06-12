@@ -142,6 +142,7 @@ Sound* Sound::New() {
 Sound::Sound(const SDL_AudioSpec& _spec):
   spec(_spec) {
   sound = this; // RV: Fix potential thread crash: this global variable is accessed by audio_callback!
+  SDL_InitSubSystem(SDL_INIT_AUDIO);
   SDL_PauseAudio(0);
   skelton_msgbox("sound: opened succesfully.\n");
 }
