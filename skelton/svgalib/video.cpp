@@ -34,22 +34,12 @@
 
 Video* video = NULL;
 
-Video_bitmap* Video_bitmap::New(const int px, const int py,
-				const int w, const int h, const int rw) {
-  return new Video_bitmap(px, py, w, h, rw);
-}
-
-Video_bitmap* Video_bitmap::New(const int px, const int py,
-				const int w, const int h) {
-  return new Video_bitmap(px, py, w, h, video->pitch);
-}
-
 Video_bitmap::Video_bitmap(const int px, const int py, const int w,
                            const int h, const int rw):
   Clipable(w, h),
   pos_x(px),
   pos_y(py),
-  fb(new Bitmap(NULL, w, h, rw)) {
+  fb(new Bitmap(NULL, w, h, rw == 0 ? video->pitch : rw)) {
 }
 
 Video_bitmap::~Video_bitmap() {
@@ -118,7 +108,7 @@ void Video_bitmap::setmem() {
 }
 
 Video::Video() {
-  vb = Video_bitmap::New(0, 0, 640, 480, 640);
+  vb = new Video_bitmap(0, 0, 640, 480, 640);
   width = 640;
   height = 480;
   framecount = 0;

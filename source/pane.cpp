@@ -60,7 +60,7 @@ Pane::Pane(const Pane_info &p, bool dback, bool dbottom):
 	Zone(p.inter, p.x, p.y, p.w, p.h),
 	pi(p) {
 	hiden = false;
-	screen = Video_bitmap::New(pi.x, pi.y, pi.w, pi.h);
+	screen = new Video_bitmap(pi.x, pi.y, pi.w, pi.h);
 	draw_background = dback;
 	draw_bottom = dbottom;
 }
@@ -1119,7 +1119,7 @@ Chat_interface::Chat_interface(Inter *in, const Palette &pal, Bitmap *bit, int p
 		set_screen_offset(0, scr);
 		delete_screen = false;
 	} else {
-		set_screen_offset(0, Video_bitmap::New(px, py, pw, ph));
+		set_screen_offset(0, new Video_bitmap(px, py, pw, ph));
 		delete_screen = true;
 	}
 	back = new Bitmap((*bit)[py]+px, pw, 18*20, bit->realwidth);
@@ -1411,7 +1411,7 @@ void Pane_chat::activate_frag() {
 	if(size!=old_y) {
 		int diff = size-pi.y;
 		delete screen;
-		screen = Video_bitmap::New(pi.x, size, pi.w, pi.h-diff);
+		screen = new Video_bitmap(pi.x, size, pi.w, pi.h-diff);
 		chat->set_screen_offset(diff, screen);
 	}
 	old_y=size;
@@ -1421,7 +1421,7 @@ void Pane_chat::deactivate_frag(bool temp) {
 	Pane_scoreboard::deactivate_frag(temp);
 	if(!temp) {
 		delete screen;
-		screen = Video_bitmap::New(pi.x, pi.y, pi.w, pi.h);
+		screen = new Video_bitmap(pi.x, pi.y, pi.w, pi.h);
 		chat->set_screen_offset(0, screen);
 		old_y=0;
 	}

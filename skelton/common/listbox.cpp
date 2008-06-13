@@ -31,7 +31,7 @@ Zone_listbox::Zone_listbox(Inter* in, Bitmap *fond, Font *f, int *pval, int px, 
 		back = new Bitmap((*fond)[py+1]+px+1, pw-2, ph-2, fond->realwidth);
 	else
 		back = NULL;
-	screen = Video_bitmap::New(px+1, py+1, pw-2, ph-2);
+	screen = new Video_bitmap(px+1, py+1, pw-2, ph-2);
 	font2 = f;
 	zup = new Zone_listup(this);
 	zdown = new Zone_listdown(this);

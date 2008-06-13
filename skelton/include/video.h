@@ -29,16 +29,9 @@ class Bitmap;
 class Sprite;
 
 class Video_bitmap: public Clipable {
-private:
-  Video_bitmap::Video_bitmap(const int px, const int py, const int w,
-                             const int h, const int rw);
-
 public:
-  int pos_x, pos_y;
-  static Video_bitmap* New(const int px, const int py,
-			   const int w, const int h, const int rw);
-  static Video_bitmap* New(const int px, const int py,
-			   const int w, const int h);
+  Video_bitmap::Video_bitmap(const int px, const int py, const int w,
+                             const int h, const int rw = 0);
   virtual ~Video_bitmap();
 
   /* fills a rectangle at position 'x','y' of width 'w', height 'h'
@@ -74,7 +67,11 @@ public:
      background video page */
   virtual void setmem();
 
+  int pos_x, pos_y;
+
 private:
+  friend class Video;
+
   void clip_dirty(int x, int y, int w, int h) const;
 
   Bitmap *fb;

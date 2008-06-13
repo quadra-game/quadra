@@ -422,7 +422,7 @@ Zone(in, px, py, pw, ph) {
 void Zone_panel::resize() {
 	if(pan)
 		delete pan;
-	pan = Video_bitmap::New(x+2, y+2, max(w-4, 0), max(h-4, 0));
+	pan = new Video_bitmap(x+2, y+2, max(w-4, 0), max(h-4, 0));
 	dirt();
 }
 
