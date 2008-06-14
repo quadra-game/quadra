@@ -25,7 +25,8 @@ class Bitmap;
 
 class Clipable {
 public:
-  int width, height;
+  const int width;
+  const int height;
   /* return values variables */
   static int clip_x1, clip_x2, clip_y1, clip_y2, clip_w;
   Clipable(int w, int h):

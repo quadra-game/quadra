@@ -39,7 +39,7 @@ Bitmap::Bitmap(int w, int h, int rw):
 		realwidth(rw*sizeof(Byte)),
 		lines(new Byte*[height]),
 		size(h*rw),
-		fmem(1) {
+		fmem(true) {
 	setmem((void*)new Byte[size]);
 	memset(mem, 0, size);
 }
@@ -49,16 +49,17 @@ Bitmap::Bitmap(void* m, int w, int h, int rw):
 		realwidth(rw),
 		lines(new Byte*[height]),
 		size(h*rw),
-		fmem(0) {
+		fmem(false) {
 	setmem(m);
 }
 
-Bitmap::Bitmap(void* m, int w, int h, int rw, int bob):
+Bitmap::Bitmap(void* m, int w, int h, int rw, bool copy):
 	  Clipable(w, h),
 		realwidth(rw),
 		lines(new Byte*[height]),
 		size(h*rw),
-		fmem(1) {
+		fmem(true) {
+	assert(copy);
 	setmem((void*)new Byte[size]);
 	memcpy(mem, m, size);
 }
@@ -68,7 +69,7 @@ Bitmap::Bitmap(const Image& raw, bool dx):
 	  realwidth(width*sizeof(Byte)),
 	  lines(new Byte*[height]),
 	  size(height*realwidth),
-	  fmem(1) {
+	  fmem(true) {
 	setmem((void*)new Byte[size]);
 	reload(raw);
 }

@@ -26,7 +26,6 @@
 #else
 #include <alloca.h>
 #endif
-#include "bitmap.h"
 #include "sprite.h"
 #include "command.h"
 #include "version.h"
@@ -39,12 +38,10 @@ Video_bitmap::Video_bitmap(const int px, const int py, const int w,
   Clipable(w, h),
   pos_x(px),
   pos_y(py),
-  fb(new Bitmap(NULL, w, h, rw == 0 ? video->pitch : rw)) {
+  fb(NULL, w, h, rw == 0 ? video->pitch : rw) {
 }
 
 Video_bitmap::~Video_bitmap() {
-  if(fb)
-    delete fb;
 }
 
 void Video_bitmap::rect(int x, int y, int w, int h, int color) const {
@@ -72,17 +69,17 @@ void Video_bitmap::box(int x, int y, int w, int h, int c) const {
 
 void Video_bitmap::put_pel(int x, int y, Byte c) const {
   clip_dirty(x, y, 1, 1); 
-  fb->put_pel(x, y, c);
+  fb.put_pel(x, y, c);
 }
 
 void Video_bitmap::hline(int y, int x, int w, Byte c) const {
   clip_dirty(x, y, w, 1); 
-  fb->hline(y, x, w, c);
+  fb.hline(y, x, w, c);
 }
 
 void Video_bitmap::vline(int x, int y, int h, Byte c) const {
   clip_dirty(x, y, 1, h); 
-  fb->vline(x, y, h, c);
+  fb.vline(x, y, h, c);
 }
 
 void Video_bitmap::clip_dirty(int x, int y, int w, int h) const {
@@ -93,18 +90,17 @@ void Video_bitmap::clip_dirty(int x, int y, int w, int h) const {
 
 void Video_bitmap::put_bitmap(const Bitmap &d, int dx, int dy) const {
   clip_dirty(dx, dy, d.width, d.height); 
-  d.draw(*fb, dx, dy);
+  d.draw(fb, dx, dy);
 }
 
 void Video_bitmap::put_sprite(const Sprite &d, int dx, int dy) const {
   clip_dirty(dx, dy, d.width, d.height); 
-  d.draw(*fb, dx, dy);
+  d.draw(fb, dx, dy);
 }
 
 void Video_bitmap::setmem() {
   unsigned char *vfb = static_cast<unsigned char *>(video->paletted_surf->pixels);
-  if(fb)
-    fb->setmem(vfb + (pos_y * video->paletted_surf->pitch) + pos_x);
+  fb.setmem(vfb + (pos_y * video->paletted_surf->pitch) + pos_x);
 }
 
 Video::Video() {

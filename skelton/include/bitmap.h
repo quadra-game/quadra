@@ -27,28 +27,18 @@
 #include "image.h"
 #include "clipable.h"
 
-#define COPY 1
-
 class Video_bitmap;
 class Bitmap;
 
 class Bitmap: public Clipable {
 public:
-	int const realwidth;
-private:
-	Byte** const lines;
-	Dword const size;
-	Byte* mem;
-	Byte const fmem;
-public:
 	static Bitmap* loadPng(const char* n);
+	
 	Bitmap(int w, int h, int rw); // empty bitmap
 	Bitmap(void* m, int w, int h, int rw); // bitmap pointing to existing memory
-protected:
-	Bitmap(void* m, int w, int h, int rw, int bob); // copies memory in bitmap
-public:
 	Bitmap(const Image& raw, bool dx=false);
 	virtual ~Bitmap();
+	
 	void reload(const Image& raw);
 	void setmem(const void* m) {
 		mem=(Byte*)m;
@@ -66,6 +56,17 @@ public:
 	void fast_pel(const int x, const int y, const Byte color) const {
 		*(operator[](y)+x) = color;
 	}
+
+	const int realwidth;
+
+protected:
+	Bitmap(void* m, int w, int h, int rw, bool copy); // copies memory in bitmap
+
+private:
+	Byte** const lines;
+	const Dword size;
+	Byte* mem;
+	const bool fmem;
 };
 
 #endif

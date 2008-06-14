@@ -110,7 +110,7 @@ Zone_sprite::~Zone_sprite() {
 }
 
 void Zone_sprite::draw() {
-	sp->draw(video->vb, x, y);
+	video->vb->put_sprite(*sp, x, y);
 }
 
 Zone_bitmap::Zone_bitmap(Inter* in, Bitmap* bit, int px, int py, Bitmap* bit2):

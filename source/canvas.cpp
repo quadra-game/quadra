@@ -830,7 +830,7 @@ void Canvas::unrelease_key(int i) {
 }
 
 void Canvas::blit_level_up() {
-  sprlevel_up->draw(screen, 10, level_up-30);
+  screen->put_sprite(*sprlevel_up, 10, level_up - 30);
   dirt_rect(10, level_up-30, sprlevel_up->width, sprlevel_up->height);
 }
 

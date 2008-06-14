@@ -24,6 +24,7 @@
 #include "SDL.h"
 #include "clipable.h"
 #include "palette.h"
+#include "bitmap.h"
 
 class Bitmap;
 class Sprite;
@@ -67,14 +68,15 @@ public:
      background video page */
   virtual void setmem();
 
-  int pos_x, pos_y;
+  const int pos_x;
+  const int pos_y;
 
 private:
   friend class Video;
 
   void clip_dirty(int x, int y, int w, int h) const;
 
-  Bitmap *fb;
+  Bitmap fb;
 };
 
 class Video {
