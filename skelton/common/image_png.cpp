@@ -20,6 +20,34 @@
 
 #include "image_png.h"
 
+SDL_Surface* Image::get_surface() const {
+  SDL_Surface* surface =
+    SDL_CreateRGBSurface(SDL_SWSURFACE, width(), height(), 8, 0, 0, 0, 0);
+  assert(surface);
+
+  int retval = SDL_LockSurface(surface);
+  assert(retval == 0);
+
+  for (int row = 0; row < height(); ++row)
+    memcpy(static_cast<char*>(surface->pixels) + (row * surface->pitch),
+           pic() + (row * width()), width());
+
+  SDL_UnlockSurface(surface);
+
+  SDL_Color* colors = new SDL_Color[palettesize()];
+  const Byte* palette = pal();
+  for (int i = 0; i < palettesize(); ++i) {
+    colors[i].r = palette[i * 3];
+    colors[i].g = palette[i * 3 + 1];
+    colors[i].b = palette[i * 3 + 2];
+  }
+
+  SDL_SetColors(surface, colors, 0, palettesize());
+  delete[] colors;
+
+  return surface;
+}
+
 static void res_read_func(png_structp png,
                           png_bytep data,
                           png_size_t len) {

@@ -22,6 +22,7 @@
 #define _HEADER_IMAGE
 
 #include "types.h"
+#include "SDL_video.h"
 
 class Image {
  public:
@@ -30,6 +31,7 @@ class Image {
 	virtual Byte* pic() const=0;
 	virtual Byte* pal() const=0;
 	virtual int palettesize() const=0;
+  SDL_Surface* get_surface() const;
 	virtual ~Image() {
 	}
 };
