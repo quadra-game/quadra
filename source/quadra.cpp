@@ -1849,7 +1849,8 @@ static void init_stuff(bool need_sound, bool need_video) {
 
 	if (!need_video) {
 		video_is_dumb = true;
-		SDL_putenv("SDL_VIDEODRIVER=dummy");
+		char value[] = "SDL_VIDEODRIVER=dummy";
+		SDL_putenv(value);
 	}
 
   if(SDL_Init(SDL_INIT_VIDEO) == -1) {

@@ -31,8 +31,7 @@ class Sprite;
 
 class Video_bitmap: public Clipable {
 public:
-  Video_bitmap::Video_bitmap(const int px, const int py, const int w,
-    const int h);
+  Video_bitmap(int px, int py, int w, int h);
   ~Video_bitmap();
 
   /* fills a rectangle at position 'x','y' of width 'w', height 'h'
