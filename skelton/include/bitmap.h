@@ -36,7 +36,7 @@ public:
 	
 	Bitmap(int w, int h, int rw); // empty bitmap
 	Bitmap(void* m, int w, int h, int rw); // bitmap pointing to existing memory
-	Bitmap(const Image& raw, bool dx=false);
+	Bitmap(const Image& raw);
 	virtual ~Bitmap();
 	
 	void reload(const Image& raw);
