@@ -54,7 +54,6 @@ void Sprite::draw(const Bitmap& d, const int dx, const int dy) const {
 }
 
 Fontdata::Fontdata(Res &res, int s) {
-	Bitmap *tmp;
 	shrink = s;
 	int w, h, rw;
 	for(int i=0; i<FONT_SIZE; i++) {
@@ -65,11 +64,10 @@ Fontdata::Fontdata(Res &res, int s) {
                         h = SDL_SwapLE32(h);
 			res.read(&rw, sizeof(int));
                         rw = SDL_SwapLE32(rw);
-			tmp = new Bitmap(w, h, rw);
-			res.read((*tmp)[0], rw*h);
-			spr[i] = new Sprite(*tmp, 0, 0, 0);
+			Bitmap tmp(w, h, rw);
+			res.read(tmp[0], rw*h);
+			spr[i] = new Sprite(tmp, 0, 0);
 			pre_width[i] = max(spr[i]->width - shrink, 3);
-			delete tmp;
 		} else {
 			spr[i] = NULL;
 			pre_width[i] = 0;
