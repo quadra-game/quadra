@@ -49,7 +49,7 @@ public:
 		return lines[y];
 	}
 	void draw(const Bitmap& d, const int dx, const int dy) const;
-	void draw(const Video_bitmap* d, const int dx, const int dy) const;
+	void draw(const Video_bitmap& d, const int dx, const int dy) const;
 	void hline(const int y, const int x, const int w, const Byte color) const;
 	void vline(const int x, const int y, const int h, const Byte color) const;
 	void put_pel(const int x, const int y, const Byte color) const;

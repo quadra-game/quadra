@@ -110,7 +110,7 @@ Zone_sprite::~Zone_sprite() {
 }
 
 void Zone_sprite::draw() {
-	video->vb->put_sprite(*sp, x, y);
+	video->vb.put_sprite(*sp, x, y);
 }
 
 Zone_bitmap::Zone_bitmap(Inter* in, Bitmap* bit, int px, int py, Bitmap* bit2):
@@ -208,11 +208,11 @@ void Zone_state_text::add_string(const char* s, Font *f) {
 
 void Zone_state_text::draw() {
 	pan->draw();
-	video->vb->vline(x, y, h, 255);
-	video->vb->hline(y, x, w, 255);
+	video->vb.vline(x, y, h, 255);
+	video->vb.hline(y, x, w, 255);
   if (last_val >= 0
       && static_cast<unsigned int>(last_val) < sizeof(fonts) / sizeof(*fonts))
-    fonts[last_val]->draw(state[last_val], pan->pan, CENTER, 0);
+    fonts[last_val]->draw(state[last_val], *pan->pan, CENTER, 0);
 }
 
 void Zone_state_text::leaved() {
@@ -300,10 +300,10 @@ Zone_text(in, s, px, py, pw) {
 }
 
 void Zone_text_select::draw() {
-	video->vb->hline(y, x, w, 210);
-	video->vb->hline(y+h-1, x, w, 210);
-	video->vb->vline(x, y, h, 210);
-	video->vb->vline(x+w-1, y, h, 210);
+	video->vb.hline(y, x, w, 210);
+	video->vb.hline(y+h-1, x, w, 210);
+	video->vb.vline(x, y, h, 210);
+	video->vb.vline(x+w-1, y, h, 210);
 	actual->draw(st, video->vb, text_x, y);
 }
 
@@ -373,31 +373,31 @@ void Zone_text_button::set_bit(Bitmap *fond) {
 
 void Zone_text_button::draw() {
 	if(!bit)
-		video->vb->rect(x+1, y+1, w-2, h-2, 0);
+		video->vb.rect(x+1, y+1, w-2, h-2, 0);
 	if(high) {
 		if(bit)
 			bit->draw(video->vb, x+2, y+2);
 		actual->draw(st, video->vb, text_x+4, y+3);
-		video->vb->vline(x, y, h, 0);
-		video->vb->hline(y, x, w, 0);
-		video->vb->vline(x+w-1, y+1, h-1, 0);
-		video->vb->hline(y+h-1, x+1, w-1, 0);
-		video->vb->vline(x+1, y+1, h-2, 0);
-		video->vb->hline(y+1, x+1, w-2, 0);
-		video->vb->vline(x+w-2, y+2, h-3, 255);
-		video->vb->hline(y+h-2, x+2, w-3, 255);
+		video->vb.vline(x, y, h, 0);
+		video->vb.hline(y, x, w, 0);
+		video->vb.vline(x+w-1, y+1, h-1, 0);
+		video->vb.hline(y+h-1, x+1, w-1, 0);
+		video->vb.vline(x+1, y+1, h-2, 0);
+		video->vb.hline(y+1, x+1, w-2, 0);
+		video->vb.vline(x+w-2, y+2, h-3, 255);
+		video->vb.hline(y+h-2, x+2, w-3, 255);
 	} else {
 		if(bit)
 			bit->draw(video->vb, x, y);
 		actual->draw(st, video->vb, text_x+3, y+2);
-		video->vb->vline(x, y, h, 0);
-		video->vb->hline(y, x, w, 0);
-		video->vb->vline(x+w-1, y+1, h-1, 0);
-		video->vb->hline(y+h-1, x+1, w-1, 0);
-		video->vb->vline(x+1, y+1, h-2, 255);
-		video->vb->hline(y+1, x+1, w-2, 255);
-		video->vb->vline(x+w-2, y+2, h-3, 0);
-		video->vb->hline(y+h-2, x+2, w-3, 0);
+		video->vb.vline(x, y, h, 0);
+		video->vb.hline(y, x, w, 0);
+		video->vb.vline(x+w-1, y+1, h-1, 0);
+		video->vb.hline(y+h-1, x+1, w-1, 0);
+		video->vb.vline(x+1, y+1, h-2, 255);
+		video->vb.hline(y+1, x+1, w-2, 255);
+		video->vb.vline(x+w-2, y+2, h-3, 0);
+		video->vb.hline(y+h-2, x+2, w-3, 0);
 	}
 }
 
@@ -428,20 +428,20 @@ void Zone_panel::resize() {
 
 void Zone_panel::draw() {
 	if(draw_frame) {
-		video->vb->hline(y, x, w, 210);
-		video->vb->hline(y+h-1, x, w, 210);
-		video->vb->vline(x, y+1, h-2, 210);
-		video->vb->vline(x+w-1, y+1, h-2, 210);
+		video->vb.hline(y, x, w, 210);
+		video->vb.hline(y+h-1, x, w, 210);
+		video->vb.vline(x, y+1, h-2, 210);
+		video->vb.vline(x+w-1, y+1, h-2, 210);
 		if(high) {
-			video->vb->hline(y+1, x+1, w-2, 255);
-			video->vb->hline(y+h-2, x+1, w-2, 255);
-			video->vb->vline(x+1, y+2, h-4, 255);
-			video->vb->vline(x+w-2, y+2, h-4, 255);
+			video->vb.hline(y+1, x+1, w-2, 255);
+			video->vb.hline(y+h-2, x+1, w-2, 255);
+			video->vb.vline(x+1, y+2, h-4, 255);
+			video->vb.vline(x+w-2, y+2, h-4, 255);
 			if(h-4 > 0)
-				video->vb->rect(x+2, y+2, w-4, h-4, 0);
+				video->vb.rect(x+2, y+2, w-4, h-4, 0);
 		} else {
 			if(h-2 > 0)
-				video->vb->rect(x+1, y+1, w-2, h-2, 0);
+				video->vb.rect(x+1, y+1, w-2, h-2, 0);
 		}
 	}
 	pan->setmem();
@@ -543,7 +543,7 @@ void Zone_text_input::draw() {
 		if(sx - panx < 0) {
 			panx = max(0, panx - (w>>2));
 		}
-		inter->font->draw(st, pan, -panx, 0);
+		inter->font->draw(st, *pan, -panx, 0);
 
 		if(select_start != -1 && select_start != curpos) {
 			int x1, x2, x3, x4;
@@ -560,7 +560,7 @@ void Zone_text_input::draw() {
 
 			char tube_char = st[x2];
 			st[x2] = 0;
-			font_selected->draw(&st[x1], pan, x3-panx, 0);
+			font_selected->draw(&st[x1], *pan, x3-panx, 0);
 			st[x2] = tube_char;
 		}
 		if(focus > 10) {
@@ -568,7 +568,7 @@ void Zone_text_input::draw() {
 			pan->vline(sx-panx-1, 0, h, curcolor);
 		}
 	} else {
-		inter->font->draw(st, pan, 0, 0);
+		inter->font->draw(st, *pan, 0, 0);
 	}
 }
 
@@ -774,16 +774,16 @@ void Zone_text_field::set_val(const char* s) {
 void Zone_text_field::draw() {
   Zone_panel::draw();
 	if(!draw_frame) {
-		video->vb->hline(y, x, w, 255);
-		video->vb->hline(y+h-1, x, w, 0);
-		video->vb->vline(x, y+1, h-2, 255);
-		video->vb->vline(x+w-1, y+1, h-2, 0);
-		video->vb->rect(x+1, y+1, w-2, h-2, 210);
+		video->vb.hline(y, x, w, 255);
+		video->vb.hline(y+h-1, x, w, 0);
+		video->vb.vline(x, y+1, h-2, 255);
+		video->vb.vline(x+w-1, y+1, h-2, 0);
+		video->vb.rect(x+1, y+1, w-2, h-2, 210);
 	}
 	if(var) {
-		font->draw(st, pan, w - font->width(st) - 3, 0);  // numbers are right-aligned
+		font->draw(st, *pan, w - font->width(st) - 3, 0);  // numbers are right-aligned
 	} else {
-		font->draw(st, pan, 3, 0);  // text is left-aligned
+		font->draw(st, *pan, 3, 0);  // text is left-aligned
 	}
 }
 
@@ -793,7 +793,7 @@ Zone(in, px, py, pw, ph) {
 }
 
 void Zone_clear::draw() {
-	video->vb->rect(x, y, w, h, color);
+	video->vb.rect(x, y, w, h, color);
 }
 
 Inter::Inter() {
@@ -1337,7 +1337,7 @@ void Inter::kb_draw_focus() {
 					break;
 			}
 			if(draw)
-				video->vb->put_pel(x2, y2, 255);
+				video->vb.put_pel(x2, y2, 255);
 			seed++;
 			//if(seed == 8) {
 				draw = !draw;

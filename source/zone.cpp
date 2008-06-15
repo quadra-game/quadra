@@ -42,7 +42,7 @@ Zone_next::Zone_next(Inter* in, const Bitmap& fond, int px, int py, int pw, int 
 void Zone_next::draw() {
 	back->draw(video->vb, x, y);
 	if(next) {
-		next->draw(video->vb,x,y-18);
+		next->draw(video->vb, x, y - 18);
 	}
 }
 
@@ -173,12 +173,12 @@ Zone_color_select::Zone_color_select(Inter* in, int *pv, int px, int py, Byte co
 }
 
 void Zone_color_select::draw() {
-	video->vb->hline(y, x, w, 255);
+	video->vb.hline(y, x, w, 255);
 	for(int i=1; i < h-1; i++)
-		video->vb->hline(y+i, x, w, col[last_val]);
-	video->vb->hline(y+h-1, x, w, 0);
-	video->vb->vline(x, y, h, 255);
-	video->vb->vline(x+w-1, y, h, 0);
+		video->vb.hline(y+i, x, w, col[last_val]);
+	video->vb.hline(y+h-1, x, w, 0);
+	video->vb.vline(x, y, h, 255);
+	video->vb.vline(x+w-1, y, h, 0);
 }
 
 Zone_color_select_noclick::Zone_color_select_noclick(Inter* in, int *pv, int px, int py, Byte co[MAXTEAMS]):

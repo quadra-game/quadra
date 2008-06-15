@@ -41,9 +41,9 @@ extern Font *fteam[];
 
 extern bool video_is_dumb;
 
-void raw_draw_bloc(const Video_bitmap* bit, int x, int y, Byte side, Color* col);
-void raw_draw_bloc_corner(const Video_bitmap* bit, int x, int y, Byte side, Color* col, Byte to[4]);
-void raw_small_draw_bloc(const Video_bitmap* bit, int x, int y, Byte side, Color* col);
+void raw_draw_bloc(const Video_bitmap& bit, int x, int y, Byte side, Color* col);
+void raw_draw_bloc_corner(const Video_bitmap& bit, int x, int y, Byte side, Color* col, Byte to[4]);
+void raw_small_draw_bloc(const Video_bitmap& bit, int x, int y, Byte side, Color* col);
 void set_fteam_color(const Palette& pal);
 
 class Zone_combo;

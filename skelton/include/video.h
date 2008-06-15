@@ -80,9 +80,12 @@ private:
 };
 
 class Video {
+	friend class Video_bitmap;
+
 public:
 	Video();
   virtual ~Video();
+
   virtual void start_frame();
   virtual void end_frame();
   virtual void setpal(const Palette& p);
@@ -90,18 +93,14 @@ public:
   virtual void snap_shot(int x, int y, int w, int h);
   virtual void toggle_fullscreen();
 
-  Video_bitmap *vb;
+  Video_bitmap vb;
   Byte newpal;
   Palette pal;
   unsigned int width, height;
   int need_paint;
-  int pitch;
   Dword framecount;
-  SDL_Surface *paletted_surf; // This is our temporary palette 'screen' where we actually draw
 
-protected:
-	friend class Video_bitmap;
-	
+private:
   void SetVideoMode();
   void set_dirty(int x1, int y1, int x2, int y2);
 
@@ -113,6 +112,7 @@ protected:
 	int mDirtyY1;
 	int mDirtyX2;
 	int mDirtyY2;
+  SDL_Surface *paletted_surf; // This is our temporary palette 'screen' where we actually draw
   SDL_Surface *screen_surf; // This is the real screen, 16-bit or 32-bit or whatever. We don't care.
 };
 

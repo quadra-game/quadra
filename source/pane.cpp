@@ -94,9 +94,9 @@ void Pane::draw() {
 	Zone::draw();
 	screen->setmem();
 	if(draw_background)
-		pi.back->draw(screen,0,0);
+		pi.back->draw(*screen,0,0);
 	if(draw_bottom)
-		pi.back_bottom->draw(screen,0,18*20);
+		pi.back_bottom->draw(*screen,0,18*20);
 }
 
 void Pane::hide() {
@@ -930,7 +930,7 @@ int Pane_playerinfo::quel_stat() const {
 void Pane_playerinfo::draw() {
 	Pane_close::draw();
 	if(game->net_list.size() == 0)
-		inter->font->draw("No player joined", screen, 19, 50);
+		inter->font->draw("No player joined", *screen, 19, 50);
 }
 
 void Pane_playerinfo::step() {
@@ -1143,7 +1143,7 @@ void Chat_interface::set_screen_offset(int o, Video_bitmap *vb) {
 
 void Chat_interface::draw() {
 	screen->setmem();
-	back->draw(screen, 0, -y_offset);
+	back->draw(*screen, 0, -y_offset);
 	int ty, i;
 	for(i=0; i<CHAT_NBLINE; i++) {
 		ty = i*16 - y_offset;
@@ -1158,17 +1158,12 @@ void Chat_interface::draw() {
 		int color_cut=chat_text->list[i].color_cut;
 		if(color_cut!=-1)
 			tmp[color_cut]=0;
-		fcp->draw(tmp, screen, 1, ty);
+		fcp->draw(tmp, *screen, 1, ty);
 		if(color_cut!=-1) {
 			int x=fcp->width(tmp)+1;
-			scp->draw(&chat_text->list[i].text[color_cut], screen, x, ty);
+			scp->draw(&chat_text->list[i].text[color_cut], *screen, x, ty);
 		}
 	}
-/*	if(y_offset != 0) {
-		screen->hline(0, 0, screen->width, 0);
-		screen->hline(1, 0, screen->width, 255);
-		screen->hline(2, 0, screen->width, 0);
-	}*/
 }
 
 void Chat_interface::process() {

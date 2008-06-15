@@ -30,6 +30,7 @@
 #include "command.h"
 #include "version.h"
 #include "image_png.h"
+#include "cursor.h"
 
 Video* video = NULL;
 
@@ -38,7 +39,7 @@ Video_bitmap::Video_bitmap(const int px, const int py, const int w,
   Clipable(w, h),
   pos_x(px),
   pos_y(py),
-  fb(NULL, w, h, rw == 0 ? video->pitch : rw) {
+  fb(NULL, w, h, rw == 0 ? video->paletted_surf->pitch : rw) {
 }
 
 Video_bitmap::~Video_bitmap() {
@@ -103,34 +104,33 @@ void Video_bitmap::setmem() {
   fb.setmem(vfb + (pos_y * video->paletted_surf->pitch) + pos_x);
 }
 
-Video::Video() {
-  vb = new Video_bitmap(0, 0, 640, 480, 640);
-  width = 640;
-  height = 480;
-  framecount = 0;
-
-  fullscreen = false;
-  if(!command.token("nofullscreen"))
-  {
-	fullscreen = true;
-  }
+Video::Video():
+  vb(0, 0, 640, 480, 640),
+  newpal(),
+  pal(),
+  width(640),
+  height(480),
+  need_paint(),
+  framecount(0),
+  needsleep(0),
+  lastticks(SDL_GetTicks()),
+  fullscreen(!command.token("nofullscreen")),
+  mDirtyEmpty(true),
+	mDirtyX1(),
+	mDirtyY1(),
+	mDirtyX2(),
+	mDirtyY2(),
+  paletted_surf(),
+  screen_surf() {
   SetVideoMode();
-
-  lastticks = SDL_GetTicks();
-  needsleep = 0;
-  mDirtyEmpty = true;
 }
 
 Video::~Video() {
-  delete vb;
 }
 
 void Video::start_frame() {
-  if(vb)
-    vb->setmem();
+  vb.setmem();
 }
-
-#include "cursor.h"
 
 void Video::end_frame() {
   if (newpal) {
@@ -243,7 +243,6 @@ void Video::SetVideoMode()
   screen_surf = SDL_SetVideoMode(640, 480, 0, flags);
   assert(screen_surf);
   paletted_surf = SDL_CreateRGBSurface(SDL_SWSURFACE, 640, 480, 8, 0, 0, 0, 0);
-  pitch = paletted_surf->pitch;
   need_paint = 2;
   newpal = true;
 }

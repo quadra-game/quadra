@@ -225,10 +225,10 @@ void Font::draw(const char *m, const Bitmap& b, int x, int y) const {
 	}
 }
 
-void Font::draw(const char *m, const Video_bitmap* b, int x, int y) const {
+void Font::draw(const char *m, const Video_bitmap& b, int x, int y) const {
 	int c;
 	if(x == CENTER) {
-		x = (b->width - fdata.width(m)) >> 1;
+		x = (b.width - fdata.width(m)) >> 1;
 	}
 	while(*m) {
 		c = fdata.translate(&m);
@@ -236,7 +236,7 @@ void Font::draw(const char *m, const Video_bitmap* b, int x, int y) const {
 			c = 'i'-33;
 		} else {
 			if(fdata.spr[c])
-				b->put_sprite(*(fdata.spr[c]), x, y);
+				b.put_sprite(*(fdata.spr[c]), x, y);
 		}
 		x += fdata.pre_width[c];
 	}

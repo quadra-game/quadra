@@ -68,7 +68,7 @@ public:
 	void colorize(const Palette& dst, int r, int g, int b, int r2=0, int g2=0, int b2=0);
 	void remap(const Remap *map);
 	void draw(const char *m, const Bitmap& b, int x, int y) const;
-	void draw(const char *m, const Video_bitmap* b, int x, int y) const;
+	void draw(const char *m, const Video_bitmap& b, int x, int y) const;
 	int width(const char *m) const {
 		return fdata_original.width(m);
 	}

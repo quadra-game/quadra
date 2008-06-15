@@ -345,7 +345,7 @@ void Canvas::draw_block(int j, int i) const {
   to[1] = block[j-1][i];
   to[2] = block[j][i+1];
   to[3] = block[j+1][i];
-  raw_draw_bloc_corner(screen, (i-4)*18, (j-12)*18, side, ::color[col],to);
+  raw_draw_bloc_corner(*screen, (i-4)*18, (j-12)*18, side, ::color[col],to);
 }
 
 void Canvas::calc_speed() {
@@ -921,7 +921,7 @@ void Canvas::blit_back() {
           x2=(i-4)*18;
           y2=(j-12)*18;
           Bitmap tmp((*fond)[y2]+x2, 18, 18, fond->realwidth);
-          tmp.draw(screen, x2, y2);
+          tmp.draw(*screen, x2, y2);
         }
         dirted[j][i]--;
       }
@@ -937,9 +937,9 @@ void Canvas::blit_bloc(Bloc *blo) {
   if(!blo)
     return;
   if(smooth) {
-    blo->draw(screen);
+    blo->draw(*screen);
   } else {
-    blo->draw(screen, (blo->bx-4)*18, (blo->by-12)*18);
+    blo->draw(*screen, (blo->bx-4)*18, (blo->by-12)*18);
   }
   for(j=0; j<4; j++)
     for(i=0; i<4; i++) {
@@ -974,7 +974,7 @@ void Canvas::small_draw_block(int j, int i) const {
   Byte side, col;
   side = block[j][i]&15;
   col = block[j][i]>>4;
-  raw_small_draw_bloc(screen, (i-4)*6, (j-12)*6, side, ::color[col]);
+  raw_small_draw_bloc(*screen, (i-4)*6, (j-12)*6, side, ::color[col]);
 }
 
 void Canvas::small_blit_back() {
@@ -997,7 +997,7 @@ void Canvas::small_blit_back() {
           x2=(i-4)*6;
           y2=(j-12)*6;
           Bitmap tmp((*fond)[y2]+x2, 6, 6, fond->realwidth);
-          tmp.draw(screen, x2, y2);
+          tmp.draw(*screen, x2, y2);
         }
         dirted[j][i]--;
       }
@@ -1007,7 +1007,7 @@ void Canvas::small_blit_bloc(Bloc *blo) {
   int j,i,bx,by,tx,ty;
   if(!blo)
     return;
-  blo->small_draw(screen, (blo->bx-4)*6, (blo->by-12)*6);
+  blo->small_draw(*screen, (blo->bx-4)*6, (blo->by-12)*6);
   for(j=0; j<4; j++)
     for(i=0; i<4; i++) {
       if(blo->bloc[blo->quel][blo->rot][j][i]) {

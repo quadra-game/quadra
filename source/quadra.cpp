@@ -89,80 +89,80 @@ void set_fteam_color(const Palette& pal) {
 	fteam[7]->colorize(pal, 170,170,170);
 }
 
-void raw_draw_bloc_corner(const Video_bitmap* bit, int x, int y, Byte side, Color* col, Byte to[4]) {
+void raw_draw_bloc_corner(const Video_bitmap& bit, int x, int y, Byte side, Color* col, Byte to[4]) {
 	raw_draw_bloc(bit, x, y, side, col);
 	if(!(side&1) && !(side&2) && to[0]&2 && to[1]&1) {
-		bit->put_pel(x, y, col->shade(7));
-		bit->put_pel(x+1, y, col->shade(6));
-		bit->put_pel(x, y+1, col->shade(6));
-		bit->put_pel(x+2, y, col->shade(5));
-		bit->put_pel(x+1, y+1, col->shade(5));
-		bit->put_pel(x, y+2, col->shade(5));
+		bit.put_pel(x, y, col->shade(7));
+		bit.put_pel(x+1, y, col->shade(6));
+		bit.put_pel(x, y+1, col->shade(6));
+		bit.put_pel(x+2, y, col->shade(5));
+		bit.put_pel(x+1, y+1, col->shade(5));
+		bit.put_pel(x, y+2, col->shade(5));
 	}
 	if(!(side&4) && !(side&2) && to[2]&2 && to[1]&4) {
-		bit->put_pel(x+17, y, col->shade(1+2));
-		bit->put_pel(x+16, y, col->shade(2+1));
-		bit->put_pel(x+17, y+1, col->shade(2+2));
-		bit->put_pel(x+15, y, col->shade(3));
-		bit->put_pel(x+16, y+1, col->shade(3+1));
-		bit->put_pel(x+17, y+2, col->shade(3+2));
+		bit.put_pel(x+17, y, col->shade(1+2));
+		bit.put_pel(x+16, y, col->shade(2+1));
+		bit.put_pel(x+17, y+1, col->shade(2+2));
+		bit.put_pel(x+15, y, col->shade(3));
+		bit.put_pel(x+16, y+1, col->shade(3+1));
+		bit.put_pel(x+17, y+2, col->shade(3+2));
 	}
 	if(!(side&1) && !(side&8) && to[0]&8 && to[3]&1) {
-		bit->put_pel(x, y+17, col->shade(7));
-		bit->put_pel(x+1, y+17, col->shade(6));
-		bit->put_pel(x, y+16, col->shade(6));
-		bit->put_pel(x+2, y+17, col->shade(5));
-		bit->put_pel(x+1, y+16, col->shade(5));
-		bit->put_pel(x, y+15, col->shade(5));
+		bit.put_pel(x, y+17, col->shade(7));
+		bit.put_pel(x+1, y+17, col->shade(6));
+		bit.put_pel(x, y+16, col->shade(6));
+		bit.put_pel(x+2, y+17, col->shade(5));
+		bit.put_pel(x+1, y+16, col->shade(5));
+		bit.put_pel(x, y+15, col->shade(5));
 	}
 	if(!(side&4) && !(side&8) && to[2]&8 && to[3]&4) {
-		bit->put_pel(x+17, y+17, col->shade(1));
-		bit->put_pel(x+16, y+17, col->shade(2));
-		bit->put_pel(x+17, y+16, col->shade(2));
-		bit->put_pel(x+15, y+17, col->shade(3));
-		bit->put_pel(x+16, y+16, col->shade(3));
-		bit->put_pel(x+17, y+15, col->shade(3));
+		bit.put_pel(x+17, y+17, col->shade(1));
+		bit.put_pel(x+16, y+17, col->shade(2));
+		bit.put_pel(x+17, y+16, col->shade(2));
+		bit.put_pel(x+15, y+17, col->shade(3));
+		bit.put_pel(x+16, y+16, col->shade(3));
+		bit.put_pel(x+17, y+15, col->shade(3));
 	}
 }
 
-void raw_draw_bloc(const Video_bitmap* bit, int x, int y, Byte side, Color* col) {
+void raw_draw_bloc(const Video_bitmap& bit, int x, int y, Byte side, Color* col) {
 	int tx,tl,rx=0,ry=0,rw=18,rh=18;
 	if(side&1) {
-		bit->vline(x, y, 18, col->shade(7));
-		bit->vline(x+1, y, 18, col->shade(6));
-		bit->vline(x+2, y, 18, col->shade(5));
+		bit.vline(x, y, 18, col->shade(7));
+		bit.vline(x+1, y, 18, col->shade(6));
+		bit.vline(x+2, y, 18, col->shade(5));
 		rx=3; rw-=3;
 	}
 	if(side&2) {
-		bit->hline(y, x, 18, col->shade(7));
+		bit.hline(y, x, 18, col->shade(7));
 		if(side&1)
 			tx = x+1;
 		else
 			tx = x;
-		bit->hline(y+1, tx, x-tx+18, col->shade(6));
+		bit.hline(y+1, tx, x-tx+18, col->shade(6));
 		if(side&1)
 			tx = x+2;
 		else
 			tx = x;
-		bit->hline(y+2, tx, x-tx+18, col->shade(5));
+		bit.hline(y+2, tx, x-tx+18, col->shade(5));
 		ry=3; rh-=3;
 	}
 	if(side&4) {
-		bit->vline(x+17, y, 18, col->shade(1));
+		bit.vline(x+17, y, 18, col->shade(1));
 		if(side&2)
 			tx = y+1;
 		else
 			tx = y;
-		bit->vline(x+16, tx, y-tx+18, col->shade(2));
+		bit.vline(x+16, tx, y-tx+18, col->shade(2));
 		if(side&2)
 			tx = y+2;
 		else
 			tx = y;
-		bit->vline(x+15, tx, y-tx+18, col->shade(3));
+		bit.vline(x+15, tx, y-tx+18, col->shade(3));
 		rw-=3;
 	}
 	if(side&8) {
-		bit->hline(y+17, x, 18, col->shade(1));
+		bit.hline(y+17, x, 18, col->shade(1));
 		if(side&1)
 			tx = x+1;
 		else
@@ -170,7 +170,7 @@ void raw_draw_bloc(const Video_bitmap* bit, int x, int y, Byte side, Color* col)
 		tl = x-tx+18;
 		if(side&4)
 			tl--;
-		bit->hline(y+16, tx, tl, col->shade(2));
+		bit.hline(y+16, tx, tl, col->shade(2));
 		if(side&1)
 			tx = x+2;
 		else
@@ -178,34 +178,34 @@ void raw_draw_bloc(const Video_bitmap* bit, int x, int y, Byte side, Color* col)
 		tl = x-tx+18;
 		if(side&4)
 			tl -= 2;
-		bit->hline(y+15, tx, tl, col->shade(3));
+		bit.hline(y+15, tx, tl, col->shade(3));
 		rh-=3;
 	}
 	Byte main_color=col->shade(4);
 	for(int i=0; i<rh; i++)
-		bit->hline(y+ry+i, x+rx, rw, main_color);
+		bit.hline(y+ry+i, x+rx, rw, main_color);
 }
 
-void raw_small_draw_bloc(const Video_bitmap* bit, int x, int y, Byte side, Color* col) {
+void raw_small_draw_bloc(const Video_bitmap& bit, int x, int y, Byte side, Color* col) {
 	int i,rx=0,ry=0,rw=6,rh=6;
 	if(side&1) {
-		bit->vline(x, y, 6, col->shade(7));
+		bit.vline(x, y, 6, col->shade(7));
 		rx++; rw--;
 	}
 	if(side&2) {
-		bit->hline(y, x, 6, col->shade(7));
+		bit.hline(y, x, 6, col->shade(7));
 		ry++; rh--;
 	}
 	if(side&4) {
-		bit->vline(x+5, y, 6, col->shade(1));
+		bit.vline(x+5, y, 6, col->shade(1));
 		rw--;
 	}
 	if(side&8) {
-		bit->hline(y+5, x, 6, col->shade(1));
+		bit.hline(y+5, x, 6, col->shade(1));
 		rh--;
 	}
 	for(i=0; i<rh; i++)
-		bit->hline(y+ry+i, x+rx, rw, col->shade(4));
+		bit.hline(y+ry+i, x+rx, rw, col->shade(4));
 }
 
 Player_check_link::Player_check_link(Canvas *c): Player_base(c) {

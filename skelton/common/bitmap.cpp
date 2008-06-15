@@ -92,8 +92,8 @@ void Bitmap::draw(const Bitmap& d, const int dx, const int dy) const {
 	}
 }
 
-void Bitmap::draw(const Video_bitmap* d, const int dx, const int dy) const {
-	d->put_bitmap(*this, dx, dy);
+void Bitmap::draw(const Video_bitmap& d, const int dx, const int dy) const {
+	d.put_bitmap(*this, dx, dy);
 }
 
 void Bitmap::hline(const int y, const int x, const int w, const Byte color) const {

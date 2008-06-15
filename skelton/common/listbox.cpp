@@ -59,13 +59,11 @@ Zone_listbox::~Zone_listbox() {
 void Zone_listbox::draw() {
 	screen->setmem();
 	if(back)
-		back->draw(screen, 0, 0);
-	video->vb->hline(y, x, w, 210);
-	video->vb->hline(y+h-1, x, w, 210);
-	video->vb->vline(x, y, h, 210);
-	video->vb->vline(x+w-1, y, h, 210);
-	//video->vb->hline(y+20, x, w, 210);
-	//video->vb->hline(y+h-1-20, x, w, 210);
+		back->draw(*screen, 0, 0);
+	video->vb.hline(y, x, w, 210);
+	video->vb.hline(y+h-1, x, w, 210);
+	video->vb.vline(x, y, h, 210);
+	video->vb.vline(x+w-1, y, h, 210);
 }
 
 void Zone_listbox::dirt() {
@@ -324,12 +322,12 @@ void Zone_listtext::clicked(int quel) {
 
 void Zone_listtext::draw() {
 	parent->screen->setmem();
-	font->draw(st, parent->screen, text_x-parent->x, y-parent->y);
+	font->draw(st, *parent->screen, text_x-parent->x, y-parent->y);
 	if(high) {
 		if(!kb_focusable) 
 			high=false;
 		else
-			video->vb->box(x, y, w, h, 255);
+			video->vb.box(x, y, w, h, 255);
 	}
 }
 
