@@ -32,8 +32,10 @@
 
 class Sprite: public Bitmap {
 public:
-	Sprite(const Bitmap& b);
-	void draw(const Bitmap& d, int dx, int dy) const;
+	const int hot_x;
+	const int hot_y;
+	Sprite(const Bitmap& b, const int hx=CENTER, const int hy=CENTER, const bool dx=false);
+	void draw(const Bitmap& d, const int dx, const int dy) const;
 };
 
 class Font;

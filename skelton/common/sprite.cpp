@@ -29,16 +29,22 @@ using std::max;
 
 #define FONT_SIZE (141-32)
 
-Sprite::Sprite(const Bitmap& b):
-	Bitmap(b[0], b.width, b.height, b.realwidth, true) {
+Sprite::Sprite(const Bitmap& b, const int hx, const int hy, const bool dx):
+	Bitmap(b[0], b.width, b.height, b.realwidth, true),
+	hot_x(hx),
+	hot_y(hy)
+{
 }
 
-void Sprite::draw(const Bitmap& d, int dx, int dy) const {
-	if(d.clip(dx, dy, this))
+void Sprite::draw(const Bitmap& d, const int dx, const int dy) const {
+	int tx, ty;
+	tx = dx-hot_x;
+	ty = dy-hot_y;
+	if(d.clip(tx, ty, this))
 		return;
 	for(int y=clip_y1; y<=clip_y2; y++) {
 		for(int i=clip_x1; i<=clip_x2; i++) {
-			Byte pel = *(operator[](y-dy)+(i-dx));
+			Byte pel = *(operator[](y-ty)+(i-tx));
 			// optimization since the mask is always 0
 			// because of Svgalib
 			if(pel)
@@ -48,6 +54,7 @@ void Sprite::draw(const Bitmap& d, int dx, int dy) const {
 }
 
 Fontdata::Fontdata(Res &res, int s) {
+	Bitmap *tmp;
 	shrink = s;
 	int w, h, rw;
 	for(int i=0; i<FONT_SIZE; i++) {
@@ -58,10 +65,11 @@ Fontdata::Fontdata(Res &res, int s) {
                         h = SDL_SwapLE32(h);
 			res.read(&rw, sizeof(int));
                         rw = SDL_SwapLE32(rw);
-			Bitmap tmp(w, h, rw);
-			res.read(tmp[0], rw*h);
-			spr[i] = new Sprite(tmp);
+			tmp = new Bitmap(w, h, rw);
+			res.read((*tmp)[0], rw*h);
+			spr[i] = new Sprite(*tmp, 0, 0, 0);
 			pre_width[i] = max(spr[i]->width - shrink, 3);
+			delete tmp;
 		} else {
 			spr[i] = NULL;
 			pre_width[i] = 0;
@@ -72,7 +80,7 @@ Fontdata::Fontdata(Res &res, int s) {
 Fontdata::Fontdata(const Fontdata &o) {
 	for(int i=0; i<FONT_SIZE; i++) {
 		if(o.spr[i]) 
-			spr[i] = new Sprite(*o.spr[i]);
+			spr[i] = new Sprite(*o.spr[i], o.spr[i]->hot_x, o.spr[i]->hot_y);
 		else
 			spr[i] = NULL;
 		pre_width[i] = o.pre_width[i];
