@@ -45,7 +45,7 @@ public:
     return pic_;
   }
   virtual Byte* pal() const {
-    return reinterpret_cast<Byte*>(pal_);
+    return pal_;
   }
   virtual int palettesize() const {
     return palsize;
