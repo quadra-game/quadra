@@ -167,7 +167,7 @@ void Canvas::init() {
     Res_doze res("gamelvup.png");
     Png raw(res);
     Bitmap bitmap(raw);
-    sprlevel_up = new Sprite(bitmap, 0, 0);
+    sprlevel_up = Sprite::New(bitmap);
   }
   over = new Overmind();
   bloc = next = next2 = next3 = bloc_shadow = NULL;

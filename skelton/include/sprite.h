@@ -31,11 +31,11 @@
 #define CORNER (-123457)
 
 class Sprite: public Bitmap {
+private:
+  Sprite(const Bitmap& b);
 public:
-	const int hot_x;
-	const int hot_y;
-	Sprite(const Bitmap& b, const int hx=CENTER, const int hy=CENTER, const bool dx=false);
-	void draw(const Bitmap& d, const int dx, const int dy) const;
+  static Sprite* New(const Bitmap& b);
+  void draw(const Bitmap& d, int dx, int dy) const;
 };
 
 class Font;
