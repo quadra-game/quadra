@@ -94,7 +94,7 @@ Zone_sprite::Zone_sprite(Inter *in, const char *nam, int px, int py): Zone(in) {
 	Res_doze res(nam);
 	Png png(res);
 	Bitmap bitmap(png);
-	sp = new Sprite(bitmap, 0, 0);
+	sp = new Sprite(bitmap);
 	w = sp->width;
 	h = sp->height;
 	if(px == -1)
