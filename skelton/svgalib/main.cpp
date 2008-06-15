@@ -61,7 +61,6 @@ void start_frame() {
 	}
 #endif
 	input->check();
-	video->start_frame();
 }
 
 void end_frame() {

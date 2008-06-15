@@ -63,7 +63,6 @@ void Zone_small_next::draw() {
 }
 
 void Zone_canvas_bloc::draw() {
-	canvas->setscreen();
 	canvas->blit_back();
 	canvas->blit_bloc(canvas->bloc_shadow);
 	canvas->blit_bloc(canvas->bloc);
@@ -273,7 +272,6 @@ Zone_set_key::Zone_set_key(Inter* in, int *pv, int px, int py):
 }
 
 void Zone_small_canvas_bloc::draw() {
-	canvas->setscreen();
 	canvas->small_blit_back();
 	canvas->small_blit_bloc(canvas->bloc);
 	if(canvas->color_flash)

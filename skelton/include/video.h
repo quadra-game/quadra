@@ -32,41 +32,37 @@ class Sprite;
 class Video_bitmap: public Clipable {
 public:
   Video_bitmap::Video_bitmap(const int px, const int py, const int w,
-                             const int h, const int rw = 0);
-  virtual ~Video_bitmap();
+    const int h);
+  ~Video_bitmap();
 
   /* fills a rectangle at position 'x','y' of width 'w', height 'h'
      and color 'color'. */
-  virtual void rect(const int x,const int y,const int w,const int h,
+  void rect(const int x,const int y,const int w,const int h,
 		    const int color) const;
 
   /* empty rectangle at position 'x','y' of width 'w', height 'h' and
      color 'color'. */
-  virtual void box(const int x,const int y,const int w,const int h,
+  void box(const int x,const int y,const int w,const int h,
 		   const int color) const;
 
   /* puts a pixel at position 'x','y' with color 'c' */
-  virtual void put_pel(const int x, const int y, const Byte c) const;
+  void put_pel(const int x, const int y, const Byte c) const;
 
   /* horizontal line starting from 'x','y', width 'w' and color 'c' */
-  virtual void hline(const int y, const int x,
+  void hline(const int y, const int x,
 		     const int w, const Byte c) const;
 
   /* vertical line starting from 'x','y', height 'h' and color 'c' */
-  virtual void vline(const int x, const int y,
+  void vline(const int x, const int y,
 		     const int h, const Byte c) const;
 
   /* blits a Bitmap to position 'dx','dy' */
-  virtual void put_bitmap(const Bitmap& d,
+  void put_bitmap(const Bitmap& d,
 			  const int dx, const int dy) const;
 
   /* blits a Sprite (mask) 'd' to position 'dx','dy' */
-  virtual void put_sprite(const Sprite& d,
+  void put_sprite(const Sprite& d,
 			  const int dx, const int dy) const;
-
-  /* adjust the video memory pointed by this video_bitmap in the
-     background video page */
-  virtual void setmem();
 
   const int pos_x;
   const int pos_y;
@@ -75,8 +71,6 @@ private:
   friend class Video;
 
   void clip_dirty(int x, int y, int w, int h) const;
-
-  Bitmap fb;
 };
 
 class Video {
@@ -84,19 +78,23 @@ class Video {
 
 public:
 	Video();
-  virtual ~Video();
+  ~Video();
 
-  virtual void start_frame();
-  virtual void end_frame();
-  virtual void setpal(const Palette& p);
-  virtual void dosetpal(SPalette pal[256], int size);
-  virtual void snap_shot(int x, int y, int w, int h);
-  virtual void toggle_fullscreen();
+  void end_frame();
+  void setpal(const Palette& p);
+  void dosetpal(SPalette pal[256], int size);
+  void snap_shot(int x, int y, int w, int h);
+  void toggle_fullscreen();
+  int get_width() const {
+    return paletted_surf->w;
+  }
+  int get_height() const {
+    return paletted_surf->h;
+  }
 
   Video_bitmap vb;
-  Byte newpal;
+  bool newpal;
   Palette pal;
-  unsigned int width, height;
   int need_paint;
   Dword framecount;
 

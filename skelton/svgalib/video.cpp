@@ -35,11 +35,11 @@
 Video* video = NULL;
 
 Video_bitmap::Video_bitmap(const int px, const int py, const int w,
-                           const int h, const int rw):
+                           const int h):
   Clipable(w, h),
   pos_x(px),
-  pos_y(py),
-  fb(NULL, w, h, rw == 0 ? video->paletted_surf->pitch : rw) {
+  pos_y(py)/*,
+  fb(NULL, w, h, video->paletted_surf->pitch)*/ {
 }
 
 Video_bitmap::~Video_bitmap() {
@@ -56,7 +56,7 @@ void Video_bitmap::rect(int x, int y, int w, int h, int color) const {
   rect.w = clip_x2 - clip_x1 + 1;
   rect.h = clip_y2 - clip_y1 + 1;
 
-  SDL_FillRect(static_cast<Video*>(video)->paletted_surf, &rect, color);
+  SDL_FillRect(video->paletted_surf, &rect, color);
   clip_dirty(x, y, w, h); 
 }
 
@@ -69,18 +69,15 @@ void Video_bitmap::box(int x, int y, int w, int h, int c) const {
 }
 
 void Video_bitmap::put_pel(int x, int y, Byte c) const {
-  clip_dirty(x, y, 1, 1); 
-  fb.put_pel(x, y, c);
+  rect(x, y, 1, 1, c);
 }
 
 void Video_bitmap::hline(int y, int x, int w, Byte c) const {
-  clip_dirty(x, y, w, 1); 
-  fb.hline(y, x, w, c);
+  rect(x, y, w, 1, c);
 }
 
 void Video_bitmap::vline(int x, int y, int h, Byte c) const {
-  clip_dirty(x, y, 1, h); 
-  fb.vline(x, y, h, c);
+  rect(x, y, 1, h, c);
 }
 
 void Video_bitmap::clip_dirty(int x, int y, int w, int h) const {
@@ -90,26 +87,27 @@ void Video_bitmap::clip_dirty(int x, int y, int w, int h) const {
 }
 
 void Video_bitmap::put_bitmap(const Bitmap &d, int dx, int dy) const {
-  clip_dirty(dx, dy, d.width, d.height); 
+  // FIXME: We should lock the surface here.
+  Bitmap fb(NULL, width, height, video->paletted_surf->pitch);
+  unsigned char *vfb = static_cast<unsigned char *>(video->paletted_surf->pixels);
+  fb.setmem(vfb + (pos_y * video->paletted_surf->pitch) + pos_x);
+  clip_dirty(dx, dy, d.width, d.height);
   d.draw(fb, dx, dy);
 }
 
 void Video_bitmap::put_sprite(const Sprite &d, int dx, int dy) const {
+  // FIXME: We should lock the surface here.
+  Bitmap fb(NULL, width, height, video->paletted_surf->pitch);
+  unsigned char *vfb = static_cast<unsigned char *>(video->paletted_surf->pixels);
+  fb.setmem(vfb + (pos_y * video->paletted_surf->pitch) + pos_x);
   clip_dirty(dx, dy, d.width, d.height); 
   d.draw(fb, dx, dy);
 }
 
-void Video_bitmap::setmem() {
-  unsigned char *vfb = static_cast<unsigned char *>(video->paletted_surf->pixels);
-  fb.setmem(vfb + (pos_y * video->paletted_surf->pitch) + pos_x);
-}
-
 Video::Video():
-  vb(0, 0, 640, 480, 640),
+  vb(0, 0, 640, 480),
   newpal(),
   pal(),
-  width(640),
-  height(480),
   need_paint(),
   framecount(0),
   needsleep(0),
@@ -128,15 +126,11 @@ Video::Video():
 Video::~Video() {
 }
 
-void Video::start_frame() {
-  vb.setmem();
-}
-
 void Video::end_frame() {
   if (newpal) {
-    pal.set();
+    dosetpal(pal.pal, pal.size);
     newpal = false;
-    set_dirty(0, 0, width, height);
+    set_dirty(0, 0, paletted_surf->w, paletted_surf->h);
   }
 
 	// Draw and convert only the dirty region to screen

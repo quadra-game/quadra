@@ -57,7 +57,6 @@ Zone_listbox::~Zone_listbox() {
 }
 
 void Zone_listbox::draw() {
-	screen->setmem();
 	if(back)
 		back->draw(*screen, 0, 0);
 	video->vb.hline(y, x, w, 210);
@@ -321,7 +320,6 @@ void Zone_listtext::clicked(int quel) {
 }
 
 void Zone_listtext::draw() {
-	parent->screen->setmem();
 	font->draw(st, *parent->screen, text_x-parent->x, y-parent->y);
 	if(high) {
 		if(!kb_focusable) 

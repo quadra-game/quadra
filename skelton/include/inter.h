@@ -232,7 +232,7 @@ public:
 class Zone_clear: public Zone {
 	int color;
 public:
-	Zone_clear(Inter* in, int px=0, int py=0, int pw=video->width, int ph=video->height, int c=0);
+	Zone_clear(Inter* in);
 	virtual void draw();
 };
 

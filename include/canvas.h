@@ -179,9 +179,6 @@ public:
 	void unrelease_key(int i);
 	void dirt_rect(int x1, int y1, int w1, int h1);
 	void add_packet(Canvas *sender, Byte nb, Byte nc, Byte lx, Attack attack, Word hole_pos[]);
-	void setscreen() {
-		screen->setmem();
-	}
 	// multiplayer recording stuff
 	Packet_clientmoves *moves;
 	void start_moves();

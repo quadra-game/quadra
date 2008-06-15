@@ -24,10 +24,6 @@
 
 Palette noir;
 
-void Palette::set() {
-  video->dosetpal(pal, size);
-}
-
 void Palette::load(const Image& raw) {
   size=raw.palettesize();
   int j=0;

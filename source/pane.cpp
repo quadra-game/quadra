@@ -92,7 +92,6 @@ void Pane::ifdone() {
 
 void Pane::draw() {
 	Zone::draw();
-	screen->setmem();
 	if(draw_background)
 		pi.back->draw(*screen,0,0);
 	if(draw_bottom)
@@ -1142,7 +1141,6 @@ void Chat_interface::set_screen_offset(int o, Video_bitmap *vb) {
 }
 
 void Chat_interface::draw() {
-	screen->setmem();
 	back->draw(*screen, 0, -y_offset);
 	int ty, i;
 	for(i=0; i<CHAT_NBLINE; i++) {

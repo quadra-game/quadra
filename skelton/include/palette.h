@@ -37,9 +37,10 @@ class Palette {
 private:
   friend class Fade;
   friend class Remap;
+  friend class Video;
   SPalette pal[256];
-public:
   int size;
+public:
   Palette() {
     mset(pal, 0, sizeof(pal));
     size=256;
@@ -52,7 +53,6 @@ public:
     size=s;
   }
   void load(const Image& raw);
-  void set();
   Byte r(Byte c) {
     return pal[c].peRed;
   }
