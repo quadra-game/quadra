@@ -38,8 +38,7 @@ Video_bitmap::Video_bitmap(const int px, const int py, const int w,
                            const int h):
   Clipable(w, h),
   pos_x(px),
-  pos_y(py)/*,
-  fb(NULL, w, h, video->paletted_surf->pitch)*/ {
+  pos_y(py) {
 }
 
 Video_bitmap::~Video_bitmap() {
