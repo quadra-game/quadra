@@ -61,7 +61,6 @@ void Video_bitmap::rect(int x, int y, int w, int h, int color) const {
 }
 
 void Video_bitmap::box(int x, int y, int w, int h, int c) const {
-  clip_dirty(x, y, w, h); 
   hline(y, x, w, c);
   hline(y + h - 1, x, w, c);
   vline(x, y, h, c);
