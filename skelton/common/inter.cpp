@@ -376,7 +376,7 @@ void Zone_text_button::draw() {
 		video->vb.rect(x+1, y+1, w-2, h-2, 0);
 	if(high) {
 		if(bit)
-			bit->draw(video->vb, x+2, y+2);
+			video->vb.put_bitmap(*bit, x+2, y+2);
 		actual->draw(st, video->vb, text_x+4, y+3);
 		video->vb.vline(x, y, h, 0);
 		video->vb.hline(y, x, w, 0);
@@ -388,7 +388,7 @@ void Zone_text_button::draw() {
 		video->vb.hline(y+h-2, x+2, w-3, 255);
 	} else {
 		if(bit)
-			bit->draw(video->vb, x, y);
+			video->vb.put_bitmap(*bit, x, y);
 		actual->draw(st, video->vb, text_x+3, y+2);
 		video->vb.vline(x, y, h, 0);
 		video->vb.hline(y, x, w, 0);

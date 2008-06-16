@@ -58,7 +58,7 @@ Zone_listbox::~Zone_listbox() {
 
 void Zone_listbox::draw() {
 	if(back)
-		back->draw(*screen, 0, 0);
+		screen->put_bitmap(*back, 0, 0);
 	video->vb.hline(y, x, w, 210);
 	video->vb.hline(y+h-1, x, w, 210);
 	video->vb.vline(x, y, h, 210);

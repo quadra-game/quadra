@@ -132,7 +132,7 @@ public:
 	Zone_bitmap(Inter* in, Bitmap* bit, int px, int py, bool del);
 	virtual ~Zone_bitmap();
 	virtual void draw() {
-		actual->draw(video->vb, x, y);
+    video->vb.put_bitmap(*actual, x, y);
 	}
 	virtual void leaved() {
 		if(bit2_) {
@@ -178,7 +178,7 @@ public:
 			delete state[i];
 	}
 	virtual void draw() {
-		state[last_val]->draw(video->vb, x, y);
+    video->vb.put_bitmap(*state[last_val], x, y);
 	}
 };
 

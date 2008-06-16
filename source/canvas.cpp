@@ -42,6 +42,7 @@ using std::max;
 using std::min;
 
 Canvas::Canvas(int qplayer, int game_seed, Palette *p):
+  bit(NULL), //Somebody somewhere will set that. Sucks.
   rnd(game_seed),
   sprlevel_up(NULL) {
 // constructs a local Canvas
@@ -64,7 +65,6 @@ Canvas::Canvas(int qplayer, int game_seed, Palette *p):
 	smooth = shadow = false;
 	moves=NULL;
   pal = p;
-	bit=NULL; //Somebody somewhere will set that. Sucks.
   player = qplayer;
 	if(playback) {
 		color = playback->player[player].color;
@@ -86,6 +86,7 @@ Canvas::Canvas(int qplayer, int game_seed, Palette *p):
 Canvas::Canvas(int game_seed, Byte team, const char *nam, int ph_repeat,
                int pv_repeat, bool psmooth, bool pshadow, int phandicap,
                Net_connection *adr, int qplayer, bool wait_down):
+  bit(NULL),
   rnd(game_seed),
   sprlevel_up(NULL) {
 // constructs a remote Canvas
@@ -112,7 +113,6 @@ Canvas::Canvas(int game_seed, Byte team, const char *nam, int ph_repeat,
 	shadow = pshadow;
 	moves=NULL;
   pal = NULL;
-	bit = NULL;
   player = qplayer;
   color = team;
 	strncpy(name, nam, sizeof(name));
@@ -672,7 +672,8 @@ void Canvas::change_level(const int level, Palette *pal, Bitmap *bit) {
 		strcpy(st, "black.png");
   Res_doze *res = new Res_doze(st);
   Png img(*res);
-  bit->reload(img);
+  delete bit;
+  bit = new Bitmap(img);
   Palette pal2(img);
   for(i=0; i<256; i++) // was 184
     pal->setcolor(i, pal2.r(i), pal2.g(i), pal2.b(i));
@@ -927,7 +928,7 @@ void Canvas::blit_back() {
           x2=(i-4)*18;
           y2=(j-12)*18;
           Bitmap tmp((*fond)[y2]+x2, 18, 18, fond->realwidth);
-          tmp.draw(*screen, x2, y2);
+          screen->put_bitmap(tmp, x2, y2);
         }
         dirted[j][i]--;
       }
@@ -1003,7 +1004,7 @@ void Canvas::small_blit_back() {
           x2=(i-4)*6;
           y2=(j-12)*6;
           Bitmap tmp((*fond)[y2]+x2, 6, 6, fond->realwidth);
-          tmp.draw(*screen, x2, y2);
+          screen->put_bitmap(tmp, x2, y2);
         }
         dirted[j][i]--;
       }

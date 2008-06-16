@@ -35,52 +35,22 @@ Bitmap* Bitmap::loadPng(const char* n) {
 	return new Bitmap(png);
 }
 
-Bitmap::Bitmap(int w, int h, int rw):
-		Clipable(w, h),
-		realwidth(rw*sizeof(Byte)),
-		lines(new Byte*[height]),
-		size(h*rw),
-		fmem(true) {
-	setmem((void*)new Byte[size]);
-	memset(mem, 0, size);
-}
-
 Bitmap::Bitmap(void* m, int w, int h, int rw):
 		Clipable(w, h),
 		realwidth(rw),
-		lines(new Byte*[height]),
-		size(h*rw),
+		mem(static_cast<Byte*>(m)),
 		fmem(false) {
-	setmem(m);
-}
-
-Bitmap::Bitmap(void* m, int w, int h, int rw, bool copy):
-	  Clipable(w, h),
-		realwidth(rw),
-		lines(new Byte*[height]),
-		size(h*rw),
-		fmem(true) {
-	assert(copy);
-	setmem((void*)new Byte[size]);
-	memcpy(mem, m, size);
 }
 
 Bitmap::Bitmap(const Image& raw):
 	  Clipable(raw.width(), raw.height()),
-	  realwidth(width*sizeof(Byte)),
-	  lines(new Byte*[height]),
-	  size(height*realwidth),
+	  realwidth(width),
+	  mem(new Byte[height * realwidth]),
 	  fmem(true) {
-	setmem((void*)new Byte[size]);
-	reload(raw);
-}
-
-void Bitmap::reload(const Image& raw) {
-	memcpy(mem, raw.pic(), size);
+	memcpy(mem, raw.pic(), height * realwidth);
 }
 
 Bitmap::~Bitmap() {
-	delete[] lines;
 	if(fmem)
 		delete[] mem;
 }
@@ -91,27 +61,4 @@ void Bitmap::draw(const Bitmap& d, const int dx, const int dy) const {
 	for(int y=clip_y1; y<=clip_y2; y++) {
 		memcpy(d[y]+clip_x1, operator[](y-dy)+(clip_x1-dx), clip_w);
 	}
-}
-
-void Bitmap::draw(const Video_bitmap& d, const int dx, const int dy) const {
-	d.put_bitmap(*this, dx, dy);
-}
-
-void Bitmap::hline(const int y, const int x, const int w, const Byte color) const {
-	if(clip(x, y, w, 1))
-		return;
-	memset(operator[](y)+clip_x1, color, clip_w);
-}
-
-void Bitmap::vline(const int x, const int y, const int h, const Byte color) const {
-	if(clip(x, y, 1, h))
-		return;
-	for(int i=clip_y1; i<=clip_y2; i++)
-		operator[](i)[x]=color;
-}
-
-void Bitmap::put_pel(const int x, const int y, const Byte color) const {
-	if(clip(x, y, 1, 1))
-		return;
-	fast_pel(x, y, color);
 }

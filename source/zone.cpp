@@ -40,7 +40,7 @@ Zone_next::Zone_next(Inter* in, const Bitmap& fond, int px, int py, int pw, int 
 }
 
 void Zone_next::draw() {
-	back->draw(video->vb, x, y);
+	video->vb.put_bitmap(*back, x, y);
 	if(next) {
 		next->draw(video->vb, x, y - 18);
 	}
@@ -56,7 +56,7 @@ Zone_small_next::Zone_small_next(Inter* in, const Bitmap& fond, int px, int py):
 }
 
 void Zone_small_next::draw() {
-	back->draw(video->vb, x, y);
+	video->vb.put_bitmap(*back, x, y);
 	if(next) {
 		next->small_draw(video->vb,x,y-6);
 	}
@@ -144,7 +144,7 @@ Zone_bonus::~Zone_bonus() {
 
 void Zone_bonus::draw() {
 	int i;
-	back->draw(video->vb,x,y);
+	video->vb.put_bitmap(*back, x, y);
 	bool first_done=false;
 	for(i=0; i<canvas->bonus; i++) {
 		Byte side=5; //Left and right
@@ -298,7 +298,7 @@ Zone_bonus(in, px, py, v, c, bit, 6, 6*20) {
 
 void Zone_small_bonus::draw() {
 	int i;
-	back->draw(video->vb,x,y);
+	video->vb.put_bitmap(*back, x, y);
 	bool first_done=false;
 	for(i=0; i<canvas->bonus; i++) {
 		Byte side=5; //Left and right

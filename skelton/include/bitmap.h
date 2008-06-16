@@ -33,38 +33,19 @@ class Bitmap;
 class Bitmap: public Clipable {
 public:
 	static Bitmap* loadPng(const char* n);
-	
-	Bitmap(int w, int h, int rw); // empty bitmap
+
 	Bitmap(void* m, int w, int h, int rw); // bitmap pointing to existing memory
 	Bitmap(const Image& raw);
 	virtual ~Bitmap();
-	
-	void reload(const Image& raw);
-	void setmem(const void* m) {
-		mem=(Byte*)m;
-		for(int i(0); i<height; i++)
-			lines[i]=(Byte*) (((Byte *)mem)+(i*realwidth));
-	}
+
 	Byte* operator[](const int y) const {
-		return lines[y];
+    return mem + (y * realwidth);
 	}
 	void draw(const Bitmap& d, const int dx, const int dy) const;
-	void draw(const Video_bitmap& d, const int dx, const int dy) const;
-	void hline(const int y, const int x, const int w, const Byte color) const;
-	void vline(const int x, const int y, const int h, const Byte color) const;
-	void put_pel(const int x, const int y, const Byte color) const;
-	void fast_pel(const int x, const int y, const Byte color) const {
-		*(operator[](y)+x) = color;
-	}
 
 	const int realwidth;
 
-protected:
-	Bitmap(void* m, int w, int h, int rw, bool copy); // copies memory in bitmap
-
 private:
-	Byte** const lines;
-	const Dword size;
 	Byte* mem;
 	const bool fmem;
 };
