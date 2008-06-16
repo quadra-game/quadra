@@ -139,7 +139,7 @@ public:
 	Byte team_hash[16];
 	Bitmap *fond;
 	Video_bitmap *screen;
-	Sprite *sprlevel_up;
+	SDL_Surface *sprlevel_up;
 	bool smooth;
 	bool shadow;
 	void add_text_scroller(const char *st, int xoffset=4, int yoffset=0);

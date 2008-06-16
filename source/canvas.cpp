@@ -41,7 +41,9 @@
 using std::max;
 using std::min;
 
-Canvas::Canvas(int qplayer, int game_seed, Palette *p): rnd(game_seed) {
+Canvas::Canvas(int qplayer, int game_seed, Palette *p):
+  rnd(game_seed),
+  sprlevel_up(NULL) {
 // constructs a local Canvas
 	snapshot[0]=0;
 	best_move=best_clean=best_recurse=0;
@@ -81,7 +83,11 @@ Canvas::Canvas(int qplayer, int game_seed, Palette *p): rnd(game_seed) {
   init();
 }
 
-Canvas::Canvas(int game_seed, Byte team, const char *nam, int ph_repeat, int pv_repeat, bool psmooth, bool pshadow, int phandicap, Net_connection *adr, int qplayer, bool wait_down): rnd(game_seed) {
+Canvas::Canvas(int game_seed, Byte team, const char *nam, int ph_repeat,
+               int pv_repeat, bool psmooth, bool pshadow, int phandicap,
+               Net_connection *adr, int qplayer, bool wait_down):
+  rnd(game_seed),
+  sprlevel_up(NULL) {
 // constructs a remote Canvas
 	snapshot[0]=0;
 	best_move=best_clean=best_recurse=0;
@@ -123,8 +129,8 @@ Canvas::~Canvas() {
 	if(moves)
 		delete moves;
   delete_bloc();
-  if(sprlevel_up)
-    delete sprlevel_up;
+  if (sprlevel_up)
+    SDL_FreeSurface(sprlevel_up);
 	watchers.deleteall();
 }
 
@@ -166,8 +172,8 @@ void Canvas::init() {
   {
     Res_doze res("gamelvup.png");
     Png raw(res);
-    Bitmap bitmap(raw);
-    sprlevel_up = Sprite::New(bitmap);
+    sprlevel_up = raw.get_surface();
+    SDL_SetColorKey(sprlevel_up, SDL_SRCCOLORKEY, 0);
   }
   over = new Overmind();
   bloc = next = next2 = next3 = bloc_shadow = NULL;
@@ -830,8 +836,8 @@ void Canvas::unrelease_key(int i) {
 }
 
 void Canvas::blit_level_up() {
-  screen->put_sprite(*sprlevel_up, 10, level_up - 30);
-  dirt_rect(10, level_up-30, sprlevel_up->width, sprlevel_up->height);
+  screen->put_surface(sprlevel_up, 10, level_up - 30);
+  dirt_rect(10, level_up - 30, sprlevel_up->w, sprlevel_up->h);
 }
 
 void Canvas::blit_flash() {
