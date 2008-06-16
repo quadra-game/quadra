@@ -84,6 +84,26 @@ void Video_bitmap::clip_dirty(int x, int y, int w, int h) const {
   video->set_dirty(pos_x+clip_x1, pos_y+clip_y1, pos_x+clip_x2, pos_y+clip_y2);
 }
 
+void Video_bitmap::put_surface(SDL_Surface* surface, int dx, int dy) const {
+  if (clip(dx, dy, surface->w, surface->h))
+    return;
+
+  SDL_Rect srcrect;
+  srcrect.x = clip_x1 - dx;
+  srcrect.y = clip_y1 - dy;
+  srcrect.w = surface->w - srcrect.x;
+  srcrect.h = surface->h - srcrect.y;
+
+  SDL_Rect dstrect;
+  dstrect.x = pos_x + clip_x1;
+  dstrect.y = pos_y + clip_y1;
+
+  fprintf(stderr, "put_surface: (%i, %i, %i, %i), (%i, %i)\n", srcrect.x, srcrect.y, srcrect.w, srcrect.h, dstrect.x, dstrect.y);
+
+  clip_dirty(dx, dy, surface->w, surface->h);
+  SDL_BlitSurface(surface, &srcrect, video->paletted_surf, &dstrect);
+}
+
 void Video_bitmap::put_bitmap(const Bitmap &d, int dx, int dy) const {
   // FIXME: We should lock the surface here.
   Bitmap fb(NULL, width, height, video->paletted_surf->pitch);

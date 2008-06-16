@@ -55,13 +55,13 @@ public:
   void vline(const int x, const int y,
 		     const int h, const Byte c) const;
 
+  void put_surface(SDL_Surface* surface, int dx, int dy) const;
+
   /* blits a Bitmap to position 'dx','dy' */
-  void put_bitmap(const Bitmap& d,
-			  const int dx, const int dy) const;
+  void put_bitmap(const Bitmap& d, int dx, int dy) const;
 
   /* blits a Sprite (mask) 'd' to position 'dx','dy' */
-  void put_sprite(const Sprite& d,
-			  const int dx, const int dy) const;
+  void put_sprite(const Sprite& d, int dx, int dy) const;
 
   const int pos_x;
   const int pos_y;
