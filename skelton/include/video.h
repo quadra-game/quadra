@@ -90,6 +90,7 @@ public:
   int get_height() const {
     return paletted_surf->h;
   }
+  void clone_palette(SDL_Surface* surface) const;
 
   Video_bitmap vb;
   bool newpal;
