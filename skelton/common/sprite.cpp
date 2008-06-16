@@ -204,23 +204,6 @@ void Font::remap(const Remap *map) {
 	}
 }
 
-void Font::draw(const char *m, const Bitmap& b, int x, int y) const {
-	int c;
-	if(x == CENTER) {
-		x = (b.width - fdata.width(m)) >> 1;
-	}
-	while(*m) {
-		c = fdata.translate(&m);
-		if(c < 0) {
-			c = 'i'-33;
-		} else {
-			if(fdata.spr[c])
-				fdata.spr[c]->draw(b, x, y);
-		}
-		x += fdata.pre_width[c];
-	}
-}
-
 void Font::draw(const char *m, const Video_bitmap& b, int x, int y) const {
 	int c;
 	if(x == CENTER) {
