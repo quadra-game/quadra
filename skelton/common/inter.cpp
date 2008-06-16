@@ -93,10 +93,10 @@ int Zone::in() const {
 Zone_sprite::Zone_sprite(Inter *in, const char *nam, int px, int py): Zone(in) {
 	Res_doze res(nam);
 	Png png(res);
-	Bitmap bitmap(png);
-	sp = Sprite::New(bitmap);
-	w = sp->width;
-	h = sp->height;
+	sp = png.get_surface();
+	SDL_SetColorKey(sp, SDL_SRCCOLORKEY, 0);
+	w = sp->w;
+	h = sp->h;
 	if(px == -1)
 		x = (video->get_width() - w) / 2;
 	if(py == -1)
@@ -106,11 +106,11 @@ Zone_sprite::Zone_sprite(Inter *in, const char *nam, int px, int py): Zone(in) {
 }
 
 Zone_sprite::~Zone_sprite() {
-	delete sp;
+	SDL_FreeSurface(sp);
 }
 
 void Zone_sprite::draw() {
-	video->vb.put_sprite(*sp, x, y);
+	video->vb.put_surface(sp, x, y);
 }
 
 Zone_bitmap::Zone_bitmap(Inter* in, Bitmap* bit, int px, int py, Bitmap* bit2):

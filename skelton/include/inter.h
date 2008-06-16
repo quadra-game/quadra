@@ -117,7 +117,7 @@ public:
 };
 
 class Zone_sprite: public Zone {
-	Sprite *sp;
+	SDL_Surface *sp;
 public:
 	Zone_sprite(Inter *in, const char *nam, int px = -1, int py = -1);
 	virtual ~Zone_sprite();
