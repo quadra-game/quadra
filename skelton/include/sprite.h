@@ -42,7 +42,7 @@ class Font;
 
 class Fontdata {
 	friend class Font;
-	Sprite* spr[256]; // warning: there is some slack because they are not all used
+	SDL_Surface* spr[256]; // warning: there is some slack because they are not all used
 	int shrink; // indicates how much to overlap this font
 	int pre_width[256]; // pre-computed 'width' of the glyphs
 public:
@@ -52,7 +52,7 @@ public:
 	int width(const char *m) const;
 	int width(const char *m, int num) const;
 	int height() const {
-		return spr[1]->height;
+		return spr[1]->h;
 	}
 	int translate(const char **m) const;
 };
