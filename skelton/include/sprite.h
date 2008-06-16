@@ -28,15 +28,6 @@
 #include "palette.h"
 
 #define CENTER (-123456)
-#define CORNER (-123457)
-
-class Sprite: public Bitmap {
-private:
-  Sprite(const Bitmap& b);
-public:
-  static Sprite* New(const Bitmap& b);
-  void draw(const Bitmap& d, int dx, int dy) const;
-};
 
 class Font;
 

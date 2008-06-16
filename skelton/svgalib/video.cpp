@@ -111,15 +111,6 @@ void Video_bitmap::put_bitmap(const Bitmap &d, int dx, int dy) const {
   d.draw(fb, dx, dy);
 }
 
-void Video_bitmap::put_sprite(const Sprite &d, int dx, int dy) const {
-  // FIXME: We should lock the surface here.
-  Bitmap fb(NULL, width, height, video->paletted_surf->pitch);
-  unsigned char *vfb = static_cast<unsigned char *>(video->paletted_surf->pixels);
-  fb.setmem(vfb + (pos_y * video->paletted_surf->pitch) + pos_x);
-  clip_dirty(dx, dy, d.width, d.height); 
-  d.draw(fb, dx, dy);
-}
-
 Video::Video():
   vb(0, 0, 640, 480),
   newpal(),

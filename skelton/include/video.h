@@ -27,7 +27,6 @@
 #include "bitmap.h"
 
 class Bitmap;
-class Sprite;
 
 class Video_bitmap: public Clipable {
 public:
@@ -59,9 +58,6 @@ public:
 
   /* blits a Bitmap to position 'dx','dy' */
   void put_bitmap(const Bitmap& d, int dx, int dy) const;
-
-  /* blits a Sprite (mask) 'd' to position 'dx','dy' */
-  void put_sprite(const Sprite& d, int dx, int dy) const;
 
   const int pos_x;
   const int pos_y;

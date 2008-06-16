@@ -29,28 +29,6 @@ using std::max;
 
 #define FONT_SIZE (141-32)
 
-Sprite::Sprite(const Bitmap& b):
-	Bitmap(b[0], b.width, b.height, b.realwidth, true) {
-}
-
-Sprite* Sprite::New(const Bitmap& b) {
-  return new Sprite(b);
-}
-
-void Sprite::draw(const Bitmap& d, int dx, int dy) const {
-	if(d.clip(dx, dy, this))
-		return;
-	for(int y=clip_y1; y<=clip_y2; y++) {
-		for(int i=clip_x1; i<=clip_x2; i++) {
-			Byte pel = *(operator[](y-dy)+(i-dx));
-			// optimization since the mask is always 0
-			// because of Svgalib
-			if(pel)
-			  d.fast_pel(i, y, pel);
-		}
-	}
-}
-
 Fontdata::Fontdata(Res &res, int s) {
 	shrink = s;
 	int w, h, rw;
