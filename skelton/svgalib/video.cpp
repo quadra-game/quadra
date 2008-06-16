@@ -98,8 +98,6 @@ void Video_bitmap::put_surface(SDL_Surface* surface, int dx, int dy) const {
   dstrect.x = pos_x + clip_x1;
   dstrect.y = pos_y + clip_y1;
 
-  fprintf(stderr, "put_surface: (%i, %i, %i, %i), (%i, %i)\n", srcrect.x, srcrect.y, srcrect.w, srcrect.h, dstrect.x, dstrect.y);
-
   clip_dirty(dx, dy, surface->w, surface->h);
   SDL_BlitSurface(surface, &srcrect, video->paletted_surf, &dstrect);
 }
