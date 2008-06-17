@@ -77,7 +77,7 @@ public:
 
   void end_frame();
   void setpal(const Palette& p);
-  void dosetpal(SPalette pal[256], int size);
+  void dosetpal(SDL_Color pal[256], int size);
   void snap_shot(int x, int y, int w, int h);
   void toggle_fullscreen();
   int get_width() const {

@@ -28,9 +28,9 @@ void Palette::load(const Image& raw) {
   size=raw.palettesize();
   int j=0;
   for(int i(0); i<size; i++) {
-    pal[i].peRed = raw.pal()[j++];
-    pal[i].peGreen = raw.pal()[j++];
-    pal[i].peBlue = raw.pal()[j++];
+    pal[i].r = raw.pal()[j++];
+    pal[i].g = raw.pal()[j++];
+    pal[i].b = raw.pal()[j++];
   }
 }
 
@@ -44,7 +44,7 @@ Remap::Remap(const Palette& d, Palette* src): dst(d) {
 void Remap::findrgb(const Byte m, const Byte r, const Byte g, const Byte b) {
   int best_diff=9999999, best_i=0, diff;
   for(int i=1; i<dst.size; i++) {
-    diff=(int) ((dst.pal[i].peRed-r)*(dst.pal[i].peRed-r)*2 + (dst.pal[i].peGreen-g)*(dst.pal[i].peGreen-g)*3 + (dst.pal[i].peBlue-b)*(dst.pal[i].peBlue-b));
+    diff=(int) ((dst.pal[i].r-r)*(dst.pal[i].r-r)*2 + (dst.pal[i].g-g)*(dst.pal[i].g-g)*3 + (dst.pal[i].b-b)*(dst.pal[i].b-b));
     if(diff == 0) {
       map[m] = i;
       return;
@@ -60,9 +60,9 @@ void Remap::findrgb(const Byte m, const Byte r, const Byte g, const Byte b) {
 Fade::Fade(const Palette& dst, const Palette& src, int frame) {
   int j=0;
   for(int i(0); i<256; i++) {
-    current[j++]=src.pal[i].peRed<<7;
-    current[j++]=src.pal[i].peGreen<<7;
-    current[j++]=src.pal[i].peBlue<<7;
+    current[j++]=src.pal[i].r<<7;
+    current[j++]=src.pal[i].g<<7;
+    current[j++]=src.pal[i].b<<7;
   }
   newdest(dst, frame);
 }
@@ -71,9 +71,9 @@ void Fade::setdest(const Palette& dst) {
   dest=dst;
   int j=0;
   for(int i(0); i<256; i++) {
-    current[j++]=dest.pal[i].peRed<<7;
-    current[j++]=dest.pal[i].peGreen<<7;
-    current[j++]=dest.pal[i].peBlue<<7;
+    current[j++]=dest.pal[i].r<<7;
+    current[j++]=dest.pal[i].g<<7;
+    current[j++]=dest.pal[i].b<<7;
   }
   video->setpal(dest);
   currentframe=destframe;
@@ -84,11 +84,11 @@ void Fade::newdest(const Palette& dst, int frame) {
   int j=0;
 
   for(int i(0); i<256; i++) {
-    delta[j]=((dest.pal[i].peRed<<7)-current[j])/frame;
+    delta[j]=((dest.pal[i].r<<7)-current[j])/frame;
 	j++;
-    delta[j]=((dest.pal[i].peGreen<<7)-current[j])/frame;
+    delta[j]=((dest.pal[i].g<<7)-current[j])/frame;
 	j++;
-    delta[j]=((dest.pal[i].peBlue<<7)-current[j])/frame;
+    delta[j]=((dest.pal[i].b<<7)-current[j])/frame;
 	j++;
   }
   currentframe=0;

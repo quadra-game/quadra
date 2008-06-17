@@ -28,16 +28,12 @@
 #include "error.h"
 #include "image.h"
 
-typedef struct {
-  Byte peRed, peGreen, peBlue, peFlags;
-} SPalette;
-
 class Palette {
 private:
   friend class Fade;
   friend class Remap;
   friend class Video;
-  SPalette pal[256];
+  SDL_Color pal[256];
   int size;
 public:
   Palette() {
@@ -53,18 +49,18 @@ public:
   }
   void load(const Image& raw);
   Byte r(Byte c) {
-    return pal[c].peRed;
+    return pal[c].r;
   }
   Byte g(Byte c) {
-    return pal[c].peGreen;
+    return pal[c].g;
   }
   Byte b(Byte c) {
-    return pal[c].peBlue;
+    return pal[c].b;
   }
   void setcolor(Byte c, Byte r, Byte g, Byte b) {
-    pal[c].peRed=r;
-    pal[c].peGreen=g;
-    pal[c].peBlue=b;
+    pal[c].r=r;
+    pal[c].g=g;
+    pal[c].b=b;
   }
 };
 

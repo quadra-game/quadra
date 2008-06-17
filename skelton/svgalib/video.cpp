@@ -187,19 +187,8 @@ void Video::setpal(const Palette &p) {
   newpal = true;
 }
 
-void Video::dosetpal(SPalette pal[256], int size) {
-	SDL_Color *colors;
-	int i;
-
-	colors = static_cast<SDL_Color*>(alloca(sizeof(SDL_Color) * size));
-
-	for(i = 0; i < size; i++) {
-		colors[i].r = pal[i].peRed;
-		colors[i].g = pal[i].peGreen;
-		colors[i].b = pal[i].peBlue;
-	}
-
-	SDL_SetPalette(paletted_surf, SDL_LOGPAL, colors, 0, size);
+void Video::dosetpal(SDL_Color pal[256], int size) {
+	SDL_SetPalette(paletted_surf, SDL_LOGPAL, pal, 0, size);
 }
 
 void Video::snap_shot(int, int, int, int) {
