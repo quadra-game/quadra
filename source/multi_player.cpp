@@ -56,7 +56,7 @@ Multi_player::Multi_player(int *got_high) {
 	}
 	pal.set_size(256);
 	for(i=0; i<9; i++)
-		color[i] = new Color(i, pal);
+		color[i] = new Color(i);
 	font2 = fteam[4];
 	if(game->single)
 		i = 1;

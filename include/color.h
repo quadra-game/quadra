@@ -25,12 +25,10 @@
 
 class Color {
 	Byte base;
-	Palette& pal;
 public:
-	Color(Byte q, Palette& p);
-	void set(int r, int g, int b, int r2, int g2, int b2);
+	Color(Byte q);
 	Byte shade(Byte i) const {
-		return base+i;
+		return base + i;
 	}
 };
 
