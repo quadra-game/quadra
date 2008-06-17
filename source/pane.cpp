@@ -47,8 +47,8 @@ Pane_info::Pane_info(Bitmap *bit, Font *f2, Inter *in, int j, Multi_player *pmp)
 	h = 480-y;
 	mp = pmp;
 	quel_pane = j;
-	back = new Bitmap((*bit)[y]+x, w, 18*20, bit->realwidth);
-	back_bottom = new Bitmap((*bit)[y+18*20]+x, w, 480-y-18*20, bit->realwidth);
+	back = new Bitmap((*bit)[y]+x, w, 18*20, bit->surface->pitch);
+	back_bottom = new Bitmap((*bit)[y+18*20]+x, w, 480-y-18*20, bit->surface->pitch);
 }
 
 Pane_info::~Pane_info() {
@@ -1121,7 +1121,7 @@ Chat_interface::Chat_interface(Inter *in, const Palette &pal, Bitmap *bit, int p
 		set_screen_offset(0, new Video_bitmap(px, py, pw, ph));
 		delete_screen = true;
 	}
-	back = new Bitmap((*bit)[py]+px, pw, 18*20, bit->realwidth);
+	back = new Bitmap((*bit)[py]+px, pw, 18*20, bit->surface->pitch);
 	if(game)
 		game->net_list.add_watch(this);
 }

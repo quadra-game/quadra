@@ -36,7 +36,7 @@ Zone_next::~Zone_next() {
 Zone_next::Zone_next(Inter* in, const Bitmap& fond, int px, int py, int pw, int ph):
  Zone(in, px, py, pw, ph) {
 	next = NULL;
-	back = new Bitmap(fond[y]+x, w, h, fond.realwidth);
+	back = new Bitmap(fond[y]+x, w, h, fond.surface->pitch);
 }
 
 void Zone_next::draw() {
@@ -76,7 +76,7 @@ void Zone_canvas_bloc::draw() {
 Zone_canvas::Zone_canvas(Inter* in, Bitmap& bit, int px, int py, Canvas *can, int pw, int ph, bool small_watch):
 	Zone(in, px, py, pw, ph)
 {
-	fond = new Bitmap(bit[y]+x, w, h, bit.realwidth);
+	fond = new Bitmap(bit[y]+x, w, h, bit.surface->pitch);
 	screen = new Video_bitmap(x, y, w, h);
 	canvas = can;
 	if(!small_watch) {
@@ -135,7 +135,7 @@ void Zone_combo::draw() {
 Zone_bonus::Zone_bonus(Inter* in, int px, int py, int *v, Canvas *c, const Bitmap& bit, int pw, int ph):
 Zone_watch_int(in, v, px, py, pw, ph) {
 	canvas = c;
-	back = new Bitmap(bit[y]+x, w, h, bit.realwidth);
+	back = new Bitmap(bit[y]+x, w, h, bit.surface->pitch);
 }
 
 Zone_bonus::~Zone_bonus() {
@@ -209,7 +209,7 @@ Zone_menu::Zone_menu(Inter* in, Bitmap* fond, const char* b1, int px, int py):
 {
 	bit2_ = bit_;
 
-	bit_ = new Bitmap((*fond)[py]+px, bit2_->width, bit2_->height, fond->realwidth);
+	bit_ = new Bitmap((*fond)[py]+px, bit2_->width, bit2_->height, fond->surface->pitch);
 	actual = bit_;
 	del_bit = 1;
 	kb_focusable = true;

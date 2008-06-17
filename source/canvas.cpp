@@ -927,7 +927,7 @@ void Canvas::blit_back() {
         } else {
           x2=(i-4)*18;
           y2=(j-12)*18;
-          Bitmap tmp((*fond)[y2]+x2, 18, 18, fond->realwidth);
+          Bitmap tmp((*fond)[y2]+x2, 18, 18, fond->surface->pitch);
           screen->put_bitmap(tmp, x2, y2);
         }
         dirted[j][i]--;
@@ -1003,7 +1003,7 @@ void Canvas::small_blit_back() {
         } else {
           x2=(i-4)*6;
           y2=(j-12)*6;
-          Bitmap tmp((*fond)[y2]+x2, 6, 6, fond->realwidth);
+          Bitmap tmp((*fond)[y2]+x2, 6, 6, fond->surface->pitch);
           screen->put_bitmap(tmp, x2, y2);
         }
         dirted[j][i]--;

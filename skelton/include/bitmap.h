@@ -38,15 +38,11 @@ public:
 	virtual ~Bitmap();
 
 	Byte* operator[](const int y) const {
-    return mem + (y * realwidth);
+    return static_cast<Byte*>(surface->pixels) + (y * surface->pitch);
 	}
 	void draw(const Bitmap& d, const int dx, const int dy) const;
 
-	const int realwidth;
-
-private:
-	Byte* mem;
-	const bool fmem;
+  SDL_Surface* const surface;
 };
 
 #endif

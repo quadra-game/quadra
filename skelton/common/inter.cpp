@@ -366,7 +366,7 @@ void Zone_text_button::set_text(const char* s) {
 
 void Zone_text_button::set_bit(Bitmap *fond) {
 	if(fond)
-		bit = new Bitmap((*fond)[y]+x, w-2, h-2, fond->realwidth);
+		bit = new Bitmap((*fond)[y]+x, w-2, h-2, fond->surface->pitch);
 	else
 		bit = NULL;
 }

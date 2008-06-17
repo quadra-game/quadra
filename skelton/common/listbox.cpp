@@ -28,7 +28,7 @@
 Zone_listbox::Zone_listbox(Inter* in, Bitmap *fond, Font *f, int *pval, int px, int py, int pw, int ph):
 	Zone_watch_int(in, pval, px, py, pw, ph) {
 	if(fond) 
-		back = new Bitmap((*fond)[py+1]+px+1, pw-2, ph-2, fond->realwidth);
+		back = new Bitmap((*fond)[py+1]+px+1, pw-2, ph-2, fond->surface->pitch);
 	else
 		back = NULL;
 	screen = new Video_bitmap(px+1, py+1, pw-2, ph-2);

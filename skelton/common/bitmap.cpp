@@ -37,22 +37,16 @@ Bitmap* Bitmap::loadPng(const char* n) {
 
 Bitmap::Bitmap(void* m, int w, int h, int rw):
 		Clipable(w, h),
-		realwidth(rw),
-		mem(static_cast<Byte*>(m)),
-		fmem(false) {
+	  surface(SDL_CreateRGBSurfaceFrom(m, w, h, 8, rw, 0, 0, 0, 0)) {
 }
 
 Bitmap::Bitmap(const Image& raw):
 	  Clipable(raw.width(), raw.height()),
-	  realwidth(width),
-	  mem(new Byte[height * realwidth]),
-	  fmem(true) {
-	memcpy(mem, raw.pic(), height * realwidth);
+	  surface(raw.get_surface()) {
 }
 
 Bitmap::~Bitmap() {
-	if(fmem)
-		delete[] mem;
+  SDL_FreeSurface(surface);
 }
 
 void Bitmap::draw(const Bitmap& d, const int dx, const int dy) const {
