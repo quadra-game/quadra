@@ -80,7 +80,7 @@ public:
   void snap_shot(int x, int y, int w, int h);
   void toggle_fullscreen();
   SDL_Surface* surface() const {
-    return paletted_surf;
+    return display;
   }
 
   Video_bitmap vb;
@@ -96,13 +96,8 @@ private:
   int needsleep;
   int lastticks;
   bool fullscreen;
-	bool mDirtyEmpty;
-	int mDirtyX1;
-	int mDirtyY1;
-	int mDirtyX2;
-	int mDirtyY2;
-  SDL_Surface *paletted_surf; // This is our temporary palette 'screen' where we actually draw
-  SDL_Surface *screen_surf; // This is the real screen, 16-bit or 32-bit or whatever. We don't care.
+  SDL_Rect dirty;
+  SDL_Surface* display;
 };
 
 extern Video* video;
