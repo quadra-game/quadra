@@ -34,7 +34,6 @@
 
 #include "error.h"
 #include "types.h"
-#include "utils.h"
 
 class Res {
 public:
@@ -55,10 +54,10 @@ public:
 	Res_mem();
 	virtual int read(void *b, int nb) {
 		if(pos+nb>size()) {
-			mset(b, 0, nb);
+			memset(b, 0, nb);
 			nb=size()-pos;
 		}
-		cpy((Byte *) b, _buf + pos, nb);
+		memcpy(b, _buf + pos, nb);
 		pos += nb;
 		return nb;
 	}

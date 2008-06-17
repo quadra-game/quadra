@@ -22,7 +22,6 @@
 #define _HEADER_BITMAP
 
 #include "types.h"
-#include "utils.h"
 #include "error.h"
 #include "image.h"
 #include "clipable.h"

@@ -27,7 +27,6 @@
 #include "types.h"
 #include "error.h"
 #include "image.h"
-#include "utils.h"
 
 typedef struct {
   Byte peRed, peGreen, peBlue, peFlags;
@@ -42,11 +41,11 @@ private:
   int size;
 public:
   Palette() {
-    mset(pal, 0, sizeof(pal));
+    memset(pal, 0, sizeof(pal));
     size=256;
   }
   Palette(const Image& raw) {
-    mset(pal, 0, sizeof(pal));
+    memset(pal, 0, sizeof(pal));
     load(raw);
   }
   void set_size(int s) {
