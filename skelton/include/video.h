@@ -59,13 +59,13 @@ public:
   /* blits a Bitmap to position 'dx','dy' */
   void put_bitmap(const Bitmap& d, int dx, int dy) const;
 
-  const int pos_x;
-  const int pos_y;
-
 private:
   friend class Video;
 
   void clip_dirty(int x, int y, int w, int h) const;
+
+  const int pos_x;
+  const int pos_y;
 };
 
 class Video {
@@ -79,13 +79,9 @@ public:
   void setpal(const Palette& p);
   void snap_shot(int x, int y, int w, int h);
   void toggle_fullscreen();
-  int get_width() const {
-    return paletted_surf->w;
+  SDL_Surface* surface() const {
+    return paletted_surf;
   }
-  int get_height() const {
-    return paletted_surf->h;
-  }
-  void clone_palette(SDL_Surface* surface) const;
 
   Video_bitmap vb;
   bool newpal;

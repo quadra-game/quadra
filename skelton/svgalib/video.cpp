@@ -196,11 +196,6 @@ void Video::toggle_fullscreen() {
   SetVideoMode();
 }
 
-void Video::clone_palette(SDL_Surface* surface) const {
-  SDL_SetColors(surface, paletted_surf->format->palette->colors, 0,
-                paletted_surf->format->palette->ncolors);
-}
-
 void Video::SetVideoMode()
 {
 	// Set window title and window icon using SDL

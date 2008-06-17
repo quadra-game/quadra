@@ -98,9 +98,9 @@ Zone_sprite::Zone_sprite(Inter *in, const char *nam, int px, int py): Zone(in) {
 	w = sp->w;
 	h = sp->h;
 	if(px == -1)
-		x = (video->get_width() - w) / 2;
+		x = (video->surface()->w - w) / 2;
 	if(py == -1)
-		y = (video->get_height() - h) / 2;
+		y = (video->surface()->h - h) / 2;
 	w = h = 0; // special: zone_sprite is not clickable
 	stay_on_top = true; // special: the zone_sprite are constantly redrawn
 }
@@ -244,7 +244,7 @@ Zone(in, px, py, in->font->width(s)+2, f2->height()) {
 }
 
 Zone_text::Zone_text(Font* f2, Inter* in, const char* s, int py):
-Zone(in, 0, py, video->get_width(), f2->height()) {
+Zone(in, 0, py, video->surface()->w, f2->height()) {
 	font = f2;
 	lock_size = true;
 	set_text(s);
@@ -258,7 +258,7 @@ Zone(in, px, py, pw, in->font->height()) {
 }
 
 Zone_text::Zone_text(Inter* in, const char* s, int py):
-Zone(in, 0, py, video->get_width(), in->font->height()) {
+Zone(in, 0, py, video->surface()->w, in->font->height()) {
 	font = in->font;
 	lock_size = true;
 	set_text(s);
@@ -326,7 +326,7 @@ void Zone_text_select::set_font(Font* f) {
 }
 
 Zone_text_button::Zone_text_button(Inter* in, Bitmap *fond, Font* f, const char* s, int py):
-Zone_text_select(in, f, s, (video->get_width() - f->width(s))>>1, py-2, f->width(s)) {
+Zone_text_select(in, f, s, (video->surface()->w - f->width(s))>>1, py-2, f->width(s)) {
 	h+=4;
 	w+=6;
 	set_bit(fond);
@@ -787,7 +787,7 @@ void Zone_text_field::draw() {
 }
 
 Zone_clear::Zone_clear(Inter* in):
-  Zone(in, 0, 0, video->get_width(), video->get_height()) {
+  Zone(in, 0, 0, video->surface()->w, video->surface()->h) {
 	color = 0;
 }
 
