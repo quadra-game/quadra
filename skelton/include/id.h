@@ -24,21 +24,24 @@
 #include "types.h"
 
 class Identifyable {
-	static Dword next_id;
-protected:
-	Dword the_id;
 public:
-	Identifyable() {
-		the_id=next_id++;
-	}
 	virtual void set_id(Dword id) {
 		the_id=id;
 	}
 	virtual Dword id() {
 		return the_id;
 	}
+
+protected:
+	Identifyable():
+	  the_id(next_id++) {
+	}
 	virtual ~Identifyable() {
 	}
+
+private:
+	static Dword next_id;
+  Dword the_id;
 };
 
 #endif
