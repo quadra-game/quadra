@@ -20,24 +20,35 @@
 
 #include "notify.h"
 
+#include <algorithm>
 #include "types.h"
 #include "error.h"
 
-void Observable::add_watch(Notifyable *n) {
-	notes.add(n);
+using std::find;
+using std::list; 
+
+void Observable::add_watch(Notifyable* n) {
+  // FIXME: I'm not 100% sure this is safe. Maybe it should be a set, after
+  // all...
+  //assert(find(notes.begin(), notes.end(), n) == notes.end());
+  notes.push_back(n);
 }
 
-void Observable::remove_watch(Notifyable *n) {
-	notes.remove_item(n);
+void Observable::remove_watch(Notifyable* n) {
+  list<Notifyable*>::iterator it = find(notes.begin(), notes.end(), n);
+
+  if (it != notes.end())
+    notes.erase(it);
 }
 
 void Observable::notify_all() {
-	for(int i=0; i<notes.size(); i++) {
-		notes[i]->notify();
-	}
+  list<Notifyable*>::const_iterator it;
+  
+  for (it = notes.begin(); it != notes.end(); ++it)
+    (*it)->notify();
 }
 
 Observable::~Observable() {
-	if(notes.size())
+	if(!notes.empty())
 		skelton_msgbox("Observable %p was destroyed while still watched (%i watchers)\n", this, notes.size());
 }
