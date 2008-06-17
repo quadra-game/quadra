@@ -135,7 +135,7 @@ Video::~Video() {
 
 void Video::end_frame() {
   if (newpal) {
-    dosetpal(pal.pal, pal.size);
+    SDL_SetColors(paletted_surf, pal.pal, 0, pal.size);
     newpal = false;
     set_dirty(0, 0, paletted_surf->w, paletted_surf->h);
   }
@@ -185,10 +185,6 @@ void Video::end_frame() {
 void Video::setpal(const Palette &p) {
   pal = p;
   newpal = true;
-}
-
-void Video::dosetpal(SDL_Color pal[256], int size) {
-	SDL_SetPalette(paletted_surf, SDL_LOGPAL, pal, 0, size);
 }
 
 void Video::snap_shot(int, int, int, int) {
