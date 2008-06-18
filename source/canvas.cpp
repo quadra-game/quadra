@@ -672,8 +672,7 @@ void Canvas::change_level(const int level, Palette *pal, Bitmap *bit) {
 		strcpy(st, "black.png");
   Res_doze *res = new Res_doze(st);
   Png img(*res);
-  delete bit;
-  bit = new Bitmap(img);
+  bit->reload(img);
   Palette pal2(img);
   for(i=0; i<256; i++) // was 184
     pal->setcolor(i, pal2.r(i), pal2.g(i), pal2.b(i));

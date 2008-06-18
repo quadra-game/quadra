@@ -37,6 +37,7 @@ public:
 	Bitmap(const Image& raw);
 	virtual ~Bitmap();
 
+  void reload(const Image& raw);
 	Byte* operator[](const int y) const {
     return static_cast<Byte*>(surface->pixels) + (y * surface->pitch);
 	}

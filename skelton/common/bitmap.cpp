@@ -49,6 +49,15 @@ Bitmap::~Bitmap() {
   SDL_FreeSurface(surface);
 }
 
+void Bitmap::reload(const Image& raw) {
+  SDL_Surface* tmp = raw.get_surface();
+
+  SDL_SetColors(surface, tmp->format->palette->colors, 0, tmp->format->palette->ncolors);
+  SDL_BlitSurface(tmp, NULL, surface, NULL);
+
+  SDL_FreeSurface(tmp);
+}
+
 void Bitmap::draw(const Bitmap& d, const int dx, const int dy) const {
 	if(d.clip(dx, dy, this))
 		return;
