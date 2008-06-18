@@ -125,8 +125,7 @@ Video::Video():
 	mDirtyY1(),
 	mDirtyX2(),
 	mDirtyY2(),
-  paletted_surf(NULL),
-  screen_surf(NULL) {
+  display(NULL) {
   SetVideoMode();
 }
 
@@ -135,9 +134,9 @@ Video::~Video() {
 
 void Video::end_frame() {
   if (newpal) {
-    SDL_SetColors(paletted_surf, pal.pal, 0, pal.size);
+    SDL_SetColors(display, pal.pal, 0, pal.size);
     newpal = false;
-    set_dirty(0, 0, paletted_surf->w, paletted_surf->h);
+    set_dirty(0, 0, display->w, display->h);
   }
 
 	// Draw and convert only the dirty region to screen
@@ -148,8 +147,7 @@ void Video::end_frame() {
 		rect.y = mDirtyY1;
 		rect.w = mDirtyX2 - mDirtyX1 + 1;
 		rect.h = mDirtyY2 - mDirtyY1 + 1;
-		SDL_BlitSurface(paletted_surf, &rect, screen_surf, &rect);
-		SDL_UpdateRect(screen_surf, rect.x, rect.y, rect.w, rect.h);
+		SDL_UpdateRect(display, rect.x, rect.y, rect.w, rect.h);
 		mDirtyEmpty = true;
 	}
 
@@ -226,9 +224,8 @@ void Video::SetVideoMode()
 
   int flags = SDL_HWSURFACE;
   if(fullscreen) flags |= SDL_FULLSCREEN;
-  screen_surf = SDL_SetVideoMode(640, 480, 0, flags);
-  assert(screen_surf);
-  paletted_surf = SDL_CreateRGBSurface(SDL_SWSURFACE, 640, 480, 8, 0, 0, 0, 0);
+  display = SDL_SetVideoMode(640, 480, 8, flags);
+  assert(display);
   need_paint = 2;
   newpal = true;
 }
