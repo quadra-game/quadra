@@ -55,7 +55,7 @@ void Video_bitmap::rect(int x, int y, int w, int h, int color) const {
   rect.w = clip_x2 - clip_x1 + 1;
   rect.h = clip_y2 - clip_y1 + 1;
 
-  SDL_FillRect(video->paletted_surf, &rect, color);
+  SDL_FillRect(video->surface(), &rect, color);
   clip_dirty(x, y, w, h); 
 }
 
@@ -99,14 +99,14 @@ void Video_bitmap::put_surface(SDL_Surface* surface, int dx, int dy) const {
   dstrect.y = pos_y + clip_y1;
 
   clip_dirty(dx, dy, surface->w, surface->h);
-  SDL_BlitSurface(surface, &srcrect, video->paletted_surf, &dstrect);
+  SDL_BlitSurface(surface, &srcrect, video->surface(), &dstrect);
 }
 
 void Video_bitmap::put_bitmap(const Bitmap &d, int dx, int dy) const {
   // FIXME: We should lock the surface here.
-  unsigned char *vfb = static_cast<unsigned char *>(video->paletted_surf->pixels);
-  Bitmap fb(vfb + (pos_y * video->paletted_surf->pitch) + pos_x,
-            width, height, video->paletted_surf->pitch);
+  unsigned char *vfb = static_cast<unsigned char *>(video->surface()->pixels);
+  Bitmap fb(vfb + (pos_y * video->surface()->pitch) + pos_x,
+            width, height, video->surface()->pitch);
   clip_dirty(dx, dy, d.width, d.height);
   d.draw(fb, dx, dy);
 }
@@ -125,8 +125,8 @@ Video::Video():
 	mDirtyY1(),
 	mDirtyX2(),
 	mDirtyY2(),
-  paletted_surf(),
-  screen_surf() {
+  paletted_surf(NULL),
+  screen_surf(NULL) {
   SetVideoMode();
 }
 
