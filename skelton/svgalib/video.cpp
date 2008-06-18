@@ -55,7 +55,7 @@ void Video_bitmap::rect(int x, int y, int w, int h, int color) const {
   rect.w = clip_x2 - clip_x1 + 1;
   rect.h = clip_y2 - clip_y1 + 1;
 
-  SDL_FillRect(video->surface(), &rect, color);
+  SDL_FillRect(video->paletted_surf, &rect, color);
   clip_dirty(x, y, w, h); 
 }
 
@@ -99,14 +99,14 @@ void Video_bitmap::put_surface(SDL_Surface* surface, int dx, int dy) const {
   dstrect.y = pos_y + clip_y1;
 
   clip_dirty(dx, dy, surface->w, surface->h);
-  SDL_BlitSurface(surface, &srcrect, video->surface(), &dstrect);
+  SDL_BlitSurface(surface, &srcrect, video->paletted_surf, &dstrect);
 }
 
 void Video_bitmap::put_bitmap(const Bitmap &d, int dx, int dy) const {
   // FIXME: We should lock the surface here.
-  unsigned char *vfb = static_cast<unsigned char *>(video->surface()->pixels);
-  Bitmap fb(vfb + (pos_y * video->surface()->pitch) + pos_x,
-            width, height, video->surface()->pitch);
+  unsigned char *vfb = static_cast<unsigned char *>(video->paletted_surf->pixels);
+  Bitmap fb(vfb + (pos_y * video->paletted_surf->pitch) + pos_x,
+            width, height, video->paletted_surf->pitch);
   clip_dirty(dx, dy, d.width, d.height);
   d.draw(fb, dx, dy);
 }
@@ -120,8 +120,13 @@ Video::Video():
   needsleep(0),
   lastticks(SDL_GetTicks()),
   fullscreen(!command.token("nofullscreen")),
-	display(NULL) {
-  dirty.w = dirty.h = 0;
+  mDirtyEmpty(true),
+	mDirtyX1(),
+	mDirtyY1(),
+	mDirtyX2(),
+	mDirtyY2(),
+  paletted_surf(),
+  screen_surf() {
   SetVideoMode();
 }
 
@@ -130,16 +135,22 @@ Video::~Video() {
 
 void Video::end_frame() {
   if (newpal) {
-    SDL_SetColors(display, pal.pal, 0, pal.size);
+    SDL_SetColors(paletted_surf, pal.pal, 0, pal.size);
     newpal = false;
-    set_dirty(0, 0, display->w, display->h);
+    set_dirty(0, 0, paletted_surf->w, paletted_surf->h);
   }
 
 	// Draw and convert only the dirty region to screen
-	if(dirty.w > 0 && dirty.h > 0)
+	if(!mDirtyEmpty)
 	{
-		SDL_UpdateRects(display, 1, &dirty);
-    dirty.w = dirty.h = 0;
+		SDL_Rect rect;
+		rect.x = mDirtyX1;
+		rect.y = mDirtyY1;
+		rect.w = mDirtyX2 - mDirtyX1 + 1;
+		rect.h = mDirtyY2 - mDirtyY1 + 1;
+		SDL_BlitSurface(paletted_surf, &rect, screen_surf, &rect);
+		SDL_UpdateRect(screen_surf, rect.x, rect.y, rect.w, rect.h);
+		mDirtyEmpty = true;
 	}
 
 	// RV: Make system sleep a little bit to keep framerate around 100 FPS
@@ -213,35 +224,30 @@ void Video::SetVideoMode()
 		SDL_FreeSurface(surf);
 	}
 
-  int flags = SDL_HWSURFACE|SDL_HWPALETTE;
-  if(fullscreen)
-    flags |= SDL_FULLSCREEN;
-  display = SDL_SetVideoMode(640, 480, 8, flags);
-  assert(display);
+  int flags = SDL_HWSURFACE;
+  if(fullscreen) flags |= SDL_FULLSCREEN;
+  screen_surf = SDL_SetVideoMode(640, 480, 0, flags);
+  assert(screen_surf);
+  paletted_surf = SDL_CreateRGBSurface(SDL_SWSURFACE, 640, 480, 8, 0, 0, 0, 0);
   need_paint = 2;
   newpal = true;
 }
 
 void Video::set_dirty(int x1, int y1, int x2, int y2)
 {
-	if (dirty.h == 0 && dirty.w == 0)
+	if(mDirtyEmpty)
 	{
-    dirty.x = x1;
-    dirty.y = y1;
-    dirty.w = x2 - x1 + 1;
-    dirty.h = y2 - y1 + 1;
+		mDirtyX1 = x1;
+		mDirtyY1 = y1;
+		mDirtyX2 = x2;
+		mDirtyY2 = y2;
+		mDirtyEmpty = false;
 	}
 	else
 	{
-		if(x1 < dirty.x) {
-      dirty.w = dirty.w + dirty.x - x1;
-		  dirty.x = x1;
-		}
-		if(y1 < dirty.y) {
-      dirty.h = dirty.h + dirty.y - y1;
-		  dirty.y = y1;
-		}
-    dirty.w = std::max(static_cast<int>(dirty.w), x2 - dirty.x + 1);
-    dirty.h = std::max(static_cast<int>(dirty.h), y2 - dirty.y + 1);
+		if(x1 < mDirtyX1) mDirtyX1 = x1;
+		if(y1 < mDirtyY1) mDirtyY1 = y1;
+		if(x2 > mDirtyX2) mDirtyX2 = x2;
+		if(y2 > mDirtyY2) mDirtyY2 = y2;
 	}
 }
