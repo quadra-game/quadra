@@ -41,7 +41,6 @@ public:
 	Byte* operator[](const int y) const {
     return static_cast<Byte*>(surface->pixels) + (y * surface->pitch);
 	}
-	void draw(const Bitmap& d, const int dx, const int dy) const;
 
   SDL_Surface* const surface;
 };

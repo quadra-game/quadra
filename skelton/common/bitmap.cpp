@@ -57,11 +57,3 @@ void Bitmap::reload(const Image& raw) {
 
   SDL_FreeSurface(tmp);
 }
-
-void Bitmap::draw(const Bitmap& d, const int dx, const int dy) const {
-	if(d.clip(dx, dy, this))
-		return;
-	for(int y=clip_y1; y<=clip_y2; y++) {
-		memcpy(d[y]+clip_x1, operator[](y-dy)+(clip_x1-dx), clip_w);
-	}
-}
