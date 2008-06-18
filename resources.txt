@@ -14,7 +14,6 @@ images/debut5.png
 images/debut6.png
 images/debut7.png
 images/debut8.png
-images/debutnr.png
 images/debuto.png
 images/fond0.png
 images/fond1.png

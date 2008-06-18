@@ -38,8 +38,6 @@ const int Config::major = VERSION_MAJOR;
 const int Config::minor = VERSION_MINOR;
 const int Config::patchlevel = VERSION_PATCHLEVEL;
 
-/* FIXME: we should remove all occurence of Config::xtreme */
-bool Config::xtreme = false;
 char Config::user_name[64] = {""};
 
 Config::Config() {

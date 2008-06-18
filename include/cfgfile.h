@@ -31,7 +31,6 @@ public:
 	const static int game_version;
 	static int net_version;
 	const static int major, minor, patchlevel;
-	static bool xtreme;
 	static char user_name[];
 	int warning;
 	/*

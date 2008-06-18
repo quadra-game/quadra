@@ -1490,16 +1490,8 @@ void Menu_main::redraw() {
   b_tut = new Zone_menu(inter, background, "debut3.png", 235, 225);
   b_setup = new Zone_menu(inter, background, "debut4.png", 221, 267);
   b_option = new Zone_menu(inter, background, "debut5.png", 264, 310);
-  if(!Config::xtreme)
-    b_help = new Zone_menu(inter, background, "debut6.png", 261, 351);
+  b_help = new Zone_menu(inter, background, "debut6.png", 261, 351);
   b_quit = new Zone_menu(inter, background, "debut7.png", 295, 392);
-
-  if(Config::xtreme) {
-    Res_doze res("debutnr.png");
-    Png raw(res);
-    Bitmap bit(raw);
-    bit.draw(*background, 227, 345);
-  }
 
   sprintf(st, "Quadra version %s", VERSION_STRING);
   new Zone_text(inter, st, 450, 430);
