@@ -210,7 +210,7 @@ void Video::SetVideoMode()
 				colors[i].g = palindex[1];
 				colors[i].b = palindex[2];
 			}
-			SDL_SetPalette(surf, SDL_LOGPAL, colors, 0, img.palettesize());
+			SDL_SetColors(surf, colors, 0, img.palettesize());
 		}
 		// Fetch colorkey from top-left pixel value
 		SDL_SetColorKey(surf, SDL_SRCCOLORKEY, img.pic()[0]);
