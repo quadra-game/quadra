@@ -768,10 +768,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\skelton\common\pcx.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\source\qserv.cpp"
 				>
 				<FileConfiguration
@@ -817,10 +813,6 @@
 			</File>
 			<File
 				RelativePath="..\skelton\common\random.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\skelton\common\raw.cpp"
 				>
 			</File>
 			<File
@@ -1245,10 +1237,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\skelton\include\pcx.h"
-				>
-			</File>
-			<File
 				RelativePath="..\include\player.h"
 				>
 			</File>
@@ -1262,10 +1250,6 @@
 			</File>
 			<File
 				RelativePath="..\skelton\include\random.h"
-				>
-			</File>
-			<File
-				RelativePath="..\skelton\include\raw.h"
 				>
 			</File>
 			<File

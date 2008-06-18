@@ -45,6 +45,24 @@ static void output_msg(char *m) {
 		out.write(m, siz);
 }
 
+void fatal_msgbox(const char* m, ...) {
+	delete_obj();
+	ShowCursor(TRUE);
+	MSG msg;
+	while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+	char st[1024];
+	va_list marker;
+	va_start(marker, m);
+	vsprintf(st, m, marker);
+	va_end(marker);
+	msgbox("Error::Error: %s\n", st);
+	MessageBox(NULL, st, "Error", MB_ICONEXCLAMATION);
+	exit(1);
+}
+
 void msgbox(const char* m, ...) {
 	if(_debug) {
 		char st[1024];
@@ -71,22 +89,4 @@ void user_output(const char* title, const char *msg) {
 	ShowCursor(TRUE);
 	MessageBox(NULL, msg, title, MB_ICONINFORMATION);
 	ShowCursor(FALSE);
-}
-
-Error::Error(const char* m, ...) {
-	delete_obj();
-	ShowCursor(TRUE);
-	MSG msg;
-	while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
-	}
-	char st[1024];
-	va_list marker;
-	va_start(marker, m);
-	vsprintf(st, m, marker);
-	va_end(marker);
-	msgbox("Error::Error: %s\n", st);
-	MessageBox(NULL, st, "Error", MB_ICONEXCLAMATION);
-	exit(1);
 }

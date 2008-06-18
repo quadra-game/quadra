@@ -49,7 +49,7 @@ Res_dos::Res_dos(const char *fil, Res_mode mode) {
 		if(mode == RES_TRY || mode == RES_CREATE)
 			exist = false;
 		else
-			new Error("Unable to open dos file '%s'", fil);
+			fatal_msgbox("Unable to open dos file '%s'", fil);
 	}
 }
 
@@ -70,26 +70,23 @@ void Res_dos::position(Dword po) {
 }
 
 int Res_dos::read(void *b, int nb) {
-	Error* error;
 	int n = _read(handle, b, nb);
 	if(n < 0)
-		error = new Error("Error reading file");
+		fatal_msgbox("Error reading file");
 	return n;
 }
 
 void Res_dos::write(const void *b, int nb) {
-	Error* error;
 	if(_write(handle, b, nb) != nb)
-		error = new Error("Error writing file");
+		fatal_msgbox("Error writing file");
 }
 
 const void* Res_dos::buf() {
 	if(_buf)
 		return _buf;
-	Error* error;
 	_buf = new Byte[size()];
 	if(_buf == NULL)
-		error = new Error("Not enough memory to load file");
+		fatal_msgbox("Not enough memory to load file");
 	read(_buf, size());
 	return _buf;
 }
