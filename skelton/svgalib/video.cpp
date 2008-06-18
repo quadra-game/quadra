@@ -133,7 +133,6 @@ void Video::end_frame() {
   if (newpal) {
     SDL_SetColors(display, pal.pal, 0, pal.size);
     newpal = false;
-    set_dirty(0, 0, display->w, display->h);
   }
 
 	// Draw and convert only the dirty region to screen
