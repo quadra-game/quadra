@@ -59,6 +59,8 @@ Fontdata::Fontdata(Res &res, int s) {
       SDL_UnlockSurface(spr[i]);
       SDL_SetColorKey(spr[i], SDL_SRCCOLORKEY, 0);
 
+      delete[] buf;
+
 			pre_width[i] = max(spr[i]->w - shrink, 3);
 		} else {
 			spr[i] = NULL;
