@@ -103,12 +103,9 @@ void Video_bitmap::put_surface(SDL_Surface* surface, int dx, int dy) const {
 }
 
 void Video_bitmap::put_bitmap(const Bitmap &d, int dx, int dy) const {
-  // FIXME: We should lock the surface here.
-  unsigned char *vfb = static_cast<unsigned char *>(video->surface()->pixels);
-  Bitmap fb(vfb + (pos_y * video->surface()->pitch) + pos_x,
-            width, height, video->surface()->pitch);
-  clip_dirty(dx, dy, d.width, d.height);
-  d.draw(fb, dx, dy);
+  SDL_SetColors(d.surface, video->surface()->format->palette->colors, 0,
+                video->surface()->format->palette->ncolors);
+  put_surface(d.surface, dx, dy);
 }
 
 Video::Video():
