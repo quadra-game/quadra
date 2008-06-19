@@ -127,7 +127,9 @@ public:
 class Zone_bitmap: public Zone {
 	bool del_bit;
 public:
-	Bitmap* bit_, *bit2_, *actual;
+  Bitmap* bit_; // OWNING if del_bit is set
+  Bitmap* bit2_; // NOT OWNING
+  Bitmap* actual; // NOT OWNING
 	Zone_bitmap(Inter* in, Bitmap* bit, int px, int py, Bitmap* bit2=NULL);
 	Zone_bitmap(Inter* in, Bitmap* bit, int px, int py, bool del);
 	virtual ~Zone_bitmap();
@@ -211,10 +213,11 @@ public:
 };
 
 class Zone_text_button: public Zone_text_select {
-protected:
-	Bitmap *bit;
-	bool high;
+private:
+	Bitmap *bit; // OWNING
 	void set_bit(Bitmap *fond);
+protected:
+	bool high;
 public:
 	Zone_text_button(Inter* in, Bitmap* fond, Font* f, const char* s, int px, int py);
 	Zone_text_button(Inter* in, Bitmap* fond, Font* f, const char* s, int py);
