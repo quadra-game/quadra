@@ -170,16 +170,13 @@ public:
 };
 
 class Zone_state_bit: public Zone_state {
-	Bitmap *state[3];
 public:
 	Zone_state_bit(Inter* in, const char* b1, int *pval, int px, int py, const char* b2=NULL, const char* b3=NULL);
-	virtual ~Zone_state_bit() {
-		for(int i=0; i < nstate; i++)
-			delete state[i];
-	}
-	virtual void draw() {
-    video->vb.put_bitmap(*state[last_val], x, y);
-	}
+  virtual ~Zone_state_bit();
+  virtual void draw();
+
+private:
+	SDL_Surface *state[3];
 };
 
 class Zone_text: public Zone {

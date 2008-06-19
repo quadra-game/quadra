@@ -172,19 +172,28 @@ Zone_state_bit::Zone_state_bit(Inter* in, const char* b1, int *pval, int px, int
 	Zone_state(in, pval, px, py) {
 	Res_doze res(b1);
 	Png png(res);
-	state[0] = new Bitmap(png);
-	w = state[0]->width;
-	h = state[0]->height;
+	state[0] = png.new_surface();
+	w = state[0]->w;
+	h = state[0]->h;
 	if(b2) {
 		Res_doze res2(b2);
 		Png png(res2);
-		state[nstate++] = new Bitmap(png);
+		state[nstate++] = png.new_surface();
 	}
 	if(b3) {
 		Res_doze res3(b3);
 		Png png(res3);
-		state[nstate++] = new Bitmap(png);
+		state[nstate++] = png.new_surface();
 	}
+}
+
+Zone_state_bit::~Zone_state_bit() {
+	for(int i=0; i < nstate; i++)
+		SDL_FreeSurface(state[i]);
+}
+
+void Zone_state_bit::draw() {
+  video->vb.put_surface(state[last_val], x, y);
 }
 
 Zone_state_text::Zone_state_text(Inter* in, int *pval, int px, int py, int pw, int ph):
