@@ -85,6 +85,14 @@ void Video_bitmap::clip_dirty(int x, int y, int w, int h) const {
 }
 
 void Video_bitmap::put_surface(SDL_Surface* surface, int dx, int dy) const {
+#if 1
+  SDL_Rect rect;
+  rect.x = rect.y = 0;
+  rect.w = surface->w;
+  rect.h = surface->h;
+
+  put_surface(surface, &rect, dx, dy);
+#else
   if (clip(dx, dy, surface->w, surface->h))
     return;
 
@@ -93,6 +101,27 @@ void Video_bitmap::put_surface(SDL_Surface* surface, int dx, int dy) const {
   srcrect.y = clip_y1 - dy;
   srcrect.w = surface->w - srcrect.x;
   srcrect.h = surface->h - srcrect.y;
+
+  SDL_Rect dstrect;
+  dstrect.x = pos_x + clip_x1;
+  dstrect.y = pos_y + clip_y1;
+
+  clip_dirty(dx, dy, surface->w, surface->h);
+  SDL_BlitSurface(surface, &srcrect, video->surface(), &dstrect);
+#endif
+}
+
+void Video_bitmap::put_surface(SDL_Surface* surface, SDL_Rect* _srcrect, int dx, int dy) const {
+  assert(_srcrect);
+
+  if (clip(dx, dy, _srcrect->w, _srcrect->h))
+    return;
+
+  SDL_Rect srcrect;
+  srcrect.x = _srcrect->x + clip_x1 - dx;
+  srcrect.y = _srcrect->x + clip_y1 - dy;
+  srcrect.w = _srcrect->w - srcrect.x;
+  srcrect.h = _srcrect->h - srcrect.y;
 
   SDL_Rect dstrect;
   dstrect.x = pos_x + clip_x1;
