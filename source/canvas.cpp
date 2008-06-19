@@ -172,7 +172,7 @@ void Canvas::init() {
   {
     Res_doze res("gamelvup.png");
     Png raw(res);
-    sprlevel_up = raw.get_surface();
+    sprlevel_up = raw.new_surface();
     SDL_SetColorKey(sprlevel_up, SDL_SRCCOLORKEY, 0);
   }
   over = new Overmind();

@@ -21,7 +21,7 @@
 #include <assert.h>
 #include "image_png.h"
 
-SDL_Surface* Image::get_surface() const {
+SDL_Surface* Image::new_surface() const {
   SDL_Surface* surface =
     SDL_CreateRGBSurface(SDL_SWSURFACE, width(), height(), 8, 0, 0, 0, 0);
   assert(surface);

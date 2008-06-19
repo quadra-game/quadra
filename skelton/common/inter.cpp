@@ -93,7 +93,7 @@ int Zone::in() const {
 Zone_sprite::Zone_sprite(Inter *in, const char *nam, int px, int py): Zone(in) {
 	Res_doze res(nam);
 	Png png(res);
-	sp = png.get_surface();
+	sp = png.new_surface();
 	SDL_SetColorKey(sp, SDL_SRCCOLORKEY, 0);
 	w = sp->w;
 	h = sp->h;

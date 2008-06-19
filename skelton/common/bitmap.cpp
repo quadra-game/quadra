@@ -42,7 +42,7 @@ Bitmap::Bitmap(void* m, int w, int h, int rw):
 
 Bitmap::Bitmap(const Image& raw):
 	  Clipable(raw.width(), raw.height()),
-	  surface(raw.get_surface()) {
+	  surface(raw.new_surface()) {
 }
 
 Bitmap::~Bitmap() {
@@ -50,7 +50,7 @@ Bitmap::~Bitmap() {
 }
 
 void Bitmap::reload(const Image& raw) {
-  SDL_Surface* tmp = raw.get_surface();
+  SDL_Surface* tmp = raw.new_surface();
 
   SDL_SetColors(surface, tmp->format->palette->colors, 0, tmp->format->palette->ncolors);
   SDL_BlitSurface(tmp, NULL, surface, NULL);

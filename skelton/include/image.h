@@ -31,7 +31,7 @@ class Image {
 	virtual Byte* pic() const=0;
 	virtual Byte* pal() const=0;
 	virtual int palettesize() const=0;
-  SDL_Surface* get_surface() const;
+  SDL_Surface* new_surface() const;
 	virtual ~Image() {
 	}
 };
