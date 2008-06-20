@@ -104,7 +104,7 @@ public:
 	virtual void dirt() {
 		dirty = 1;
 	}
-	virtual void draw() { } //called when the zone is dirty
+	virtual void draw() = 0; //called when the zone is dirty
 	virtual int in() const;
 	virtual void leaved();
 	virtual void entered();

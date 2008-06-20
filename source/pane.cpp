@@ -91,7 +91,6 @@ void Pane::ifdone() {
 }
 
 void Pane::draw() {
-	Zone::draw();
 	if(draw_background)
     screen->put_bitmap(*pi.back, 0, 0);
 	if(draw_bottom)
