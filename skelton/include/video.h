@@ -55,7 +55,7 @@ public:
 		     const int h, const Byte c) const;
 
   void put_surface(SDL_Surface* surface, int dx, int dy) const;
-  void put_surface(SDL_Surface* surface, SDL_Rect* _srcrect, int dx, int dy) const;
+  void put_surface(SDL_Surface* surface, const SDL_Rect& _srcrect, int dx, int dy) const;
 
   /* blits a Bitmap to position 'dx','dy' */
   void put_bitmap(const Bitmap& d, int dx, int dy) const;
