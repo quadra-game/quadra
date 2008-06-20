@@ -77,6 +77,7 @@ Zone_canvas::Zone_canvas(Inter* in, Bitmap& bit, int px, int py, Canvas *can, in
 	Zone(in, px, py, pw, ph)
 {
 	fond = new Bitmap(bit[y]+x, w, h, bit.surface->pitch);
+	SDL_SetColors(fond->surface, video->surface()->format->palette->colors, 0, video->surface()->format->palette->ncolors);
 	screen = new Video_bitmap(x, y, w, h);
 	canvas = can;
 	if(!small_watch) {
