@@ -85,8 +85,6 @@ public:
   }
 
   Video_bitmap vb;
-  bool newpal;
-  Palette pal;
   int need_paint;
   Dword framecount;
 
@@ -94,6 +92,8 @@ private:
   void SetVideoMode();
   void set_dirty(int x1, int y1, int x2, int y2);
 
+  bool newpal;
+  Palette pal;
   int needsleep;
   int lastticks;
   bool fullscreen;

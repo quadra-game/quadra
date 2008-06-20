@@ -125,10 +125,10 @@ void Video_bitmap::put_bitmap(const Bitmap &d, int dx, int dy) const {
 
 Video::Video():
   vb(0, 0, 640, 480),
-  newpal(),
-  pal(),
   need_paint(),
   framecount(0),
+  newpal(),
+  pal(),
   needsleep(0),
   lastticks(SDL_GetTicks()),
   fullscreen(!command.token("nofullscreen")),
@@ -214,18 +214,8 @@ void Video::SetVideoMode()
 		SDL_WM_SetCaption(st, NULL);
 		Res_doze res("window_newicon.png");
 		Png img(res);
-		SDL_Surface* surf = SDL_CreateRGBSurfaceFrom(img.pic(), img.width(), img.height(), 8, img.width(), 0, 0, 0, 0);
-		{
-			SDL_Color *colors = static_cast<SDL_Color*>(alloca(sizeof(SDL_Color) * img.palettesize()));
+    SDL_Surface* surf = img.new_surface();
 
-			for(int i = 0; i < img.palettesize(); i++) {
-				Byte* palindex = img.pal() + i*3;
-				colors[i].r = palindex[0];
-				colors[i].g = palindex[1];
-				colors[i].b = palindex[2];
-			}
-			SDL_SetColors(surf, colors, 0, img.palettesize());
-		}
 		// Fetch colorkey from top-left pixel value
 		SDL_SetColorKey(surf, SDL_SRCCOLORKEY, img.pic()[0]);
 

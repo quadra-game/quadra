@@ -48,9 +48,6 @@ public:
     size=s;
   }
   void load(const Image& raw);
-  void set_surface(SDL_Surface* surface) {
-    SDL_SetColors(surface, pal, 0, size);
-  }
   Byte r(Byte c) {
     return pal[c].r;
   }

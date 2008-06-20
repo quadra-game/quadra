@@ -112,10 +112,10 @@ void Fade::set() {
   if(currentframe==destframe-1) {
     video->setpal(dest);
   } else {
-    video->pal.set_size(256);
+    Palette mypal;
     for(int i(0); i<256; i++)
-      video->pal.setcolor(i, current[i*3]>>7, current[i*3+1]>>7, current[i*3+2]>>7);
-    video->newpal = true;
+      mypal.setcolor(i, current[i*3]>>7, current[i*3+1]>>7, current[i*3+2]>>7);
+    video->setpal(mypal);
   }
 }
 
