@@ -37,23 +37,19 @@
 #include "crypt.h"
 #include "unicode.h"
 
-Pane_info::Pane_info(Bitmap *bit, Font *f2, Inter *in, int j, Multi_player *pmp) {
+Pane_info::Pane_info(Bitmap *bit, Font *f2, Inter *in, int j, Multi_player *pmp):
+  x(j * 214),
+  y(37),
+  w(212),
+  h(480 - y) {
 	fond = bit;
 	font2 = f2;
 	inter = in;
-	x = j*214;
-	y = 37;
-	w = 212;
-	h = 480-y;
 	mp = pmp;
 	quel_pane = j;
-	back = new Bitmap((*bit)[y]+x, w, 18*20, bit->surface->pitch);
-	back_bottom = new Bitmap((*bit)[y+18*20]+x, w, 480-y-18*20, bit->surface->pitch);
 }
 
 Pane_info::~Pane_info() {
-	delete back_bottom;
-	delete back;
 }
 
 Pane::Pane(const Pane_info &p, bool dback, bool dbottom):
@@ -91,10 +87,25 @@ void Pane::ifdone() {
 }
 
 void Pane::draw() {
-	if(draw_background)
-    screen->put_bitmap(*pi.back, 0, 0);
-	if(draw_bottom)
-    screen->put_bitmap(*pi.back_bottom, 0, 18 * 20);
+  SDL_SetColors(pi.fond->surface, video->surface()->format->palette->colors, 0, video->surface()->format->palette->ncolors);
+  if (draw_background) {
+    SDL_Rect rect;
+    rect.x = x;
+    rect.y = y;
+    rect.w = w;
+    rect.h = 18 * 20;
+    fprintf(stderr, "Pane::draw: background\n");
+    screen->put_surface(pi.fond->surface, rect, 0, 0);
+  }
+  if (draw_bottom) {
+    SDL_Rect rect;
+    rect.x = x;
+    rect.y = y + 18 * 20;
+    rect.w = w;
+    rect.h = 480 - y - 18 * 20;
+    fprintf(stderr, "Pane::draw: bottom\n");
+    screen->put_surface(pi.fond->surface, rect, 0, 18 * 20); 
+  }
 }
 
 void Pane::hide() {

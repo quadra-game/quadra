@@ -53,6 +53,7 @@ Multi_player::Multi_player(int *got_high) {
 		Res_doze res("fond0.png");
 		Png img(res);
 		bit = new Bitmap(img);
+		SDL_SetColors(bit->surface, video->surface()->format->palette->colors, 0, video->surface()->format->palette->ncolors);
 	}
 	pal.set_size(256);
 	for(i=0; i<9; i++)

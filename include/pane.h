@@ -38,11 +38,11 @@ class Pane_info {
 public:
 	Font *font2;
 	Inter *inter;
-	int x, y, w, h;
+	const int x, y, w, h;
 	Multi_player *mp;
-	Bitmap *back, *fond, *back_bottom;
+	Bitmap* fond;
 	Byte quel_pane;
-	Pane_info(Bitmap *bit, Font *f2, Inter *in, int j, Multi_player *pmp);
+	Pane_info(Bitmap* bit, Font* f2, Inter* in, int j, Multi_player* pmp);
 	virtual ~Pane_info();
 };
 

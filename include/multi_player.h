@@ -60,7 +60,7 @@ public:
 	Font *font2, *courrier;
 	Executor *pane_exec[3];
 	Pane *pane[3];
-	Pane_info *pane_info[3];
+	const Pane_info *pane_info[3];
 	bool pause;
 	Zone_sprite *zone_pause;
 	int time_demo;
