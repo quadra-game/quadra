@@ -223,7 +223,7 @@ void Video::SetVideoMode()
 		SDL_FreeSurface(surf);
 	}
 
-  int flags = SDL_HWSURFACE;
+  int flags = SDL_SWSURFACE;
   if(fullscreen) flags |= SDL_FULLSCREEN;
   display = SDL_SetVideoMode(640, 480, 8, flags);
   assert(display);
