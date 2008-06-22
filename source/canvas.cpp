@@ -909,7 +909,7 @@ void Canvas::step_bflash() {
 
 void Canvas::blit_back() {
 	step_bflash();
-	SDL_SetColors(fond->surface, video->surface()->format->palette->colors, 0, video->surface()->format->palette->ncolors);
+	video->clone_palette(fond->surface);
   int j, i, x2, y2;
   for(j = 12; j < 32; j++)
     for(i = 4; i < 14; i++) {
@@ -989,7 +989,7 @@ void Canvas::small_draw_block(int j, int i) const {
 
 void Canvas::small_blit_back() {
 	step_bflash();
-	SDL_SetColors(fond->surface, video->surface()->format->palette->colors, 0, video->surface()->format->palette->ncolors);
+	video->clone_palette(fond->surface);
   int j, i, x2, y2;
   for(j = 12; j < 32; j++)
     for(i = 4; i < 14; i++)

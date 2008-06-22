@@ -87,7 +87,7 @@ void Pane::ifdone() {
 }
 
 void Pane::draw() {
-  SDL_SetColors(pi.fond->surface, video->surface()->format->palette->colors, 0, video->surface()->format->palette->ncolors);
+  video->clone_palette(pi.fond->surface);
   if (draw_background) {
     SDL_Rect rect;
     rect.x = x;

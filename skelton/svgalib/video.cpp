@@ -118,8 +118,7 @@ void Video_bitmap::put_surface(SDL_Surface* surface, const SDL_Rect& _srcrect, i
 }
 
 void Video_bitmap::put_bitmap(const Bitmap &d, int dx, int dy) const {
-  SDL_SetColors(d.surface, video->surface()->format->palette->colors, 0,
-                video->surface()->format->palette->ncolors);
+  video->clone_palette(d.surface);
   put_surface(d.surface, dx, dy);
 }
 
@@ -203,6 +202,11 @@ void Video::snap_shot(int, int, int, int) {
 void Video::toggle_fullscreen() {
   fullscreen = !fullscreen;
   SetVideoMode();
+}
+
+void Video::clone_palette(SDL_Surface* surface)
+{
+	SDL_SetColors(surface, display->format->palette->colors, 0, display->format->palette->ncolors);
 }
 
 void Video::SetVideoMode()

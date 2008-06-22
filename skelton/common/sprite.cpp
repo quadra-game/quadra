@@ -223,8 +223,7 @@ void Font::draw(const char *m, const Video_bitmap& b, int x, int y) const {
 
   for (int i = 0; i < 256; ++i)
     if (fdata.spr[i])
-      SDL_SetColors(fdata.spr[i], video->surface()->format->palette->colors,
-                    0, video->surface()->format->palette->ncolors);
+		video->clone_palette(fdata.spr[i]);
 
 	while(*m) {
 		c = fdata.translate(&m);

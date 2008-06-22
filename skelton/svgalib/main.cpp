@@ -23,6 +23,10 @@
 #include <windows.h>
 #endif
 
+#ifdef UGS_XCODE
+#include "SDL_main.h"
+#endif
+
 #include "main.h"
 
 #include "SDL.h"
@@ -102,6 +106,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 }
 #endif
 
+extern "C"
 int main(int ARGC, char *ARGV[]) {
 #ifndef WIN32
 	struct sigaction signals;
