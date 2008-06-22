@@ -106,8 +106,8 @@ void Video_bitmap::put_surface(SDL_Surface* surface, const SDL_Rect& _srcrect, i
   SDL_Rect srcrect;
   srcrect.x = _srcrect.x + clip_x1 - dx;
   srcrect.y = _srcrect.y + clip_y1 - dy;
-  srcrect.w = _srcrect.w + clip_x1 - dx;
-  srcrect.h = _srcrect.h + clip_y1 - dy;
+  srcrect.w = clip_x2 - clip_x1 + 1;
+  srcrect.h = clip_y2 - clip_y1 + 1;
 
   SDL_Rect dstrect;
   dstrect.x = pos_x + clip_x1;
