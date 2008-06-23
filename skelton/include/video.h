@@ -83,6 +83,7 @@ public:
   SDL_Surface* surface() const {
     return display;
   }
+  void clone_palette(SDL_Surface* surface);
 
   Video_bitmap vb;
   int need_paint;
