@@ -222,6 +222,25 @@ void Menu_highscore::refresh_global(int& y) {
   video->need_paint = 2;
 }
 
+// Very specifically for URL-encoding of base64 buffers, mangles its source in
+// the process.
+static void fast_plusonly_url_encode(Textbuf& out, Textbuf& in) {
+  char* ptr = in.get();
+  out.reserve(in.len());
+  while (*ptr != '\0') {
+    char* index = strchr(ptr, '+');
+    if (index) {
+      *index = '\0';
+      out.appendraw(ptr);
+      out.appendraw("%2B");
+      ptr = index + 1;
+    } else {
+      out.appendraw(ptr);
+      break;
+    }
+  }
+}
+
 void Menu_highscore::start_sync() {
   sync->set_text(ST_CLICKTOCANCEL);
   video->need_paint = 2;
@@ -253,7 +272,9 @@ void Menu_highscore::start_sync() {
     msgbox("Menu_highscore::start_sync: encoded size=%i\n", strlen(buf.get()));
     delete demofile;
     demofile=NULL;
-    sync_request->add_data_large(buf);
+    Textbuf safebuf;
+    fast_plusonly_url_encode(safebuf, buf);
+    sync_request->add_data_large(safebuf);
     sync_request->add_data("\n");
   }
   else
