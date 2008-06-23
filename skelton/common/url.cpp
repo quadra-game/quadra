@@ -110,8 +110,10 @@ void Url::setFull(const char* u) {
 	int len;
 	char buf[sizeof(path)];
 	char fragment[sizeof(path)];
-	char rest[sizeof(path)];
-	if(strlen(u)>sizeof(rest)) {
+	char restbuf[sizeof(path)];
+	char* rest = restbuf;
+	
+	if(strlen(u)>sizeof(restbuf)) {
 		//Url too long, fuck it
 		strcpy(scheme, "");
 		strcpy(host, "");
@@ -151,7 +153,7 @@ void Url::setFull(const char* u) {
 			memcpy(buf, rest, len);
 			buf[len]=0;
 			setScheme(buf);
-			strcpy(rest, sep+3);
+			rest = sep+3;
 		}
 		else
 			setScheme("");
@@ -167,7 +169,7 @@ void Url::setFull(const char* u) {
 		//setHost will parse the port if present
 		setHost(buf);
 		//We keep the '/' in path
-		strcpy(rest, sep);
+		rest = sep;
 	}
 	else {
 		//We have no path at all
