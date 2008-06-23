@@ -36,7 +36,7 @@
 #include "SDL_video.h"
 #include "quadra.h"
 
-#ifdef HAVE_SYS_UTSNAME_H
+#if defined(HAVE_SYS_UTSNAME_H) || defined(UGS_XCODE)
 #include <sys/utsname.h>
 #endif
 
@@ -149,7 +149,7 @@ void Qserv::send() {
   // we'll fake it for the moment.
 	req->add_data_encode("info/language 0\n");
 	req->add_data_encode("info/quadra_version %s\n", VERSION_STRING);
-#if defined(HAVE_SYS_UTSNAME_H) && defined(HAVE_UNAME)
+#if (defined(HAVE_SYS_UTSNAME_H) && defined(HAVE_UNAME)) || defined(UGS_XCODE)
 	struct utsname unameinfo;
 	if (uname(&unameinfo) == 0)
 		req->add_data_encode("info/platform/os %s/%s\n", unameinfo.sysname,

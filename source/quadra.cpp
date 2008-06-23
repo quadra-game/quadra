@@ -2061,9 +2061,13 @@ void start_game() {
 #ifdef WIN32
 	dir = exe_directory;
 #else
+#ifdef UGS_XCODE
+	dir = ".";
+#else
 	dir = getenv("QUADRADIR");
 	if(!dir)
 		dir = DATAGAMESDIR;
+#endif
 #endif
 	resmanager=new Resmanager();
 	snprintf(fn, sizeof(fn) - 1, "%s/quadra.res", dir);
