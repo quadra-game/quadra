@@ -38,15 +38,15 @@
 #include "unicode.h"
 
 Pane_info::Pane_info(Bitmap *bit, Font *f2, Inter *in, int j, Multi_player *pmp):
+  font2(f2),
+  inter(in),
   x(j * 214),
   y(37),
   w(212),
-  h(480 - y) {
-	fond = bit;
-	font2 = f2;
-	inter = in;
-	mp = pmp;
-	quel_pane = j;
+  h(480 - y),
+  mp(pmp),
+  fond(bit),
+  quel_pane(j) {
 }
 
 Pane_info::~Pane_info() {
@@ -1107,7 +1107,9 @@ void Chat_interface::Zone_to_team::clicked(int quel) {
   sons.enter->play(-800, 0, 26000 + ugs_random.rnd(1023));
 }
 
-Chat_interface::Chat_interface(Inter *in, const Palette &pal, Bitmap *bit, int px, int py, int pw, int ph, Video_bitmap *scr): Zone(in) {
+Chat_interface::Chat_interface(Inter *in, const Palette &pal, SDL_Surface* bit, int px, int py, int pw, int ph, Video_bitmap *scr):
+  Zone(in),
+  back(bit) {
 	buf[0] = 0;
 	if(!playback) {
 		zinput = new Zone_chat_input(this, pal, inter, buf, 200, px, 410, pw);
@@ -1131,7 +1133,10 @@ Chat_interface::Chat_interface(Inter *in, const Palette &pal, Bitmap *bit, int p
 		set_screen_offset(0, new Video_bitmap(px, py, pw, ph));
 		delete_screen = true;
 	}
-	back = new Bitmap((*bit)[py]+px, pw, 18*20, bit->surface->pitch);
+	back_clip.x = px;
+	back_clip.y = py;
+	back_clip.w = pw;
+	back_clip.h = 18 * 20;
 	if(game)
 		game->net_list.add_watch(this);
 }
@@ -1151,7 +1156,8 @@ void Chat_interface::set_screen_offset(int o, Video_bitmap *vb) {
 }
 
 void Chat_interface::draw() {
-	screen->put_bitmap(*back, 0, -y_offset);
+	video->clone_palette(back);
+	screen->put_surface(back, back_clip, 0, -y_offset);
 	int ty, i;
 	for(i=0; i<CHAT_NBLINE; i++) {
 		ty = i*16 - y_offset;
@@ -1387,7 +1393,7 @@ Pane_chat::Pane_chat(const Pane_info &p): Pane_scoreboard(p, true, false, false)
 	int i;
 	for(i=0; i<3; i++)
 		((Pane_option *) pi.mp->pane[i])->chat_window->disable();
-	chat = new Chat_interface(inter, pi.mp->pal, pi.fond, x, y, w, h, screen);
+	chat = new Chat_interface(inter, pi.mp->pal, pi.fond->surface, x, y, w, h, screen);
 	zone.add(chat);
 	set_net_pane(3);
 	allow_clock();

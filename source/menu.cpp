@@ -1679,7 +1679,7 @@ c_start(105), c_gap(4) {
   change_page(0);
 
   notify();
-  (void)new Chat_interface(inter, pal, bit, 427, 47, 212, 410);
+  (void)new Chat_interface(inter, pal, bit->surface, 427, 47, 212, 410);
   if(game)
     game->net_list.add_watch(this);
 }

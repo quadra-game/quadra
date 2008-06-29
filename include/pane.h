@@ -234,10 +234,11 @@ class Chat_interface: public Zone, Zone_list, public Notifyable {
 	bool delete_screen;
 	int y_offset;
 	Video_bitmap *screen;
-	Bitmap *back;
+	SDL_Surface* const back;
+	SDL_Rect back_clip;
 	Zone_state_text *z_from;
 public:
-	Chat_interface(Inter *in, const Palette &pal, Bitmap *bit, int px, int py, int pw, int ph, Video_bitmap *scr=NULL);
+	Chat_interface(Inter *in, const Palette &pal, SDL_Surface* bit, int px, int py, int pw, int ph, Video_bitmap *scr=NULL);
 	virtual ~Chat_interface();
 	virtual void draw();
 	virtual void process();
