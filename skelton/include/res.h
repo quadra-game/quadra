@@ -21,8 +21,9 @@
 #ifndef _HEADER_RES
 #define _HEADER_RES
 
-#include <stdlib.h>
 #include <fcntl.h>
+#include <stdlib.h>
+#include <string.h>
 #include "resfile.h"
 #include "resmanager.h"
 #include "config.h"
