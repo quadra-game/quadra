@@ -129,5 +129,11 @@ Building on Mac OS X
 
 FIXME...
 
+Mac OS X Leopard:
+
+./configure --enable-debug LDFLAGS="-L/usr/X11/lib -F$HOME/Library/Frameworks" CPPFLAGS="-I/usr/X11/include/libpng12 -I$HOME/Library/Frameworks/SDL.framework/Headers"
+
+Mac OS X pre-Leopard:
+
 ./configure --enable-debug --with-libpng=$HOME/src/libpng-1.2.10 LDFLAGS="-F$HOME/Library/Frameworks" CPPFLAGS="-I$HOME/Library/Frameworks/SDL.framework/Headers"
 
