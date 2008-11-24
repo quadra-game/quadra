@@ -20,6 +20,7 @@
 
 #ifdef UGS_LINUX_X11
 
+#include <limits.h>
 #include <signal.h>
 #include <unistd.h>
 #include <sys/shm.h>

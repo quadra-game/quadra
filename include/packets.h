@@ -21,6 +21,8 @@
 #ifndef _HEADER_PACKETS
 #define _HEADER_PACKETS
 
+#include <string.h>
+
 #include "packet.h"
 #include "array.h"
 #include "net_stuff.h"
