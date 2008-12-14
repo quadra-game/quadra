@@ -21,6 +21,8 @@
 #ifndef _HEADER_OVERMIND
 #define _HEADER_OVERMIND
 
+#include <vector>
+
 #include "array.h"
 #include "types.h"
 #include "inter.h"
@@ -33,7 +35,7 @@ class Executor {
 	friend class Overmind;
 	bool paused, self_destruct;
 protected:
-	Array<Module*> modules;
+	std::vector<Module*> modules;
 public:
 	bool done;
 	Executor(bool self_des=false);

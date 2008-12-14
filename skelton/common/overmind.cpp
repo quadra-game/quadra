@@ -95,38 +95,39 @@ Executor::Executor(bool self_des) {
 }
 
 Executor::~Executor() {
-	while(modules.size())
+	while(!modules.empty())
 		remove();
 }
 
 void Executor::remove() {
-	delete modules.last();
-	modules.removelast();
+	delete modules.at(modules.size() - 1);
+	modules.pop_back();
 }
 
 void Executor::step() {
 	if(paused)
 		return;
-	if(modules.size()) {
-		if(!modules.last()->done) {
-			if(modules.last()->first_time) {
-				modules.last()->first_time = false;
-				modules.last()->init();
+	if(!modules.empty()) {
+		Module* last_module = modules.at(modules.size() - 1);
+		if(!last_module->done) {
+			if(last_module->first_time) {
+				last_module->first_time = false;
+				last_module->init();
 			} else {
-				modules.last()->step();
+				last_module->step();
 			}
 		}
-		while(modules.size() && modules.last()->done) {
+		while(!modules.empty() && modules.at(modules.size() - 1)->done) {
 			remove();
 		}
 	}
-	if(!modules.size())
+	if(modules.empty())
 		done=true;
 }
 
 void Executor::add(Module* m) {
-	modules.add(m);
-	m->parent=this;
+	modules.push_back(m);
+	m->parent = this;
 }
 
 Module::Module(): done(false) {
