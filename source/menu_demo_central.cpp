@@ -71,6 +71,7 @@ Menu_demo_central::Player_infos::Player_infos(int pplayer) {
 }
 
 Menu_demo_central::Menu_demo_central() {
+	quel = -1;
 	{
 		Res_doze res("multi.png");
 		Png img(res);
