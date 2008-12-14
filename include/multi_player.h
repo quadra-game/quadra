@@ -55,7 +55,7 @@ class Multi_player: public Menu_fadein, Zone_list {
 	int last_countdown;
 	Module **menu_stat;
 public:
-	bool stop;
+	bool stop;  // set to true to quit game
 	Bitmap *bit;
 	Font *font2, *courrier;
 	Executor *pane_exec[3];

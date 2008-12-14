@@ -43,11 +43,12 @@
 #include "nglog.h"
 #include "clock.h"
 
-Multi_player::Multi_player(int *got_high) {
-	stop=false; //set to true to quit game
-	got_highscore = got_high;
-	last_countdown = -1;
-	menu_stat = NULL;
+Multi_player::Multi_player(int *got_high):
+	got_highscore(got_high),
+	last_countdown(-1),
+	menu_stat(NULL),
+ 	stop(false),
+	bit(NULL) {
 	int i;
 	{
 		Res_doze res("fond0.png");
