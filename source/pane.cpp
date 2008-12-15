@@ -1146,7 +1146,6 @@ Chat_interface::~Chat_interface() {
 		game->net_list.remove_watch(this);
 	if(delete_screen)
 		delete screen;
-	delete back;
 }
 
 void Chat_interface::set_screen_offset(int o, Video_bitmap *vb) {
