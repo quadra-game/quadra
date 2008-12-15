@@ -21,9 +21,10 @@
 #ifndef _HEADER_CANVAS
 #define _HEADER_CANVAS
 
+#include <vector>
+
 #include "random.h"
 #include "stats.h"
-#include "array.h"
 #include "id.h"
 #include "global.h"
 #include "attack.h"
@@ -97,7 +98,7 @@ public:
 	void add_watcher(Watcher *w);
 	void remove_watcher(Net_connection *nc);
 
-	Array<Watcher *> watchers;
+	std::vector<Watcher*> watchers;
 	//Potato stuff (server only)
 	Byte potato_team_on_last_stamp;
 	Dword potato_lines;

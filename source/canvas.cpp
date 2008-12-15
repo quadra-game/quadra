@@ -40,6 +40,7 @@
 
 using std::max;
 using std::min;
+using std::vector;
 
 Canvas::Canvas(int qplayer, int game_seed, Palette *p):
   bit(NULL), //Somebody somewhere will set that. Sucks.
@@ -131,7 +132,10 @@ Canvas::~Canvas() {
   delete_bloc();
   if (sprlevel_up)
     SDL_FreeSurface(sprlevel_up);
-	watchers.deleteall();
+	while (!watchers.empty()) {
+		delete watchers.back();
+		watchers.pop_back();
+	}
 }
 
 char *Canvas::long_name(bool handi, bool gone) {
@@ -1059,16 +1063,20 @@ void Canvas::small_blit_flash() {
 }
 
 void Canvas::add_watcher(Watcher *w) {
-  watchers.add(w);
+  watchers.push_back(w);
 }
 
 void Canvas::remove_watcher(Net_connection *nc) {
-  for(int i=0; i<watchers.size(); i++)
-    if(watchers[i]->nc == nc) {
-      delete watchers[i];
-      watchers.remove(i);
-			i--;
-    }
+	vector<Watcher*>::iterator it = watchers.begin();
+	
+	while (it != watchers.end()) {
+		if ((*it)->nc == nc) {
+			delete *it;
+			watchers.erase(it);
+			it = watchers.begin();
+		} else
+			++it;
+	}
 }
 
 bool Canvas::islocal() const {
