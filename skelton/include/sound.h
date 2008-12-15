@@ -21,8 +21,9 @@
 #ifndef _HEADER_SOUND
 #define _HEADER_SOUND
 
+#include <vector>
+
 #include "SDL.h"
-#include "array.h"
 #include "res.h"
 
 class SampleData;
@@ -30,7 +31,7 @@ class Playing_sfx;
 
 class Sound {
   SDL_AudioSpec spec;
-	Array<Playing_sfx*> plays;
+	std::vector<Playing_sfx*> plays;
 	static void audio_callback(void *userdata, Uint8 *stream, int len);
 	Sound(const SDL_AudioSpec& _spec);
 public:

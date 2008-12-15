@@ -223,7 +223,7 @@ void Sound::audio_callback(void *userdata, Uint8 *stream, int len) {
     }
 
     if((unsigned int)p->pos >= p->sam->length) {
-      sound->plays.remove(i);
+      sound->plays.erase(sound->plays.begin() + i);
       i--;
       delete p;
     }
@@ -265,7 +265,7 @@ void Sound::start(SampleData* _sam, int _vol, int _pan, int _freq) {
   SDL_LockAudio();
 
   if(sound->plays.size() < MAXVOICES)
-    sound->plays.add(new Playing_sfx(_sam, _vol, _pan, _freq, spec.freq));
+    sound->plays.push_back(new Playing_sfx(_sam, _vol, _pan, _freq, spec.freq));
 
   SDL_UnlockAudio();
 }
