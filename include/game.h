@@ -21,8 +21,9 @@
 #ifndef _HEADER_GAME
 #define _HEADER_GAME
 
+#include <vector>
+
 #include "attack.h"
-#include "array.h"
 #include "types.h"
 #include "buf.h"
 #include "net_list.h"
@@ -43,7 +44,7 @@ class Dict;
 //Destroying a Game sets ::game to NULL
 class Game: public GS {
 	friend class Net_list;
-	Array<Packet *> stack;
+	std::vector<Packet*> stack;
 	Qserv *gameinfo;
 	bool http_failed;
 	void buildgameinfo();
