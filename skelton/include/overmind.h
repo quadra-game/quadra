@@ -17,13 +17,11 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 #ifndef _HEADER_OVERMIND
 #define _HEADER_OVERMIND
 
 #include <vector>
 
-#include "array.h"
 #include "types.h"
 #include "inter.h"
 
@@ -89,7 +87,7 @@ public:
 
 class Overmind {
 protected:
-	Array<Executor*> execs;
+	std::vector<Executor*> execsx;
 	bool paused;
 public:
 	bool done;

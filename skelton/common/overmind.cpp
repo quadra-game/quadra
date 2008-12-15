@@ -17,9 +17,14 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 #include "overmind.h"
+
+#include <algorithm>
+
 #include "input.h"
+
+using std::vector;
+using std::find;
 
 Overmind overmind;
 Inter* ecran = NULL;
@@ -35,11 +40,11 @@ Overmind::~Overmind() {
 }
 
 void Overmind::clean_up() {
-	while(execs.size()) {
-		Executor *e = execs.last();
-		if(e && e->self_destruct)
+	while (!execsx.empty()) {
+		Executor *e = execsx.back();
+		if (e && e->self_destruct)
 			delete e;
-		execs.removelast();
+		execsx.pop_back();
 	}
 }
 
@@ -52,41 +57,46 @@ void Overmind::unpause() {
 }
 
 void Overmind::step() {
-	if(paused)
+	if (paused)
 		return;
-	framecount++;
-	for(int i=0; i<execs.size(); i++) {
-		Executor *e = execs[i];
-		if(!e) {
-			execs.remove(i);
-			i--;
+	++framecount;
+	
+	vector<Executor*>::iterator it = execsx.begin();
+	while (it != execsx.end()) {
+		if (!*it) {
+			it = execsx.erase(it);
+			continue;
+		}
+	
+		(*it)->step();
+		if ((*it)->done) {
+			if ((*it)->self_destruct)
+				delete *it;
+			it = execsx.erase(it);
 		} else {
-			e->step();
-			if(e->done) {
-				if(e->self_destruct)
-					delete e;
-				execs.remove(i);
-				i--;
-			}
+			++it;
 		}
 	}
-	if(execs.size() == 0)
+	
+	if (execsx.empty())
 		done = true;
 }
 
 void Overmind::start(Executor* e) {
-	execs.add(e);
+	execsx.push_back(e);
 	done = false;
 }
 
 void Overmind::stop(Executor* e) {
-	for(int i=0; i<execs.size(); i++) {
-		if(e == execs[i]) {
-			if(e->self_destruct)
-				delete e;
-			execs.replace(i, NULL);
-		}
-	}
+	vector<Executor*>::iterator it = find(execsx.begin(), execsx.end(), e);
+	
+	if (it == execsx.end())
+		return;
+	
+	if ((*it)->self_destruct)
+		delete *it;
+	
+	*it = NULL;
 }
 
 Executor::Executor(bool self_des) {
