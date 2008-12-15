@@ -49,7 +49,8 @@ public:
 	virtual void clicked(int quel) { }
 };
 
-class Multi_player: public Menu_fadein, Zone_list {
+class Multi_player: public Menu_fadein {
+	Zone_list list;
 	int *got_highscore;
 	Zone *b_quit;
 	int last_countdown;

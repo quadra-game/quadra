@@ -149,7 +149,7 @@ void Menu_demo_central::clear_detail() {
 		delete play;
 		play = NULL;
 	}
-	zone.deleteall();
+	list.deleteall();
 	while (!pinfos.empty()) {
 		delete pinfos.back();
 		pinfos.pop_back();
@@ -278,13 +278,13 @@ void Menu_demo_central::populate_dict(Dict *d) {
 	cx[4] = cx[3] + cw[3] + 5;
 	cw[4] = 80;
 	int y=220, ys=21, i, j;
-	zone.add(new Zone_text(fteam[7], inter, "Players", cx[0], y));
+	list.zones.push_back(new Zone_text(fteam[7], inter, "Players", cx[0], y));
 	if(!play->single()) {
-		zone.add(new Zone_text(fteam[7], inter, "Frags", cx[1], y));
-		zone.add(new Zone_text(fteam[7], inter, "Deaths", cx[2], y));
+		list.zones.push_back(new Zone_text(fteam[7], inter, "Frags", cx[1], y));
+		list.zones.push_back(new Zone_text(fteam[7], inter, "Deaths", cx[2], y));
 	}
-	zone.add(new Zone_text(fteam[7], inter, "Score", cx[3], y));
-	zone.add(new Zone_text(fteam[7], inter, "Lines", cx[4], y)); y+=ys;
+	list.zones.push_back(new Zone_text(fteam[7], inter, "Score", cx[3], y));
+	list.zones.push_back(new Zone_text(fteam[7], inter, "Lines", cx[4], y)); y+=ys;
 	while (!pinfos.empty()) {
 		delete pinfos.back();
 		pinfos.pop_back();
@@ -318,18 +318,18 @@ void Menu_demo_central::populate_dict(Dict *d) {
 					Font *f=inter->font;
 					if(pi->team<=6)
 						f=fteam[pi->team];
-					zone.add(new Zone_text(f, inter, pi->name, cx[0], y));
+					list.zones.push_back(new Zone_text(f, inter, pi->name, cx[0], y));
 					int *statp;
 					if(!play->single()) {
 						statp=score.stats[i].stats[CS::FRAG].get_address();
-						zone.add(new Zone_text_field(inter, statp, cx[1], y, cw[1], fcourrier[pi->team], false));
+						list.zones.push_back(new Zone_text_field(inter, statp, cx[1], y, cw[1], fcourrier[pi->team], false));
 						statp=score.stats[i].stats[CS::DEATH].get_address();
-						zone.add(new Zone_text_field(inter, statp, cx[2], y, cw[2], fcourrier[pi->team], false));
+						list.zones.push_back(new Zone_text_field(inter, statp, cx[2], y, cw[2], fcourrier[pi->team], false));
 					}
 					statp=score.stats[i].stats[CS::SCORE].get_address();
-					zone.add(new Zone_text_field(inter, statp, cx[3], y, cw[3], fcourrier[pi->team], false));
+					list.zones.push_back(new Zone_text_field(inter, statp, cx[3], y, cw[3], fcourrier[pi->team], false));
 					statp=score.stats[i].stats[CS::LINESTOT].get_address();
-					zone.add(new Zone_text_field(inter, statp, cx[4], y, cw[4], fcourrier[pi->team], false));
+					list.zones.push_back(new Zone_text_field(inter, statp, cx[4], y, cw[4], fcourrier[pi->team], false));
 					y+=ys;
 				}
 			}

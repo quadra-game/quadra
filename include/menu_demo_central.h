@@ -36,7 +36,7 @@ class Res;
 class Playback;
 class Dict;
 
-class Menu_demo_central: public Menu_standard, Zone_list {
+class Menu_demo_central: public Menu_standard {
 	class Listitem: public Listable {
 	public:
 		bool isfolder;
@@ -52,6 +52,7 @@ class Menu_demo_central: public Menu_standard, Zone_list {
 		char name[40];
 		Player_infos(int pplayer);
 	};
+	Zone_list list;
 	Score score;
 	std::vector<Player_infos*> pinfos;
 	Zone_text_field *z_status, *z_name, *z_date, *z_version, *z_duration, *z_type, *z_end;

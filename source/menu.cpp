@@ -187,16 +187,16 @@ void Menu_highscore::refresh_global(int& y) {
     x = 60;
   else
     x = 100;
-  zone.deleteall();
+  list.deleteall();
   for(int i=0; i<Highscores::numGlobal; i++) {
     playdemog[i] = NULL;
-    zone.add(new Zone_text(inter, Highscores::bestglobal[i].name, x, y));
-    zone.add(new Zone_text_numeric(courrier, inter, &Highscores::bestglobal[i].score, x+160, y, 80));
-    zone.add(new Zone_text_numeric(courrier, inter, &Highscores::bestglobal[i].lines, x+260, y, 80));
-    zone.add(new Zone_text_numeric(courrier, inter, &Highscores::bestglobal[i].level, x+360, y, 80));
+    list.zones.push_back(new Zone_text(inter, Highscores::bestglobal[i].name, x, y));
+    list.zones.push_back(new Zone_text_numeric(courrier, inter, &Highscores::bestglobal[i].score, x+160, y, 80));
+    list.zones.push_back(new Zone_text_numeric(courrier, inter, &Highscores::bestglobal[i].lines, x+260, y, 80));
+    list.zones.push_back(new Zone_text_numeric(courrier, inter, &Highscores::bestglobal[i].level, x+360, y, 80));
     if(show_playback) {
       playdemog[i] = new Zone_text_button2(inter, bit, font2, "Playback", x+460, y);
-      zone.add(playdemog[i]);
+      list.zones.push_back(playdemog[i]);
     }
     y += 21;
   }
@@ -1892,7 +1892,7 @@ void Menu_stat::calculate_total(bool force_blit) {
 }
 
 void Menu_stat::display() {
-  zone.deleteall();
+  list.deleteall();
   int y = 145;
   for(int loo=0; loo<MAXTEAMS; loo++) {
     int team = score.team_order[loo];
@@ -1901,14 +1901,14 @@ void Menu_stat::display() {
       if(score.player_team[i]==team) {
         Canvas *c = game->net_list.get(i);
         if(c && c->color == team) {
-          zone.add(new Zone_text(fteam[team], inter, c->long_name(), 2, y));
+          list.zones.push_back(new Zone_text(fteam[team], inter, c->long_name(), 2, y));
 
           Font *color = fcourrier[team];
 
           int px = c_start;
           for(int j = 0; j < static_cast<int>(col.size()); ++j)
             if(col[j]->page == active_page) {
-              zone.add(new Zone_text_numeric(color, inter, score.stats[i].stats[col[j]->quel_stat].get_address(), px, y, col[j]->width-c_gap));
+              list.zones.push_back(new Zone_text_numeric(color, inter, score.stats[i].stats[col[j]->quel_stat].get_address(), px, y, col[j]->width-c_gap));
               px += col[j]->width;
             }
           y += 22;
@@ -1916,12 +1916,12 @@ void Menu_stat::display() {
       }
     }
     if(score.player_count[team] > 1) {
-      zone.add(new Zone_text(fteam[team], inter, "Total:", 15, y));
+      list.zones.push_back(new Zone_text(fteam[team], inter, "Total:", 15, y));
       int px = c_start;
       Font *color = fcourrier[team];
       for (int j = 0; j < static_cast<int>(col.size()); ++j)
         if (col[j]->page == active_page) {
-          zone.add(new Zone_text_numeric(color, inter, score.team_stats[team].stats[col[j]->quel_stat].get_address(), px, y, col[j]->width-c_gap));
+          list.zones.push_back(new Zone_text_numeric(color, inter, score.team_stats[team].stats[col[j]->quel_stat].get_address(), px, y, col[j]->width-c_gap));
           px += col[j]->width;
         }
       y += 34;

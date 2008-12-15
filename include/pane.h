@@ -48,9 +48,10 @@ public:
 	virtual ~Pane_info();
 };
 
-class Pane: public Zone, public Module, public Zone_list {
+class Pane: public Zone, public Module {
 	friend class Multi_player;
 protected:
+	Zone_list list;
 	Video_bitmap *screen;
 	bool hiden;
 	Zone *clicked;
@@ -216,7 +217,7 @@ public:
 	Pane_server_ip(const Pane_info &p);
 };
 
-class Chat_interface: public Zone, Zone_list, public Notifyable {
+class Chat_interface: public Zone, public Notifyable {
 	class Zone_chat_input: public Zone_text_input {
 		Chat_interface *parent;
 	public:
@@ -231,6 +232,7 @@ class Chat_interface: public Zone, Zone_list, public Notifyable {
 		virtual void clicked(int quel);
 	};
 
+	Zone_list list;
 	Zone_chat_input *zinput;
 	char buf[256];
 	bool delete_screen;
@@ -356,7 +358,8 @@ public:
 	virtual void init();
 };
 
-class Watch_canvas: public Zone_list {
+class Watch_canvas {
+	Zone_list list;
 	bool small_watch;
 public:
 	Canvas *c;

@@ -232,7 +232,8 @@ public:
 	virtual void step();
 };
 
-class Menu_highscore: public Menu_standard, public Zone_list {
+class Menu_highscore: public Menu_standard {
+	Zone_list list;
 	Bitmap *bit;
 	Font *font2, *courrier, *courrier2;
 	Zone *b_quit, *b_again, *playdemo[MAX_SCORE], *playdemog[MAX_SCORE], *playlast;
@@ -254,7 +255,8 @@ public:
 	virtual void step();
 };
 
-class Menu_stat: public Menu_standard, public Notifyable, Zone_list {
+class Menu_stat: public Menu_standard, public Notifyable {
+	Zone_list list;
 	class Colonne {
 	public:
 		int width, page;
