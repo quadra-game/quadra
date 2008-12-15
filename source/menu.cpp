@@ -1658,16 +1658,16 @@ c_start(105), c_gap(4) {
   Zone_text_button *z;
   int x(8), wid(105);
   z=new Zone_text_button2(inter, bit, font2, "Rank", x, 80, wid-8);
-  b_page.add(z);
+  b_page.push_back(z);
   x+=wid;
   z=new Zone_text_button2(inter, bit, font2, "Speed", x, 80, wid-8);
-  b_page.add(z);
+  b_page.push_back(z);
   x+=wid;
   z=new Zone_text_button2(inter, bit, font2, "Lines", x, 80, wid-8);
-  b_page.add(z);
+  b_page.push_back(z);
   x+=wid;
   z=new Zone_text_button2(inter, bit, font2, "Combos", x, 80, wid-8);
-  b_page.add(z);
+  b_page.push_back(z);
   x+=wid;
 
   b_restart = b_stop = NULL;
@@ -1685,7 +1685,10 @@ c_start(105), c_gap(4) {
 }
 
 Menu_stat::~Menu_stat() {
-  col.deleteall();
+  while (!col.empty()) {
+    delete col.back();
+    col.pop_back();
+  }
   if(game)
     game->net_list.remove_watch(this);
   for(int i=0; i<MAXTEAMS; i++)
@@ -1701,25 +1704,25 @@ void Menu_stat::init_columns(Bitmap *bit) {
   n->quel_stat = CS::FRAG;
   n->width = 70;
   n->set_titre("Frags");
-  col.add(n);
+  col.push_back(n);
 
   n=new Colonne();
   n->quel_stat = CS::DEATH;
   n->width = 70;
   n->set_titre("Deaths");
-  col.add(n);
+  col.push_back(n);
 
   n=new Colonne();
   n->quel_stat = CS::SCORE;
   n->width = 90;
   n->set_titre("Score");
-  col.add(n);
+  col.push_back(n);
 
   n=new Colonne();
   n->quel_stat = CS::LINESTOT;
   n->width = 90;
   n->set_titre("Lines");
-  col.add(n);
+  col.push_back(n);
 
   int px;
   px = c_start;
@@ -1736,7 +1739,7 @@ void Menu_stat::init_columns(Bitmap *bit) {
   n->set_titre("Points per min.");
   n->page = page;
   add_title(*n, &px, bit);
-  col.add(n);
+  col.push_back(n);
 
   n=new Colonne();
   n->quel_stat = CS::BPM;
@@ -1744,7 +1747,7 @@ void Menu_stat::init_columns(Bitmap *bit) {
   n->set_titre("Blocks per min.");
   n->page = page;
   add_title(*n, &px, bit);
-  col.add(n);
+  col.push_back(n);
 
   page++;
   px = c_start;
@@ -1756,7 +1759,7 @@ void Menu_stat::init_columns(Bitmap *bit) {
     n->set_titre(st);
     n->page = page;
     add_title(*n, &px, bit);
-    col.add(n);
+    col.push_back(n);
   }
 
   page++;
@@ -1769,7 +1772,7 @@ void Menu_stat::init_columns(Bitmap *bit) {
     n->set_titre(st);
     n->page = page;
     add_title(*n, &px, bit);
-    col.add(n);
+    col.push_back(n);
   }
 
   page++;
@@ -1782,7 +1785,7 @@ void Menu_stat::init_columns(Bitmap *bit) {
     n->set_titre(st);
     n->page = page;
     add_title(*n, &px, bit);
-    col.add(n);
+    col.push_back(n);
   }
 
   page++;
@@ -1795,7 +1798,7 @@ void Menu_stat::init_columns(Bitmap *bit) {
     n->set_titre(st);
     n->page = page;
     add_title(*n, &px, bit);
-    col.add(n);
+    col.push_back(n);
   }
 }
 
@@ -1820,12 +1823,12 @@ void Menu_stat::set_sort(int quel) {
 
 void Menu_stat::change_page(int p) {
   int i, last_page=0;
-  for(i=0; i<col.size(); i++) {
+  for (i=0; i< static_cast<int>(col.size()); ++i) {
     if(col[i]->page == active_page) {
       col[i]->z_titre->disable();
     }
     if(col[i]->page>last_page)
-      last_page=col[i]->page;
+      last_page = col[i]->page;
   }
   switch(active_page) {
     case 0:
@@ -1865,12 +1868,11 @@ void Menu_stat::change_page(int p) {
       b_page[3]->set_font(fteam[4]);
       break;
   }
-  if(active_page > last_page)
+  if (active_page > last_page)
     active_page = 0;
-  for(i=0; i<col.size(); i++)
-    if(col[i]->page == active_page) {
+  for (i = 0; i < static_cast<int>(col.size()); ++i)
+    if (col[i]->page == active_page)
       col[i]->z_titre->enable();
-    }
   notify();
 }
 
@@ -1904,12 +1906,11 @@ void Menu_stat::display() {
           Font *color = fcourrier[team];
 
           int px = c_start;
-          for(int j=0; j<col.size(); j++) {
+          for(int j = 0; j < static_cast<int>(col.size()); ++j)
             if(col[j]->page == active_page) {
               zone.add(new Zone_text_numeric(color, inter, score.stats[i].stats[col[j]->quel_stat].get_address(), px, y, col[j]->width-c_gap));
               px += col[j]->width;
             }
-          }
           y += 22;
         }
       }
@@ -1918,12 +1919,11 @@ void Menu_stat::display() {
       zone.add(new Zone_text(fteam[team], inter, "Total:", 15, y));
       int px = c_start;
       Font *color = fcourrier[team];
-      for(int j=0; j<col.size(); j++) {
-        if(col[j]->page == active_page) {
+      for (int j = 0; j < static_cast<int>(col.size()); ++j)
+        if (col[j]->page == active_page) {
           zone.add(new Zone_text_numeric(color, inter, score.team_stats[team].stats[col[j]->quel_stat].get_address(), px, y, col[j]->width-c_gap));
           px += col[j]->width;
         }
-      }
       y += 34;
     } else if(score.player_count[team] == 1) {
       y += 12; // leave space between the players/totals of each team
@@ -2009,16 +2009,15 @@ void Menu_stat::step() {
         exec(new Join_game(bit, inter->font, font2, pal, NULL, 0, 0, true));
       }
     }
-    int i;
-    for(i=0; i<col.size(); i++) {
-      if(result == col[i]->z_titre) {
+    for (int i = 0; i < static_cast<int>(col.size()); ++i) {
+      if (result == col[i]->z_titre) {
         set_sort(i);
-        force_blit=true;
+        force_blit = true;
         break;
       }
     }
-    for(i=0; i<b_page.size(); i++)
-      if(result == b_page[i])
+    for (unsigned int i = 0; i < b_page.size(); ++i)
+      if (result == b_page[i])
         change_page(i);
   }
   calculate_total(force_blit);

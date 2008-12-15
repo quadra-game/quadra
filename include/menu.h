@@ -21,6 +21,8 @@
 #ifndef _HEADER_MENU
 #define _HEADER_MENU
 
+#include <vector>
+
 #include "sound.h"
 #include "sprite.h"
 #include "inter.h"
@@ -263,11 +265,11 @@ class Menu_stat: public Menu_standard, public Notifyable, Zone_list {
 		Colonne();
 		void set_titre(const char *s);
 	};
-	Array<Colonne*> col;
+	std::vector<Colonne*> col;
 	Bitmap *bit;
 	Font *font2;
 	Zone *b_quit, *b_restart, *b_stop;
-	Array<Zone_text_button *> b_page;
+	std::vector<Zone_text_button*> b_page;
 	Score score;
 	Font *fcourrier[MAXTEAMS];
 	int active_sort, active_page;
