@@ -20,10 +20,15 @@
 
 #include "listbox.h"
 
+#include <algorithm>
 #include <stdio.h>
 #include <string.h>
+
 #include "input.h"
 #include "cursor.h"
+
+using std::find;
+using std::vector;
 
 Zone_listbox::Zone_listbox(Inter* in, Bitmap *fond, Font *f, int *pval, int px, int py, int pw, int ph):
 	Zone_watch_int(in, pval, px, py, pw, ph) {
@@ -36,7 +41,7 @@ Zone_listbox::Zone_listbox(Inter* in, Bitmap *fond, Font *f, int *pval, int px, 
 	zup = new Zone_listup(this);
 	zdown = new Zone_listdown(this);
 	for(int i=y+18; i<y+h-18-f->height(); i+=f->height()) {
-		list.add(new Zone_listtext(this, i));
+		list.push_back(new Zone_listtext(this, i));
 	}
 	first_item = 0;
 	if(val)
@@ -45,9 +50,9 @@ Zone_listbox::Zone_listbox(Inter* in, Bitmap *fond, Font *f, int *pval, int px, 
 
 Zone_listbox::~Zone_listbox() {
 	empty();
-	while(list.size()) {
-		delete list.last();
-		list.removelast();
+	while (!list.empty()) {
+		delete list.back();
+		list.pop_back();
 	}
 	delete zdown;
 	delete zup;
@@ -66,11 +71,11 @@ void Zone_listbox::draw() {
 }
 
 void Zone_listbox::dirt() {
-	if(dirty != 1) {
+	if (dirty != 1) {
 		Zone_watch_int::dirt();
 		zup->dirt();
 		zdown->dirt();
-		for(int i=0; i<list.size(); i++)
+		for (int i = 0; i < static_cast<int>(list.size()); ++i)
 			list[i]->dirt();
 	}
 }
@@ -79,7 +84,7 @@ void Zone_listbox::enable() {
 	Zone_watch_int::enable();
 	zup->enable();
 	zdown->enable();
-	for(int i=0; i<list.size(); i++)
+	for (int i = 0; i < static_cast<int>(list.size()); ++i)
 		list[i]->enable();
 }
 
@@ -87,7 +92,7 @@ void Zone_listbox::disable() {
 	Zone_watch_int::disable();
 	zup->disable();
 	zdown->disable();
-	for(int i=0; i<list.size(); i++)
+	for (int i = 0; i < static_cast<int>(list.size()); ++i)
 		list[i]->disable();
 }
 
@@ -96,17 +101,18 @@ void Zone_listbox::init_sort() {
 }
 
 void Zone_listbox::add_sort(Listable *l) {
-	sort_list.add(l);
+	sort_list.push_back(l);
 }
 
 void Zone_listbox::end_sort() {
-  if (sort_list.size() == 0)
+  if (sort_list.empty())
     return;
  
-  qsort((void *) &sort_list[0], sort_list.size(), sizeof(sort_list[0]),
+	// FIXME: Use the standard library instead.
+  qsort((void*) &sort_list[0], sort_list.size(), sizeof(sort_list[0]),
         compare_sort);
 
-	for (int i = 0; i < sort_list.size(); ++i)
+	for (int i = 0; i < static_cast<int>(sort_list.size()); ++i)
 		add_item(sort_list[i]);
 
 	sort_list.clear();
@@ -120,33 +126,28 @@ int Zone_listbox::compare_sort(const void *arg1, const void *arg2) {
 
 
 void Zone_listbox::add_item(Listable *e) {
-	elements.add(e);
+	elements.push_back(e);
 	sync_list();
 }
 
 void Zone_listbox::replace_item(int i, Listable *e) {
 	delete elements[i];
-	elements.replace(i, e);
+	elements[i] = e;
 	sync_list();
 }
 
 void Zone_listbox::remove_item(Listable *e) {
-	int i;
-	for(i=0; i<elements.size(); i++)
-		if(elements[i]==e)
-			break;
-	if(i==elements.size())
-		return;
-	if(get_selected()==e)
-		unselect();
-	delete elements[i];
-	elements.remove(i);
-	sync_list();
-}
+	vector<Listable*>::iterator it = find(elements.begin(), elements.end(), e);
 
-void Zone_listbox::remove_item(int i) {
-	delete elements[i];
-	elements.remove(i);
+	if (it == elements.end())
+		return;
+
+	if (get_selected() == e)
+		unselect();
+
+	delete *it;
+	elements.erase(it);
+
 	sync_list();
 }
 
@@ -170,44 +171,41 @@ void Zone_listbox::process() {
 }
 
 int Zone_listbox::search(Listable *source) {
-	for(int i=0; i<elements.size(); i++)
-		if(elements[i]->is_equal(source))
+	for (int i = 0; i < static_cast<int>(elements.size()); ++i)
+		if (elements[i]->is_equal(source))
 			return i;
 	return -1;
 }
 
 bool Zone_listbox::in_listbox(const Zone *z) {
-	for(int i=0; i<list.size(); i++)
-		if(list[i] == z)
-			return true;
-	return false;
+	return find(list.begin(), list.end(), z) != list.end();
 }
 
 void Zone_listbox::sync_list() {
-	for(int i=0; i<list.size(); i++) {
+	for (int i = 0; i < static_cast<int>(list.size()); ++i) {
 		Font *f = inter->font;
 		list[i]->kb_focusable = false;
-		if(i+first_item >= elements.size()) {
+		if (i + first_item >= static_cast<int>(elements.size())) {
 			list[i]->set_text("");
 		} else {
-			if(val)
+			if (val)
 				list[i]->kb_focusable = true;
-			Listable *li = elements[i+first_item];
+			Listable *li = elements[i + first_item];
 			list[i]->set_text(li->list_name);
-			if(li->font)
+			if (li->font)
 				f = li->font;
 		}
 		list[i]->set_font(f);
 	}
-	if(val)
+	if (val)
 		select(*val);
 	dirt();
 }
 
 void Zone_listbox::empty() {
-	while(elements.size()) {
-		delete elements.last();
-		elements.removelast();
+	while (!elements.empty()) {
+		delete elements.back();
+		elements.pop_back();
 	}
 }
 
@@ -220,11 +218,11 @@ void Zone_listbox::clear() {
 }
 
 void Zone_listbox::unselect() {
-	if(!val)
+	if (!val)
 		return;
-	if(*val >= first_item && *val < first_item+list.size()) {
+	if (*val >= first_item && *val < first_item + static_cast<int>(list.size())) {
 		Font *f = inter->font;
-		if(elements[*val]->font)
+		if (elements[*val]->font)
 			f = elements[*val]->font;
 		list[*val-first_item]->set_font(f);
 	}
@@ -232,10 +230,10 @@ void Zone_listbox::unselect() {
 }
 
 void Zone_listbox::select(int q) {
-	if(!val)
+	if (!val)
 		return;
 	*val = q;
-	if(*val >= first_item && *val < first_item+list.size()) {
+	if (*val >= first_item && *val < first_item + static_cast<int>(list.size())) {
 		list[*val-first_item]->set_font(font2);
 	}
 }
@@ -285,7 +283,7 @@ Zone_listdown::Zone_listdown(Zone_listbox *par):
 }
 
 void Zone_listdown::clicked(int quel) {
-	if(parent->first_item < parent->elements.size() - parent->list.size()) {
+	if (parent->first_item < static_cast<int>(parent->elements.size()) - static_cast<int>(parent->list.size())) {
 		parent->first_item++;
 		parent->sync_list();
 		parent->clicked(quel);
@@ -312,7 +310,7 @@ void Zone_listtext::clicked(int quel) {
 	//Watch out! Param 'quel' is mouse button; this->quel is...
 	//  hmmm... something else... Ask Remz
 	parent->unselect();
-	if(this->quel < parent->elements.size()) {
+	if (this->quel < static_cast<int>(parent->elements.size())) {
 		parent->select(this->quel + parent->first_item);
 		//inter->clicked = parent; // eww!
 		parent->clicked(quel);

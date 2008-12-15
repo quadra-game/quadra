@@ -17,9 +17,11 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 #ifndef HEADER_LISTBOX
 #define HEADER_LISTBOX
+
+#include <vector>
+
 #include "types.h"
 #include "error.h"
 #include "inter.h"
@@ -82,10 +84,10 @@ class Zone_listbox: public Zone_watch_int {
 	Zone_listup *zup;
 	Zone_listdown *zdown;
 	Font *font2;
-	Array<Listable *> elements; // list of the list_box elements
+	std::vector<Listable*> elements; // list of the list_box elements
 	int first_item; // first displayed item in list_box
-	Array<Zone_listtext *> list; // list of the displayed zone_text
-	Array<Listable *> sort_list; // temporary list of elements to sort
+	std::vector<Zone_listtext*> list; // list of the displayed zone_text
+	std::vector<Listable*> sort_list; // temporary list of elements to sort
 	static int compare_sort(const void *arg1, const void *arg2);
 	Video_bitmap *screen;
 	bool selectable;
@@ -103,7 +105,6 @@ public:
 	void add_item(Listable *e);
 	void replace_item(int i, Listable *e);
 	void remove_item(Listable *e);
-	void remove_item(int i);
 	Listable *get_selected();
 	void clear();
 	void sync_list();
