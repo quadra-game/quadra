@@ -36,7 +36,7 @@ class Inter {
 	int kb_x, kb_y, kb_anim;
 	int double_click_delay;
 	Zone *double_clicked_first;
-	Array<int> kb_keys;
+	std::vector<int> kb_keys;
 	Zone *kb_focus;
 	Zone *kb_find_upmost();
 	Zone *kb_find_downmost();
@@ -55,20 +55,20 @@ public:
 	Font* font;
 private:
 	bool del_font;
-	Array<Zone *> zone;
+	std::vector<Zone*> zone;
 public:
 	Zone* focus;
 	Zone* clicked;
   Zone* double_clicked;
 	Inter();
-	Inter(Inter *in);
+	explicit Inter(Inter *in);
   // del=true if we must delete 'font'
 	void set_font(Font* f1, bool del=true);
 	void add(Zone* zon, bool back=false) {
 		if(back)
-			zone.add_before(zon, 0);
+			zone.insert(zone.begin(), zon);
 		else
-			zone.add(zon);
+			zone.push_back(zon);
 	}
 
 	void remove(Zone *z);

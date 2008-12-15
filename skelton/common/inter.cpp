@@ -20,15 +20,19 @@
 
 #include "inter.h"
 
+#include <algorithm>
 #include <assert.h>
+
 #include "input.h"
 #include "main.h"
 #include "cursor.h"
 #include "image_png.h"
 #include "config.h"
 
+using std::find;
 using std::max;
 using std::min;
+using std::vector;
 
 int Inter::last_mouse_x = -1, Inter::last_mouse_y = -1;
 bool Inter::kb_visible = false;
@@ -812,8 +816,9 @@ Inter::Inter() {
 }
 
 Inter::Inter(Inter *in) {
-	for(int i=0; i<in->zone.size(); i++)
-		add(in->zone[i]);
+	vector<Zone*>::iterator it;
+	for (it = in->zone.begin(); it != in->zone.end(); ++it)
+		add(*it);
 	first_zone = zone.size();
 	set_font(in->font, false);
 	flush();
@@ -831,29 +836,27 @@ void Inter::set_font(Font* f1, bool del) {
 }
 
 void Inter::draw_zone() {
-	int i;
-
   if(video->need_paint) {
     dirt_all();
     video->need_paint = 0; // RV: Only draw *once*: we are no longer running in backbuffer mode
   }
-  for(i = 0; i < zone.size(); ++i) {
-    if(zone[i]->dirty && zone[i]->enabled >=0 && !zone[i]->stay_on_top) {
-      zone[i]->dirty--;
-      zone[i]->draw();
+	vector<Zone*>::iterator it;
+  for (it = zone.begin(); it != zone.end(); ++it) {
+    if((*it)->dirty && (*it)->enabled >=0 && !(*it)->stay_on_top) {
+      (*it)->dirty--;
+      (*it)->draw();
     }
   }
   kb_draw_focus();
-  for(i = 0; i < zone.size(); ++i) {
-    if(zone[i]->enabled >=0 && zone[i]->stay_on_top) {
-      zone[i]->draw();
-    }
-  }
+  for (it = zone.begin(); it != zone.end(); ++it)
+    if((*it)->enabled >=0 && (*it)->stay_on_top)
+      (*it)->draw();
 }
 
 void Inter::dirt_all() {
-	for(int i=0; i<zone.size(); i++)
-		zone[i]->dirt();
+	vector<Zone*>::iterator it;
+  for (it = zone.begin(); it != zone.end(); ++it)
+		(*it)->dirt();
 }
 
 Zone* Inter::do_frame() {
@@ -1024,25 +1027,27 @@ Zone* Inter::do_frame() {
 }
 
 void Inter::remove(Zone *z) {
-	for(int i=0; i<zone.size(); i++)
-		if(zone[i] == z) {
-      if(in == z)
-        in = NULL;
-      if(focus == z)
-        focus = NULL;
-      if(kb_visible && kb_focus == z)
-        kb_focus = NULL;
-      if(double_clicked_first == z) {
-        double_clicked_first = NULL;
-        double_click_delay = 0;
-      }
-      zone.remove(i);
-			break;
-		}
+	vector<Zone*>::iterator it = find(zone.begin(), zone.end(), z);
+
+	if (it == zone.end())
+		return;
+		
+	if (in == z)
+		in = NULL;
+	if (focus == z)
+		focus = NULL;
+	if (kb_visible && kb_focus == z)
+		kb_focus = NULL;
+	if (double_clicked_first == z) {
+		double_clicked_first = NULL;
+		double_click_delay = 0;
+	}
+
+	zone.erase(it);
 }
 
 void Inter::flush() {
-	while(first_zone != zone.size())
+	while (first_zone < static_cast<int>(zone.size()))
 		delete zone[first_zone];
 	in = NULL;
 	focus = NULL;
@@ -1072,21 +1077,19 @@ void Inter::tag(Zone *z) {
 }
 
 void Inter::kb_alloc_key(const int i) {
-	kb_keys.add(i);
+	kb_keys.push_back(i);
 }
 
 void Inter::kb_free_key(const int i) {
-	kb_keys.remove_item(i);
+	vector<int>::iterator it = find(kb_keys.begin(), kb_keys.end(), i);
+	
+	if (it != kb_keys.end())
+		kb_keys.erase(it);
 }
 
 bool Inter::kb_check_key(SDLKey i) const {
-	if(input->last_key.sym == i) {
-		for(int j = 0; j < kb_keys.size(); ++j)
-			if(i == kb_keys[j])
-				return false;
-		return true;
-	}
-	return false;
+	return input->last_key.sym == i
+		&& find(kb_keys.begin(), kb_keys.end(), i) == kb_keys.end();
 }
 
 Zone *Inter::kb_find_upmost() {
@@ -1225,27 +1228,26 @@ Zone *Inter::kb_find_prev() {
 }
 
 Zone *Inter::kb_find_next() {
-	int i;
 	int debut =0;
 
 	// find the currently focused zone
-	for(i = zone.size()-1; i >= first_zone; i--) {
+	for (int i = zone.size() - 1; i >= first_zone; --i) {
 		Zone *z = zone[i];
-		if(z == kb_focus) {
+		if (z == kb_focus) {
 			debut = i;
 			break;
 		}
 	}
 	// then find the next focusable zone
-	for(i = debut+1; i < zone.size(); i++) {
+	for (int i = debut + 1; i < static_cast<int>(zone.size()); ++i) {
 		Zone *z = zone[i];
-		if(z->enabled >=0 && z->kb_focusable)
+		if (z->enabled >= 0 && z->kb_focusable)
 			return z;
 	}
 	// if there is nothing good, restart from the start (to loop)
-	for(i = first_zone; i < zone.size(); i++) {
+	for (int i = first_zone; i < static_cast<int>(zone.size()); ++i) {
 		Zone *z = zone[i];
-		if(z->enabled >=0 && z->kb_focusable)
+		if (z->enabled >=0 && z->kb_focusable)
 			return z;
 	}
 	return NULL; // if nothing at all
