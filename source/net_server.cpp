@@ -487,7 +487,7 @@ void Net_server::findgame(Packet *p2) {
 void Net_server::wantjoin(Packet *p2) {
 	Packet_wantjoin *p=(Packet_wantjoin *) p2;
 	Executor *exec = new Executor(true);
-	pendings.add(exec);
+	pendings.push_back(exec);
 	exec->add(new Net_pendingjoin(p));
 	overmind.start(exec);
 }
@@ -575,7 +575,7 @@ void Net_server::clientmoves(Packet *p2) {
 	for(i=0; i<net->connections.size(); i++) {
 		Net_connection *nc=net->connections[i];
 		if(nc)
-			for(int j=0; j<c->watchers.size(); j++) {
+			for (int j = 0; j < static_cast<int>(c->watchers.size()); ++j) {
 				Canvas::Watcher *w=c->watchers[j];
 				if(w && w->nc==nc)
 					net->sendtcp(nc, p);

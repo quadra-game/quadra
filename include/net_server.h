@@ -17,9 +17,10 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 #ifndef _HEADER_NET_SERVER
 #define _HEADER_NET_SERVER
+
+#include <vector>
 
 #include "types.h"
 #include "net_stuff.h"
@@ -38,7 +39,7 @@ class Packet_wantjoin;
 class Packet_gameserver;
 
 class Net_server: public Net_callable {
-	Array<Executor *> pendings;
+	std::vector<Executor*> pendings;
 	void playerwantjoin(Packet *p2);
 	void findgame(Packet *p2);
 	void wantjoin(Packet *p2);
