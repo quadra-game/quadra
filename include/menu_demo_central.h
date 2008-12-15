@@ -17,9 +17,10 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 #ifndef _HEADER_MENU_DEMO_CENTRAL
 #define _HEADER_MENU_DEMO_CENTRAL
+
+#include <vector>
 
 #include "menu_base.h"
 #include "zone_list.h"
@@ -52,7 +53,7 @@ class Menu_demo_central: public Menu_standard, Zone_list {
 		Player_infos(int pplayer);
 	};
 	Score score;
-	Array<Player_infos *> pinfos;
+	std::vector<Player_infos*> pinfos;
 	Zone_text_field *z_status, *z_name, *z_date, *z_version, *z_duration, *z_type, *z_end;
 	Zone *z_play, *z_delete;
 	char s_date[1024], s_version[1024], s_duration[1024], s_type[1024], s_end[1024], s_name[1024];

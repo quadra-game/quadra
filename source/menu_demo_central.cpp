@@ -132,7 +132,10 @@ Menu_demo_central::~Menu_demo_central() {
 		delete fcourrier[i];
 	if(play)
 		delete play;
-	pinfos.deleteall();
+	while (!pinfos.empty()) {
+		delete pinfos.back();
+		pinfos.pop_back();
+	}
 }
 
 void Menu_demo_central::clear_detail() {
@@ -147,7 +150,10 @@ void Menu_demo_central::clear_detail() {
 		play = NULL;
 	}
 	zone.deleteall();
-	pinfos.deleteall();
+	while (!pinfos.empty()) {
+		delete pinfos.back();
+		pinfos.pop_back();
+	}
 	video->need_paint = 2;
 }
 
@@ -279,13 +285,16 @@ void Menu_demo_central::populate_dict(Dict *d) {
 	}
 	zone.add(new Zone_text(fteam[7], inter, "Score", cx[3], y));
 	zone.add(new Zone_text(fteam[7], inter, "Lines", cx[4], y)); y+=ys;
-	pinfos.deleteall();
+	while (!pinfos.empty()) {
+		delete pinfos.back();
+		pinfos.pop_back();
+	}
 	Dict *players = d->find_sub("players");
 	if(players && players->size()<=MAXPLAYERS) {
 		for(i = 0; i < (int)players->size(); i++) {
 			const Dict *d2 = players->get_sub(i);
 			Player_infos *pi=new Player_infos(i);
-			pinfos.add(pi);
+			pinfos.push_back(pi);
 			const char *name = d2->find("name");
 			if(name)
 				strcpy(pi->name, name);
@@ -304,8 +313,8 @@ void Menu_demo_central::populate_dict(Dict *d) {
 				for(i=0; i<MAXPLAYERS; i++)
 					if(score.order[j]==i && score.player_team[i]==team)
 						break;
-				if(i<pinfos.size()) {
-					Player_infos *pi=pinfos[i];
+				if (i < static_cast<int>(pinfos.size())) {
+					Player_infos* pi = pinfos[i];
 					Font *f=inter->font;
 					if(pi->team<=6)
 						f=fteam[pi->team];
