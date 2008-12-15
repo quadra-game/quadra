@@ -1843,7 +1843,7 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 	if(!strcmp(cmd, "stack") && trusted) {
 		send_msg(nc, "Dumping game stack. overmind framecount is %i:", overmind.framecount);
 		send_msg(nc, "stack size=%i:", game->stack.size());
-		for(int j=0; j<game->stack.size(); j++) {
+		for (int j = 0; j < static_cast<int>(game->stack.size()); ++j) {
 			Packet *p = game->stack[j];
 			if(net && net->net_param) {
 				char st[4096];
