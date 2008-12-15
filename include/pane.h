@@ -21,6 +21,8 @@
 #ifndef _HEADER_PANE
 #define _HEADER_PANE
 
+#include <vector>
+
 #include "inter.h"
 #include "listbox.h"
 #include "overmind.h"
@@ -248,7 +250,7 @@ public:
 
 class Pane_scoreboard: public Pane_close, public Notifyable {
 	Zone_text_button *b_show_frag;
-	Array<Zone *> zlist_frag;
+	std::vector<Zone*> zlist_frag;
 	bool show_frag;
 	Score score;
 	Byte potato_team;

@@ -1270,10 +1270,10 @@ void Pane_scoreboard::activate_frag() {
 		sprintf(st, "Goal (%s%s):", unit, game->game_end_value != 1 ? "s" : "");
 		z = new Zone_text(inter, st, x2, y2+2);
 		zone.add(z);
-		zlist_frag.add(z);
+		zlist_frag.push_back(z);
 		z = new Zone_text_field(inter, &game->game_end_value, x+w-95, y2+1, 70, pi.mp->courrier);
 		zone.add(z);
-		zlist_frag.add(z);
+		zlist_frag.push_back(z);
 		y2 += y_height;
 	}
 	for(team2=0; team2<MAXTEAMS; team2++) {
@@ -1324,26 +1324,26 @@ void Pane_scoreboard::activate_frag() {
 			int *statp;
 			z = new Zone_text(fteam[team], inter, st, x2, y2+2);
 			zone.add(z);
-			zlist_frag.add(z);
+			zlist_frag.push_back(z);
 			Dword width=70;
 			if(game->net_list.goal_stat==CS::FRAG)
 				width=33;
 			statp=score.team_stats[team].stats[game->net_list.goal_stat].get_address();
 			z = new Zone_text_field(inter, statp, x+w-95, y2+1, width, pi.mp->courrier);
 			zone.add(z);
-			zlist_frag.add(z);
+			zlist_frag.push_back(z);
 			if(game->net_list.goal_stat==CS::FRAG) {
 				statp=score.team_stats[team].stats[CS::DEATH].get_address();
 				z = new Zone_text_field(inter, statp, x+w-58, y2+1, width, pi.mp->courrier);
 				zone.add(z);
-				zlist_frag.add(z);
+				zlist_frag.push_back(z);
 			}
 			y2 += y_height;
 		}
 	}
 	if(y2 != 33) {
 		zone.add(zp);
-		zlist_frag.add(zp);
+		zlist_frag.push_back(zp);
 		y2+=2;
 		zp->h = y2-33;
 	}
@@ -1363,9 +1363,12 @@ void Pane_scoreboard::deactivate_frag(bool temp) {
 	if(b_show_frag && !temp)
 		b_show_frag->set_text("·4");
 	show_frag=false;
-	for(int i=0; i<zlist_frag.size(); i++)
+	for (int i = 0; i < static_cast<int>(zlist_frag.size()); ++i)
 		zone.remove_item(zlist_frag[i]);
-	zlist_frag.deleteall();
+	while (!zlist_frag.empty()) {
+		delete zlist_frag.back();
+		zlist_frag.pop_back();
+	}
 	size=0;
 	if(!temp) {
 		video->need_paint = 2;
