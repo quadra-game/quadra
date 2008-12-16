@@ -20,6 +20,7 @@
 #ifndef _HEADER_OVERMIND
 #define _HEADER_OVERMIND
 
+#include <list>
 #include <vector>
 
 #include "types.h"
@@ -87,7 +88,7 @@ public:
 
 class Overmind {
 protected:
-	std::vector<Executor*> execsx;
+	std::list<Executor*> execs;
 	bool paused;
 public:
 	bool done;

@@ -23,8 +23,8 @@
 
 #include "input.h"
 
-using std::vector;
 using std::find;
+using std::list;
 
 Overmind overmind;
 Inter* ecran = NULL;
@@ -40,11 +40,11 @@ Overmind::~Overmind() {
 }
 
 void Overmind::clean_up() {
-	while (!execsx.empty()) {
-		Executor *e = execsx.back();
+	while (!execs.empty()) {
+		Executor *e = execs.back();
 		if (e && e->self_destruct)
 			delete e;
-		execsx.pop_back();
+		execs.pop_back();
 	}
 }
 
@@ -61,36 +61,36 @@ void Overmind::step() {
 		return;
 	++framecount;
 	
-	vector<Executor*>::iterator it = execsx.begin();
-	while (it != execsx.end()) {
+	list<Executor*>::iterator it = execs.begin();
+	while (it != execs.end()) {
 		if (!*it) {
-			it = execsx.erase(it);
+			it = execs.erase(it);
 			continue;
 		}
-	
+
 		(*it)->step();
 		if ((*it)->done) {
 			if ((*it)->self_destruct)
 				delete *it;
-			it = execsx.erase(it);
+			it = execs.erase(it);
 		} else {
 			++it;
 		}
 	}
 	
-	if (execsx.empty())
+	if (execs.empty())
 		done = true;
 }
 
 void Overmind::start(Executor* e) {
-	execsx.push_back(e);
+	execs.push_back(e);
 	done = false;
 }
 
 void Overmind::stop(Executor* e) {
-	vector<Executor*>::iterator it = find(execsx.begin(), execsx.end(), e);
+	list<Executor*>::iterator it = find(execs.begin(), execs.end(), e);
 	
-	if (it == execsx.end())
+	if (it == execs.end())
 		return;
 	
 	if ((*it)->self_destruct)
