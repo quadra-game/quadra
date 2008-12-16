@@ -17,21 +17,21 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 #ifndef _HEADER_RESMANAGER
 #define _HEADER_RESMANAGER
 
 // See wadder.cpp for information on the .res file format, some tidbits of infos on making
 //   a Quadra theme pack and some 100% pure Dada ranting.
 
+#include <vector>
+
 #include "types.h"
-#include "array.h"
 
 class Resfile;
 
 class Resmanager {
 private:
-	Array<Resfile*> files;
+	std::vector<Resfile*> files;
 public:
 	Resmanager();
 	virtual ~Resmanager();

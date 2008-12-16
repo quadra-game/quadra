@@ -27,21 +27,21 @@ Resmanager::Resmanager() {
 
 void Resmanager::loadresfile(const char *fname) {
 	Resfile* rf=new Resfile(fname);
-	files.add(rf);
+	files.push_back(rf);
 	Resdata* rd = rf->list;
 	while(rd) {
 		char *name=rd->name;
 		int i;
-		for(i=files.size()-2; i>=0; i--)
+		for (i = files.size() - 2; i >= 0; --i)
 			files[i]->remove(name);
 		rd = rd->next;
 	}
 }
 
 int Resmanager::get(const char *resname, Byte **resdata) {
-	int i=files.size();
+	int i = files.size();
 	while(i--) {
-		int ret=files[i]->get(resname, resdata);
+		int ret = files[i]->get(resname, resdata);
 		if(*resdata)
 			return ret;
 	}
@@ -49,7 +49,10 @@ int Resmanager::get(const char *resname, Byte **resdata) {
 }
 
 Resmanager::~Resmanager() {
-	files.deleteall();
+	while (!files.empty()) {
+		delete files.back();
+		files.pop_back();
+	}
 }
 
 Resmanager *resmanager;
