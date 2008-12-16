@@ -141,6 +141,6 @@ void Resfile::remove(const char* resname) {
 		ptr->next = NULL;
 		delete ptr;
 	}
-	// Can somebody tell me why Resfile::list isn't an Array<Resdata>?
-	// We all know linked lists suck, don't we? Whatever...
+	// Can somebody tell me why Resfile::list isn't an std::list<Resdata>?
+	// We all know hand-coded linked lists suck, don't we? Whatever...
 }
