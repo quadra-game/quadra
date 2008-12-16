@@ -21,12 +21,13 @@
 #ifndef _HEADER_DICT
 #define _HEADER_DICT
 
+#include <vector>
+
 #include "types.h"
 #include "buf.h"
-#include "array.h"
 
 class Dict {
-	Array<Dict *> sub;
+	std::vector<Dict*> sub;
 	char key[32];
 	Textbuf value;
 public:
@@ -34,7 +35,7 @@ public:
 	virtual ~Dict();
 	void add(const char *s);
 	void dump() const;
-	Dword size() const;
+	Dword size() const; // FIXME: This should return a size_t.
 	const char *get_key() const;
 	const char *find(const char *s) const;
 	Dict *find_sub(const char *s);
