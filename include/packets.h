@@ -24,7 +24,6 @@
 
 #include "config.h"
 #include "packet.h"
-#include "array.h"
 #include "game.h"
 #include "net_stuff.h"
 #include "cfgfile.h"

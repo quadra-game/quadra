@@ -1005,10 +1005,6 @@
 			Filter="h"
 			>
 			<File
-				RelativePath="..\skelton\include\array.h"
-				>
-			</File>
-			<File
 				RelativePath="..\include\attack.h"
 				>
 			</File>

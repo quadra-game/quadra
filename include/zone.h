@@ -21,7 +21,6 @@
 #ifndef _HEADER_ZONE
 #define _HEADER_ZONE
 
-#include "array.h"
 #include "types.h"
 #include "global.h"
 #include "notify.h"
