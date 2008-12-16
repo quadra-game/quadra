@@ -590,12 +590,13 @@ void Menu_multi_join::refresh_player() {
   Listgame *lg = (Listgame *) list_game->get_selected();
   Packet_gameinfo *p = lg->p;
 
-  for(int i=0; i<p->players.size(); i++) {
+	vector<Net_player*>::const_iterator it;
+  for (it = p->players.begin(); it != p->players.end(); ++it) {
     char name[256];
-    strcpy(name, p->players[i]->name);
-    if(p->players[i]->idle==3)
+    strcpy(name, (*it)->name);
+    if((*it)->idle==3)
       strcat(name, " *");
-    list_player->add_item(new Listable(name, fteam[p->players[i]->team]));
+    list_player->add_item(new Listable(name, fteam[(*it)->team]));
   }
 
   if(p->version >= 20) {

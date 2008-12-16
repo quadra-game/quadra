@@ -140,10 +140,11 @@ Game::Game(Packet_gameserver *p) {
 	game_end = (End_type) p->game_end;
 	game_end_value = p->game_end_value;
 	game_public = false; // inutile pour les clients (info pour serveur seulement)
-	for(int i=0; i<p->players.size(); i++) {
-		Canvas *canvas=new Canvas(seed, p->players[i]->team, p->players[i]->name, 2, 2, true, true, p->players[i]->handicap, net->server_addr(), 0, true); //On connait pas repeat, smooth, shadow mais on s'en tappe parce qu'on est pas en playback
-		canvas->set_id(p->players[i]->player_id);
-		net_list.set_player(canvas, p->players[i]->quel, false);
+	vector<Net_player*>::const_iterator it;
+	for (it = p->players.begin(); it != p->players.end(); ++it) {
+		Canvas* canvas = new Canvas(seed, (*it)->team, (*it)->name, 2, 2, true, true, (*it)->handicap, net->server_addr(), 0, true); //On connait pas repeat, smooth, shadow mais on s'en tappe parce qu'on est pas en playback
+		canvas->set_id((*it)->player_id);
+		net_list.set_player(canvas, (*it)->quel, false);
 	}
 	wants_moves=p->wants_moves;
 	net_list.syncpoint=p->syncpoint;

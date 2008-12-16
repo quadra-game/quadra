@@ -17,7 +17,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 #include "packets.h"
 
 #include "net_buf.h"
@@ -26,6 +25,8 @@
 #include "stats.h"
 #include "cfgfile.h"
 #include "canvas.h"
+
+using std::vector;
 
 void Packet_wantjoin::write(Net_buf *p) {
 	Packet_ping::write(p);
@@ -79,7 +80,10 @@ Packet_gameinfo::Packet_gameinfo() {
 }
 
 Packet_gameinfo::~Packet_gameinfo() {
-	players.deleteall();
+	while (!players.empty()) {
+		delete players.back();
+		players.pop_back();
+	}
 }
 
 void Packet_gameinfo::write(Net_buf *p) {
@@ -88,10 +92,10 @@ void Packet_gameinfo::write(Net_buf *p) {
 	p->write_byte(version);
 	p->write_dword(port);
 	p->write_byte(players.size());
-	int i;
-	for(i=0; i<players.size(); i++) {
-		p->write_byte(players[i]->team);
-		p->write_string(players[i]->name);
+	vector<Net_player*>::const_iterator it;
+	for (it = players.begin(); it != players.end(); ++it) {
+		p->write_byte((*it)->team);
+		p->write_string((*it)->name);
 	}
 	p->write_dword(game_end_value);
 	p->write_bool(nolevel_up);
@@ -101,9 +105,8 @@ void Packet_gameinfo::write(Net_buf *p) {
 	p->write_byte(combo_min);
 	p->write_bool(survivor);
 	p->write_byte(game_end);
-	for(i=0; i<players.size(); i++) {
-		p->write_dword(players[i]->handicap);
-	}
+	for (it = players.begin(); it != players.end(); ++it)
+		p->write_dword((*it)->handicap);
 	//allow_handicap is reversed because the default should be true
 	//  but 1.1.1 and older will not supply it (thus we'll read a
 	//  0 from those).
@@ -177,7 +180,10 @@ bool Packet_gameinfo::read(Net_buf *p) {
 }
 
 Packet_gameserver::~Packet_gameserver() {
-	players.deleteall();
+	while (!players.empty()) {
+		delete players.back();
+		players.pop_back();
+	}
 }
 
 void Packet_gameserver::write(Net_buf *p) {
@@ -195,18 +201,17 @@ void Packet_gameserver::write(Net_buf *p) {
 	p->write_word(delay_start);
 	p->write_byte(game_end);
 	p->write_dword(game_end_value);
-	int i;
-	for(i=0; i<players.size(); i++) {
-		p->write_byte(players[i]->quel);
-		p->write_byte(players[i]->team);
-		p->write_string(players[i]->name);
+	vector<Net_player*>::const_iterator it;
+	for (it = players.begin(); it != players.end(); ++it) {
+		p->write_byte((*it)->quel);
+		p->write_byte((*it)->team);
+		p->write_string((*it)->name);
 	}
 	p->write_bool(wants_moves);
 	p->write_byte(syncpoint);
 	p->write_byte(potato_team);
-	for(i=0; i<players.size(); i++) {
-		p->write_dword(players[i]->handicap);
-	}
+	for (it = players.begin(); it != players.end(); ++it)
+		p->write_dword((*it)->handicap);
 	//allow_handicap is reversed because the default should be true
 	//  but 1.1.1 and older will not supply it (thus we'll read a
 	//  0 from those).
@@ -220,9 +225,8 @@ void Packet_gameserver::write(Net_buf *p) {
 	}
 	p->write_bool(single);
 	p->write_bool(terminated);
-	for(i=0; i<players.size(); i++) {
-		p->write_dword(players[i]->player_id);
-	}
+	for (it = players.begin(); it != players.end(); ++it)
+		p->write_dword((*it)->player_id);
 	p->write_bool(boring_rules);
 }
 
@@ -273,7 +277,7 @@ bool Packet_gameserver::read(Net_buf *p) {
 		int handicap=p->read_dword();
 		if(handicap<0 || handicap>4)
 			return false;
-		players[i]->handicap=handicap;
+		players[i]->handicap = handicap;
 	}
 	//allow_handicap is reversed because the default should be true
 	//  but 1.1.1 and older will not supply it (thus we'll read a
@@ -292,9 +296,8 @@ bool Packet_gameserver::read(Net_buf *p) {
 	}
 	single=p->read_bool();
 	terminated=p->read_bool();
-	for(i=0; i<num_player; i++) {
-		players[i]->player_id=p->read_dword();
-	}
+	for (i = 0; i < num_player; ++i)
+		players[i]->player_id = p->read_dword();
 	boring_rules=p->read_bool();
 	return true;
 }
@@ -472,12 +475,14 @@ void Packet_pause::write(Net_buf *p) {
 }
 
 Packet_stat::~Packet_stat() {
-	net_stats.deleteall();
+	while (!net_stats.empty()) {
+		delete net_stats.back();
+		net_stats.pop_back();
+	}
 }
 
 void Packet_stat::add_stat(Byte s, int v) {
-	Net_stat *n = new Net_stat(s, v);
-	net_stats.add(n);
+	net_stats.push_back(new Net_stat(s, v));
 }
 
 bool Packet_stat::read(Net_buf *p) {
@@ -497,19 +502,22 @@ bool Packet_stat::read(Net_buf *p) {
 void Packet_stat::write(Net_buf *p) {
 	Packet_playerbase::write(p);
 	p->write_byte(net_stats.size());
-	for(int i=0; i<net_stats.size(); i++) {
-		p->write_byte(net_stats[i]->st);
-		p->write_dword(net_stats[i]->value);
+	vector<Net_stat*>::const_iterator it;
+	for (it = net_stats.begin(); it != net_stats.end(); ++it) {
+		p->write_byte((*it)->st);
+		p->write_dword((*it)->value);
 	}
 }
 
 Packet_gamestat::~Packet_gamestat() {
-	net_stats.deleteall();
+	while (!net_stats.empty()) {
+		delete net_stats.back();
+		net_stats.pop_back();
+	}
 }
 
 void Packet_gamestat::add_stat(Byte s, int v) {
-	Net_stat *n = new Net_stat(s, v);
-	net_stats.add(n);
+	net_stats.push_back(new Net_stat(s, v));
 }
 
 bool Packet_gamestat::read(Net_buf *p) {
@@ -529,9 +537,10 @@ bool Packet_gamestat::read(Net_buf *p) {
 void Packet_gamestat::write(Net_buf *p) {
 	Packet_tcp::write(p);
 	p->write_byte(net_stats.size());
-	for(int i=0; i<net_stats.size(); i++) {
-		p->write_byte(net_stats[i]->st);
-		p->write_dword(net_stats[i]->value);
+	vector<Net_stat*>::const_iterator it;
+	for (it = net_stats.begin(); it != net_stats.end(); ++it) {
+		p->write_byte((*it)->st);
+		p->write_dword((*it)->value);
 	}
 }
 
@@ -979,8 +988,9 @@ void Packet_serverlog::write(Net_buf* p) {
 	Packet_tcp::write(p);
 	p->write_string(event_type);
 	p->write_dword(vars.size());
-	for(int i=0; i<vars.size(); i++)
-		vars[i].write(p);
+	vector<Var>::iterator it;
+	for (it = vars.begin(); it != vars.end(); ++it)
+		it->write(p);
 }
 
 bool Packet_serverlog::read(Net_buf* p) {
@@ -996,12 +1006,12 @@ bool Packet_serverlog::read(Net_buf* p) {
 		Var v;
 		if(!v.read(p))
 			return false;
-		vars.add(v);
+		vars.push_back(v);
 	}
 	return true;
 }
 
 void Packet_serverlog::add(const Var& var)
 {
-	vars.add(var);
+	vars.push_back(var);
 }

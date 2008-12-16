@@ -1195,10 +1195,9 @@ void Net_list::check_stat() {
 			Canvas *c=get(p->player);
 			if(c && !c->wait_download) {
 				if(!c->islocal()) {
-					for(int i=0; i<p->net_stats.size(); i++) {
-						Net_stat *ns=p->net_stats[i];
-						c->stats[ns->st].set_value(ns->value);
-					}
+					vector<Net_stat*>::const_iterator it;
+					for (it = p->net_stats.begin(); it != p->net_stats.end(); ++it)
+						c->stats[(*it)->st].set_value((*it)->value);
 					const int linescur = c->stats[CS::LINESCUR].get_value();
 					if(linescur) {
 						// adjust level considering game settings and the number of lines cleared
@@ -1220,10 +1219,9 @@ void Net_list::check_stat() {
 	{
 		Packet_gamestat *p=(Packet_gamestat *) game->peekpacket(P_GAMESTAT);
 		if(p) {
-			for(int i=0; i>p->net_stats.size(); i++) {
-				Net_stat *ns=p->net_stats[i];
-				*(game->stats[ns->st].get_address())=ns->value;
-			}
+			vector<Net_stat*>::const_iterator it;
+			for (it = p->net_stats.begin(); it != p->net_stats.end(); ++it)
+				*(game->stats[(*it)->st].get_address()) = (*it)->value;
 			game->removepacket();
 		}
 	}
