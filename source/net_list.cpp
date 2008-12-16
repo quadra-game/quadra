@@ -38,6 +38,7 @@
 #include "version.h"
 
 using std::max;
+using std::vector;
 
 // Objectives are number of remaining goals to reach before it is
 // announced. Must end with 0.
@@ -233,9 +234,19 @@ Net_list::~Net_list() {
 	for(int i=0; i<MAXPLAYERS; i++)
 		if(list[i])
 			delete list[i];
-	cmd_cache.deleteall();
-	deny_list.deleteall();
-	allow_list.deleteall();
+
+	while (!cmd_cache.empty()) {
+		delete cmd_cache.back();
+		cmd_cache.pop_back();
+	}
+	while (!deny_list.empty()) {
+		delete deny_list.back();
+		deny_list.pop_back();
+	}
+	while (!allow_list.empty()) {
+		delete allow_list.back();
+		allow_list.pop_back();
+	}
 	stepper->ret(); //overmind will delete it correcly
 }
 
@@ -1389,44 +1400,42 @@ void Net_list::check_admin() {
 }
 
 bool Net_list::accept_connection(Net_connection *nc) {
-	if(nc==game->loopback_connection)
+	if (nc == game->loopback_connection)
 		return true;
-	bool ret=true;
-	int i;
-	for(i=0; i<deny_list.size(); i++) {
-		IP_addr *ip=deny_list[i];
-		IP_addr c(nc->address());
-		if(*ip>=c) {
-			ret=false;
+
+	bool ret = true;
+	IP_addr ip_conn(nc->address());
+	vector<IP_addr*>::iterator it;
+	for (it = deny_list.begin(); it != deny_list.end(); ++it)
+		if (**it >= ip_conn) {
+			ret = false;
 			break;
 		}
-	}
-	for(i=0; i<allow_list.size(); i++) {
-		IP_addr *ip=allow_list[i];
-		IP_addr c(nc->address());
-		if(*ip>=c) {
-			ret=true;
+
+	for (it = allow_list.begin(); it != allow_list.end(); ++it)
+		if (**it >= ip_conn) {
+			ret = true;
 			break;
 		}
-	}
+
 	return ret;
 }
 
 void Net_list::client_deconnect(Net_connection *nc) {
-	int i;
-	//Clean up command cache
-	for(i=0; i<cmd_cache.size(); i++) {
-		if(cmd_cache[i]->nc == nc) {
-			//Remove cache entry
-			delete cmd_cache[i];
-			cmd_cache.remove(i);
-			i--;
-		}
+	// Clean up command cache
+	vector<Lastline*>::iterator it = cmd_cache.begin();
+	while (it != cmd_cache.end()) {
+		if ((*it)->nc == nc) {
+			delete *it;
+			it = cmd_cache.erase(it);
+		} else
+			++it;
 	}
-	//Clean up watchers
-	for(i=0; i<MAXPLAYERS; i++) {
-		Canvas *c=get(i);
-		if(c)
+
+	// Clean up watchers
+	for (int i = 0; i < MAXPLAYERS; ++i) {
+		Canvas* c = get(i);
+		if (c)
 			c->remove_watcher(nc);
 	}
 }
@@ -1464,37 +1473,38 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 	else {
 		params[0]=0;
 	}
-	int i;
-	if(!cmd[0]) {
-		//Repeat last command
-		for(i=0; i<cmd_cache.size(); i++)
-			if(cmd_cache[i]->nc == nc) {
-				strcpy(cmd, cmd_cache[i]->cmd);
-				if(!params[0])
-					strcpy(params, cmd_cache[i]->params);
+	if (!cmd[0]) {
+		// Repeat last command
+		vector<Lastline*>::iterator it;
+		for (it = cmd_cache.begin(); it != cmd_cache.end(); ++it)
+			if ((*it)->nc == nc) {
+				strcpy(cmd, (*it)->cmd);
+				if (!params[0])
+					strcpy(params, (*it)->params);
 			}
 	}
-	if(nc && strcmp(cmd, "admin") && strcmp(cmd, "setpasswd")) {
-		//Update cache if real connection and command not admin or
-		//  setpasswd
-		for(i=0; i<cmd_cache.size(); i++) {
-			if(cmd_cache[i]->nc == nc) {
-				//Update existing cache entry
-				cmd_cache[i]->set(cmd, params);
+	if (nc && strcmp(cmd, "admin") && strcmp(cmd, "setpasswd")) {
+		vector<Lastline*>::iterator it;
+
+		// Update cache if real connection and command not admin or
+		// setpasswd
+		for (it = cmd_cache.begin(); it != cmd_cache.end(); ++it)
+			if ((*it)->nc == nc) {
+				// Update existing cache entry
+				(*it)->set(cmd, params);
 				break;
 			}
-		}
-		if(i == cmd_cache.size()) {
-			//Not found, create new cache entry
-			cmd_cache.add(new Lastline(nc, cmd, params));
-		}
+
+		// If not found, create a new cache entry
+		if (it == cmd_cache.end())
+			cmd_cache.push_back(new Lastline(nc, cmd, params));
 	}
-	bool trusted=false;
-	if(!nc)
-		trusted=true;
-	if(nc && nc->trusted)
-		trusted=true;
-	if(!strcmp(cmd, "help")) {
+	bool trusted = false;
+	if (!nc)
+		trusted = true;
+	if (nc && nc->trusted)
+		trusted = true;
+	if (!strcmp(cmd, "help")) {
 		send_msg(nc, "/help                 This help text.");
 		send_msg(nc, "/admin <password>     Turn on administrator mode.");
 		send_msg(nc, "/setpasswd [password] Set admin password or disable remote admin.");
@@ -1552,7 +1562,7 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 				}
 				Dword frag, death;
 				if(score.player_count[team]) {
-					for(i=0; i<MAXPLAYERS; i++) {
+					for(int i=0; i<MAXPLAYERS; i++) {
 						Byte player=score.order[i];
 						Canvas *c=get(player);
 						if(c && c->color==team) {
@@ -1620,7 +1630,7 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 	if(!strcmp(cmd, "list") && trusted) {
 		//-1 so we don't count loopback connection
 		send_msg(nc, "Total connections: %i", net->connections.size()-1);
-		for(i=0; i<net->connections.size(); i++) {
+		for(int i=0; i<net->connections.size(); i++) {
 			Net_connection *nc2=net->connections[i];
 			if(nc2) {
 				char st[256];
@@ -1676,7 +1686,7 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 		}
 		Dword ad=Net::dotted2addr(addr);
 		if(ad!=INADDR_NONE) {
-			for(i=0; i<net->connections.size(); i++) {
+			for(int i=0; i<net->connections.size(); i++) {
 				Net_connection *nc2=net->connections[i];
 				if(game && nc2==game->loopback_connection)
 					continue; //Don't ever drop loopback connection
@@ -1694,7 +1704,7 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 		}
 		if(!dropped) {
 			//Haven't found a connection to drop, look for a player
-			for(i=0; i<MAXPLAYERS; i++) {
+			for(int i=0; i<MAXPLAYERS; i++) {
 				Canvas *c=get(i);
 				if(c && !strcasecmp(c->name, params)) {
 					send_msg(nc, "Dropping player %s", c->name);
@@ -1707,69 +1717,65 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 			send_msg(nc, "No match");
 	}
 	if(!strcmp(cmd, "acceptplayers")) {
-		if(params[0] && trusted) {
-			i=atoi(params);
-			game->server_accept_player=i? 0:1;
-		}
+		if(params[0] && trusted)
+			game->server_accept_player = atoi(params) ? 0 : 1;
 		send_msg(nc, "Accept player: %s", game->server_accept_player? "off":"on");
 	}
 	if(!strcmp(cmd, "maxplayers")) {
 		if(params[0] && trusted) {
-			i=atoi(params);
-			if(i) {
-				if(i>MAXPLAYERS)
-					i=MAXPLAYERS;
-				if(i<1)
-					i=1;
+			int i = atoi(params);
+			if (i) {
+				if (i > MAXPLAYERS)
+					i = MAXPLAYERS;
+				if (i < 1)
+					i = 1;
 			}
-			game->server_max_players=i;
+			game->server_max_players = i;
 		}
 		send_msg(nc, "Max players: %i", game->server_max_players);
 	}
 	if(!strcmp(cmd, "minplayers")) {
 		if(params[0] && trusted) {
-			i=atoi(params);
-			if(i) {
-				if(i>MAXPLAYERS)
-					i=MAXPLAYERS;
-				if(i<1)
-					i=1;
+			int i = atoi(params);
+			if (i) {
+				if (i > MAXPLAYERS)
+					i = MAXPLAYERS;
+				if (i < 1)
+					i = 1;
 			}
-			game->server_min_players=i;
+			game->server_min_players = i;
 		}
 		send_msg(nc, "Min players: %i", game->server_min_players);
 	}
 	if(!strcmp(cmd, "maxteams")) {
 		if(params[0] && trusted) {
-			i=atoi(params);
-			if(i) {
-				if(i>MAXTEAMS)
-					i=MAXTEAMS;
-				if(i<1)
-					i=1;
+			int i = atoi(params);
+			if (i) {
+				if (i > MAXTEAMS)
+					i = MAXTEAMS;
+				if (i < 1)
+					i = 1;
 			}
-			game->server_max_teams=i;
+			game->server_max_teams = i;
 		}
 		send_msg(nc, "Max teams: %i", game->server_max_teams);
 	}
 	if(!strcmp(cmd, "minteams")) {
 		if(params[0] && trusted) {
-			i=atoi(params);
-			if(i) {
-				if(i>MAXTEAMS)
-					i=MAXTEAMS;
-				if(i<1)
-					i=1;
+			int i = atoi(params);
+			if (i) {
+				if (i > MAXTEAMS)
+					i = MAXTEAMS;
+				if (i < 1)
+					i = 1;
 			}
-			game->server_min_teams=i;
+			game->server_min_teams = i;
 		}
 		send_msg(nc, "Min teams: %i", game->server_min_teams);
 	}
 	if(!strcmp(cmd, "acceptconnects")) {
-		if(params[0] && trusted) {
-			i=atoi(params);
-			game->server_accept_connection=i? 0:1;
-		}
+		if (params[0] && trusted)
+			game->server_accept_connection = atoi(params) ? 0 : 1;
 		send_msg(nc, "Accept connection: %s", game->server_accept_connection? "off":"on");
 	}
 	if(!strcmp(cmd, "ppmlimit")) {
@@ -1793,17 +1799,13 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 			send_msg(nc, "Lag limit: disabled");
 	}
 	if(!strcmp(cmd, "autorestart")) {
-		if(params[0] && trusted) {
-			i=atoi(params);
-			game->auto_restart=i? true:false;
-		}
+		if (params[0] && trusted)
+			game->auto_restart = atoi(params) ? true : false;
 		send_msg(nc, "Auto restart: %s", game->auto_restart? "on":"off");
 	}
 	if(!strcmp(cmd, "public")) {
-		if(params[0] && trusted) {
-			i=atoi(params);
-			game->game_public=i? true:false;
-		}
+		if (params[0] && trusted)
+			game->game_public = atoi(params) ? true : false;
 		send_msg(nc, "Public game: %s", game->game_public? "on":"off");
 	}
 	if(!strcmp(cmd, "autodrop")) {
@@ -1817,17 +1819,13 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 			send_msg(nc, "Auto drop: disabled");
 	}
 	if(!strcmp(cmd, "allowstart")) {
-		if(params[0] && trusted) {
-			i=atoi(params);
-			game->net_server->allow_start=i? true:false;
-		}
+		if (params[0] && trusted)
+			game->net_server->allow_start = atoi(params) ? true : false;
 		send_msg(nc, "Allow start: %s", game->net_server->allow_start? "on":"off");
 	}
 	if(!strcmp(cmd, "allowpause")) {
-		if(params[0] && trusted) {
-			i=atoi(params);
-			game->net_server->allow_pause=i? true:false;
-		}
+		if (params[0] && trusted)
+			game->net_server->allow_pause = atoi(params) ? true : false;
 		send_msg(nc, "Allow pause: %s", game->net_server->allow_pause? "on":"off");
 	}
 	if(!strcmp(cmd, "pause")) {
@@ -1890,57 +1888,55 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 	bool allow=!strcmp(cmd, "allow");
 	bool deny=!strcmp(cmd, "deny");
 	if((allow || deny) && trusted) {
-		int i;
 		char st[64];
 		if(params[0]) {
 			IP_addr ad(params);
-			if(ad.ip || ad.mask) {
-				IP_addr *ip;
-				bool would_be_denied=false;
-				for(i=0; i<deny_list.size(); i++) {
-					ip=deny_list[i];
-					if(ad>*ip) {
-						if(allow) {
-							ip->print(st);
+			if (ad.ip || ad.mask) {
+				bool would_be_denied = false;
+				vector<IP_addr*>::iterator it = deny_list.begin();
+				while (it != deny_list.end()) {
+					if (ad > **it) {
+						if (allow) {
+							(*it)->print(st);
 							send_msg(nc, "%15.15s no longer denied", st);
 						}
-						delete ip;
-						deny_list.remove(i);
-						i--;
-					}
-					if(*ip>=ad) {
-						would_be_denied=true;
-						if(deny && *ip>=ad) {
-							deny=false;
+						delete *it;
+						it = deny_list.erase(it);
+					} else {
+						would_be_denied = true;
+						if(deny && **it >= ad) {
+							deny = false;
 							break;
 						}
+						++it;
 					}
 				}
-				for(i=0; i<allow_list.size(); i++) {
-					ip=allow_list[i];
-					if(ad>*ip) {
-						if(deny) {
-							ip->print(st);
+				it = allow_list.begin();
+				while (it != allow_list.end()) {
+					if (ad > **it) {
+						if (deny) {
+							(*it)->print(st);
 							send_msg(nc, "%15.15s no longer allowed", st);
 						}
-						delete ip;
-						allow_list.remove(i);
-						i--;
-					}
-					if(allow && *ip>=ad) {
-						allow=false;
-						break;
+						delete *it;
+						it = allow_list.erase(it);
+					} else {
+						if (allow) {
+							allow = false;
+							break;
+						}
+						++it;
 					}
 				}
 				if(deny) {
-					ip=new IP_addr(ad);
-					deny_list.add(ip);
+					IP_addr* ip = new IP_addr(ad);
+					deny_list.push_back(ip);
 					ip->print(st);
 					send_msg(nc, "%15.15s denied", st);
 				}
 				if(allow && would_be_denied) {
-					ip=new IP_addr(ad);
-					allow_list.add(ip);
+					IP_addr* ip = new IP_addr(ad);
+					allow_list.push_back(ip);
 					ip->print(st);
 					send_msg(nc, "%15.15s allowed", st);
 				}
@@ -1948,19 +1944,18 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 		}
 		else {
 			send_msg(nc, "Deny list:");
-			for(i=0; i<deny_list.size(); i++) {
-				IP_addr *ip=deny_list[i];
-				ip->print(st);
+			vector<IP_addr*>::iterator it;
+			for (it = deny_list.begin(); it != deny_list.end(); ++it) {
+				(*it)->print(st);
 				send_msg(nc, "%15.15s", st);
 			}
-			send_msg(nc, "Total: %i", i);
+			send_msg(nc, "Total: %i", deny_list.size());
 			send_msg(nc, "Allow list:");
-			for(i=0; i<allow_list.size(); i++) {
-				IP_addr *ip=allow_list[i];
-				ip->print(st);
+			for (it = allow_list.begin(); it != allow_list.end(); ++it) {
+				(*it)->print(st);
 				send_msg(nc, "%15.15s", st);
 			}
-			send_msg(nc, "Total: %i", i);
+			send_msg(nc, "Total: %i", allow_list.size());
 		}
 	}
 }
