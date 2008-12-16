@@ -17,9 +17,10 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 #ifndef _HEADER_RECORDING
 #define _HEADER_RECORDING
+
+#include <vector>
 
 #include "types.h"
 #include "net_stuff.h"
@@ -82,7 +83,7 @@ class Playback {
 	void read_summary();
 	Buf data;
 	Dword nextByte;
-	Array<Demo_packet *> packets;
+	std::vector<Demo_packet*> packets;
 public:
 	Byte single_player;
 	Packet_gameserver *packet_gameserver;

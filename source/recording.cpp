@@ -151,10 +151,10 @@ Playback::Playback(Res* r): data(0, 1024) {
 }
 
 Playback::~Playback() {
-	while(packets.size()) {
-		Demo_packet *dp=packets.last();
-		packets.removelast();
-		if(dp->p)
+	while (!packets.empty()) {
+		Demo_packet* dp = packets.back();
+		packets.pop_back();
+		if (dp->p)
 			delete dp->p;
 		delete dp;
 	}
@@ -338,7 +338,7 @@ void Playback::read_packet() {
 			return;
 		}
 		Demo_packet *demo_packet=new Demo_packet(frame, p);
-		packets.add(demo_packet);
+		packets.push_back(demo_packet);
 	}
 }
 
@@ -373,17 +373,17 @@ void Playback::create_game() {
 }
 
 Demo_packet Playback::next_packet() {
-	if(packets.size())
+	if (!packets.empty())
 		return *packets[0];
 	else
 		return Demo_packet(0xFFFFFFFF, NULL);
 }
 
 void Playback::remove_packet() {
-	if(packets.size()) {
-		Demo_packet *dp=packets[0];
-		packets.remove(0);
-		//Caller will delete the packet
+	if (!packets.empty()) {
+		Demo_packet* dp = packets[0];
+		packets.erase(packets.begin());
+		// Caller will delete the packet, crazy!
 		delete dp;
 	}
 }
@@ -394,43 +394,39 @@ void Playback::shit_skipper2000(bool remove_chat) {
 	//  multiplayer demo: it removes innane chatter at the
 	//  beginning and correct all packet times so that the
 	//  game starts immediatly. Best used with auto_demo==true
-	Dword shit_skipper_bias=0;
-	bool got_pause=false;
-	bool got_player=false;
+	Dword shit_skipper_bias = 0;
+	bool got_pause = false;
+	bool got_player = false;
 	int i;
-	for(i=0; i<packets.size(); i++) {
-		Demo_packet *dp=packets[i];
-		if(dp->p && dp->p->packet_id==P_PLAYER) {
-			if(got_pause) {
-				shit_skipper_bias=dp->frame;
+	for (i = 0; i < static_cast<int>(packets.size()); ++i) {
+		if (packets[i]->p && packets[i]->p->packet_id == P_PLAYER) {
+			if (got_pause) {
+				shit_skipper_bias = packets[i]->frame;
 				break;
-			}
-			else
-				got_player=true;
+			} else
+				got_player = true;
 		}
-		if(dp->p && dp->p->packet_id==P_PAUSE) {
-			if(got_player) {
-				shit_skipper_bias=dp->frame;
+		if (packets[i]->p && packets[i]->p->packet_id == P_PAUSE) {
+			if (got_player) {
+				shit_skipper_bias = packets[i]->frame;
 				break;
-			}
-			else
-				got_pause=true;
+			} else
+				got_pause = true;
 		}
 	}
-	if(i<packets.size()) {
-		for(i=0; i<packets.size(); i++) {
-			Demo_packet *dp=packets[i];
-			if((remove_chat || dp->frame<=shit_skipper_bias) && dp->p && dp->p->packet_id==P_CHAT) {
-				delete dp->p;
-				delete dp;
-				packets.remove(i);
-				i--;
+	if (i < static_cast<int>(packets.size())) {
+		for (i = 0; i < static_cast<int>(packets.size()); ++i) {
+			if ((remove_chat || packets[i]->frame <= shit_skipper_bias) && packets[i]->p && packets[i]->p->packet_id == P_CHAT) {
+				delete packets[i]->p;
+				delete packets[i];
+				packets.erase(packets.begin() + i);
+				--i;
 			}
 			else {
-				if(dp->frame<=shit_skipper_bias)
-					dp->frame=0;
+				if (packets[i]->frame <= shit_skipper_bias)
+					packets[i]->frame = 0;
 				else
-					dp->frame-=shit_skipper_bias;
+					packets[i]->frame -= shit_skipper_bias;
 			}
 		}
 	}
