@@ -21,6 +21,8 @@
 #ifndef _HEADER_NET
 #define _HEADER_NET
 
+#include <vector>
+
 #include "config.h"
 
 #ifdef UGS_DIRECTX
@@ -45,7 +47,6 @@
 
 const unsigned NETBUF_SIZE = 4096;
 
-#include "array.h"
 #include "types.h"
 #include "packet.h"
 #include "notify.h"
@@ -217,16 +218,16 @@ class Http_request;
 
 class Net: public Observable {
 public:
-	Array<Net_connection *> connections;
+	std::vector<Net_connection*> connections;
 	bool active;
 	const char *last_error;
 	Dword name_resolve;
 	int port_resolve;
 	char host_name[1024];
-	//All the IP addresses of this machine
-	Array<Dword> host_adr;
-	//Those IP addresses that look like public internet addresses
-	Array<Dword> host_adr_pub;
+	// All the IP addresses of this machine
+	std::vector<Dword> host_adr;
+	// Those IP addresses that look like public internet addresses
+	std::vector<Dword> host_adr_pub;
 
 	Net_param *net_param;
 
@@ -289,7 +290,7 @@ private:
 			net_callable = nc;
 		}
 	};
-	Array<Net_receive_cb *> callbacks;
+	std::vector<Net_receive_cb*> callbacks;
 
 	int udpsock[32], udpport, udpnum;
 	sockaddr_in udpsin;

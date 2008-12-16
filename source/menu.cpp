@@ -61,6 +61,8 @@
 #include <shellapi.h>
 #endif
 
+using std::vector;
+
 void Menu_do_nothing::step() {
   if(quitting)
     ret();
@@ -2035,8 +2037,9 @@ Menu_multi_checkip::Menu_multi_checkip(Bitmap *bit, Font *font, Font *font2, con
   new Zone_text(inter, "IP address:", 170, 140);
   Zone_listbox *list;
   list = new Zone_listbox2(inter, bit, font2, NULL, 310, 140, 160, 200);
-  for(int i=0; i<net->host_adr.size(); i++) {
-    Net::stringaddress(st, net->host_adr[i]);
+	vector<Dword>::const_iterator it;
+  for (it = net->host_adr.begin(); it != net->host_adr.end(); ++it) {
+    Net::stringaddress(st, *it);
     list->add_item(st);
   }
 }

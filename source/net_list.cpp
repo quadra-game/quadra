@@ -464,7 +464,7 @@ void Net_list::step_all() {
 	if(game->server) {
 		bool reset_timer=false;
 		stat_timer++;
-		for(i=0; i<net->connections.size(); i++) {
+		for(i = 0; i < static_cast<int>(net->connections.size()); ++i) {
 			Net_connection *nc=net->connections[i];
 			if(stat_timer>=(lag_limit? lag_limit/2 : 1500)) {
 				if(nc!=game->loopback_connection && nc->packet_based && nc->joined) {
@@ -496,7 +496,7 @@ void Net_list::step_all() {
 	}
 	//Drop laggy connections
 	if(game->server && lag_limit) {
-		for(i=0; i<net->connections.size(); i++) {
+		for (i = 0; i < static_cast<int>(net->connections.size()); ++i) {
 			Net_connection *nc=net->connections[i];
 			if(nc->incoming_inactive>lag_limit && nc!=game->loopback_connection && nc->packet_based && nc->joined && !nc->trusted) {
 				send_msg(nc, "Your connection has been dropped for exceeding the lag limit on this server.");
@@ -535,7 +535,7 @@ void Net_list::step_all() {
 	}
 	//Re-enable acceptconnects if dedicated and no connections
 	//  video_is_dumb==true is assumed to mean dedicated
-	if(video_is_dumb && net->connections.size()<=1)
+	if (video_is_dumb && net->connections.size() <= 1)
 		game->server_accept_connection = 0;
 
 	//notify_all if anybody has gone
@@ -584,8 +584,8 @@ void Net_list::check_end_game(bool end_it) {
 				}
 			}
 			else {
-				//Quit when -dedicated -once and all connections are gone
-				if(net->connections.size()==1 && video_is_dumb)
+				// Quit when -dedicated -once and all connections are gone
+				if (net->connections.size() == 1 && video_is_dumb)
           quitting = true;
 			}
 		}
@@ -1366,8 +1366,7 @@ void Net_list::check_player() { // check for player joins
 void Net_list::check_admin() {
 	if(!game->server)
 		return;
-	int co;
-	for(co=0; co<net->connections.size(); co++) {
+	for (int co = 0; co < static_cast<int>(net->connections.size()); ++co) {
 		Net_connection *nc=net->connections[co];
 		if(!nc->packet_based && nc->incoming->size()) {
 			Byte *buf=nc->incoming->get();
@@ -1629,9 +1628,9 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 	}
 	if(!strcmp(cmd, "list") && trusted) {
 		//-1 so we don't count loopback connection
-		send_msg(nc, "Total connections: %i", net->connections.size()-1);
-		for(int i=0; i<net->connections.size(); i++) {
-			Net_connection *nc2=net->connections[i];
+		send_msg(nc, "Total connections: %i", net->connections.size() - 1);
+		for(int i = 0; i < static_cast<int>(net->connections.size()); ++i) {
+			Net_connection* nc2 = net->connections[i];
 			if(nc2) {
 				char st[256];
 				if(nc2 == game->loopback_connection)
@@ -1686,8 +1685,8 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 		}
 		Dword ad=Net::dotted2addr(addr);
 		if(ad!=INADDR_NONE) {
-			for(int i=0; i<net->connections.size(); i++) {
-				Net_connection *nc2=net->connections[i];
+			for (int i = 0; i < static_cast<int>(net->connections.size()); ++i) {
+				Net_connection* nc2 = net->connections[i];
 				if(game && nc2==game->loopback_connection)
 					continue; //Don't ever drop loopback connection
 				if(nc2->address()==ad) {
@@ -1852,8 +1851,8 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 	}
 	if(!strcmp(cmd, "in") && trusted) {
 		int i, c=0;
-		for(i=0; i<net->connections.size(); i++) {
-			Net_connection *nc2=net->connections[i];
+		for(i = 0; i < static_cast<int>(net->connections.size()); ++i) {
+			Net_connection* nc2 = net->connections[i];
 			if(nc2 && nc2!=game->loopback_connection && nc2->packet_based && nc2->joined) {
 				char st[64];
 				net->stringaddress(st, nc2->address(), nc2->getdestport());
@@ -1866,8 +1865,8 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 	if(!strcmp(cmd, "netstat") && trusted) {
 		int i;
 		send_msg(nc, "Incoming (min, max, nz-avg):");
-		for(i=0; i<net->connections.size(); i++) {
-			Net_connection *nc2=net->connections[i];
+		for (i = 0; i < static_cast<int>(net->connections.size()); ++i) {
+			Net_connection* nc2 = net->connections[i];
 			if(nc2 && nc2!=game->loopback_connection) {
 				char st[64];
 				net->stringaddress(st, nc2->address(), nc2->getdestport());
@@ -1876,8 +1875,8 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 		}
 		send_msg(nc, "");
 		send_msg(nc, "Outgoing (min, max, nz-avg):");
-		for(i=0; i<net->connections.size(); i++) {
-			Net_connection *nc2=net->connections[i];
+		for (i = 0; i < static_cast<int>(net->connections.size()); ++i) {
+			Net_connection* nc2 = net->connections[i];
 			if(nc2 && nc2!=game->loopback_connection) {
 				char st[64];
 				net->stringaddress(st, nc2->address(), nc2->getdestport());

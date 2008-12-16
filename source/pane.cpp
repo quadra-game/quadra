@@ -627,8 +627,8 @@ Pane_server_drop_connection::~Pane_server_drop_connection() {
 
 void Pane_server_drop_connection::notify() {
 	list_connection->clear();
-	for(int i=0; i<net->connections.size(); i++) {
-		Net_connection *nc=net->connections[i];
+	for (int i = 0; i < static_cast<int>(net->connections.size()); ++i) {
+		Net_connection* nc = net->connections[i];
 		if(nc == game->loopback_connection)
 			continue; // skip the local address
 		char st2[256];
@@ -713,7 +713,7 @@ Pane_server_ip::Pane_server_ip(const Pane_info &p): Pane_close(p) {
 	list.zones.push_back(new Zone_text(inter, "IP address:", x+9, 140));
 	Zone_listbox *listbox;
 	listbox = new Zone_listbox2(inter, pi.fond, pi.font2, NULL, x+29, 160, 140, 200);
-	for(int i=0; i<net->host_adr.size(); i++) {
+	for (int i = 0; i < static_cast<int>(net->host_adr.size()); ++i) {
 		Net::stringaddress(st, net->host_adr[i]);
 		listbox->add_item(st);
 	}

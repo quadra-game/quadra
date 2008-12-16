@@ -29,6 +29,8 @@
 #include "nglog.h"
 #include "packets.h"
 
+using std::vector;
+
 Chat_text *chat_text=NULL;
 int Chat_text::quel_player=0;
 
@@ -140,13 +142,12 @@ void Chat_text::clear() {
 
 void message(int color, const char *text, bool sound, bool in_packet, bool trusted, Net_connection *but) {
 	chat_text->add_text(color, text, sound);
-	if(!game || !game->server)
+	if (!game || !game->server)
 		return;
-	int co;
-	for(co=0; co<net->connections.size(); co++) {
-		Net_connection *nc=net->connections[co];
-		if(nc && (nc->trusted || !trusted) && nc!=but && nc!=game->loopback_connection)
-			if(!in_packet || !nc->packet_based)
-				send_msg(nc, "%s", text);
+	vector<Net_connection*>::const_iterator it;
+	for (it = net->connections.begin(); it != net->connections.end(); ++it) {
+		if (*it && ((*it)->trusted || !trusted) && *it != but && *it != game->loopback_connection)
+			if (!in_packet || !(*it)->packet_based)
+				send_msg(*it, "%s", text);
 	}
 }

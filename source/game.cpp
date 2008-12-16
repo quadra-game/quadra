@@ -41,6 +41,8 @@
 #include "http_request.h"
 #include "config.h"
 
+using std::vector;
+
 Game *game=NULL;
 
 Game_params::Game_params() {
@@ -272,27 +274,24 @@ void Game::restart() {
 		return;
 
 	msgbox("Game::restart: restarting game now.\n");
-	//Make all currently joined connections not joined
-	int i;
-	if(net->active) {
-		for(i=0; i<net->connections.size(); i++) {
-			Net_connection *nc = net->connections[i];
-			if(nc->joined && nc!=loopback_connection)
-				nc->joined=false;
-		}
+	// Make all currently joined connections not joined
+	if (net->active) {
+		vector<Net_connection*>::const_iterator it;
+		for (it = net->connections.begin(); it != net->connections.end(); ++it)
+			if((*it)->joined && *it != loopback_connection)
+				(*it)->joined = false;
 	}
-	//Drop all players
-	for(i=0; i<MAXPLAYERS; i++) {
-		if(net_list.get(i)) {
+	// Drop all players
+	for (int i = 0; i < MAXPLAYERS; ++i)
+		if (net_list.get(i)) {
 			Packet_dropplayer p;
-			p.player=i;
-			p.reason=DROP_AUTO;
+			p.player = i;
+			p.reason = DROP_AUTO;
 			net_list.drop_player(&p, false);
 		}
-	}
-	//Fix everything up
-	abort=false;
-	if(!single)
+	// Fix everything up
+	abort = false;
+	if (!single)
 		delay_start = 500;
 	frame_start = overmind.framecount;
 	paused = !single;
@@ -312,16 +311,16 @@ void Game::restart() {
 		prepare_recording(NULL);
 		prepare_logging();
 	}
-	//Add connect events to the log(s) for all active connections
-	for(i=0; i<net->connections.size(); i++) {
-		Net_connection *nc=net->connections[i];
-		if(nc && nc!=loopback_connection) {
+	// Add connect events to the log(s) for all active connections
+	vector<Net_connection*>::const_iterator it;
+	for (it = net->connections.begin(); it != net->connections.end(); ++it) {
+		if(*it && *it != loopback_connection) {
 			char st[64];
-			Net::stringaddress(st, nc->address(), nc->getdestport());
+			Net::stringaddress(st, (*it)->address(), (*it)->getdestport());
 			Packet_serverlog log("connect");
-			log.add(Packet_serverlog::Var("id", nc->id()));
+			log.add(Packet_serverlog::Var("id", (*it)->id()));
 			log.add(Packet_serverlog::Var("address", st));
-			if(game->net_server)
+			if (game->net_server)
 				game->net_server->record_packet(&log);
 		}
 	}
@@ -609,10 +608,9 @@ void Game::addgameinfo(Textbuf *tb) {
 	tb->append("name %s\n", name);
 	tb->append("version %i\n", net_version());
 	tb->append("address");
-	for(int a=0; a<net->host_adr_pub.size(); ++a) {
-		Dword ip = net->host_adr_pub[a];
-		tb->append(" %i.%i.%i.%i", ip>>24, (ip>>16)&255, (ip>>8)&255, ip&255);
-	}
+	vector<Dword>::const_iterator it;
+	for (it = net->host_adr_pub.begin(); it != net->host_adr_pub.end(); ++it)
+		tb->append(" %i.%i.%i.%i", *it >> 24, (*it >> 16) & 255, (*it >> 8) & 255, *it & 255);
 	tb->append("\n");
 	tb->append("port %i\n", config.info.port_number);
 	tb->append("status/started %i\n", !delay_start? 1:0);
@@ -859,7 +857,7 @@ void Game::prepare_logging() {
 	log.add(Packet_serverlog::Var("os", os));
 
 	Dword addr = INADDR_LOOPBACK;
-	if (net->host_adr_pub.size())
+	if (!net->host_adr_pub.empty())
 		addr = net->host_adr_pub[0];
 	char st[64];
 	Net::stringaddress(st, addr, config.info.port_number);
