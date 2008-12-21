@@ -1233,10 +1233,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\include\player.h"
-				>
-			</File>
-			<File
 				RelativePath="..\include\qserv.h"
 				>
 			</File>

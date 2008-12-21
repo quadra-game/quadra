@@ -269,9 +269,6 @@
 				RelativePath="..\skelton\common\pcx.cpp">
 			</File>
 			<File
-				RelativePath="..\source\player.cpp">
-			</File>
-			<File
 				RelativePath="..\source\qserv.cpp">
 			</File>
 			<File
@@ -524,9 +521,6 @@
 			</File>
 			<File
 				RelativePath="..\skelton\include\pcx.h">
-			</File>
-			<File
-				RelativePath="..\include\player.h">
 			</File>
 			<File
 				RelativePath="..\include\qserv.h">
