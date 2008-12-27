@@ -57,6 +57,7 @@ inline int closesocket(int fd) {
 #include "net_buf.h"
 #include "http_request.h"
 
+using std::list;
 using std::min;
 using std::vector;
 
@@ -991,7 +992,7 @@ void Net::verify_server_connection() {
 }
 
 void Net::addwatch(Word id, Net_callable *nc) {
-	vector<Net_receive_cb*>::const_iterator it;
+	list<Net_receive_cb*>::const_iterator it;
 	for (it = callbacks.begin(); it != callbacks.end(); ++it)
 		if ((*it)->id == id && (*it)->net_callable == nc)
 			return;
@@ -999,7 +1000,7 @@ void Net::addwatch(Word id, Net_callable *nc) {
 }
 
 void Net::removewatch(Word id, Net_callable *nc) {
-	vector<Net_receive_cb*>::iterator it = callbacks.begin();
+	list<Net_receive_cb*>::iterator it = callbacks.begin();
 
 	while (it != callbacks.end())
 		if ((*it)->id == id && (*it)->net_callable == nc) {
@@ -1300,8 +1301,8 @@ void Net::packetreceived(Net_buf *nb, bool tcp) {
 		return;
 	}
 	in.s_addr = htonl(pac.from_addr);
-	vector<Net_receive_cb*>::const_iterator it;
-	for (it = callbacks.begin(); it != callbacks.end(); ++it)
+	list<Net_receive_cb*>::const_iterator it;
+	for (it = callbacks.begin(); it != callbacks.end(); ++it) {
 		if ((*it)->id == pac.packet_id) {
 			Packet* packet = net_buf2packet(nb, tcp);
 			if (packet)
@@ -1309,6 +1310,7 @@ void Net::packetreceived(Net_buf *nb, bool tcp) {
 			else
 				skelton_msgbox("Packet_id %i not allocated by net_buf2packet()!\n", pac.packet_id);
 		}
+	}
 }
 
 void Net::receiveudp(int sock, Net_buf *p) {
