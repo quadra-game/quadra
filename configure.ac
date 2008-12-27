@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT([quadra])
+AC_INIT
 AC_CONFIG_SRCDIR([source/quadra.cpp])
 
 AC_ARG_WITH(libpng,
