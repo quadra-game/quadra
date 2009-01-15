@@ -304,7 +304,7 @@ void Canvas::clear_key_all() {
 
 void Canvas::calc_shadow() {
   if(!bloc_shadow)
-    bloc_shadow = new Bloc(bloc->quel, 8, 0, 0);
+    bloc_shadow = new Bloc(bloc->type, 8, 0, 0);
   bloc_shadow->rot = bloc->rot;
   bloc_shadow->bx = bloc->bx;
   bloc_shadow->by = bloc->by;
@@ -881,7 +881,7 @@ bool Canvas::check_collide(Bloc *blo, Byte px, Byte py, Byte rot) {
   int i,j;
   for(j = 0; j < 4; j++)
     for(i = 0; i < 4; i++) {
-      if(blo->bloc[bloc->quel][rot][j][i])
+      if(blo->bloc[bloc->type][rot][j][i])
         if(occupied[py + j][px + i]) {
 					if(px+i>=4 && px+i<14)
 						collide_side_only=false;
@@ -957,7 +957,7 @@ void Canvas::blit_bloc(Bloc *blo) {
   }
   for(j=0; j<4; j++)
     for(i=0; i<4; i++) {
-      if(blo->bloc[blo->quel][blo->rot][j][i]) {
+      if(blo->bloc[blo->type][blo->rot][j][i]) {
         if(smooth) {
           tx=(blo->x>>4)+4*18;
           ty=(blo->y>>4)+12*18;
@@ -1028,7 +1028,7 @@ void Canvas::small_blit_bloc(Bloc *blo) {
   blo->small_draw(*screen, (blo->bx-4)*6, (blo->by-12)*6);
   for(j=0; j<4; j++)
     for(i=0; i<4; i++) {
-      if(blo->bloc[blo->quel][blo->rot][j][i]) {
+      if(blo->bloc[blo->type][blo->rot][j][i]) {
         tx=blo->bx*6;
         ty=blo->by*6;
         tx += i*6;

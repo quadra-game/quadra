@@ -712,10 +712,10 @@ void Net_pendingjoin::step() {
 			d.idle = c->idle;
 			d.state = c->state;
 			if(c->bloc) {
-				d.bloc = c->bloc->quel;
-				d.next = c->next->quel;
-				d.next2 = c->next2->quel;
-				d.next3 = c->next3->quel;
+				d.bloc = c->bloc->type;
+				d.next = c->next->type;
+				d.next2 = c->next2->type;
+				d.next3 = c->next3->type;
 			} else {
 				d.bloc = d.next = d.next2 = d.next3 = 255;
 			}

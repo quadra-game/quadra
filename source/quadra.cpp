@@ -1581,9 +1581,9 @@ Player_stamp::Player_stamp(Canvas *c, Packet_stampblock *p): Player_base(c) {
 		}
 		msgbox("%s\n", st);
 	}
-	canvas->stats[CS::COMPTE0+canvas->bloc->quel].add(1);
+	canvas->stats[CS::COMPTE0+canvas->bloc->type].add(1);
 	canvas->stats[CS::COMPTETOT].add(1);
-	canvas->stats[CS::ROTATED0+canvas->bloc->quel].add(p->block_rotated);
+	canvas->stats[CS::ROTATED0+canvas->bloc->type].add(p->block_rotated);
 	canvas->stats[CS::ROTATEDTOT].add(p->block_rotated);
 	canvas->stats[CS::SCORE].add(p->score);
 	if(game->net_version()>=23)
@@ -1591,7 +1591,7 @@ Player_stamp::Player_stamp(Canvas *c, Packet_stampblock *p): Player_base(c) {
 
 	Packet_serverlog log("player_stampblock");
 	log.add(Packet_serverlog::Var("id", canvas->id()));
-	log.add(Packet_serverlog::Var("block", canvas->bloc->quel));
+	log.add(Packet_serverlog::Var("block", canvas->bloc->type));
 	log.add(Packet_serverlog::Var("times_rotated", p->block_rotated));
 	log.add(Packet_serverlog::Var("time_held", p->time_held));
 	log.add(Packet_serverlog::Var("points", p->score));
@@ -1655,9 +1655,9 @@ void Player_stamp::stamp_bloc() {
 	}
 	for(j = 0; j < 4; j++)
 		for(i = 0; i < 4; i++) {
-			t = canvas->bloc->bloc[canvas->bloc->quel][canvas->bloc->rot][j][i];
+			t = canvas->bloc->bloc[canvas->bloc->type][canvas->bloc->rot][j][i];
 			if(t) {
-				canvas->block[canvas->bloc->by+j][canvas->bloc->bx+i] = t + (canvas->bloc->quel<<4);
+				canvas->block[canvas->bloc->by+j][canvas->bloc->bx+i] = t + (canvas->bloc->type<<4);
 				canvas->occupied[canvas->bloc->by+j][canvas->bloc->bx+i] = true;
 				canvas->blinded[canvas->bloc->by+j][canvas->bloc->bx+i] = blindness;
 				canvas->bflash[canvas->bloc->by+j][canvas->bloc->bx+i] = blindness? 16:0;

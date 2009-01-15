@@ -25,23 +25,38 @@
 
 class Video_bitmap;
 
-/* pieces of Tetris from 0 to 6 :
+/* Tetrominos from 0 to 6 :
    0 = Cube
 	 ...
 */
 
 class Bloc {
 public:
-	int quel, x, y, rot, bx,by;
-	int col;
-	Bloc(int q, int c=-1, int px=0, int py=0);
-	void draw(const Video_bitmap& b, int tx=-1, int ty=-1) const;
-	void small_draw(const Video_bitmap& b, int tx=-1, int ty=-1) const;
-	const static Byte bloc[7][4][4][4];
+  /*
+   * q: tetromino from 0 to 6, see the comment by the definition of
+   *    Bloc::bloc for more information
+   * c: color to use, -1 for the default
+   * px, py: position in the canvas
+   */
+	Bloc(int q, int c = -1, int px = 0, int py = 0);
+	void draw(const Video_bitmap& b, int tx = -1, int ty = -1) const;
+	void small_draw(const Video_bitmap& b, int tx = -1, int ty = -1) const;
 	void calc_xy() {
-		x=(bx-4)*18<<4;
-		y=(by-12)*18<<4;
+		x = (bx - 4) * 18 << 4;
+		y = (by - 12) * 18 << 4;
 	}
+
+  int type;
+  // These two are fixed-point numbers, with 4 fractional bits. In pixels?
+  int x, y;
+  int rot;
+  // Position of the tetromino, in block coordinates
+  int bx, by;
+
+	const static Byte bloc[7][4][4][4];
+
+private:
+	int col;
 };
 
 #endif

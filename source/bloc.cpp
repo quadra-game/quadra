@@ -24,18 +24,17 @@
 #include "color.h"
 #include "quadra.h"
 
-Bloc::Bloc(int q, int c, int px, int py) {
-	quel=q;
-	if(c != -1)
-		col=c;
-	else
-		col=quel;
-	bx=px;
-	by=py;
+Bloc::Bloc(int q, int c, int px, int py):
+  type(q),
+  rot(0),
+  bx(px),
+  by(py),
+  col(c) {
+  if (c == -1)
+    col = type;
 	calc_xy();
 	// Force the tetromino to start at the beginning of its initial position.
 	y -= 17 << 4;
-	rot=0;
 }
 
 void Bloc::draw(const Video_bitmap& b, int tx, int ty) const {
@@ -47,22 +46,22 @@ void Bloc::draw(const Video_bitmap& b, int tx, int ty) const {
 		ty = y>>4;
 	for(j=0; j<4; j++)
 		for(i=0; i<4; i++) {
-			t = bloc[quel][rot][j][i];
+			t = bloc[type][rot][j][i];
 			if(t) {
 				if(i > 0)
-					to[0] = bloc[quel][rot][j][i-1];
+					to[0] = bloc[type][rot][j][i-1];
 				else
 					to[0] = 0;
 				if(j > 0)
-					to[1] = bloc[quel][rot][j-1][i];
+					to[1] = bloc[type][rot][j-1][i];
 				else
 					to[1] = 0;
 				if(i < 3)
-					to[2] = bloc[quel][rot][j][i+1];
+					to[2] = bloc[type][rot][j][i+1];
 				else
 					to[2] = 0;
 				if(j < 3)
-					to[3] = bloc[quel][rot][j+1][i];
+					to[3] = bloc[type][rot][j+1][i];
 				else
 					to[3] = 0;
 				raw_draw_bloc_corner(b, tx+i*18, ty+j*18, t&15, color[col], to);
@@ -79,7 +78,7 @@ void Bloc::small_draw(const Video_bitmap& b, int tx, int ty) const {
 		ty = y>>4;
 	for(j=0; j<4; j++)
 		for(i=0; i<4; i++) {
-			t = bloc[quel][rot][j][i];
+			t = bloc[type][rot][j][i];
 			if(t)
 				raw_small_draw_bloc(b, tx+i*6, ty+j*6, t&15, color[col]);
 		}
