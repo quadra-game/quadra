@@ -1301,12 +1301,14 @@ void Net::packetreceived(Net_buf *nb, bool tcp) {
 		return;
 	}
 	in.s_addr = htonl(pac.from_addr);
-	list<Net_receive_cb*>::const_iterator it;
-	for (it = callbacks.begin(); it != callbacks.end(); ++it) {
-		if ((*it)->id == pac.packet_id) {
+	list<Net_receive_cb*>::const_iterator it = callbacks.begin();
+	while (it != callbacks.end()) {
+        list<Net_receive_cb*>::const_iterator cur = it;
+        ++it;
+		if ((*cur)->id == pac.packet_id) {
 			Packet* packet = net_buf2packet(nb, tcp);
 			if (packet)
-				(*it)->net_callable->net_call(packet);
+				(*cur)->net_callable->net_call(packet);
 			else
 				skelton_msgbox("Packet_id %i not allocated by net_buf2packet()!\n", pac.packet_id);
 		}
