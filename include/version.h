@@ -2,6 +2,6 @@
 #define VERSION_MAJOR 1
 #define VERSION_MINOR 2
 #define VERSION_PATCHLEVEL 0
-#define VERSION_EXTRA "rc6"
-#define VERSION_STRING "1.2.0rc6\0"
+#define VERSION_EXTRA "rc7"
+#define VERSION_STRING "1.2.0rc7\0"
 
