@@ -161,9 +161,9 @@ FIXME...
 
 Mac OS X Leopard:
 
-./configure --enable-debug LDFLAGS="-L/usr/X11/lib -F$HOME/Library/Frameworks" CPPFLAGS="-I/usr/X11/include/libpng12 -I$HOME/Library/Frameworks/SDL.framework/Headers"
+./configure --enable-debug CPPFLAGS=-I/usr/X11/include LDFLAGS=-L/usr/X11/lib SDL_CFLAGS=-I$HOME/Library/Frameworks/SDL.framework/Headers SDL_LIBS="-F$HOME/Library/Frameworks -framework SDL -framework Cocoa"
 
 Mac OS X pre-Leopard:
 
-./configure --enable-debug --with-libpng=$HOME/src/libpng-1.2.10 LDFLAGS="-F$HOME/Library/Frameworks" CPPFLAGS="-I$HOME/Library/Frameworks/SDL.framework/Headers"
+./configure --enable-debug CPPFLAGS=-I$HOME/src/libpng-1.2.10 LDFLAGS=-L$HOME/src/libpng-1.2.10 SDL_CFLAGS=-I$HOME/Library/Frameworks/SDL.framework/Headers SDL_LIBS="-F$HOME/Library/Frameworks -framework SDL -framework Cocoa"
 
