@@ -62,39 +62,7 @@
 
 #elif defined(UGS_LINUX)
 
-#if 0
-#include <vgakeyboard.h>
-
-#define KEY_PADENTER    SCANCODE_KEYPADENTER
-#define KEY_LEFTARROW   SCANCODE_CURSORBLOCKLEFT
-#define KEY_RIGHTARROW  SCANCODE_CURSORBLOCKRIGHT
-#define KEY_UPARROW     SCANCODE_CURSORBLOCKUP
-#define KEY_DOWNARROW   SCANCODE_CURSORBLOCKDOWN
-#define KEY_LCTRL       SCANCODE_LEFTCONTROL
-#define KEY_RCTRL       SCANCODE_RIGHTCONTROL
-#define KEY_LSHIFT      SCANCODE_LEFTSHIFT
-#define KEY_RSHIFT      SCANCODE_RIGHTSHIFT
-#define KEY_LALT        SCANCODE_LEFTALT
-#define KEY_RALT        SCANCODE_RIGHTALT
-#define KEY_ESCAPE      SCANCODE_ESCAPE
-#define KEY_ENTER       SCANCODE_ENTER
-#define KEY_SPACE       SCANCODE_SPACE
-#define KEY_TAB         SCANCODE_TAB
-#define KEY_F1          SCANCODE_F1
-#define KEY_F2          SCANCODE_F2
-#define KEY_F3          SCANCODE_F3
-#define KEY_F4          SCANCODE_F4
-#define KEY_F5          SCANCODE_F5
-#define KEY_F6          SCANCODE_F6
-#define KEY_F7          SCANCODE_F7
-#define KEY_F8          SCANCODE_F8
-#define KEY_F9          SCANCODE_F9
-#define KEY_F10         SCANCODE_F10
-#define KEY_F11         SCANCODE_F11
-#define KEY_F12         SCANCODE_F12
-
-#else
-
+/* I have no idea where these values come from. */
 #define KEY_PADENTER    96
 #define KEY_LEFTARROW   105
 #define KEY_RIGHTARROW  106
@@ -122,8 +90,6 @@
 #define KEY_F10         68
 #define KEY_F11         87
 #define KEY_F12         88
-
-#endif
 
 #endif
 
