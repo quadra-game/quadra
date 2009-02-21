@@ -1171,7 +1171,7 @@ Menu_setup_all_key::Menu_setup_all_key(Inter *in, Zone_set_key *k[]): Menu(in) {
 }
 
 void Menu_setup_all_key::step() {
-  static char touche[7] = {0, 1, 3, 4, 2, 5, 6};
+  const size_t touche[7] = {0, 1, 3, 4, 2, 5, 6};
   Menu::step();
   if(quel > 6 || input->keys[SDLK_ESCAPE] & PRESSED) {
     ret();
@@ -1966,7 +1966,7 @@ void Menu_stat::step() {
     b_restart=NULL;
 		video->need_paint = 2;
   }
-  if(!playback && !b_restart)
+  if(!playback && !b_restart) {
     if(game->server)
 			if(game->terminated)
 				b_restart = new Zone_text_button2(inter, bit, font2,
@@ -1979,6 +1979,7 @@ void Menu_stat::step() {
       if(net->active && net->connected())
         b_restart = new Zone_text_button2(inter, bit, font2, 
                                           "·2 Rejoin game", 8, 455);
+  }
   if(result) {
     if(result == b_quit)
       quit = true;

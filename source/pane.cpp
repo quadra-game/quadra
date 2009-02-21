@@ -1025,7 +1025,7 @@ void Pane_playerinfo::step() {
 				if(to_tag[i] && game->net_list.get(i)->color==team)
 					tag(i);
 	}
-	if(Pane::clicked && Pane::clicked == show_button || auto_watch) {
+	if((Pane::clicked && Pane::clicked == show_button) || auto_watch) {
 		if(Pane::clicked && Pane::clicked == show_button)
 			deactivate_auto_watch();
 		int count = 0, solo = 0;

@@ -704,7 +704,7 @@ void Net_list::check_end_game(bool end_it) {
 			could_end=true;
 	}
 
-	if(could_end)
+	if(could_end) {
 		if(draw) {
 			if(something_changed || (game->game_end==END_TIME && time_left==0)) {
 				// Drawn at a total higher or equal to end_value: suspense! Or
@@ -719,6 +719,7 @@ void Net_list::check_end_game(bool end_it) {
 		}
 		else
 			should_end = true;
+	}
 
 	if(!end_it) {
 		// Don't signal the end of the game if it's not a good time
@@ -817,11 +818,12 @@ bool Net_list::check_first_frag() {
 	bool onewaiting=false;
 	for(i=0; i<MAXPLAYERS; i++) {
 		Canvas *c=get(i);
-		if(c && c->idle<3)
+		if(c && c->idle<3) {
 			if(c->state == Canvas::WAITFORWINNER)
 				onewaiting=true;
 			else
 				allwaiting=false;
+		}
 	}
 	if(allwaiting && onewaiting) {
 		syncto(Canvas::WAITFORRESTART);
@@ -831,11 +833,12 @@ bool Net_list::check_first_frag() {
 	onewaiting=false;
 	for(i=0; i<MAXPLAYERS; i++) {
 		Canvas *c=get(i);
-		if(c && c->idle<3)
+		if(c && c->idle<3) {
 			if(c->state==Canvas::WAITFORRESTART)
 				onewaiting=true;
 			else
 				allwaiting=false;
+		}
 	}
 	if(allwaiting && onewaiting) {
 		if(syncpoint==Canvas::WAITFORRESTART) {
@@ -858,13 +861,14 @@ bool Net_list::check_first_frag() {
 		Canvas *c=get(i);
 		if(c && c->idle!=3)
 			all_gone=false;
-		if(c && c->idle<3)
+		if(c && c->idle<3) {
 			if(c->state==Canvas::PLAYING)
 				onewaiting=true;
 			else
 				allwaiting=false;
+		}
 	}
-	if(allwaiting && onewaiting || all_gone)
+	if((allwaiting && onewaiting) || all_gone)
 		syncto(Canvas::LAST);
 	int alive_team = -1;
 	for(i=0; i<MAXPLAYERS; i++) {
