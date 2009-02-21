@@ -187,8 +187,9 @@ void Input_X11::process_key(XEvent event) {
   switch(event.type) {
   case KeyPress:
     keys[key] |= PRESSED;
+    keysym = XLookupKeysym(&event.xkey, 0);
 
-    if(event.xkey.state == Mod1Mask && XLookupKeysym(&event.xkey, 0) == XK_Return) {
+    if(event.xkey.state == Mod1Mask && keysym == XK_Return) {
       video->toggle_fullscreen();
       return;
     }
@@ -197,26 +198,26 @@ void Input_X11::process_key(XEvent event) {
       skelton_msgbox("Unknown KeyCode: %i\n", event.xkey.keycode);
 
     if(israw) {
-      switch(key) {
-      case KEY_RSHIFT:
-      case KEY_LSHIFT:
-        shift_key |= SHIFT;
-        break;
-      case KEY_RALT:
-      case KEY_LALT:
-        shift_key |= ALT;
-        break;
-      case KEY_RCTRL:
-      case KEY_LCTRL:
-        shift_key |= CONTROL;
-        break;
-      case 101:
-      case 119:
+      if ((event.xkey.state == 0 && keysym == XK_Pause)
+           || (event.xkey.state == ControlMask && keysym == XK_p))
         pause = true;
-        break;
-      default:
-        quel_key = key;
-      }
+      else
+        switch(key) {
+          case KEY_RSHIFT:
+          case KEY_LSHIFT:
+            shift_key |= SHIFT;
+            break;
+          case KEY_RALT:
+          case KEY_LALT:
+            shift_key |= ALT;
+            break;
+          case KEY_RCTRL:
+          case KEY_LCTRL:
+            shift_key |= CONTROL;
+            break;
+          default:
+            quel_key = key;
+        }
     } else {
       if(ic) {
         num = XmbLookupString(ic, &event.xkey, buf, 20, &keysym, &status);
