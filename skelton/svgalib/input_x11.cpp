@@ -47,15 +47,16 @@ Input_X11::Input_X11() {
 
   clear_key();
 
-  /* Here, I'm just about to go mad. */
+  /*
+   * Here, I'm just about to go mad. Let's map platform-specific X11 keycodes
+   * to PC AT scancodes (yes, this means it can only be right for one
+   * platform, you all run the same version of X on Linux/x86, right?). ;-)
+   */
   for(i = 0; i < 256; i++)
     xlate[i] = 0;
 
   for(i = 9; i < 92; i++)
     xlate[i] = i - 8;
-
-  //xlate[] = SCANCODE_LESS;			// 86
-  //xlate[] = SCANCODE_BREAK;		// 101
 
   for(i = 94; i < 97; i++)
     xlate[i] = i - 8;
@@ -66,15 +67,15 @@ Input_X11::Input_X11() {
   for(i = 102; i < 108; i++)
     xlate[i] = i + 4;
 
-  xlate[108] = 96; /* SCANCODE_KEYPADENTER */
-  xlate[109] = 97; /* SCANCODE_RIGHTCONTROL */
+  xlate[108] = KEY_PADENTER;
+  xlate[109] = KEY_RCTRL;
   xlate[110] = 119; /* SCANCODE_BREAK_ALTERNATIVE */
-  xlate[111] = 99; /* SCANCODE_PRINTSCREEN */
+  xlate[111] = KEY_UPARROW;
   xlate[112] = 98; /* SCANCODE_KEYPADDIVIDE */
-  xlate[113] = 100; /* SCANCODE_RIGHTALT */
-
+  xlate[113] = KEY_LEFTARROW;
+  xlate[114] = KEY_RIGHTARROW;
   xlate[115] = 219; /* Win left */
-  xlate[116] = 220; /* Win right */
+  xlate[116] = KEY_DOWNARROW;
   xlate[117] = 221; /* Win popup */
 
   im = XOpenIM(videox11->display, NULL, NULL, NULL);
