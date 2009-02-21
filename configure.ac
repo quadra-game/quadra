@@ -3,19 +3,12 @@ dnl Process this file with autoconf to produce a configure script.
 AC_INIT
 AC_CONFIG_SRCDIR([source/quadra.cpp])
 
-AC_ARG_WITH(libpng,
-	AS_HELP_STRING([--with-libpng], [Specify location for libpng]))
 AC_ARG_ENABLE(debug,
 	AS_HELP_STRING([--enable-debug], [debugging options]))
 AC_ARG_ENABLE(framerate,
 	AS_HELP_STRING([--enable-framerate], [framerate indicator]))
 AC_ARG_ENABLE(version-check,
 	AS_HELP_STRING([--disable-version-check], [New version notification]))
-
-if test ! -z "$with_libpng"; then
-   CPPFLAGS="$CPPFLAGS -I$with_libpng"
-   LDFLAGS="$LDFLAGS -L$with_libpng"
-fi
 
 dnl Checks for programs.
 AC_PROG_CXX
