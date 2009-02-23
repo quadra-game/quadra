@@ -82,7 +82,7 @@ class Game: public GS {
 	Array<Packet *> stack;
 	Qserv *gameinfo;
 	bool http_failed;
-	void buildgameinfo();
+	void buildgameinfo(const char* cmd);
 	char record_filename[1024];
 	char slog_filename[1024];
 	bool is_recording, is_slogging;

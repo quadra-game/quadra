@@ -751,8 +751,8 @@ bool Game::verifygameinfo(const Dict *sum) const
 	return true;
 }
 
-void Game::buildgameinfo() {
-	gameinfo->add_data("postgame\n");
+void Game::buildgameinfo(const char* cmd) {
+	gameinfo->add_data(cmd);
 	Textbuf tb;
 	addgameinfo(&tb);
 	gameinfo->add_data(tb.get());
@@ -775,9 +775,9 @@ void Game::sendgameinfo(bool quit) {
 		gameinfo = NULL;
 	} else {
 		if(quit)
-			gameinfo->add_data("deletegame\n");
+			buildgameinfo("deletegame\n");
 		else
-			buildgameinfo();
+			buildgameinfo("postgame\n");
 		gameinfo->send();
 	}
 }
