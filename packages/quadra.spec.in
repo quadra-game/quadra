@@ -2,7 +2,7 @@ Summary: Multiplayer puzzle game
 Name: quadra
 Version: @VERSION@
 Release: 1
-Copyright: LGPL
+License: LGPL
 Group: Amusements/Games
 URL: http://quadra.googlecode.com/
 Source: quadra-%{version}.tar.gz
