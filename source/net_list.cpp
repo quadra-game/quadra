@@ -693,7 +693,7 @@ void Net_list::check_end_game(bool end_it) {
 				//Drawn at a total higher or equal to end_value: suspense!
 				//  or maybe timer just elapsed and the game is drawn
 				//  (still suspense! :))
-				sprintf(st, ST_GAMETIED);
+				sprintf(st, "%s", ST_GAMETIED);
 				message(-1, st);
 				{ Sfx stmp(sons.levelup, 0, 0, -1, 18050); }
 				{ Sfx stmp(sons.levelup, 0, 0, -1, 18100); }
