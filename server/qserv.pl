@@ -321,8 +321,10 @@ sub do_deletegame {
   print $cgi->header('text/plain');
   if(unlink($gamesdir . '/' . $game)) {
     print "Game deleted\n";
+    warn("game deleted: $game") if $debug >= 3;
   } else {
     print "Game not found\n";
+    warn("game not found: $game") if $debug >= 3;
   }
 }
 
