@@ -215,6 +215,8 @@ void Qserv::create_req()
     defaulturl.setPath("/cgi-bin/qserv.pl");
 
 	Url url(config.info.game_server_address);
+	if(!url.getScheme() || strlen(url.getScheme()) == 0)
+		url.setScheme("http");
 	if(!url.getPort())
 		url.setPort(defaulturl.getPort());
 	if(!strcmp(url.getHost(), ""))
@@ -231,8 +233,7 @@ void Qserv::create_req()
 		host = proxy.getHost();
 		port = proxy.getPort();
 		url.getFull(path);
-	}
-	else {
+	} else {
 		//No proxy configuration, use game server address for everything
 		host = url.getHost();
 		port = url.getPort();
