@@ -100,7 +100,10 @@ void Input_SDL::check() {
 
     case SDL_MOUSEMOTION:
       if(cursor)
+      {
+        video->transform_to_local(event.motion.x, event.motion.y);
         cursor->set_pos(event.motion.x, event.motion.y);
+      }
       break;
 
     case SDL_MOUSEBUTTONDOWN:
@@ -179,6 +182,13 @@ void Input_SDL::check() {
     case SDL_KEYUP:
       keys[event.key.keysym.sym] = RELEASED;
       break;
+      
+    case SDL_VIDEORESIZE:
+    {
+      SDL_ResizeEvent* resize = (SDL_ResizeEvent *) &event;
+      video->resize_event(resize->w, resize->h);
+      break;
+    }
 
     default:
       break;

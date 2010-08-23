@@ -80,10 +80,12 @@ public:
   void setpal(const Palette& p);
   void snap_shot(int x, int y, int w, int h);
   void toggle_fullscreen();
+  void resize_event(int w, int h);
   SDL_Surface* surface() const {
-    return display;
+    return offscreen;
   }
   void clone_palette(SDL_Surface* surface);
+  void transform_to_local(Uint16& x, Uint16& y);
 
   Video_bitmap vb;
   int need_paint;
@@ -92,6 +94,8 @@ public:
 private:
   void SetVideoMode();
   void set_dirty(int x1, int y1, int x2, int y2);
+  void create_display(int w, int h);
+  void update_dirty_display();
 
   bool newpal;
   Palette pal;
@@ -103,7 +107,12 @@ private:
 	int mDirtyY1;
 	int mDirtyX2;
 	int mDirtyY2;
-  SDL_Surface* display;
+  SDL_Surface* display; // real SDL video surface
+  SDL_Surface* offscreen; // internal surface always in 640x480
+  Uint32* mHScaleDst2Src; // horizontal scaling conversion table (destination to source)
+  Uint32* mVScaleDst2Src; // vertical scaling conversion table (destination to source)
+  Uint32 mHScaleSrc2Dst[641]; // horizontal scaling conversion table (source to destination)
+  Uint32 mVScaleSrc2Dst[481]; // vertical scaling conversion table (source to destination)
 };
 
 extern Video* video;

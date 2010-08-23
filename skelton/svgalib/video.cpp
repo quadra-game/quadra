@@ -31,6 +31,7 @@
 #include "version.h"
 #include "image_png.h"
 #include "cursor.h"
+#include "input.h"
 
 Video* video = NULL;
 
@@ -136,29 +137,35 @@ Video::Video():
 	mDirtyY1(),
 	mDirtyX2(),
 	mDirtyY2(),
-  display(NULL) {
+  display(NULL),
+  offscreen(NULL),
+  mHScaleDst2Src(NULL),
+  mVScaleDst2Src(NULL)
+{
   SetVideoMode();
+  // Create offscreen surface which will be used for rendering by the game
+  offscreen = SDL_CreateRGBSurface(SDL_SWSURFACE, 640, 480, 8, 0, 0, 0, 0);
 }
 
 Video::~Video() {
+  delete(mHScaleDst2Src);
+  delete(mVScaleDst2Src);
 }
 
 void Video::end_frame() {
   if (newpal) {
     SDL_SetColors(display, pal.pal, 0, pal.size);
+    SDL_SetColors(offscreen, pal.pal, 0, pal.size);
     newpal = false;
+    // Automatically set the whole screen 'dirty' when a palette change occur
+    // to enforce SDL to redraw the screen
+    set_dirty(0, 0, offscreen->w-1, offscreen->h-1);
   }
 
 	// Draw and convert only the dirty region to screen
 	if(!mDirtyEmpty)
 	{
-		SDL_Rect rect;
-		rect.x = mDirtyX1;
-		rect.y = mDirtyY1;
-		rect.w = mDirtyX2 - mDirtyX1 + 1;
-		rect.h = mDirtyY2 - mDirtyY1 + 1;
-		SDL_UpdateRect(display, rect.x, rect.y, rect.w, rect.h);
-		mDirtyEmpty = true;
+	  update_dirty_display();
 	}
 
 	// RV: Make system sleep a little bit to keep framerate around 100 FPS
@@ -188,6 +195,54 @@ void Video::end_frame() {
 	}
 
   ++framecount;
+}
+
+void Video::update_dirty_display()
+{
+  // Prepare source rect region (i.e.: in 640x480 offscreen surface) that needs to be shown
+	SDL_Rect rect;
+	rect.x = mDirtyX1;
+	rect.y = mDirtyY1;
+	rect.w = mDirtyX2 - mDirtyX1 + 1;
+	rect.h = mDirtyY2 - mDirtyY1 + 1;
+
+  // Prepare destination rect region
+  SDL_Rect dstrect = rect;
+
+  // Special optimized case: if display surface is exactly 640x480, no scaling needed: perform fast blit
+  if(display->w == 640 && display->h == 480)
+  {
+    SDL_BlitSurface(offscreen, &rect, display, &dstrect);
+  }
+  else
+  {
+    // 2D arbitrary scaling
+    // Evaluate destination rect coordinates:
+    dstrect.x = mHScaleSrc2Dst[mDirtyX1];
+    dstrect.y = mVScaleSrc2Dst[mDirtyY1];
+    dstrect.w = mHScaleSrc2Dst[mDirtyX2+1]-1 - mHScaleSrc2Dst[mDirtyX1] + 1;
+    dstrect.h = mVScaleSrc2Dst[mDirtyY2+1]-1 - mVScaleSrc2Dst[mDirtyY1] + 1;
+    SDL_LockSurface(display);
+    
+    Uint8* dst = (Uint8*) display->pixels;
+    dst += dstrect.x + (dstrect.y)*display->pitch;
+    
+    for(Uint32 j=0; j<dstrect.h; j++)
+    {
+      Uint8* src = (Uint8*) offscreen->pixels;
+      src += mVScaleDst2Src[dstrect.y+j]*offscreen->pitch;
+      
+      for(Uint32 i=0; i<dstrect.w; i++)
+      {
+        *dst++ = *(src + mHScaleDst2Src[dstrect.x+i]);
+      }
+      dst += display->pitch - dstrect.w;
+    }
+    SDL_UnlockSurface(display);
+  }
+  
+	SDL_UpdateRect(display, dstrect.x, dstrect.y, dstrect.w, dstrect.h);
+	mDirtyEmpty = true;
 }
 
 void Video::setpal(const Palette &p) {
@@ -227,12 +282,78 @@ void Video::SetVideoMode()
 		SDL_FreeSurface(surf);
 	}
 
+  create_display(640, 480);
+}
+
+void Video::create_display(int w, int h)
+{
   int flags = SDL_SWSURFACE|SDL_HWPALETTE;
-  if(fullscreen) flags |= SDL_FULLSCREEN;
-  display = SDL_SetVideoMode(640, 480, 8, flags);
+  if(fullscreen)
+  {
+    flags |= SDL_FULLSCREEN;
+  }
+  else
+  {
+    flags |= SDL_RESIZABLE; // In windowed mode, make the window resizable
+  }
+  display = SDL_SetVideoMode(w, h, 8, flags);
   assert(display);
-  need_paint = 2;
-  newpal = true;
+  newpal = true; // Force palette to be applied to newly created display surface
+  
+  // build 2d scaling tables (horizontal and vertical)
+  {
+    // allocate memory according to window dimension
+    delete(mHScaleDst2Src);
+    mHScaleDst2Src = (Uint32*) malloc(display->w << 2); // 4 bytes per element
+    delete(mVScaleDst2Src);
+    mVScaleDst2Src = (Uint32*) malloc(display->h << 2); // 4 bytes per element
+    memset(mHScaleSrc2Dst, 0xffffffff, sizeof(mHScaleSrc2Dst));
+    memset(mVScaleSrc2Dst, 0xffffffff, sizeof(mVScaleSrc2Dst));
+    
+    Uint32 hscale = ((display->w << 16)) / 640;
+    Uint32 src_x_scale = 32768;
+    Uint32 src_x_scale_step = (4294967295 / hscale);   
+    // Prepare scaling table
+    for(int i=0; i<display->w; i++)
+    {
+      Uint32 t = (src_x_scale>>16);
+      if(t > 639) t = 639; // Clamp to maximum pixel
+      mHScaleDst2Src[i] = t;
+      if(mHScaleSrc2Dst[t] == 0xffffffff) mHScaleSrc2Dst[t] = i;
+      src_x_scale += src_x_scale_step;
+    }
+    // Check for missing source to dest conversion (in case window is smaller than 640x480)
+    for(int i=1; i<640; i++)
+    {
+      if(mHScaleSrc2Dst[i] == 0xffffffff) mHScaleSrc2Dst[i] = mHScaleSrc2Dst[i-1];
+    }
+    mHScaleSrc2Dst[640] = w;
+    mVScaleSrc2Dst[480] = h;
+
+    Uint32 vscale = ((display->h << 16)) / 480;
+    Uint32 src_y_scale = 32768;
+    Uint32 src_y_scale_step = (4294967295 / vscale);
+    for(int i=0; i<display->h; i++)
+    {
+      Uint32 t = (src_y_scale>>16);
+      if(t > 479) t = 479; // Clamp to maximum pixel
+      mVScaleDst2Src[i] = t;
+      if(mVScaleSrc2Dst[t] == 0xffffffff) mVScaleSrc2Dst[t] = i;
+      src_y_scale += src_y_scale_step;
+    }
+    // Check for missing source to dest conversion (in case window is smaller than 640x480)
+    for(int i=1; i<480; i++)
+    {
+      if(mVScaleSrc2Dst[i] == 0xffffffff) mVScaleSrc2Dst[i] = mVScaleSrc2Dst[i-1];
+    }
+
+  }
+}
+
+void Video::transform_to_local(Uint16& x, Uint16& y)
+{
+  if(x >= 0 && x < display->w) x = mHScaleDst2Src[x];
+  if(y >= 0 && y < display->h) y = mVScaleDst2Src[y];
 }
 
 void Video::set_dirty(int x1, int y1, int x2, int y2)
@@ -252,4 +373,55 @@ void Video::set_dirty(int x1, int y1, int x2, int y2)
 		if(x2 > mDirtyX2) mDirtyX2 = x2;
 		if(y2 > mDirtyY2) mDirtyY2 = y2;
 	}
+}
+
+// Handle SDL windowed-mode resize event
+void Video::resize_event(int w, int h)
+{
+  bool fix_aspect = false;
+  bool fix_step = false;
+  // SDL BUG: after the window is resized, the keyboard gets 'reset' and all keys are released.
+  // I don't know how to fix this.
+  
+  // When holding SHIFT while resizing window, enforce fixed aspect ratio
+  if(SDL_GetModState() & KMOD_SHIFT)
+  {
+    fix_aspect = true;
+  }
+  // When holding CONTROL while resizing window, enforce integer-step scaling (2x, 3x, 4x, ...)
+  if(SDL_GetModState() & KMOD_CTRL)
+  {
+    fix_step = true;
+  }
+  // Fix a minimum window size (to prevent scaling problem)
+  if(w<16) w = 64;
+  if(h<16) h = 48;
+  
+  float hscale = w / 640.f;
+  float vscale = h / 480.f;
+  if(fix_step)
+  {
+    hscale = float(int(hscale+0.5f));
+    if(hscale < 1.f) hscale = 1.f;  
+    w = int(640 * hscale);
+
+    vscale = float(int(vscale+0.5f));
+    if(vscale < 1.f) vscale = 1.f;  
+    h = int(480 * vscale);
+  }
+  
+  if(fix_aspect)
+  {
+    if(vscale < hscale)
+    {
+      w = int(640.f * vscale);
+    }
+    else
+    {
+      h = int(480.f * hscale);
+    }
+  }
+  
+  create_display(w, h); // Recreate display surface according to new window dimension
+  msgbox("Video::resize_event: w=%i h=%i\n", w, h);
 }
