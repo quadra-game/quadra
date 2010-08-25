@@ -38,6 +38,7 @@ Bitmap* Bitmap::loadPng(const char* n) {
 Bitmap::Bitmap(void* m, int w, int h, int rw):
 		Clipable(w, h),
 	  surface(SDL_CreateRGBSurfaceFrom(m, w, h, 8, rw, 0, 0, 0, 0)) {
+	  video->clone_palette(surface);
 }
 
 Bitmap::Bitmap(const Image& raw):

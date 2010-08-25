@@ -119,7 +119,6 @@ void Video_bitmap::put_surface(SDL_Surface* surface, const SDL_Rect& _srcrect, i
 }
 
 void Video_bitmap::put_bitmap(const Bitmap &d, int dx, int dy) const {
-  video->clone_palette(d.surface);
   put_surface(d.surface, dx, dy);
 }
 
@@ -142,8 +141,19 @@ Video::Video():
   mHScaleDst2Src(NULL),
   mVScaleDst2Src(NULL)
 {
+  video = this;
   // Create offscreen surface which will be used for rendering by the game
   offscreen = SDL_CreateRGBSurface(SDL_SWSURFACE, 640, 480, 8, 0, 0, 0, 0);
+  SDL_Color pal[256];
+  // Build a simple grayscale palette 0..255 to provide 1:1 mapping
+  for(int i=0; i<256; i++)
+  {
+    pal[i].r = i;
+    pal[i].g = i;
+    pal[i].b = i;
+  }
+  SDL_SetColors(offscreen, pal, 0, 256);
+  
   SetVideoMode();
 }
 
@@ -154,8 +164,7 @@ Video::~Video() {
 
 void Video::end_frame() {
   if (newpal) {
-    SDL_SetColors(display, pal.pal, 0, pal.size);
-    SDL_SetColors(offscreen, pal.pal, 0, pal.size);
+    SDL_SetPalette(display, SDL_PHYSPAL, pal.pal, 0, pal.size);
   }
 
 	// Draw and convert only the dirty region to screen
@@ -359,7 +368,7 @@ void Video::toggle_fullscreen() {
 
 void Video::clone_palette(SDL_Surface* surface)
 {
-	SDL_SetColors(surface, display->format->palette->colors, 0, display->format->palette->ncolors);
+	SDL_SetColors(surface, offscreen->format->palette->colors, 0, offscreen->format->palette->ncolors);
 }
 
 void Video::SetVideoMode()
@@ -372,7 +381,18 @@ void Video::SetVideoMode()
 		Res_doze res("window_newicon.png");
 		Png img(res);
     SDL_Surface* surf = img.new_surface();
-
+    
+    // Fetch palette from the png
+    SDL_Color* colors = new SDL_Color[img.palettesize()];
+    const Byte* palette = img.pal();
+    for (int i = 0; i < img.palettesize(); ++i) {
+      colors[i].r = palette[i * 3];
+      colors[i].g = palette[i * 3 + 1];
+      colors[i].b = palette[i * 3 + 2];
+    }
+    SDL_SetColors(surf, colors, 0, img.palettesize());
+    delete[] colors;
+    
 		// Fetch colorkey from top-left pixel value
 		SDL_SetColorKey(surf, SDL_SRCCOLORKEY, img.pic()[0]);
 
@@ -396,6 +416,8 @@ void Video::create_display(int w, int h)
   }
   display = SDL_SetVideoMode(w, h, 8, flags);
   assert(display);
+  clone_palette(display);
+  
   newpal = true; // Force palette to be applied to newly created display surface
   // mark whole screen as 'dirty' to draw the newly created display once
   set_dirty(0, 0, offscreen->w-1, offscreen->h-1);

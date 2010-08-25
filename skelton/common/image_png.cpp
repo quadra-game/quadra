@@ -19,6 +19,7 @@
  */
 
 #include <assert.h>
+#include "video.h"
 #include "image_png.h"
 
 SDL_Surface* Image::new_surface() const {
@@ -34,17 +35,7 @@ SDL_Surface* Image::new_surface() const {
            pic() + (row * width()), width());
 
   SDL_UnlockSurface(surface);
-
-  SDL_Color* colors = new SDL_Color[palettesize()];
-  const Byte* palette = pal();
-  for (int i = 0; i < palettesize(); ++i) {
-    colors[i].r = palette[i * 3];
-    colors[i].g = palette[i * 3 + 1];
-    colors[i].b = palette[i * 3 + 2];
-  }
-
-  SDL_SetColors(surface, colors, 0, palettesize());
-  delete[] colors;
+  video->clone_palette(surface);
 
   return surface;
 }

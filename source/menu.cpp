@@ -1964,7 +1964,6 @@ void Menu_stat::step() {
   if(net->active && !game->server && !net->connected()) {
     delete b_restart;
     b_restart=NULL;
-		video->need_paint = 2;
   }
   if(!playback && !b_restart) {
     if(game->server)
