@@ -44,7 +44,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="3"
 				InlineFunctionExpansion="2"
-				FavorSizeOrSpeed="2"
+				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				EnableFiberSafeOptimizations="true"
 				WholeProgramOptimization="true"

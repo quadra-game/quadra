@@ -96,6 +96,7 @@ private:
   void set_dirty(int x1, int y1, int x2, int y2);
   void create_display(int w, int h);
   void update_dirty_display();
+  void update_sdl_display();
 
   bool newpal;
   Palette pal;

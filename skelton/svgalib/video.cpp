@@ -142,24 +142,20 @@ Video::Video():
   mHScaleDst2Src(NULL),
   mVScaleDst2Src(NULL)
 {
-  SetVideoMode();
   // Create offscreen surface which will be used for rendering by the game
   offscreen = SDL_CreateRGBSurface(SDL_SWSURFACE, 640, 480, 8, 0, 0, 0, 0);
+  SetVideoMode();
 }
 
 Video::~Video() {
-  delete(mHScaleDst2Src);
-  delete(mVScaleDst2Src);
+  delete[] mHScaleDst2Src;
+  delete[] mVScaleDst2Src;
 }
 
 void Video::end_frame() {
   if (newpal) {
     SDL_SetColors(display, pal.pal, 0, pal.size);
     SDL_SetColors(offscreen, pal.pal, 0, pal.size);
-    newpal = false;
-    // Automatically set the whole screen 'dirty' when a palette change occur
-    // to enforce SDL to redraw the screen
-    set_dirty(0, 0, offscreen->w-1, offscreen->h-1);
   }
 
 	// Draw and convert only the dirty region to screen
@@ -167,6 +163,9 @@ void Video::end_frame() {
 	{
 	  update_dirty_display();
 	}
+	
+	// Now perform actual SDL display update
+	update_sdl_display();
 
 	// RV: Make system sleep a little bit to keep framerate around 100 FPS
 	{
@@ -197,6 +196,36 @@ void Video::end_frame() {
   ++framecount;
 }
 
+void Video::update_sdl_display()
+{
+  // Two things can make the display update:
+  // 1) A palette change: the whole screen needs to be updated
+  // 2) A dirty region: only the required rect is updated
+  
+  // Nothing to do if no new palette and no dirty region: early out
+  if(!newpal && mDirtyEmpty) return;
+  
+	SDL_Rect rect;
+	if(newpal)
+	{
+	  rect.x = 0;
+	  rect.y = 0;
+	  rect.w = 0;
+	  rect.h = 0;
+    newpal = false;
+  }
+  else
+  {
+    rect.x = mHScaleSrc2Dst[mDirtyX1];
+    rect.y = mVScaleSrc2Dst[mDirtyY1];
+    rect.w = mHScaleSrc2Dst[mDirtyX2+1]-1 - mHScaleSrc2Dst[mDirtyX1] + 1;
+    rect.h = mVScaleSrc2Dst[mDirtyY2+1]-1 - mVScaleSrc2Dst[mDirtyY1] + 1;
+	  mDirtyEmpty = true;
+	}
+	
+	SDL_UpdateRect(display, rect.x, rect.y, rect.w, rect.h);
+}
+
 void Video::update_dirty_display()
 {
   // Prepare source rect region (i.e.: in 640x480 offscreen surface) that needs to be shown
@@ -217,6 +246,20 @@ void Video::update_dirty_display()
   else
   {
     // 2D arbitrary scaling
+    // RV Speed:
+    // Windowed maximized (1680 x 1001)
+    
+    // 139 msec without dest previous copy
+    // 136 msec with dest previous copy
+    // 78 msec with 32-bit dest copy
+    // 76 msec with memcpy
+    // 62 msec with VC optimization: Favor Fast Code
+    
+    // Optimized 2x scaling:
+    // With 2x scaling optimisation: 33 msec
+    // (normal scale approx 50 msec)
+    
+    
     // Evaluate destination rect coordinates:
     dstrect.x = mHScaleSrc2Dst[mDirtyX1];
     dstrect.y = mVScaleSrc2Dst[mDirtyY1];
@@ -224,25 +267,80 @@ void Video::update_dirty_display()
     dstrect.h = mVScaleSrc2Dst[mDirtyY2+1]-1 - mVScaleSrc2Dst[mDirtyY1] + 1;
     SDL_LockSurface(display);
     
+    //Uint32 time = SDL_GetTicks();
+    //for(int testspeed=0; testspeed<100; testspeed++)
+    {
+    
     Uint8* dst = (Uint8*) display->pixels;
     dst += dstrect.x + (dstrect.y)*display->pitch;
+    Uint8* lastline_src = NULL;
+    
+    int dst_pitch = display->pitch;
+    int dst_skip = dst_pitch - dstrect.w;
+    Uint32 src_pitch = offscreen->pitch;
+    int i_start = dstrect.x;
+    int i_end = dstrect.x + dstrect.w;
+    int i_len = i_end - i_start;
+    // Determine scaling method:
+    int scaling_method = 0; // Default: arbritrary scaling
+    if(display->w == 640*2) scaling_method = 2; // scaling 2x
+    if(display->w == 640*3) scaling_method = 3; // scaling 3x
     
     for(Uint32 j=0; j<dstrect.h; j++)
     {
       Uint8* src = (Uint8*) offscreen->pixels;
-      src += mVScaleDst2Src[dstrect.y+j]*offscreen->pitch;
+      src += mVScaleDst2Src[dstrect.y+j]*src_pitch;
       
-      for(Uint32 i=0; i<dstrect.w; i++)
+      Uint8* dst_end = dst + i_len;
+      // Vertical optimization: if the source line is exactly the same as the previous one,
+      // no need to perform scaling: just copy the previous line over
+      if(src == lastline_src)
       {
-        *dst++ = *(src + mHScaleDst2Src[dstrect.x+i]);
+        memcpy(dst, dst - dst_pitch, i_len);
+        dst += dst_pitch; // Skip to start of next line
       }
-      dst += display->pitch - dstrect.w;
+      else
+      {
+        Uint32* dst2src_ptr = mHScaleDst2Src + i_start;
+        lastline_src = src; // remember last scaled line
+        switch(scaling_method)
+        {
+        case 2:
+          src += *dst2src_ptr;
+          // Special case: optimized 2x horizontal scaling
+          for(; dst < dst_end; )
+          {
+            *dst++ = *src;
+            *dst++ = *src++;
+          }
+          break;
+        case 3:
+          src += *dst2src_ptr;
+          // Special case: optimized 3x horizontal scaling
+          for(; dst < dst_end; )
+          {
+            *dst++ = *src;
+            *dst++ = *src;
+            *dst++ = *src++;
+          }
+          break;
+        default:
+          // RV Optimized arbitrary scaling code: very fast
+          for(; dst < dst_end; )
+          {
+            *dst++ = *(src + *dst2src_ptr++);
+          }
+          break;
+        }
+        dst += dst_skip; // skip to start of next line
+      }
     }
+    }
+    //Uint32 end_time = SDL_GetTicks();
+    //msgbox("Took: %i msec\n", end_time - time);
+
     SDL_UnlockSurface(display);
   }
-  
-	SDL_UpdateRect(display, dstrect.x, dstrect.y, dstrect.w, dstrect.h);
-	mDirtyEmpty = true;
 }
 
 void Video::setpal(const Palette &p) {
@@ -299,14 +397,16 @@ void Video::create_display(int w, int h)
   display = SDL_SetVideoMode(w, h, 8, flags);
   assert(display);
   newpal = true; // Force palette to be applied to newly created display surface
+  // mark whole screen as 'dirty' to draw the newly created display once
+  set_dirty(0, 0, offscreen->w-1, offscreen->h-1);
   
   // build 2d scaling tables (horizontal and vertical)
   {
     // allocate memory according to window dimension
-    delete(mHScaleDst2Src);
-    mHScaleDst2Src = (Uint32*) malloc(display->w << 2); // 4 bytes per element
-    delete(mVScaleDst2Src);
-    mVScaleDst2Src = (Uint32*) malloc(display->h << 2); // 4 bytes per element
+    delete[] mHScaleDst2Src;
+    mHScaleDst2Src = new Uint32[display->w];
+    delete[] mVScaleDst2Src;
+    mVScaleDst2Src = new Uint32[display->h];
     memset(mHScaleSrc2Dst, 0xffffffff, sizeof(mHScaleSrc2Dst));
     memset(mVScaleSrc2Dst, 0xffffffff, sizeof(mVScaleSrc2Dst));
     
