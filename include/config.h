@@ -1,7 +1,6 @@
 /* -*- Mode: C++; c-basic-offset: 2; tab-width: 2; indent-tabs-mode: nil -*-
  * 
  * Quadra, an action puzzle game
- * Copyright (C) 1998-2000  Ludus Design
  * Copyright (C) 2006 Pierre Phaneuf <pphaneuf@users.sourceforge.net>
  * 
  * This program is free software; you can redistribute it and/or
@@ -22,74 +21,14 @@
 #ifndef _HEADER_CONFIG
 #define _HEADER_CONFIG
 
-#include <time.h>
-#include "types.h"
+/* Cover platforms not supported by autoconf manually. */
+#if defined(WIN32)
 
-class Config {
-	int version;
-public:
-	const static int game_version;
-	static int net_version;
-	const static int major, minor, patchlevel;
-	static bool xtreme;
-	static char user_name[];
-	int warning;
-	/*
-   * WARNING: Everything in the following structs is pretty much set
-   *          in stone. A full understanding of config.cpp is needed
-   *          to change anything.
-   */
-	struct {
-		int xlanguage;
-		int setup_player, cdmusic;
-		Byte multi_level, unlock_theme;
-		int port_number, mouse_speed;
-		Byte pane[3];
-		Byte update_rate;
-		char book[10][256];
-		char game_name[32];
-		char game_server_address[256];
-		int game_type, level_up, level_start, combo_min, game_end, game_end_value, game_public;
-	} info;
-	struct {
-		char name[40];
-		int color, shadow, smooth, repeat;
-		int key[5];
-	} player[3];
-	//The 'stuff' things are for future expansion
-	struct {
-		int handicap;
-		char ngPasswd[64];
-		char ngTeam[40];
-		char filler1[24];
-		char ngTeamPasswd[64];
-		int key[2];
-		int h_repeat, v_repeat;
-		int continuous;
-		int whole_bunch_of_stuff[11];
-	} player2[3];
-	struct {
-		char proxy_address[128];
-	} info2;
-  struct {
-    time_t last_update;
-    char last_modified[64];
-    bool new_version;
-    char default_game_server_address[256];
-  } info3;
-	char fname[1024];
-	Config();
-	virtual ~Config();
-	void default_config();
-	void read();
-	void write();
+/* This is a hack, until we manage to rip them out. */
+#define UGS_DIRECTX
 
-	//Get the hash value for a player
-	void get_player_hash(Byte* buf, unsigned qplayer);
-	//Get the hash value for a player's team
-	void get_team_hash(Byte* buf, unsigned qplayer);
-};
-
-extern Config config;
-
+#else
+#include "autoconf.h"
 #endif
+
+#endif /* _HEADER_CONFIG */

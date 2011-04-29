@@ -22,7 +22,7 @@
 
 #include "inter.h"
 #include "input.h"
-#include "config.h"
+#include "cfgfile.h"
 #include "quadra.h"
 #include "sons.h"
 #include "canvas.h"

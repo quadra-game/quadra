@@ -25,7 +25,7 @@
 #include "canvas.h"
 #include "chat_text.h"
 #include "color.h"
-#include "config.h"
+#include "cfgfile.h"
 #include "crypt.h"
 #include "dict.h"
 #include "fonts.h"

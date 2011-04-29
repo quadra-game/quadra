@@ -26,7 +26,7 @@
 #include "array.h"
 #include "game.h"
 #include "net_stuff.h"
-#include "config.h"
+#include "cfgfile.h"
 #include "track.h"
 
 enum Packet_type {

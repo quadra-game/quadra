@@ -23,7 +23,7 @@
 #include <string.h>
 #include "res_compress.h"
 #include "game.h"
-#include "config.h"
+#include "cfgfile.h"
 #include "canvas.h"
 #include "net.h"
 #include "net_buf.h"

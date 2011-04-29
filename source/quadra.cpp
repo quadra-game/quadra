@@ -61,7 +61,7 @@
 #include "canvas.h"
 #include "global.h"
 #include "sons.h"
-#include "config.h"
+#include "cfgfile.h"
 #include "fonts.h"
 #include "res_compress.h"
 #include "highscores.h"

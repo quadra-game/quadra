@@ -23,7 +23,7 @@
 #include "canvas.h"
 #include "chat_text.h"
 #include "clock.h"
-#include "config.h"
+#include "cfgfile.h"
 #include "game.h"
 #include "global.h"
 #include "input.h"

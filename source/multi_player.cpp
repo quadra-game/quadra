@@ -25,7 +25,7 @@
 #include "image_png.h"
 #include "sprite.h"
 #include "zone.h"
-#include "config.h"
+#include "cfgfile.h"
 #include "quadra.h"
 #include "pane.h"
 #include "chat_text.h"

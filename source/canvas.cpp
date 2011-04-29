@@ -26,7 +26,7 @@
 #include "bloc.h"
 #include "quadra.h"
 #include "image_png.h"
-#include "config.h"
+#include "cfgfile.h"
 #include "res.h"
 #include "zone.h"
 #include "game.h"

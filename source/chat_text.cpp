@@ -21,7 +21,7 @@
 #include "chat_text.h"
 
 #include <string.h>
-#include "config.h"
+#include "cfgfile.h"
 #include "net_stuff.h"
 #include "sons.h"
 #include "canvas.h"

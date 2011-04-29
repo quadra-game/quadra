@@ -23,7 +23,7 @@
 #include <stdarg.h>
 #include "error.h"
 #include "packets.h"
-#include "config.h"
+#include "cfgfile.h"
 #include "game.h"
 #include "net_server.h"
 #include "canvas.h"

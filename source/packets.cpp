@@ -24,7 +24,7 @@
 #include "error.h"
 #include "net_stuff.h"
 #include "stats.h"
-#include "config.h"
+#include "cfgfile.h"
 #include "canvas.h"
 
 void Packet_wantjoin::write(Net_buf *p) {
