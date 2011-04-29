@@ -2,12 +2,26 @@ $Id$
 
 Quadra 1.2.0
 
+ * Added a notification of new versions in the title screen, as well
+   as automatically updating the public game server address.
+
+ * Quadra now requires Internet Explorer 5 on Windows.
+
+ * Store high score recordings and configuration file in a
+   user-specific application data directory, so that non-administrator
+   users can play on Windows NT/2000/XP.
+
  * Added a fullscreen mode to the X11 driver, which is now the
    default. Use "-nofullscreen" if it gives you problems.
+
+ * Removed support for Svgalib.
 
  * Added a "-boringrules" option to disable the reduction in attack
    strength normally applied in crowded games. This should remove any
    need to run older version of Quadra for rule purposes.
+
+ * Fixed compilation on Darwin/Mac OS X (using X11, without sound or
+   CD music).
 
  * Added a "-connectfile" option to read from a specified file a
    server address to connect to.
