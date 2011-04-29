@@ -20,6 +20,7 @@
 #ifndef _HEADER_PACKETS
 #define _HEADER_PACKETS
 
+#include <string.h>
 #include <vector>
 
 #include "config.h"
