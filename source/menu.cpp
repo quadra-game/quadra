@@ -257,20 +257,25 @@ void Menu_highscore::step_sync() {
     return;
   }
 
-  if(!sync_request->get_status()) {
+  const char *server_status = sync_request->get_status();
+  if(!server_status || (strcmp(server_status, "Ok") && strcmp(server_status, "Error"))) {
     stop_sync();
     status->set_val("No Quadra game server found.");
-    return;
-  }
-  if(strcmp(sync_request->get_status(), "Ok")) {
-    sprintf(st, "Error: the server returned [%s].", sync_request->get_status());
-    status->set_val(st);
-    stop_sync();
     return;
   }
   Dict *reply=sync_request->get_reply();
   if(_debug) {
     reply->dump();
+  }
+  if(strcmp(server_status, "Ok")) {
+	// qserv returned an "Error" status, display the supplied message
+    const char *msg = reply->find("message");
+	if(!msg)
+      msg = "???";
+    sprintf(st, "Error: the server returned [%s].", msg);
+    status->set_val(st);
+    stop_sync();
+    return;
   }
   int i;
   for(i=0; i<MAX_SCORE; i++) {

@@ -12,6 +12,13 @@ Requirements
  - SDL (http://www.libsdl.org/)
  - X Window System libraries with XPM support (Linux only)
 
+On Ubuntu, the following packages are needed to build:
+
+ - g++
+ - libpng12-dev
+ - libsdl1.2-dev
+ - make
+
 Building on Unix-style systems
 ------------------------------
 
