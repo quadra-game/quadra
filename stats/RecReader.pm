@@ -56,8 +56,7 @@ sub _parse {
 			my ($name, $score, $lines, $level) = unpack "Z40VVV", substr $hunks, $pos+1, 52;
 			$pos += 53;
 		}
-
-		if($hunktype == 11) {
+		elsif($hunktype == 11) {
 			my ($frame, $len) = unpack "Vv", substr $hunks, $pos+1, 6;
 			my $packet = substr $hunks, $pos+7, $len;
 			my $packetid = unpack "C", $packet;
@@ -81,11 +80,13 @@ sub _parse {
 			}
 			$pos += (7 + $len);
 		}
-
-		if($hunktype == 13) {
+		elsif($hunktype == 13) {
 			my $len = unpack "V", substr $hunks, $pos+1, 4;
 			$summary = substr $hunks, $pos+5, $len;
 			$pos += (5 + $len);
+		}
+		else {
+			last;
 		}
 	}
 	return $summary;

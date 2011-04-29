@@ -84,7 +84,6 @@ public:
 };
 
 class Zone {
-	TRACKED;
 public:
 	Zone* child,* parent;
 	int enabled;

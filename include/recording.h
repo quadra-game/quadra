@@ -31,7 +31,6 @@ class Canvas;
 class Packet_gameserver;
 
 class Recording {
-	TRACKED;
 	char playername[40];
 	int score, lines, level;
 	/*
@@ -68,10 +67,11 @@ public:
 };
 
 class Dict;
+class Game;
 
 class Playback {
-	TRACKED;
 	Res *res;
+	bool *verification_flag;
 	Byte read_hunk();
 	void read_all(); //Sole caller of next 6
 	void read_seed();
@@ -102,6 +102,8 @@ public:
 	int score, lines, level, multi_level;
 	Playback(Res* r);
 	virtual ~Playback();
+	void set_verification_flag(bool *p);
+	bool verify_summary(const Game *game);
 	Byte get_byte();
 	bool check_scores(Canvas* c);
 	Demo_packet next_packet();

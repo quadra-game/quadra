@@ -846,7 +846,7 @@ void Menu_multi_internet::parsegames() {
     if(temp)
       p->port = atoi(temp);
 
-    Dict *players = d->find_sub("players");
+    const Dict *players = d->find_sub("players");
     if(players) {
       for(j=0; j < players->size(); j++) {
         const Dict *d2 = players->get_sub(j);
@@ -876,7 +876,7 @@ void Menu_multi_internet::parsegames() {
       }
     }
 
-    Dict *end = d->find_sub("end");
+    const Dict *end = d->find_sub("end");
     if(end) {
       temp = end->find("value");
       if(temp)
@@ -886,7 +886,7 @@ void Menu_multi_internet::parsegames() {
         p->game_end = atoi(temp);
     }
 
-    Dict *rules = d->find_sub("rules");
+    const Dict *rules = d->find_sub("rules");
     if(rules) {
       temp = rules->find("levelup");
       if(temp)
@@ -906,7 +906,7 @@ void Menu_multi_internet::parsegames() {
       temp = rules->find("hot_potato");
       if(temp)
         p->hot_potato = atoi(temp) ? true : false;
-      Dict *attacks = rules->find_sub("attacks");
+      const Dict *attacks = rules->find_sub("attacks");
       if(attacks) {
         temp = attacks->find("normal");
         p->normal_attack = parse_attack(temp);
@@ -919,7 +919,7 @@ void Menu_multi_internet::parsegames() {
       }
     }
 
-    Dict *status = d->find_sub("status");
+    const Dict *status = d->find_sub("status");
     if(status) {
       temp = status->find("started");
       if(temp)

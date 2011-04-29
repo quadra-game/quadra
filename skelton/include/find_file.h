@@ -43,7 +43,7 @@ public:
   virtual bool has_error() = 0;
 };
 
-inline const char *mybasename(const char* f) {
+static inline const char *mybasename(const char* f) {
 	const char* p=(const char*)(f+strlen(f));
 	while(*p != '/' && *p != '\\' && p>=f)
 		p--;

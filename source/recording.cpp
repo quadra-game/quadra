@@ -130,6 +130,7 @@ void Recording::write_summary() {
 }
 
 Playback::Playback(Res* r): data(0, 1024) {
+	verification_flag=NULL;
 	packet_gameserver=NULL;
 	auto_demo = false;
 	sum=NULL;
@@ -161,6 +162,24 @@ Playback::~Playback() {
 		delete sum;
 	if(packet_gameserver)
 		delete packet_gameserver;
+}
+
+void Playback::set_verification_flag(bool *p)
+{
+	verification_flag = p;
+}
+
+bool Playback::verify_summary(const Game *game)
+{
+	bool ret = false;
+
+	if(game && sum && valid && !old_mode)
+		ret = game->verifygameinfo(sum);
+
+	if(verification_flag)
+		*verification_flag = ret;
+
+	return ret;
 }
 
 Byte Playback::get_byte() {

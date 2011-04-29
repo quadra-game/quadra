@@ -88,14 +88,14 @@ const char *Dict::get_key() const {
 }
 
 const char *Dict::find(const char *s) const {
-	Dict *d = find_sub(s);
+	const Dict *d = find_sub(s);
 	if(d)
 		return d->value.get();
 	else
 		return NULL;
 }
 
-Dict *Dict::find_sub(const char *s) const {
+Dict *Dict::find_sub(const char *s) {
 	for(int i=0; i<sub.size(); i++) {
 		if(strcmp(sub[i]->key, s) == 0) {
 			return sub[i];
@@ -104,7 +104,23 @@ Dict *Dict::find_sub(const char *s) const {
 	return NULL;
 }
 
-Dict *Dict::get_sub(const int i) const {
+Dict *Dict::get_sub(const int i) {
+	if(i<sub.size())
+		return sub[i];
+	else
+		return NULL;
+}
+
+const Dict *Dict::find_sub(const char *s) const {
+	for(int i=0; i<sub.size(); i++) {
+		if(strcmp(sub[i]->key, s) == 0) {
+			return sub[i];
+		}
+	}
+	return NULL;
+}
+
+const Dict *Dict::get_sub(const int i) const {
 	if(i<sub.size())
 		return sub[i];
 	else

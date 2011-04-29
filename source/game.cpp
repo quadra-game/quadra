@@ -33,6 +33,7 @@
 #include "canvas.h"
 #include "chat_text.h"
 #include "recording.h"
+#include "dict.h"
 #include "global.h"
 #include "sons.h"
 #include "nglog.h"
@@ -88,15 +89,11 @@ void Game_params::set_preset(Game_preset preset) {
 			clean_attack.param=12;
 			break;
 		case PRESET_SINGLE:
-			normal_attack.type=ATTACK_NONE;
-			clean_attack.type=ATTACK_NONE;
 			single=true;
 			network=false;
 			level_up=true;
 			break;
 		case PRESET_SINGLE_SPRINT:
-			normal_attack.type=ATTACK_NONE;
-			clean_attack.type=ATTACK_NONE;
 			single=true;
 			network=false;
 			game_end=END_TIME;
@@ -709,6 +706,47 @@ void Game::addgameinfo(Textbuf *tb) {
 			player++;
 		}
 	}
+}
+
+bool Game::verifygameinfo(const Dict *sum) const
+{
+	//Only verify the validity of a single player game for now
+	//Verifying multi-player games could be done by a hypothetical
+	//  qserv.pl that gathers demos from disparate tournament servers
+	//  but it's a lot simpler to set up trusted servers for such a
+	//  purpose
+	if(!single || !level_up || level_start != 1)
+		return false;
+
+	const Canvas *canvas = net_list.get(0);
+	if(!canvas)
+		return false;
+
+	const Dict *players = sum->find_sub("players");
+	if(!players)
+		return false;
+	const Dict *player = players->find_sub("0");
+	if(!player)
+		return false;
+	const char *pscore = player->find("score");
+	const char *plines = player->find("lines");
+	if(!pscore || !plines)
+		return false;
+
+	const int score = atoi(pscore);
+	const int lines = atoi(plines);
+	if(score <= 0 || lines <= 0)
+		return false;
+	const int level = (lines / 15) + 1;
+
+	if(score != canvas->stats[CS::SCORE].get_value())
+		return false;
+	if(lines != canvas->stats[CS::LINESTOT].get_value())
+		return false;
+	if(level != canvas->level)
+		return false;
+
+	return true;
 }
 
 void Game::buildgameinfo() {

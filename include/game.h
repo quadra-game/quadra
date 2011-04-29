@@ -22,7 +22,6 @@
 #define _HEADER_GAME
 
 #include "attack.h"
-#include "track.h"
 #include "array.h"
 #include "types.h"
 #include "buf.h"
@@ -37,12 +36,12 @@ class Net_client;
 class Qserv;
 class Game_params;
 class Recording;
+class Dict;
 
 //Gotchas:
 //Constructing a Game sets ::game to this
 //Destroying a Game sets ::game to NULL
 class Game: public GS {
-	TRACKED;
 	friend class Net_list;
 	Array<Packet *> stack;
 	Qserv *gameinfo;
@@ -60,6 +59,7 @@ public:
 	void restart();
 	void count_playing_time();
 	void addgameinfo(Textbuf *tb);
+	bool verifygameinfo(const Dict *sum) const;
 	Dword frame_start;
 	bool wants_moves;
 	Net_server *net_server;

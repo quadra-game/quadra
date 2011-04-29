@@ -32,7 +32,6 @@
 	#include <unistd.h>
 #endif
 
-#include "track.h"
 #include "error.h"
 #include "types.h"
 #include "utils.h"
@@ -100,7 +99,6 @@ enum Res_mode {
 };
 
 class Res_dos: public Res {
-	TRACKED;
 	int handle;
 	void *_buf;
 public:
