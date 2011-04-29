@@ -26,9 +26,9 @@
 #include "stringtable.h"
 #include "version.h"
 
-#define UPDATE_HOST "quadra.sourceforge.net"
+#define UPDATE_HOST "quadra.googlecode.com"
 #define UPDATE_PORT 80
-#define UPDATE_PATH "/version.txt"
+#define UPDATE_PATH "/svn/version.txt"
 #define UPDATE_VERSION_KEY "stable"
 
 class AutoUpdaterImpl: public AutoUpdater {
