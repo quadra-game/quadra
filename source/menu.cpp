@@ -1429,6 +1429,7 @@ Menu_intro::Menu_intro() {
     y += 20;
   }
   (void)new Zone_text(inter, "Hit something to continue...", 10, y);
+#ifdef ENABLE_VERSION_CHECK
   if(strcmp(VERSION_STRING, config.info3.latest_version) != 0)
   {
     (void)new Zone_text(font2, inter, "A new version of Quadra is available!",
@@ -1436,6 +1437,7 @@ Menu_intro::Menu_intro() {
     (void)new Zone_text(font2, inter, "Get it at http://quadra.googlecode.com",
                         10, y + 60);
   }
+#endif
   (void)new Zone_text(inter, "Quadra, Universal Game Skelton and the "
                       "Ludus Design logo are trademarks", 10, 430);
   (void)new Zone_text(inter, "of Ludus Design, Copyright (C) 1998-2000. "

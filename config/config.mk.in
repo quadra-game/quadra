@@ -37,6 +37,7 @@ exec_prefix:=@exec_prefix@
 bindir:=@bindir@
 libdir:=@libdir@
 libgamesdir:=$(libdir)/games
+datarootdir:=@datarootdir@
 datadir:=@datadir@
 datagamesdir:=$(datadir)/games
 CXXFLAGS:=@CXXFLAGS@

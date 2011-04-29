@@ -75,8 +75,7 @@ void AutoUpdaterImpl::init() {
   buf.append("GET "UPDATE_PATH" HTTP/1.0\r\n");
   buf.append("Host: "UPDATE_HOST"\r\n");
   buf.append("Connection: close\r\n");
-  snprintf(st, sizeof(st), "User-Agent: Quadra/%i.%i.%i\r\n",
-	   VERSION_MAJOR, VERSION_MINOR, VERSION_PATCHLEVEL);
+  snprintf(st, sizeof(st), "User-Agent: Quadra/%s\r\n", VERSION_STRING);
   buf.append(st);
   if(*config.info3.last_modified) {
     msgbox("update: setting If-Modified-Since to %s\n",

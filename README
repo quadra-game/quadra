@@ -41,6 +41,15 @@ If you ran the "make install" command, then you have 'quadra'
 installed on your system and you can just run it (no need to set
 QUADRADIR).
 
+Building on Windows
+-------------------
+
+To compile Quadra on a Windows machine, use the Visual C++ workspace
+and project file in the VisualC++ subdirectory. Make sure you have
+zlib, libpng and DirectX (August 2007 SDK or earlier) properly installed
+for development on your machine. Run "res.bat" after building to create
+the resource file (quadra.res).
+
 Building on Mac OS X
 --------------------
 
@@ -51,8 +60,7 @@ a libpng-1.2.X.tar.gz file), compiling them (no need to install it on
 your system!) and then adding a "--with-libpng=/path/to/libpng" to the
 "configure" command line.
 
-Building on Windows
--------------------
+This platform is not supported in this release.
 
 To compile Quadra on a Windows machine, look for the folder 'VisualC++'
 and open up 'quadra_sdl.sln' (tested using Visual C++ 2005 Express
@@ -67,11 +75,6 @@ I have tested with the following version:
 	C:\work\zlib-1.2.3
 	C:\work\libpng-1.2.12
 	C:\work\SDL-1.2.13\include
-
-	and these paths to library files:
-	C:\work\libpng-1.2.12\projects\visualc71\Win32_LIB_Release
-	C:\work\zlib-1.2.3\projects\visualc6\Win32_LIB_Release
-	C:\work\SDL-1.2.13\lib
 Your setup should be relatively similar.)
 
 By default, your workspace should be set to 'Debug'. Build the solution.

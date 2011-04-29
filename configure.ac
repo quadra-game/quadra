@@ -40,6 +40,10 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 
 dnl Checks for library functions.
 
+if test "$enable_version_check" != "no"; then
+   	AC_DEFINE(ENABLE_VERSION_CHECK, 1, [Check for new versions.])
+fi
+
 if test -n "$nozlib"; then
 	AC_MSG_WARN([zlib is required and could not be found!])
 	missing_required=yes

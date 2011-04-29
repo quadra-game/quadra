@@ -8,7 +8,7 @@
 Name "Quadra"
 
 ; The file to write
-OutFile "..\quadra-1.2.0.exe"
+OutFile "..\quadra-@VERSION@.exe"
 
 Icon "winzip_icone.ico"
 UninstallIcon "winzip_icone.ico"

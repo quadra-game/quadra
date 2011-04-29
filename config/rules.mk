@@ -32,7 +32,7 @@ distclean: clean
 maintainerclean: distclean
 	rm -f $(wildcard $(REALCLEAN))
 
-dist: distclean quadra.spec configure ChangeLog manual-dist-stuff
+dist: distclean quadra.spec configure ChangeLog manual-dist-stuff packages/readme-win32.txt packages/quadra.nsi
 	rm -rf autom4te.cache
 
 ChangeLog:
@@ -56,6 +56,12 @@ install: installdirs $(TARGETS)
 quadra.spec: packages/quadra.spec.in include/version.h
 	sed -e 's%@VERSION@%$(VERSION)%g' >$@ <$<
 
+packages/quadra.nsi: packages/quadra.nsi.in include/version.h
+	sed -e 's%@VERSION@%$(VERSION)%g' >$@ <$<
+
+packages/readme-win32.txt: packages/readme-win32.txt.in include/version.h
+	sed -e 's%@VERSION@%$(VERSION)%g' >$@ <$<
+
 Quadra.desktop: packages/Quadra.desktop.in config/config.mk
 	sed -e 's%@bindir@%$(bindir)%g' -e 's%@datadir@%$(datadir)%g' >$@ <$<
 
@@ -63,12 +69,10 @@ configure: configure.ac
 	autoreconf
 
 .PHONY: manual-dist-stuff
-manual-dist-stuff:
+manual-dist-stuff: quadra.spec packages/quadra.nsi packages/readme-win32.txt
 	@echo "-----------------------------------------------------------"
 	@echo "remember to edit the version number in the following files:"
 	@echo "include/version.h"
-	@echo "packages/quadra.nsi"
-	@echo "packages/readme-win32.txt"
 
 ifeq ($(MAKECMDGOALS),dustclean)
 NODEPENDS:=1

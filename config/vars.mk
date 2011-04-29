@@ -35,7 +35,8 @@ ARFLAGS=rcs
 MAJOR:=$(shell grep 'VERSION_MAJOR' include/version.h | cut -d" " -f3 | bc)
 MINOR:=$(shell grep 'VERSION_MINOR' include/version.h | cut -d" " -f3 | bc)
 PATCHLEVEL:=$(shell grep 'VERSION_PATCHLEVEL' include/version.h | cut -d" " -f3 | bc)
-VERSION:=$(MAJOR).$(MINOR).$(PATCHLEVEL)
+VERSION_EXTRA:=$(shell grep 'VERSION_EXTRA' include/version.h | cut -d" " -f3 | bc)
+VERSION:=$(MAJOR).$(MINOR).$(PATCHLEVEL)$(VERSION_EXTRA)
 
 CXXFLAGS+=-DVERSION="$(VERSION)" -DVERSION_MAJOR=$(MAJOR) -DVERSION_MINOR=$(MINOR) -DVERSION_PATCHLEVEL=$(PATCHLEVEL)
 
