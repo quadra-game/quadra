@@ -20,7 +20,11 @@
 
 #ifndef _HEADER_ARRAY
 #define _HEADER_ARRAY
+
+#include <stdlib.h>
 #include <vector>
+
+#include "config.h"
 
 #ifdef UGS_DIRECTX
 #define WIN32_LEAN_AND_MEAN

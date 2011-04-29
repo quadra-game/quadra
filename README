@@ -22,9 +22,9 @@ $ ./configure
 $ make
 $ make install (optional)
 
-There you go! There is a 'quadra' binary, a 'quadra-svga.so' driver
-and a 'quadra.res' resource file in the top-level directory. If not,
-then something went wrong. :-)
+There you go! There is a 'quadra' binary and a 'quadra.res' resource
+file in the top-level directory. If not, then something went
+wrong. :-)
 
 You can run this with the following command (in bash):
 
@@ -34,8 +34,18 @@ If you ran the "make install" command, then you have 'quadra'
 installed on your system and you can just run it (no need to set
 QUADRADIR).
 
-Building on Windows systems
----------------------------
+Building on Mac OS X
+--------------------
+
+A common problem on Mac OS X is that the libpng library is not
+available. This is relatively easy to work around, by downloading the
+libpng sources (available at http://libpng.sourceforge.net/, look for
+a libpng-1.2.X.tar.gz file), compiling them (no need to install it on
+your system!) and then adding a "--with-libpng=/path/to/libpng" to the
+"configure" command line.
+
+Building on Windows
+-------------------
 
 To compile Quadra on a Windows machine, use the Visual C++ workspace
 and project file in the VisualC++ subdirectory. Make sure you have

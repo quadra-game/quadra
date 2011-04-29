@@ -56,6 +56,7 @@
 #include "sprite.h"
 #include "utils.h"
 #include "zone.h"
+#include "config.h"
 
 #ifdef UGS_DIRECTX
 #include <shellapi.h>
@@ -293,7 +294,7 @@ void Menu_highscore::step_sync() {
     }
   }
   status->set_val("Transfer completed successfully.");
-  Highscores::free();
+  Highscores::freemem();
   Highscores::load();
   int y=70;
   refresh_global(y);

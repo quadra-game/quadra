@@ -21,7 +21,6 @@
 #include "game.h"
 
 #include <string.h>
-#include "autoconf.h"
 #include "input.h"
 #include "net.h"
 #include "qserv.h"
@@ -39,6 +38,7 @@
 #include "nglog.h"
 #include "clock.h"
 #include "http_request.h"
+#include "config.h"
 
 Game *game=NULL;
 

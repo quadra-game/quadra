@@ -21,6 +21,8 @@
 #ifndef _HEADER_PALETTE
 #define _HEADER_PALETTE
 
+#include "config.h"
+
 #ifdef UGS_DIRECTX
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>

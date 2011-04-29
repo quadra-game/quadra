@@ -21,6 +21,8 @@
 #ifndef _HEADER_TYPES
 #define _HEADER_TYPES
 
+#include "config.h"
+
 #ifndef max
 #define max(a,b) (((a) > (b)) ? (a) : (b))
 #endif
@@ -39,7 +41,8 @@ typedef unsigned char Byte;
 #ifdef UGS_DIRECTX
 #define snprintf _snprintf
 #define vsnprintf _vsnprintf
-#define strcasecmp stricmp
+#define strcasecmp _stricmp
+#define strncasecmp _strnicmp
 typedef int socklen_t;
 #endif /* UGS_DIRECTX */
 

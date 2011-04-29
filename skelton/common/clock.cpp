@@ -23,6 +23,7 @@
 #include <time.h>
 #include <sys/timeb.h>
 #include <stdio.h>
+#include "config.h"
 
 Clock::Clock() {
 }

@@ -21,7 +21,7 @@
 #ifndef _HEADER_NET
 #define _HEADER_NET
 
-#include "autoconf.h"
+#include "config.h"
 
 #ifdef UGS_DIRECTX
 #include "winsock.h"

@@ -21,6 +21,8 @@
 #ifndef _HEADER_ERROR
 #define _HEADER_ERROR
 
+#include "config.h"
+
 extern bool _debug;
 extern bool skelton_debug;
 

@@ -103,9 +103,15 @@ void Zone_listbox::add_sort(Listable *l) {
 }
 
 void Zone_listbox::end_sort() {
-	qsort((void *) &sort_list[0], sort_list.size(), sizeof(sort_list[0]), compare_sort);
-	for(int i=0; i<sort_list.size(); i++)
+  if (sort_list.size() == 0)
+    return;
+ 
+  qsort((void *) &sort_list[0], sort_list.size(), sizeof(sort_list[0]),
+        compare_sort);
+
+	for (int i = 0; i < sort_list.size(); ++i)
 		add_item(sort_list[i]);
+
 	sort_list.clear();
 }
 

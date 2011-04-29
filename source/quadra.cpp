@@ -20,7 +20,7 @@
 
 #include "quadra.h"
 
-#include "autoconf.h"
+#include "config.h"
 #include "SDL.h"
 #ifdef UGS_LINUX
 #include <pwd.h>
@@ -1937,7 +1937,7 @@ void deinit_stuff() {
 	delete chat_text; chat_text=NULL;
 
 	config.write();
-	Highscores::free();
+	Highscores::freemem();
 
 	delete cursor; cursor = NULL;
 

@@ -20,6 +20,8 @@
 
 #include "nglog.h"
 
+#include "config.h"
+
 #ifdef UGS_DIRECTX
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>

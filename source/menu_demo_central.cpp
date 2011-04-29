@@ -35,6 +35,7 @@
 #include "game.h"
 #include "multi_player.h"
 #include "packets.h"
+#include "config.h"
 
 class Zone_change_dir: public Zone_text_input {
 	Menu_demo_central *menu_demo_central;

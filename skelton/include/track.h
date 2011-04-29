@@ -21,6 +21,8 @@
 #ifndef __HEADER_TRACK_H
 #define __HEADER_TRACK_H
 
+#include "config.h"
+
 #if !defined(NDEBUG) && defined(UGS_DIRECTX) 
 
 void * __cdecl operator new(unsigned int, int, const char *, int);

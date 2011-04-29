@@ -30,6 +30,7 @@
 #include "dict.h"
 #include "stringtable.h"
 #include "video.h"
+#include "config.h"
 
 Dword Qserv::http_addr=0;
 int Qserv::http_port=0;
