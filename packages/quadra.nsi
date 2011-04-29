@@ -62,34 +62,10 @@ Section "Quadra (required)"
   WriteUninstaller "uninstall.exe"
 SectionEnd
 
-Section "QSnoop (recommanded)" QSnoopSectionIndex
-	File "QSnoop.exe"
-	File "QS.dll"
-	File "QSEn.dll"
-	File "QSFr.dll"
-	IfFileExists "$INSTDIR\QSnoop.ini" ini_exists
-	FileOpen $R0 "$INSTDIR\QSnoop.ini" "w"
-	FileWrite $R0 "[General]$\n"
-	FileWrite $R0 "QuadraPath=$INSTDIR\Quadra.exe$\n"
-	FileClose $R0
-
-	ini_exists:
-	AccessControl::GrantOnFile "$INSTDIR\QSnoop.ini" "BUILTIN\USERS" "GenericWrite"
-
-	WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Run" "QSnoop" '"$INSTDIR\QSnoop.exe"'
-SectionEnd	
-
-Section "Start Menu Shortcuts (recommanded)"
+Section "Start Menu Shortcuts (recommended)"
   CreateDirectory "$SMPROGRAMS\Quadra"
   CreateShortCut "$SMPROGRAMS\Quadra\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
   CreateShortCut "$SMPROGRAMS\Quadra\Quadra.lnk" "$INSTDIR\quadra.exe" "" "$INSTDIR\quadra.exe" 0
-
-  ; install QSnoop shortcut only when the QSnoop section is selected
-  SectionGetFlags ${QSnoopSectionIndex} $R0
-  IntOp $R0 $R0 & ${SF_SELECTED}
-  IntCmp $R0 ${SF_SELECTED} 0 skip
-    CreateShortCut "$SMPROGRAMS\Quadra\QSnoop.lnk" "$INSTDIR\QSnoop.exe" "" "$INSTDIR\QSnoop.exe" 0
-  skip:
 SectionEnd
 
 ;--------------------------------
@@ -103,21 +79,15 @@ Section "Uninstall"
   Delete $INSTDIR\readme-win32.txt
   Delete $INSTDIR\quadra.exe
   Delete $INSTDIR\quadra.res
-  Delete $INSTDIR\QSnoop.exe
-  Delete $INSTDIR\QS.dll
-  Delete $INSTDIR\QSEn.dll
-  Delete $INSTDIR\QSFr.dll
 
   ; remove registry keys
   DeleteRegKey HKCR ".qrec"
   DeleteRegKey HKCR "Ludusdesign.Quadra.Recording"
   DeleteRegKey HKCR ".qsvr"
   DeleteRegKey HKCR "Ludusdesign.Quadra.Server"
-  DeleteRegValue HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Run" "QSnoop"
 
   ; remove shortcuts, if they exist
   Delete "$SMPROGRAMS\Quadra\Quadra.lnk"
-  Delete "$SMPROGRAMS\Quadra\QSnoop.lnk"
   Delete "$SMPROGRAMS\Quadra\Uninstall.lnk"
   RMDir "$SMPROGRAMS\Quadra"
 
