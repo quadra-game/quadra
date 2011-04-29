@@ -580,7 +580,7 @@ void Net_connection_tcp::commit() {
 	Dword size=outgoing_buf.size();
 	if(!size)
 		return;
-	Dword temp = send(tcpsock, (const char *)(outgoing_buf.get()), size, 0);
+	int temp = send(tcpsock, (const char *)(outgoing_buf.get()), size, 0);
 	if(net->getlasterror(temp)) {
 		char st[64];
 		net->stringaddress(st, address(), getdestport());
@@ -588,8 +588,11 @@ void Net_connection_tcp::commit() {
 		_state=disconnected;
 		return;
 	}
-	outgoing_buf.remove_from_start(temp);
-	if(outgoing_buf.size() > 16384) {
+
+	if(temp > 0)
+		outgoing_buf.remove_from_start(temp);
+
+	if(outgoing_buf.size() > 262144) {
 		char st[64];
 		net->stringaddress(st, address(), getdestport());
 		skelton_msgbox("Net_connection_tcp::commit: outgoing_buf size exceeds maximum: %i! Closing %s.\n", outgoing_buf.size(), st);
@@ -599,19 +602,9 @@ void Net_connection_tcp::commit() {
 }
 
 Net_connection::Netstate Net_connection_tcp::state() {
-	if(_state==connected && outgoing_buf.size() > 0) {
-		fd_set wfds;
-		FD_ZERO(&wfds);
-		FD_SET(tcpsock, &wfds);
+	// retry sending buffered output if applicable
+	commit();
 
-		timeval empty_tv;
-		empty_tv.tv_sec = 0;
-		empty_tv.tv_usec = 0;
-
-		int retval = select(tcpsock+1, NULL, &wfds, NULL, &empty_tv);
-		if(retval > 0)
-			commit();
-	}
 	if(_state<waitingfordns || _state==disconnected || _state==connected) {
 		return _state;
 	}
@@ -1028,7 +1021,7 @@ void Net::sendudp(Dword to, Packet *p) {
 		int temp = sendto(udpsock[i], (const char *) nb.buf, nb.len(), 0, (sockaddr *) &udpsin, sizeof(udpsin));
 		if(getlasterror(temp))
 			return; // failed!
-		if(temp != (int) nb.len()) {
+		if(temp != static_cast<int>(nb.len())) {
 			last_error = "Protocol UDP did not send all requested data";
 			return; // failed!
 		}
@@ -1430,13 +1423,14 @@ bool Net::checkerror(int quel) {
 	}
 #endif
 #ifdef UGS_LINUX
-	last_error = strerror(errno);
 	switch(errno) {
+	case EWOULDBLOCK:
+	case EINTR:
 	case EINPROGRESS:
-	  return false;
 	case EHOSTUNREACH:
 	  return false;
 	}
+	last_error = strerror(errno);
 	skelton_msgbox("errno = %i (%s)\n", errno, last_error);
 #endif
 	return true;
