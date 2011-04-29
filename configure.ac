@@ -9,6 +9,8 @@ AC_ARG_ENABLE(debug,
 	AS_HELP_STRING([--enable-debug], [debugging options]))
 AC_ARG_ENABLE(framerate,
 	AS_HELP_STRING([--enable-framerate], [framerate indicator]))
+AC_ARG_ENABLE(version-check,
+	AS_HELP_STRING([--disable-version-check], [New version notification]))
 
 if test ! -z "$with_libpng"; then
    CPPFLAGS="$CPPFLAGS -I$with_libpng"
@@ -43,6 +45,10 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 
 dnl Checks for library functions.
 
+if test "$enable_version_check" != "no"; then
+   	AC_DEFINE(ENABLE_VERSION_CHECK, 1, [Check for new versions.])
+fi
+
 if test -n "$nozlib"; then
 	AC_MSG_WARN([zlib is required and could not be found!])
 	missing_required=yes
@@ -72,7 +78,7 @@ fi
 
 AC_SUBST(SDL_MAIN_OBJ, [$SDL_MAIN_OBJ])
 AC_SUBST(SDL_LIBS, [$SDL_LIBS])
-AC_DEFINE(UGS_LINUX,, [FIXME: temporary hack, until we properly detect stuff])
+AC_DEFINE(UGS_LINUX, 1, [FIXME: temporary hack, until we properly detect stuff.])
 
 AC_CONFIG_HEADERS([include/autoconf.h])
 AC_CONFIG_FILES([config/config.mk])
