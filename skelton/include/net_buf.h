@@ -21,6 +21,7 @@
 #ifndef _HEADER_NET_BUF
 #define _HEADER_NET_BUF
 
+#include <string.h>
 #include "types.h"
 #include "net.h"
 
