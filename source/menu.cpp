@@ -1502,8 +1502,8 @@ void Menu_main::redraw() {
     bit.draw(*background, 227, 345);
   }
 
-  sprintf(st, "Quadra version %i.%i.%i", Config::major, Config::minor, Config::patchlevel);
-  new Zone_text(inter, st, 460, 430);
+  sprintf(st, "Quadra version %s", VERSION_STRING);
+  new Zone_text(inter, st, 450, 430);
   
   b_logo = new Zone_menu(inter, background, "debut8.png", 0, 390);
 }
