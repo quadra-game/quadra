@@ -1474,10 +1474,10 @@ void Pane_blockinfo::add_info() {
 		Zone_state_text2 *temp2 = new Zone_state_text2(inter, &droite, x+100, 445, 110);
 		zone.add(temp2);
 		int num = 0;
-		if(gauche >= game->net_list.size())
+		if(gauche >= (int)game->net_list.size())
 			gauche = game->net_list.size()-1;
 		old_gauche=gauche;
-		if(droite >= game->net_list.size())
+		if(droite >= (int)game->net_list.size())
 			droite = game->net_list.size()-1;
 		old_droite=droite;
 		for(int i=0; i<MAXPLAYERS; i++) {
@@ -1572,10 +1572,10 @@ void Pane_comboinfo::add_info() {
 		Zone_state_text2 *temp = new Zone_state_text2(inter, &gauche, x+4, 420, 110);
 		Zone_state_text2 *temp2 = new Zone_state_text2(inter, &droite, x+100, 445, 110);
 		int num = 0;
-		if(gauche >= game->net_list.size())
+		if(gauche >= (int)game->net_list.size())
 			gauche = game->net_list.size()-1;
 		old_gauche=gauche;
-		if(droite >= game->net_list.size())
+		if(droite >= (int)game->net_list.size())
 			droite = game->net_list.size()-1;
 		old_droite=droite;
 		for(int i=0; i<MAXPLAYERS; i++) {

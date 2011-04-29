@@ -24,6 +24,12 @@
 #include "error.h"
 #include "net.h"
 
+// Hack: strdup is apparently 'deprecated' on Visual C++ 2005
+// and is replaced by _strdup
+#ifdef WIN32
+#define strdup _strdup
+#endif
+
 char Http_request::base64table[] = {
   'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
   'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',

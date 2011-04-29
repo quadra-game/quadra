@@ -193,7 +193,7 @@ Game::Game(Game_params* p) {
 	net_client = new Net_client();
 	strncpy(name, p->name, sizeof(name));
 	name[sizeof(name)-1]=0;
-	seed = ugs_random.get_seed();
+	seed = (int)ugs_random.get_seed();
 	paused = false;
 	delay_start = 0;
 	survivor = p->survivor;
@@ -301,7 +301,7 @@ void Game::restart() {
 	GS zeroes;
 	*current=zeroes;
 	reset_potato();
-	Random r; seed=r.get_seed();
+	Random r; seed=(int)r.get_seed();
 	server_accept_connection=0;
 	server_accept_player=0;
 	terminated = false;

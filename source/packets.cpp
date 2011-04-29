@@ -979,7 +979,7 @@ void Packet_serverlog::write(Net_buf* p) {
 	Packet_tcp::write(p);
 	p->write_string(event_type);
 	p->write_dword(vars.size());
-	for(unsigned i=0; i<vars.size(); i++)
+	for(int i=0; i<vars.size(); i++)
 		vars[i].write(p);
 }
 

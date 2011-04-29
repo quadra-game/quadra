@@ -403,9 +403,9 @@ void Net_server::playerwantjoin(Packet *p2) {
 		if(playeraccepted.accepted == 0) {
 			if(game->net_list.size() == MAXPLAYERS)
 				playeraccepted.accepted = 5; // game is full, can't join
-			if(game->server_max_players && game->net_list.size() >= game->server_max_players)
+			if(game->server_max_players && (int)game->net_list.size() >= game->server_max_players)
 				playeraccepted.accepted = 5; // game is full, can't join
-			if(game->server_max_teams && game->net_list.count_teams() >= game->server_max_teams) {
+			if(game->server_max_teams && (int)game->net_list.count_teams() >= game->server_max_teams) {
                                unsigned i;
 				for(i=0; i<MAXPLAYERS; ++i) {
 					Canvas* c=game->net_list.get(i);
@@ -509,10 +509,10 @@ void Net_server::clientpause(Packet *p2) {
 	if(game->delay_start==500 && allow_start)
 		allowed=true;
 	// make sure there's enough players
-	if(game->server_min_players && game->server_min_players > game->net_list.size(false))
+	if(game->server_min_players && game->server_min_players > (int)game->net_list.size(false))
 		allowed=false;
 	// make sure there's enough teams
-	if(game->server_min_teams && game->server_min_teams > game->net_list.count_teams(false))
+	if(game->server_min_teams && game->server_min_teams > (int)game->net_list.count_teams(false))
 		allowed=false;
 
 	// commandline options or trusted connections are always allowed to start/pause
@@ -709,7 +709,7 @@ void Net_pendingjoin::step() {
 					d.occ[y][x] = c->occupied[y][x+4];
 					d.blinded[y][x] = c->blinded[y][x+4];
 				}
-			d.seed = c->rnd.get_seed();
+			d.seed = (int)c->rnd.get_seed();
 			d.idle = c->idle;
 			d.state = c->state;
 			if(c->bloc) {

@@ -55,7 +55,7 @@ public:
 		write_mem(v, strlen(v)+1); // write a string with its '0'
 	}
 	Dword read_dword() {
-		if(((unsigned int)len())<=NETBUF_SIZE-sizeof(Dword)) {
+		if(len() <= NETBUF_SIZE-sizeof(Dword)) {
       Dword ret;
       ret = *point << 24; point++;
       ret |= *point << 16; point++;
@@ -67,7 +67,7 @@ public:
 			return 0;
 	}
 	Word read_word() {
-		if(((unsigned int)len())<=NETBUF_SIZE-sizeof(Word)) {
+		if(len() <= NETBUF_SIZE-sizeof(Word)) {
       Dword ret;
       ret = *point << 8; point++;
       ret |= *point; point++;
@@ -77,7 +77,7 @@ public:
 			return 0;
 	}
 	Byte read_byte() {
-		if(((unsigned int)len())<=NETBUF_SIZE-sizeof(Byte)) {
+		if(len() <= NETBUF_SIZE-sizeof(Byte)) {
 			Byte ret = *(Byte *) point;
 			point += sizeof(Byte);
 			return ret;
@@ -91,7 +91,7 @@ public:
 		else
 			return false;
 	}
-	void read_mem(void *v, unsigned int num) {
+	void read_mem(void *v, int num) {
 		if(len() <= NETBUF_SIZE - num) {
 			memcpy(v, point, num);
 			point += num;
