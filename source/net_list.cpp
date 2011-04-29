@@ -35,6 +35,7 @@
 #include "quadra.h"
 #include "nglog.h"
 #include "packets.h"
+#include "version.h"
 
 // Objectives are number of remaining goals to reach before it is
 // announced. Must end with 0.
@@ -1568,7 +1569,7 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 		}
 	}
 	if(!strcmp(cmd, "version")) {
-		send_msg(nc, "Quadra %i.%i.%i", Config::major, Config::minor, Config::patchlevel);
+		send_msg(nc, "Quadra %s", VERSION_STRING);
 		send_msg(nc, "%s", built);
 	}
 	if(!strcmp(cmd, "bye") && nc) {
