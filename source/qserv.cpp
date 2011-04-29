@@ -58,9 +58,9 @@ bool Qserv::done() {
 	if(!req->done())
 		return false;
 
-	//Save ip info for future requests
-	Qserv::http_addr = req->gethostaddr();
-	Qserv::http_port = req->gethostport();
+	// Clear the IP/port info, until we know it's okay.
+	Qserv::http_addr = 0;
+	Qserv::http_port = 0;
 
 	//Parse reply
 	reply=new Dict();
@@ -83,10 +83,14 @@ bool Qserv::done() {
 				break;
 			}
 		while(i<st.size()) {
-			//msgbox("Qserv::done: adding [%-60.60s]\n", st.get(i));
+			skelton_msgbox("Qserv::done: adding [%-60.60s]\n", st.get(i));
 			reply->add(st.get(i));
 			i++;
 		}
+
+		// At this point, should be good enough to cache the IP/port info.
+		Qserv::http_addr = req->gethostaddr();
+		Qserv::http_port = req->gethostport();
 	}
 	if(!strcmp(status, "Redirect permanent") && reply->find("location")) {
 		//we are being redirected to another qserv server
