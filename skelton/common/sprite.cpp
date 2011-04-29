@@ -25,6 +25,8 @@
 #include "video.h"
 #include "SDL_endian.h"
 
+using std::max;
+
 #define FONT_SIZE (141-32)
 
 void Sprite::set_hotspot(const int hx, const int hy) {

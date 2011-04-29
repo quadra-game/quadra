@@ -37,6 +37,8 @@
 #include "packets.h"
 #include "version.h"
 
+using std::max;
+
 // Objectives are number of remaining goals to reach before it is
 // announced. Must end with 0.
 static int frag_objectives[] = {
@@ -715,7 +717,7 @@ void Net_list::check_end_game(bool end_it) {
 	if(!winner_signaled && game->terminated && all_gone()) {
 		// Winner found for the first time, declare winner.
 		winner_signaled = true;
-		char *team = "none";
+		const char *team = "none";
 		if(score.team_stats[leading_team].stats[CS::SCORE].get_value()) {
 			char st[256];
 			team2name(leading_team, st);
@@ -733,7 +735,7 @@ void Net_list::check_end_game(bool end_it) {
 			send_end_signal(true);
 	Packet_endgame *p=(Packet_endgame *) game->peekpacket(P_ENDGAME);
 	if(p) {
-		char *reason;
+		const char *reason;
 		if(p->auto_end)
 			reason="auto";
 		else
@@ -1194,7 +1196,7 @@ void Net_list::check_stat() {
 						//   case the level cannot be calculated accurately and the old incorrect
 						//   behavior will be emulated perfectly
 						if(game->level_up)
-							c->level = max(game->level_start, linescur/15+1);
+							c->level = max(static_cast<int>(game->level_start), linescur/15+1);
 						else
 							c->level = game->level_start;
 						c->calc_speed();
@@ -1240,7 +1242,7 @@ void Net_list::drop_player(Packet_dropplayer *p, bool chat) {
 		message(-1, st);
 	}
 
-	char *reason="unknown";
+	const char *reason="unknown";
 	switch(p->reason) {
 		case DROP_AUTO: reason="auto"; break;
 		case DROP_MANUAL: reason="manual"; break;

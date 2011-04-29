@@ -88,7 +88,7 @@ public:
 		return true;
 	}
 	virtual Dword magic()=0;
-	virtual char *get_motd() {
+	virtual const char *get_motd() {
 		return "Hello!";
 	}
 	virtual ~Net_param() {
@@ -219,7 +219,7 @@ class Net: public Observable {
 public:
 	Array<Net_connection *> connections;
 	bool active;
-	char *last_error;
+	const char *last_error;
 	Dword name_resolve;
 	int port_resolve;
 	char host_name[1024];
@@ -268,7 +268,7 @@ public:
 	Dword getaddress(const char *host);
 	void gethostbyname_completed(bool success);
 	void gethostbyname_cancel();
-	char *failed();
+	const char *failed();
 	void init_local_addresses();
 	void init_all_udp();
 	void close_all_udp();

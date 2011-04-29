@@ -1296,7 +1296,7 @@ void Pane_scoreboard::activate_frag() {
 			int avg_handicap=2;
 			if(nb_not_gone)
 				avg_handicap=tot_handicap/nb_not_gone;
-			char *handi="";
+			const char *handi="";
 			switch(avg_handicap) {
 				case 0: handi=" (-)"; break;
 				case 1: handi=" (A)"; break;

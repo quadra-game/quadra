@@ -44,7 +44,7 @@ void Net_starter::Net_module::step() {
 	net->step(loop_only);
 }
 
-char *packet_name[] = {
+const char *packet_name[] = {
 	"P_CHAT",
 	"P_FINDGAME",
 	"P_GAMESERVER",
@@ -298,14 +298,14 @@ void Quadra_param::client_deconnect(Net_connection *adr) {
 	}
 }
 
-char *Quadra_param::get_motd() {
+const char *Quadra_param::get_motd() {
 	if(game && game->get_motd())
 		return game->get_motd();
 	else
 		return Net_param::get_motd();
 }
 
-void send_msg(Net_connection *nc, char *msg, ...) {
+void send_msg(Net_connection *nc, const char *msg, ...) {
 	if(!nc || !msg)
 		return;
 	char st[4096];

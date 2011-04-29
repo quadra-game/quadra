@@ -58,6 +58,8 @@ inline int closesocket(int fd) {
 #include "net_buf.h"
 #include "http_request.h"
 
+using std::min;
+
 IP_addr::IP_addr(const IP_addr& o) {
 	set(o.ip, o.mask);
 }
@@ -468,7 +470,7 @@ bool Net_connection_tcp::checktcp() {
 		int temp = recv(tcpsock, (char *) &tcpbuf[tcpbufsize], NETBUF_SIZE-tcpbufsize, 0);
 		// reset by remote side !
 		net->getlasterror(temp);
-		char *msg = net->failed();
+		const char *msg = net->failed();
 		if(msg) {
 			skelton_msgbox("Net_connection_tcp::checktcp: Socket error on connection #%i. Shutting it.\n[%s]\n", tcpsock, msg);
 			_state=disconnected;
@@ -533,7 +535,7 @@ int Net_connection_tcp::receivetcp(Byte *buf, Dword size) {
 		int temp = recv(tcpsock, (char *) buf, size, 0);
 		// reset by remote side !
 		net->getlasterror(temp);
-		char *msg = net->failed();
+		const char *msg = net->failed();
 		if(msg) {
 			char st[64];
 			net->stringaddress(st, address(), getdestport());
@@ -731,12 +733,8 @@ void Net::init_local_addresses() {
 		struct hostent *host;
 		host = gethostbyname(host_name);
 		if(host) {
-			Dword *s = (Dword *) *host->h_addr_list;
-			while(*(char *) s && (char *) s < host->h_name) {
-				Dword adr = ntohl(*s);
-				host_adr.add(adr);
-				s++;
-			}
+			for (Dword** curptr = reinterpret_cast<Dword**>(host->h_addr_list); *curptr; ++curptr)
+				host_adr.add(ntohl(**curptr));
 			Dword fallback = INADDR_LOOPBACK;
 			//Even better than what the NetGames guys do! :)
 			for(int i=0; i<host_adr.size(); i++) {
@@ -888,7 +886,7 @@ void Net::step(bool loop_only) {
 		if(maxsock) {
 			tube = select(maxsock+1, &fdsoc, NULL, NULL, &empty_tv);
 			getlasterror(tube);
-			char *temp = failed();
+			const char *temp = failed();
 			if(temp) {
 				skelton_msgbox("Net::step: net error in select(): [%s]. Ignored\n", temp);
 				break; // flush a potential network error
@@ -1168,7 +1166,7 @@ Packet *Net::net_buf2packet(Net_buf *nb, bool tcp) {
 			delete packet;
 			packet=NULL;
 			skelton_msgbox("  bad packet\n  ");
-			Word size=min(nb->len(), 128);
+			Word size=min(nb->len(), static_cast<unsigned int>(128));
 			nb->reset();
 			int i;
 			for(i=0; i<size; i++)
@@ -1319,7 +1317,7 @@ void Net::receiveudp(int sock, Net_buf *p) {
 	p->from = NULL;
 	p->from_addr = ntohl(tsin.sin_addr.s_addr);
 	if(getlasterror(temp)) {
-		char *msg = net->failed();
+		const char *msg = net->failed();
 		if(msg) {
 			skelton_msgbox("Net::receiveudp: Error. Ignoring it. [%s]\n", msg);
 		}
@@ -1373,7 +1371,7 @@ int Net::checkreceive(int s) {
 
 	int tube = select(s+1, &fdsoc, NULL, NULL, &empty_tv);
 	getlasterror(tube);
-	char *msg = failed();
+	const char *msg = failed();
 	if(msg) {
 		skelton_msgbox("Net::checkreceive error [%s], ignoring it\n", msg);
 	}
@@ -1453,8 +1451,8 @@ void Net::callwsa(int quel) {
 		fatal_msgbox(last_error);
 }
 
-char *Net::failed() {
-	char *tube;
+const char *Net::failed() {
+	const char *tube;
 	if(last_error) {
 		tube = last_error;
 		last_error = NULL;

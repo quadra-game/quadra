@@ -112,7 +112,7 @@
 #include "res.h"
 #include "find_file.h"
 
-char *usage = "usage: wadder <working directory> <output res> <input text>\n";
+const char usage[] = "usage: wadder <working directory> <output res> <input text>\n";
 Resfile *wad;
 
 void addfile(const char* fname) {

@@ -88,7 +88,7 @@ Menu_highscore::Menu_highscore(int hscore, int *playagain, bool show_playb) {
   courrier2 = new Font(*fonts.courrier, pal, 255,255,0, 0,20,40);
   (void)new Zone_bitmap(inter, bit, 0, 0, true);
 
-  char *pic1, *pic2, *pic1s, *pic2s;
+  const char *pic1, *pic2, *pic1s, *pic2s;
   pic1 = "hscore1.png";
   pic2 = "hscore2.png";
   pic1s = "hscore1s.png";
@@ -383,7 +383,7 @@ Net_starter::Net_starter() {
   net=new Net(new Quadra_param());
   if(!net->active) {
     msgbox("Net_starter::Net_starter: Can't initialise network.");
-    char *temp = net->last_error;
+    const char *temp = net->last_error;
     if(temp)
       msgbox("Error [%s]\n", temp);
     else
@@ -699,7 +699,7 @@ void Menu_multi_refresh::find_local_games() {
   parent->addwatch();
   to = INADDR_BROADCAST;
   net->sendudp(to, &p);
-  char *error = net->failed();
+  const char *error = net->failed();
   if(error) {
     call(new Menu_net_problem(error, "You can enter the TCP/IP address of "
                               "the server instead.", parent->bit_,
@@ -770,7 +770,7 @@ Menu_multi_internet::~Menu_multi_internet() {
 
 void Menu_multi_internet::init() {
   Menu::init();
-  char *msg;
+  const char *msg;
 
   request = new Qserv();
   request->add_data("getgames\n");

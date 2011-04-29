@@ -21,6 +21,7 @@
 #ifndef _HEADER_HTTP_REQUEST
 #define _HEADER_HTTP_REQUEST
 
+#include <stdlib.h>
 #include "types.h"
 #include "buf.h"
 

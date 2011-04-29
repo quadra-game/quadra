@@ -27,6 +27,9 @@
 #include "image_png.h"
 #include "config.h"
 
+using std::max;
+using std::min;
+
 int Inter::last_mouse_x = -1, Inter::last_mouse_y = -1;
 bool Inter::kb_visible = false;
 

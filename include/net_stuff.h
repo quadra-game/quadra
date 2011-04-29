@@ -52,9 +52,9 @@ public:
 	virtual void client_connect(Net_connection *adr);
 	virtual void client_deconnect(Net_connection *adr);
 	virtual bool accept_connection(Net_connection *nc);
-	virtual char *get_motd();
+	virtual const char *get_motd();
 };
 
-extern void send_msg(Net_connection *nc, char *msg, ...);
+extern void send_msg(Net_connection *nc, const char *msg, ...);
 
 #endif

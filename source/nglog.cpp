@@ -27,8 +27,8 @@
 #include "overmind.h"
 #include "global.h"
 
-char *log_team(int t) {
-	char *team="none";
+const char *log_team(int t) {
+	const char *team="none";
 	switch(t) {
 		case 0: team="orange"; break;
 		case 1: team="cyan"; break;
@@ -42,8 +42,8 @@ char *log_team(int t) {
 	return team;
 }
 
-char *log_handicap(int h) {
-	char *handi="unknown";
+const char *log_handicap(int h) {
+	const char *handi="unknown";
 	switch(h) {
 		case 0: handi="beginner"; break;
 		case 1: handi="apprentice"; break;

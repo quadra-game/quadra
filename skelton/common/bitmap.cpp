@@ -26,6 +26,8 @@
 #include "res.h"
 #include "image_png.h"
 
+using std::min;
+
 Bitmap* Bitmap::loadPng(const char* n) {
 	Res_doze res(n);
 	Png png(res);

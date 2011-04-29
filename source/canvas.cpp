@@ -38,6 +38,9 @@
 #include "net_server.h"
 #include "packets.h"
 
+using std::max;
+using std::min;
+
 Canvas::Canvas(int qplayer, int game_seed, Palette *p): rnd(game_seed) {
 // constructs a local Canvas
 	snapshot[0]=0;
@@ -129,7 +132,7 @@ char *Canvas::long_name(bool handi, bool gone) {
 	static char ret[64];
 	strcpy(ret, name);
 	if(handi) {
-		char *h="";
+		const char *h="";
 		switch(handicap) {
 			case 0: h=" (-)"; break;
 			case 1: h=" (A)"; break;
@@ -682,7 +685,7 @@ void Canvas::change_level(const int level, Palette *pal, Bitmap *bit) {
   delete sons.drip;
 
   sons.flash = sons.depose3 = sons.depose2 = sons.depose = sons.drip = NULL;
-  char *foo0, *foo1, *foo2, *foo3, *foo4;
+  const char *foo0, *foo1, *foo2, *foo3, *foo4;
   switch(num) {
     case 1:
       foo0="Pwap2.wav";

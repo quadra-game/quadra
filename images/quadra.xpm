@@ -1,5 +1,5 @@
 /* XPM */
-static char * quadra_xpm[] = {
+static const char * quadra_xpm[] = {
 "48 48 72 1",
 " 	c None",
 ".	c #FFFF00",

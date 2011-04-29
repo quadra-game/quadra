@@ -33,7 +33,7 @@ Dict::Dict(const char *k, const char *v) {
 		key[0] = 0;
 
 	if(v)
-		value.append("%s", v);
+		value.appendraw(v);
 }
 
 Dict::~Dict() {
@@ -42,7 +42,7 @@ Dict::~Dict() {
 
 void Dict::add(const char *s) {
 	Textbuf buf;
-	buf.append("%s", s);
+	buf.appendraw(s);
 	char *st=buf.get();
 	char *val = strchr(st, ' ');
 	char *rep = strchr(st, '/');

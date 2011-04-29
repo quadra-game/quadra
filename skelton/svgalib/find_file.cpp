@@ -94,7 +94,7 @@ bool Find_file_Unix::has_error()
 
 Find_file_entry Find_file_Unix::get_next_entry() {
   struct stat sbuf;
-  char* buf;
+  const char* buf;
   bool isdir;
 
   if(count == -1)

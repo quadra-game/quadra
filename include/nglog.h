@@ -21,7 +21,7 @@
 #ifndef _HEADER_NGLOG
 #define _HEADER_NGLOG
 
-char *log_team(int t);
-char *log_handicap(int h);
+const char *log_team(int t);
+const char *log_handicap(int h);
 
 #endif

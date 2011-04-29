@@ -23,17 +23,6 @@
 
 #include "config.h"
 
-#ifndef max
-#define max(a,b) (((a) > (b)) ? (a) : (b))
-#endif
-#ifndef min
-#define min(a,b) (((a) < (b)) ? (a) : (b))
-#endif
-
-#ifndef NULL
-#define NULL 0
-#endif
-
 typedef unsigned int Dword;
 typedef unsigned short Word;
 typedef unsigned char Byte;

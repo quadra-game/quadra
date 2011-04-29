@@ -57,6 +57,7 @@ public:
 	int len() const;
 	char* get() const;
 	void append(const char* s, ...);
+	void appendraw(const char* s);
 	void reserve(Dword s);
 };
 
