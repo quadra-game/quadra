@@ -855,7 +855,9 @@ void Game::prepare_logging() {
 	log.add(Packet_serverlog::Var("version", game_version));
 	log.add(Packet_serverlog::Var("os", os));
 
-	Dword addr=net->host_adr_pub[0];
+	Dword addr = INADDR_LOOPBACK;
+	if (net->host_adr_pub.size())
+		addr = net->host_adr_pub[0];
 	char st[64];
 	Net::stringaddress(st, addr, config.info.port_number);
 
