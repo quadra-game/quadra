@@ -1,5 +1,5 @@
 Quadra version 1.2.0 for Windows
-Copyright (c) 1998-2003 Ludus Design Inc.
+Copyright (c) 1998-2008 Ludus Design Inc.
 All rights reserved.
 
 THANK YOU for downloading Quadra. This document contains installing information and references to our support for Quadra.
@@ -23,6 +23,5 @@ If you have any version of Quadra older than 1.1.9, we recommend that you uninst
 You should choose to install in the same folder as your previous version. Your recorded demo files and settings won't be overwritten.
 
 DIRECTX
-You'll need to have Microsoft DirectX version 5.0 (or more) for Quadra. If you have Windows NT, you'll need to update to the latest service pack. Please visit our web site for link and info about these requirements at: http://quadra.sourceforge.net/
+You'll need to have Microsoft DirectX version 5.0 (or more) for Quadra. If you have Windows NT, you'll need to update to the latest service pack. Please visit our web site for link and info about these requirements at: http://quadra.googlecode.com/
 Quadra has been succesfully tested with DirectX 7, 8 and 9.
-

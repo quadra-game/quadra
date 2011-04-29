@@ -4,7 +4,7 @@ Version: @VERSION@
 Release: 1
 Copyright: LGPL
 Group: Amusements/Games
-URL: http://quadra.sourceforge.net/
+URL: http://quadra.googlecode.com/
 Source: quadra-%{version}.tar.gz
 Vendor: Ludus Design
 BuildRoot: /var/tmp/quadra-root

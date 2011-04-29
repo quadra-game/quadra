@@ -1,6 +1,6 @@
 
 Quadra version @VERSION@
-http://quadra.sourceforge.net/
+http://quadra.googlecode.com/
 
 Description
 -----------
@@ -46,12 +46,6 @@ Hat system already has such an environment), then it is simply a
 matter of entering this command:
 
 rpm -tb quadra-@VERSION@.tar.gz
-
-For further support questions, refer to the support section of the
-Ludus Design web site at http://ludusdesign.com/support.html or e-mail
-us at support@ludusdesign.com, including all relevant information,
-like error messages, computer model, video and sound card models and
-operating system version.
 
 Have fun playing Quadra!
 

@@ -82,11 +82,14 @@ launch this utility through a batch file called 'res.bat' found in the
 same folder as the VC++ solution. If the tool works properly, it should
 output a 'quadra.res' in the parent folder, along with 'quadra.exe' which
 *should* already be there (simply by building the solution).
+
 Important notice: For a "more" enjoyable debugging/developping experience,
-I recommand you pass a command argument '-nofullscreen' in VC properties
+I recommend you pass a command argument '-nofullscreen' in VC properties
 under Configuration Properties / Debugging. Else you might end up getting
 stuck on a breakpoint in a 640x480x8 bit display mode with a locked 
 keyboard.
+
+Run "res.bat" after building to create the resource file (quadra.res).
 
 How to build LIBPNG on Windows
 ------------------------------
@@ -112,7 +115,7 @@ Any questions?
 
 If you have any problem, patches, suggestions, bug reports or are
 simply looking for help, please take advantage of the resources
-available on our web site (http://quadra.sourceforge.net/)! Among
+available on our web site (http://quadra.googlecode.com/)! Among
 others, we have a support request system, mailing lists, a bug
 tracking system and plenty of other goodies, check it out!
 
