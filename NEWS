@@ -1,4 +1,3 @@
-$Id$
 
 Quadra 1.2.0
 
@@ -31,10 +30,10 @@ Quadra 1.2.0
 
  * Fixed the "crash on level change" (also known as the sound crash)
    on Linux.
-    - Damian M Gryski <dgryski@uwaterloo.ca>
+    - Damian M Gryski <dmg@pobox.com>
 
  * Fixed the "trails" in X11.
-    - Damian M Gryski <dgryski@uwaterloo.ca>
+    - Damian M Gryski <dmg@pobox.com>
 
  * Added a "-nocd" option to avoid using the CD music.
 
@@ -52,14 +51,11 @@ Quadra 1.2.0
  * Fixed some compilation problems related to "basename".
 
  * Fixed many bugs related to the SPARC port.
-    - Damian M Gryski <dgryski@uwaterloo.ca>
-
- * Fixed some compilation warnings for GCC 3.x.
-    - Damian M Gryski <dgryski@uwaterloo.ca>
+    - Damian M Gryski <dmg@pobox.com>
     - Hunor "Kacsa" Csordás <hunor@fazekas.hu>
 
  * Fixed some Valgrind warnings.
-    - Damian M Gryski <dgryski@uwaterloo.ca>
+    - Damian M Gryski <dmg@pobox.com>
 
  * Various bugs fixed.
 

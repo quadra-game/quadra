@@ -37,7 +37,7 @@ dist: distclean quadra.spec configure ChangeLog manual-dist-stuff
 
 ChangeLog:
 	rm -f ChangeLog
-	-cvs2cl.pl
+	-svn log -v > $@
 
 installdirs:
 	mkdir -p $(bindir)
@@ -53,7 +53,7 @@ install: installdirs $(TARGETS)
 # /etc/X11/applnk/Games/Quadra.desktop
 # /usr/share/gnome/apps/Games/Quadra.desktop
 
-quadra.spec: packages/quadra.spec.in source/config.cpp
+quadra.spec: packages/quadra.spec.in include/version.h
 	sed -e 's%@VERSION@%$(VERSION)%g' >$@ <$<
 
 Quadra.desktop: packages/Quadra.desktop.in config/config.mk
