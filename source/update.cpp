@@ -64,9 +64,6 @@ void AutoUpdaterImpl::init() {
 
   msgbox("update: init called.\n");
 
-#if 1
-  now = config.info3.last_update + mindelay + 1;
-#endif
   if(now < config.info3.last_update + mindelay) {
     now = config.info3.last_update + mindelay;
     msgbox("update: updated too recently, not before %s", ctime(&now));
