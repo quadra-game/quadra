@@ -47,6 +47,7 @@ static time_t mindelay = 24 * 60 * 60;
 static AutoUpdaterImpl* updater;
 
 void AutoUpdater::start() {
+#ifdef ENABLE_VERSION_CHECK
   msgbox("Attempting to start auto-update...\n");
 
   if(updater) {
@@ -55,6 +56,7 @@ void AutoUpdater::start() {
   }
 
   updater = new AutoUpdaterImpl;
+#endif
 }
 
 void AutoUpdaterImpl::init() {
