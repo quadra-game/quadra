@@ -29,7 +29,9 @@ typedef unsigned char Byte;
 
 #ifdef UGS_DIRECTX
 #define snprintf _snprintf
+#if _MSC_VER < 1400
 #define vsnprintf _vsnprintf
+#endif
 #define strcasecmp _stricmp
 #define strncasecmp _strnicmp
 typedef int socklen_t;
