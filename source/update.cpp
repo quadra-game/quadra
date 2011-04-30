@@ -47,7 +47,15 @@ static time_t mindelay = 24 * 60 * 60;
 static AutoUpdaterImpl* updater;
 
 void AutoUpdater::start() {
-#ifdef ENABLE_VERSION_CHECK
+  // Why is this not disabled when ENABLE_VERSION_CHECK is not active? The
+  // reason is that the updater has two purposes, one is to notify the user
+  // when a new version is released, and the other is to keep the Qserv
+  // location up-to-date. The reason we have ENABLE_VERSION_CHECK is for
+  // platforms where updating is taken care of by a third-party (Debian and
+  // Ubuntu, for example), and it is not the job of the user to get new
+  // releases. But even in that case, we still need to keep the Qserv
+  // location up-to-date...
+  
   msgbox("Attempting to start auto-update...\n");
 
   if(updater) {
@@ -56,7 +64,6 @@ void AutoUpdater::start() {
   }
 
   updater = new AutoUpdaterImpl;
-#endif
 }
 
 void AutoUpdaterImpl::init() {

@@ -65,7 +65,7 @@ void Config::default_config() {
 	info.pane[1] = 0;
 	info.pane[2] = 3;
 	info.update_rate = 10;
-	memset(info.book, sizeof(info.book), 0);
+	memset(info.book, 0, sizeof(info.book));
 	info.game_name[0] = 0;
 	info.game_type = info.level_up = info.level_start = info.combo_min = info.game_end = 0;
 	info.game_public = 1;
