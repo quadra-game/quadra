@@ -40,15 +40,15 @@ ChangeLog:
 	-svn log -v > $@
 
 installdirs:
-	mkdir -p $(bindir)
-	mkdir -p $(libgamesdir)
-	mkdir -p $(datagamesdir)
-	mkdir -p $(datadir)/pixmaps
+	mkdir -p $(DESTDIR)$(bindir)
+	mkdir -p $(DESTDIR)$(libgamesdir)
+	mkdir -p $(DESTDIR)$(datagamesdir)
+	mkdir -p $(DESTDIR)$(datadir)/pixmaps
 
 install: installdirs $(TARGETS)
-	$(INSTALL_PROGRAM) source/quadra $(bindir)/quadra
-	$(INSTALL_DATA) quadra.res $(datagamesdir)/quadra.res
-	$(INSTALL_DATA) images/quadra.xpm $(datadir)/pixmaps/quadra.xpm
+	$(INSTALL_PROGRAM) source/quadra $(DESTDIR)$(bindir)/quadra
+	$(INSTALL_DATA) quadra.res $(DESTDIR)$(datagamesdir)/quadra.res
+	$(INSTALL_DATA) images/quadra.xpm $(DESTDIR)$(datadir)/pixmaps/quadra.xpm
 # FIXME: the Quadra.desktop file should go to these places:
 # /etc/X11/applnk/Games/Quadra.desktop
 # /usr/share/gnome/apps/Games/Quadra.desktop
