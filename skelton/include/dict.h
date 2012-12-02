@@ -23,6 +23,7 @@
 
 #include <stdint.h>
 #include <vector>
+#include <stdlib.h>
 
 #include "types.h"
 #include "buf.h"

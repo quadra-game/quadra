@@ -24,6 +24,7 @@
 #include <list>
 #include <stdint.h>
 #include <vector>
+#include <stdlib.h>
 
 #include "config.h"
 
