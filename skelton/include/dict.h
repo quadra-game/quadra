@@ -22,6 +22,7 @@
 #define _HEADER_DICT
 
 #include <vector>
+#include <stdlib.h>
 
 #include "types.h"
 #include "buf.h"

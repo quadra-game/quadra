@@ -23,6 +23,7 @@
 
 #include <list>
 #include <vector>
+#include <stdlib.h>
 
 #include "config.h"
 
