@@ -99,7 +99,6 @@ void Pane::draw() {
     rect.y = y;
     rect.w = w;
     rect.h = 18 * 20;
-    fprintf(stderr, "Pane::draw: background\n");
     screen->put_surface(pi.fond->surface, rect, 0, 0);
   }
   if (draw_bottom) {
@@ -108,7 +107,6 @@ void Pane::draw() {
     rect.y = y + 18 * 20;
     rect.w = w;
     rect.h = 480 - y - 18 * 20;
-    fprintf(stderr, "Pane::draw: bottom\n");
     screen->put_surface(pi.fond->surface, rect, 0, 18 * 20); 
   }
 }
