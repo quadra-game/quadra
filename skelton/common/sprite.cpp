@@ -158,6 +158,7 @@ int Fontdata::width(const char *m, int num) const {
 }
 
 
+// FIXME: This is all evil Latin1 stuff.
 int Fontdata::translate(const char **m) const {
 	int ret;
 	char c;
@@ -167,47 +168,47 @@ int Fontdata::translate(const char **m) const {
 	if(c > 32 && c < 127)
 		return c-33; // standard value
 	switch(c) {
-		// ascii 183 followed with a number to do a glyph
-		case '·':
+		// ascii 0xb7 followed with a number to do a glyph
+		case '\xb7':
 			ret=(int) (*(*m)++)-48 + 133;
 			if(ret<133 || ret>137)
 				return -2;
 			break;
-		case 'Ç': ret='C'; break;
-		case 'ù': ret=139; break;
-		case 'û': ret=140; break;
-		case 'ü': ret='u'; break;
-		case 'é': ret=127; break;
-		case 'è': ret=128; break;
-		case 'ê': ret=129; break;
-		case 'ë': ret=130; break;
-		case 'à': ret=131; break;
-		case 'â':
-		case 'ä': ret='a'; break;
-		case 'ç': ret=132; break;
-		case 'Ù':
-		case 'Û':
-		case 'Ü': ret='U'; break;
-		case 'À':
-		case 'Â':
-		case 'Ä': ret='A'; break;
-		case 'É':
-		case 'È':
-		case 'Ê':
-		case 'Ë': ret='E'; break;
-		case 'ô': ret=138; break;
-		case 'ò':
-		case 'ö': ret='o'; break;
-		case 'ÿ': ret='y'; break;
-		case 'Ò':
-		case 'Ô':
-		case 'Ö': ret='O'; break;
-		case 'î': ret=141; break;
-		case 'ì':
-		case 'ï': ret='i'; break;
-		case 'Ì':
-		case 'Î':
-		case 'Ï': ret='I'; break;
+		case '\xc7': ret='C'; break;
+		case '\xf9': ret=139; break;
+		case '\xfb': ret=140; break;
+		case '\xfc': ret='u'; break;
+		case '\xe9': ret=127; break;
+		case '\xe8': ret=128; break;
+		case '\xea': ret=129; break;
+		case '\xeb': ret=130; break;
+		case '\xe0': ret=131; break;
+		case '\xe2':
+		case '\xe4': ret='a'; break;
+		case '\xe7': ret=132; break;
+		case '\xd9':
+		case '\xdb':
+		case '\xdc': ret='U'; break;
+		case '\xc0':
+		case '\xc2':
+		case '\xc4': ret='A'; break;
+		case '\xc9':
+		case '\xc8':
+		case '\xca':
+		case '\xcb': ret='E'; break;
+		case '\xf4': ret=138; break;
+		case '\xf2':
+		case '\xf6': ret='o'; break;
+		case '\xff': ret='y'; break;
+		case '\xd2':
+		case '\xd4':
+		case '\xd6': ret='O'; break;
+		case '\xee': ret=141; break;
+		case '\xec':
+		case '\xef': ret='i'; break;
+		case '\xcc':
+		case '\xce':
+		case '\xcf': ret='I'; break;
 		default: return -2;
 	}
 	return ret-33;

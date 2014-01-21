@@ -1174,7 +1174,7 @@ Menu_setup_all_key::Menu_setup_all_key(Inter *in, Zone_set_key *k[]): Menu(in) {
 }
 
 void Menu_setup_all_key::step() {
-  static char touche[7] = {0, 1, 3, 4, 2, 5, 6};
+  static unsigned char touche[7] = {0, 1, 3, 4, 2, 5, 6};
   Menu::step();
   if(quel > 6 || input->keys[1] & PRESSED) {
     ret();
@@ -1319,10 +1319,10 @@ Menu_help::Menu_help() {
   (void)new Zone_text(inter, ST_HELP10, 10, y); y+=20;
   (void)new Zone_text(inter, ST_HELP11, 10, y);
   Zone_text *temp;
-/*
+#if 0
   b_email = temp = new Zone_text_select(inter, fteam[4], ST_HELP12, 160, y); // email ludus
   temp->set_font(fteam[6]); y+=40;
-*/
+#endif
   (void)new Zone_text(fteam[3], inter, ST_HELP15, y); y+=20;
   (void)new Zone_text(inter, ST_HELP16, 10, y); y+=20;
   (void)new Zone_text(inter, ST_HELP17, 10, y); y+=20;
@@ -1531,8 +1531,8 @@ Menu_intro::~Menu_intro() {
   delete font2;
 }
 
-Menu_guy::Menu_guy() {
 #if 0
+Menu_guy::Menu_guy() {
   /* FIXME: we should remove this */
   Bitmap *bit;
   {
@@ -1546,7 +1546,6 @@ Menu_guy::Menu_guy() {
     Res_doze res("Raglamp.wav");
     son = new Sample(res, 2);
   }*/
-#endif
 }
 
 Menu_guy::~Menu_guy() {
@@ -1565,6 +1564,7 @@ void Menu_guy::step() {
   call(new Wait_time(300));
   //Sfx stmp(son, 0, 0, 0, 22050);
 }
+#endif
 
 Menu_ugs::Menu_ugs() {
 #if 0
@@ -2144,7 +2144,7 @@ void Menu_stat::step() {
     b_restart=NULL;
 		video->need_paint = 2;
   }
-  if(!playback && !b_restart)
+  if(!playback && !b_restart) {
     if(game->server)
 			if(game->terminated)
 				b_restart = new Zone_text_button2(inter, bit, font2, ST_RESTARTGAME, 8, 455);
@@ -2153,6 +2153,7 @@ void Menu_stat::step() {
     else
       if(net->active && net->connected())
         b_restart = new Zone_text_button2(inter, bit, font2, ST_REJOINGAME, 8, 455);
+  }
   if(result) {
     if(result == b_quit)
       quit = true;

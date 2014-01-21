@@ -47,11 +47,12 @@ Res_dos::Res_dos(const char *fil, Res_mode mode) {
 		  break;
 	}
 	handle = open(fil, flag, 0666);
-	if(handle == -1)
+	if(handle == -1) {
 		if(mode == RES_TRY || mode == RES_CREATE)
 			exist = 0;
 		else
 			error = new Error("Unable to open file '%s'", fil);
+  }
 }
 
 Dword Res_dos::size() {

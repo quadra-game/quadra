@@ -54,15 +54,6 @@ public:
 	virtual void step();
 };
 
-class Menu_guy: public Menu {
-	Sample *son;
-public:
-	Menu_guy();
-	virtual ~Menu_guy();
-	virtual void init();
-	virtual void step();
-};
-
 class Menu_ugs: public Menu {
 	Sample *son;
 public:
@@ -104,7 +95,7 @@ public:
 class Menu_help: public Menu_standard {
 	Font *font2;
 	Zone *b_quit;
-	Zone *b_www, *b_email, *b_online;
+	Zone *b_www, *b_online;
 	void call_internet(const char *s);
 public:
 	Menu_help();
@@ -132,8 +123,6 @@ class Menu_setup: public Menu_standard {
 	Zone *b_quit, *b_player, *b_all_key;
 	Zone_text_input *z_nameinput;
 	Zone_text_input *z_passwdinput;
-	Zone_text_input *z_tnameinput;
-	Zone_text_input *z_tpasswdinput;
 	Zone_state_text *z_continuousdown;
 	Zone_state_text *z_h_repeat;
 	Zone_state_text *z_v_repeat;
@@ -150,8 +139,6 @@ public:
 
 class Menu_setup_all_key: public Menu {
 	Zone_set_key **key;
-	Bitmap *bit;
-	Zone_text *z_text;
 	int quel;
 public:
 	Menu_setup_all_key(Inter *in, Zone_set_key *k[]);
@@ -259,7 +246,6 @@ class Menu_highscore: public Menu_standard, public Zone_list {
 	Zone *b_quit, *b_again, *playdemo[MAX_SCORE], *playdemog[MAX_SCORE], *playlast;
 	Zone_text_button *sync;
 	Qserv *sync_request;
-	char *file_name;
 	int *play_again;
 	int time_demo;
 	bool show_playback;
@@ -323,7 +309,6 @@ class Menu_multi_book: public Menu {
 	Bitmap *bit_;
 	Font *font2_;
 	Zone *cancel;
-	char buf[10][256];
 	Zone *b_connect[10];
 	Zone_text_field *status;
 	bool looking, connect_failed;

@@ -1016,7 +1016,7 @@ void Pane_playerinfo::step() {
 				if(to_tag[i] && game->net_list.get(i)->color==team)
 					tag(i);
 	}
-	if(Pane::clicked && Pane::clicked == show_button || auto_watch) {
+	if((Pane::clicked && Pane::clicked == show_button) || auto_watch) {
 		if(Pane::clicked && Pane::clicked == show_button)
 			deactivate_auto_watch();
 		int count = 0, solo = 0;
@@ -1205,7 +1205,7 @@ Pane_scoreboard::Pane_scoreboard(const Pane_info &p, bool control_button, bool d
 	b_show_frag = NULL;
 	if(!game->single) {
 		if(!(playback && playback->auto_demo) && control_button) {
-			b_show_frag = new Zone_text_button2(pi.inter, pi.fond, pi.font2, "·4", pi.x+110, 10);
+			b_show_frag = new Zone_text_button2(pi.inter, pi.fond, pi.font2, "\2674", pi.x+110, 10);
 			zone.add(b_show_frag);
 		}
 	}
@@ -1248,7 +1248,7 @@ void Pane_scoreboard::activate_frag() {
 	score.updateFromGame();
 	int team, team2;
 	if(b_show_frag)
-		b_show_frag->set_text("·3");
+		b_show_frag->set_text("\2673");
 	show_frag=true;
 	int x2=x+11;
 	int y2=33, y_height=20;
@@ -1291,7 +1291,7 @@ void Pane_scoreboard::activate_frag() {
 		}
 		if(nb > 0) {
 			if(game->hot_potato && team==game->potato_team)
-				strcpy(st, "·2 ");
+				strcpy(st, "\2672 ");
 			else
 				st[0]=0;
 			if(nb==1)
@@ -1358,7 +1358,7 @@ void Pane_scoreboard::deactivate_frag(bool temp) {
 	//temp: tells if we should deactivate only temporarily
 	//  (see notify)
 	if(b_show_frag && !temp)
-		b_show_frag->set_text("·4");
+		b_show_frag->set_text("\2674");
 	show_frag=false;
 	for(int i=0; i<zlist_frag.size(); i++)
 		zone.remove_item(zlist_frag[i]);

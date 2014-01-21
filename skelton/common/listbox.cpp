@@ -275,7 +275,7 @@ void Zone_listupdown::dirt() {
 }
 
 Zone_listup::Zone_listup(Zone_listbox *par):
-	Zone_listupdown(par, "·3", par->y) {
+	Zone_listupdown(par, "\2673", par->y) {
 }
 
 void Zone_listup::clicked(int quel) {
@@ -287,7 +287,7 @@ void Zone_listup::clicked(int quel) {
 }
 
 Zone_listdown::Zone_listdown(Zone_listbox *par):
-	Zone_listupdown(par, "·4", par->y+par->h-18) {
+	Zone_listupdown(par, "4", par->y+par->h-18) {
 }
 
 void Zone_listdown::clicked(int quel) {

@@ -45,7 +45,6 @@ class Find_file_Unix: public Find_file {
 private:
   glob_t globbuf;
   int count;
-  struct stat sbuf;
 public:
   Find_file_Unix(const char *n);
   virtual ~Find_file_Unix();

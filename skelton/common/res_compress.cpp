@@ -61,7 +61,7 @@ void Res_compress::read_uncompress() {
 	Byte *source = temp + 4;
 	int src_size = res->size() - 4;
 	skelton_msgbox("Res_compress::Res_compress: Reading compressed file original size = %i, compressed = %i\n", ressize, src_size);
-	if(ressize < 0 || src_size < 0) {
+	if(src_size < 0) {
 		if(mode == RES_TRY)
 			return;
 		else

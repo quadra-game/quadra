@@ -88,7 +88,6 @@ class Zone_listbox: public Zone_watch_int {
 	Array<Listable *> sort_list; // temporary list of elements to sort
 	static int compare_sort(const void *arg1, const void *arg2);
 	Video_bitmap *screen;
-	bool selectable;
 public:
 	Zone_listbox(Inter* in, Bitmap *fond, Font *f, int *pval, int px, int py, int pw, int ph);
 	virtual ~Zone_listbox();
