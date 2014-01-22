@@ -21,8 +21,6 @@
 #include "resfile.h"
 #include "resmanager.h"
 
-RCSID("$Id$")
-
 Resmanager::Resmanager() {
 }
 

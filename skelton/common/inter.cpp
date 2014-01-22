@@ -29,8 +29,6 @@
 #include "res.h"
 #include "config.h"
 
-RCSID("$Id$")
-
 using std::max;
 using std::min;
 

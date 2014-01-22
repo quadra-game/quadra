@@ -20,8 +20,6 @@
 
 #include "stats.h"
 
-RCSID("$Id$")
-
 void CS::add(const CS& other) {
 	for(int i=0; i<LAST; i++)
 		stats[i].add(other.stats[i].get_value());

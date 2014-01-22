@@ -25,8 +25,6 @@
 #include "music.h"
 #include "command.h"
 
-RCSID("$Id$")
-
 //#define MAX_TRACKS 100
 
 class MusicWin32: public Music {

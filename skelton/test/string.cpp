@@ -24,8 +24,6 @@
 #include "stringtable.h"
 #include "../include/texte.h"
 
-RCSID("$Id$")
-
 /* This is a test for Res_doze and stringtable */
 
 void start_game() {

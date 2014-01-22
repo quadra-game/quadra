@@ -25,8 +25,6 @@
 #include "res.h"
 #include "pcx.h"
 
-RCSID("$Id$")
-
 /* This is a test */
 
 void start_game() {

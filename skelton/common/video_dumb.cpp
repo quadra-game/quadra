@@ -32,8 +32,6 @@
 #include "net.h"
 #include "video_dumb.h"
 
-RCSID("$Id$")
-
 bool video_is_dumb=false; //Defaults to false
 
 Dumb_Video_bitmap* Dumb_Video_bitmap::New(const int px, const int py,

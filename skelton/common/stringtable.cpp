@@ -23,8 +23,6 @@
 #include <stdlib.h>
 #include "stringtable.h"
 
-RCSID("$Id$")
-
 Stringtable *stringtable = NULL;
 
 Stringtable::Stringtable(const char *nam) {

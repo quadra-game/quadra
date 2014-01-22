@@ -25,8 +25,6 @@
 #include "sound.h"
 //#include "main.h"
 
-RCSID("$Id$")
-
 /* This is a test */
 
 void start_game() {

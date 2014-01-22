@@ -23,8 +23,6 @@
 #include "canvas.h"
 #include "score.h"
 
-RCSID("$Id$")
-
 Score::Score() {
 	int i;
 	for(i=0; i<MAXPLAYERS; i++)

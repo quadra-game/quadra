@@ -25,8 +25,6 @@
 #include "image_png.h"
 #include "bitmap.h"
 
-RCSID("$Id$")
-
 using std::min;
 
 Bitmap* Bitmap::loadPng(const char* n) {

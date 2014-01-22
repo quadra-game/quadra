@@ -23,8 +23,6 @@
 #include "video.h"
 #include "cursor_x11.h"
 
-RCSID("$Id$")
-
 Cursor_X11::Cursor_X11() {
   visible = true;
 }

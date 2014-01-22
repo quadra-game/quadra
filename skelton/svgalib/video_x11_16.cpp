@@ -31,8 +31,6 @@
 #include "sprite.h"
 #include "video_x11.h"
 
-RCSID("$Id$")
-
 Video_X11_16::Video_X11_16(int w, int h, int b,
 			   const char *wname,
 			   Display* dpy,

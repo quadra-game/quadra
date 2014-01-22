@@ -23,12 +23,6 @@
 
 #include "config.h"
 
-#if defined(lint)
-#define RCSID(x) /* empty */
-#else
-#define RCSID(x) static inline const char *rcsid(const char *s) { return rcsid(x); }
-#endif
-
 typedef unsigned int Dword;
 typedef unsigned short Word;
 typedef unsigned char Byte;

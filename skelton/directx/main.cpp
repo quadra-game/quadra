@@ -34,8 +34,6 @@
 #include "command.h"
 #include "main.h"
 
-RCSID("$Id$")
-
 bool alt_tab=false;
 Time_mode time_control=TIME_NORMAL;
 void quit_game(int status);

@@ -36,8 +36,6 @@
 #include "net_list.h"
 #include "version.h"
 
-RCSID("$Id$")
-
 using std::max;
 
 //Objectives are number of remaining goals to reach before it is

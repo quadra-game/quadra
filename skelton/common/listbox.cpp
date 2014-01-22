@@ -25,8 +25,6 @@
 #include "cursor.h"
 #include "listbox.h"
 
-RCSID("$Id$")
-
 Zone_listbox::Zone_listbox(Inter* in, Bitmap *fond, Font *f, int *pval, int px, int py, int pw, int ph):
 	Zone_watch_int(in, pval, px, py, pw, ph) {
 	if(fond) 

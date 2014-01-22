@@ -27,8 +27,6 @@
 #include "global.h"
 #include "packets.h"
 
-RCSID("$Id$")
-
 char st[4096] = {""};
 
 char quadradir[1024] = {"."};

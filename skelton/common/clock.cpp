@@ -24,8 +24,6 @@
 #include "clock.h"
 #include "config.h"
 
-RCSID("$Id$")
-
 Clock::Clock() {
 }
 

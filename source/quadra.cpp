@@ -72,8 +72,6 @@
 #include "quadra.h"
 #include "update.h"
 
-RCSID("$Id$")
-
 using std::max;
 using std::min;
 

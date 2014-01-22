@@ -24,8 +24,6 @@
 #include "sprite.h"
 #include "byteorder.h"
 
-RCSID("$Id$")
-
 using std::max;
 
 #define FONT_SIZE (141-32)

@@ -25,8 +25,6 @@
 #include "resfile.h"
 #include "byteorder.h"
 
-RCSID("$Id$")
-
 Resdata::Resdata(char *resname, int ressize, Byte *resdata, Resdata *list) {
 	name = resname;
 	size = ressize;

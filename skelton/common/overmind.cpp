@@ -20,8 +20,6 @@
 
 #include "overmind.h"
 
-RCSID("$Id$")
-
 Overmind overmind;
 Inter* ecran = NULL;
 

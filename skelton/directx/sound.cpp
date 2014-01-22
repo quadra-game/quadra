@@ -22,8 +22,6 @@
 #include "main.h"
 #include "sound.h"
 
-RCSID("$Id$")
-
 Sound *sound = NULL;
 
 Sound::Sound() {

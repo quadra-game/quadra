@@ -27,8 +27,6 @@
 #include "net.h"
 #include "http_post.h"
 
-RCSID("$Id$")
-
 Http_post::Http_post(const char* aHost, int port, const char *path): Http_request(aHost, port), data(0, 1024) {
 	init(path);
 }

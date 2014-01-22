@@ -27,8 +27,6 @@
 #include "video_dumb.h"
 #include "video_dx.h"
 
-RCSID("$Id$")
-
 Video* video = NULL;
 static bool video_8bit = true;
 

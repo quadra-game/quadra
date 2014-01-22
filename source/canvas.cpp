@@ -38,8 +38,6 @@
 #include "net_server.h"
 #include "canvas.h"
 
-RCSID("$Id$")
-
 using std::max;
 using std::min;
 

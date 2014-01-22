@@ -22,8 +22,6 @@
 #include "video.h"
 #include "cursor_self.h"
 
-RCSID("$Id$")
-
 using std::max;
 
 Cursor_Self::Cursor_Self(Sprite* s) {

@@ -22,8 +22,6 @@
 #include "bitmap.h"
 #include "clipable.h"
 
-RCSID("$Id$")
-
 using std::max;
 using std::min;
 

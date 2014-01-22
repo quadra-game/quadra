@@ -23,8 +23,6 @@
 #include "input_dx.h"
 #include "input_dumb.h"
 
-RCSID("$Id$")
-
 Input *input = NULL;
 
 Input* Input::New(bool dumb) {

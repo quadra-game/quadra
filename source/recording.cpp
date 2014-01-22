@@ -33,8 +33,6 @@
 #include "recording.h"
 #include "byteorder.h"
 
-RCSID("$Id$")
-
 Recording *recording = NULL;
 Playback *playback = NULL;
 
