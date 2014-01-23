@@ -1051,9 +1051,12 @@ void Player_normal::step() {
 		//If this is a local player, check death condition
 		if(canvas->islocal()) {
 			if(canvas->collide(canvas->bloc->bx, canvas->bloc->by, canvas->bloc->rot)) {
+#if 0
+				// TODO: Not used, but should it?
 				bool tg=false;
 				if(game->single)
 					tg=true;
+#endif
 				call(new Player_dead(canvas));
 			}
 			else {
@@ -1841,7 +1844,6 @@ void init_directory() {
 		strcpy(quadradir, pw->pw_dir);
 		strcat(quadradir, "/.quadra");
 		mkdir(quadradir, 0777);
-		chown(quadradir, pw->pw_uid, pw->pw_gid);
 	}
 #endif
 }

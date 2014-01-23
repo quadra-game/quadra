@@ -19,9 +19,7 @@
  */
 
 #include "config.h"
-#ifndef NDEBUG
 #include <stdio.h>
-#endif
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -87,7 +85,6 @@ MusicLinux::~MusicLinux() {
 
 void MusicLinux::play(int quel, bool loop) {
   struct cdrom_ti ti;
-  int status;
 
   if(!active)
     return;
@@ -95,7 +92,7 @@ void MusicLinux::play(int quel, bool loop) {
 	if(quel < starttrack)
 		quel = starttrack;
 
-  if(loop_all = loop)
+  if((loop_all = loop))
     playing = starttrack;
   else
     playing = quel;
@@ -105,12 +102,8 @@ void MusicLinux::play(int quel, bool loop) {
   ti.cdti_trk1 = endtrack;
   ti.cdti_ind1 = 0;
 
-  status = ioctl(fd, CDROMPLAYTRKIND, &ti);
-
-#ifndef NDEBUG
-  if(status < 0)
+  if(ioctl(fd, CDROMPLAYTRKIND, &ti) < 0)
     perror("CDROMPLAYTRKIND");
-#endif
 
   is_playing = true;
 }
@@ -120,17 +113,11 @@ void MusicLinux::replay() {
 }
 
 void MusicLinux::stop() {
-	int status;
-
   if(!active || !is_playing)
     return;
 
-	status = ioctl(fd, CDROMSTOP);
-
-#ifndef NDEBUG
-  if(status != 0)
+  if(ioctl(fd, CDROMSTOP) != 0)
     perror("CDROMPLAYTRKIND");
-#endif
 }
 
 void MusicLinux::open() {

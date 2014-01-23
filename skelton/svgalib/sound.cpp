@@ -253,7 +253,8 @@ void Sound::process() {
     }
   }
 
-  write(dspfd, fragbuf, fragsize);
+  if (write(dspfd, fragbuf, fragsize) < 0)
+    perror("write");
 }
 
 void Sound::delete_sample(Sample *sam) {

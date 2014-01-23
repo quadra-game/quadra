@@ -85,7 +85,6 @@ Video_bitmap_X11::~Video_bitmap_X11() {
 
 void Video_bitmap_X11::rect(const int x,const int y,const int w,const int h,
 			    const int color) const {
-  int i;
   char *bp;
 
   if(clip(x, y, w, h))
@@ -95,7 +94,6 @@ void Video_bitmap_X11::rect(const int x,const int y,const int w,const int h,
   clip_y2 += pos_y;
   clip_x1 += pos_x;
 
-  i = 0;
   for(bp = (char*) ((Video_X11*)video)->vfb + ((clip_y1) * video->vb->width);
       bp <= (char*) ((Video_X11*)video)->vfb + ((clip_y2) * video->vb->width);
       bp += video->vb->width) {
