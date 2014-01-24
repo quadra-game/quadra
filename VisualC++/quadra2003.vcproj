@@ -266,9 +266,6 @@
 				RelativePath="..\source\pane.cpp">
 			</File>
 			<File
-				RelativePath="..\skelton\common\pcx.cpp">
-			</File>
-			<File
 				RelativePath="..\source\player.cpp">
 			</File>
 			<File
@@ -524,9 +521,6 @@
 			</File>
 			<File
 				RelativePath="..\include\pane.h">
-			</File>
-			<File
-				RelativePath="..\skelton\include\pcx.h">
 			</File>
 			<File
 				RelativePath="..\include\player.h">

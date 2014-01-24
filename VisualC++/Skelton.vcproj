@@ -746,28 +746,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\skelton\common\pcx.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\skelton\common\random.cpp"
 				>
 				<FileConfiguration
@@ -1276,10 +1254,6 @@
 			</File>
 			<File
 				RelativePath="..\skelton\include\palette.h"
-				>
-			</File>
-			<File
-				RelativePath="..\skelton\include\pcx.h"
 				>
 			</File>
 			<File

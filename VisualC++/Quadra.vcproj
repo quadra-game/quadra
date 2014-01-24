@@ -980,7 +980,7 @@
 		</Filter>
 		<Filter
 			Name="Resource files"
-			Filter="wav;spr;raw;pcx;pcc;ico;idx;txt;rec"
+			Filter="wav;spr;raw;pcc;ico;idx;txt;rec"
 			>
 			<File
 				RelativePath="images\window.ico"

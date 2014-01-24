@@ -197,9 +197,6 @@
 				RelativePath="..\skelton\directx\palette.cpp">
 			</File>
 			<File
-				RelativePath="..\skelton\common\pcx.cpp">
-			</File>
-			<File
 				RelativePath="..\skelton\common\random.cpp">
 			</File>
 			<File
@@ -359,9 +356,6 @@
 			</File>
 			<File
 				RelativePath="..\skelton\include\palette.h">
-			</File>
-			<File
-				RelativePath="..\skelton\include\pcx.h">
 			</File>
 			<File
 				RelativePath="..\skelton\include\random.h">
