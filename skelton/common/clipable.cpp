@@ -48,10 +48,6 @@ bool Clipable::clip(const int x, const int y, const int w, const int h) const {
 	return false;
 }
 
-bool Clipable::clip(const int x, const int y, const Bitmap &b) const {
-	return clip(x, y, b.width, b.height);
-}
-
 bool Clipable::clip(const int x, const int y, const Bitmap *b) const {
 	return clip(x, y, b->width, b->height);
 }
