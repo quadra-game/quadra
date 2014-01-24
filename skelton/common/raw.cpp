@@ -58,7 +58,7 @@ Raw::Raw(Res& res) {
 				r = (Byte) (temp[(x+y*h.width)*3+2]>>3);
 				*(((Word *)pic_)+(x+y*h.width)) = (Word) (r+(g<<5)+(b<<11));
 			}
-		delete(temp);
+		delete[] temp;
 	} else {
 		pal_=new Byte[h.palettesize*3];
 		if(pal_==NULL)

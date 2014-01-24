@@ -70,7 +70,7 @@ Create_game::Create_game(Bitmap *bit, Font *font, Font *font2, const Palette& p,
 	}
 	y+=inc;
 
-	z=new Zone_text(fteam[7], inter, ST_SELECTGAMETYPE, 20, y);
+	new Zone_text(fteam[7], inter, ST_SELECTGAMETYPE, 20, y);
 	selected = config.info.game_type;
 	{
 		Zone_state_text2 *temp = new Zone_state_text2(inter, &selected, name_x, y);
@@ -121,7 +121,6 @@ Create_game::Create_game(Bitmap *bit, Font *font, Font *font2, const Palette& p,
 	record_zone = temp;
 	strcpy(record_name, Clock::absolute_time());
 	z_record_name = NULL;
-	y+=inc;
 
 	save = new Zone_text_button2(inter, bit, font2, ST_SAVESETTING, 20, 450);
 	start = new Zone_text_button2(inter, bit, font2, ST_STARTGAME, 400, 450);

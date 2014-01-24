@@ -361,9 +361,8 @@ Byte Game::next_potato_team() {
 				if(c && c->idle<2 && c->color==potato_order[i]) {
 					ret=potato_order[i];
 					potato_order[i]=255;
-					//Break out of both loops
+					// Break out of both loops
 					i=MAXTEAMS;
-					j=MAXPLAYERS;
 					break;
 				}
 			}
@@ -377,9 +376,8 @@ Byte Game::next_potato_team() {
 					if(c && c->idle<2 && c->color==potato_order[i]) {
 						ret=potato_order[i];
 						potato_order[i]=255;
-						//Break out of both loops
+						// Break out of both loops
 						i=MAXTEAMS;
-						j=MAXPLAYERS;
 						break;
 					}
 				}

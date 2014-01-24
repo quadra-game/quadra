@@ -127,7 +127,7 @@ void addfile(const char* fname) {
 	wad->add(mybasename(fname), res->size(), data);
 
 	delete res;
-	delete data;
+	delete[] data;
 
 	printf("done\n");
 }
@@ -165,7 +165,7 @@ int main(int ARGC, char **ARGV, char **ENV) {
 		addfile(temp);
 	}
 
-	delete data;
+	delete[] data;
 	delete res;
 
 	wad->freeze();

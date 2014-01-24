@@ -337,7 +337,8 @@ void Net_server::net_call(Packet *p2) {
 			record_packet(p2);
 			break;
 		case P_BYE:
-			p2->from->disconnect();
+			if (p2->from)
+				p2->from->disconnect();
 			break;
 	}
 	delete p2;
