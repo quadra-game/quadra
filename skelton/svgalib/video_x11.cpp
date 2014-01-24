@@ -289,11 +289,6 @@ Video_X11::Video_X11(int w, int h, int b,
   int vm_event_base;
   int vm_error_base;
 
-  setuid(getuid());
-  setgid(getgid());
-  seteuid(getuid());
-  setegid(getgid());
-
   xwindow = true;
 
   for(tmp_y = 0; tmp_y < 480; tmp_y++) {

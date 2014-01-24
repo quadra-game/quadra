@@ -148,14 +148,6 @@ Video_Dumb* Video_Dumb::New(int w, int h, int b, const char *wname) {
 
 Video_Dumb::Video_Dumb(int w, int h, int b, const char *wname) {
 	video_is_dumb=true;
-
-#ifdef UGS_LINUX
-  setuid(getuid());
-  setgid(getgid());
-  seteuid(getuid());
-  setegid(getgid());
-#endif
-
   xwindow = false;
   width = w;
   height = h;
