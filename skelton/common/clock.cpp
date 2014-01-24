@@ -54,7 +54,7 @@ char *Clock::absolute_time() {
 	ftime(&time_info);
 	int tz=time_info.timezone;
 #endif
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 	struct _timeb time_info;
 	_ftime(&time_info);
 	int tz=_timezone;

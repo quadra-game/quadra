@@ -26,7 +26,7 @@
 extern bool _debug;
 extern bool skelton_debug;
 
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 	#ifndef NDEBUG
 		extern int copper;
 		void COPPER(int a, int b, int c);

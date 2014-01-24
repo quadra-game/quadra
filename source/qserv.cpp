@@ -139,7 +139,7 @@ void Qserv::send() {
 	req->add_data_encode("info/language %i\n", config.info.language);
 	req->add_data_encode("info/quadra_version %s\n", VERSION_STRING);
 	req->add_data_encode("info/platform/os %s\n",
-		#if defined(UGS_DIRECTX)
+		#if defined(WIN32)
 			"Windows"
 		#elif defined(UGS_LINUX)
 			"Linux i386"
@@ -153,7 +153,7 @@ void Qserv::send() {
 		#if defined(UGS_LINUX)
 		req->add_data_encode("info/platform/display Xlib\n");
 		#endif
-		#if defined(UGS_DIRECTX)
+		#if defined(WIN32)
 		req->add_data_encode("info/platform/display DirectX\n");
 		#endif
 	}

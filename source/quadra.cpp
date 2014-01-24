@@ -25,7 +25,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #endif
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 #include <shlobj.h>
 #endif
 #include <stdlib.h>
@@ -1827,7 +1827,7 @@ void Player_init::net_call(Packet *p2) {
 
 void init_directory() {
 	strcpy(quadradir, exe_directory);
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 	if(SHGetFolderPath(0, CSIDL_APPDATA|CSIDL_FLAG_CREATE, 0, SHGFP_TYPE_CURRENT, quadradir) < 0) {
 		msgbox("SHGetFolderPath failed, using exe_directory");
 	}
@@ -2153,7 +2153,7 @@ void start_game() {
 	if(!dir)
 		dir = DATAGAMESDIR;
 #endif
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 	dir = exe_directory;
 #endif
 	resmanager=new Resmanager();

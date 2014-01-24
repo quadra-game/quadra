@@ -691,7 +691,7 @@ bool Zone_text_input::cut_selection() {
 }
 
 void Zone_text_input::check_clipboard() {
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 	if(input->shift_key != CONTROL)
 		return;
 	if(!input->keys[DIK_V] & PRESSED && !input->keys[DIK_C] & PRESSED && !input->keys[DIK_X] & PRESSED)
@@ -886,7 +886,7 @@ void Inter::set_font(Font* f1, bool del) {
 
 void Inter::draw_zone() {
 	int i;
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 	if(!alt_tab)
 #endif
 	{

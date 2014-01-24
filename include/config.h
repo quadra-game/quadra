@@ -21,13 +21,8 @@
 #ifndef _HEADER_CONFIG
 #define _HEADER_CONFIG
 
-/* Cover platforms not supported by autoconf manually. */
-#if defined(WIN32)
-
-/* This is a hack, until we manage to rip them out. */
-#define UGS_DIRECTX
-
-#else
+/* Cover platforms supported by autoconf, others are done manually. */
+#if !defined(WIN32)
 #include "autoconf.h"
 #endif
 

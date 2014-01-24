@@ -27,7 +27,7 @@ typedef unsigned int Dword;
 typedef unsigned short Word;
 typedef unsigned char Byte;
 
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 #define snprintf _snprintf
 #if _MSC_VER < 1400
 #define vsnprintf _vsnprintf
@@ -35,6 +35,6 @@ typedef unsigned char Byte;
 #define strcasecmp _stricmp
 #define strncasecmp _strnicmp
 typedef int socklen_t;
-#endif /* UGS_DIRECTX */
+#endif /* WIN32 */
 
 #endif

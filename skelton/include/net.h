@@ -23,7 +23,7 @@
 
 #include "config.h"
 
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 #include "winsock.h"
 #endif
 
@@ -310,7 +310,7 @@ private:
 	/* quits with an error message */
 	void callwsa(int quel);
 
-	#ifdef UGS_DIRECTX
+	#ifdef WIN32
 		char name_buf[MAXGETHOSTSTRUCT];
 		HANDLE name_handle;
 	#endif

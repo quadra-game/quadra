@@ -20,7 +20,7 @@
 
 #include "config.h"
 
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
@@ -113,7 +113,7 @@ void Dumb_Video_bitmap::put_sprite(const Sprite& d, const int dx,
 void Dumb_Video_bitmap::setmem() {
 }
 
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 LRESULT CALLBACK dumbwindowproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	switch(msg) {
 		case WM_DESTROY:
@@ -164,7 +164,7 @@ Video_Dumb::Video_Dumb(int w, int h, int b, const char *wname) {
   newpal = true;
   need_paint = 2;
 
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 	BOOL rc;
  	WNDCLASS wc;
 	wc.style = CS_DBLCLKS;
@@ -191,7 +191,7 @@ Video_Dumb::Video_Dumb(int w, int h, int b, const char *wname) {
 Video_Dumb::~Video_Dumb() {
   if(vb)
     delete vb;
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 	ShowWindow(hwnd, SW_HIDE);
 	DestroyWindow(hwnd);
 	UnregisterClass("SkeltonClass", hinst);

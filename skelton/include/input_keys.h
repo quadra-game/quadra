@@ -26,7 +26,7 @@
 
 #include "config.h"
 
-#if defined(UGS_DIRECTX)
+#if defined(WIN32)
 
 #undef DIRECTINPUT_VERSION
 #define DIRECTINPUT_VERSION 0x0300

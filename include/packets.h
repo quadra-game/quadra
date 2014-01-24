@@ -100,12 +100,10 @@ public:
 		net_version=Config::net_version;
 		language=config.info.language;
 		os=
-		#if defined(UGS_DIRECTX)
+		#if defined(WIN32)
 			1
-		#elif defined(UGS_LINUX)
+    #else
 			2
-		#else
-			#error "What platform???"
 		#endif
 		;
 	}

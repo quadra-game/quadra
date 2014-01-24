@@ -382,7 +382,7 @@ void Menu_demo_central::step() {
 
 void Menu_demo_central::reload() {
 	quel = -1;
-	#ifdef UGS_DIRECTX
+	#ifdef WIN32
 		do {
 			char *t = strchr(find_directory, '\\');
 			if(t)

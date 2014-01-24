@@ -326,7 +326,7 @@ Net_connection_tcp::Net_connection_tcp(int p, bool ppacket_based) {
 	if(net->getlasterror(setsockopt(tcpsock, IPPROTO_TCP, TCP_NODELAY, (char *) &val, sizeof(int))))
 		return;
 
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 	unsigned long val2=1;
 	if(net->getlasterror(ioctlsocket(tcpsock, FIONBIO, &val2)))
 		return;
@@ -369,7 +369,7 @@ Net_connection_tcp::Net_connection_tcp(int sock, Dword adr, int port, bool ppack
 	desthost[0]=0;
 	skelton_msgbox("Opening TCP socket (accept) %i\n",sock);
 	tcpsock=sock;
-	#ifdef UGS_DIRECTX
+	#ifdef WIN32
 		int val=1;
 		if(net->getlasterror(setsockopt(tcpsock, IPPROTO_TCP, TCP_NODELAY, (char *) &val, sizeof(int))))
 			skelton_msgbox("Error setting TCP_NODELAY for accepted socket %i, ignoring.\n",tcpsock);
@@ -436,9 +436,9 @@ void Net_connection_tcp::connect(const char* host, int port) {
 	}
 	destaddr=0;
 	destport=port;
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 	if(net->name_handle==0) {
-#endif /* UGS_DIRECTX */
+#endif
 		destaddr = net->getaddress(host);
 		if(net->port_resolve) // if 'host' contains a port, like "host:port"
 			destport = net->port_resolve; // override the specified port
@@ -448,11 +448,11 @@ void Net_connection_tcp::connect(const char* host, int port) {
 			return;
 		}
 		_state=dnslookup;
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 	}
 	else
 		_state=waitingfordns;
-#endif /* UGS_DIRECTX */
+#endif
 }
 
 bool Net_connection_tcp::checktcp() {
@@ -605,24 +605,24 @@ Net_connection::Netstate Net_connection_tcp::state() {
 		return _state;
 	}
 	if(_state==waitingfordns) {
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 		if(net->name_handle==0) {
-#endif /* UGS_DIRECTX */
+#endif
 			Dword a = net->getaddress(desthost);
 			if(a) {
 				connect(a, destport);
 				return _state;
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 			}
-#endif /* UGS_DIRECTX */
+#endif
 			_state=dnslookup;
 		}
 		return _state;
 	}
 	if(_state==dnslookup) {
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 		if(net->name_handle==0) {
-#endif /* UGS_DIRECTX */
+#endif
 			if(net->name_resolve==0) {
 				net->gethostbyname_cancel();
 				_state=disconnected;
@@ -631,9 +631,9 @@ Net_connection::Netstate Net_connection_tcp::state() {
 				connect(net->name_resolve, destport);
 				return _state;
 			}
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 		}
-#endif /* UGS_DIRECTX */
+#endif
 		return _state;
 	}
 	fd_set fdsoc;
@@ -681,7 +681,7 @@ Net::Net(Net_param *np) {
 	host_name[0] = 0;
 	udpnum = 0;
 	udpport=-1;
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 	name_buf[0] = 0;
 	name_handle = 0;
 	WORD wVersionRequested;
@@ -1227,7 +1227,7 @@ Dword Net::getaddress(const char *host) {
 		    }
 			#endif
 			// should be replaced by this (async)
-			#ifdef UGS_DIRECTX
+			#ifdef WIN32
 				gethostbyname_cancel();
 				name_handle = WSAAsyncGetHostByName(hwnd, WM_USER, tube, name_buf, MAXGETHOSTSTRUCT);
 				if(name_handle == 0) {// if error return 0 
@@ -1255,7 +1255,7 @@ void Net::stringaddress(char *st, Dword adr, int port) {
 }
 
 void Net::gethostbyname_completed(bool success) {
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 	name_handle = 0;
 	if(success)
 		name_resolve = ntohl(*(Dword *)((LPHOSTENT) name_buf)->h_addr);
@@ -1265,7 +1265,7 @@ void Net::gethostbyname_completed(bool success) {
 }
 
 void Net::gethostbyname_cancel() {
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 	if(name_handle)
 		WSACancelAsyncRequest(name_handle);
 	name_handle = 0;
@@ -1363,7 +1363,7 @@ int Net::checkreceive(int s) {
 bool Net::checkerror(int quel) {
 	if(quel == 0)
 		return false;
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 	switch(quel) {
 //	case WSAEWOULDBLOCK:	last_error = "The socket is marked as non-blocking and this operation would block."; break;
 	case WSAEWOULDBLOCK: skelton_msgbox("Net::checkerror: WSAEWOULDBLOCK ignored.\n"); return false; // special: not really an error
@@ -1419,7 +1419,7 @@ bool Net::checkerror(int quel) {
 bool Net::getlasterror(int quel) {
 	if(quel >= 0)
 		return false;
-	#if defined(UGS_DIRECTX)
+	#if defined(WIN32)
 		return checkerror(WSAGetLastError());
 	#elif defined(UGS_LINUX)
 		return checkerror(errno);

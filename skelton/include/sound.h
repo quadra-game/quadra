@@ -23,7 +23,7 @@
 
 #include "config.h"
 
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <windowsx.h>
@@ -43,7 +43,7 @@ class Playing_sfx;
 class Sound {
 	friend class Sample;
 	friend class Sfx;
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 	LPDIRECTSOUND lpds;
 #endif
 #ifdef UGS_LINUX
@@ -68,7 +68,7 @@ public:
 
 class Sample {
 	friend class Sfx;
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 	BYTE *pbWaveData;
 	DWORD cbWaveSize;
 	int iAlloc;
@@ -113,7 +113,7 @@ public:
 #endif
 
 class Sfx {
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 	IDirectSoundBuffer *buf;
 #endif
 #ifdef UGS_LINUX

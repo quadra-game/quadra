@@ -23,7 +23,7 @@
 
 #include "config.h"
 
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
@@ -33,7 +33,7 @@
 #include "image.h"
 #include "utils.h"
 
-#ifndef UGS_DIRECTX
+#ifndef WIN32
 typedef struct {
   Byte peRed, peGreen, peBlue, peFlags;
 } PALETTEENTRY;

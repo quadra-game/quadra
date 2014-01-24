@@ -11,7 +11,7 @@
 #else
 #include <byteswap.h>
 #endif
-#elif defined(UGS_DIRECTX)
+#elif defined(WIN32)
 #define LITTLE_ENDIAN 4321
 #define BIG_ENDIAN 1234
 #define BYTE_ORDER LITTLE_ENDIAN

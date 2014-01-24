@@ -60,7 +60,7 @@
 #include "menu.h"
 #include "config.h"
 
-#ifdef UGS_DIRECTX
+#ifdef WIN32
 #include <shellapi.h>
 #endif
 
@@ -1272,7 +1272,7 @@ void Menu_quitgame::init() {
   (void)new Zone_text(inter, ST_DEMOQUIT12, 10, 280);
   (void)new Zone_text(inter, ST_DEMOQUIT13, 10, 300);
   (void)new Zone_text(inter, ST_DEMOQUIT14, 10, 320);
-  #ifdef UGS_DIRECTX
+  #ifdef WIN32
     sprintf(st,ST_DEMOQUIT15,"Linux");
   #else
     sprintf(st,ST_DEMOQUIT15,"Windows");
@@ -1343,7 +1343,7 @@ void Menu_help::step() {
     return;
   if(result == b_quit)
     quit = true;
-#ifdef UGS_DIRECTX
+#ifdef WIN32
   if(result == b_www)
     call_internet(ST_HELP20);
   if(result == b_online)
@@ -1719,7 +1719,7 @@ void Menu_main::step() {
     call(new Menu_highscore(-1, NULL, true));
     call(new Fade_out(pal));
   }
-#ifdef UGS_DIRECTX
+#ifdef WIN32
   if(result == b_logo) {
     call(new Fade_in(pal));
     call(new Menu_internet(ST_HELP20)); // web site URL
@@ -2321,7 +2321,7 @@ void Menu_internet::init() {
 
 void Menu_internet::step() {
   Menu::step();
-#ifdef UGS_DIRECTX
+#ifdef WIN32
   ShellExecute(0, "open", command, NULL, NULL, SW_SHOWDEFAULT);
 #endif
   call(new Wait_time(200));

@@ -846,7 +846,7 @@ void Game::prepare_logging() {
 	is_slogging=true;
 	//Begin log output here
 	const char *os;
-	#ifdef UGS_DIRECTX
+	#ifdef WIN32
 	os="Windows";
 	#endif
 	#ifdef UGS_LINUX
