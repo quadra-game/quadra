@@ -92,11 +92,6 @@ void Dumb_Video_bitmap::vline(const int x, const int y, const int h,
   clip(x, y, 1, h);
 }
 
-void Dumb_Video_bitmap::line(const int x1, const int y1,
-const int x2, const int y2, const uint8_t c) const {
-	clip(x1, y1, x2, y2);
-}
-
 void Dumb_Video_bitmap::put_bitmap(const Bitmap& d, const int dx,
 			      const int dy) const {
   clip(dx, dy, d.width, d.height);

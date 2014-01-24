@@ -383,12 +383,6 @@ void DirectX_Video_bitmap::vline(const int x, const int y, const int h, const By
 	currentpage->vline(x, y, h, c);
 }
 
-void DirectX_Video_bitmap::line(const int x1, const int y1, const int x2, const int y2,
-		  const Byte c) const
-{
-	currentpage->line(x1, y1, x2, y2, c);
-}
-
 void DirectX_Video_bitmap::put_bitmap(const Bitmap& d, const int dx, const int dy) const {
 	d.draw(*currentpage, dx, dy);
 }

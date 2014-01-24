@@ -47,8 +47,6 @@ public:
 		     const int w, const uint8_t c) const;
   virtual void vline(const int x, const int y,
 		     const int w, const uint8_t c) const;
-  virtual void line(const int x1, const int y1,
-		    const int x2, const int y2, const uint8_t c) const;
   virtual void put_bitmap(const Bitmap& d, const int dx, const int dy) const;
   virtual void put_sprite(const Sprite& d, const int dx, const int dy) const;
   virtual void setmem();

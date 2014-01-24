@@ -65,10 +65,6 @@ public:
   virtual void vline(const int x, const int y,
 		     const int h, const uint8_t c) const = 0;
 
-  /* line going from 'x1','y1' to 'x2','y2' of color 'c' */
-  virtual void line(const int x1, const int y1, const int x2, const int y2,
-		    const uint8_t c) const = 0;
-
   /* blits a Bitmap to position 'dx','dy' */
   virtual void put_bitmap(const Bitmap& d,
 			  const int dx, const int dy) const = 0;

@@ -151,15 +151,6 @@ void Video_bitmap_X11::vline(const int x, const int y,
 			     x+pos_x, y+h+pos_y);
 }
 
-void Video_bitmap_X11::line(const int x1, const int y1,
-			    const int x2, const int y2,
-			    const uint8_t c) const {
-  fb->line(x1, y1, x2, y2, c);
-
-  ((Video_X11*)video)->dirty(x1+pos_x, y1+pos_y,
-			     x2+pos_x, y2+pos_y);
-}
-
 void Video_bitmap_X11::put_bitmap(const Bitmap& d,
 				  const int dx, const int dy) const {
   d.draw(*fb, dx, dy);
