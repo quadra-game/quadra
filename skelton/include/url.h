@@ -21,6 +21,8 @@
 #ifndef _HEADER_URL
 #define _HEADER_URL
 
+#include <stdint.h>
+
 #include "types.h"
 
 //NB: This is not a complete parser. URL fragments, parameters and
@@ -29,18 +31,18 @@ class Url {
 	//sizeof(path) should remain >= than all others
 	char scheme[16];
 	char host[256];
-	Word port;
+	uint16_t port;
 	char path[256];
 public:
 	Url(const char* u="");
 	const char* getScheme() const;
 	const char* getHost() const;
-	Word getPort() const;
+	uint16_t getPort() const;
 	const char* getPath() const;
 	void getFull(char* buf) const;
 	void setScheme(const char* s);
 	void setHost(const char* h);
-	void setPort(const Word p);
+	void setPort(const uint16_t p);
 	void setPath(const char* p);
 	void setFull(const char* u);
 };

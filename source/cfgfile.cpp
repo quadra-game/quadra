@@ -176,10 +176,10 @@ void Config::read() {
 	info3.latest_version[255] = 0;
 }
 
-void fix_str(char *st, Dword len) {
+void fix_str(char *st, uint32_t len) {
 	bool in_str(true);
 
-	for(Dword i = 0; i < len; ++i)
+	for(uint32_t i = 0; i < len; ++i)
 		if(!in_str)
 			st[i] = 0;
 		else
@@ -221,7 +221,7 @@ void Config::write() {
 	}
 }
 
-void Config::get_player_hash(Byte* buf, unsigned qplayer) {
+void Config::get_player_hash(uint8_t* buf, unsigned qplayer) {
 	if(player2[qplayer].ngPasswd[0]) {
 		Unicode uni_p(player[qplayer].name);
 		uni_p.cat(player2[qplayer].ngPasswd);
@@ -234,7 +234,7 @@ void Config::get_player_hash(Byte* buf, unsigned qplayer) {
 		memset(buf, 0, 16);
 }
 
-void Config::get_team_hash(Byte* buf, unsigned qplayer) {
+void Config::get_team_hash(uint8_t* buf, unsigned qplayer) {
 	if(player2[qplayer].ngTeam[0] && player2[qplayer].ngTeamPasswd[0]) {
 		Unicode uni_t(player2[qplayer].ngTeam);
 		uni_t.cat(player2[qplayer].ngTeamPasswd);

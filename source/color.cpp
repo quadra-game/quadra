@@ -20,7 +20,7 @@
 
 #include "color.h"
 
-Color::Color(Byte q, Palette& p):	pal(p) {
+Color::Color(uint8_t q, Palette& p):	pal(p) {
 	if(q==8)
 		q=7;
 	else

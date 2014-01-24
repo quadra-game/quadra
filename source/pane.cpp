@@ -177,7 +177,7 @@ Pane_option::~Pane_option() {
 
 void Pane_option::init() {
 	Pane::init();
-	Byte t = config.info.pane[pi.quel_pane];
+	uint8_t t = config.info.pane[pi.quel_pane];
 	if(!game->network) {
 		if(t==6) // no Pane_server in local mode
 			t = 0;
@@ -382,8 +382,8 @@ void Pane_close::step() {
 }
 
 void Pane_close::update_clock() {
-	Dword timer=game->net_list.gettimer();
-	if(timer < (Dword)game->game_end_value)
+	uint32_t timer=game->net_list.gettimer();
+	if(timer < (uint32_t)game->game_end_value)
 		seconds=(game->game_end_value - timer+99)/100;
 	else
 		seconds=0;
@@ -687,7 +687,7 @@ void Pane_server_ping::send_test() {
 
 void Pane_server_ping::net_call(Packet *p2) {
 	Packet_testping *p = (Packet_testping *) p2;
-	Dword delay = overmind.framecount - p->frame;
+	uint32_t delay = overmind.framecount - p->frame;
 	pingtime = delay*10;
 	nombre++;
 	total += delay;
@@ -1320,7 +1320,7 @@ void Pane_scoreboard::activate_frag() {
 			z = new Zone_text(fteam[team], inter, st, x2, y2+2);
 			zone.add(z);
 			zlist_frag.add(z);
-			Dword width=70;
+			uint32_t width=70;
 			if(game->net_list.goal_stat==CS::FRAG)
 				width=33;
 			statp=score.team_stats[team].stats[game->net_list.goal_stat].get_address();
@@ -1670,7 +1670,7 @@ Pane_playerstartup::Pane_playerstartup(const Pane_info &p, int q):
 	for(t=0; t<MAXTEAMS; t++)
 		list_team->add_string(team_name[t], fteam[t]);
 	zone.add(list_team);
-	Byte col[MAXTEAMS];
+	uint8_t col[MAXTEAMS];
 	for(t=0; t<MAXTEAMS-1; t++)
 		col[t] = 184+t*8+7;
 	col[MAXTEAMS-1] = 184+8*8+4;

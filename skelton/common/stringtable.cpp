@@ -33,7 +33,7 @@ Stringtable::Stringtable(const char *nam) {
 	parse(buf, res.size());
 }
 
-Stringtable::Stringtable(Byte *b, Dword size) {
+Stringtable::Stringtable(uint8_t *b, uint32_t size) {
 	mustfree=false;
 	parse((char *)b, size);
 }
@@ -46,7 +46,7 @@ Stringtable& Stringtable::operator=(const Stringtable& src) {
 	num = src.size();
 	int i;
 	//calculate space needed in buf
-	Dword siz=0;
+	uint32_t siz=0;
 	for(i=0; i<num; i++)
 		siz+=strlen(src.get(i))+1;
 	buf = new char[siz];
@@ -61,8 +61,8 @@ Stringtable& Stringtable::operator=(const Stringtable& src) {
 	return *this;
 }
 
-void Stringtable::parse(char *buf, Dword size) {
-	Dword ptr;
+void Stringtable::parse(char *buf, uint32_t size) {
+	uint32_t ptr;
 	int index;
 
 	ptr = 0;

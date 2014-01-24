@@ -21,6 +21,8 @@
 #ifndef _HEADER_CURSOR
 #define _HEADER_CURSOR
 
+#include <stdint.h>
+
 #include "sprite.h"
 
 class Cursor {
@@ -44,7 +46,7 @@ public:
   virtual void move() = 0;
   virtual void get_back() = 0;
   virtual void put_back() = 0;
-  virtual void set_speed(const Byte s) = 0;
+  virtual void set_speed(const uint8_t s) = 0;
 };
 
 extern Cursor* cursor;

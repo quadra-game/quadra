@@ -82,11 +82,11 @@ class Join_game: public Menu, public Net_callable {
 	int delay;
 	Bitmap *bit_;
 	Font *font2_;
-	Dword address;
+	uint32_t address;
 	int port;
 	bool rejoin;
 public:
-	Join_game(Bitmap *bit, Font *font, Font *font2, const Palette& p, const char *n, Dword sa, int sport, bool prejoin);
+	Join_game(Bitmap *bit, Font *font, Font *font2, const Palette& p, const char *n, uint32_t sa, int sport, bool prejoin);
 	virtual ~Join_game();
 	virtual void init();
 	virtual void step();

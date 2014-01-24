@@ -103,11 +103,11 @@ class Playing_sfx {
 public:
 	Sfx* sfx;
 	Sample *sam;
-	Dword flags;
+	uint32_t flags;
 	unsigned int vo, f, pos;
 	int pa;
 	unsigned int delta_inc, delta_position, inc;
-	Playing_sfx(Sfx* thesfx, Sample *thesam, Dword theflags=0);
+	Playing_sfx(Sfx* thesfx, Sample *thesam, uint32_t theflags=0);
 	virtual ~Playing_sfx();
 };
 #endif
@@ -121,7 +121,7 @@ class Sfx {
 	Playing_sfx* playing;
 #endif
 public:
-	Sfx(Sample *sam, Dword dwPlayFlags=0, int vo = -1, int pa = -1, int f = -1, int pos = -1);
+	Sfx(Sample *sam, uint32_t dwPlayFlags=0, int vo = -1, int pa = -1, int f = -1, int pos = -1);
 	void stop();
 	void pan(int pa);  //-4000=left 0=center 4000=right
 	void freq(int pa); //200=low  60000=very high

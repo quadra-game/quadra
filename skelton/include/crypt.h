@@ -43,6 +43,8 @@ These notices must be retained in any copies of any part of this
 documentation and/or software.
 */
 
+#include <stdint.h>
+
 #include "types.h"
 
 typedef unsigned char *POINTER;
@@ -57,7 +59,7 @@ typedef struct {
 
 class Crypt {
 	MD5_CTX context;
-	Byte digest[16];
+	uint8_t digest[16];
 	char result[33];
 	void MD5Init(MD5_CTX *);
 	void MD5Update(MD5_CTX *, unsigned char *, unsigned int);
@@ -69,11 +71,11 @@ public:
 	Crypt();
 	Crypt(const char *s, bool do_shuffle);
 	virtual ~Crypt();
-	void step(Byte *buf, Dword size);
-	void step2(Byte *buf, Dword size);
+	void step(uint8_t *buf, uint32_t size);
+	void step2(uint8_t *buf, uint32_t size);
 	void finalize(bool do_shuffle);
 	const char *get_digest_string() const;
-	const Byte *get_digest() const;
+	const uint8_t *get_digest() const;
 };
 
 #endif

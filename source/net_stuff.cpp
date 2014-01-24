@@ -151,7 +151,7 @@ void Quadra_param::print_packet(Packet *p2, char *st) {
 	sprintf(st, "%s", packet_name[p2->packet_id]);
 }
 
-Packet *Quadra_param::alloc_packet(Word pt) {
+Packet *Quadra_param::alloc_packet(uint16_t pt) {
 	switch(pt) {
 		case P_CHAT: return new Packet_chat();
 		case P_FINDGAME: return new Packet_findgame();
@@ -331,7 +331,7 @@ void send_msg(Net_connection *nc, const char *msg, ...) {
 			sprintf(st2, "\r\n%s\r\n", st);
 		else
 			sprintf(st2, "%s\r\n", st);
-		nc->sendtcp((Byte *) st2, strlen(st2));
+		nc->sendtcp((uint8_t *) st2, strlen(st2));
 		//Re-echo user command to be less annoying
 		if(nc->incoming->size())
 			nc->sendtcp(nc->incoming->get(), nc->incoming->size());

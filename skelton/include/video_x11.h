@@ -23,6 +23,8 @@
 
 #ifdef UGS_LINUX_X11
 
+#include <stdint.h>
+
 #define Font XFont
 #define Cursor XCursor
 #include <X11/Xlib.h>
@@ -52,13 +54,13 @@ public:
 		   const int color) const;
   virtual void get_bitmap(const Bitmap* bit, const int x, const int y,
 			  const int w, const int h) const;
-  virtual void put_pel(const int x, const int y, const Byte c) const;
+  virtual void put_pel(const int x, const int y, const uint8_t c) const;
   virtual void hline(const int y, const int x,
-		     const int w, const Byte c) const;
+		     const int w, const uint8_t c) const;
   virtual void vline(const int x, const int y,
-		     const int h, const Byte c) const;
+		     const int h, const uint8_t c) const;
   virtual void line(const int x1, const int y1, const int x2, const int y2,
-		    const Byte c) const;
+		    const uint8_t c) const;
   virtual void put_bitmap(const Bitmap& d,
 			  const int dx, const int dy) const;
   virtual void put_sprite(const Sprite& d,

@@ -21,7 +21,7 @@
 #ifndef _HEADER_RESFILE
 #define _HEADER_RESFILE
 
-#include "types.h"
+#include <stdint.h>
 
 const char signature[4] = "UGS";
 
@@ -29,11 +29,11 @@ class Resdata {
 private:
 	friend class Resfile;
 	int size;
-	Byte *data;
+	uint8_t *data;
 public:
 	char *name;
 	Resdata *next;
-	Resdata(char *resname, int ressize, Byte *resdata, Resdata *list);
+	Resdata(char *resname, int ressize, uint8_t *resdata, Resdata *list);
 	virtual ~Resdata();
 };
 
@@ -50,7 +50,7 @@ public:
 	virtual void thaw();
 	virtual void clear();
 	virtual void add(const char *resname, int size, const char *resdata);
-	virtual int get(const char *resname, Byte **resdata);
+	virtual int get(const char *resname, uint8_t **resdata);
 	virtual void remove(const char* resname);
 };
 

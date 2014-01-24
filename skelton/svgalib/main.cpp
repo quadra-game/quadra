@@ -175,7 +175,7 @@ void quit_game(int status) {
   exit(status);
 }
 
-Dword getmsec() {
+uint32_t getmsec() {
   struct timeval thetime;
 
   gettimeofday(&thetime, NULL);

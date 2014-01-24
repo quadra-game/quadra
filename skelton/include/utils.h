@@ -20,17 +20,20 @@
 
 #ifndef _HEADER_UTILS
 #define _HEADER_UTILS
+
+#include <stdint.h>
+
 #include "types.h"
 #include "error.h"
 
-inline void mset(void* p, Byte c, Dword l) {
-	for(Dword i(0); i<l; i++)
-		((Byte*)p)[i]=c;
+inline void mset(void* p, uint8_t c, uint32_t l) {
+	for(uint32_t i(0); i<l; i++)
+		((uint8_t*)p)[i]=c;
 }
 
-inline void cpy(void* d, void* s, Dword l) {
-	for(Dword i(0); i<l; i++)
-		((Byte*)d)[i]=((Byte*)s)[i];
+inline void cpy(void* d, void* s, uint32_t l) {
+	for(uint32_t i(0); i<l; i++)
+		((uint8_t*)d)[i]=((uint8_t*)s)[i];
 }
 
 /*template <class T>

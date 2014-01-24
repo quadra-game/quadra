@@ -381,7 +381,7 @@ void Net_server::playerwantjoin(Packet *p2) {
 							net->dispatch(&p_rejoin, P_REJOIN);
 							record_packet(&p_rejoin);
 							c->remote_adr = p->from; // the server re-adjuste the remote_adr of the canvas
-							Dword id=0;
+							uint32_t id=0;
 							if(p->from!=game->loopback_connection)
 								id=p->from->id();
 							Packet_serverlog log("player_rejoin");
@@ -438,7 +438,7 @@ void Net_server::playerwantjoin(Packet *p2) {
 		player.handicap = p->handicap;
 		net->dispatch(&player, P_PLAYER, p->from);
 		record_packet(&player);
-		Dword id=0;
+		uint32_t id=0;
 		if(p->from && p->from!=game->loopback_connection)
 			id=p->from->id();
 		Packet_serverlog log("player_join");
@@ -632,8 +632,8 @@ void Net_pendingjoin::load_packet_gameserver(Packet_gameserver* resp) {
 	resp->game_end = game->game_end;
 	resp->game_end_value = game->game_end_value;
 	if(game->game_end == 2) { // if game_end == time in minutes
-		Dword timer = game->net_list.gettimer();
-		if(timer < (Dword)resp->game_end_value)
+		uint32_t timer = game->net_list.gettimer();
+		if(timer < (uint32_t)resp->game_end_value)
 			resp->game_end_value -= timer; // computes and gives the remaining time only
 		else
 			resp->game_end_value=0;

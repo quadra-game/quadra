@@ -21,6 +21,8 @@
 #ifndef _HEADER_ZONE
 #define _HEADER_ZONE
 
+#include <stdint.h>
+
 #include "array.h"
 #include "types.h"
 #include "global.h"
@@ -81,15 +83,15 @@ public:
 };
 
 class Zone_color_select: public Zone_state {
-	Byte col[MAXTEAMS];
+	uint8_t col[MAXTEAMS];
 public:
-	Zone_color_select(Inter* in, int *pv, int px, int py, Byte co[MAXTEAMS]);
+	Zone_color_select(Inter* in, int *pv, int px, int py, uint8_t co[MAXTEAMS]);
 	virtual void draw();
 };
 
 class Zone_color_select_noclick: public Zone_color_select {
 public:
-	Zone_color_select_noclick(Inter* in, int *pv, int px, int py, Byte co[MAXTEAMS]);
+	Zone_color_select_noclick(Inter* in, int *pv, int px, int py, uint8_t co[MAXTEAMS]);
 	virtual void clicked(int quel) { }
 };
 

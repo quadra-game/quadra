@@ -38,7 +38,7 @@ char Http_request::base64table[] = {
   '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/',
 };
 
-Byte Http_request::reversebase64table[] = {
+uint8_t Http_request::reversebase64table[] = {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 62,
 	0, 0, 0, 63, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 0, 0, 0, 0,
@@ -54,10 +54,10 @@ Byte Http_request::reversebase64table[] = {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 };
 
-void Http_request::base64encode(const Byte *in, Textbuf& out, Dword size) {
+void Http_request::base64encode(const uint8_t *in, Textbuf& out, uint32_t size) {
 	char* table = base64table;
-	Byte a, b, c;
-	Dword i;
+	uint8_t a, b, c;
+	uint32_t i;
 	char o[5];
 	o[4]=0;
 	for(i=0; i<(size+2)/3; i++) {
@@ -82,20 +82,20 @@ void Http_request::base64encode(const Byte *in, Textbuf& out, Dword size) {
 	}
 }
 
-void Http_request::base64decode(const char *in, Buf& out, Dword size) {
-	Byte* table = reversebase64table;
+void Http_request::base64decode(const char *in, Buf& out, uint32_t size) {
+	uint8_t* table = reversebase64table;
 	if(size&3) {
 		skelton_msgbox("Http_request::base64decode: incorrect size\n");
 		return;
 	}
-	Byte a, b, c, d;
-	Dword i;
+	uint8_t a, b, c, d;
+	uint32_t i;
 	for(i=0; i<size/4; i++) {
 		a = in[i*4+0];
 		b = in[i*4+1];
 		c = in[i*4+2];
 		d = in[i*4+3];
-		Byte o[3];
+		uint8_t o[3];
 		o[0] = (table[a]<<2) | (table[b]>>4);
 		o[1] = (table[b]<<4) | (table[c]>>2);
 		o[2] = (table[c]<<6) | (table[d]);
@@ -114,12 +114,12 @@ void Http_request::url_encode(const char *src, Textbuf& dest) {
 		tmp[0] = *src++;
 		tmp[1] = 0;
 		if(tmp[0] < 48 || tmp[0] > 122 || (tmp[0] >= 58 && tmp[0] <= 64))
-			sprintf(tmp, "%c%02X", '%', (Byte)tmp[0]); // converted to '%FF' url
+			sprintf(tmp, "%c%02X", '%', (uint8_t)tmp[0]); // converted to '%FF' url
 		dest.append("%s", tmp);
 	}
 }
 
-Http_request::Http_request(const char *aHost, int port, const Byte *request, int size) {
+Http_request::Http_request(const char *aHost, int port, const uint8_t *request, int size) {
 	if(request) {
 		this->request=request;
 		this->size=size? size:strlen((const char *)request);
@@ -133,7 +133,7 @@ Http_request::Http_request(const char *aHost, int port, const Byte *request, int
 	sent=false;
 }
 
-Http_request::Http_request(const char* aHost, Dword hostaddr, int port, const Byte *request, int size) {
+Http_request::Http_request(const char* aHost, uint32_t hostaddr, int port, const uint8_t *request, int size) {
 	if(request) {
 		this->request=request;
 		this->size=size? size:strlen((const char *)request);
@@ -162,11 +162,11 @@ void Http_request::sendrequest() {
 	sent=true;
 }
 
-Byte *Http_request::getbuf() const {
+uint8_t *Http_request::getbuf() const {
 	return buf.get();
 }
 
-Dword Http_request::getsize() const {
+uint32_t Http_request::getsize() const {
 	return buf.size()? buf.size()-1:0; //Don't count nul byte added in 'done'
 }
 
@@ -183,7 +183,7 @@ bool Http_request::done() {
 	else
 		state = Net_connection::invalid;
 	if(state==Net_connection::invalid || state==Net_connection::disconnected) {
-		Byte st=0;
+		uint8_t st=0;
 		buf.append(&st, 1);
 		return true;
 	}
@@ -191,19 +191,19 @@ bool Http_request::done() {
 		return false;
 	if(!sent)
 		sendrequest();
-	Byte tmp[4096];
-	Dword tube=nc->receivetcp(tmp, 4096);
+	uint8_t tmp[4096];
+	uint32_t tube=nc->receivetcp(tmp, 4096);
 	if(tube)
 		buf.append(tmp, tube);
 	if(!tube && nc->state()==Net_connection::disconnected) {
-		Byte st=0;
+		uint8_t st=0;
 		buf.append(&st, 1);
 		return true;
 	}
 	return false;
 }
 
-Dword Http_request::gethostaddr() const {
+uint32_t Http_request::gethostaddr() const {
 	if(nc)
 		return nc->getdestaddr();
 	else

@@ -146,7 +146,7 @@ void Zone_bonus::draw() {
 	back->draw(video->vb,x,y);
 	bool first_done=false;
 	for(i=0; i<canvas->bonus; i++) {
-		Byte side=5; //Left and right
+		uint8_t side=5; //Left and right
 		if(game->net_version()<23)
 			side=15; //All sides
 		else {
@@ -163,7 +163,7 @@ void Zone_bonus::draw() {
 	}
 }
 
-Zone_color_select::Zone_color_select(Inter* in, int *pv, int px, int py, Byte co[MAXTEAMS]):
+Zone_color_select::Zone_color_select(Inter* in, int *pv, int px, int py, uint8_t co[MAXTEAMS]):
 	Zone_state(in, pv, px, py, 50, 20, MAXTEAMS)
 {
 	for(int i=0; i<MAXTEAMS; i++)
@@ -179,7 +179,7 @@ void Zone_color_select::draw() {
 	video->vb->vline(x+w-1, y, h, 0);
 }
 
-Zone_color_select_noclick::Zone_color_select_noclick(Inter* in, int *pv, int px, int py, Byte co[MAXTEAMS]):
+Zone_color_select_noclick::Zone_color_select_noclick(Inter* in, int *pv, int px, int py, uint8_t co[MAXTEAMS]):
 	Zone_color_select(in, pv, px, py, co) {
 }
 
@@ -303,7 +303,7 @@ void Zone_small_bonus::draw() {
 	back->draw(video->vb,x,y);
 	bool first_done=false;
 	for(i=0; i<canvas->bonus; i++) {
-		Byte side=5; //Left and right
+		uint8_t side=5; //Left and right
 		if(game->net_version()<23)
 			side=15; //All sides
 		else {

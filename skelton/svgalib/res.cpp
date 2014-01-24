@@ -51,7 +51,7 @@ Res_dos::Res_dos(const char *fil, Res_mode mode) {
   }
 }
 
-Dword Res_dos::size() {
+uint32_t Res_dos::size() {
   struct stat buf;
   fstat(handle, &buf);
   return buf.st_size;
@@ -61,10 +61,10 @@ Res_dos::~Res_dos() {
 	if(handle != -1)
 		close(handle);
 	if(_buf)
-		delete[] static_cast<Byte*>(_buf);
+		delete[] static_cast<uint8_t*>(_buf);
 }
 
-void Res_dos::position(Dword po) {
+void Res_dos::position(uint32_t po) {
 	lseek(handle, po, SEEK_SET);
 }
 
@@ -83,7 +83,7 @@ void Res_dos::write(const void *b, int nb) {
 const void* Res_dos::buf() {
 	if(_buf)
 		return _buf;
-	_buf = new Byte[size()];
+	_buf = new uint8_t[size()];
 	if(_buf == NULL)
 		(void)new Error("Not enough memory");
 	read(_buf, size());
@@ -94,6 +94,6 @@ bool Res_dos::eof() {
 	return (get_position() >= size()) ? true:false;
 }
 
-Dword Res_dos::get_position() {
+uint32_t Res_dos::get_position() {
 	return lseek(handle, 0, SEEK_CUR);
 }

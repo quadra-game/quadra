@@ -20,7 +20,7 @@
 
 #include "player.h"
 
-Cok::Cok(Dword a) {
+Cok::Cok(uint32_t a) {
 	in_uid = out_uid = 0;
 	adr = a;
 }

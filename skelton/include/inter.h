@@ -20,6 +20,9 @@
 
 #ifndef HEADER_INTER
 #define HEADER_INTER
+
+#include <stdint.h>
+
 #include "error.h"
 #include "array.h"
 #include "types.h"
@@ -278,11 +281,11 @@ protected:
 	char st[1024];
 	char* val;
 	int focus, curpos, actual_len, maxlen, panx, maxwidth;
-	void input_char(const Byte c);
+	void input_char(const uint8_t c);
 	void check_clipboard();
 	Font *font_selected;
 	int select_start;
-	Byte curcolor;
+	uint8_t curcolor;
 	bool first_click;
 	void set_mouse_curpos();
 	bool cut_selection();

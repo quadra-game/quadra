@@ -21,13 +21,15 @@
 #ifndef _HEADER_ZONE_TEXT_CLOCK
 #define _HEADER_ZONE_TEXT_CLOCK
 
+#include <stdint.h>
+
 #include "inter.h"
 
 class Zone_text_clock: public Zone_text_field {
 protected:
   char timebuf[256];
 public:
-	Zone_text_clock(Inter* in, Dword *s, int px, int py, int pw, bool frame, Font *f2=NULL);
+	Zone_text_clock(Inter* in, uint32_t *s, int px, int py, int pw, bool frame, Font *f2=NULL);
 	virtual ~Zone_text_clock();
 	virtual void draw();
 };

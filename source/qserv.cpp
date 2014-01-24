@@ -31,7 +31,7 @@
 #include "config.h"
 #include "version.h"
 
-Dword Qserv::http_addr=0;
+uint32_t Qserv::http_addr=0;
 int Qserv::http_port=0;
 
 Qserv::Qserv() {
@@ -177,7 +177,7 @@ bool Qserv::isconnected() const {
 	return false;
 }
 
-Dword Qserv::getnbrecv() const {
+uint32_t Qserv::getnbrecv() const {
 	int val = 0;
 	if(req) {
 		val = req->getsize();

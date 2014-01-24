@@ -21,29 +21,31 @@
 #ifndef _HEADER_NET_BUF
 #define _HEADER_NET_BUF
 
+#include <stdint.h>
 #include <string.h>
+
 #include "types.h"
 #include "net.h"
 
 class Net_buf {
 public:
-	Byte *point;
+	uint8_t *point;
 	Net_connection *from;
-	Dword from_addr;
-	Byte buf[NETBUF_SIZE];
-	void write_dword(Dword v) {
+	uint32_t from_addr;
+	uint8_t buf[NETBUF_SIZE];
+	void write_dword(uint32_t v) {
     *point++ = (v >> 24) & 0xff;
     *point++ = (v >> 16) & 0xff;
     *point++ = (v >> 8)  & 0xff;
     *point++ = v & 0xff;
 	}
-	void write_word(Word v) {
+	void write_word(uint16_t v) {
     *point++ = (v >> 8)  & 0xff;
     *point++ = v & 0xff;
 	}
-	void write_byte(Byte v) {
-		*(Byte *) point = v;
-		point += sizeof(Byte);
+	void write_byte(uint8_t v) {
+		*(uint8_t *) point = v;
+		point += sizeof(uint8_t);
 	}
 	void write_bool(bool b) {
 		write_byte(b? 1:0);
@@ -55,9 +57,9 @@ public:
 	void write_string(const char *v) {
 		write_mem(v, strlen(v)+1); // write a string with its '0'
 	}
-	Dword read_dword() {
-		if(len() <= NETBUF_SIZE-sizeof(Dword)) {
-      Dword ret;
+	uint32_t read_dword() {
+		if(len() <= NETBUF_SIZE-sizeof(uint32_t)) {
+      uint32_t ret;
       ret = *point << 24; point++;
       ret |= *point << 16; point++;
       ret |= *point << 8; point++;
@@ -67,9 +69,9 @@ public:
 		else
 			return 0;
 	}
-	Word read_word() {
-		if(len() <= NETBUF_SIZE-sizeof(Word)) {
-      Dword ret;
+	uint16_t read_word() {
+		if(len() <= NETBUF_SIZE-sizeof(uint16_t)) {
+      uint32_t ret;
       ret = *point << 8; point++;
       ret |= *point; point++;
 			return ret;
@@ -77,10 +79,10 @@ public:
 		else
 			return 0;
 	}
-	Byte read_byte() {
-		if(len() <= NETBUF_SIZE-sizeof(Byte)) {
-			Byte ret = *(Byte *) point;
-			point += sizeof(Byte);
+	uint8_t read_byte() {
+		if(len() <= NETBUF_SIZE-sizeof(uint8_t)) {
+			uint8_t ret = *(uint8_t *) point;
+			point += sizeof(uint8_t);
 			return ret;
 		}
 		else

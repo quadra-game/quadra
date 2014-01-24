@@ -65,14 +65,14 @@ Png::Png(Res& res) : w(0), h(0), palsize(0), pal_(NULL), pic_(NULL) {
 
   png_get_PLTE(png, info, &pngpal, reinterpret_cast<int*>(&palsize));
 
-  pal_ = new Byte[palsize * 3];
+  pal_ = new uint8_t[palsize * 3];
   if(!pal_)
     (void)new Error("out of memory");
 
   for(i = 0; i < palsize; i++)
     reinterpret_cast<png_color*>(pal_)[i] = pngpal[i];
 
-  pic_ = new Byte[w * h];
+  pic_ = new uint8_t[w * h];
 
   png_bytepp row_pointers = new png_bytep[h];
 

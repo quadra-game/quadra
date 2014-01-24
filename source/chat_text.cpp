@@ -103,7 +103,7 @@ void Chat_text::removewatch() {
 
 void Chat_text::net_call(Packet *p2) {
 	Packet_chat *p=(Packet_chat *)p2;
-	static Dword last_sound=0;
+	static uint32_t last_sound=0;
 	bool ok = false;
 	if(p->to_team != -1 && game) {
 		for(int i=0; i<MAXPLAYERS; i++) {

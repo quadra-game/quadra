@@ -42,7 +42,7 @@ Score::Score() {
 void Score::updateFromGame() {
 	if(!game)
 		return;
-	Byte team;
+	uint8_t team;
 	int i;
 	for(team=0; team<MAXTEAMS; team++) {
 		int count=0;
@@ -116,7 +116,7 @@ void Score::updateFromDict(Dict *d) {
 }
 
 void Score::update_team() {
-	Byte team;
+	uint8_t team;
 	for(team=0; team<MAXTEAMS; team++) {
 		player_count[team] = 0;
 		team_stats[team].clear();
@@ -133,11 +133,11 @@ void Score::sort(CS::Stat_type type) {
 	team_order_changed=false;
 	order_changed=false;
 	int i;
-	Byte team;
-	Byte new_team_order[MAXTEAMS];
+	uint8_t team;
+	uint8_t new_team_order[MAXTEAMS];
 	for(team=0; team<MAXTEAMS; team++)
 		new_team_order[team] = team_order[team];
-	Byte new_order[MAXPLAYERS];
+	uint8_t new_order[MAXPLAYERS];
 	for(i=0; i<MAXPLAYERS; i++)
 		new_order[i] = order[i];
 	bool done=false;
@@ -156,7 +156,7 @@ void Score::sort(CS::Stat_type type) {
 				}
 			}
 			if(xchg) {
-				Byte tmp=new_order[i];
+				uint8_t tmp=new_order[i];
 				new_order[i]=new_order[i+1];
 				new_order[i+1]=tmp;
 				done=false;
@@ -180,7 +180,7 @@ void Score::sort(CS::Stat_type type) {
 				}
 			}
 			if(xchg) {
-				Byte tmp=new_team_order[team];
+				uint8_t tmp=new_team_order[team];
 				new_team_order[team]=new_team_order[team+1];
 				new_team_order[team+1]=tmp;
 				done=false;

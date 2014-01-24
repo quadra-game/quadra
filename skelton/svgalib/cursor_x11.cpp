@@ -41,7 +41,7 @@ void Cursor_X11::set_pos(int px, int py) {
 void Cursor_X11::set_limit(int x1, int y1, int x2, int y2) {
 }
 
-void Cursor_X11::set_speed(const Byte s) {
+void Cursor_X11::set_speed(const uint8_t s) {
 }
 
 void Cursor_X11::move() {

@@ -69,12 +69,12 @@ IP_addr::IP_addr(const char *addr) {
 	set(addr);
 }
 
-IP_addr::IP_addr(Dword pip, Dword pmask) {
+IP_addr::IP_addr(uint32_t pip, uint32_t pmask) {
 	set(pip, pmask);
 }
 
 bool IP_addr::operator>(const IP_addr& o) {
-	Dword m=mask&o.mask;
+	uint32_t m=mask&o.mask;
 	if(m!=mask)
 		return false;
 	return (ip&m)==(o.ip&m);
@@ -87,8 +87,8 @@ bool IP_addr::operator>=(const IP_addr& o) {
 void IP_addr::print(char *st) {
 	st[0]=0;
 	char num[4];
-	Dword ip=this->ip;
-	Dword mask=this->mask;
+	uint32_t ip=this->ip;
+	uint32_t mask=this->mask;
 	int i;
 	for(i=0; i<4; i++) {
 		if((mask&0xFF000000)==0)
@@ -105,8 +105,8 @@ void IP_addr::print(char *st) {
 }
 
 void IP_addr::set(const char *addr) {
-	Byte a[4];
-	Byte m[4];
+	uint8_t a[4];
+	uint8_t m[4];
 	const char *p=addr;
 	int i;
 	for(i=0; i<4; i++) {
@@ -127,7 +127,7 @@ void IP_addr::set(const char *addr) {
 		}
 		if(part<0 || part>255)
 			break;
-		a[i]=(Byte)part;
+		a[i]=(uint8_t)part;
 		if(*dot)
 			p=dot+1;
 		else
@@ -143,7 +143,7 @@ void IP_addr::set(const char *addr) {
 	}
 }
 
-void IP_addr::set(Dword pip, Dword pmask) {
+void IP_addr::set(uint32_t pip, uint32_t pmask) {
 	ip=pip;
 	mask=pmask;
 }
@@ -201,7 +201,7 @@ void Net_connection::connect(Net_connection *dest) {
 	dest->_state=connected;
 }
 
-void Net_connection::connect(Dword addr, int port) {
+void Net_connection::connect(uint32_t addr, int port) {
 }
 
 void Net_connection::connect(const char* host, int port) {
@@ -210,9 +210,9 @@ void Net_connection::connect(const char* host, int port) {
 bool Net_connection::checktcp() {
 	if(_state!=connected)
 		return false;
-	if(buf->size()>=sizeof(Word)) {
-		Word s = INTELWORD(*(Word *) buf->get());
-		if(buf->size()>=sizeof(Word)+s)
+	if(buf->size()>=sizeof(uint16_t)) {
+		uint16_t s = INTELWORD(*(uint16_t *) buf->get());
+		if(buf->size()>=sizeof(uint16_t)+s)
 			return true;
 	}
 	return false;
@@ -223,14 +223,14 @@ void Net_connection::receivetcp(Net_buf *p) {
 		return;
 	p->from = this;
 	p->from_addr = INADDR_LOOPBACK;
-	Word size = INTELWORD(*(Word *) buf->get());
-	memcpy(p->buf, buf->get()+sizeof(Word), size);
-	buf->remove_from_start(size+sizeof(Word));
+	uint16_t size = INTELWORD(*(uint16_t *) buf->get());
+	memcpy(p->buf, buf->get()+sizeof(uint16_t), size);
+	buf->remove_from_start(size+sizeof(uint16_t));
 	incoming_inactive=0;
-	incoming_size+=size+sizeof(Word);
+	incoming_size+=size+sizeof(uint16_t);
 }
 
-int Net_connection::receivetcp(Byte *buf, Dword size) {
+int Net_connection::receivetcp(uint8_t *buf, uint32_t size) {
 	if(_state!=connected || packet_based)
 		return false;
 	if(size > this->buf->size())
@@ -249,14 +249,14 @@ void Net_connection::sendtcp(Packet *p2) {
 		return;
 	Net_buf p;
 	p2->write(&p);
-	Word size=p.len();
-	static Byte outbuf[1026];
-	*(Word *) outbuf=INTELWORD(size);
+	uint16_t size=p.len();
+	static uint8_t outbuf[1026];
+	*(uint16_t *) outbuf=INTELWORD(size);
 	memcpy(&outbuf[2], p.buf, size);
 	sendtcp(outbuf, size+2);
 }
 
-void Net_connection::sendtcp(const Byte *buf, Dword size) {
+void Net_connection::sendtcp(const uint8_t *buf, uint32_t size) {
 	if(connected_to) {
 		connected_to->buf->append(buf, size);
 		outgoing_inactive=0;
@@ -295,7 +295,7 @@ void Net_connection::disconnect() {
 	}
 }
 
-Dword Net_connection::getbufsize() const {
+uint32_t Net_connection::getbufsize() const {
 	return buf->size();
 }
 
@@ -357,7 +357,7 @@ Net_connection_tcp::Net_connection_tcp(int p, bool ppacket_based) {
 }
 
 /* constructor for accepted connections */
-Net_connection_tcp::Net_connection_tcp(int sock, Dword adr, int port, bool ppacket_based) {
+Net_connection_tcp::Net_connection_tcp(int sock, uint32_t adr, int port, bool ppacket_based) {
 	outgoing_buf.reserve(1024);
 	packet_based=ppacket_based;
 	joined=false;
@@ -407,7 +407,7 @@ Net_connection_tcp::~Net_connection_tcp() {
 	}
 }
 
-void Net_connection_tcp::connect(Dword adr, int port) {
+void Net_connection_tcp::connect(uint32_t adr, int port) {
 	desthost[0]=0;
 	destaddr=adr;
 	destport=port;
@@ -479,8 +479,8 @@ bool Net_connection_tcp::checktcp() {
 		incoming_inactive=0;
 		incoming_size+=temp;
 	}
-	if(tcpbufsize>=sizeof(Word)) {
-		Word pacsize=INTELWORD(*(Word *)tcpbuf);
+	if(tcpbufsize>=sizeof(uint16_t)) {
+		uint16_t pacsize=INTELWORD(*(uint16_t *)tcpbuf);
 		if(!pacsize || (pacsize >= NETBUF_SIZE && pacsize != (('/'*256) +'/'))) {
 			skelton_msgbox("Garbage received on connection #%i (%04X). Shutting it.\n", tcpsock, pacsize);
 			_state=disconnected; // forcing a graceful shutdown
@@ -490,20 +490,20 @@ bool Net_connection_tcp::checktcp() {
 			skelton_msgbox("Net_connection_tcp::checktcp: connection #%i reverted to packet_based==false.\n", tcpsock);
 			packet_based=false;
 			incoming=new Buf(0, 256);
-			if(tcpbufsize>sizeof(Word))
-				incoming->append(tcpbuf+sizeof(Word), tcpbufsize-sizeof(Word));
+			if(tcpbufsize>sizeof(uint16_t))
+				incoming->append(tcpbuf+sizeof(uint16_t), tcpbufsize-sizeof(uint16_t));
 			tcpbufsize=0;
 			char login[512];
 			sprintf(login, "%s\r\n\r\n", net->net_param->get_motd());
-			sendtcp((Byte *)login, strlen(login));
+			sendtcp((uint8_t *)login, strlen(login));
 			return false;
 		}
-		if(tcpbufsize>=pacsize+sizeof(Word)) {
+		if(tcpbufsize>=pacsize+sizeof(uint16_t)) {
 			tcppacsize=pacsize;
 			/*
-			skelton_msgbox("Recv %i bytes (TCP): ", tcppacsize+sizeof(Word));
-			for(Dword i=0; i<tcppacsize+sizeof(Word); i++)
-				skelton_msgbox("%i, ", (Byte)tcpbuf[i]);
+			skelton_msgbox("Recv %i bytes (TCP): ", tcppacsize+sizeof(uint16_t));
+			for(uint32_t i=0; i<tcppacsize+sizeof(uint16_t); i++)
+				skelton_msgbox("%i, ", (uint8_t)tcpbuf[i]);
 			skelton_msgbox("\n");
 			*/
 		}
@@ -516,13 +516,13 @@ void Net_connection_tcp::receivetcp(Net_buf *p) {
 		return;
 	p->from  = this;
 	p->from_addr = from;
-	memcpy(p->buf, tcpbuf+sizeof(Word), tcppacsize);
-	memmove(tcpbuf, tcpbuf+sizeof(Word)+tcppacsize, NETBUF_SIZE-(tcppacsize+sizeof(Word)));
-	tcpbufsize-=tcppacsize+sizeof(Word);
+	memcpy(p->buf, tcpbuf+sizeof(uint16_t), tcppacsize);
+	memmove(tcpbuf, tcpbuf+sizeof(uint16_t)+tcppacsize, NETBUF_SIZE-(tcppacsize+sizeof(uint16_t)));
+	tcpbufsize-=tcppacsize+sizeof(uint16_t);
 	tcppacsize=0;
 }
 
-int Net_connection_tcp::receivetcp(Byte *buf, Dword size) {
+int Net_connection_tcp::receivetcp(uint8_t *buf, uint32_t size) {
 	if(_state<connected || _state==disconnected || packet_based)
 		return 0;
 	if(net->checkreceive(tcpsock) > 0) {
@@ -554,14 +554,14 @@ void Net_connection_tcp::sendtcp(Packet *p2) {
 		return;
 	Net_buf p;
 	p2->write(&p);
-	Word size=p.len();
-	static Byte outbuf[1026];
-	*(Word *) outbuf=INTELWORD(size);
+	uint16_t size=p.len();
+	static uint8_t outbuf[1026];
+	*(uint16_t *) outbuf=INTELWORD(size);
 	memcpy(&outbuf[2], p.buf, size);
 	sendtcp(outbuf, size+2);
 }
 
-void Net_connection_tcp::sendtcp(const Byte *buf, Dword size) {
+void Net_connection_tcp::sendtcp(const uint8_t *buf, uint32_t size) {
 	static Net_connection_tcp *test=NULL;
 	test=this;
 	outgoing_inactive=0;
@@ -573,7 +573,7 @@ void Net_connection_tcp::commit() {
 	if(_state!=connected)
 		return;
 	Net_connection::commit(); //Only for stats accounting
-	Dword size=outgoing_buf.size();
+	uint32_t size=outgoing_buf.size();
 	if(!size)
 		return;
 	int temp = send(tcpsock, (const char *)(outgoing_buf.get()), size, 0);
@@ -608,7 +608,7 @@ Net_connection::Netstate Net_connection_tcp::state() {
 #ifdef WIN32
 		if(net->name_handle==0) {
 #endif
-			Dword a = net->getaddress(desthost);
+			uint32_t a = net->getaddress(desthost);
 			if(a) {
 				connect(a, destport);
 				return _state;
@@ -676,7 +676,7 @@ Net::Net(Net_param *np) {
 	client_connection=server_connection=NULL;
 	last_error = NULL;
 
-	name_resolve = (Dword)-1;
+	name_resolve = (uint32_t)-1;
 	port_resolve = -1;
 	host_name[0] = 0;
 	udpnum = 0;
@@ -727,12 +727,12 @@ void Net::init_local_addresses() {
 		struct hostent *host;
 		host = gethostbyname(host_name);
 		if(host) {
-			for (Dword** curptr = reinterpret_cast<Dword**>(host->h_addr_list); *curptr; ++curptr)
+			for (uint32_t** curptr = reinterpret_cast<uint32_t**>(host->h_addr_list); *curptr; ++curptr)
 				host_adr.add(ntohl(**curptr));
-			Dword fallback = INADDR_LOOPBACK;
+			uint32_t fallback = INADDR_LOOPBACK;
 			//Even better than what the NetGames guys do! :)
 			for(int i=0; i<host_adr.size(); i++) {
-				Dword a=host_adr[i];
+				uint32_t a=host_adr[i];
 				bool pub = true;
 				//192.168/16 is not public
 				if(a>>16==192*256+168)
@@ -792,7 +792,7 @@ void Net::close_all_udp() {
 	udpnum = 0;
 }
 
-int Net::open_udpsock(Dword adr) {
+int Net::open_udpsock(uint32_t adr) {
 	if(!active)
 		return -1;
 	int sock;
@@ -925,19 +925,19 @@ void Net::step(bool loop_only) {
 				}
 				else {
 					//Not packet based, read everything into incoming
-					Byte buf[1024];
+					uint8_t buf[1024];
 					int num;
 					while((num=nc->receivetcp(buf, 1024))) {
 						nc->sendtcp(buf, num); //auto-echo
 						Buf *out=nc->incoming;
 						//Do something quick about backspace
-						Byte *p1=buf;
+						uint8_t *p1=buf;
 						while(num) {
 							if(*p1==8) {
 								//Found a backspace, remove if not at line start
-								Dword outsize=out->size();
+								uint32_t outsize=out->size();
 								if(outsize) {
-									Byte last=*(out->get()+outsize-1);
+									uint8_t last=*(out->get()+outsize-1);
 									if(last!='\r' && last!='\n')
 										out->resize(outsize-1);
 								}
@@ -986,7 +986,7 @@ void Net::verify_server_connection() {
 	}
 }
 
-void Net::addwatch(Word id, Net_callable *nc) {
+void Net::addwatch(uint16_t id, Net_callable *nc) {
 	for(int i=0; i<callbacks.size(); i++)
 		if(callbacks[i]->id == id && callbacks[i]->net_callable == nc)
 			return;
@@ -994,7 +994,7 @@ void Net::addwatch(Word id, Net_callable *nc) {
 	callbacks.add(cb);
 }
 
-void Net::removewatch(Word id, Net_callable *nc) {
+void Net::removewatch(uint16_t id, Net_callable *nc) {
 	for(int i=0; i<callbacks.size(); i++)
 		if(callbacks[i]->id == id && callbacks[i]->net_callable == nc) {
 			delete callbacks[i];
@@ -1003,7 +1003,7 @@ void Net::removewatch(Word id, Net_callable *nc) {
 		}
 }
 
-void Net::sendudp(Dword to, Packet *p) {
+void Net::sendudp(uint32_t to, Packet *p) {
 	Net_buf nb;
 	p->write(&nb);
 
@@ -1078,7 +1078,7 @@ void Net::sendtcp(Net_connection *nc, Packet *p) {
 	}
 }
 
-void Net::dispatch(Packet *p, Dword pt, Net_connection *nc) {
+void Net::dispatch(Packet *p, uint32_t pt, Net_connection *nc) {
 	if(!p)
 		return;
 	p->packet_id=pt;
@@ -1100,7 +1100,7 @@ Net_connection *Net::start_loopback_client() {
 	return accepted_connection;
 }
 
-void Net::start_client(Dword adr, int port) {
+void Net::start_client(uint32_t adr, int port) {
 	if(client_connection)
 		return;
 	if(!active) {
@@ -1127,7 +1127,7 @@ void Net::stop_client() {
 	}
 }
 
-Net_connection_tcp *Net::start_other(Dword adr, int port) {
+Net_connection_tcp *Net::start_other(uint32_t adr, int port) {
 	Net_connection_tcp *nc=new Net_connection_tcp(0, false);
 	if(nc->state()==Net_connection::invalid) {
 		delete nc;
@@ -1160,7 +1160,7 @@ Packet *Net::net_buf2packet(Net_buf *nb, bool tcp) {
 			delete packet;
 			packet=NULL;
 			skelton_msgbox("  bad packet\n  ");
-			Word size=min(nb->len(), static_cast<unsigned int>(128));
+			uint16_t size=min(nb->len(), static_cast<unsigned int>(128));
 			nb->reset();
 			int i;
 			for(i=0; i<size; i++)
@@ -1186,8 +1186,8 @@ void Net::sendtcp(Packet *p)  {
 	}
 }
 
-Dword Net::dotted2addr(const char *host) {
-  Dword lAddr = INADDR_NONE;
+uint32_t Net::dotted2addr(const char *host) {
+  uint32_t lAddr = INADDR_NONE;
 
   // check that we have a string
   if(*host) {
@@ -1197,8 +1197,8 @@ Dword Net::dotted2addr(const char *host) {
 	return lAddr;
 }
 
-Dword Net::getaddress(const char *host) {
-  Dword lAddr = INADDR_ANY;
+uint32_t Net::getaddress(const char *host) {
+  uint32_t lAddr = INADDR_ANY;
 
   // check that we have a string
   if(*host) {
@@ -1223,7 +1223,7 @@ Dword Net::getaddress(const char *host) {
 				// Blocking call!!
 				lpstHost = gethostbyname(tube);
 				if(lpstHost) {  // success
-	        lAddr = ntohl(*(Dword*)lpstHost->h_addr_list[0]);
+	        lAddr = ntohl(*(uint32_t*)lpstHost->h_addr_list[0]);
 		    }
 			#endif
 			// should be replaced by this (async)
@@ -1239,13 +1239,13 @@ Dword Net::getaddress(const char *host) {
   return lAddr;
 }
 
-void Net::stringaddress(char *st, Dword adr) {
+void Net::stringaddress(char *st, uint32_t adr) {
 	struct in_addr in;
 	in.s_addr = htonl(adr);
 	strcpy(st, inet_ntoa(in));
 }
 
-void Net::stringaddress(char *st, Dword adr, int port) {
+void Net::stringaddress(char *st, uint32_t adr, int port) {
 	struct in_addr in;
 	in.s_addr = htonl(adr);
 	strcpy(st, inet_ntoa(in));
@@ -1258,7 +1258,7 @@ void Net::gethostbyname_completed(bool success) {
 #ifdef WIN32
 	name_handle = 0;
 	if(success)
-		name_resolve = ntohl(*(Dword *)((LPHOSTENT) name_buf)->h_addr);
+		name_resolve = ntohl(*(uint32_t *)((LPHOSTENT) name_buf)->h_addr);
 #endif
 	if(!success)
 		name_resolve = 0;
@@ -1323,8 +1323,8 @@ bool Net::accept() {
 		return false;
 	int sock=::accept(server_connection->getFD(), (sockaddr *) &bob, &boblen);
 	if(sock > 0) {
-		Dword adr=ntohl(bob.sin_addr.s_addr);
-		Word port=ntohs(bob.sin_port);
+		uint32_t adr=ntohl(bob.sin_addr.s_addr);
+		uint16_t port=ntohs(bob.sin_port);
 		skelton_msgbox("Net::accept adding connection from %s:%i\n", inet_ntoa(bob.sin_addr), port);
 		Net_connection_tcp *nc=new Net_connection_tcp(sock, adr, port);
 		if(net_param->accept_connection(nc)) {

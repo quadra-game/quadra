@@ -21,7 +21,9 @@
 #ifndef _HEADER_IMAGE_PNG
 #define _HEADER_IMAGE_PNG
 
+#include <stdint.h>
 #include <png.h>
+
 #include "res.h"
 #include "image.h"
 
@@ -30,8 +32,8 @@ private:
   unsigned long int w;
   unsigned long int h;
   unsigned int palsize;
-  Byte* pal_;
-  Byte* pic_;
+  uint8_t* pal_;
+  uint8_t* pic_;
 public:
   Png(Res& res);
   virtual ~Png();
@@ -41,11 +43,11 @@ public:
   virtual int height() const {
     return h;
   }
-  virtual Byte* pic() const {
+  virtual uint8_t* pic() const {
     return pic_;
   }
-  virtual Byte* pal() const {
-    return reinterpret_cast<Byte*>(pal_);
+  virtual uint8_t* pal() const {
+    return reinterpret_cast<uint8_t*>(pal_);
   }
   virtual int palettesize() const {
     return palsize;

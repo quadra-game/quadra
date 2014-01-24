@@ -55,7 +55,7 @@ Res_compress::~Res_compress() {
 void Res_compress::read_uncompress() {
 	exist = false;
 	Byte *temp = (Byte *) res->buf(); // reads the entire file in '_buf'
-	ressize = INTELDWORD(*(Dword *) temp);
+	ressize = INTELDWORD(*(uint32_t *) temp);
 	Byte *source = temp + 4;
 	int src_size = res->size() - 4;
 	skelton_msgbox("Res_compress::Res_compress: Reading compressed file original size = %i, compressed = %i\n", ressize, src_size);
@@ -101,7 +101,7 @@ void Res_compress::write(const void *b, int nb) {
 	write_pos += nb;
 }
 
-Dword Res_compress::size() {
+uint32_t Res_compress::size() {
 	return ressize;
 }
 
@@ -114,7 +114,7 @@ void Res_compress::write_compress() {
 		return;
 	unsigned long dest_len = write_pos + 65540;
 	Byte *temp = (Byte *) malloc(dest_len);
-	*((Dword *)temp)=INTELDWORD(write_pos);
+	*((uint32_t *)temp)=INTELDWORD(write_pos);
 	int error = compress(temp+4, &dest_len, _buf, write_pos);
 	if(error != Z_OK) {
 		(void) new Error("Unable to compress file, error #%i", error);

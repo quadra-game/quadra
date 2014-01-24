@@ -37,7 +37,7 @@ const char* Url::getHost() const {
 	return host;
 }
 
-Word Url::getPort() const {
+uint16_t Url::getPort() const {
 	return port;
 }
 
@@ -88,7 +88,7 @@ void Url::setHost(const char* h) {
 	}
 }
 
-void Url::setPort(const Word p) {
+void Url::setPort(const uint16_t p) {
 	port=p;
 }
 

@@ -21,6 +21,8 @@
 #ifndef _HEADER_GLOBAL
 #define _HEADER_GLOBAL
 
+#include <stdint.h>
+
 #define MAXPLAYERS 8
 #define MAXTEAMS 8
 
@@ -31,7 +33,7 @@ extern bool named_team[MAXTEAMS];
 extern const char *english_teams[MAXTEAMS];
 extern const char *french_teams[MAXTEAMS];
 
-void set_team_name(Byte team, const char *name);
+void set_team_name(uint8_t team, const char *name);
 
 extern bool quitting;
 extern const char built[];

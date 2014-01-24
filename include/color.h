@@ -21,15 +21,17 @@
 #ifndef _HEADER_COLOR
 #define _HEADER_COLOR
 
+#include <stdint.h>
+
 #include "palette.h"
 
 class Color {
-	Byte base;
+	uint8_t base;
 	Palette& pal;
 public:
-	Color(Byte q, Palette& p);
+	Color(uint8_t q, Palette& p);
 	void set(int r, int g, int b, int r2, int g2, int b2);
-	Byte shade(Byte i) const {
+	uint8_t shade(uint8_t i) const {
 		return base+i;
 	}
 };

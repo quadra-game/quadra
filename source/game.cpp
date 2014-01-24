@@ -340,7 +340,7 @@ void Game::new_potato_order() {
 	for(team=0; team<MAXTEAMS; team++)
 		order_taken[team]=false;
 	for(team=0; team<MAXTEAMS; team++) {
-		Byte rnd=ugs_random.rnd()%MAXTEAMS;
+		uint8_t rnd=ugs_random.rnd()%MAXTEAMS;
 		while(order_taken[rnd]) {
 			rnd++;
 			if(rnd>=MAXTEAMS)
@@ -351,8 +351,8 @@ void Game::new_potato_order() {
 	}
 }
 
-Byte Game::next_potato_team() {
-	Byte ret=255;
+uint8_t Game::next_potato_team() {
+	uint8_t ret=255;
 	int i, j;
 	for(i=0; i<MAXTEAMS; i++)
 		if(potato_order[i]!=255 && potato_order[i]!=previous_potato_team) {
@@ -388,7 +388,7 @@ Byte Game::next_potato_team() {
 	return ret;
 }
 
-void Game::got_potato(Byte team, int lines) {
+void Game::got_potato(uint8_t team, int lines) {
 	int i;
 	for(i=0; i<MAXPLAYERS; i++) {
 		Canvas *c=net_list.get(i);
@@ -419,7 +419,7 @@ void Game::got_potato(Byte team, int lines) {
 	}
 }
 
-void Game::done_potato(Byte team) {
+void Game::done_potato(uint8_t team) {
 	int i;
 	for(i=0; i<MAXPLAYERS; i++) {
 		Canvas *c=net_list.get(i);
@@ -532,7 +532,7 @@ void Game::check_potato() {
 	last_given_potato++;
 	if(potato_team==255 && last_given_potato>=200) {
 		//Should give the potato to somebody now
-		Byte to_team=next_potato_team();
+		uint8_t to_team=next_potato_team();
 		if(to_team!=255) {
 			last_given_potato=0;
 			//Give the potato to the chosen team
@@ -562,7 +562,7 @@ void Game::stackpacket(Packet *p) {
 	stack.add(p);
 }
 
-Packet *Game::peekpacket(Byte type) {
+Packet *Game::peekpacket(uint8_t type) {
 	if(stack.size()) {
 		if(stack[0]->packet_id == type || type==255)
 			return stack[0];
@@ -605,7 +605,7 @@ void Game::addgameinfo(Textbuf *tb) {
 	tb->append("version %i\n", net_version());
 	tb->append("address");
 	for(int a=0; a<net->host_adr_pub.size(); ++a) {
-		Dword ip = net->host_adr_pub[a];
+		uint32_t ip = net->host_adr_pub[a];
 		tb->append(" %i.%i.%i.%i", ip>>24, (ip>>16)&255, (ip>>8)&255, ip&255);
 	}
 	tb->append("\n");
@@ -857,7 +857,7 @@ void Game::prepare_logging() {
 	log.add(Packet_serverlog::Var("version", game_version));
 	log.add(Packet_serverlog::Var("os", os));
 
-	Dword addr = INADDR_LOOPBACK;
+	uint32_t addr = INADDR_LOOPBACK;
 	if (net->host_adr_pub.size())
 		addr = net->host_adr_pub[0];
 	char st[64];

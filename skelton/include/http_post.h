@@ -21,6 +21,8 @@
 #ifndef _HEADER_HTTP_POST
 #define _HEADER_HTTP_POST
 
+#include <stdint.h>
+
 #include "types.h"
 #include "http_request.h"
 
@@ -31,7 +33,7 @@ class Http_post: public Http_request {
 	void init(const char *path);
 public:
 	Http_post(const char* aHost, int port, const char *path);
-	Http_post(const char* aHost, Dword hostaddr, int port, const char *path);
+	Http_post(const char* aHost, uint32_t hostaddr, int port, const char *path);
 	virtual ~Http_post();
 	void add_data_raw(const Buf &m);
 	void add_data_raw(const char* m);

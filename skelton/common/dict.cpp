@@ -78,7 +78,7 @@ void Dict::dump() const {
 	}
 }
 
-Dword Dict::size() const {
+uint32_t Dict::size() const {
 	return sub.size();
 } 
 

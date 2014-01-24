@@ -21,7 +21,9 @@
 #ifndef _HEADER_QUADRA
 #define _HEADER_QUADRA
 
+#include <stdint.h>
 #include <stdlib.h>
+
 #include "overmind.h"
 #include "inter.h"
 #include "notify.h"
@@ -41,9 +43,9 @@ extern Font *fteam[];
 
 extern Sprite *cur;
 
-void raw_draw_bloc(const Video_bitmap* bit, int x, int y, Byte side, Color* col);
-void raw_draw_bloc_corner(const Video_bitmap* bit, int x, int y, Byte side, Color* col, Byte to[4]);
-void raw_small_draw_bloc(const Video_bitmap* bit, int x, int y, Byte side, Color* col);
+void raw_draw_bloc(const Video_bitmap* bit, int x, int y, uint8_t side, Color* col);
+void raw_draw_bloc_corner(const Video_bitmap* bit, int x, int y, uint8_t side, Color* col, uint8_t to[4]);
+void raw_small_draw_bloc(const Video_bitmap* bit, int x, int y, uint8_t side, Color* col);
 void set_fteam_color(const Palette& pal);
 
 class Zone_combo;
@@ -58,7 +60,7 @@ protected:
 	bool rotate_right(bool twice=false);
 	void move_down();
 	void drop_down();
-	Byte calc_by(int py) const;
+	uint8_t calc_by(int py) const;
 	bool check_gone();
 	void check_state();
 	void remove_bonus();
@@ -86,12 +88,12 @@ public:
 
 class Player_process_key: public Player_base {
 	int hold_left, hold_right;
-	Dword last_video_frame, last_overmind_frame;
+	uint32_t last_video_frame, last_overmind_frame;
 	void keyboard_control();
 	void playback_control();
 	bool check_first_frag();
-	Dword block_rotated;
-	Dword time_held;
+	uint32_t block_rotated;
+	uint32_t time_held;
 public:
 	Player_process_key(Canvas *c);
 	virtual void init();
@@ -137,7 +139,7 @@ public:
 
 class Player_check_link: public Player_base {
 	int anim;
-	void fill_bloc(Byte x, Byte y);
+	void fill_bloc(uint8_t x, uint8_t y);
 	int tombe;
 public:
 	Player_check_link(Canvas *c);
@@ -176,7 +178,7 @@ public:
 
 class Player_first_frag: public Player_base {
 	int i,j,c;
-	Byte couleur;
+	uint8_t couleur;
 public:
 	Player_first_frag(Canvas *c);
 	virtual void step();
@@ -184,7 +186,7 @@ public:
 
 class Player_dead: public Player_base {
 	int i,j,c;
-	Byte couleur;
+	uint8_t couleur;
 	bool then_gone;
 public:
 	Player_dead(Canvas *c, bool tg=false);
@@ -195,7 +197,7 @@ class Packet_moves;
 
 class Player_wait_block: public Player_base {
 	bool check_first_frag();
-	Dword move_index;
+	uint32_t move_index;
 public:
 	Player_wait_block(Canvas *c);
 	virtual ~Player_wait_block();

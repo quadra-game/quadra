@@ -21,13 +21,15 @@
 #ifndef _HEADER_FIND_FILE
 #define _HEADER_FIND_FILE
 
+#include <stdint.h>
+
 #include "types.h"
 
 class Find_file_entry {
 public:
   char name[1024];
   bool is_folder;
-  Dword size;
+  uint32_t size;
   char date[1024];
   Find_file_entry(const char *n, bool f);
 };

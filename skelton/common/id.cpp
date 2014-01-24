@@ -20,4 +20,4 @@
 
 #include "id.h"
 
-Dword Identifyable::next_id=1;
+uint32_t Identifyable::next_id=1;

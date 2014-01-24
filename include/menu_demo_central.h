@@ -21,6 +21,8 @@
 #ifndef _HEADER_MENU_DEMO_CENTRAL
 #define _HEADER_MENU_DEMO_CENTRAL
 
+#include <stdint.h>
+
 #include "menu_base.h"
 #include "zone_list.h"
 #include "score.h"
@@ -39,14 +41,14 @@ class Menu_demo_central: public Menu_standard, Zone_list {
 	public:
 		bool isfolder;
 		char file_date[1024];
-		Dword file_size;
+		uint32_t file_size;
 		Listitem(const char *n, Font *f);
 		virtual ~Listitem();
 	};
 	class Player_infos {
 	public:
-		Byte team;
-		Byte player;
+		uint8_t team;
+		uint8_t player;
 		char name[40];
 		Player_infos(int pplayer);
 	};

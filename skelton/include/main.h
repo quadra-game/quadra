@@ -21,6 +21,8 @@
 #ifndef _HEADER_MAIN
 #define _HEADER_MAIN
 
+#include <stdint.h>
+
 #include "types.h"
 #include "config.h"
 
@@ -54,6 +56,6 @@ void start_game();
 void quit_game(int status);
 void start_frame();
 void end_frame();
-Dword getmsec();
+uint32_t getmsec();
 
 #endif

@@ -107,7 +107,9 @@
  * themes myself, if only for the sake of change :).
  */
 
+#include <stdint.h>
 #include <stdio.h>
+
 #include "stringtable.h"
 #include "res.h"
 #include "find_file.h"
@@ -134,7 +136,7 @@ void addfile(const char* fname) {
 
 int main(int ARGC, char **ARGV, char **ENV) {
 	Res_dos *res;
-	Byte* data;
+	uint8_t* data;
 
 	if(ARGC < 4) {
 		fprintf(stderr, "%s: %s", ARGV[0], usage);
@@ -152,7 +154,7 @@ int main(int ARGC, char **ARGV, char **ENV) {
 	sprintf(res_file, "%s%s", ARGV[1], ARGV[3]);
 
 	res = new Res_dos(res_file, RES_READ);
-	data = new Byte[res->size()+1];
+	data = new uint8_t[res->size()+1];
 
 	memcpy(data, res->buf(), res->size());
 

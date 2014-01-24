@@ -21,20 +21,22 @@
 #ifndef _HEADER_ID
 #define _HEADER_ID
 
+#include <stdint.h>
+
 #include "types.h"
 
 class Identifyable {
-	static Dword next_id;
+	static uint32_t next_id;
 protected:
-	Dword the_id;
+	uint32_t the_id;
 public:
 	Identifyable() {
 		the_id=next_id++;
 	}
-	virtual void set_id(Dword id) {
+	virtual void set_id(uint32_t id) {
 		the_id=id;
 	}
-	virtual Dword id() {
+	virtual uint32_t id() {
 		return the_id;
 	}
 	virtual ~Identifyable() {

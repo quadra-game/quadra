@@ -128,7 +128,7 @@ void Video_bitmap_X11::get_bitmap(const Bitmap* bit, const int x, const int y,
 			     clip_x1+pos_x+clip_w, clip_y2+pos_y);
 }
 
-void Video_bitmap_X11::put_pel(const int x, const int y, const Byte c) const {
+void Video_bitmap_X11::put_pel(const int x, const int y, const uint8_t c) const {
   fb->put_pel(x, y, c);
 
   ((Video_X11*)video)->dirty(x+pos_x, y+pos_y,
@@ -136,7 +136,7 @@ void Video_bitmap_X11::put_pel(const int x, const int y, const Byte c) const {
 }
 
 void Video_bitmap_X11::hline(const int y, const int x,
-			     const int w, const Byte c) const {
+			     const int w, const uint8_t c) const {
   fb->hline(y, x, w, c);
 
   ((Video_X11*)video)->dirty(x+pos_x, y+pos_y,
@@ -144,7 +144,7 @@ void Video_bitmap_X11::hline(const int y, const int x,
 }
 
 void Video_bitmap_X11::vline(const int x, const int y,
-			     const int h, const Byte c) const {
+			     const int h, const uint8_t c) const {
   fb->vline(x, y, h, c);
 
   ((Video_X11*)video)->dirty(x+pos_x, y+pos_y,
@@ -153,7 +153,7 @@ void Video_bitmap_X11::vline(const int x, const int y,
 
 void Video_bitmap_X11::line(const int x1, const int y1,
 			    const int x2, const int y2,
-			    const Byte c) const {
+			    const uint8_t c) const {
   fb->line(x1, y1, x2, y2, c);
 
   ((Video_X11*)video)->dirty(x1+pos_x, y1+pos_y,

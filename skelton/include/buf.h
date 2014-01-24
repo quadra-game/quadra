@@ -21,44 +21,46 @@
 #ifndef _HEADER_BUF
 #define _HEADER_BUF
 
+#include <stdint.h>
+
 #include "types.h"
 
 class Buf {
-	Byte* data;
-	Dword size_;
-	Dword capacity;
-	Dword inc;
+	uint8_t* data;
+	uint32_t size_;
+	uint32_t capacity;
+	uint32_t inc;
 public:
 	Buf(const Buf &buf);
-	Buf(Dword size=0, Dword in=16);
+	Buf(uint32_t size=0, uint32_t in=16);
 	virtual ~Buf();
-	Byte* get() const {
+	uint8_t* get() const {
 		return data;
 	}
-	Byte& operator[](int offset) const {
+	uint8_t& operator[](int offset) const {
 		return data[offset];
 	}
-	void remove_from_start(Dword s);
-	void append(const Byte* d, Dword s);
+	void remove_from_start(uint32_t s);
+	void append(const uint8_t* d, uint32_t s);
 	void append(const char* d);
-	Dword size() const {
+	uint32_t size() const {
 		return size_;
 	}
-	void resize(Dword s);
-	void reserve(Dword s);
+	void resize(uint32_t s);
+	void reserve(uint32_t s);
 };
 
 class Textbuf {
 	char* data;
-	Dword capacity;
+	uint32_t capacity;
 public:
-	Textbuf(Dword size=0);
+	Textbuf(uint32_t size=0);
 	virtual ~Textbuf();
 	int len() const;
 	char* get() const;
 	void append(const char* s, ...);
 	void appendraw(const char* s);
-	void reserve(Dword s);
+	void reserve(uint32_t s);
 };
 
 #endif

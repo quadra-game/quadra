@@ -75,7 +75,7 @@ bool named_team[MAXTEAMS] = {
 	false
 };
 
-void set_team_name(Byte team, const char *name) {
+void set_team_name(uint8_t team, const char *name) {
 	if(!name || !name[0]) {
 		if(config.info.language==1)
 			strcpy(team_name[team], french_teams[team]);

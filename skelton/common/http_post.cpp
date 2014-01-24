@@ -31,7 +31,7 @@ Http_post::Http_post(const char* aHost, int port, const char *path): Http_reques
 	init(path);
 }
 
-Http_post::Http_post(const char* aHost, Dword hostaddr, int port, const char *path): Http_request(aHost, hostaddr, port), data(0, 1024) {
+Http_post::Http_post(const char* aHost, uint32_t hostaddr, int port, const char *path): Http_request(aHost, hostaddr, port), data(0, 1024) {
 	init(path);
 }
 
@@ -58,7 +58,7 @@ void Http_post::add_data_raw(const Buf &m) {
 }
 
 void Http_post::add_data_raw(const char* m) {
-	data.append((const Byte*)m, strlen(m));
+	data.append((const uint8_t*)m, strlen(m));
 }
 
 void Http_post::send() {
@@ -81,11 +81,11 @@ void Http_post::send() {
 	sprintf(st, "%i\r\n\r\n", data.size());
 	url.append(st);
 	url.append(data.get(), data.size());
-	request = (Byte*)url.get();
+	request = (uint8_t*)url.get();
 	size = url.size();
 	/*
 	st[0]=0;
-	url.append((Byte*)st, 1); //So the following msgbox won't crash
+	url.append((uint8_t*)st, 1); //So the following msgbox won't crash
 	msgbox("Http_post::send: data: \n{\n%s\n} size=%i\n", request, size);
 	*/
 }

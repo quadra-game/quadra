@@ -89,7 +89,7 @@ Sample::Sample(Res& re, int nb): audio_data(NULL), sampling(0),
 Sample::~Sample() {
 }
 
-Sfx::Sfx(Sample *sam, Dword dwPlayFlags, int vo, int pa, int f, int pos):
+Sfx::Sfx(Sample *sam, uint32_t dwPlayFlags, int vo, int pa, int f, int pos):
   playing(NULL) {
 }
 
@@ -285,7 +285,7 @@ Sound::~Sound() {
 Sample::Sample(Res& re, int nb): audio_data(NULL), sampling(0),
                                  length(0), refcount(1) {
   char *buffer;
-  Dword size;
+  uint32_t size;
 
   if(!sound)
     return;
@@ -332,7 +332,7 @@ void Sample::loadriff(const char *res, unsigned int len) {
       if(w != 1)
 	(void)new Error("RIFF/WAVE: unsupported number of channels");
 
-      Dword d = UNALIGNEDDWORD(((struct fmt_chunk *)data)->sampling);
+      uint32_t d = UNALIGNEDDWORD(((struct fmt_chunk *)data)->sampling);
       sampling = INTELDWORD(d);
       w = UNALIGNEDWORD(((struct fmt_chunk *)data)->bitspersample);
       bps = INTELWORD(w);
@@ -430,7 +430,7 @@ Sample::~Sample() {
 void Sample::stop() {
 }
 
-Playing_sfx::Playing_sfx(Sfx* thesfx, Sample *thesam, Dword theflags):
+Playing_sfx::Playing_sfx(Sfx* thesfx, Sample *thesam, uint32_t theflags):
   sfx(thesfx), sam(thesam), flags(theflags), vo(0), f(0), pos(0),
   pa(0), delta_inc(0), delta_position(0), inc(0) {
      sam->refcount++;
@@ -444,7 +444,7 @@ Playing_sfx::~Playing_sfx() {
     sfx->playing = NULL;
 }
 
-Sfx::Sfx(Sample *sam, Dword dwPlayFlags, int vo, int pa, int f, int pos):
+Sfx::Sfx(Sample *sam, uint32_t dwPlayFlags, int vo, int pa, int f, int pos):
   playing(NULL) {
   if(!sound || !sam || !sound->active)
     return;

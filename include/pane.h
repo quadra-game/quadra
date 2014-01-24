@@ -21,6 +21,8 @@
 #ifndef _HEADER_PANE
 #define _HEADER_PANE
 
+#include <stdint.h>
+
 #include "inter.h"
 #include "listbox.h"
 #include "overmind.h"
@@ -40,7 +42,7 @@ public:
 	int x, y, w, h;
 	Multi_player *mp;
 	Bitmap *back, *fond, *back_bottom;
-	Byte quel_pane;
+	uint8_t quel_pane;
 	Pane_info(Bitmap *bit, Font *f2, Inter *in, int j, Multi_player *pmp);
 	virtual ~Pane_info();
 };
@@ -89,7 +91,7 @@ public:
 
 class Pane_close: public Pane {
 private:
-	Dword seconds;
+	uint32_t seconds;
 	Zone *clock;
 	static bool global_clock_visible;
 	bool clock_visible;
@@ -162,8 +164,8 @@ public:
 class Pane_server_drop_player: public Pane_close, public Notifyable {
 	class List_player: public Listable {
 	public:
-		Byte player;
-		List_player(const char *s, Byte p, Font *f): Listable(s, f) {
+		uint8_t player;
+		List_player(const char *s, uint8_t p, Font *f): Listable(s, f) {
 			player = p;
 		}
 	};
@@ -197,7 +199,7 @@ public:
 
 class Pane_server_ping: public Pane_close, Net_callable {
 	void send_test();
-	Dword last_frame;
+	uint32_t last_frame;
 	int pingtime;
 	int moyenne, total, nombre;
 	int test_delay;
@@ -249,10 +251,10 @@ class Pane_scoreboard: public Pane_close, public Notifyable {
 	Array<Zone *> zlist_frag;
 	bool show_frag;
 	Score score;
-	Byte potato_team;
-	Word old_size;
+	uint8_t potato_team;
+	uint16_t old_size;
 protected:
-	Word size;
+	uint16_t size;
 	virtual void activate_frag();
 	virtual void deactivate_frag(bool temp);
 	void scoreboard_invisible();
@@ -267,7 +269,7 @@ public:
 class Pane_chat: public Pane_scoreboard {
 	Chat_interface *chat;
 	Zone *b_quit;
-	Word old_y;
+	uint16_t old_y;
 	virtual void activate_frag();
 	virtual void deactivate_frag(bool temp);
 public:

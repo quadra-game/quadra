@@ -22,6 +22,7 @@
 #ifndef _HEADER_CFGFILE
 #define _HEADER_CFGFILE
 
+#include <stdint.h>
 #include <time.h>
 #include "types.h"
 
@@ -42,10 +43,10 @@ public:
 	struct {
 		int language;
 		int setup_player, cdmusic;
-		Byte multi_level, unlock_theme;
+		uint8_t multi_level, unlock_theme;
 		int port_number, mouse_speed;
-		Byte pane[3];
-		Byte update_rate;
+		uint8_t pane[3];
+		uint8_t update_rate;
 		char book[10][256];
 		char game_name[32];
 		char game_server_address[256];
@@ -85,9 +86,9 @@ public:
 	void write();
 
 	//Get the hash value for a player
-	void get_player_hash(Byte* buf, unsigned qplayer);
+	void get_player_hash(uint8_t* buf, unsigned qplayer);
 	//Get the hash value for a player's team
-	void get_team_hash(Byte* buf, unsigned qplayer);
+	void get_team_hash(uint8_t* buf, unsigned qplayer);
 };
 
 extern Config config;

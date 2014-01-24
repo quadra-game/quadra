@@ -21,36 +21,38 @@
 #ifndef _HEADER_PCX
 #define _HEADER_PCX
 
+#include <stdint.h>
+
 #include "res.h"
 #include "image.h"
 
 #pragma pack(1)
 class Pcx: public Image {
 	struct Head {
-		Byte manufacturer;
-		Byte version;
-		Byte encoding;
-		Byte bpp;
-		Word x1,y1,x2,y2;
-		Word hdpi, vdpi;
-		Byte colormap[48];
-		Byte reserved;
-		Byte nplane;
-		Word byteperline;
-		Word paletteinfo;
-		Word screensizeh, screensizev;
-		Byte filler[54];
+		uint8_t manufacturer;
+		uint8_t version;
+		uint8_t encoding;
+		uint8_t bpp;
+		uint16_t x1,y1,x2,y2;
+		uint16_t hdpi, vdpi;
+		uint8_t colormap[48];
+		uint8_t reserved;
+		uint8_t nplane;
+		uint16_t byteperline;
+		uint16_t paletteinfo;
+		uint16_t screensizeh, screensizev;
+		uint8_t filler[54];
 	} h;
 	int width_, height_;
-	Byte* pic_;
-	Byte* pal_;
+	uint8_t* pic_;
+	uint8_t* pal_;
  public:
 	Pcx(Res& res);
 	virtual ~Pcx();
 	int width() const { return width_; }
 	int height() const { return height_; }
-	Byte* pic() const { return pic_; }
-	Byte* pal() const { return pal_; }
+	uint8_t* pic() const { return pic_; }
+	uint8_t* pal() const { return pal_; }
 	int palettesize() const { return 256; }
 };
 #pragma pack()

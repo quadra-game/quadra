@@ -21,6 +21,8 @@
 #ifndef _HEADER_INPUT
 #define _HEADER_INPUT
 
+#include <stdint.h>
+
 #include "types.h"
 #include "input_keys.h"
 
@@ -36,14 +38,14 @@ class Input {
 public:
   struct {
     int dx,dy,dz;
-    Byte button[4];
+    uint8_t button[4];
     int quel;
   } mouse;
   struct {
     bool special;
     char c;
   } key_buf[MAXKEY];
-  Byte keys[256];
+  uint8_t keys[256];
   bool pause;
   int quel_key;
   int shift_key;

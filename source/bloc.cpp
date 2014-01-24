@@ -39,7 +39,7 @@ Bloc::Bloc(int q, int c, int px, int py) {
 
 void Bloc::draw(const Video_bitmap* b, int tx, int ty) const {
 	int i,j;
-	Byte t, to[4];
+	uint8_t t, to[4];
 	if(tx == -1)
 		tx = x>>4;
 	if(ty == -1)
@@ -71,7 +71,7 @@ void Bloc::draw(const Video_bitmap* b, int tx, int ty) const {
 
 void Bloc::small_draw(const Video_bitmap* b, int tx, int ty) const {
 	int i,j;
-	Byte t;
+	uint8_t t;
 	if(tx == -1)
 		tx = x>>4;
 	if(ty == -1)
@@ -84,7 +84,7 @@ void Bloc::small_draw(const Video_bitmap* b, int tx, int ty) const {
 		}
 }
 
-const Byte Bloc::bloc[7][4][4][4]={{{{0,0,0,0},{0,3,6,0},{0,9,12,0},{0,0,0,0}},
+const uint8_t Bloc::bloc[7][4][4][4]={{{{0,0,0,0},{0,3,6,0},{0,9,12,0},{0,0,0,0}},
 																		{{0,0,0,0},{0,3,6,0},{0,9,12,0},{0,0,0,0}},
 																		{{0,0,0,0},{0,3,6,0},{0,9,12,0},{0,0,0,0}},
 																		{{0,0,0,0},{0,3,6,0},{0,9,12,0},{0,0,0,0}}},

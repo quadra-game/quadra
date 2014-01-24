@@ -117,7 +117,7 @@ Crypt::Crypt(const char *s, bool do_shuffle) {
 	//Init a "instant" crypter
 	finalized=true;
 	MD5Init(&context);
-	step((Byte *)s, strlen(s));
+	step((uint8_t *)s, strlen(s));
 	finalize(do_shuffle);
 }
 
@@ -127,11 +127,11 @@ Crypt::~Crypt() {
 	memset(result, 0, sizeof(result));
 }
 
-void Crypt::step(Byte *buf, Dword size) {
+void Crypt::step(uint8_t *buf, uint32_t size) {
   MD5Update(&context, buf, size);
 }
 
-void Crypt::step2(Byte *buf, Dword size) {
+void Crypt::step2(uint8_t *buf, uint32_t size) {
   MD5Update(&context, buf, size);
 }
 
@@ -152,7 +152,7 @@ const char *Crypt::get_digest_string() const {
 	return result;
 }
 
-const Byte *Crypt::get_digest() const {
+const uint8_t *Crypt::get_digest() const {
 	return digest;
 }
 

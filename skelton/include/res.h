@@ -21,6 +21,7 @@
 #ifndef _HEADER_RES
 #define _HEADER_RES
 
+#include <stdint.h>
 #include <fcntl.h>
 #include <stdlib.h>
 #include <string.h>
@@ -48,17 +49,17 @@ class Res {
 public:
 	virtual ~Res() { }
 	virtual int read(void *b, int nb)=0;
-	virtual Dword size()=0;
-	virtual void position(Dword po)=0;
+	virtual uint32_t size()=0;
+	virtual void position(uint32_t po)=0;
 	virtual const void *buf()=0;
 	virtual bool eof()=0;
-	virtual Dword get_position()=0;
+	virtual uint32_t get_position()=0;
 };
 
 class Res_mem: public Res {
 protected:
-	Byte *_buf;
-	Dword pos;
+	uint8_t *_buf;
+	uint32_t pos;
 public:
 	Res_mem();
 	virtual int read(void *b, int nb) {
@@ -66,11 +67,11 @@ public:
 			mset(b, 0, nb);
 			nb=size()-pos;
 		}
-		cpy((Byte *) b, _buf + pos, nb);
+		cpy((uint8_t *) b, _buf + pos, nb);
 		pos += nb;
 		return nb;
 	}
-	virtual void position(Dword po) {
+	virtual void position(uint32_t po) {
 		pos = po;
 	}
 	virtual const void *buf() {
@@ -79,7 +80,7 @@ public:
 	virtual bool eof() {
 		return (pos >= size());
 	}
-	virtual Dword get_position() {
+	virtual uint32_t get_position() {
 		return pos;
 	}
 };
@@ -92,7 +93,7 @@ public:
 	virtual ~Res_doze() {
 		FreeResource(hResInfo);
 	}
-	virtual Dword size() {
+	virtual uint32_t size() {
 		return SizeofResource(NULL, hResInfo);
 	}
 };
@@ -108,7 +109,7 @@ public:
 	}
 	virtual ~Res_doze() {
 	}
-	virtual Dword size() {
+	virtual uint32_t size() {
 		return ressize;
 	}
 };
@@ -127,13 +128,13 @@ public:
 	bool exist;
 	Res_dos(const char *fil, Res_mode mode=RES_READ);
 	virtual ~Res_dos();
-	virtual void position(Dword po);
+	virtual void position(uint32_t po);
 	virtual int read(void *b, int nb);
 	virtual void write(const void *b, int nb);
-	virtual Dword size();
+	virtual uint32_t size();
 	virtual const void* buf();
 	virtual bool eof();
-	virtual Dword get_position();
+	virtual uint32_t get_position();
 };
 
 #endif

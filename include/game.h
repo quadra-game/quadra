@@ -21,6 +21,8 @@
 #ifndef _HEADER_GAME
 #define _HEADER_GAME
 
+#include <stdint.h>
+
 enum Attack_type {
 	ATTACK_LINES,
 	ATTACK_NONE,
@@ -86,8 +88,8 @@ class Game: public GS {
 	char record_filename[1024];
 	char slog_filename[1024];
 	bool is_recording, is_slogging;
-	Dword last_given_potato;
-	Byte the_net_version;
+	uint32_t last_given_potato;
+	uint8_t the_net_version;
 public:
 	int net_version(); //Required net_version to play this game
 	bool auto_restart;
@@ -96,7 +98,7 @@ public:
 	void count_playing_time();
 	void addgameinfo(Textbuf *tb);
 	bool verifygameinfo(const Dict *sum) const;
-	Dword frame_start;
+	uint32_t frame_start;
 	bool wants_moves;
 	Net_server *net_server;
 	Net_client *net_client;
@@ -106,15 +108,15 @@ public:
 	bool hot_potato;
 	// Potato stuff (server only)
 	int potato_lines[MAXTEAMS];
-	Byte potato_order[MAXTEAMS];
-	Byte potato_team;
-	Byte previous_potato_team;
+	uint8_t potato_order[MAXTEAMS];
+	uint8_t potato_team;
+	uint8_t previous_potato_team;
 	void reset_potato();
 	void new_potato_order();
-	void got_potato(Byte team, int lines);
-	void done_potato(Byte team);
+	void got_potato(uint8_t team, int lines);
+	void done_potato(uint8_t team);
 	void check_potato();
-	Byte next_potato_team();
+	uint8_t next_potato_team();
 	int server_accept_player, server_accept_connection;
 	int server_max_players, server_max_teams;
 	int server_min_players, server_min_teams;
@@ -122,7 +124,7 @@ public:
 	Net_list net_list;
 	bool valid_frag; //Survivor only
 	bool server, abort, level_up, terminated, game_public;
-	Byte level_start, combo_min;
+	uint8_t level_start, combo_min;
 	End_type game_end;
 	bool allow_handicap;
 	char name[32];
@@ -132,13 +134,13 @@ public:
 	bool boring_rules;
 	bool any_attack();
 	bool paused;
-	Word delay_start;
+	uint16_t delay_start;
 	Game(Packet_gameserver *p);
 	Game(Game_params* p);
 	virtual ~Game();
 	void clientpause();
 	void stackpacket(Packet *p);
-	Packet *peekpacket(Byte type);
+	Packet *peekpacket(uint8_t type);
 	void removepacket();
 	void sendgameinfo(bool quit);
 	void stepgameinfo();

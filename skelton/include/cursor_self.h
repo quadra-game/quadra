@@ -21,6 +21,8 @@
 #ifndef _HEADER_CURSOR_SELF
 #define _HEADER_CURSOR_SELF
 
+#include <stdint.h>
+
 #include "bitmap.h"
 #include "sprite.h"
 #include "cursor.h"
@@ -31,7 +33,7 @@ private:
   int sx, sy;
   int lx1, ly1, lx2, ly2;
   int pool_x, pool_y;
-  Byte speed;
+  uint8_t speed;
   struct Back {
     int x, y;
     Bitmap *buf;
@@ -50,7 +52,7 @@ public:
   virtual void move();
   virtual void get_back();
   virtual void put_back();
-  virtual void set_speed(const Byte s);
+  virtual void set_speed(const uint8_t s);
 };
 
 #endif /* _HEADER_CURSOR_SELF */

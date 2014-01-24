@@ -67,8 +67,8 @@ void Cursor_Self::set_limit(int x1, int y1, int x2, int y2) {
   ly2 = y2-1;
 }
 
-void Cursor_Self::set_speed(const Byte s) {
-  speed = max(static_cast<Byte>(1), s);
+void Cursor_Self::set_speed(const uint8_t s) {
+  speed = max(static_cast<uint8_t>(1), s);
   pool_x = pool_y = 0;
 }
 

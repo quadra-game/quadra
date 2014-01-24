@@ -21,6 +21,8 @@
 #ifndef _HEADER_NET_LIST
 #define _HEADER_NET_LIST
 
+#include <stdint.h>
+
 #include "array.h"
 #include "notify.h"
 #include "net.h"
@@ -59,7 +61,7 @@ class Net_list: public Observable {
 	void step_all();
 	Net_list_stepper *stepper; //Overmind thread that will call step_all
 	Canvas *list[MAXPLAYERS];
-	Dword last_use[MAXPLAYERS];
+	uint32_t last_use[MAXPLAYERS];
 	bool end_signaled, demo_completed;
 	bool winner_signaled;
 	void check_drop();
@@ -74,38 +76,38 @@ class Net_list: public Observable {
 	Array<Lastline *> cmd_cache;
 	Array<IP_addr *> deny_list;
 	Array<IP_addr *> allow_list;
-	Dword lastgameinfo;
+	uint32_t lastgameinfo;
 	int *objectives;
 	bool reached[10][MAXTEAMS]; //Max 10 objectives
 	//Return which goal was last attained (if any) since last call,
 	//  given the team number and goals remaining
-	int check_goals(Byte team, int remain);
-	Dword gone_time_limit;
-	Dword ppm_limit;
-	Dword lag_limit;
+	int check_goals(uint8_t team, int remain);
+	uint32_t gone_time_limit;
+	uint32_t ppm_limit;
+	uint32_t lag_limit;
 	char admin_password[64];
 	char motd[256];
-	Byte idle_on_last_notify[MAXPLAYERS];
+	uint8_t idle_on_last_notify[MAXPLAYERS];
 public:
 	virtual void notify_all();
 	CS::Stat_type goal_stat;
 	Score score;
 	void reset_objectives(); //Game calls this upon construction
-	void team2name(Byte team, char *st);
+	void team2name(uint8_t team, char *st);
 	void update_team_names();
 	void send_end_signal(bool auto_end);
 	void restart();
 	void got_admin_line(const char *line, Net_connection *nc);
 	bool accept_connection(Net_connection *nc);
 	void client_deconnect(Net_connection *nc);
-	Byte syncpoint;
+	uint8_t syncpoint;
 	unsigned count_teams(bool include_gone=true) const;
 	unsigned count_alive() const;
 	unsigned size(bool include_gone=true) const;
 	int add_player(Canvas *c);
 	void set_player(Canvas *c, int pos, bool msg);
 	//Should be called on server only: initiate drop player procedure
-	void server_drop_player(Byte player, Drop_reason reason);
+	void server_drop_player(uint8_t player, Drop_reason reason);
 	//Should be called on client or server when receiving
 	//  Packet_dropplayer, to finish drop player procedure
 	void drop_player(Packet_dropplayer *p, bool chat);
@@ -113,18 +115,18 @@ public:
 	void rejoin_player(Canvas *c);
 	int canvas2player(Canvas *c);
 	void sendlines(Packet_lines *p);
-	void send(Canvas *c, Byte nb, Byte nc, Byte lx, Attack attack, bool clean);
+	void send(Canvas *c, uint8_t nb, uint8_t nc, uint8_t lx, Attack attack, bool clean);
 	void pause_all();
 	void unpause_all();
 	Canvas *get(int i) const {
 		return list[i];
 	}
-	Dword gettimer() const;
+	uint32_t gettimer() const;
 	bool competitive() const;
 	bool would_be_competitive() const;
 	bool all_dead_or_gone() const;
 	bool all_gone() const;
-	void syncto(Byte syncpoint);
+	void syncto(uint8_t syncpoint);
 	Net_list();
 	virtual ~Net_list();
 };

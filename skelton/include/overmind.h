@@ -21,6 +21,8 @@
 #ifndef _HEADER_OVERMIND
 #define _HEADER_OVERMIND
 
+#include <stdint.h>
+
 #include "array.h"
 #include "types.h"
 #include "inter.h"
@@ -91,7 +93,7 @@ protected:
 	bool paused;
 public:
 	bool done;
-	Dword framecount;
+	uint32_t framecount;
 	Overmind();
 	virtual ~Overmind();
 	void step();

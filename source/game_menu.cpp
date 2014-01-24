@@ -349,7 +349,7 @@ void Create_game_end::step() {
 	}
 }
 
-Join_game::Join_game(Bitmap *bit, Font *font, Font *font2, const Palette& p, const char *n, Dword sa, int sport, bool prejoin) {
+Join_game::Join_game(Bitmap *bit, Font *font, Font *font2, const Palette& p, const char *n, uint32_t sa, int sport, bool prejoin) {
 	rejoin=prejoin;
 	address = sa;
 	port = sport;

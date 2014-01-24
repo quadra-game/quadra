@@ -21,14 +21,14 @@
 #ifndef _HEADER_PLAYER
 #define _HEADER_PLAYER
 
-#include "types.h"
+#include <stdint.h>
 
 class Cok {
 public:
-	Dword in_uid;
-	Dword out_uid;
-	Dword adr;
-	Cok(Dword a);
+	uint32_t in_uid;
+	uint32_t out_uid;
+	uint32_t adr;
+	Cok(uint32_t a);
 };
 
 #endif

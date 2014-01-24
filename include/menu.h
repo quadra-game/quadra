@@ -21,6 +21,8 @@
 #ifndef _HEADER_MENU
 #define _HEADER_MENU
 
+#include <stdint.h>
+
 #include "sound.h"
 #include "sprite.h"
 #include "inter.h"
@@ -200,7 +202,7 @@ public:
 	void removewatch();
 	void refresh();
 	virtual void net_call(Packet *p2);
-	void join_game(char *nam, Dword adr, int port);
+	void join_game(char *nam, uint32_t adr, int port);
 };
 
 class Zone_input_address: public Zone_text_input {

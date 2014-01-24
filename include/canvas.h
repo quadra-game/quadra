@@ -21,6 +21,8 @@
 #ifndef _HEADER_CANVAS
 #define _HEADER_CANVAS
 
+#include <stdint.h>
+
 #include "types.h"
 #include "bloc.h"
 #include "bitmap.h"
@@ -56,13 +58,13 @@ public:
 	void add_watcher(Watcher *w);
 	void remove_watcher(Net_connection *nc);
 	//Potato stuff (server only)
-	Byte potato_team_on_last_stamp;
-	Dword potato_lines;
+	uint8_t potato_team_on_last_stamp;
+	uint32_t potato_lines;
 	Zone *z_lines, *z_potatolines, *z_linestot, *z_potatolinestot;
 	int team_potato_lines, team_potato_linestot;
 	bool should_remove_bonus; //Remove bonus when we have the chance
 
-	Dword gone_time;
+	uint32_t gone_time;
   /* possible values of canvas->idle:
     0: busy, canvas not available (being recursed)
     1: idle, doing nothing (moving a block)
@@ -74,45 +76,45 @@ public:
 	bool dying; // Set to true while in Player_dead or Player_firstfrag
 	bool wait_download; // Set when waiting for a P_DOWNLOAD (clients only)
 	bool trying_to_drop;
-	Word watch_date;
+	uint16_t watch_date;
 	bool small_watch;
 	Palette *pal;
 	Bitmap *bit;
 	Random rnd;
-	Byte color;
+	uint8_t color;
 	Net_connection *remote_adr;
 	bool local_player;
 	bool occupied[36][18];
-	Byte block[36][18];
-	Byte blinded[36][18];
-	Byte bflash[36][18];
-	Byte flash[20];
-	Byte dirted[36][18];
-	Byte tmp[33][18];
+	uint8_t block[36][18];
+	uint8_t blinded[36][18];
+	uint8_t bflash[36][18];
+	uint8_t flash[20];
+	uint8_t dirted[36][18];
+	uint8_t tmp[33][18];
 	//unit block moved in last Player_check_link anim
 	bool moved[36][18];
   struct {
-    Byte x;   // position of the "hole"
-    Byte color;
-		Byte blind_time;
-		Word hole_pos; //Hole positions
+    uint8_t x;   // position of the "hole"
+    uint8_t color;
+		uint8_t blind_time;
+		uint16_t hole_pos; //Hole positions
 		bool final;
   } bon[20];  // the waiting annoying lines
-	Byte last_x;  // position of the last dropped block (for line sending)
+	uint8_t last_x;  // position of the last dropped block (for line sending)
 	char snapshot[32*10*2+1]; // 32 lines * 10 columns * 2 chars per block + 1 string terminator
-	Word best_move; //MSB: depth, LSB: complexity
-	Word best_clean; //same here
-	Word best_recurse; //MSB: complexity, LSB: depth
+	uint16_t best_move; //MSB: depth, LSB: complexity
+	uint16_t best_clean; //same here
+	uint16_t best_recurse; //MSB: complexity, LSB: depth
 	Bloc* bloc, *next, *next2, *next3, *bloc_shadow;
-	Byte color_flash;
+	uint8_t color_flash;
 	Zone_next* znext, *znext2, *znext3;
 	char msg1[64], msg2[64];
-	Dword frame_start;
-	Byte attacks[MAXPLAYERS], last_attacker;
+	uint32_t frame_start;
+	uint8_t attacks[MAXPLAYERS], last_attacker;
 	// stuff for latest new handicap code (version 24)
 	enum { stamp_per_handicap = 3 };
-	Byte handicaps[MAXPLAYERS]; // stamp counter vis-a-vis other players
-	Byte handicap_crowd; // similar counter but for the crowdedness factor
+	uint8_t handicaps[MAXPLAYERS]; // stamp counter vis-a-vis other players
+	uint8_t handicap_crowd; // similar counter but for the crowdedness factor
 	Inter *inter;
 	Overmind *over;
 	Executor *myself;
@@ -127,17 +129,17 @@ public:
 	bool send_for_clean;
 	int x,y;
 	char name[40];
-	Byte player_hash[16];
+	uint8_t player_hash[16];
 	char *long_name(bool handi=true, bool gone=true);
 	char team_name[40];
-	Byte team_hash[16];
+	uint8_t team_hash[16];
 	Bitmap *fond;
 	Video_bitmap *screen;
 	Sprite *sprlevel_up;
 	bool smooth;
 	bool shadow;
 	void add_text_scroller(const char *st, int xoffset=4, int yoffset=0);
-	void blind_all(Byte time);
+	void blind_all(uint8_t time);
 	void calc_speed();
 	void set_next();
 	void set_message(const char *m1, const char *m2);
@@ -150,8 +152,8 @@ public:
 	//  true, collide_side_only says if the collision
 	//  was solely with the canvas' side walls.
 	bool collide_side_only;
-	bool check_collide(Bloc *blo, Byte px, Byte py, Byte rot);
-	bool collide(Byte px, Byte py, Byte rot);
+	bool check_collide(Bloc *blo, uint8_t px, uint8_t py, uint8_t rot);
+	bool collide(uint8_t px, uint8_t py, uint8_t rot);
 	void clear_key_all();
 	void calc_shadow();
 	void init();
@@ -168,11 +170,11 @@ public:
 	void small_blit_back();
 	void small_draw_block(int j, int i) const;
 	void small_blit_flash();
-	Byte check_key(int i);
+	uint8_t check_key(int i);
 	void clear_key(int i);
 	void unrelease_key(int i);
 	void dirt_rect(int x1, int y1, int w1, int h1);
-	void add_packet(Canvas *sender, Byte nb, Byte nc, Byte lx, Attack attack, Word hole_pos[]);
+	void add_packet(Canvas *sender, uint8_t nb, uint8_t nc, uint8_t lx, Attack attack, uint16_t hole_pos[]);
 	void setscreen() {
 		screen->setmem();
 	}
@@ -184,7 +186,7 @@ public:
 	void set_bit(int v);
 	void write_byte();
 	Buf da_moves;
-	Canvas(int game_seed, Byte team, const char *nam, int ph_repeat, int pv_repeat, bool psmooth, bool pshadow, int phandicap, Net_connection *adr, int qplayer, bool wait_down);
+	Canvas(int game_seed, uint8_t team, const char *nam, int ph_repeat, int pv_repeat, bool psmooth, bool pshadow, int phandicap, Net_connection *adr, int qplayer, bool wait_down);
 	Canvas(int qplayer, int game_seed, Palette *p);
 	virtual ~Canvas();
 	void set_canvas_pos(int px, int py, Bitmap *fo, Video_bitmap *s, Zone_next *z, Zone_next *z2, Zone_next *z3, Inter *in);

@@ -29,15 +29,15 @@ Pcx::Pcx(Res& res) {
 		new Error("PCX file must be version 5");
 	width_ = h.x2-h.x1+1;
 	height_ = h.y2-h.y1+1;
-	pic_=new Byte[width_*height_];
+	pic_=new uint8_t[width_*height_];
 	if(pic_==NULL)
 		new Error("Not enough memory to load PCX");
-	pal_=new Byte[256*3];
+	pal_=new uint8_t[256*3];
 	if(pal_==NULL)
 		new Error("Not enough memory to load PCX");
-	Byte* buf = (Byte *) res.buf();
-	Byte c, num;
-	Byte* out = pic_;
+	uint8_t* buf = (uint8_t *) res.buf();
+	uint8_t c, num;
+	uint8_t* out = pic_;
 	int x,i;
 	if(width_ == h.byteperline) { // unpack faster if it is the right width
 		for(i=0; i < height_; i++) {
@@ -45,7 +45,7 @@ Pcx::Pcx(Res& res) {
 			while(x < width_) {
 				c = *buf++;
 				if(0xC0 == (0xC0 & c)) {
-					num = (Byte) (0x3F & c);
+					num = (uint8_t) (0x3F & c);
 					c = *buf++;
 					x += num;
 					while(num--)
@@ -62,11 +62,11 @@ Pcx::Pcx(Res& res) {
 			while(x < h.byteperline) {
 				c = *buf++;
 				if(0xC0 == (0xC0 & c)) {
-					num = (Byte) (0x3F & c);
+					num = (uint8_t) (0x3F & c);
 					c = *buf++;
 					x += num;
 					if(x > width_) {
-						num = (Byte) (num - (x-width_));
+						num = (uint8_t) (num - (x-width_));
 					}
 					while(num--)
 						*out++ = c;

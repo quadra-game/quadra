@@ -22,7 +22,7 @@
 #include "unicode.h"
 
 Unicode::Unicode(char *s): the_string(strlen(s)*2) {
-	Dword i;
+	uint32_t i;
 	for(i=0; i<strlen(s); i++) {
 		the_string[i*2] = s[i];
 		the_string[i*2+1] = 0;
@@ -30,19 +30,19 @@ Unicode::Unicode(char *s): the_string(strlen(s)*2) {
 }
 
 Unicode &Unicode::cat(char *s) {
-	Byte a_zero=0;
-	Dword i;
+	uint8_t a_zero=0;
+	uint32_t i;
 	for(i=0; i<strlen(s); i++) {
-		the_string.append((Byte *)&s[i], 1);
+		the_string.append((uint8_t *)&s[i], 1);
 		the_string.append(&a_zero, 1);
 	}
 	return *this;
 }
 
-Unicode::operator Byte *() {
+Unicode::operator uint8_t *() {
 	return the_string.get();
 }
 
-Dword Unicode::size() {
+uint32_t Unicode::size() {
 	return the_string.size();
 }

@@ -34,7 +34,7 @@ Buf::Buf(const Buf &buf) {
 	append(buf.data, buf.size());
 }
 
-Buf::Buf(Dword size, Dword in) {
+Buf::Buf(uint32_t size, uint32_t in) {
 	data=NULL;
 	size_=0;
 	capacity=0;
@@ -47,8 +47,8 @@ Buf::~Buf() {
 		free(data);
 }
 
-void Buf::remove_from_start(Dword s) {
-	Dword current_size=size();
+void Buf::remove_from_start(uint32_t s) {
+	uint32_t current_size=size();
 	if(s<current_size) {
 		memmove(get(), get()+s, current_size-s);
 		resize(current_size-s);
@@ -58,38 +58,38 @@ void Buf::remove_from_start(Dword s) {
 	}
 }
 
-void Buf::append(const Byte* d, Dword s) {
-	Dword end = size();
+void Buf::append(const uint8_t* d, uint32_t s) {
+	uint32_t end = size();
 	resize(size()+s);
 	memcpy(get()+end, d, s);
 }
 
 void Buf::append(const char* d) {
-	append((const Byte*)d, strlen(d));
+	append((const uint8_t*)d, strlen(d));
 }
 
-void Buf::resize(Dword s) {
+void Buf::resize(uint32_t s) {
 	if(s>size()) {
-		Dword end = size();
-		Dword endsize = s-size();
+		uint32_t end = size();
+		uint32_t endsize = s-size();
 		reserve(s);
 		memset(get()+end, 0, endsize);
 	}
 	size_=s;
 }
 
-void Buf::reserve(Dword s) {
+void Buf::reserve(uint32_t s) {
 	//Round up to next inc
 	s=((s+inc-1)/inc)*inc;
 	if(s>capacity) {
-		data = (Byte*)realloc(data, s);
+		data = (uint8_t*)realloc(data, s);
 		if(!data)
 			(void)new Error("Out of memory!");
 		capacity=s;
 	}
 }
 
-Textbuf::Textbuf(Dword size) {
+Textbuf::Textbuf(uint32_t size) {
 	data=NULL;
 	capacity=0;
 	reserve(size);
@@ -135,8 +135,8 @@ void Textbuf::appendraw(const char* s) {
 		strcat(data, s);
 }
 
-void Textbuf::reserve(Dword size) {
-	Dword wanted=(size+15)/16*16;
+void Textbuf::reserve(uint32_t size) {
+	uint32_t wanted=(size+15)/16*16;
 	if(wanted<=capacity)
 		return;
 	bool init=data? false:true;

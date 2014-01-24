@@ -50,7 +50,7 @@ bool Recording::create(const char *n) {
 	return res->exist;
 }
 
-void Recording::write_hunk(Byte h) {
+void Recording::write_hunk(uint8_t h) {
 	int i;
 	if(!res)
 		return;
@@ -71,12 +71,12 @@ void Recording::write_packet(Packet* p) {
 	if(!res)
 		return;
 	write_hunk(11);
-	Dword d = INTELDWORD(frame);
+	uint32_t d = INTELDWORD(frame);
 	res->write(&d, sizeof(d));
 	Net_buf n;
 	p->write(&n);
-	Word size=n.len();
-	Word w = INTELWORD(size);
+	uint16_t size=n.len();
+	uint16_t w = INTELWORD(size);
 	res->write(&w, sizeof(w));
 	res->write(n.buf, size);
 }
@@ -93,7 +93,7 @@ void Recording::end_single(Canvas* c) {
 	lines=c->stats[CS::LINESCUR].get_value();
 	level=c->level;
 	res->write(playername, sizeof(playername));
-	Dword d = INTELDWORD(score);
+	uint32_t d = INTELDWORD(score);
 	res->write(&d, sizeof(d));
 	d = INTELDWORD(lines);
 	res->write(&d, sizeof(d));
@@ -121,9 +121,9 @@ void Recording::write_summary() {
 	buf.append("time %i\n", Clock::get_time());
 	game->addgameinfo(&buf);
 
-	Dword size=buf.len();
+	uint32_t size=buf.len();
 	write_hunk(13);
-	Dword d = INTELDWORD(size);
+	uint32_t d = INTELDWORD(size);
 	res->write(&d, sizeof(d));
 	res->write(buf.get(), size);
 }
@@ -181,14 +181,14 @@ bool Playback::verify_summary(const Game *game)
 	return ret;
 }
 
-Byte Playback::get_byte() {
+uint8_t Playback::get_byte() {
 	if(!old_mode)
 		return 0;
 	if(nextByte>=data.size())
 		completed=true;
 	if(completed)
 		return 0;
-	Byte tmp=data[nextByte++];
+	uint8_t tmp=data[nextByte++];
 	if(nextByte>=data.size()) {
 		completed=true;
 	}
@@ -215,8 +215,8 @@ bool Playback::check_scores(Canvas* c) {
 	return true;
 }
 
-Byte Playback::read_hunk() {
-	Byte temp;
+uint8_t Playback::read_hunk() {
+	uint8_t temp;
 	res->read(&temp, sizeof(temp));
 	return temp;
 }
@@ -228,7 +228,7 @@ void Playback::read_all() {
 	bool got_data=false;
 	bool got_packet=false;
 	while(res && !res->eof()) {
-		Byte hunk = read_hunk();
+		uint8_t hunk = read_hunk();
 		switch(hunk) {
 			case 0: read_seed(); got_seed=true; break;
 			case 1: read_single(); break;
@@ -278,7 +278,7 @@ void Playback::read_single() {
 
 void Playback::read_data() {
 	data.reserve(res->size());
-	Byte b;
+	uint8_t b;
 	while(!res->eof()) {
 		res->read(&b, sizeof(b));
 		if(b==255)
@@ -299,8 +299,8 @@ void Playback::read_info() {
 }
 
 void Playback::read_packet() {
-	Dword frame=0;
-	Word size=0;
+	uint32_t frame=0;
+	uint16_t size=0;
 	Net_buf n;
 	res->read(&frame, sizeof(frame));
 	frame = INTELDWORD(frame);
@@ -342,7 +342,7 @@ void Playback::read_packet() {
 }
 
 void Playback::read_summary() {
-	Dword size;
+	uint32_t size;
 	res->read(&size, sizeof(size));
 	size = INTELDWORD(size);
 	Buf buf(size+1);
@@ -393,7 +393,7 @@ void Playback::shit_skipper2000(bool remove_chat) {
 	//  multiplayer demo: it removes innane chatter at the
 	//  beginning and correct all packet times so that the
 	//  game starts immediatly. Best used with auto_demo==true
-	Dword shit_skipper_bias=0;
+	uint32_t shit_skipper_bias=0;
 	bool got_pause=false;
 	bool got_player=false;
 	int i;
@@ -438,7 +438,7 @@ void Playback::shit_skipper2000(bool remove_chat) {
 Demo_packet::Demo_packet(const Demo_packet& dp): frame(dp.frame), p(dp.p) {
 }
 
-Demo_packet::Demo_packet(Dword pframe, Packet* pp): frame(pframe), p(pp) {
+Demo_packet::Demo_packet(uint32_t pframe, Packet* pp): frame(pframe), p(pp) {
 }
 
 Demo_packet::~Demo_packet() {

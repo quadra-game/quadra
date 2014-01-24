@@ -26,7 +26,7 @@
 void Resfile::freeze() {
 	int resnamelen;
 	Resdata *ptr;
-        Dword d;
+	uint32_t d;
 
 	res->write(&signature, sizeof(signature));
 
@@ -49,11 +49,11 @@ void Resfile::freeze() {
 
 void Resfile::add(const char *resname, const int size, const char *resdata) {
 	char *myname;
-	Byte *mydata;
+	uint8_t *mydata;
 
 	myname = new char[strlen(resname)+1];
 	memcpy(myname, resname, strlen(resname)+1);
-	mydata = new Byte[size];
+	mydata = new uint8_t[size];
 	memcpy(mydata, resdata, size);
 
 	list = new Resdata(myname, size, mydata, list);

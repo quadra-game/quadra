@@ -21,7 +21,9 @@
 #ifndef _HEADER_RANDOM
 #define _HEADER_RANDOM
 
+#include <stdint.h>
 #include <time.h>
+
 #include "types.h"
 
 class Random {
@@ -31,8 +33,8 @@ public:
 	Random(time_t p);
 	time_t get_seed() const;
 	void set_seed(time_t p);
-	Word rnd(int _and=0xFFFF);
-	Word crap_rnd(int _and=0xFFFF);
+	uint16_t rnd(int _and=0xFFFF);
+	uint16_t crap_rnd(int _and=0xFFFF);
 };
 
 extern Random ugs_random;

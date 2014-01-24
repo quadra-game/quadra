@@ -91,7 +91,7 @@ void set_fteam_color(const Palette& pal) {
 	fteam[7]->colorize(pal, 170,170,170);
 }
 
-void raw_draw_bloc_corner(const Video_bitmap* bit, int x, int y, Byte side, Color* col, Byte to[4]) {
+void raw_draw_bloc_corner(const Video_bitmap* bit, int x, int y, uint8_t side, Color* col, uint8_t to[4]) {
 	raw_draw_bloc(bit, x, y, side, col);
 	if(!(side&1) && !(side&2) && to[0]&2 && to[1]&1) {
 		bit->put_pel(x, y, col->shade(7));
@@ -127,7 +127,7 @@ void raw_draw_bloc_corner(const Video_bitmap* bit, int x, int y, Byte side, Colo
 	}
 }
 
-void raw_draw_bloc(const Video_bitmap* bit, int x, int y, Byte side, Color* col) {
+void raw_draw_bloc(const Video_bitmap* bit, int x, int y, uint8_t side, Color* col) {
 	int tx,tl,rx=0,ry=0,rw=18,rh=18;
 	if(side&1) {
 		bit->vline(x, y, 18, col->shade(7));
@@ -183,12 +183,12 @@ void raw_draw_bloc(const Video_bitmap* bit, int x, int y, Byte side, Color* col)
 		bit->hline(y+15, tx, tl, col->shade(3));
 		rh-=3;
 	}
-	Byte main_color=col->shade(4);
+	uint8_t main_color=col->shade(4);
 	for(int i=0; i<rh; i++)
 		bit->hline(y+ry+i, x+rx, rw, main_color);
 }
 
-void raw_small_draw_bloc(const Video_bitmap* bit, int x, int y, Byte side, Color* col) {
+void raw_small_draw_bloc(const Video_bitmap* bit, int x, int y, uint8_t side, Color* col) {
 	int i,rx=0,ry=0,rw=6,rh=6;
 	if(side&1) {
 		bit->vline(x, y, 6, col->shade(7));
@@ -288,7 +288,7 @@ void Player_check_link::step() {
 	}
 }
 
-void Player_check_link::fill_bloc(Byte x, Byte y) {
+void Player_check_link::fill_bloc(uint8_t x, uint8_t y) {
 	canvas->tmp[y][x] = 1;
 	if((!(canvas->block[y][x]&8)) && (!canvas->tmp[y+1][x]))
 		fill_bloc(x, y+1);
@@ -359,7 +359,7 @@ void Player_base::step() {
 	}
 }
 
-Byte Player_base::calc_by(int py) const {
+uint8_t Player_base::calc_by(int py) const {
 	return (((py+15+(12*18<<4))>>4)+17)/18;
 }
 
@@ -498,10 +498,10 @@ void Player_add_bonus::step() {
 					canvas->bflash[j][i] = canvas->bflash[j+1][i];
 					canvas->dirted[j+1][i] = 2;
 				}
-			Word hole_pos=canvas->bon[0].hole_pos;
+			uint16_t hole_pos=canvas->bon[0].hole_pos;
 			if(old_net_version)
 				hole_pos=(1 << (9-(canvas->bon[0].x-4)));
-			Byte top_bottom_add=0;
+			uint8_t top_bottom_add=0;
 			if(!first_done || old_net_version)
 				top_bottom_add |= 2; //Add top
 			if(canvas->bon[0].final || old_net_version)
@@ -775,7 +775,7 @@ bool Player_base::move_right() {
 }
 
 void Player_process_key::playback_control() {
-	Byte r = playback->get_byte();
+	uint8_t r = playback->get_byte();
 	if(r & 8)
 		rotate_left();
 	if(r & 16)
@@ -1029,7 +1029,7 @@ void Player_get_next::shift_next() {
 	canvas->bloc = canvas->next3;
 	canvas->next3 = canvas->next2;
 	canvas->next2 = canvas->next;
-	Byte the_next;
+	uint8_t the_next;
 	if(game->net_version()>=23)
 		the_next=canvas->rnd.rnd()%7;
 	else
@@ -1482,7 +1482,7 @@ void Player_wait_block::step() {
 			}
 		}
 		if(move_index<canvas->da_moves.size() && !game->paused) {
-			Byte r = canvas->da_moves[move_index++];
+			uint8_t r = canvas->da_moves[move_index++];
 			if(r & 8)
 				rotate_left();
 			if(r & 16)
@@ -1649,8 +1649,8 @@ void Player_stamp::init() {
 
 void Player_stamp::stamp_bloc() {
 	int i,j;
-	Byte t;
-	Byte blindness=0;
+	uint8_t t;
+	uint8_t blindness=0;
 	if(canvas->bonus && canvas->bon[0].blind_time) {
 		blindness=canvas->bon[0].blind_time;
 		int y;
@@ -1686,12 +1686,12 @@ void Player_stamp::stamp_bloc() {
 		for(i = 4; i < 14; i++) {
 			if(canvas->occupied[j][i]) {
 				char bl[3];
-				Byte color;
+				uint8_t color;
 				if(canvas->moved[j][i])
 					color=8;
 				else
 					color=canvas->block[j][i]>>4;
-				Byte side=canvas->block[j][i]&15;
+				uint8_t side=canvas->block[j][i]&15;
 				sprintf(bl, "%c%c", '0'+color, 'a'+side);
 				strcat(canvas->snapshot, bl);
 			}
@@ -1768,7 +1768,7 @@ void Player_init::step() {
 	//Don't start until we got our download packet
 	if(canvas->wait_download)
 		return;
-	Byte idle=canvas->idle; //Cause Player_normal::Player_normal sets it
+	uint8_t idle=canvas->idle; //Cause Player_normal::Player_normal sets it
 	exec(new Player_normal(canvas));
 	if(idle == 2) {
 		if(canvas->islocal())
@@ -2094,7 +2094,7 @@ void display_command_line_help() {
 			res="help_fr.txt"; break;
 	}
 	Res_doze cmdline(res);
-	Dword size = min(static_cast<Dword>(sizeof(st)-1), cmdline.size());
+	uint32_t size = min(static_cast<uint32_t>(sizeof(st)-1), cmdline.size());
 	strncpy(st, (char *)cmdline.buf(), size);
 	st[size] = 0;
 	if(video)
@@ -2107,10 +2107,10 @@ void read_script(const char *fn, bool second=false) {
 	Res_dos script(fn);
 	if(script.exist) {
 		//-2 because Stringtable is strange
-		Dword size = min(static_cast<Dword>(sizeof(st)-2), script.size());
+		uint32_t size = min(static_cast<uint32_t>(sizeof(st)-2), script.size());
 		strncpy(st, (char *)script.buf(), size);
 		st[size] = 0;
-		Stringtable str((Byte *)st, size);
+		Stringtable str((uint8_t *)st, size);
 		int i;
 		for(i=0; i<str.size(); i++) {
 			if(second) {
@@ -2236,8 +2236,8 @@ void start_game() {
   if(!no_video)
     AutoUpdater::start();
 
-	Dword last=0;
-	Dword acc=0;
+	uint32_t last=0;
+	uint32_t acc=0;
 	Executor *menu = new Executor();
 	//Add Menu_intro so we get back there after -connect, -server or -play
 	//  unless -thenquit option si specified
@@ -2268,16 +2268,16 @@ void start_game() {
 			if(command.token("blind")) {
 				p.set_preset(PRESET_BLIND);
 				const char *temp = command_get_param("blind <n>", "30");
-				Dword time=atoi(temp);
-				time=min(max(time, static_cast<Dword>(0)), static_cast<Dword>(255));
+				uint32_t time=atoi(temp);
+				time=min(max(time, static_cast<uint32_t>(0)), static_cast<uint32_t>(255));
 				p.normal_attack.param=time;
 				p.clean_attack.param=time;
 			}
 			if(command.token("fullblind")) {
 				p.set_preset(PRESET_FULLBLIND);
 				const char *temp = command_get_param("fullblind <n>", "12");
-				Dword time=atoi(temp);
-				time=min(max(time, static_cast<Dword>(0)), static_cast<Dword>(255));
+				uint32_t time=atoi(temp);
+				time=min(max(time, static_cast<uint32_t>(0)), static_cast<uint32_t>(255));
 				p.normal_attack.param=time;
 				p.clean_attack.param=time;
 			}
@@ -2441,7 +2441,7 @@ void start_game() {
 			}
 
 			#ifdef FRAMECOUNTER
-			static Dword lastvideoframe=0, lastoverframe=0;
+			static uint32_t lastvideoframe=0, lastoverframe=0;
 			if(ecran->font) {
 				if(overmind.framecount-lastoverframe > 500) {
 					lastoverframe = overmind.framecount;

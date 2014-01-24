@@ -26,7 +26,7 @@
 
 char Raw::Head::signature[]={0x6d, 0x68, 0x77, 0x61, 0x6e, 0x68};
 
-#define swap(A) ((Word) (((((Word)A)>>8)   )| ((((Word)A)  )<<8)))
+#define swap(A) ((uint16_t) (((((uint16_t)A)>>8)   )| ((((uint16_t)A)  )<<8)))
 void Raw::Head::xlat() {
 	version=swap(version);
 	width=swap(width);
@@ -45,26 +45,26 @@ Raw::Raw(Res& res) {
 		new Error("Invalid raw image file");
 	if(h.palettesize<1) {
 		pal_=NULL;
-		pic_=new Byte[h.width*h.height*2];
-		Byte *temp=new Byte[h.width*h.height*3];
+		pic_=new uint8_t[h.width*h.height*2];
+		uint8_t *temp=new uint8_t[h.width*h.height*3];
 		if(pic_==NULL || temp==NULL)
 			new Error("Not enough memory to load image");
 		res.read(temp, h.width*h.height*3);
-		Byte r,g,b;
+		uint8_t r,g,b;
 		for(int y=0; y<h.height; y++)
 			for(int x=0; x<h.width; x++) {
-				b = (Byte) (temp[(x+y*h.width)*3]>>3);
-				g = (Byte) (temp[(x+y*h.width)*3+1]>>2);
-				r = (Byte) (temp[(x+y*h.width)*3+2]>>3);
-				*(((Word *)pic_)+(x+y*h.width)) = (Word) (r+(g<<5)+(b<<11));
+				b = (uint8_t) (temp[(x+y*h.width)*3]>>3);
+				g = (uint8_t) (temp[(x+y*h.width)*3+1]>>2);
+				r = (uint8_t) (temp[(x+y*h.width)*3+2]>>3);
+				*(((uint16_t *)pic_)+(x+y*h.width)) = (uint16_t) (r+(g<<5)+(b<<11));
 			}
 		delete[] temp;
 	} else {
-		pal_=new Byte[h.palettesize*3];
+		pal_=new uint8_t[h.palettesize*3];
 		if(pal_==NULL)
 			new Error("Not enough memory to load image");
 		res.read(pal_, h.palettesize*3);
-		pic_=new Byte[h.width*h.height];
+		pic_=new uint8_t[h.width*h.height];
 		if(pic_==NULL)
 			new Error("Not enough memory to load image");
 		res.read(pic_, h.width*h.height);

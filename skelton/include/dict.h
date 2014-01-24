@@ -21,6 +21,8 @@
 #ifndef _HEADER_DICT
 #define _HEADER_DICT
 
+#include <stdint.h>
+
 #include "types.h"
 #include "buf.h"
 #include "array.h"
@@ -34,7 +36,7 @@ public:
 	virtual ~Dict();
 	void add(const char *s);
 	void dump() const;
-	Dword size() const;
+	uint32_t size() const;
 	const char *get_key() const;
 	const char *find(const char *s) const;
 	Dict *find_sub(const char *s);

@@ -23,10 +23,6 @@
 
 #include "config.h"
 
-typedef unsigned int Dword;
-typedef unsigned short Word;
-typedef unsigned char Byte;
-
 #ifdef WIN32
 #define snprintf _snprintf
 #if _MSC_VER < 1400

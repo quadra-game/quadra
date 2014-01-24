@@ -52,7 +52,7 @@ static int line_objectives[] = {
 	200, 100, 75, 50, 25, 10, 5, 0
 };
 
-int Net_list::check_goals(Byte team, int remain) {
+int Net_list::check_goals(uint8_t team, int remain) {
 	if(!objectives) //No objectives, no goal is achievable
 		return 0;
 	int ret=0;
@@ -75,7 +75,7 @@ int Net_list::check_goals(Byte team, int remain) {
 }
 
 void Net_list::reset_objectives() {
-	Byte obj, team;
+	uint8_t obj, team;
 	for(obj=0; obj<10; obj++)
 		for(team=0; team<MAXTEAMS; team++)
 			reached[obj][team]=false;
@@ -114,7 +114,7 @@ void Net_list::sendlines(Packet_lines *p) {
 	}
 }
 
-void Net_list::send(Canvas *c, Byte nb, Byte nc, Byte lx, Attack attack, bool clean) {
+void Net_list::send(Canvas *c, uint8_t nb, uint8_t nc, uint8_t lx, Attack attack, bool clean) {
 	msgbox("Net_list::send\n");
 	Packet_clientlines p;
 	p.sender=c->num_player;
@@ -152,7 +152,7 @@ void Net_list::send(Canvas *c, Byte nb, Byte nc, Byte lx, Attack attack, bool cl
 		p.attack = attack;
 		//Potato special rules
 		if(game->hot_potato) {
-			Byte potato_team=c->potato_team_on_last_stamp;
+			uint8_t potato_team=c->potato_team_on_last_stamp;
 			//There wasn't a potato team at time of last stamp, don't
 			//  send any lines
 			if(potato_team==255)
@@ -252,9 +252,9 @@ void Net_list::notify_all() {
 
 int Net_list::add_player(Canvas *c) {
 	msgbox("Net_list::add_player\n");
-	Byte smallest=0xFF;
+	uint8_t smallest=0xFF;
 	if(!game->single) {
-		Dword smallest_frame=0xFFFFFFFF;
+		uint32_t smallest_frame=0xFFFFFFFF;
 		for(int i=0; i<MAXPLAYERS; i++)
 			if(!list[i] && last_use[i]<smallest_frame) {
 				smallest=i;
@@ -273,7 +273,7 @@ int Net_list::add_player(Canvas *c) {
 
 void Net_list::set_player(Canvas *c, int pos, bool msg) {
 	msgbox("Net_list::set_player(%08X, %i)\n", c, pos);
-	Dword id=0;
+	uint32_t id=0;
 	if(list[pos]) {
 		id=list[pos]->id();
 		delete list[pos];
@@ -352,7 +352,7 @@ void Net_list::step_all() {
 		}
 	}*/
 
-	static Byte syncframes=0;
+	static uint8_t syncframes=0;
 	//Look for a new syncpoint
 	if(syncframes>=5) {
 		Packet_serverstate *pst=(Packet_serverstate *) game->peekpacket(P_SERVERSTATE);
@@ -449,7 +449,7 @@ void Net_list::step_all() {
 	check_stat();
 
 	//Send stat refreshes every lag_limit/2 or 1500 frames
-	static Dword stat_timer=0;
+	static uint32_t stat_timer=0;
 	if(game->server) {
 		bool reset_timer=false;
 		stat_timer++;
@@ -499,7 +499,7 @@ void Net_list::step_all() {
 	if(game->server && ppm_limit) {
 		for(i=0; i<MAXPLAYERS; i++) {
 			Canvas *c=get(i);
-			if(c && !c->trying_to_drop && c->stats[CS::PLAYING_TIME].get_value()>=24000 && (Dword)(c->stats[CS::SCORE].get_value())>4*ppm_limit) {
+			if(c && !c->trying_to_drop && c->stats[CS::PLAYING_TIME].get_value()>=24000 && (uint32_t)(c->stats[CS::SCORE].get_value())>4*ppm_limit) {
 				if(!c->remote_adr || c->remote_adr->trusted)
 					continue;
 				server_drop_player(i, DROP_AUTO);
@@ -528,7 +528,7 @@ void Net_list::step_all() {
 		game->server_accept_connection = 0;
 
 	//notify_all if anybody has gone
-	static Dword gone_notify_timer=0;
+	static uint32_t gone_notify_timer=0;
 	for(i=0; i<MAXPLAYERS; i++) {
 		Canvas *c=get(i);
 		if(c && c->idle==3 && idle_on_last_notify[i]<3)
@@ -630,16 +630,16 @@ void Net_list::check_end_game(bool end_it) {
 			}
 		}
 	}
-	Byte leading_team=score.team_order[0];
+	uint8_t leading_team=score.team_order[0];
 	int leading_total=score.team_stats[leading_team].stats[goal_stat].get_value();
 	bool draw=false;
 	bool something_changed=false;
 	//Check whether second team has same total: draw
-	Byte second_team=score.team_order[1];
+	uint8_t second_team=score.team_order[1];
 	if(score.player_count[leading_team] && score.player_count[second_team])
 		if(score.team_stats[second_team].stats[goal_stat].get_value() == leading_total)
 			draw=true;
-	Byte team;
+	uint8_t team;
 	if(game->game_end == END_FRAG || game->game_end == END_POINTS || game->game_end == END_LINES) {
 		for(team=0; team<MAXTEAMS; team++) {
 			int team_goals=score.team_stats[team].stats[goal_stat].get_value();
@@ -840,7 +840,7 @@ bool Net_list::check_first_frag() {
 		if(syncpoint==Canvas::WAITFORRESTART) {
 			Packet_serverrandom *p=new Packet_serverrandom();
 			Random rand;
-			p->seed=(Dword)rand.get_seed();
+			p->seed=(uint32_t)rand.get_seed();
 			net->dispatch(p, P_SERVERRANDOM, game->loopback_connection);
 			if(game->net_server)
 				game->net_server->record_packet(p);
@@ -914,7 +914,7 @@ bool Net_list::check_first_frag() {
 	return ret;
 }
 
-void Net_list::team2name(Byte team, char *st) {
+void Net_list::team2name(uint8_t team, char *st) {
 	if(team>=MAXTEAMS) {
 		st[0]=0;
 		return;
@@ -947,7 +947,7 @@ void Net_list::update_team_names() {
 	int team, i;
 	for(team=0; team<MAXTEAMS; team++) {
 		char name[40];
-		Byte hash[16];
+		uint8_t hash[16];
 		bool found_name=false;
 		bool found_no_name=false;
 		bool found_one=false;
@@ -1030,7 +1030,7 @@ bool Net_list::all_gone() const {
 	return true;
 }
 
-void Net_list::syncto(Byte syncpoint) {
+void Net_list::syncto(uint8_t syncpoint) {
 	if(!game->server)
 		return;
 	if(this->syncpoint==syncpoint)
@@ -1042,12 +1042,12 @@ void Net_list::syncto(Byte syncpoint) {
 	net->dispatch(&ps, P_SERVERSTATE, game->loopback_connection);
 }
 
-Dword Net_list::gettimer() const {
+uint32_t Net_list::gettimer() const {
 	return game->stats[GS::PLAYING_TIME].get_value();
 }
 
 bool Net_list::competitive() const {
-	Byte one_team=255;
+	uint8_t one_team=255;
 	Canvas *c;
 	for(int i=0; i<MAXPLAYERS; i++) {
 		c = get(i);
@@ -1068,7 +1068,7 @@ bool Net_list::competitive() const {
 }
 
 bool Net_list::would_be_competitive() const {
-	Byte one_team=255;
+	uint8_t one_team=255;
 	Canvas *c;
 	for(int i=0; i<MAXPLAYERS; i++) {
 		c = get(i);
@@ -1229,7 +1229,7 @@ void Net_list::check_stat() {
 	}
 }
 
-void Net_list::server_drop_player(Byte player, Drop_reason reason) {
+void Net_list::server_drop_player(uint8_t player, Drop_reason reason) {
 	if(!game->server)
 		return;
 	msgbox("Net_list::server_drop_player: player==%i.\n", player);
@@ -1370,8 +1370,8 @@ void Net_list::check_admin() {
 	for(co=0; co<net->connections.size(); co++) {
 		Net_connection *nc=net->connections[co];
 		if(!nc->packet_based && nc->incoming->size()) {
-			Byte *buf=nc->incoming->get();
-			Dword size=nc->incoming->size();
+			uint8_t *buf=nc->incoming->get();
+			uint32_t size=nc->incoming->size();
 			char line[256];
 			unsigned int line_size = 0;
 			bool got_line=false;
@@ -1552,7 +1552,7 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 		if(!size())
 			send_msg(nc, "No players in game");
 		else {
-			Byte team, o;
+			uint8_t team, o;
 			for(o=0; o<MAXTEAMS; o++) {
 				team=score.team_order[o];
 				if(score.player_count[team]>=1) {
@@ -1561,10 +1561,10 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 					strcat(st, " team:");
 					send_msg(nc, "%45.45s", st);
 				}
-				Dword frag, death;
+				uint32_t frag, death;
 				if(score.player_count[team]) {
 					for(i=0; i<MAXPLAYERS; i++) {
-						Byte player=score.order[i];
+						uint8_t player=score.order[i];
 						Canvas *c=get(player);
 						if(c && c->color==team) {
 							frag=score.stats[player].stats[CS::FRAG].get_value();
@@ -1685,7 +1685,7 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 			//  originating from that addr
 			port = -1;
 		}
-		Dword ad=Net::dotted2addr(addr);
+		uint32_t ad=Net::dotted2addr(addr);
 		if(ad!=INADDR_NONE) {
 			for(i=0; i<net->connections.size(); i++) {
 				Net_connection *nc2=net->connections[i];
@@ -1695,7 +1695,7 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 					if(nc2->getdestport()==port || port==-1) {
 						char ad[16];
 						Net::stringaddress(ad, nc2->address());
-						Word po=nc2->getdestport();
+						uint16_t po=nc2->getdestport();
 						nc2->disconnect();
 						send_msg(nc, "Dropping connection %s:%i", ad, po);
 						dropped=true;
@@ -1785,7 +1785,7 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 	}
 	if(!strcmp(cmd, "ppmlimit")) {
 		if(params[0] && trusted) {
-			Dword i=atoi(params);
+			uint32_t i=atoi(params);
 			ppm_limit=i;
 		}
 		if(ppm_limit)
@@ -1795,7 +1795,7 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 	}
 	if(!strcmp(cmd, "laglimit")) {
 		if(params[0] && trusted) {
-			Dword i=atoi(params);
+			uint32_t i=atoi(params);
 			lag_limit=i;
 		}
 		if(lag_limit)
@@ -1820,7 +1820,7 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 	if(!strcmp(cmd, "autodrop")) {
 		if(params[0] && trusted) {
 			float i=(float)atof(params);
-			gone_time_limit=(Dword) (i*100.0);
+			gone_time_limit=(uint32_t) (i*100.0);
 		}
 		if(gone_time_limit)
 			send_msg(nc, "Auto drop time: %.2f seconds", gone_time_limit/100.0);

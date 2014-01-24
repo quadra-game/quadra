@@ -21,6 +21,8 @@
 #ifndef _HEADER_UNICODE
 #define _HEADER_UNICODE
 
+#include <stdint.h>
+
 #include "types.h"
 #include "buf.h"
 
@@ -29,8 +31,8 @@ class Unicode {
 public:
 	Unicode(char *s);
 	Unicode &cat(char *s);
-	operator Byte *();
-	Dword size();
+	operator uint8_t *();
+	uint32_t size();
 };
 
 #endif

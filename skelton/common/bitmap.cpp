@@ -42,7 +42,7 @@ Bitmap::Bitmap(int w, int h, int rw):
 		fmem(1) {
 	directx = false;
 	initlines();
-	setmem((void*)new Byte[size]);
+	setmem((void*)new uint8_t[size]);
 	clear(0);
 }
 
@@ -67,7 +67,7 @@ Bitmap::Bitmap(void* m, int w, int h, int rw, int bob):
 		fmem(1) {
 	directx = false;
 	initlines();
-	setmem((void*)new Byte[size]);
+	setmem((void*)new uint8_t[size]);
 	memcpy(mem, m, size);
 }
 
@@ -80,7 +80,7 @@ Bitmap::Bitmap(const Image& raw, bool dx):
 	  fmem(1) {
 	directx = false;
 	initlines();
-	setmem((void*)new Byte[size]);
+	setmem((void*)new uint8_t[size]);
 	reload(raw);
 }
 
@@ -116,7 +116,7 @@ void Bitmap::draw(const Video_bitmap* d, const int dx, const int dy) const {
 	d->put_bitmap(*this, dx, dy);
 }
 
-void Bitmap::hline(const int y, const int x, const int w, const Byte color) const {
+void Bitmap::hline(const int y, const int x, const int w, const uint8_t color) const {
 	if(clip(x, y, w, 1))
 		return;
 	memset(operator[](y)+clip_x1, color, clip_w);
@@ -130,7 +130,7 @@ void Bitmap::vline(const int x, const int y, const int h, const T color) const {
 }
 
 void Bitmap::line(const int x1, const int y1, const int x2, const int y2,
-		  const Byte color) const
+		  const uint8_t color) const
 {
 	/* This function use the Bresenham's line algorithm to draw a line. */
 
@@ -219,7 +219,7 @@ void Bitmap::line(const int x1, const int y1, const int x2, const int y2,
 	}
 }
 
-void Bitmap::put_pel(const int x, const int y, const Byte color) const {
+void Bitmap::put_pel(const int x, const int y, const uint8_t color) const {
 	if(clip(x, y, 1, 1))
 		return;
 	fast_pel(x, y, color);

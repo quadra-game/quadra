@@ -18,14 +18,16 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+
 #include "error.h"
 #include "res.h"
 #include "resfile.h"
 #include "byteorder.h"
 
-Resdata::Resdata(char *resname, int ressize, Byte *resdata, Resdata *list) {
+Resdata::Resdata(char *resname, int ressize, uint8_t *resdata, Resdata *list) {
 	name = resname;
 	size = ressize;
 	data = resdata;
@@ -64,7 +66,7 @@ void Resfile::thaw() {
 	char sig[sizeof(signature)];
 	int resnamelen;
 	char *resname;
-	Byte *resdata;
+	uint8_t *resdata;
 	int ressize;
 
 	res->position(0);
@@ -84,7 +86,7 @@ void Resfile::thaw() {
 		res->read(resname, resnamelen);
 		res->read(&ressize, sizeof(ressize));
 		ressize = INTELDWORD(ressize);
-		resdata = new Byte[ressize];
+		resdata = new uint8_t[ressize];
 		res->read(resdata, ressize);
 
 		list = new Resdata(resname, ressize, resdata, list);
@@ -99,7 +101,7 @@ void Resfile::clear() {
 	list = NULL;
 }
 
-int Resfile::get(const char *resname, Byte **resdata) {
+int Resfile::get(const char *resname, uint8_t **resdata) {
 	Resdata *ptr;
 
 	ptr = list;

@@ -21,6 +21,8 @@
 #ifndef _HEADER_RECORDING
 #define _HEADER_RECORDING
 
+#include <stdint.h>
+
 #include "types.h"
 #include "net_stuff.h"
 #include "buf.h"
@@ -38,13 +40,13 @@ class Recording {
 		1: single_start: un numero de player
 		2: game_begin: les touches d'une game single
 		3: game_stop: les infos d'une game single
-	 11: write_packet: un numero de frame d'overmind (Dword), la size d'un packet (Word) pis le packet
-	 13: summary: size (Dword) et du texte (à la Qserv)
+	 11: write_packet: un numero de frame d'overmind (uint32_t), la size d'un packet (Word) pis le packet
+	 13: summary: size (uint32_t) et du texte (Ã  la Qserv)
 	*/
-	void write_hunk(Byte h);
+	void write_hunk(uint8_t h);
 	void end_single(Canvas *c);
 public:
-	Dword frame;
+	uint32_t frame;
 	void step();
 	Res_compress *res;
 	Recording();
@@ -58,10 +60,10 @@ public:
 
 class Demo_packet {
 public:
-	Dword frame;
+	uint32_t frame;
 	Packet* p;
 	Demo_packet(const Demo_packet& dp);
-	Demo_packet(Dword pframe, Packet* pp);
+	Demo_packet(uint32_t pframe, Packet* pp);
 	virtual ~Demo_packet();
 };
 
@@ -70,7 +72,7 @@ class Dict;
 class Playback {
 	Res *res;
 	bool *verification_flag;
-	Byte read_hunk();
+	uint8_t read_hunk();
 	void read_all(); //Sole caller of next 6
 	void read_seed();
 	void read_single();
@@ -79,10 +81,10 @@ class Playback {
 	void read_packet();
 	void read_summary();
 	Buf data;
-	Dword nextByte;
+	uint32_t nextByte;
 	Array<Demo_packet *> packets;
 public:
-	Byte single_player;
+	uint8_t single_player;
 	Packet_gameserver *packet_gameserver;
 	Dict *sum;
 	bool single();
@@ -102,7 +104,7 @@ public:
 	virtual ~Playback();
 	void set_verification_flag(bool *p);
 	bool verify_summary(const Game *game);
-	Byte get_byte();
+	uint8_t get_byte();
 	bool check_scores(Canvas* c);
 	Demo_packet next_packet();
 	void remove_packet();

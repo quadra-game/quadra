@@ -21,14 +21,16 @@
 #ifndef _HEADER_RES_COMPRESS
 #define _HEADER_RES_COMPRESS
 
+#include <stdint.h>
+
 #include "res.h"
 
 class Res_compress: public Res_mem {
 	Res_mode mode;
 	Res *res;
 	Res_dos *res_dos;
-	mutable Dword ressize;
-	mutable Dword write_pos;
+	mutable uint32_t ressize;
+	mutable uint32_t write_pos;
 	void read_uncompress();
 public:
 	void write_compress();
@@ -36,7 +38,7 @@ public:
 	Res_compress(const char *fil, Res_mode pmode=RES_READ, bool res_doze=false);
 	virtual ~Res_compress();
 	virtual void write(const void *b, int nb);
-	virtual Dword size();
+	virtual uint32_t size();
 };
 
 #endif

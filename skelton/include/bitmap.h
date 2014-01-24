@@ -21,6 +21,8 @@
 #ifndef _HEADER_BITMAP
 #define _HEADER_BITMAP
 
+#include <stdint.h>
+
 #include "types.h"
 #include "utils.h"
 #include "error.h"
@@ -37,16 +39,16 @@ class Bitmap: public Clipable {
 	friend class Video_bitmap;
 	friend class DirectX_Video;
 	friend class DirectX_Video_bitmap;
-	typedef Byte T;
+	typedef uint8_t T;
 	void initlines();
  public:
 	int const realwidth;
  protected:
 	int* zlines;
 	T** const lines;
-	Dword const size;
+	uint32_t const size;
 	T* mem;
-	Byte const fmem;
+	uint8_t const fmem;
   /* FIXME: this is awful. */
 	bool directx;
  public:
@@ -60,19 +62,19 @@ class Bitmap: public Clipable {
 	void setmem(const void* m) {
 		mem=(T*)m;
 		for(int i(0); i<height; i++)
-			lines[i]=(T*) (((Byte *)mem)+zlines[i]);
+			lines[i]=(T*) (((uint8_t *)mem)+zlines[i]);
 	}
 	T* operator[](const int y) const {
 		return lines[y];
 	}
 	void draw(const Bitmap& d, const int dx, const int dy) const;
 	void draw(const Video_bitmap* d, const int dx, const int dy) const;
-	void hline(const int y, const int x, const int w, const Byte color) const;
+	void hline(const int y, const int x, const int w, const uint8_t color) const;
 	void vline(const int x, const int y, const int h, const T color) const;
 	void line(const int x1, const int y1, const int x2, const int y2,
-		const Byte color) const;
-	void put_pel(const int x, const int y, const Byte color) const;
-	void fast_pel(const int x, const int y, const Byte color) const {
+		const uint8_t color) const;
+	void put_pel(const int x, const int y, const uint8_t color) const;
+	void fast_pel(const int x, const int y, const uint8_t color) const {
 		*(operator[](y)+x) = color;
 	}
 	void clear(const T color) const;

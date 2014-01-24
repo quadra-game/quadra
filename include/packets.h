@@ -21,6 +21,7 @@
 #ifndef _HEADER_PACKETS
 #define _HEADER_PACKETS
 
+#include <stdint.h>
 #include <string.h>
 
 #include "packet.h"
@@ -92,9 +93,9 @@ public:
 
 class Packet_wantjoin: public Packet_ping {
 public:
-	Byte net_version;
-	Byte language;
-	Byte os;
+	uint8_t net_version;
+	uint8_t language;
+	uint8_t os;
 	Packet_wantjoin() {
 		packet_id = P_WANTJOIN;
 		net_version=Config::net_version;
@@ -113,16 +114,16 @@ public:
 
 class Net_player {
 public:
-	Byte quel; //Not sent over the net in Packet_gameinfo,
-	           //  sent only with Packet_gameserver
-	Byte team;
+	uint8_t quel; //Not sent over the net in Packet_gameinfo,
+	              //  sent only with Packet_gameserver
+	uint8_t team;
 	char name[40];
-	Dword player_id;
-	Byte idle; //This is not sent thru the net, it's only there if
+	uint32_t player_id;
+	uint8_t idle; //This is not sent thru the net, it's only there if
 	           //  someone set it from a Qserv query
 	int handicap; //May not be there, but default of zero is ok in
 	              //  those cases
-	Net_player(Byte q, Byte t, const char *s, Dword pid, int status, int phandicap) {
+	Net_player(uint8_t q, uint8_t t, const char *s, uint32_t pid, int status, int phandicap) {
 		quel=q;
 		team=t;
 		strcpy(name, s);
@@ -139,16 +140,16 @@ class Packet_gameinfo: public Packet_udp {
 public:
 	Array <Net_player *> players;
 	char name[32];
-	Byte version;
+	uint8_t version;
 	int port, game_end_value;
 	bool nolevel_up, delay_start, terminated;
 	bool survivor, hot_potato;
 	Attack normal_attack, clean_attack, potato_normal_attack, potato_clean_attack;
-	Byte level_start, combo_min, game_end;
+	uint8_t level_start, combo_min, game_end;
 	bool allow_handicap;
 	Packet_gameinfo();
 	virtual ~Packet_gameinfo();
-	void add_player(Byte q, Byte t, const char *s, int status, int handicap) {
+	void add_player(uint8_t q, uint8_t t, const char *s, int status, int handicap) {
 		players.add(new Net_player(q, t, s, 0, status, handicap));
 	}
 	virtual void write(Net_buf *p);
@@ -157,21 +158,21 @@ public:
 
 class Packet_gameserver: public Packet_ping {
 public:
-	Byte version;
+	uint8_t version;
 	Array <Net_player *> players;
 	char name[32];
 	bool accepted;
 	int game_seed, game_end_value;
 	bool paused, nolevel_up;
-	Byte level_start, combo_min;
+	uint8_t level_start, combo_min;
 	bool allow_handicap;
 	bool survivor, hot_potato;
 	Attack normal_attack, clean_attack, potato_normal_attack, potato_clean_attack;
-	Byte game_end;
-	Word delay_start;
+	uint8_t game_end;
+	uint16_t delay_start;
 	bool wants_moves;
-	Byte syncpoint;
-	Byte potato_team;
+	uint8_t syncpoint;
+	uint8_t potato_team;
 	bool single;
 	bool terminated;
 	bool boring_rules;
@@ -180,7 +181,7 @@ public:
 		name[0] = 0;
 	}
 	virtual ~Packet_gameserver();
-	void add_player(Byte q, Byte t, const char *s, Dword pid, int handicap) {
+	void add_player(uint8_t q, uint8_t t, const char *s, uint32_t pid, int handicap) {
 		players.add(new Net_player(q, t, s, pid, -1, handicap));
 	}
 	virtual void write(Net_buf *p);
@@ -211,13 +212,13 @@ public:
 
 class Packet_playerwantjoin: public Packet_ping {
 public:
-	Byte team;
+	uint8_t team;
 	char name[40];
-	Byte player;
+	uint8_t player;
 	int h_repeat, v_repeat, smooth, shadow, handicap;
-	Byte player_hash[16];
+	uint8_t player_hash[16];
 	char team_name[40];
-	Byte team_hash[16];
+	uint8_t team_hash[16];
 	Packet_playerwantjoin() {
 		packet_id=P_PLAYERWANTJOIN;
 		name[0]=0;
@@ -229,12 +230,12 @@ public:
 
 class Packet_player: public Packet_ping {
 public:
-	Byte team;
+	uint8_t team;
 	char name[40];
-	Dword player_id;
-	Byte player;
+	uint32_t player_id;
+	uint8_t player;
 	int h_repeat, v_repeat, smooth, shadow;
-	Byte pos;
+	uint8_t pos;
 	int handicap;
 	Packet_player() {
 		packet_id = P_PLAYER;
@@ -248,8 +249,8 @@ public:
 
 class Packet_playeraccepted: public Packet_ping {
 public:
-	Byte pos;
-	Byte accepted;
+	uint8_t pos;
+	uint8_t accepted;
 	Packet_playeraccepted() {
 		packet_id = P_PLAYERACCEPTED;
 		pos=0;
@@ -278,9 +279,9 @@ public:
 
 class Net_stat {
 public:
-	Byte st;
+	uint8_t st;
 	int value;
-	Net_stat(Byte s, int v) {
+	Net_stat(uint8_t s, int v) {
 		st=s;
 		value=v;
 	}
@@ -288,7 +289,7 @@ public:
 
 class Packet_playerbase: public Packet_tcp {
 public:
-	Byte player;
+	uint8_t player;
 	Packet_playerbase() {
 		player = 255;
 	}
@@ -299,12 +300,12 @@ public:
 class Packet_stat: public Packet_playerbase {
 public:
 	Array<Net_stat *> net_stats;
-	Byte num_stat;
+	uint8_t num_stat;
 	Packet_stat() {
 		packet_id = P_STAT;
 	}
 	virtual ~Packet_stat();
-	void add_stat(Byte s, int v);
+	void add_stat(uint8_t s, int v);
 	virtual bool read(Net_buf *p);
 	virtual void write(Net_buf *p);
 };
@@ -312,12 +313,12 @@ public:
 class Packet_gamestat: public Packet_tcp {
 public:
 	Array<Net_stat *> net_stats;
-	Byte num_stat;
+	uint8_t num_stat;
 	Packet_gamestat() {
 		packet_id = P_GAMESTAT;
 	}
 	virtual ~Packet_gamestat();
-	void add_stat(Byte s, int v);
+	void add_stat(uint8_t s, int v);
 	virtual bool read(Net_buf *p);
 	virtual void write(Net_buf *p);
 };
@@ -349,12 +350,12 @@ public:
 
 class Packet_stampblock: public Packet_playerbase {
 public:
-	Byte x, y;
-	Byte rotate;
-	Byte score;
-	Word date;
-	Byte block_rotated;
-	Word time_held;
+	uint8_t x, y;
+	uint8_t rotate;
+	uint8_t score;
+	uint16_t date;
+	uint8_t block_rotated;
+	uint16_t time_held;
 	Packet_stampblock() {
 		packet_id = P_STAMPBLOCK;
 	}
@@ -403,8 +404,8 @@ public:
 
 class Packet_startwatch: public Packet_playerbase {
 public:
-	Byte update;
-	Dword address;
+	uint8_t update;
+	uint32_t address;
 	bool stop;
 	Packet_startwatch() {
 		packet_id = P_STARTWATCH;
@@ -423,19 +424,19 @@ public:
 class Packet_download: public Packet_playerbase {
 public:
 	int seed;
-	Byte bloc, next, next2, next3, bonus, idle, state;
+	uint8_t bloc, next, next2, next3, bonus, idle, state;
   struct {
-    Byte x;   // "hole" position
-    Byte color;
-		Byte blind_time;
-		Word hole_pos; //Hole positions
+    uint8_t x;   // "hole" position
+    uint8_t color;
+		uint8_t blind_time;
+		uint16_t hole_pos; //Hole positions
 		bool final;
   } bon[20];  // waiting annoyance lines
-	Byte can[32][10];
+	uint8_t can[32][10];
 	bool occ[32][10];
-	Byte blinded[32][10];
-	Byte attacks[MAXPLAYERS];
-	Byte last_attacker;
+	uint8_t blinded[32][10];
+	uint8_t attacks[MAXPLAYERS];
+	uint8_t last_attacker;
 
 	Packet_download() {
 		packet_id = P_DOWNLOAD;
@@ -446,12 +447,12 @@ public:
 
 class Packet_lines: public Packet_playerbase {
 public:
-	Byte nb;
-	Byte nc;
-	Byte lx;
-	Byte sender;
+	uint8_t nb;
+	uint8_t nc;
+	uint8_t lx;
+	uint8_t sender;
 	Attack attack;
-	Word hole_pos[36];
+	uint16_t hole_pos[36];
 	Packet_lines() {
 		packet_id = P_LINES;
 		for(int i=0; i<36; i++)
@@ -470,7 +471,7 @@ public:
 
 class Packet_testping: public Packet_tcp {
 public:
-	Dword frame;
+	uint32_t frame;
 	Packet_testping() {
 		packet_id = P_TESTPING;
 	}
@@ -546,8 +547,8 @@ public:
 
 class Packet_moves: public Packet_playerbase {
 public:
-	Byte size;
-	Byte moves[256];
+	uint8_t size;
+	uint8_t moves[256];
 	Packet_moves() {
 		packet_id = P_MOVES;
 		size=0;
@@ -568,7 +569,7 @@ public:
 
 class Packet_state: public Packet_playerbase {
 public:
-	Byte state;
+	uint8_t state;
 	Packet_state() {
 		packet_id = P_STATE;
 		state=255;
@@ -588,7 +589,7 @@ class Packet_serverstate: public Packet_state {
 public:
 	Packet_serverstate() {
 		packet_id = P_SERVERSTATE;
-		//We got a Byte player from Packet_state but we don't need it
+		//We got a uint8_t player from Packet_state but we don't need it
 		//  so we'll always set it to 0. Yeah it sucks, sue me.
 		player = 0;
 	}
@@ -598,7 +599,7 @@ public:
 //  because there's no Packet_clientrandom
 class Packet_serverrandom: public Packet_tcp {
 public:
-	Dword seed;
+	uint32_t seed;
 	Packet_serverrandom() {
 		packet_id = P_SERVERRANDOM;
 		seed=0;
@@ -609,8 +610,8 @@ public:
 
 class Packet_serverpotato: public Packet_tcp {
 public:
-	Byte team; //The team that will now get the potato
-	Dword potato_lines; //Number of lines to clear
+	uint8_t team; //The team that will now get the potato
+	uint32_t potato_lines; //Number of lines to clear
 	Packet_serverpotato() {
 		packet_id = P_SERVERPOTATO;
 		team=255;
@@ -643,7 +644,7 @@ public:
 
 class Packet_servernameteam: public Packet_tcp {
 public:
-	Byte team;
+	uint8_t team;
 	char name[40];
 	Packet_servernameteam() {
 		packet_id = P_SERVERNAMETEAM;

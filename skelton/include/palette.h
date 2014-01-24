@@ -21,6 +21,8 @@
 #ifndef _HEADER_PALETTE
 #define _HEADER_PALETTE
 
+#include <stdint.h>
+
 #include "config.h"
 
 #ifdef WIN32
@@ -35,7 +37,7 @@
 
 #ifndef WIN32
 typedef struct {
-  Byte peRed, peGreen, peBlue, peFlags;
+  uint8_t peRed, peGreen, peBlue, peFlags;
 } PALETTEENTRY;
 #endif
 
@@ -59,16 +61,16 @@ public:
   }
   void load(const Image& raw);
   void set();
-  Byte r(Byte c) {
+  uint8_t r(uint8_t c) {
     return pal[c].peRed;
   }
-  Byte g(Byte c) {
+  uint8_t g(uint8_t c) {
     return pal[c].peGreen;
   }
-  Byte b(Byte c) {
+  uint8_t b(uint8_t c) {
     return pal[c].peBlue;
   }
-  void setcolor(Byte c, Byte r, Byte g, Byte b) {
+  void setcolor(uint8_t c, uint8_t r, uint8_t g, uint8_t b) {
     pal[c].peRed=r;
     pal[c].peGreen=g;
     pal[c].peBlue=b;
@@ -80,9 +82,9 @@ extern Palette noir;
 class Remap {
   const Palette& dst;
 public:
-  Byte map[256];
+  uint8_t map[256];
   Remap(const Palette& d, Palette* src=NULL);
-  void findrgb(const Byte m, const Byte r, const Byte g, const Byte b);
+  void findrgb(const uint8_t m, const uint8_t r, const uint8_t g, const uint8_t b);
 };
 
 class Fade {

@@ -586,7 +586,7 @@ void Zone_text_input::lost_focus(int cancel) {
 }
 
 void Zone_text_input::process() {
-	Byte c;
+	uint8_t c;
 	if(focus) {
 		// clipboard support in Windows
 		check_clipboard();
@@ -647,7 +647,7 @@ void Zone_text_input::process() {
 	}
 }
 
-void Zone_text_input::input_char(const Byte c) {
+void Zone_text_input::input_char(const uint8_t c) {
 	if(c > 31 && c != 183 && c != 127) {
 		cut_selection();
 		memmove(&st[curpos+1], &st[curpos], actual_len-curpos + 1);

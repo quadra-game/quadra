@@ -37,7 +37,7 @@ void Resmanager::loadresfile(const char *fname) {
 	}
 }
 
-int Resmanager::get(const char *resname, Byte **resdata) {
+int Resmanager::get(const char *resname, uint8_t **resdata) {
 	int i=files.size();
 	while(i--) {
 		int ret=files[i]->get(resname, resdata);

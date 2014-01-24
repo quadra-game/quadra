@@ -21,6 +21,8 @@
 #ifndef _HEADER_SCORE
 #define _HEADER_SCORE
 
+#include <stdint.h>
+
 #include "types.h"
 #include "stats.h"
 #include "net_stuff.h"
@@ -31,9 +33,9 @@ class Score {
 	CS::Stat_type current_sort;
 	void update_team();
 public:
-	Byte player_team[MAXPLAYERS];
-	Byte player_count[MAXTEAMS];
-	Byte team_order[MAXTEAMS], order[MAXPLAYERS];
+	uint8_t player_team[MAXPLAYERS];
+	uint8_t player_count[MAXTEAMS];
+	uint8_t team_order[MAXTEAMS], order[MAXPLAYERS];
 	CS team_stats[MAXTEAMS], stats[MAXPLAYERS];
 	bool team_order_changed, order_changed;
 	bool team_goals_changed[MAXTEAMS];

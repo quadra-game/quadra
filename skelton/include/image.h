@@ -21,14 +21,14 @@
 #ifndef _HEADER_IMAGE
 #define _HEADER_IMAGE
 
-#include "types.h"
+#include <stdint.h>
 
 class Image {
  public:
 	virtual int width() const=0;
 	virtual int height() const=0;
-	virtual Byte* pic() const=0;
-	virtual Byte* pal() const=0;
+	virtual uint8_t* pic() const=0;
+	virtual uint8_t* pal() const=0;
 	virtual int palettesize() const=0;
 	virtual ~Image() {
 	}

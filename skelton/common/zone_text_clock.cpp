@@ -20,7 +20,7 @@
 
 #include "zone_text_clock.h"
 
-Zone_text_clock::Zone_text_clock(Inter* in, Dword *s, int px, int py, int pw, bool frame, Font *f2):
+Zone_text_clock::Zone_text_clock(Inter* in, uint32_t *s, int px, int py, int pw, bool frame, Font *f2):
 	Zone_text_field(in, (int *)s, px, py, pw, f2) {
 	draw_frame = frame;
 }

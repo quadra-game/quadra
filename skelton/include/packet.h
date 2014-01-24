@@ -21,6 +21,8 @@
 #ifndef _HEADER_PACKET
 #define _HEADER_PACKET
 
+#include <stdint.h>
+
 #include "types.h"
 
 class Net_buf;
@@ -30,8 +32,8 @@ class Packet {
 public:
 	bool istcp;
 	Net_connection *from;
-	Dword from_addr;
-	Byte packet_id;
+	uint32_t from_addr;
+	uint8_t packet_id;
 	Packet();
 	virtual ~Packet() { };
 	virtual void write(Net_buf *p);
@@ -46,7 +48,7 @@ public:
 
 class Packet_udp: public Packet {
 public:
-	Dword magic;
+	uint32_t magic;
 	Packet_udp();
 	virtual bool read(Net_buf *p);
 	virtual void write(Net_buf *p);
@@ -54,7 +56,7 @@ public:
 
 class Packet_ping: public Packet_tcp {
 public:
-	Dword uid;
+	uint32_t uid;
 	virtual void write(Net_buf *p);
 	virtual bool read(Net_buf *p);
 	void answer(Packet_ping *p2);

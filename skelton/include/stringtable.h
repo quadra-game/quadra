@@ -20,6 +20,9 @@
 
 #ifndef _HEADER_STRINGTABLE
 #define _HEADER_STRINGTABLE
+
+#include <stdint.h>
+
 #include "res.h"
 
 class Stringtable {
@@ -27,10 +30,10 @@ class Stringtable {
 	int num;
 	char *buf;
 	bool mustfree;
-	void parse(char *buf, Dword size);
+	void parse(char *buf, uint32_t size);
 public:
 	Stringtable(const char *nam);
-	Stringtable(Byte *buf, Dword size);
+	Stringtable(uint8_t *buf, uint32_t size);
 	virtual ~Stringtable();
 	Stringtable& operator=(const Stringtable&);
 	int size() const {

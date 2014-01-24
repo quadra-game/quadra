@@ -50,7 +50,7 @@ Remap::Remap(const Palette& d, Palette* src): dst(d) {
   }
 }
 
-void Remap::findrgb(const Byte m, const Byte r, const Byte g, const Byte b) {
+void Remap::findrgb(const uint8_t m, const uint8_t r, const uint8_t g, const uint8_t b) {
   int best_diff=9999999, best_i=0, diff;
   for(int i=1; i<dst.size; i++) {
     diff=(int) ((dst.pal[i].peRed-r)*(dst.pal[i].peRed-r)*2 + (dst.pal[i].peGreen-g)*(dst.pal[i].peGreen-g)*3 + (dst.pal[i].peBlue-b)*(dst.pal[i].peBlue-b));

@@ -286,7 +286,7 @@ void Menu_demo_central::populate_dict(Dict *d) {
 		Score score2;
 		score=score2;
 		score.updateFromDict(players);
-		Byte team_pos, team;
+		uint8_t team_pos, team;
 		for(team_pos=0; team_pos<MAXTEAMS; team_pos++) {
 			team=score.team_order[team_pos];
 			for(j=0; j<MAXPLAYERS; j++) {

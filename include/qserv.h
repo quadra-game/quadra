@@ -21,6 +21,8 @@
 #ifndef _HEADER_QSERV
 #define _HEADER_QSERV
 
+#include <stdint.h>
+
 #include "types.h"
 
 class Http_post;
@@ -33,7 +35,7 @@ class Qserv {
 	Dict *reply;
 	void create_req();
 public:
-	static Dword http_addr;
+	static uint32_t http_addr;
 	static int http_port;
 	Qserv();
 	virtual ~Qserv();
@@ -45,7 +47,7 @@ public:
 	const char *get_status();
 	Dict *get_reply();
 	bool isconnected() const;
-	Dword getnbrecv() const;
+	uint32_t getnbrecv() const;
 };
 
 #endif

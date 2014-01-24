@@ -78,22 +78,22 @@ void Dumb_Video_bitmap::get_bitmap(const Bitmap* bit, const int x, const int y,
   clip(x, y, w, h);
 }
 
-void Dumb_Video_bitmap::put_pel(const int x, const int y, const Byte c) const {
+void Dumb_Video_bitmap::put_pel(const int x, const int y, const uint8_t c) const {
   clip(x, y, 1, 1);
 }
 
 void Dumb_Video_bitmap::hline(const int y, const int x,
-			 const int w, const Byte c) const {
+			 const int w, const uint8_t c) const {
   clip(x, y, w, 1);
 }
 
 void Dumb_Video_bitmap::vline(const int x, const int y, const int h,
-			 const Byte c) const {
+			 const uint8_t c) const {
   clip(x, y, 1, h);
 }
 
 void Dumb_Video_bitmap::line(const int x1, const int y1,
-const int x2, const int y2, const Byte c) const {
+const int x2, const int y2, const uint8_t c) const {
 	clip(x1, y1, x2, y2);
 }
 

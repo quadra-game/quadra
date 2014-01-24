@@ -81,7 +81,7 @@ Canvas::Canvas(int qplayer, int game_seed, Palette *p): rnd(game_seed) {
   init();
 }
 
-Canvas::Canvas(int game_seed, Byte team, const char *nam, int ph_repeat, int pv_repeat, bool psmooth, bool pshadow, int phandicap, Net_connection *adr, int qplayer, bool wait_down): rnd(game_seed) {
+Canvas::Canvas(int game_seed, uint8_t team, const char *nam, int ph_repeat, int pv_repeat, bool psmooth, bool pshadow, int phandicap, Net_connection *adr, int qplayer, bool wait_down): rnd(game_seed) {
 // constructs a remote Canvas
 	snapshot[0]=0;
 	best_move=best_clean=best_recurse=0;
@@ -338,7 +338,7 @@ void Canvas::init_block() {
 }
 
 void Canvas::draw_block(int j, int i) const {
-  Byte side, col, to[4];
+  uint8_t side, col, to[4];
   side = block[j][i]&15;
   col = block[j][i]>>4;
   to[0] = block[j][i-1];
@@ -379,7 +379,7 @@ void Canvas::add_text_scroller(const char *st, int xoffset, int yoffset) {
 	}
 }
 
-void Canvas::blind_all(Byte time) {
+void Canvas::blind_all(uint8_t time) {
 	if(idle<2 && !dying) {
 		int x, y;
 		for(y = 0; y < 36; y++)
@@ -397,7 +397,7 @@ void Canvas::blind_all(Byte time) {
 	}
 }
 
-void Canvas::add_packet(Canvas *sender, Byte nb, Byte nc, Byte lx, Attack attack, Word hole_pos[]) {
+void Canvas::add_packet(Canvas *sender, uint8_t nb, uint8_t nc, uint8_t lx, Attack attack, uint16_t hole_pos[]) {
 	int x, qui;
 	if(!sender)
 		return;
@@ -480,7 +480,7 @@ void Canvas::give_line() {
   int i, score_add;
 	int clean_bonus=0;
 	bool log_it=false;
-	Word move_value=(depth<<8)+complexity;
+	uint16_t move_value=(depth<<8)+complexity;
 	if(send_for_clean) {
 		clean_bonus=(1+depth)/2;
 		if(move_value>best_clean) {
@@ -820,7 +820,7 @@ void Canvas::hide() {
 	z_lines=z_potatolines=z_linestot=z_potatolinestot=NULL;
 }
 
-Byte Canvas::check_key(int i) {
+uint8_t Canvas::check_key(int i) {
   if(ecran && ecran->focus) {  // prevents controlling while inputting into a zone_text_input that has the focus
     clear_key(i); // prevents rotating from happening after an input (because bit 'was released!')
     return 0;
@@ -878,11 +878,11 @@ void Canvas::dirt_rect(int x1, int y1, int w1, int h1) {
       dirted[j+12][i+4]=2;
 }
 
-bool Canvas::collide(Byte px, Byte py, Byte rot) {
+bool Canvas::collide(uint8_t px, uint8_t py, uint8_t rot) {
   return check_collide(bloc, px, py, rot);
 }
 
-bool Canvas::check_collide(Bloc *blo, Byte px, Byte py, Byte rot) {
+bool Canvas::check_collide(Bloc *blo, uint8_t px, uint8_t py, uint8_t rot) {
 	collide_side_only=true;
 	bool ret=false;
   int i,j;
@@ -988,7 +988,7 @@ void Canvas::blit_bloc(Bloc *blo) {
 }
 
 void Canvas::small_draw_block(int j, int i) const {
-  Byte side, col;
+  uint8_t side, col;
   side = block[j][i]&15;
   col = block[j][i]>>4;
   raw_small_draw_bloc(screen, (i-4)*6, (j-12)*6, side, ::color[col]);

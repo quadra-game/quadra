@@ -266,7 +266,7 @@ void Menu_highscore::start_sync() {
     sync_request->add_data("rec ");
     Textbuf buf;
     msgbox("Menu_highscore::start_sync: original size=%i\n", demofile->size());
-    Http_request::base64encode((const Byte*)demofile->buf(), buf, demofile->size());
+    Http_request::base64encode((const uint8_t*)demofile->buf(), buf, demofile->size());
     msgbox("Menu_highscore::start_sync: encoded size=%i\n", strlen(buf.get()));
     delete demofile;
     demofile=NULL;
@@ -571,7 +571,7 @@ void Menu_multi_join::step() {
   }
 }
 
-void Menu_multi_join::join_game(char *nam, Dword adr, int port) {
+void Menu_multi_join::join_game(char *nam, uint32_t adr, int port) {
   removewatch();
   call(new Join_game(bit_, inter->font, font2_, pal, nam, adr, port, false));
 }
@@ -708,7 +708,7 @@ void Menu_multi_refresh::init() {
 
 void Menu_multi_refresh::find_local_games() {
   Packet_findgame p;
-  Dword to;
+  uint32_t to;
   parent->addwatch();
   to = INADDR_BROADCAST;
   net->sendudp(to, &p);
@@ -720,7 +720,7 @@ void Menu_multi_refresh::find_local_games() {
 }
 
 void Menu_multi_refresh::resolve() {
-  Dword to = net->getaddress(parent->address);
+  uint32_t to = net->getaddress(parent->address);
   if(to > 0) {
     ret();
     parent->join_game(NULL, to, net->port_resolve);
@@ -742,8 +742,8 @@ void Menu_multi_refresh::step() {
     cancel = new Zone_text_button2(inter, parent->bit_, parent->font2_, ST_CLICKTOCANCEL, 190);
   }
   if(net->name_resolve != (unsigned int)-1) {
-    Dword name_temp = net->name_resolve;
-    net->name_resolve = (Dword)-1;
+    uint32_t name_temp = net->name_resolve;
+    net->name_resolve = (uint32_t)-1;
     if(name_temp == 0) {
       (void)new Zone_text(fteam[7], inter, ST_ERRORLOOKING, 220);
     } else {
@@ -2281,7 +2281,7 @@ void Menu_multi_book::step() {
   if(connect_adr) {
     if(looking)
       net->gethostbyname_cancel();
-    Dword adr = net->getaddress(connect_adr);
+    uint32_t adr = net->getaddress(connect_adr);
     if(adr > 0) {
       call(new Join_game(bit_, inter->font, font2_, pal, NULL, adr, net->port_resolve, false));
       if(address)
@@ -2305,7 +2305,7 @@ void Menu_multi_book::step() {
         if(address)
           ret();
       }
-      net->name_resolve = (Dword)-1;
+      net->name_resolve = (uint32_t)-1;
     }
   }
 }

@@ -32,7 +32,7 @@ Packet::Packet() {
 
 void Packet::write(Net_buf *p) {
 	p->reset();
-	p->write_byte((Byte) packet_id);
+	p->write_byte((uint8_t) packet_id);
 }
 
 bool Packet::read(Net_buf *p) {
@@ -93,9 +93,9 @@ void Packet_ping::answer(Packet_ping *p2) {
 	net->sendtcp(p2->from, this);
 }
 
-Dword Exec_ping::next_uid=0;
+uint32_t Exec_ping::next_uid=0;
 
-Exec_ping::Exec_ping(Packet_ping *p, Word pt, Net_callable *netc, Net_connection *d) {
+Exec_ping::Exec_ping(Packet_ping *p, uint16_t pt, Net_callable *netc, Net_connection *d) {
 	dest = d;
 	type = pt;
 	uid = p->uid = next_uid++;

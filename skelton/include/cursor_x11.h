@@ -23,6 +23,8 @@
 
 #ifdef UGS_LINUX_X11
 
+#include <stdint.h>
+
 #include "sprite.h"
 #include "cursor.h"
 
@@ -38,7 +40,7 @@ public:
   virtual void move();
   virtual void get_back();
   virtual void put_back();
-  virtual void set_speed(const Byte s);
+  virtual void set_speed(const uint8_t s);
 };
 
 #endif /* UGS_LINUX_X11 */

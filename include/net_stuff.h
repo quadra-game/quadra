@@ -21,6 +21,8 @@
 #ifndef _HEADER_NET_STUFF
 #define _HEADER_NET_STUFF
 
+#include <stdint.h>
+
 enum Drop_reason {
 	DROP_AUTO,
 	DROP_MANUAL,
@@ -38,7 +40,7 @@ enum Drop_reason {
 
 class Net_starter {
 	class Net_module: public Module {
-		Dword last_video_frame;
+		uint32_t last_video_frame;
 	public:
 		Net_module();
 		virtual void step();
@@ -55,9 +57,9 @@ class Quadra_param: public Net_param {
 public:
 	virtual int tcpport();
 	virtual void print_packet(Packet *p2, char *st);
-	virtual Packet *alloc_packet(Word pt);
+	virtual Packet *alloc_packet(uint16_t pt);
 	virtual bool is_dispatchable(Net_connection *nc, Packet *p);
-	virtual Dword magic() {
+	virtual uint32_t magic() {
 		return ('R'<<24) | ('M'<<16) | ('T'<<8) | ('3');
 	}
 	virtual void server_deconnect();

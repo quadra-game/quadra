@@ -21,6 +21,8 @@
 #ifndef _HEADER_VIDEO
 #define _HEADER_VIDEO
 
+#include <stdint.h>
+
 #include "clipable.h"
 #include "palette.h"
 
@@ -53,19 +55,19 @@ public:
 			  const int w, const int h) const = 0;
 
   /* puts a pixel at position 'x','y' with color 'c' */
-  virtual void put_pel(const int x, const int y, const Byte c) const = 0;
+  virtual void put_pel(const int x, const int y, const uint8_t c) const = 0;
 
   /* horizontal line starting from 'x','y', width 'w' and color 'c' */
   virtual void hline(const int y, const int x,
-		     const int w, const Byte c) const = 0;
+		     const int w, const uint8_t c) const = 0;
 
   /* vertical line starting from 'x','y', height 'h' and color 'c' */
   virtual void vline(const int x, const int y,
-		     const int h, const Byte c) const = 0;
+		     const int h, const uint8_t c) const = 0;
 
   /* line going from 'x1','y1' to 'x2','y2' of color 'c' */
   virtual void line(const int x1, const int y1, const int x2, const int y2,
-		    const Byte c) const = 0;
+		    const uint8_t c) const = 0;
 
   /* blits a Bitmap to position 'dx','dy' */
   virtual void put_bitmap(const Bitmap& d,
@@ -84,12 +86,12 @@ class Video {
 public:
   bool xwindow;
   Video_bitmap *vb;
-  Byte newpal;
+  uint8_t newpal;
   Palette pal;
   int width, height, bit;
   int need_paint;
   int pitch;
-  Dword framecount;
+  uint32_t framecount;
   static Video* New(int w, int h, int b, const char *wname, bool dumb=false);
   virtual ~Video() { };
   virtual void lock() = 0;

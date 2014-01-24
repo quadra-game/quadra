@@ -21,6 +21,8 @@
 #ifndef _HEADER_RAW
 #define _HEADER_RAW
 
+#include <stdint.h>
+
 #include "types.h"
 #include "res.h"
 #include "image.h"
@@ -30,26 +32,26 @@ class Raw: public Image {
 	struct Head {
 		static char signature[6];
 		char sig[6];
-		Word version;
-		Word width;
-		Word height;
-		Word palettesize;
-		Word HDPI;
-		Word VDPI;
-		Word gamma;
+		uint16_t version;
+		uint16_t width;
+		uint16_t height;
+		uint16_t palettesize;
+		uint16_t HDPI;
+		uint16_t VDPI;
+		uint16_t gamma;
 		char reserved[12];
 		void xlat();
 	} h;
-	Byte* pic_;
-	Byte* pal_;
+	uint8_t* pic_;
+	uint8_t* pal_;
  public:
 	Raw(Res& res);
 	Raw(int w, int h, int ps);
 	virtual ~Raw();
 	int width() const { return h.width; }
 	int height() const { return h.height; }
-	Byte* pic() const { return pic_; }
-	Byte* pal() const { return pal_; }
+	uint8_t* pic() const { return pic_; }
+	uint8_t* pal() const { return pal_; }
 	int palettesize() const { return h.palettesize; }
 	void write(Res_dos& r);
 };

@@ -24,6 +24,8 @@
 // See wadder.cpp for information on the .res file format, some tidbits of infos on making
 //   a Quadra theme pack and some 100% pure Dada ranting.
 
+#include <stdint.h>
+
 #include "types.h"
 #include "array.h"
 
@@ -36,7 +38,7 @@ public:
 	Resmanager();
 	virtual ~Resmanager();
 	virtual void loadresfile(const char *fname);
-	virtual int get(const char *resname, Byte **resdata);
+	virtual int get(const char *resname, uint8_t **resdata);
 };
 
 extern Resmanager *resmanager;

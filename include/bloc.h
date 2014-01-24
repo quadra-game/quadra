@@ -21,6 +21,8 @@
 #ifndef _HEADER_BLOC
 #define _HEADER_BLOC
 
+#include <stdint.h>
+
 #include "bitmap.h"
 
 /* pieces of Tetris from 0 to 6 :
@@ -35,7 +37,7 @@ public:
 	Bloc(int q, int c=-1, int px=0, int py=0);
 	void draw(const Video_bitmap* b, int tx=-1, int ty=-1) const;
 	void small_draw(const Video_bitmap* b, int tx=-1, int ty=-1) const;
-	const static Byte bloc[7][4][4][4];
+	const static uint8_t bloc[7][4][4][4];
 	void calc_xy() {
 		x=(bx-4)*18<<4;
 		y=(by-12)*18<<4;

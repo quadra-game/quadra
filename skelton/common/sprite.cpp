@@ -59,7 +59,7 @@ void Sprite::draw(const Bitmap& d, const int dx, const int dy) const {
 		return;
 	for(int y=clip_y1; y<=clip_y2; y++) {
 		for(int i=clip_x1; i<=clip_x2; i++) {
-			Byte pel = *(operator[](y-ty)+(i-tx));
+			uint8_t pel = *(operator[](y-ty)+(i-tx));
 			// optimization since the mask is always 0
 			// because of Svgalib
 			if(pel)
@@ -84,7 +84,7 @@ void Sprite::draw(const Video_bitmap* d, const int dx, const int dy) const {
 		return;
 	for(int y(y1); y<=y2; y++)
 		for(int i=x1; i<=x2; i++) {
-			Byte pel = *(operator[](y-dy)+(i-dx));
+			uint8_t pel = *(operator[](y-dy)+(i-dx));
 			if(pel != mask)
 				d.fast_pel(i, y, remap.map[pel]);
 		}
@@ -224,10 +224,10 @@ Font::Font(const Fontdata& f, const Palette& dst, int r, int g, int b, int r2, i
 }
 
 void Font::colorize(const Palette& dst, int r, int g, int b, int r2, int g2, int b2) {
-	Byte i;
+	uint8_t i;
 	Remap *map = new Remap(dst);
 	for(i=0; i<8; i++)
-		map->findrgb(i, (Byte) ((r2*(7-i)+r*i)/7), (Byte) ((g2*(7-i)+g*i)/7), (Byte) ((b2*(7-i)+b*i)/7));
+		map->findrgb(i, (uint8_t) ((r2*(7-i)+r*i)/7), (uint8_t) ((g2*(7-i)+g*i)/7), (uint8_t) ((b2*(7-i)+b*i)/7));
 	remap(map);
 	delete map;
 }
@@ -238,7 +238,7 @@ void Font::remap(const Remap *map) {
 		if(spr) {
 			for(int y=0; y<spr->height; y++)
 				for(int x=0; x<spr->width; x++) {
-					Byte pel = *((*spr)[y]+x);
+					uint8_t pel = *((*spr)[y]+x);
 					if(pel != 0)
 						fdata.spr[i]->fast_pel(x, y, map->map[pel]);
 				}

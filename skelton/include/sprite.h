@@ -20,6 +20,9 @@
 
 #ifndef _HEADER_SPRITE
 #define _HEADER_SPRITE
+
+#include <stdint.h>
+
 #include "types.h"
 #include "utils.h"
 #include "error.h"
@@ -31,7 +34,7 @@
 #define CORNER (-123457)
 
 class Sprite: public Bitmap {
-	typedef Byte T;
+	typedef uint8_t T;
 public:
 	int hot_x;
 	int hot_y;

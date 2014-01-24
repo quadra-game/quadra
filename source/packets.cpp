@@ -123,13 +123,13 @@ bool Packet_gameinfo::read(Net_buf *p) {
 		return false;
 	version = p->read_byte();
 	port = p->read_dword();
-	Byte num_player = p->read_byte();
+	uint8_t num_player = p->read_byte();
 	if(num_player>MAXPLAYERS)
 		return false;
 	int i;
 	for(i=0; i<num_player; i++) {
 		char tmp[40];
-		Byte t=p->read_byte();
+		uint8_t t=p->read_byte();
 		if(t>=MAXTEAMS)
 			return false;
 		if(!p->read_string(tmp, sizeof(tmp)))
@@ -234,7 +234,7 @@ bool Packet_gameserver::read(Net_buf *p) {
 	accepted=p->read_bool();
 	game_seed=p->read_dword();
 	paused=p->read_bool();
-	Byte num_player = p->read_byte();
+	uint8_t num_player = p->read_byte();
 	if(num_player>MAXPLAYERS)
 		return false;
 	nolevel_up=p->read_bool();
@@ -249,10 +249,10 @@ bool Packet_gameserver::read(Net_buf *p) {
 	int i;
 	for(i=0; i<num_player; i++) {
 		char tmp[40];
-		Byte quel=p->read_byte();
+		uint8_t quel=p->read_byte();
 		if(quel>=MAXPLAYERS)
 			return false;
-		Byte t=p->read_byte();
+		uint8_t t=p->read_byte();
 		if(t>=MAXTEAMS)
 			return false;
 		if(!p->read_string(tmp, sizeof(tmp)))
@@ -369,7 +369,7 @@ void Packet_playerwantjoin::write(Net_buf *p) {
 	p->write_string(name);
 	p->write_byte(player);
 	if(game->net_version()>=23)
-		p->write_dword(static_cast<Dword>(-1));
+		p->write_dword(static_cast<uint32_t>(-1));
 	else
 		p->write_dword(h_repeat);
 	p->write_dword(smooth);
@@ -430,7 +430,7 @@ void Packet_player::write(Net_buf *p) {
 	p->write_string(name);
 	p->write_byte(player);
 	if(game->net_version()>=23)
-		p->write_dword(static_cast<Dword>(-1));
+		p->write_dword(static_cast<uint32_t>(-1));
 	else
 		p->write_dword(h_repeat);
 	p->write_dword(smooth);
@@ -474,7 +474,7 @@ Packet_stat::~Packet_stat() {
 	net_stats.deleteall();
 }
 
-void Packet_stat::add_stat(Byte s, int v) {
+void Packet_stat::add_stat(uint8_t s, int v) {
 	Net_stat *n = new Net_stat(s, v);
 	net_stats.add(n);
 }
@@ -484,7 +484,7 @@ bool Packet_stat::read(Net_buf *p) {
 		return false;
 	num_stat=p->read_byte();
 	for(int i=0; i<num_stat; i++) {
-		Byte st=p->read_byte();
+		uint8_t st=p->read_byte();
 		int val=p->read_dword();
 		if(st>=CS::LAST)
 			continue; //Ignore stats we don't know about
@@ -506,7 +506,7 @@ Packet_gamestat::~Packet_gamestat() {
 	net_stats.deleteall();
 }
 
-void Packet_gamestat::add_stat(Byte s, int v) {
+void Packet_gamestat::add_stat(uint8_t s, int v) {
 	Net_stat *n = new Net_stat(s, v);
 	net_stats.add(n);
 }
@@ -516,7 +516,7 @@ bool Packet_gamestat::read(Net_buf *p) {
 		return false;
 	num_stat=p->read_byte();
 	for(int i=0; i<num_stat; i++) {
-		Byte st=p->read_byte();
+		uint8_t st=p->read_byte();
 		int val=p->read_dword();
 		if(st>=GS::LAST)
 			continue; //Ignore stats we don't know about
@@ -537,7 +537,7 @@ void Packet_gamestat::write(Net_buf *p) {
 bool Packet_dropplayer::read(Net_buf *p) {
 	if(!Packet_playerbase::read(p))
 		return false;
-	Byte r=p->read_byte();
+	uint8_t r=p->read_byte();
 	if(r>=DROP_LAST)
 		return false;
 	reason=(Drop_reason) r;
@@ -677,7 +677,7 @@ bool Packet_download::read(Net_buf *p) {
 		else
 			p->read_byte();
 	for(i=0; i<bonus; i++) {
-		Word tmp=p->read_word();
+		uint16_t tmp=p->read_word();
 		bon[i].hole_pos=tmp & 0x3FF;
 		bon[i].final=tmp&0x8000? true:false;
 	}
@@ -686,7 +686,7 @@ bool Packet_download::read(Net_buf *p) {
 
 void Packet_download::write(Net_buf *p) {
 	Packet_playerbase::write(p);
-	Byte tmp[32][10];
+	uint8_t tmp[32][10];
 	memcpy(tmp, can, sizeof(can));
 	int i, j;
 	if(game->net_version()>=23)
@@ -722,7 +722,7 @@ void Packet_download::write(Net_buf *p) {
 		else
 			p->write_byte(0);
 	for(i=0; i<bonus; i++) {
-		Word tmp=bon[i].hole_pos;
+		uint16_t tmp=bon[i].hole_pos;
 		if(bon[i].final)
 			tmp |= 0x8000;
 		p->write_word(tmp);
@@ -827,7 +827,7 @@ bool Packet_rejoin::read(Net_buf *p) {
 void Packet_rejoin::write(Net_buf *p) {
 	Packet_playerbase::write(p);
 	if(game->net_version()>=23)
-		p->write_dword(static_cast<Dword>(-1));
+		p->write_dword(static_cast<uint32_t>(-1));
 	else
 		p->write_dword(h_repeat);
 	p->write_dword(smooth);
