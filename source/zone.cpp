@@ -242,16 +242,6 @@ void Zone_state_text2::clicked(int quel) {
 	notify_all();
 }
 
-void Zone_text_select2::entered() {
-	Sfx stmp(sons.enter, 0, -1000, 0, 22000+ugs_random.rnd(1023));
-	Zone_text_select::entered();
-}
-
-void Zone_text_select2::clicked(int quel) {
-	Sfx stmp(sons.glass, 0, -200, 0, 14000+ugs_random.rnd(511));
-	Zone_text_select::clicked(quel);
-}
-
 void Zone_text_button2::entered() {
 	Sfx stmp(sons.enter, 0, -1000, 0, 22000+ugs_random.rnd(1023));
 	Zone_text_button::entered();

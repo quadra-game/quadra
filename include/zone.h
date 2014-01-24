@@ -46,16 +46,6 @@ public:
 	virtual void clicked(int quel);
 };
 
-class Zone_text_select2: public Zone_text_select {
-public:
-	Zone_text_select2(Inter* in, Font* f, const char* s, int px, int py):
-		Zone_text_select(in, f, s, px, py) { }
-	Zone_text_select2(Inter* in, Font* f, const char* s, int px, int py, int pw):
-		Zone_text_select(in, f, s, px, py, pw) { }
-	virtual void entered();
-	virtual void clicked(int quel);
-};
-
 class Zone_text_button2: public Zone_text_button {
 public:
 	Zone_text_button2(Inter* in, Bitmap *b, Font* f, const char* s, int px, int py):
