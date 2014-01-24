@@ -71,8 +71,6 @@ class Bitmap: public Clipable {
 	void draw(const Video_bitmap* d, const int dx, const int dy) const;
 	void hline(const int y, const int x, const int w, const uint8_t color) const;
 	void vline(const int x, const int y, const int h, const T color) const;
-	void line(const int x1, const int y1, const int x2, const int y2,
-		const uint8_t color) const;
 	void put_pel(const int x, const int y, const uint8_t color) const;
 	void fast_pel(const int x, const int y, const uint8_t color) const {
 		*(operator[](y)+x) = color;
