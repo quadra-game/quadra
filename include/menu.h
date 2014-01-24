@@ -76,15 +76,6 @@ public:
 	virtual void step();
 };
 
-class Menu_quitgame: public Menu_standard {
-	Font *font2;
-public:
-	Menu_quitgame();
-	virtual ~Menu_quitgame();
-	virtual void init();
-	virtual void step();
-};
-
 class Menu_help: public Menu_standard {
 	Font *font2;
 	Zone *b_quit;

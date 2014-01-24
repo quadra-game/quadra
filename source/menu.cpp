@@ -1227,68 +1227,6 @@ void Menu_setup_key::step() {
   }
 }
 
-Menu_quitgame::Menu_quitgame() {
-  int y;
-  for(y=0; y<8; y++)
-    pal.setcolor(y, y*255/7, y*255/7, y*255/7);
-  pal.setcolor(255, 255, 255, 255);
-  inter->set_font(new Font(*fonts.normal, pal, 255,255,255));
-  for(y=8; y<16; y++)
-    pal.setcolor(y, 0, 0, y*255/7);
-  font2 = new Font(*fonts.normal, pal, 0,0,255);
-}
-
-Menu_quitgame::~Menu_quitgame() {
-  delete font2;
-}
-
-void Menu_quitgame::init() {
-  Menu_standard::init();
-  (void)new Zone_clear(inter);
-  (void)new Zone_text(inter, ST_QUADRA, 0);
-  (void)new Zone_text(inter, ST_DEMOQUIT1, 10, 40);
-  int t,h,m,s;
-  t = overmind.framecount/100;
-  h = t/60/60; t=t%3600;
-  m = t/60;
-  s = t%60;
-  if(h > 0) {
-    sprintf(st,ST_DEMOQUIT2_1,h,m);
-  } else if(m > 0) {
-    sprintf(st,ST_DEMOQUIT2_2,m,s);
-  } else {
-    sprintf(st,ST_DEMOQUIT2_3,s);
-  }
-  (void)new Zone_text(inter, st, 10, 60);
-  (void)new Zone_text(inter, ST_DEMOQUIT3, 10,80);
-  (void)new Zone_text(inter, ST_DEMOQUIT4, 10,100);
-  (void)new Zone_text(inter, ST_DEMOQUIT5, 10,120);
-  (void)new Zone_text(font2, inter, ST_DEMOQUIT6, 10, 150);
-  //new Zone_text(inter, ST_DEMOQUIT7, 10, 180);
-  //new Zone_text(inter, ST_DEMOQUIT8, 10, 200);
-  //new Zone_text(inter, ST_DEMOQUIT9, 10, 220);
-  //new Zone_text(inter, ST_DEMOQUIT10, 10, 240);
-  (void)new Zone_text(inter, ST_DEMOQUIT11, 10, 260);
-  (void)new Zone_text(inter, ST_DEMOQUIT12, 10, 280);
-  (void)new Zone_text(inter, ST_DEMOQUIT13, 10, 300);
-  (void)new Zone_text(inter, ST_DEMOQUIT14, 10, 320);
-  #ifdef WIN32
-    sprintf(st,ST_DEMOQUIT15,"Linux");
-  #else
-    sprintf(st,ST_DEMOQUIT15,"Windows");
-  #endif
-  (void)new Zone_text(inter, st, 10, 360);
-  (void)new Zone_text(inter, ST_DEMOQUIT16, 10, 380);
-  (void)new Zone_text(font2, inter, ST_DEMOQUIT17, 20, 410);
-}
-
-void Menu_quitgame::step() {
-  Menu_standard::step();
-  if(!quit)
-    call(new Wait_time(24000));
-  quit=true;
-}
-
 Menu_help::Menu_help() {
   Bitmap *bit;
   {
