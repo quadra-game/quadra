@@ -39,15 +39,14 @@ class Bitmap: public Clipable {
 	friend class Video_bitmap;
 	friend class DirectX_Video;
 	friend class DirectX_Video_bitmap;
-	typedef uint8_t T;
 	void initlines();
  public:
 	int const realwidth;
  protected:
 	int* zlines;
-	T** const lines;
+	uint8_t** const lines;
 	uint32_t const size;
-	T* mem;
+	uint8_t* mem;
 	uint8_t const fmem;
   /* FIXME: this is awful. */
 	bool directx;
@@ -60,22 +59,22 @@ class Bitmap: public Clipable {
 	virtual ~Bitmap();
 	void reload(const Image& raw);
 	void setmem(const void* m) {
-		mem=(T*)m;
+		mem=(uint8_t*)m;
 		for(int i(0); i<height; i++)
-			lines[i]=(T*) (((uint8_t *)mem)+zlines[i]);
+			lines[i]=(uint8_t*) (((uint8_t *)mem)+zlines[i]);
 	}
-	T* operator[](const int y) const {
+	uint8_t* operator[](const int y) const {
 		return lines[y];
 	}
 	void draw(const Bitmap& d, const int dx, const int dy) const;
 	void draw(const Video_bitmap* d, const int dx, const int dy) const;
 	void hline(const int y, const int x, const int w, const uint8_t color) const;
-	void vline(const int x, const int y, const int h, const T color) const;
+	void vline(const int x, const int y, const int h, const uint8_t color) const;
 	void put_pel(const int x, const int y, const uint8_t color) const;
 	void fast_pel(const int x, const int y, const uint8_t color) const {
 		*(operator[](y)+x) = color;
 	}
-	void clear(const T color) const;
+	void clear(const uint8_t color) const;
 };
 
 #endif
