@@ -39,7 +39,7 @@ Video_X11_24::Video_X11_24(int w, int h, int b,
   vfb = (unsigned char*)malloc(w * h);
 
   if(!vfb)
-    (void)new Error("Could not allocate virtual frame buffer.");
+    fatal_msgbox("Could not allocate virtual frame buffer.");
 
   memset(vfb, 0, w*h);
 

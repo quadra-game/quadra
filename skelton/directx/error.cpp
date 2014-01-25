@@ -128,7 +128,7 @@ void user_output(const char* title, const char *msg) {
 	ShowCursor(FALSE);
 }
 
-Error::Error(const char* m, ...) {
+void fatal_msgbox(const char* m, ...) {
 	delete_obj();
 	ShowCursor(TRUE);
 	MSG msg;
@@ -141,7 +141,7 @@ Error::Error(const char* m, ...) {
 	va_start(marker, m);
 	vsprintf(st, m, marker);
 	va_end(marker);
-	msgbox("Error::Error: %s\n", st);
+	msgbox("fatal error: %s\n", st);
 	MessageBox(NULL, st, "Error", MB_ICONEXCLAMATION);
 	exit(1);
 }
@@ -151,99 +151,99 @@ void calldx(HRESULT hr) {
 		return;
 	switch(hr) {
 		case DDERR_INVALIDMODE:
-			new Error("Invalid mode");
+			fatal_msgbox("Invalid mode");
 		case DDERR_INVALIDPARAMS:
-			new Error("Invalid parameters");
+			fatal_msgbox("Invalid parameters");
 		case DDERR_OUTOFMEMORY:
-			new Error("DirectDraw out of system memory");
+			fatal_msgbox("DirectDraw out of system memory");
 		case DDERR_GENERIC:
-			new Error("Generic DirectX error");
+			fatal_msgbox("Generic DirectX error");
 		case DDERR_INVALIDRECT:
-			new Error("Invalid rectangle specified");
+			fatal_msgbox("Invalid rectangle specified");
 		case DDERR_SURFACEBUSY:
-			new Error("DirectDraw surface is busy");
+			fatal_msgbox("DirectDraw surface is busy");
 		case DDERR_SURFACELOST:
-			new Error("DirectDraw surface was lost");
+			fatal_msgbox("DirectDraw surface was lost");
 		case DDERR_TOOBIGHEIGHT:
-			new Error("DirectDraw Object too large");
+			fatal_msgbox("DirectDraw Object too large");
 		case DDERR_OUTOFVIDEOMEMORY:
-			new Error("Out of video memory");
+			fatal_msgbox("Out of video memory");
 		case DDERR_INCOMPATIBLEPRIMARY:
-			new Error("Incompatible primary");
+			fatal_msgbox("Incompatible primary");
 		case DDERR_INVALIDCAPS:
-			new Error("Invalid caps");
+			fatal_msgbox("Invalid caps");
 		case DDERR_INVALIDOBJECT:
-			new Error("Invalid object");
+			fatal_msgbox("Invalid object");
 		case DDERR_INVALIDPIXELFORMAT:
-			new Error("Invalid pixel format");
+			fatal_msgbox("Invalid pixel format");
 		case DDERR_NOALPHAHW:
-			new Error("No alpha HW");
+			fatal_msgbox("No alpha HW");
 		case DDERR_NOCOOPERATIVELEVELSET:
-			new Error("No cooperative level set");
+			fatal_msgbox("No cooperative level set");
 		case DDERR_NODIRECTDRAWHW:
-			new Error("No directdraw HW");
+			fatal_msgbox("No directdraw HW");
 		case DDERR_NOEMULATION:
-			new Error("No emulation");
+			fatal_msgbox("No emulation");
 		case DDERR_NOEXCLUSIVEMODE:
-			new Error("No exclusive mode");
+			fatal_msgbox("No exclusive mode");
 		case DDERR_NOFLIPHW:
-			new Error("No flip hw");
+			fatal_msgbox("No flip hw");
 		case DDERR_NOMIPMAPHW:
-			new Error("No mipmap hw");
+			fatal_msgbox("No mipmap hw");
 		case DDERR_NOZBUFFERHW:
-			new Error("No zbuffer Hw");
+			fatal_msgbox("No zbuffer Hw");
 		case DDERR_PRIMARYSURFACEALREADYEXISTS:
-			new Error("Primary surface already exist");
+			fatal_msgbox("Primary surface already exist");
 		case DDERR_UNSUPPORTEDMODE:
-			new Error("Unsupported mode");
+			fatal_msgbox("Unsupported mode");
 		case DDERR_IMPLICITLYCREATED:
-			new Error("Unable to perform (implicitly created)");
+			fatal_msgbox("Unable to perform (implicitly created)");
 		case DDERR_UNSUPPORTED:
-			new Error("Unsupported operation");
+			fatal_msgbox("Unsupported operation");
 		case DDERR_WRONGMODE:
-			new Error("Wrong video mode");
+			fatal_msgbox("Wrong video mode");
 		case DDERR_WASSTILLDRAWING:
-			new Error("Directdraw still drawing");
+			fatal_msgbox("Directdraw still drawing");
 		case DDERR_NOTAOVERLAYSURFACE:
-			new Error("An overlay component is called for a non-overlay surface");
+			fatal_msgbox("An overlay component is called for a non-overlay surface");
 		case DDERR_NOOVERLAYHW:
-			new Error("The operation cannot be carried out because no overlay hardware is present or available");
+			fatal_msgbox("The operation cannot be carried out because no overlay hardware is present or available");
 		case DDERR_INVALIDSURFACETYPE:
-			new Error("The requested operation could not be performed because the surface was of the wrong type");
+			fatal_msgbox("The requested operation could not be performed because the surface was of the wrong type");
 		case DDERR_NOCOLORKEYHW:
-			new Error("Operation could not be carried out because there is no hardware support of the dest color key");
+			fatal_msgbox("Operation could not be carried out because there is no hardware support of the dest color key");
 		case DI_BUFFEROVERFLOW:
-			new Error("Directinput buffer overflow");
+			fatal_msgbox("Directinput buffer overflow");
 		case DIERR_NOTACQUIRED:
-			new Error("Input not acquired");
+			fatal_msgbox("Input not acquired");
 		case DIERR_INPUTLOST:
-			new Error("Input lost");
+			fatal_msgbox("Input lost");
 		case DSERR_ALLOCATED:
-			new Error("The call failed because resources (such as a priority level) were already being used by another caller.");
+			fatal_msgbox("The call failed because resources (such as a priority level) were already being used by another caller.");
 		case DSERR_CONTROLUNAVAIL:
-			new Error("The control (vol,pan,etc.) requested by the caller is not available.");
+			fatal_msgbox("The control (vol,pan,etc.) requested by the caller is not available.");
 		case DSERR_INVALIDCALL:
-			new Error("This call is not valid for the current state of this object");
+			fatal_msgbox("This call is not valid for the current state of this object");
 		case DSERR_PRIOLEVELNEEDED:
-			new Error("The caller does not have the priority level required for the function to succeed.");
+			fatal_msgbox("The caller does not have the priority level required for the function to succeed.");
 		case DSERR_BADFORMAT:
-			new Error("The specified WAVE format is not supported");
+			fatal_msgbox("The specified WAVE format is not supported");
 		case DSERR_NODRIVER:
-			new Error("No sound driver is available for use");
+			fatal_msgbox("No sound driver is available for use");
 		case DSERR_ALREADYINITIALIZED:
-			new Error("This object is already initialized");
+			fatal_msgbox("This object is already initialized");
 		case DSERR_NOAGGREGATION:
-			new Error("This object does not support aggregation");
+			fatal_msgbox("This object does not support aggregation");
 		case DSERR_BUFFERLOST:
-			new Error("The buffer memory has been lost, and must be restored.");
+			fatal_msgbox("The buffer memory has been lost, and must be restored.");
 		case DSERR_OTHERAPPHASPRIO:
-			new Error("Another app has a higher priority level, preventing this call from succeeding.");
+			fatal_msgbox("Another app has a higher priority level, preventing this call from succeeding.");
 		case DSERR_UNINITIALIZED:
-			new Error("This object has not been initialized");
+			fatal_msgbox("This object has not been initialized");
 		case DSERR_NOINTERFACE:
-			new Error("The requested COM interface is not available");
+			fatal_msgbox("The requested COM interface is not available");
 
 		default:
-			new Error("Unknown error #%i.", hr);
+			fatal_msgbox("Unknown error #%i.", hr);
 	}
 }

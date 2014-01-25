@@ -1426,7 +1426,7 @@ bool Net::getlasterror(int quel) {
 
 void Net::callwsa(int quel) {
 	if(getlasterror(quel))
-		new Error(last_error);
+		fatal_msgbox(last_error);
 }
 
 const char *Net::failed() {

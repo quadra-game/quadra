@@ -25,10 +25,6 @@
 #include "video.h"
 
 #ifndef NDEBUG
-	int copper=0;
-#endif
-
-#ifndef NDEBUG
 	bool _debug = true;
 #else
 	bool _debug = false;
@@ -36,13 +32,13 @@
 
 bool skelton_debug = true;
 
-Error::Error(const char* m, ...) {
+void fatal_msgbox(const char* m, ...) {
 	char st[1024];
 	va_list marker;
 	va_start(marker, m);
 	vsnprintf(st, sizeof(st) - 1, m, marker);
 	va_end(marker);
-	fprintf(stderr, "Error: %s\n", st);
+	fprintf(stderr, "fatal error: %s\n", st);
 	exit(1);
 }
 

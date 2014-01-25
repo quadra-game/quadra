@@ -47,7 +47,7 @@ Res_dos::Res_dos(const char *fil, Res_mode mode) {
 		if(mode == RES_TRY || mode == RES_CREATE)
 			exist = 0;
 		else
-			new Error("Unable to open file '%s'", fil);
+			fatal_msgbox("Unable to open file '%s'", fil);
   }
 }
 
@@ -71,13 +71,13 @@ void Res_dos::position(uint32_t po) {
 int Res_dos::read(void *b, int nb) {
 	int n = ::read(handle, b, nb);
 	if(n < 0)
-		new Error("Error reading file");
+		fatal_msgbox("Error reading file");
 	return n;
 }
 
 void Res_dos::write(const void *b, int nb) {
 	if(::write(handle, b, nb) != nb)
-		new Error("Error writing file");
+		fatal_msgbox("Error writing file");
 }
 
 const void* Res_dos::buf() {
@@ -85,7 +85,7 @@ const void* Res_dos::buf() {
 		return _buf;
 	_buf = new uint8_t[size()];
 	if(_buf == NULL)
-		(void)new Error("Not enough memory");
+		fatal_msgbox("Not enough memory");
 	read(_buf, size());
 	return _buf;
 }

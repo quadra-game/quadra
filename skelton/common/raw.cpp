@@ -42,13 +42,13 @@ Raw::Raw(Res& res) {
 	res.read(&h, sizeof(h));
 	h.xlat();
 	if(strncmp(h.sig, Head::signature, sizeof(h.sig)))
-		new Error("Invalid raw image file");
+		fatal_msgbox("Invalid raw image file");
 	if(h.palettesize<1) {
 		pal_=NULL;
 		pic_=new uint8_t[h.width*h.height*2];
 		uint8_t *temp=new uint8_t[h.width*h.height*3];
 		if(pic_==NULL || temp==NULL)
-			new Error("Not enough memory to load image");
+			fatal_msgbox("Not enough memory to load image");
 		res.read(temp, h.width*h.height*3);
 		uint8_t r,g,b;
 		for(int y=0; y<h.height; y++)
@@ -62,11 +62,11 @@ Raw::Raw(Res& res) {
 	} else {
 		pal_=new uint8_t[h.palettesize*3];
 		if(pal_==NULL)
-			new Error("Not enough memory to load image");
+			fatal_msgbox("Not enough memory to load image");
 		res.read(pal_, h.palettesize*3);
 		pic_=new uint8_t[h.width*h.height];
 		if(pic_==NULL)
-			new Error("Not enough memory to load image");
+			fatal_msgbox("Not enough memory to load image");
 		res.read(pic_, h.width*h.height);
 	}
 }

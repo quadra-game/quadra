@@ -327,7 +327,7 @@ Video_X11::Video_X11(int w, int h, int b,
                          &attribs);
 
   if(!window)
-    (void)new Error("XCreateWindow failed");
+    fatal_msgbox("XCreateWindow failed");
 
   attribs.override_redirect = True;
 
@@ -371,7 +371,7 @@ Video_X11::Video_X11(int w, int h, int b,
                                        &attribs);
 
     if(!fullscreen_window)
-      (void)new Error("XCreateWindow failed");
+      fatal_msgbox("XCreateWindow failed");
 
     skelton_msgbox("X11: fullscreen mode available\n");
   }
@@ -434,7 +434,7 @@ Video_X11::Video_X11(int w, int h, int b,
 		 &gcvalues);
 
   if(!gc)
-    (void)new Error("XCreateGC failed");
+    fatal_msgbox("XCreateGC failed");
 
   do {
     if(!XShmQueryExtension(display))
@@ -456,14 +456,14 @@ Video_X11::Video_X11(int w, int h, int b,
 			    w, h);
 
     if(!image)
-      (void)new Error("XCreateImage failed");
+      fatal_msgbox("XCreateImage failed");
 
     shminfo.shmid = shmget(IPC_PRIVATE,
 			   image->height * image->bytes_per_line,
 			   IPC_CREAT|0777);
 
     if(shminfo.shmid == -1)
-      (void)new Error("XShm: shmget failed");
+      fatal_msgbox("XShm: shmget failed");
 
     shminfo.shmaddr = image->data = (char*)shmat(shminfo.shmid, 0, 0);
     shminfo.readOnly = False;
@@ -478,7 +478,7 @@ Video_X11::Video_X11(int w, int h, int b,
       xoldhandler = XSetErrorHandler(xhandler);
 
     if(!XShmAttach(display, &shminfo))
-      (void)new Error("XShm: XShmAttach failed");
+      fatal_msgbox("XShm: XShmAttach failed");
 
     XSync(display, False);
     if(xoldhandler)
@@ -506,18 +506,18 @@ Video_X11::Video_X11(int w, int h, int b,
 			 0);
 
     if(!image)
-      (void)new Error("XCreateImage failed");
+      fatal_msgbox("XCreateImage failed");
 
     image->data = (char*)malloc(image->height * image->bytes_per_line);
 
     if(!image->data)
-      (void)new Error("Out of memory");
+      fatal_msgbox("Out of memory");
   }
 
   vb = Video_bitmap::New(0, 0, w, h, w);
 
   if(!vb)
-    (void)new Error("Couldn't create a video bitmap.");
+    fatal_msgbox("Couldn't create a video bitmap.");
 
   XMapRaised(display, window);
 

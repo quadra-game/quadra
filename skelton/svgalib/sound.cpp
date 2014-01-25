@@ -303,10 +303,10 @@ void Sample::loadriff(const char *res, unsigned int len) {
   unsigned int size=0, bps=0;
 
   if(((struct riff_header *)res)->signature != INTELDWORD(0x46464952)) /* 'RIFF' */
-    (void)new Error("Bad RIFF signature");
+    fatal_msgbox("Bad RIFF signature");
 
   if(((struct riff_header *)res)->type != INTELDWORD(0x45564157)) /* 'WAVE' */
-    (void)new Error("RIFF is not a WAVE");
+    fatal_msgbox("RIFF is not a WAVE");
 
   char *ptr = (char *)res + sizeof(struct riff_header);
   char *endptr = (char *)res + len - 3;
@@ -330,7 +330,7 @@ void Sample::loadriff(const char *res, unsigned int len) {
       w = INTELWORD(w);
 
       if(w != 1)
-	(void)new Error("RIFF/WAVE: unsupported number of channels");
+        fatal_msgbox("RIFF/WAVE: unsupported number of channels");
 
       uint32_t d = UNALIGNEDDWORD(((struct fmt_chunk *)data)->sampling);
       sampling = INTELDWORD(d);
@@ -342,7 +342,7 @@ void Sample::loadriff(const char *res, unsigned int len) {
       break;
     case 0x61746164: /* 'data' */
       if(!seenfmt)
-	(void)new Error("RIFF/WAVE: 'data' subchunk seen before 'fmt ' subchunk");
+        fatal_msgbox("RIFF/WAVE: 'data' subchunk seen before 'fmt ' subchunk");
 
       sample = (char*)realloc(sample, size+header_size);
       memcpy(sample+size, data, header_size);
@@ -357,7 +357,7 @@ void Sample::loadriff(const char *res, unsigned int len) {
   }
 
   if(!sample)
-    (void)new Error("Error loading sample");
+    fatal_msgbox("Error loading sample");
 
   resample(sample, size, bps);
 
@@ -373,7 +373,7 @@ void Sample::resample(char* sample, unsigned int size, unsigned int bps) {
   audio_data = malloc(length); // length is in bytes here
 
   if(!audio_data)
-    (void)new Error("Couldn't allocate sample");
+    fatal_msgbox("Couldn't allocate sample");
 
   if(bps == 8) {
     if(sound->bps == 16)
@@ -417,7 +417,7 @@ void Sample::resample(char* sample, unsigned int size, unsigned int bps) {
       delta_pos += delta;
     }
   } else {
-    (void)new Error("Sound: wave 16-bit not currently supported");
+    fatal_msgbox("Sound: wave 16-bit not currently supported");
   }
 }
 

@@ -84,7 +84,7 @@ void Buf::reserve(uint32_t s) {
 	if(s>capacity) {
 		data = (uint8_t*)realloc(data, s);
 		if(!data)
-			(void)new Error("Out of memory!");
+			fatal_msgbox("Out of memory!");
 		capacity=s;
 	}
 }
@@ -120,7 +120,7 @@ void Textbuf::append(const char* s, ...) {
 	va_list marker;
 	va_start(marker, s);
 	if (vsnprintf(st, sizeof(st), s, marker) >= static_cast<int>(sizeof(st)))
-		(void)new Error("Textbuf::append overflow");
+		fatal_msgbox("Textbuf::append overflow");
 	va_end(marker);
 	appendraw(st);
 }
@@ -142,7 +142,7 @@ void Textbuf::reserve(uint32_t size) {
 	bool init=data? false:true;
 	data=(char*)realloc(data, wanted);
 	if(!data)
-		(void)new Error("Out of memory!");
+		fatal_msgbox("Out of memory!");
 	capacity=wanted;
 	if(init)
 		data[0]=0;

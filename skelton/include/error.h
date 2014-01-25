@@ -23,6 +23,16 @@
 
 #include "config.h"
 
+// This helps avoid warnings for using uninitialized variables when fatal
+// functions are called.
+#ifndef __dead2
+#ifdef __GNUC__
+#define __dead2 __attribute__((noreturn))
+#else
+#define __dead2
+#endif
+#endif
+
 extern bool _debug;
 extern bool skelton_debug;
 
@@ -39,13 +49,9 @@ extern bool skelton_debug;
 
 extern void delete_obj();
 void msgbox(const char* m, ...);
+void fatal_msgbox(const char* m, ...) __dead2;
 void skelton_msgbox(const char* m, ...);
 void lock_msgbox(const char* m, ...);
 void user_output(const char* title, const char *msg);
-
-class Error {
-public:
-	Error(const char* m, ...);
-};
 
 #endif
