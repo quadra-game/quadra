@@ -44,7 +44,6 @@ AC_CHECK_HEADERS(machine/endian.h)
 AC_CHECK_HEADERS(machine/byte_order.h)
 AC_CHECK_HEADERS(linux/cdrom.h)
 AC_CHECK_HEADERS(linux/soundcard.h)
-AC_CHECK_HEADERS(mcheck.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 

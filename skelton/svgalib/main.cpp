@@ -20,11 +20,6 @@
 
 /* version Linux */
 #include "config.h"
-#ifdef HAVE_MCHECK_H
-#ifndef NDEBUG
-#include <mcheck.h>
-#endif
-#endif
 #include <stdlib.h>
 #include <signal.h>
 
