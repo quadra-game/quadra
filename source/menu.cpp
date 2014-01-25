@@ -37,7 +37,6 @@
 #include "inter.h"
 #include "input.h"
 #include "dict.h"
-#include "music.h"
 #include "multi_player.h"
 #include "misc.h"
 #include "zone.h"
@@ -1362,18 +1361,6 @@ Menu_option::Menu_option() {
 
 Menu_option::~Menu_option() {
   config.write();
-  if(old_music != config.info.cdmusic) {
-    if(config.info.cdmusic == 2) {
-      music->play(1, true);
-      return;
-    }
-    if(old_music == 0) {
-      music->play(1);
-    }
-    if(config.info.cdmusic == 0) {
-      music->stop();
-    }
-  }
   if(old_language != config.info.language) {
     delete stringtable;
     const char *language;
@@ -1467,14 +1454,6 @@ Menu_intro::~Menu_intro() {
   delete font2;
 }
 
-void Menu_main_startmusic::init() {
-  if(config.info.cdmusic == 1)
-    music->play(1);
-  if(config.info.cdmusic == 2)
-    music->play(1, true);
-  ret();
-}
-
 Menu_main::Menu_main():
 	version_warning(false)
 {
@@ -1542,7 +1521,6 @@ void Menu_main::redraw() {
 
 void Menu_main::init() {
   Menu::init();
-  call(new Menu_main_startmusic());
   call(new Wait_time(6)); // to force the palette being set BEFORE the music starts
   call(new Setpalette(pal));
   reset_delay();

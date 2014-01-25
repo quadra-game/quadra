@@ -179,9 +179,6 @@
 				RelativePath="..\skelton\directx\main.cpp">
 			</File>
 			<File
-				RelativePath="..\skelton\directx\music.cpp">
-			</File>
-			<File
 				RelativePath="..\skelton\common\net.cpp">
 			</File>
 			<File
@@ -332,9 +329,6 @@
 			</File>
 			<File
 				RelativePath="..\skelton\include\main.h">
-			</File>
-			<File
-				RelativePath="..\skelton\include\music.h">
 			</File>
 			<File
 				RelativePath="..\skelton\include\net.h">

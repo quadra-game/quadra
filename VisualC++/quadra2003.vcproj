@@ -230,9 +230,6 @@
 				RelativePath="..\source\multi_player.cpp">
 			</File>
 			<File
-				RelativePath="..\skelton\directx\music.cpp">
-			</File>
-			<File
 				RelativePath="..\skelton\common\net.cpp">
 			</File>
 			<File
@@ -479,9 +476,6 @@
 			</File>
 			<File
 				RelativePath="..\include\multi_provider.h">
-			</File>
-			<File
-				RelativePath="..\skelton\include\music.h">
 			</File>
 			<File
 				RelativePath="..\skelton\include\net.h">

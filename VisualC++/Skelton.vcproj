@@ -614,28 +614,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\skelton\directx\music.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\skelton\common\net.cpp"
 				>
 				<FileConfiguration
@@ -1222,10 +1200,6 @@
 			</File>
 			<File
 				RelativePath="..\skelton\include\main.h"
-				>
-			</File>
-			<File
-				RelativePath="..\skelton\include\music.h"
 				>
 			</File>
 			<File

@@ -28,7 +28,6 @@
 #include "input_dx.h"
 #include "sound.h"
 #include "cursor.h"
-#include "music.h"
 #include "stringtable.h"
 #include "overmind.h"
 #include "command.h"

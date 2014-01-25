@@ -29,7 +29,6 @@
 #include "quadra.h"
 #include "pane.h"
 #include "chat_text.h"
-#include "music.h"
 #include "game.h"
 #include "global.h"
 #include "texte.h"
@@ -62,13 +61,9 @@ Multi_player::Multi_player(int *got_high) {
 		color[i] = new Color(i, pal);
 	font2 = fteam[4];
 	if(game->single) {
-		if(config.info.cdmusic == 1)
-			music->play(2);
 		i = 1;
 	} else {
 		i = game->get_multi_level();
-		if(config.info.cdmusic == 1)
-			music->play(i+1, true);
 	}
 	Canvas::change_level(i, &pal, bit);
 	set_fteam_color(pal);
