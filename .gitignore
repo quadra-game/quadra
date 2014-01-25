@@ -1,0 +1,14 @@
+*.o
+/Quadra.desktop
+/autom4te.cache/
+/config.log
+/config.status
+/config/config.mk
+/config/depends.mk
+/configure
+/include/autoconf.h
+/include/autoconf.h.in
+/quadra
+/quadra.res
+/skelton/lib/libugs_s.a
+/skelton/tools/wadder/wadder
