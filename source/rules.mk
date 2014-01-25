@@ -15,8 +15,6 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 # 02111-1307, USA.
-#
-# $Id$
 
 quadra: $(QUADRA_OBJECTS) skelton/lib/libugs_s.a
 	$(LINK.cc) -Lskelton/lib $(X_CFLAGS) $(X_LIBS) -o $@ $^ -lX11 -lXext -lXxf86vm -lXpm -lpng -lz

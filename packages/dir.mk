@@ -1,5 +1,4 @@
 # Makefile pour Quadra
-# $Id$
 
 # FIXME: this file is obsolete
 $(error this file is obsolete)
