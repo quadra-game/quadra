@@ -18,7 +18,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include <stdint.h>
 #include <sys/stat.h>
+
 #include "res.h"
 
 Res_mem::Res_mem() {
@@ -70,12 +72,12 @@ Res_dos::~Res_dos() {
 		delete _buf;
 }
 
-Dword Res_dos::size() {
+uint32_t Res_dos::size() {
 	return _filelength(handle);
 }
 
 
-void Res_dos::position(Dword po) {
+void Res_dos::position(uint32_t po) {
 	_lseek(handle, po, SEEK_SET);
 }
 
@@ -97,7 +99,7 @@ const void* Res_dos::buf() {
 	if(_buf)
 		return _buf;
 	Error* error;
-	_buf = new Byte[size()];
+	_buf = new uint8_t[size()];
 	if(_buf == NULL)
 		error = new Error("Not enough memory to load file");
 	read(_buf, size());
@@ -108,6 +110,6 @@ bool Res_dos::eof() {
 	return _eof(handle) ? true:false;
 }
 
-Dword Res_dos::get_position() {
+uint32_t Res_dos::get_position() {
 	return _tell(handle);
 }

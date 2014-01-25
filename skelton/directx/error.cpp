@@ -110,7 +110,7 @@ void skelton_msgbox(const char* m, ...) {
 
 #ifndef NDEBUG
 void debug_point() {
-	Dword tim = getmsec();
+	uint32_t tim = getmsec();
 	while(getmsec() - tim < 5000) {
 		start_frame();
 		end_frame();

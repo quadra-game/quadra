@@ -270,7 +270,7 @@ void DirectX_Video::snap_shot(int x, int y, int w, int h) {
 	}
 	lock();
 	for(i=y; i<y+h; i++)
-		res.write((Byte *) ddsdlock.lpSurface + pitch*i + x, w);
+		res.write((uint8_t *) ddsdlock.lpSurface + pitch*i + x, w);
 	unlock();
 
 	skelton_msgbox("ok\n");
@@ -338,7 +338,7 @@ DirectX_Video_bitmap::~DirectX_Video_bitmap() {
 }
 
 void DirectX_Video_bitmap::setmem() {
-  currentpage->setmem((Byte *) directx_video->ddsdlock.lpSurface + pos_y*video->pitch + pos_x);
+  currentpage->setmem((uint8_t *) directx_video->ddsdlock.lpSurface + pos_y*video->pitch + pos_x);
 }
 
 void DirectX_Video_bitmap::rect(const int x,const int y,const int w,const int h,const int color) const {
@@ -371,15 +371,15 @@ void DirectX_Video_bitmap::get_bitmap(const Bitmap* bit, const int x, const int 
 	src.draw(*bit, clip_x1-x, clip_y1-y);
 }
 
-void DirectX_Video_bitmap::put_pel(const int x, const int y, const Byte c) const {
+void DirectX_Video_bitmap::put_pel(const int x, const int y, const uint8_t c) const {
 	currentpage->put_pel(x, y, c);
 }
 
-void DirectX_Video_bitmap::hline(const int y, const int x, const int w, const Byte c) const {
+void DirectX_Video_bitmap::hline(const int y, const int x, const int w, const uint8_t c) const {
 	currentpage->hline(y, x, w, c);
 }
 
-void DirectX_Video_bitmap::vline(const int x, const int y, const int h, const Byte c) const {
+void DirectX_Video_bitmap::vline(const int x, const int y, const int h, const uint8_t c) const {
 	currentpage->vline(x, y, h, c);
 }
 

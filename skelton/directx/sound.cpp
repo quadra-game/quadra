@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include <stdint.h>
+
 #include "error.h"
 #include "main.h"
 #include "sound.h"
@@ -224,7 +226,7 @@ void Sample::stop() {
 	}
 }
 
-Sfx::Sfx(Sample *sam, Dword dwPlayFlags, int vo, int pa, int f, int pos) {
+Sfx::Sfx(Sample *sam, uint32_t dwPlayFlags, int vo, int pa, int f, int pos) {
 	if(!sound || !sam || !sound->active)
 		return;
 	buf = sam->getfreebuffer();

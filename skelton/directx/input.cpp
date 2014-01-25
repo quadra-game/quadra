@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include <stdint.h>
+
 #include "error.h"
 #include "main.h"
 #include "input_dx.h"
@@ -219,7 +221,7 @@ void Input_DX::process_mouse() {
 	DIDEVICEOBJECTDATA od;
 	DWORD dwElements = 1;
 	mouse.dx = mouse.dy = mouse.dz = 0;
-	Byte butt;
+	uint8_t butt;
 	for(;;) {
 		HRESULT hr = lpinputmouse->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), &od, &dwElements, 0);
 		if(hr == DIERR_INPUTLOST) {
@@ -229,7 +231,7 @@ void Input_DX::process_mouse() {
 		calldx(hr);
 		if(dwElements == 0)
 			break;
-		butt = (Byte) (od.dwData & 0x80);
+		butt = (uint8_t) (od.dwData & 0x80);
 		switch (od.dwOfs) {
 			case DIMOFS_X:
 				mouse.dx += (int) od.dwData;
@@ -241,22 +243,22 @@ void Input_DX::process_mouse() {
 				mouse.dz += (int) od.dwData;
 				break;
 			case DIMOFS_BUTTON0:
-				mouse.button[0] = (Byte) (butt ? PRESSED:RELEASED);
+				mouse.button[0] = (uint8_t) (butt ? PRESSED:RELEASED);
 				if(butt)
 					mouse.quel = 0;
 				break;
 			case DIMOFS_BUTTON1:
-				mouse.button[1] = (Byte) (butt ? PRESSED:RELEASED);
+				mouse.button[1] = (uint8_t) (butt ? PRESSED:RELEASED);
 				if(butt)
 					mouse.quel = 1;
 				break;
 			case DIMOFS_BUTTON2:
-				mouse.button[2] = (Byte) (butt ? PRESSED:RELEASED);
+				mouse.button[2] = (uint8_t) (butt ? PRESSED:RELEASED);
 				if(butt)
 					mouse.quel = 2;
 				break;
 			case DIMOFS_BUTTON3:
-				mouse.button[3] = (Byte) (butt ? PRESSED:RELEASED);
+				mouse.button[3] = (uint8_t) (butt ? PRESSED:RELEASED);
 				if(butt)
 					mouse.quel = 3;
 				break;

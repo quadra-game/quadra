@@ -211,6 +211,6 @@ COPPER(30,0,0);
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
-Dword getmsec() {
+uint32_t getmsec() {
 	return timeGetTime();
 }

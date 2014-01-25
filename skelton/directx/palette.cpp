@@ -18,7 +18,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include <stdint.h>
 #include <stdio.h>
+
 #include "types.h"
 #include "video.h"
 #include "palette.h"
@@ -42,21 +44,21 @@ void Palette::load(const Image& raw) {
 Remap::Remap(const Palette& d, Palette* src): dst(d) {
 	if(src) {
 		for(int i=0; i<src->size; i++)
-			findrgb((Byte) i, src->r((Byte) i), src->g((Byte) i), src->b((Byte) i));
+			findrgb((uint8_t) i, src->r((uint8_t) i), src->g((uint8_t) i), src->b((uint8_t) i));
 	}
 }
 
-void Remap::findrgb(const Byte m, const Byte r, const Byte g, const Byte b) {
+void Remap::findrgb(const uint8_t m, const uint8_t r, const uint8_t g, const uint8_t b) {
 	int best_diff=9999999, diff;
-	Byte best_i=0;
+	uint8_t best_i=0;
 	for(int i=1; i<dst.size; i++) {
 		diff=(int) ((dst.pal[i].peRed-r)*(dst.pal[i].peRed-r)*2 + (dst.pal[i].peGreen-g)*(dst.pal[i].peGreen-g)*3 + (dst.pal[i].peBlue-b)*(dst.pal[i].peBlue-b));
 		if(diff == 0) {
-			map[m] = (Byte) i;
+			map[m] = (uint8_t) i;
 			return;
 		}
 		if(diff < best_diff) {
-			best_i = (Byte) i;
+			best_i = (uint8_t) i;
 			best_diff = diff;
 		}
 	}
@@ -116,7 +118,7 @@ void Fade::set() {
 	} else {
 		video->pal.set_size(256);
 		for(int i(0); i<256; i++)
-			video->pal.setcolor((Byte) i, (Byte) (current[i*3]>>7), (Byte) (current[i*3+1]>>7), (Byte) (current[i*3+2]>>7));
+			video->pal.setcolor((uint8_t) i, (uint8_t) (current[i*3]>>7), (uint8_t) (current[i*3+1]>>7), (uint8_t) (current[i*3+2]>>7));
 		video->newpal = true;
 	}
 }
