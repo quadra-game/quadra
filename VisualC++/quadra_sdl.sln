@@ -1,9 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual C++ Express 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Quadra", "Quadra.vcproj", "{AD0452B7-E9CE-4236-BE28-0792F3220DF4}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Quadra", "Quadra.vcxproj", "{AD0452B7-E9CE-4236-BE28-0792F3220DF4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wadder", "wadder.vcproj", "{EB40D336-0541-4E2D-A49E-1936F05A201E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wadder", "wadder.vcxproj", "{EB40D336-0541-4E2D-A49E-1936F05A201E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
