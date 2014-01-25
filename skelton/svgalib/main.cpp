@@ -60,11 +60,6 @@ char exe_directory[1024];
 static bool ignore_sigpipe=false;
 
 int main(int ARGC, char **ARGV, char **ENV) {
-#ifdef HAVE_MCHECK_H
-#ifndef NDEBUG
-  mcheck(NULL);
-#endif
-#endif
   atexit(delete_obj);
 	struct sigaction signals;
 	if(sigaction(SIGPIPE, NULL, &signals) < 0)
