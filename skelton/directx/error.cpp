@@ -73,19 +73,6 @@ static void output_msg(char *m) {
 		out.write(m, siz);
 }
 
-void lock_msgbox(const char* m, ...) {
-	if(_debug) {
-		video->unlock();
-		char st[1024];
-		va_list marker;
-		va_start(marker, m);
-		vsprintf(st, m, marker);
-		va_end(marker);
-		output_msg(st);
-		video->lock();
-	}
-}
-
 void msgbox(const char* m, ...) {
 	if(_debug) {
 		char st[1024];
@@ -107,20 +94,6 @@ void skelton_msgbox(const char* m, ...) {
 		output_msg(st);
 	}
 }
-
-#ifndef NDEBUG
-void debug_point() {
-	uint32_t tim = getmsec();
-	while(getmsec() - tim < 5000) {
-		start_frame();
-		end_frame();
-		if(input && input->quel_key == DIK_F2) { // skip break point
-			input->quel_key = -1;
-			break;
-		}
-	}
-}
-#endif
 
 void user_output(const char* title, const char *msg) {
 	ShowCursor(TRUE);

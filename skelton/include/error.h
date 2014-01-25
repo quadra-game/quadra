@@ -51,7 +51,6 @@ extern void delete_obj();
 void msgbox(const char* m, ...);
 void fatal_msgbox(const char* m, ...) __dead2;
 void skelton_msgbox(const char* m, ...);
-void lock_msgbox(const char* m, ...);
 void user_output(const char* title, const char *msg);
 
 #endif
