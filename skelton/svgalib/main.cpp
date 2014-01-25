@@ -20,11 +20,6 @@
 
 /* version Linux */
 #include "config.h"
-#ifdef SOCKS
-#include <stdio.h>
-#include <socks.h>
-extern "C" int SOCKSinit(char *);
-#endif
 #ifdef HAVE_MCHECK_H
 #ifndef NDEBUG
 #include <mcheck.h>
@@ -74,9 +69,6 @@ int main(int ARGC, char **ARGV, char **ENV) {
 #ifndef NDEBUG
   mcheck(NULL);
 #endif
-#endif
-#ifdef SOCKS
-  SOCKSinit(ARGV[0]);
 #endif
   atexit(delete_obj);
 	struct sigaction signals;
