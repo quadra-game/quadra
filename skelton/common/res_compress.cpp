@@ -54,9 +54,9 @@ Res_compress::~Res_compress() {
 
 void Res_compress::read_uncompress() {
 	exist = false;
-	Byte *temp = (Byte *) res->buf(); // reads the entire file in '_buf'
+	uint8_t *temp = (uint8_t *) res->buf(); // reads the entire file in '_buf'
 	ressize = INTELDWORD(*(uint32_t *) temp);
-	Byte *source = temp + 4;
+	uint8_t *source = temp + 4;
 	int src_size = res->size() - 4;
 	skelton_msgbox("Res_compress::Res_compress: Reading compressed file original size = %i, compressed = %i\n", ressize, src_size);
 	if(src_size < 0) {
@@ -65,7 +65,7 @@ void Res_compress::read_uncompress() {
 		else
 			(void) new Error("Unable to uncompress file.\n");
 	}
-	_buf = (Byte *) malloc(ressize);
+	_buf = (uint8_t *) malloc(ressize);
 	if(_buf == NULL) {
 		if(mode == RES_TRY)
 			return;
@@ -93,7 +93,7 @@ void Res_compress::read_uncompress() {
 void Res_compress::write(const void *b, int nb) {
 	if(write_pos + nb > ressize) { 
 		ressize = ressize + max(nb, 16384);
-		_buf = (Byte *) realloc(_buf, ressize);
+		_buf = (uint8_t *) realloc(_buf, ressize);
 		if(_buf == NULL)
 			(void) new Error("Unable to reallocate buffer (need %i bytes)\n", ressize);
 	}
@@ -113,7 +113,7 @@ void Res_compress::write_compress() {
 	if(!_buf)
 		return;
 	unsigned long dest_len = write_pos + 65540;
-	Byte *temp = (Byte *) malloc(dest_len);
+	uint8_t *temp = (uint8_t *) malloc(dest_len);
 	*((uint32_t *)temp)=INTELDWORD(write_pos);
 	int error = compress(temp+4, &dest_len, _buf, write_pos);
 	if(error != Z_OK) {

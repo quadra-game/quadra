@@ -140,7 +140,7 @@ void Input_DX::clear_key() {
 void Input_DX::process_key() {
 	DIDEVICEOBJECTDATA od;
 	DWORD dwElements = 1;
-	Byte butt;
+	uint8_t butt;
 	HRESULT hr;
 	for(;;) {
 		hr = lpinputdevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), &od, &dwElements, 0);
@@ -157,7 +157,7 @@ void Input_DX::process_key() {
 		calldx(hr);
 		if (dwElements == 0)
 			break;
-		butt = (Byte) (od.dwData & 0x80);
+		butt = (uint8_t) (od.dwData & 0x80);
 		if(butt)
 			keys[od.dwOfs] |= PRESSED;  // bit #1 -> 0:not pressed 1:pressed
 		else

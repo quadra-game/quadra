@@ -186,12 +186,12 @@ void Sound::process() {
     Playing_sfx* p = plays[i];
 
     if(bps == 8) { // if 8-bit output
-      Byte* output = (Byte*)fragbuf;
-      Byte* input = (Byte*)p->sam->audio_data;
+      uint8_t* output = (uint8_t*)fragbuf;
+      uint8_t* input = (uint8_t*)p->sam->audio_data;
 
       for(unsigned int j=0; j<frag_temp; j++) {
-	Byte tmpl = *(input + p->pos);
-	Byte tmpr;
+	uint8_t tmpl = *(input + p->pos);
+	uint8_t tmpr;
 
 	tmpl = ((int) tmpl * p->vo) >> 8;
 
@@ -326,7 +326,7 @@ void Sample::loadriff(const char *res, unsigned int len) {
 
       {
 
-      Word w = UNALIGNEDWORD(((struct fmt_chunk *)data)->channels);
+      uint16_t w = UNALIGNEDWORD(((struct fmt_chunk *)data)->channels);
       w = INTELWORD(w);
 
       if(w != 1)
@@ -390,24 +390,24 @@ void Sample::resample(char* sample, unsigned int size, unsigned int bps) {
       signed short w;
       if(pos == old_pos && ((bps == 8 && pos < size-1) || (bps == 16 && pos < size - 1))) {
 	if(sound->bps == 8) {
-	  tube = (Byte)sample[pos+1] >> VOLUMESHIFT;
+	  tube = (uint8_t)sample[pos+1] >> VOLUMESHIFT;
 	  // cheap interpolation
-	  tube = (tube+((Byte *)audio_data)[i-1]) >> 1;
+	  tube = (tube+((uint8_t *)audio_data)[i-1]) >> 1;
 	} else {
-	  tube = (128 - (Byte)sample[pos+1]) << (8-VOLUMESHIFT);
+	  tube = (128 - (uint8_t)sample[pos+1]) << (8-VOLUMESHIFT);
 	  // cheap interpolation
           w = INTELWORD(((signed short *)audio_data)[i-1]);
 	  tube = (tube+w) >> 1;
 	}
       } else {
 	if(sound->bps == 8)
-	  tube = (Byte)sample[pos] >> VOLUMESHIFT;
+	  tube = (uint8_t)sample[pos] >> VOLUMESHIFT;
 	else
-	  tube = (128 - (Byte)sample[pos]) << (8-VOLUMESHIFT);
+	  tube = (128 - (uint8_t)sample[pos]) << (8-VOLUMESHIFT);
 	old_pos = pos;
       }
       if(sound->bps == 8)
-	((Byte *)audio_data)[i] = tube;
+	((uint8_t *)audio_data)[i] = tube;
       else
 	((signed short*)audio_data)[i] = INTELWORD(tube);
 

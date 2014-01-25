@@ -18,7 +18,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include <stdint.h>
 #include <stdio.h>
+
 #include "input.h"
 #include "image_png.h"
 #include "sprite.h"
@@ -114,7 +116,7 @@ void Multi_player::step() {
 	wait_timer++;
 	if(wait_timer==500) {
 		int col;
-		Byte side;
+		uint8_t side;
 		for(col = -1; col<9; col++) {
 			for(side=0; side<16; side++) {
 				char st[32];
@@ -134,7 +136,7 @@ void Multi_player::step() {
 				}
 				raw.write(res);
 				int i;
-				Byte pa[3];
+				uint8_t pa[3];
 				if(col!=-1)
 					for(i=color[col]->shade(0); i<color[col]->shade(0)+8; i++) {
 						pa[0] = pal.r(i);
@@ -153,7 +155,7 @@ void Multi_player::step() {
 					res.write(pa, 3);
 				}
 				for(i=0; i<18; i++) {
-					Byte pel[18];
+					uint8_t pel[18];
 					memcpy(pel, the_bit[i], 18);
 					for(int j=0; j<18; j++)
 						pel[j] = pel[j] & 7;

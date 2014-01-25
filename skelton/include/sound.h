@@ -21,6 +21,8 @@
 #ifndef _HEADER_SOUND
 #define _HEADER_SOUND
 
+#include <stdint.h>
+
 #include "config.h"
 
 #ifdef WIN32

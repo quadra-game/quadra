@@ -33,7 +33,7 @@ Res_doze::Res_doze(LPCTSTR lpName) {
 		new Error("Can't find resource '%s'", lpName);
 	if((hResData = LoadResource(NULL, hResInfo)) == NULL)
 		new Error("Can't load resource '%s'", lpName);
-	if((_buf = (Byte *) LockResource(hResData)) == NULL)
+	if((_buf = (uint8_t *) LockResource(hResData)) == NULL)
 		new Error("Can't lock resource '%s'", lpName);
 }
 #endif
