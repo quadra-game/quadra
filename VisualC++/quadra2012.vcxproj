@@ -45,8 +45,6 @@
     <OutDir>DebugQ\</OutDir>
     <IntDir>DebugQ\</IntDir>
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2007%29\Include</IncludePath>
-    <LibraryPath>$(LibraryPath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2007%29\Lib\x86</LibraryPath>
     <Linkage-zlib>static</Linkage-zlib>
     <Linkage-libpng>static</Linkage-libpng>
   </PropertyGroup>
@@ -54,8 +52,6 @@
     <OutDir>ReleaseQ\</OutDir>
     <IntDir>ReleaseQ\</IntDir>
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2007%29\Include</IncludePath>
-    <LibraryPath>$(LibraryPath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2007%29\Lib\x86</LibraryPath>
     <Linkage-zlib>static</Linkage-zlib>
     <Linkage-libpng>static</Linkage-libpng>
   </PropertyGroup>
