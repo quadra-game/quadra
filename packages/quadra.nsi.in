@@ -97,6 +97,6 @@ Section "Uninstall"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Quadra"
 
   ; remove install directory
-  ; TODO: move Quadra and QSnoop configuration to the registry and demos to "Application data" to make this work
+  ; TODO: move Quadra configuration to the registry and demos to "Application data" to make this work
   RMDir "$INSTDIR"
 SectionEnd
