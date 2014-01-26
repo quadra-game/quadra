@@ -75,7 +75,6 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>shfolder.lib;wsock32.lib;ddraw.lib;dsound.lib;dinput.lib;winmm.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)wadder.exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)wadder.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
@@ -96,7 +95,6 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>shfolder.lib;wsock32.lib;ddraw.lib;dsound.lib;dinput.lib;winmm.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)wadder.exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
