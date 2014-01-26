@@ -126,13 +126,6 @@ void delete_obj() {
 		delete video;
 		video=NULL;
 	}
-	if(music) {
-		skelton_msgbox("stopping and deleting music...\n");
-		music->stop();
-		music->close();
-		delete music;
-		music=NULL;
-	}
 	if(stringtable) {
 		skelton_msgbox("deleting stringtable...\n");
 		delete stringtable;

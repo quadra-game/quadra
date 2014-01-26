@@ -1,0 +1,32 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "quadra", "quadra2012.vcxproj", "{B36B1CBB-96D2-4D95-8788-665D8EEE85A9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wadder", "wadder2012.vcxproj", "{2C2EF3F6-3DFD-4056-AEDE-C686C30D2C4A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C9AF09EB-C875-4093-A045-93CE5EE9E9B6}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B36B1CBB-96D2-4D95-8788-665D8EEE85A9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B36B1CBB-96D2-4D95-8788-665D8EEE85A9}.Debug|Win32.Build.0 = Debug|Win32
+		{B36B1CBB-96D2-4D95-8788-665D8EEE85A9}.Release|Win32.ActiveCfg = Release|Win32
+		{B36B1CBB-96D2-4D95-8788-665D8EEE85A9}.Release|Win32.Build.0 = Release|Win32
+		{2C2EF3F6-3DFD-4056-AEDE-C686C30D2C4A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2C2EF3F6-3DFD-4056-AEDE-C686C30D2C4A}.Debug|Win32.Build.0 = Debug|Win32
+		{2C2EF3F6-3DFD-4056-AEDE-C686C30D2C4A}.Release|Win32.ActiveCfg = Release|Win32
+		{2C2EF3F6-3DFD-4056-AEDE-C686C30D2C4A}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

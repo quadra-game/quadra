@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>wadder</ProjectName>
+    <ProjectGuid>{2C2EF3F6-3DFD-4056-AEDE-C686C30D2C4A}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">.\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v110_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v110_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>11.0.61030.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>Debug\</OutDir>
+    <IntDir>Debug\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+    <Linkage-zlib>static</Linkage-zlib>
+    <Linkage-libpng>static</Linkage-libpng>
+    <IncludePath>$(IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2007%29\Include</IncludePath>
+    <LibraryPath>$(LibraryPath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2007%29\Lib\x86</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>Release\</OutDir>
+    <IntDir>Release\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+    <Linkage-zlib>static</Linkage-zlib>
+    <Linkage-libpng>static</Linkage-libpng>
+    <IncludePath>$(IncludePath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2007%29\Include</IncludePath>
+    <LibraryPath>$(LibraryPath);C:\Program Files %28x86%29\Microsoft DirectX SDK %28August 2007%29\Lib\x86</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\include;..\skelton\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>shfolder.lib;wsock32.lib;ddraw.lib;dsound.lib;dinput.lib;winmm.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)wadder.exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)wadder.pdb</ProgramDatabaseFile>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\include;..\skelton\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MinimalRebuild>true</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>shfolder.lib;wsock32.lib;ddraw.lib;dsound.lib;dinput.lib;winmm.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)wadder.exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\skelton\common\bitmap.cpp" />
+    <ClCompile Include="..\skelton\common\buf.cpp" />
+    <ClCompile Include="..\skelton\common\clipable.cpp" />
+    <ClCompile Include="..\skelton\common\clock.cpp" />
+    <ClCompile Include="..\skelton\common\command.cpp" />
+    <ClCompile Include="..\skelton\common\crypt.cpp" />
+    <ClCompile Include="..\skelton\common\cursor.cpp" />
+    <ClCompile Include="..\skelton\common\cursor_self.cpp" />
+    <ClCompile Include="..\skelton\common\dict.cpp" />
+    <ClCompile Include="..\skelton\directx\error.cpp" />
+    <ClCompile Include="..\skelton\directx\find_file.cpp" />
+    <ClCompile Include="..\skelton\common\http_post.cpp" />
+    <ClCompile Include="..\skelton\common\http_request.cpp" />
+    <ClCompile Include="..\skelton\common\id.cpp" />
+    <ClCompile Include="..\skelton\common\image_png.cpp" />
+    <ClCompile Include="..\skelton\directx\input.cpp" />
+    <ClCompile Include="..\skelton\common\input_dumb.cpp" />
+    <ClCompile Include="..\skelton\common\inter.cpp" />
+    <ClCompile Include="..\skelton\common\listbox.cpp" />
+    <ClCompile Include="..\skelton\directx\main.cpp" />
+    <ClCompile Include="..\skelton\common\net.cpp" />
+    <ClCompile Include="..\skelton\common\notify.cpp" />
+    <ClCompile Include="..\skelton\common\overmind.cpp" />
+    <ClCompile Include="..\skelton\common\packet.cpp" />
+    <ClCompile Include="..\skelton\directx\palette.cpp" />
+    <ClCompile Include="..\skelton\common\random.cpp" />
+    <ClCompile Include="..\skelton\common\raw.cpp" />
+    <ClCompile Include="..\skelton\directx\res.cpp" />
+    <ClCompile Include="..\skelton\common\res_compress.cpp" />
+    <ClCompile Include="..\skelton\common\resfile.cpp" />
+    <ClCompile Include="..\skelton\common\resmanager.cpp" />
+    <ClCompile Include="..\skelton\common\reswriter.cpp" />
+    <ClCompile Include="..\skelton\directx\sound.cpp" />
+    <ClCompile Include="..\skelton\common\sprite.cpp" />
+    <ClCompile Include="..\skelton\common\stringtable.cpp" />
+    <ClCompile Include="..\skelton\common\unicode.cpp" />
+    <ClCompile Include="..\skelton\common\url.cpp" />
+    <ClCompile Include="..\skelton\directx\video.cpp" />
+    <ClCompile Include="..\skelton\common\video_dumb.cpp" />
+    <ClCompile Include="..\skelton\directx\video_new.cpp" />
+    <ClCompile Include="..\skelton\tools\wadder\wadder.cpp" />
+    <ClCompile Include="..\skelton\common\zone_text_clock.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\skelton\include\array.h" />
+    <ClInclude Include="..\skelton\include\bitmap.h" />
+    <ClInclude Include="..\skelton\include\buf.h" />
+    <ClInclude Include="..\skelton\include\byteorder.h" />
+    <ClInclude Include="..\skelton\include\clipable.h" />
+    <ClInclude Include="..\skelton\include\clock.h" />
+    <ClInclude Include="..\skelton\include\command.h" />
+    <ClInclude Include="..\skelton\include\crypt.h" />
+    <ClInclude Include="..\skelton\include\cursor.h" />
+    <ClInclude Include="..\skelton\include\cursor_self.h" />
+    <ClInclude Include="..\skelton\include\cursor_x11.h" />
+    <ClInclude Include="..\skelton\include\dict.h" />
+    <ClInclude Include="..\skelton\include\error.h" />
+    <ClInclude Include="..\skelton\include\find_file.h" />
+    <ClInclude Include="..\skelton\include\http_post.h" />
+    <ClInclude Include="..\skelton\include\http_request.h" />
+    <ClInclude Include="..\skelton\include\id.h" />
+    <ClInclude Include="..\skelton\include\image.h" />
+    <ClInclude Include="..\skelton\include\image_png.h" />
+    <ClInclude Include="..\skelton\include\input.h" />
+    <ClInclude Include="..\skelton\include\input_dumb.h" />
+    <ClInclude Include="..\skelton\include\input_dx.h" />
+    <ClInclude Include="..\skelton\include\input_keys.h" />
+    <ClInclude Include="..\skelton\include\input_x11.h" />
+    <ClInclude Include="..\skelton\include\inter.h" />
+    <ClInclude Include="..\skelton\include\listbox.h" />
+    <ClInclude Include="..\skelton\include\main.h" />
+    <ClInclude Include="..\skelton\include\net.h" />
+    <ClInclude Include="..\skelton\include\net_buf.h" />
+    <ClInclude Include="..\skelton\include\net_call.h" />
+    <ClInclude Include="..\skelton\include\notify.h" />
+    <ClInclude Include="..\skelton\include\overmind.h" />
+    <ClInclude Include="..\skelton\include\packet.h" />
+    <ClInclude Include="..\skelton\include\palette.h" />
+    <ClInclude Include="..\skelton\include\random.h" />
+    <ClInclude Include="..\skelton\include\raw.h" />
+    <ClInclude Include="..\skelton\include\res.h" />
+    <ClInclude Include="..\skelton\include\res_compress.h" />
+    <ClInclude Include="..\skelton\include\resfile.h" />
+    <ClInclude Include="..\skelton\include\resmanager.h" />
+    <ClInclude Include="..\skelton\include\sound.h" />
+    <ClInclude Include="..\skelton\include\sprite.h" />
+    <ClInclude Include="..\skelton\include\stringtable.h" />
+    <ClInclude Include="..\skelton\include\surface.h" />
+    <ClInclude Include="..\skelton\include\types.h" />
+    <ClInclude Include="..\skelton\include\unicode.h" />
+    <ClInclude Include="..\skelton\include\url.h" />
+    <ClInclude Include="..\skelton\include\utils.h" />
+    <ClInclude Include="..\skelton\include\video.h" />
+    <ClInclude Include="..\skelton\include\video_dumb.h" />
+    <ClInclude Include="..\skelton\include\video_dx.h" />
+    <ClInclude Include="..\skelton\include\video_x11.h" />
+    <ClInclude Include="..\skelton\include\zone_text_clock.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+    <Import Project="packages\zlib.redist.1.2.8.6\build\native\zlib.redist.targets" Condition="Exists('packages\zlib.redist.1.2.8.6\build\native\zlib.redist.targets')" />
+    <Import Project="packages\zlib.1.2.8.6\build\native\zlib.targets" Condition="Exists('packages\zlib.1.2.8.6\build\native\zlib.targets')" />
+    <Import Project="packages\libpng.redist.1.5.10.11\build\native\libpng.redist.targets" Condition="Exists('packages\libpng.redist.1.5.10.11\build\native\libpng.redist.targets')" />
+    <Import Project="packages\libpng.1.5.10.11\build\native\libpng.targets" Condition="Exists('packages\libpng.1.5.10.11\build\native\libpng.targets')" />
+  </ImportGroup>
+</Project>

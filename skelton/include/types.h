@@ -23,6 +23,8 @@
 
 #include "config.h"
 
+#include <algorithm>
+
 #ifdef WIN32
 #define snprintf _snprintf
 #if _MSC_VER < 1400
