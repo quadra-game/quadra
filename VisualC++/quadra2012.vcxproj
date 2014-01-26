@@ -42,18 +42,20 @@
     <_ProjectFileVersion>11.0.61030.0</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>DebugQ\</OutDir>
+    <OutDir>..\</OutDir>
     <IntDir>DebugQ\</IntDir>
     <LinkIncremental>true</LinkIncremental>
     <Linkage-zlib>static</Linkage-zlib>
     <Linkage-libpng>static</Linkage-libpng>
+    <TargetName>quadra_debug</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>ReleaseQ\</OutDir>
+    <OutDir>..\</OutDir>
     <IntDir>ReleaseQ\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <Linkage-zlib>static</Linkage-zlib>
     <Linkage-libpng>static</Linkage-libpng>
+    <TargetName>quadra</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -73,7 +75,6 @@
       <AdditionalDependencies>shfolder.lib;wsock32.lib;ddraw.lib;dsound.lib;dinput.lib;winmm.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(OutDir)quadra.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
