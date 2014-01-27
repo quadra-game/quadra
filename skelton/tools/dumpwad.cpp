@@ -29,7 +29,7 @@
 #include <fcntl.h>
 #include "resfile.h"
 
-char *usage = "incorrect number of parameters\n";
+const char usage[] = "incorrect number of parameters\n";
 
 int main(int ARGC, char **ARGV, char **ENV) {
 	Resfile *wad;
