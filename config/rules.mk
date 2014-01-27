@@ -47,9 +47,6 @@ install: installdirs $(TARGETS)
 	$(INSTALL_PROGRAM) quadra $(DESTDIR)$(bindir)/quadra
 	$(INSTALL_DATA) quadra.res $(DESTDIR)$(datagamesdir)/quadra.res
 	$(INSTALL_DATA) images/quadra.xpm $(DESTDIR)$(datadir)/pixmaps/quadra.xpm
-# FIXME: the Quadra.desktop file should go to these places:
-# /etc/X11/applnk/Games/Quadra.desktop
-# /usr/share/gnome/apps/Games/Quadra.desktop
 
 quadra.spec: packages/quadra.spec.in include/version.h
 	sed -e 's%@VERSION@%$(VERSION)%g' >$@ <$<
@@ -59,9 +56,6 @@ packages/quadra.nsi: packages/quadra.nsi.in include/version.h
 
 packages/readme-win32.txt: packages/readme-win32.txt.in include/version.h
 	sed -e 's%@VERSION@%$(VERSION)%g' >$@ <$<
-
-Quadra.desktop: packages/Quadra.desktop.in config/config.mk
-	sed -e 's%@bindir@%$(bindir)%g' -e 's%@datadir@%$(datadir)%g' >$@ <$<
 
 configure: configure.ac
 	autoreconf

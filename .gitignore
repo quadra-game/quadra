@@ -1,5 +1,4 @@
 *.o
-/Quadra.desktop
 /autom4te.cache/
 /config.log
 /config.status

@@ -20,8 +20,6 @@ CLEAN+=config/depends.mk
 DISTCLEAN+=config/config.mk ChangeLog.bak gmon.out
 REALCLEAN+=ChangeLog
 
-TARGETS+=Quadra.desktop
-
 CXXFLAGS+=-Wall -pipe -Iinclude -Iskelton/include -Iimages -DLIBGAMESDIR=\"$(libgamesdir)\" -DDATAGAMESDIR=\"$(datagamesdir)\"
 
 ARFLAGS=rcs

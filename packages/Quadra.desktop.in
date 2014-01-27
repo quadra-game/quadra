@@ -1,7 +1,0 @@
-[Desktop Entry]
-Name=Quadra
-Comment=Quadra
-Exec=@bindir@/quadra
-Icon=@datadir@/pixmaps/quadra.xpm
-Terminal=0
-Type=Application
