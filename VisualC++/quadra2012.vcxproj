@@ -154,7 +154,6 @@
     <ClCompile Include="..\source\packets.cpp" />
     <ClCompile Include="..\skelton\directx\palette.cpp" />
     <ClCompile Include="..\source\pane.cpp" />
-    <ClCompile Include="..\source\player.cpp" />
     <ClCompile Include="..\source\qserv.cpp" />
     <ClCompile Include="..\source\quadra.cpp" />
     <ClCompile Include="..\skelton\common\random.cpp" />
@@ -239,7 +238,6 @@
     <ClInclude Include="..\include\packets.h" />
     <ClInclude Include="..\skelton\include\palette.h" />
     <ClInclude Include="..\include\pane.h" />
-    <ClInclude Include="..\include\player.h" />
     <ClInclude Include="..\include\qserv.h" />
     <ClInclude Include="..\include\quadra.h" />
     <ClInclude Include="..\skelton\include\random.h" />
