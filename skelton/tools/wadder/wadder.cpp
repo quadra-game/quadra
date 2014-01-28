@@ -144,13 +144,9 @@ int main(int ARGC, char **ARGV, char **ENV) {
 	}
 
 	wad = new Resfile(ARGV[2], false);
-
 	wad->clear();
 
-	char res_file[256];
-	sprintf(res_file, "%s%s", ARGV[1], ARGV[3]);
-
-	res = new Res_dos(res_file, RES_READ);
+	res = new Res_dos(ARGV[3], RES_READ);
 	data = new uint8_t[res->size()+1];
 
 	memcpy(data, res->buf(), res->size());
