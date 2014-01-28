@@ -39,7 +39,6 @@ ChangeLog:
 
 installdirs:
 	mkdir -p $(DESTDIR)$(bindir)
-	mkdir -p $(DESTDIR)$(libgamesdir)
 	mkdir -p $(DESTDIR)$(datagamesdir)
 	mkdir -p $(DESTDIR)$(datadir)/pixmaps
 

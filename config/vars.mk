@@ -20,7 +20,7 @@ CLEAN+=config/depends.mk
 DISTCLEAN+=config/config.mk ChangeLog.bak gmon.out
 REALCLEAN+=ChangeLog
 
-CXXFLAGS+=-Wall -pipe -Iinclude -Iskelton/include -Iimages -DLIBGAMESDIR=\"$(libgamesdir)\" -DDATAGAMESDIR=\"$(datagamesdir)\"
+CXXFLAGS+=-Wall -pipe -Iinclude -Iskelton/include -Iimages -DDATAGAMESDIR=\"$(datagamesdir)\"
 
 ARFLAGS=rcs
 
