@@ -143,10 +143,7 @@ int main(int ARGC, char **ARGV, char **ENV) {
 		exit(1);
 	}
 
-	char wad_file[256];
-	sprintf(wad_file, "%s%s", ARGV[1], ARGV[2]);
-
-	wad = new Resfile(wad_file, false);
+	wad = new Resfile(ARGV[2], false);
 
 	wad->clear();
 

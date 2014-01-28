@@ -1,1 +1,1 @@
-@debug\wadder ..\ quadra.res resources.txt
+@debug\wadder ..\ ..\quadra.res resources.txt
