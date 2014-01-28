@@ -224,7 +224,6 @@
     <ClInclude Include="..\include\menu_demo_central.h" />
     <ClInclude Include="..\include\misc.h" />
     <ClInclude Include="..\include\multi_player.h" />
-    <ClInclude Include="..\include\multi_provider.h" />
     <ClInclude Include="..\skelton\include\net.h" />
     <ClInclude Include="..\skelton\include\net_buf.h" />
     <ClInclude Include="..\skelton\include\net_call.h" />

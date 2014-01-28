@@ -472,9 +472,6 @@
 				RelativePath="..\include\multi_player.h">
 			</File>
 			<File
-				RelativePath="..\include\multi_provider.h">
-			</File>
-			<File
 				RelativePath="..\skelton\include\net.h">
 			</File>
 			<File

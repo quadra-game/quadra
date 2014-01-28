@@ -42,7 +42,6 @@
 #include "zone.h"
 #include "net_stuff.h"
 #include "net_server.h"
-#include "multi_provider.h"
 #include "menu_demo_central.h"
 #include "chat_text.h"
 #include "game_menu.h"
