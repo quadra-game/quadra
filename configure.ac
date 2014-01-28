@@ -47,6 +47,7 @@ AC_CHECK_HEADERS(linux/soundcard.h)
 dnl Checks for typedefs, structures, and compiler characteristics.
 
 dnl Checks for library functions.
+AC_FUNC_ALLOCA
 
 if test -z "$with_x" -a "$have_x" = "yes"; then
 	with_x=yes

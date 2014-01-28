@@ -20,6 +20,14 @@
 
 #ifdef UGS_LINUX_X11
 
+#ifdef HAVE_CONFIG_H
+#include "autoconf.h"
+#endif
+
+#ifdef HAVE_ALLOCA_H
+#include <alloca.h>
+#endif
+
 #include <limits.h>
 #include <signal.h>
 #include <unistd.h>
