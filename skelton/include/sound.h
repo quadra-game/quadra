@@ -38,7 +38,7 @@
 
 class Sample;
 class Sfx;
-#ifdef UGS_LINUX
+#ifndef WIN32
 class Playing_sfx;
 #endif
 
@@ -47,8 +47,7 @@ class Sound {
 	friend class Sfx;
 #ifdef WIN32
 	LPDIRECTSOUND lpds;
-#endif
-#ifdef UGS_LINUX
+#else
 	int dspfd;
 	unsigned int channels;
 	unsigned int sampling;
@@ -60,7 +59,7 @@ class Sound {
 public:
 	bool active;
 	Sound();
-#ifdef UGS_LINUX
+#ifndef WIN32
 	void process();
 	void start(Playing_sfx* play);
 #endif
@@ -82,13 +81,12 @@ class Sample {
 	void DSParseWaveResource(void *res, WAVEFORMATEX **ppWaveHeader, BYTE **ppbWaveData,DWORD *pcbWaveSize);
 	//void DSReloadSoundBuffer(IDirectSoundBuffer *pDSB, LPCTSTR lpName);
 	IDirectSoundBuffer *getfreebuffer();
-#endif
-#ifdef UGS_LINUX
+#else
 	void loadriff(const char *res, unsigned int size);
 	void resample(char* sample, unsigned int size, unsigned int bps);
 #endif
 public:
-#ifdef UGS_LINUX
+#ifndef WIN32
 	void *audio_data;
 	unsigned int sampling;
 	unsigned int length;
@@ -99,7 +97,7 @@ public:
 	int refcount;
 };
 
-#ifdef UGS_LINUX
+#ifndef WIN32
 
 class Playing_sfx {
 public:
@@ -117,8 +115,7 @@ public:
 class Sfx {
 #ifdef WIN32
 	IDirectSoundBuffer *buf;
-#endif
-#ifdef UGS_LINUX
+#else
 	friend class Playing_sfx;
 	Playing_sfx* playing;
 #endif
@@ -129,7 +126,7 @@ public:
 	void freq(int pa); //200=low  60000=very high
 	void volume(int pa);  //0=full .. -4000=nil
 	void position(int pa);
-#ifdef UGS_LINUX
+#ifndef WIN32
 	virtual ~Sfx();
 #endif
 };

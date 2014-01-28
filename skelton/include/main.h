@@ -27,14 +27,12 @@
 #include "config.h"
 
 #ifdef WIN32
-	#define WIN32_LEAN_AND_MEAN
-	#include <windows.h>
-	#include <windowsx.h>
-	extern HINSTANCE hinst;
-	extern HWND hwnd;
-#endif
-
-#ifdef UGS_LINUX
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <windowsx.h>
+extern HINSTANCE hinst;
+extern HWND hwnd;
+#else
 extern int ux_argc;
 extern char** ux_argv;
 #endif

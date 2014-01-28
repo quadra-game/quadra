@@ -60,7 +60,7 @@
 #define KEY_F11         DIK_F11
 #define KEY_F12         DIK_F12
 
-#elif defined(UGS_LINUX)
+#else
 
 /* I have no idea where these values come from. */
 #define KEY_PADENTER    96

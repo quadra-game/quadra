@@ -29,16 +29,14 @@
 #include "resmanager.h"
 #include "config.h"
 
-#ifdef UGS_LINUX
-	#include <unistd.h>
-#endif
-
 #ifdef WIN32
-	#define WIN32_LEAN_AND_MEAN
-	#include <windows.h>
-	#include <windowsx.h>
-	#include <mmsystem.h>
-	#include <io.h>
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <windowsx.h>
+#include <mmsystem.h>
+#include <io.h>
+#else
+#include <unistd.h>
 #endif
 
 #include "error.h"

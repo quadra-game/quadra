@@ -139,23 +139,20 @@ void Qserv::send() {
 	req->add_data_encode("info/language %i\n", config.info.language);
 	req->add_data_encode("info/quadra_version %s\n", VERSION_STRING);
 	req->add_data_encode("info/platform/os %s\n",
-		#if defined(WIN32)
-			"Windows"
-		#elif defined(UGS_LINUX)
-			"Linux i386"
-		#else
-			#error "What platform???"
-		#endif
+#if WIN32
+		"Windows"
+#else
+		"Linux i386"
+#endif
 	);
 	if(video_is_dumb)
 		req->add_data_encode("info/platform/display None\n");
 	else {
-		#if defined(UGS_LINUX)
-		req->add_data_encode("info/platform/display Xlib\n");
-		#endif
-		#if defined(WIN32)
+#if defined(WIN32)
 		req->add_data_encode("info/platform/display DirectX\n");
-		#endif
+#else
+		req->add_data_encode("info/platform/display Xlib\n");
+#endif
 	}
 	req->send();
 }

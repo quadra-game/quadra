@@ -29,7 +29,7 @@
 #include "winsock.h"
 #endif
 
-#ifdef UGS_LINUX
+#ifndef WIN32
 #include <errno.h>
 #ifndef __STRICT_ANSI__
 #define I_SET_STRICT_ANSI

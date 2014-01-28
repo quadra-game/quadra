@@ -20,13 +20,12 @@
 
 #include "config.h"
 
-#ifdef UGS_LINUX
+#ifdef WIN32
+#include <shlobj.h>
+#else
 #include <pwd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#endif
-#ifdef WIN32
-#include <shlobj.h>
 #endif
 #include <stdlib.h>
 #include <exception>
@@ -1834,8 +1833,7 @@ void init_directory() {
 		strcat(quadradir, "\\Quadra");
 		CreateDirectory(quadradir, 0);
 	}
-#endif
-#ifdef UGS_LINUX
+#else
 	struct passwd *pw = NULL;
 
 	pw = getpwuid(getuid());
@@ -2142,13 +2140,12 @@ void start_game() {
 	init_directory();
 
 	const char *dir=quadradir;
-#ifdef UGS_LINUX
+#ifdef WIN32
+	dir = exe_directory;
+#else
 	dir = getenv("QUADRADIR");
 	if(!dir)
 		dir = DATAGAMESDIR;
-#endif
-#ifdef WIN32
-	dir = exe_directory;
 #endif
 	resmanager=new Resmanager();
 	snprintf(fn, sizeof(fn) - 1, "%s/quadra.res", dir);

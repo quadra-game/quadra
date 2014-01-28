@@ -198,7 +198,8 @@ void Video_Dumb::flip() {
     newpal = false;
   }
 
-#ifdef UGS_LINUX
+#ifndef WIN32
+	// Shouldn't we do something on Windows too?
   usleep(1);
 #endif
 

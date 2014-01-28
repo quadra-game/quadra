@@ -22,7 +22,7 @@
 
 #include "config.h"
 
-#ifdef UGS_LINUX
+#ifndef WIN32
 #include <unistd.h>
 #ifndef __STRICT_ANSI__
 #define I_SET_STRICT_ANSI
@@ -326,8 +326,7 @@ Net_connection_tcp::Net_connection_tcp(int p, bool ppacket_based) {
 	unsigned long val2=1;
 	if(net->getlasterror(ioctlsocket(tcpsock, FIONBIO, &val2)))
 		return;
-#endif
-#ifdef UGS_LINUX
+#else
 	if(net->getlasterror(fcntl(tcpsock, F_SETFL, fcntl(tcpsock, F_GETFL)|O_NONBLOCK)))
 		return;
 
@@ -1214,22 +1213,19 @@ uint32_t Net::getaddress(const char *host) {
     // If not an address, then try to resolve it as a hostname
     if((lAddr == INADDR_NONE) && (strcmp(tube, "255.255.255.255"))) {
 			lAddr = 0;
-			#ifdef UGS_LINUX
-			  struct hostent *lpstHost;
-				// Blocking call!!
-				lpstHost = gethostbyname(tube);
-				if(lpstHost) {  // success
-	        lAddr = ntohl(*(uint32_t*)lpstHost->h_addr_list[0]);
-		    }
-			#endif
-			// should be replaced by this (async)
-			#ifdef WIN32
-				gethostbyname_cancel();
-				name_handle = WSAAsyncGetHostByName(hwnd, WM_USER, tube, name_buf, MAXGETHOSTSTRUCT);
-				if(name_handle == 0) {// if error return 0 
-					name_resolve = 0; // impossible to resolve DNS because of Winsock and/or Windows
-				}
-			#endif
+#ifdef WIN32
+			gethostbyname_cancel();
+			name_handle = WSAAsyncGetHostByName(hwnd, WM_USER, tube, name_buf, MAXGETHOSTSTRUCT);
+			if (name_handle == 0) {  // if error return 0 
+				name_resolve = 0;  // impossible to resolve DNS because of Winsock and/or Windows
+			}
+#else
+			struct hostent *lpstHost;
+			// Blocking call!!
+			lpstHost = gethostbyname(tube);
+			if (lpstHost)  // success
+				lAddr = ntohl(*(uint32_t*)lpstHost->h_addr_list[0]);
+#endif
     }
   }
   return lAddr;
@@ -1397,8 +1393,7 @@ bool Net::checkerror(int quel) {
 	case WSAEHOSTUNREACH: last_error = "The destination address is unreachable."; break;
 	default: last_error = "Unknown error"; break;
 	}
-#endif
-#ifdef UGS_LINUX
+#else
 	switch(errno) {
 	case EWOULDBLOCK:
 	case EINTR:
@@ -1415,13 +1410,11 @@ bool Net::checkerror(int quel) {
 bool Net::getlasterror(int quel) {
 	if(quel >= 0)
 		return false;
-	#if defined(WIN32)
-		return checkerror(WSAGetLastError());
-	#elif defined(UGS_LINUX)
-		return checkerror(errno);
-	#else
-	#error "What the heck is the target???"
-	#endif
+#ifdef WIN32
+	return checkerror(WSAGetLastError());
+#else
+	return checkerror(errno);
+#endif
 }
 
 void Net::callwsa(int quel) {

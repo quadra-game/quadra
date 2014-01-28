@@ -844,12 +844,11 @@ void Game::prepare_logging() {
 	is_slogging=true;
 	//Begin log output here
 	const char *os;
-	#ifdef WIN32
+#ifdef WIN32
 	os="Windows";
-	#endif
-	#ifdef UGS_LINUX
+#else
 	os="Linux";
-	#endif
+#endif
 	char game_version[32];
 	sprintf(game_version, "%i.%i.%i", Config::major, Config::minor, Config::patchlevel);
 
