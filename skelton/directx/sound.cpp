@@ -119,7 +119,7 @@ IDirectSoundBuffer *Sample::DSLoadSoundBuffer(void *res) {
 	dsBD.dwFlags = DSBCAPS_STATIC | DSBCAPS_CTRLFREQUENCY | DSBCAPS_CTRLPAN | DSBCAPS_CTRLVOLUME | DSBCAPS_GETCURRENTPOSITION2;
 	calldx(sound->lpds->CreateSoundBuffer(&dsBD, &pDSB, NULL));
 	if(pDSB == NULL)
-		new Error("Can't create sound buffer");
+		fatal_msgbox("Can't create sound buffer");
 	DSFillSoundBuffer(pDSB, pbWaveData, dsBD.dwBufferBytes);
 	return pDSB;
 }
@@ -134,7 +134,7 @@ void Sample::DSFillSoundBuffer(IDirectSoundBuffer *pDSB, BYTE *pbWaveData, DWORD
 			CopyMemory(pMem2, pbWaveData+dwSize1, dwSize2);
 		pDSB->Unlock(pMem1, dwSize1, pMem2, dwSize2);
 	} else
-		new Error("Can't fill sound buffer");
+		fatal_msgbox("Can't fill sound buffer");
 }
 
 void Sample::DSParseWaveResource(void *res, WAVEFORMATEX **ppWaveHeader, BYTE **ppbWaveData,DWORD *pcbWaveSize) {
@@ -155,10 +155,10 @@ void Sample::DSParseWaveResource(void *res, WAVEFORMATEX **ppWaveHeader, BYTE **
 	dwType = *pdw++;
 
 	if(dwRiff != mmioFOURCC('R', 'I', 'F', 'F'))
-		new Error("WAV file not 'RIFF' format");
+		fatal_msgbox("WAV file not 'RIFF' format");
 
 	if(dwType != mmioFOURCC('W', 'A', 'V', 'E'))
-		new Error("Not a WAV file!");
+		fatal_msgbox("Not a WAV file!");
 
 	pdwEnd = (DWORD *)((BYTE *)pdw + dwLength-4);
 
@@ -169,7 +169,7 @@ void Sample::DSParseWaveResource(void *res, WAVEFORMATEX **ppWaveHeader, BYTE **
 			case mmioFOURCC('f', 'm', 't', ' '):
 				if(ppWaveHeader && !*ppWaveHeader) {
 					if(dwLength < sizeof(WAVEFORMAT))
-						new Error("Not a WAV file! (2)");
+						fatal_msgbox("Not a WAV file! (2)");
 
 					*ppWaveHeader = (WAVEFORMATEX *)pdw;
 					if((!ppbWaveData || *ppbWaveData) && (!pcbWaveSize || *pcbWaveSize))
@@ -190,7 +190,7 @@ void Sample::DSParseWaveResource(void *res, WAVEFORMATEX **ppWaveHeader, BYTE **
 		}
 		pdw = (DWORD *)((BYTE *)pdw + ((dwLength+1)&~1));
 	}
-	new Error("Error parsing WAV file");
+	fatal_msgbox("Error parsing WAV file");
 }
 
 IDirectSoundBuffer *Sample::getfreebuffer() {

@@ -166,10 +166,10 @@ Video_Dumb::Video_Dumb(int w, int h, int b, const char *wname) {
 	wc.lpszClassName = "SkeltonClass";
 	rc = RegisterClass(&wc);
 	if(!rc)
-		new Error("Can't register class");
+		fatal_msgbox("Can't register class");
 	hwnd = CreateWindowEx(0, "SkeltonClass", wname, WS_MINIMIZE|WS_POPUPWINDOW|WS_CAPTION|WS_SYSMENU, 100, 100, 200, 50, NULL, NULL, hinst, NULL);
 	if(hwnd == NULL)
-		new Error("Can't create window");
+		fatal_msgbox("Can't create window");
 #endif
 
   vb = Dumb_Video_bitmap::New(0, 0, w, h);

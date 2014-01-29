@@ -93,7 +93,7 @@ Input_DX::Input_DX() {
 		mouse.button[i] = 0;
 /*  mouse_handle = CreateEvent(0, 0, 0, 0);
 	if (mouse_handle == NULL)
-		new Error("Could not create 'event' for the mouse");
+		fatal_msgbox("Could not create 'event' for the mouse");
 	calldx(lpinputmouse->SetEventNotification(mouse_handle));
 */
 	DIPROPDWORD dipdw2 = {
@@ -147,7 +147,7 @@ void Input_DX::process_key() {
 	for(;;) {
 		hr = lpinputdevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), &od, &dwElements, 0);
 		if(hr == DI_BUFFEROVERFLOW) {
-//      new Error("Catched a buffer overflow reading keyboard");
+//      fatal_msgbox("Catched a buffer overflow reading keyboard");
 			calldx(lpinputdevice->GetDeviceState(sizeof(keys), keys));
 			clear_key();
 			break;

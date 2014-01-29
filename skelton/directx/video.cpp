@@ -64,10 +64,10 @@ DirectX_Video::DirectX_Video(int w, int h, int b, const char *wname) {
 	wc.lpszClassName = "SkeltonClass";
 	rc = RegisterClass(&wc);
 	if(!rc)
-		new Error("Can't register class");
+		fatal_msgbox("Can't register class");
 	hwnd = CreateWindowEx(WS_EX_TOPMOST , "SkeltonClass", wname, WS_POPUP|WS_SYSMENU, 0, 0, 0, 0, NULL, NULL, hinst, NULL);
 	if(hwnd == NULL)
-		new Error("Can't create window");
+		fatal_msgbox("Can't create window");
 
 	ddsdlock.lpSurface=NULL;
 	calldx(DirectDrawCreate(NULL, &lpdd, NULL));
@@ -149,7 +149,7 @@ void DirectX_Video::lock() {
 		lpddsprimary->Restore();
 		if(lpddsprimary->IsLost() == DDERR_SURFACELOST) {
 			skelton_msgbox("and front buffer too! Aborting. This surface is not restorable\n");
-			(void) new Error("Video surface is not restorable.\nIt seems to be a buggy video driver.\nPlease update DirectX!");
+			fatal_msgbox("Video surface is not restorable.\nIt seems to be a buggy video driver.\nPlease update DirectX!");
 		} else {
 			skelton_msgbox(" but front buffer is not! (Buggy DirectX driver) Reconstructing video surfaces...\n");
 
@@ -176,12 +176,12 @@ void DirectX_Video::lock() {
 
 			if(lpddsback->IsLost() == DDERR_SURFACELOST) {
 				skelton_msgbox("Unable to restore video back buffer. Aborting\n");
-				(void) new Error("Video surface is not restorable.\nIt seems to be a buggy video driver.\nPlease update DirectX!");
+				fatal_msgbox("Video surface is not restorable.\nIt seems to be a buggy video driver.\nPlease update DirectX!");
 			}
 			hr = lpddsback->Lock(NULL, &ddsdlock, DDLOCK_WAIT|DDLOCK_SURFACEMEMORYPTR, NULL);
 			if(hr == DDERR_SURFACELOST) {
 				skelton_msgbox("Unable to lock video back buffer. Aborting\n");
-				(void) new Error("Video surface is not restorable.\nIt seems to be a buggy video driver.\nPlease update DirectX!");
+				fatal_msgbox("Video surface is not restorable.\nIt seems to be a buggy video driver.\nPlease update DirectX!");
 			}
 		}
 	}
