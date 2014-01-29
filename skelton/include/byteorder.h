@@ -1,6 +1,10 @@
 #include "config.h"
 
-#ifdef HAVE_CONFIG_H
+#if defined(WIN32)
+#define LITTLE_ENDIAN 4321
+#define BIG_ENDIAN 1234
+#define BYTE_ORDER LITTLE_ENDIAN
+#elif defined(HAVE_CONFIG_H)
 #ifdef HAVE_MACHINE_ENDIAN_H
 #include <machine/endian.h>
 #else
@@ -11,10 +15,6 @@
 #else
 #include <byteswap.h>
 #endif
-#elif defined(WIN32)
-#define LITTLE_ENDIAN 4321
-#define BIG_ENDIAN 1234
-#define BYTE_ORDER LITTLE_ENDIAN
 #else
 #error Platform undefined
 #endif
