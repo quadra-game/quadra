@@ -25,8 +25,6 @@
 #include "autoconf.h"
 #endif
 
-#ifdef UGS_LINUX_X11
-
 /* forward declaration un peu laide */
 union _XEvent;
 typedef union _XEvent XEvent;
@@ -50,8 +48,6 @@ public:
   virtual void deraw();
   virtual void reraw();
 };
-
-#endif /* UGS_LINUX_X11 */
 
 #endif /* _HEADER_INPUT_X11 */
 

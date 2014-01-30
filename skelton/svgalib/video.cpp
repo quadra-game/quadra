@@ -24,9 +24,7 @@
 
 #include "video.h"
 #include "video_dumb.h"
-#ifdef UGS_LINUX_X11
 #include "video_x11.h"
-#endif
 
 Video* video = NULL;
 
@@ -34,35 +32,29 @@ Video_bitmap* Video_bitmap::New(const int px, const int py,
 				const int w, const int h, const int rw) {
   Video_bitmap* obj;
 
-#ifdef UGS_LINUX_X11
   if((obj = Video_bitmap_X11::New(px, py, w, h, rw)))
     return obj;
   else
-#endif
-  return NULL;
+		return NULL;
 }
 
 Video_bitmap* Video_bitmap::New(const int px, const int py,
 				const int w, const int h) {
   Video_bitmap* obj;
 
-#ifdef UGS_LINUX_X11
   if((obj = Video_bitmap_X11::New(px, py, w, h)))
     return obj;
   else
-#endif
-  return NULL;
+    return NULL;
 }
 
 Video* Video::New(int w, int h, int b, const char *wname, bool dumb) {
 	if(dumb)
 		return Video_Dumb::New(w, h, b, wname);
   Video* obj;
-#ifdef UGS_LINUX_X11
-  if((obj = Video_X11::New(w, h, b, wname))) {
+  if((obj = Video_X11::New(w, h, b, wname)))
     return obj;
-  } else
-#endif
-  return NULL;
+  else
+    return NULL;
 }
 

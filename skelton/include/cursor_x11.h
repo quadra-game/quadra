@@ -25,8 +25,6 @@
 #include "autoconf.h"
 #endif
 
-#ifdef UGS_LINUX_X11
-
 #include <stdint.h>
 
 #include "sprite.h"
@@ -46,7 +44,5 @@ public:
   virtual void put_back();
   virtual void set_speed(const uint8_t s);
 };
-
-#endif /* UGS_LINUX_X11 */
 
 #endif /* _HEADER_CURSOR_X11 */

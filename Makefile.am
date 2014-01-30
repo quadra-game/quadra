@@ -35,11 +35,8 @@ EXTRA_DIST = \
 	skelton/README \
 	skelton/common/crypt.pl \
 	skelton/common/raw.cpp \
-	skelton/directx \
-	skelton/include/input_dx.h \
 	skelton/include/raw.h \
 	skelton/include/surface.h \
-	skelton/include/video_dx.h \
 	skelton/tools/dumpdb \
 	sons \
 	stats \

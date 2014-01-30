@@ -22,8 +22,6 @@
 #include "autoconf.h"
 #endif
 
-#ifdef UGS_LINUX_X11
-
 #include <X11/keysym.h>
 #include "cursor.h"
 #include "main.h"
@@ -328,6 +326,3 @@ void Input_X11::deraw() {
 void Input_X11::reraw() {
   israw = true;
 }
-
-#endif /* UGS_LINUX_X11 */
-

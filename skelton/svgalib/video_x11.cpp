@@ -22,12 +22,6 @@
 #include "autoconf.h"
 #endif
 
-#ifdef UGS_LINUX_X11
-
-#ifdef HAVE_CONFIG_H
-#include "autoconf.h"
-#endif
-
 #ifdef HAVE_ALLOCA_H
 #include <alloca.h>
 #endif
@@ -768,6 +762,3 @@ void Video_X11::toggle_fullscreen() {
   dirty(0, 0, width-1, height-1);
   fullscreen = !fullscreen;
 }
-
-#endif /* UGS_LINUX_X11 */
-

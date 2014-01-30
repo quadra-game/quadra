@@ -25,8 +25,6 @@
 #include "autoconf.h"
 #endif
 
-#ifdef UGS_LINUX_X11
-
 #include <stdint.h>
 
 #define Font XFont
@@ -142,8 +140,6 @@ public:
   virtual void flip();
   virtual void dosetpal(PALETTEENTRY pal[256], int size);
 };
-
-#endif /* UGS_LINUX_X11 */
 
 #endif /* _HEADER_VIDEO_X11 */
 
