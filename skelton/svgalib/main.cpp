@@ -56,8 +56,6 @@ void end_frame() {
 
 char exe_directory[1024];
 
-static bool ignore_sigpipe=false;
-
 int main(int ARGC, char **ARGV, char **ENV) {
   atexit(delete_obj);
 	struct sigaction signals;
@@ -68,8 +66,6 @@ int main(int ARGC, char **ARGV, char **ENV) {
 			signals.sa_handler = SIG_IGN;
 			if(sigaction(SIGPIPE, &signals, NULL) < 0)
 				skelton_msgbox("Can't set SIGPIPE signal handler, ignoring.\n");
-			else
-				ignore_sigpipe=true;
 		}
 		else
 			skelton_msgbox("SIGPIPE handler isn't default, ignoring.\n");
@@ -128,18 +124,6 @@ void delete_obj() {
     delete cursor;
     cursor=NULL;
   }
-	if(ignore_sigpipe) {
-		msgbox("restoring default SIGPIPE handler...\n");
-		struct sigaction sigs;
-		if(sigaction(SIGPIPE, NULL, &sigs) < 0)
-			msgbox("Can't get signal, whatever...\n");
-		else {
-			sigs.sa_handler = SIG_DFL;
-			if(sigaction(SIGPIPE, &sigs, NULL) < 0)
-				msgbox("Can't set signal, whatever...\n");
-			ignore_sigpipe=false;
-		}
-	}
   msgbox("ending delete_obj...\n");
 }
 
