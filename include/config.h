@@ -22,7 +22,7 @@
 #define _HEADER_CONFIG
 
 /* Cover platforms supported by autoconf, others are done manually. */
-#if !defined(WIN32)
+#ifdef HAVE_CONFIG_H
 #include "autoconf.h"
 #endif
 
