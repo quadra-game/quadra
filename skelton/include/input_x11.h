@@ -21,6 +21,10 @@
 #ifndef _HEADER_INPUT_X11
 #define _HEADER_INPUT_X11
 
+#ifdef HAVE_CONFIG_H
+#include "autoconf.h"
+#endif
+
 #ifdef UGS_LINUX_X11
 
 /* forward declaration un peu laide */

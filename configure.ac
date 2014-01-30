@@ -78,7 +78,10 @@ if test -n "$missing_required"; then
 	AC_MSG_ERROR([Required dependencies missing.])
 fi
 
-AC_SUBST(with_x)
+if test "x$with_x" = "xyes"; then
+	AC_DEFINE(UGS_LINUX_X11, 1, [X11 backend for Quadra.])
+fi
+
 AC_SUBST(enable_debug)
 
 AC_CONFIG_HEADERS([include/autoconf.h])
