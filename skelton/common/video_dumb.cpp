@@ -137,15 +137,10 @@ LRESULT CALLBACK dumbwindowproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpara
 }
 #endif
 
-Video_Dumb* Video_Dumb::New(int w, int h, int b, const char *wname) {
-  return new Video_Dumb(w, h, b, wname);
-}
-
-Video_Dumb::Video_Dumb(int w, int h, int b, const char *wname) {
+Video_Dumb::Video_Dumb(int w, int h, const char *wname) {
 	video_is_dumb=true;
   width = w;
   height = h;
-  bit = b;
   framecount = 0;
   newpal = true;
   need_paint = 2;

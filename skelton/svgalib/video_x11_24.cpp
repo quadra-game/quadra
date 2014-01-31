@@ -33,11 +33,9 @@
 #include "sprite.h"
 #include "video_x11.h"
 
-Video_X11_24::Video_X11_24(int w, int h, int b,
-			   const char *wname,
-			   Display* dpy,
-			   Visual* vis):
-  Video_X11(w, h, b, wname, dpy, vis, 24) {
+Video_X11_24::Video_X11_24(int w, int h, const char *wname, Display* dpy,
+                           Visual* vis):
+  Video_X11(w, h, wname, dpy, vis, 24) {
   vfb = (unsigned char*)malloc(w * h);
 
   if(!vfb)

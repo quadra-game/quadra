@@ -83,11 +83,11 @@ public:
   Video_bitmap *vb;
   uint8_t newpal;
   Palette pal;
-  int width, height, bit;
+  int width, height;
   int need_paint;
   int pitch;
   uint32_t framecount;
-  static Video* New(int w, int h, int b, const char *wname, bool dumb=false);
+  static Video* New(int w, int h, const char *wname, bool dumb=false);
   virtual ~Video() { };
   virtual void lock() = 0;
   virtual void unlock() = 0;

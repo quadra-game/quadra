@@ -89,8 +89,8 @@ public:
   int depth;
   XShmSegmentInfo shminfo;
   bool do_shm;
-  static Video* New(int w, int h, int b, const char *wname);
-  Video_X11(int w, int h, int b, const char *wname, Display*, Visual*, int d);
+  static Video* New(int w, int h, const char *wname);
+  Video_X11(int w, int h, const char *wname, Display*, Visual*, int d);
   virtual ~Video_X11();
   virtual void dirty(int x1, int y1, int x2, int y2);
   virtual void dirty2(int x1, int y1, int x2, int y2);
@@ -112,7 +112,7 @@ class Video_X11_8: public Video_X11 {
 public:
   Colormap cmap;
   XColor colors[256];
-  Video_X11_8(int w, int h, int b, const char *wname, Display*, Visual*);
+  Video_X11_8(int w, int h, const char *wname, Display*, Visual*);
   virtual ~Video_X11_8();
   virtual void flip();
   virtual void dosetpal(PALETTEENTRY pal[256], int size);
@@ -121,7 +121,7 @@ public:
 class Video_X11_16: public Video_X11 {
 public:
   unsigned short colors[256];
-  Video_X11_16(int w, int h, int b, const char *wname, Display*, Visual*, int);
+  Video_X11_16(int w, int h, const char *wname, Display*, Visual*, int);
   virtual ~Video_X11_16();
   virtual void flip();
   virtual void dosetpal(PALETTEENTRY pal[256], int size);
@@ -135,7 +135,7 @@ public:
     unsigned char blue;
   };
   unsigned long colors[256];
-  Video_X11_24(int w, int h, int b, const char *wname, Display*, Visual*);
+  Video_X11_24(int w, int h, const char *wname, Display*, Visual*);
   virtual ~Video_X11_24();
   virtual void flip();
   virtual void dosetpal(PALETTEENTRY pal[256], int size);

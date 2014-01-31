@@ -55,8 +55,7 @@ public:
 class Video_Dumb: public Video {
 public:
   int displayoffset;
-  static Video_Dumb* New(int w, int h, int b, const char *wname);
-  Video_Dumb(int w, int h, int b, const char *wname);
+  Video_Dumb(int w, int h, const char *wname);
   virtual ~Video_Dumb();
   virtual void lock();
   virtual void unlock();

@@ -178,7 +178,7 @@ void Video_bitmap_X11::setmem() {
     fb->setmem((((Video_X11*)video)->vfb) + (pos_y * video->pitch) + pos_x);
 }
 
-Video* Video_X11::New(int w, int h, int b, const char *wname) {
+Video* Video_X11::New(int w, int h, const char *wname) {
   Display* display;
   XVisualInfo visualinfo;
 
@@ -204,7 +204,7 @@ Video* Video_X11::New(int w, int h, int b, const char *wname) {
 		      8,
 		      PseudoColor,
 		      &visualinfo)) {
-    return new Video_X11_8(w, h, b, wname, display, visualinfo.visual);
+    return new Video_X11_8(w, h, wname, display, visualinfo.visual);
   };
 
   if(XMatchVisualInfo(display,
@@ -212,7 +212,7 @@ Video* Video_X11::New(int w, int h, int b, const char *wname) {
 		      16,
 		      TrueColor,
 		      &visualinfo)) {
-    return new Video_X11_16(w, h, b, wname, display, visualinfo.visual, 16);
+    return new Video_X11_16(w, h, wname, display, visualinfo.visual, 16);
   };
 
   if(XMatchVisualInfo(display,
@@ -220,7 +220,7 @@ Video* Video_X11::New(int w, int h, int b, const char *wname) {
 		      15,
 		      TrueColor,
 		      &visualinfo)) {
-    return new Video_X11_16(w, h, b, wname, display, visualinfo.visual, 15);
+    return new Video_X11_16(w, h, wname, display, visualinfo.visual, 15);
   };
 
   if(XMatchVisualInfo(display,
@@ -228,7 +228,7 @@ Video* Video_X11::New(int w, int h, int b, const char *wname) {
 		      24,
 		      TrueColor,
 		      &visualinfo)) {
-    return new Video_X11_24(w, h, b, wname, display, visualinfo.visual);
+    return new Video_X11_24(w, h, wname, display, visualinfo.visual);
   };
 
   msgbox("X11: Could not find any compatible visual.\n");
@@ -251,30 +251,24 @@ static int xhandler(Display* display, XErrorEvent* error) {
   return 0;
 }
 
-Video_X11::Video_X11(int w, int h, int b,
-		     const char *wname,
-		     Display* dpy,
-		     Visual* vis,
-		     int d):
-  display(NULL),
-  image(NULL),
-  vfb(NULL),
-  min_x2(w), max_x2(0), min_y2(h), max_y2(0),
-  window(0),
-  fullscreen_window(0),
-  modecount(0),
-  modes(0),
-  fullscreen_mode(0),
-  allow_fullscreen(false),
-  fullscreen(false),
-  restore_fullscreen(false),
-  visual(NULL),
-  delete_win(0),
-  depth(d),
-  do_shm(false) {
-  /* NOTE: we assume that "b" is always 8, even is we try to be
-     wise-asses in some places (like "bit = b"). */
-
+Video_X11::Video_X11(int w, int h, const char *wname, Display* dpy,
+                     Visual* vis, int d)
+  : display(NULL),
+    image(NULL),
+    vfb(NULL),
+    min_x2(w), max_x2(0), min_y2(h), max_y2(0),
+    window(0),
+    fullscreen_window(0),
+    modecount(0),
+    modes(0),
+    fullscreen_mode(0),
+    allow_fullscreen(false),
+    fullscreen(false),
+    restore_fullscreen(false),
+    visual(NULL),
+    delete_win(0),
+    depth(d),
+    do_shm(false) {
   XSetWindowAttributes attribs;
   XGCValues gcvalues;
   XClassHint *classhint;
@@ -293,7 +287,6 @@ Video_X11::Video_X11(int w, int h, int b,
 
   width = w;
   height = h;
-  bit = b;
   pitch = w;
   framecount = 0;
   newpal = true;

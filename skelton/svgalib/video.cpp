@@ -30,31 +30,22 @@ Video* video = NULL;
 
 Video_bitmap* Video_bitmap::New(const int px, const int py,
 				const int w, const int h, const int rw) {
-  Video_bitmap* obj;
-
-  if((obj = Video_bitmap_X11::New(px, py, w, h, rw)))
-    return obj;
-  else
-		return NULL;
+  return Video_bitmap_X11::New(px, py, w, h, rw);
 }
 
 Video_bitmap* Video_bitmap::New(const int px, const int py,
 				const int w, const int h) {
-  Video_bitmap* obj;
-
-  if((obj = Video_bitmap_X11::New(px, py, w, h)))
-    return obj;
-  else
-    return NULL;
+  return Video_bitmap_X11::New(px, py, w, h);
 }
 
-Video* Video::New(int w, int h, int b, const char *wname, bool dumb) {
-	if(dumb)
-		return Video_Dumb::New(w, h, b, wname);
+Video* Video::New(int w, int h, const char *wname, bool dumb) {
   Video* obj;
-  if((obj = Video_X11::New(w, h, b, wname)))
-    return obj;
+
+	if (dumb)
+		obj = new Video_Dumb(w, h, wname);
   else
-    return NULL;
+    obj = Video_X11::New(w, h, wname);
+
+  return obj;
 }
 

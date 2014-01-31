@@ -1847,7 +1847,7 @@ void init_directory() {
 void init_stuff(bool need_sound=true, bool need_video=true) {
 	int i;
 
-	video = Video::New(640, 480, 8, "Quadra", !need_video);
+	video = Video::New(640, 480, "Quadra", !need_video);
 
 	if(!video)
 		fatal_msgbox("Could not initialize video subsystem");
