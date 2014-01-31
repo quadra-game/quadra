@@ -693,9 +693,6 @@ void Video_X11::restore() {
   need_paint = 2;
 }
 
-void Video_X11::clean_up() {
-}
-
 void Video_X11::snap_shot(int x, int y, int w, int h) {
   skelton_msgbox("Unimplemented: Video_X11::snap_shot\n");
 }

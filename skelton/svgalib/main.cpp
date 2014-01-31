@@ -41,7 +41,6 @@ char** ux_argv;
 bool alt_tab = false;
 Time_mode time_control = TIME_NORMAL;
 char cmd_line[1024];
-void quit_game(int status);
 
 void start_frame() {
   if(sound)
@@ -128,8 +127,6 @@ void delete_obj() {
 }
 
 void quit_game(int status) {
-  if(video)
-    video->clean_up();
   exit(status);
 }
 
