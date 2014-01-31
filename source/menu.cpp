@@ -1388,7 +1388,6 @@ void Menu_option::step() {
   if(result == b_quit)
     quit = true;
   if(old_mouse_speed != config.info.mouse_speed) {
-    cursor->set_speed(config.info.mouse_speed);
     old_mouse_speed = config.info.mouse_speed;
   }
 }

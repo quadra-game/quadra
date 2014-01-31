@@ -29,6 +29,7 @@
 #include "main.h"
 #include "cursor.h"
 #include "net.h"
+#include "sprite.h"
 #include "video_dumb.h"
 
 bool video_is_dumb=false; //Defaults to false
@@ -142,7 +143,6 @@ Video_Dumb* Video_Dumb::New(int w, int h, int b, const char *wname) {
 
 Video_Dumb::Video_Dumb(int w, int h, int b, const char *wname) {
 	video_is_dumb=true;
-  xwindow = false;
   width = w;
   height = h;
   bit = b;
@@ -215,17 +215,9 @@ void Video_Dumb::dosetpal(PALETTEENTRY pal[256], int size) {
 
 void Video_Dumb::start_frame() {
   lock();
-  if(cursor) {
-    cursor->put_back();
-    cursor->move();
-  }
 }
 
 void Video_Dumb::end_frame() {
-  if(cursor) {
-    cursor->get_back();
-    cursor->draw();
-  }
   flip();
 }
 

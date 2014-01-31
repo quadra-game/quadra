@@ -86,7 +86,6 @@ quadra_SOURCES = \
 	skelton/common/command.cpp \
 	skelton/common/crypt.cpp \
 	skelton/common/cursor.cpp \
-	skelton/common/cursor_self.cpp \
 	skelton/common/dict.cpp \
 	skelton/common/http_post.cpp \
 	skelton/common/http_request.cpp \
@@ -118,8 +117,6 @@ quadra_SOURCES = \
 	skelton/include/command.h \
 	skelton/include/crypt.h \
 	skelton/include/cursor.h \
-	skelton/include/cursor_self.h \
-	skelton/include/cursor_x11.h \
 	skelton/include/dict.h \
 	skelton/include/error.h \
 	skelton/include/find_file.h \
@@ -157,7 +154,6 @@ quadra_SOURCES = \
 	skelton/include/video_dumb.h \
 	skelton/include/video_x11.h \
 	skelton/include/zone_text_clock.h \
-	skelton/svgalib/cursor_x11.cpp \
 	skelton/svgalib/error.cpp \
 	skelton/svgalib/find_file.cpp \
 	skelton/svgalib/input.cpp \

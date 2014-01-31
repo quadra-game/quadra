@@ -80,7 +80,6 @@ public:
 
 class Video {
 public:
-  bool xwindow;
   Video_bitmap *vb;
   uint8_t newpal;
   Palette pal;

@@ -74,8 +74,6 @@
 using std::max;
 using std::min;
 
-Sprite *cur;
-
 Color *color[9];
 Font *fteam[8];
 
@@ -1855,14 +1853,6 @@ void init_stuff(bool need_sound=true, bool need_video=true) {
 		fatal_msgbox("Could not initialize video subsystem");
 
 	fonts.init();
-	if(!video->xwindow) {
-		Res_doze res("cursor.png");
-		Png png(res);
-		Bitmap bitmap(png);
-		cur = new Sprite(bitmap, 0, 0);
-	}
-	else
-		cur=NULL;
 	//If we init a dumb video, we need a dumb input too
 	input = Input::New(!need_video);
 	if(need_sound && need_video) { // don't need sound if no video
@@ -1977,8 +1967,7 @@ void init_stuff(bool need_sound=true, bool need_video=true) {
 		Res_doze res("t1sec.wav");
 		sons.one = new Sample(res, 2);
 	}
-	cursor = Cursor::New(cur);
-	cursor->set_speed(config.info.mouse_speed);
+	cursor = new Cursor;
 	for(i=0; i<8; i++)
 		fteam[i] = new Font(*fonts.normal);
 }
@@ -2026,7 +2015,6 @@ void deinit_stuff() {
 	Highscores::freemem();
 
 	delete cursor; cursor = NULL;
-	delete cur; cur = NULL;
 
 	fonts.deinit();
 }

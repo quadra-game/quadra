@@ -18,19 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifdef HAVE_CONFIG_H
-#include "autoconf.h"
-#endif
+#include <cstddef>
 
-#include "video.h"
-#include "cursor_self.h"
-#include "cursor_x11.h"
 #include "cursor.h"
 
 Cursor* cursor = NULL;
-
-Cursor* Cursor::New(Sprite* s) {
-	if(video->xwindow)
-		return new Cursor_X11();
-	return new Cursor_Self(s);
-}

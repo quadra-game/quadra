@@ -21,32 +21,21 @@
 #ifndef _HEADER_CURSOR
 #define _HEADER_CURSOR
 
-#include <stdint.h>
-
-#include "sprite.h"
-
 class Cursor {
-protected:
-  Cursor():
-    visible(true),
-    x(0),
-    y(0)
-  {
-  }
 public:
+  Cursor()
+    : visible(true),
+      x(0),
+      y(0) {
+  }
+
+  void set_pos(int px, int py) {
+    x = px;
+    y = py;
+  }
+
   bool visible;
   int x, y;
-  static Cursor* New(Sprite* s);
-  virtual ~Cursor() { };
-  virtual void set_pos(int px, int py) = 0;
-  virtual void set_limit(int x1, int y1, int x2, int y2) = 0;
-  virtual void restore_back(bool r) = 0;
-  virtual void change_cursor(Sprite* s) = 0;
-  virtual void draw() const = 0;
-  virtual void move() = 0;
-  virtual void get_back() = 0;
-  virtual void put_back() = 0;
-  virtual void set_speed(const uint8_t s) = 0;
 };
 
 extern Cursor* cursor;
