@@ -26,29 +26,12 @@
 
 using std::max;
 
-#define FONT_SIZE (141-32)
+static const int FONT_SIZE = 141 - 32;
 
-void Sprite::set_hotspot(const int hx, const int hy) {
-	if(hx == CENTER)
-		hot_x = width>>1;
-	else
-		if(hx == CORNER)
-			hot_x = width-1;
-		else
-			hot_x = hx;
-	if(hy == CENTER)
-		hot_y = height>>1;
-	else
-		if(hy == CORNER)
-			hot_y = height-1;
-		else
-			hot_y = hy;
-}
-
-Sprite::Sprite(const Bitmap& b, const int hx, const int hy, const bool dx):
-	Bitmap(b[0], b.width, b.height, b.realwidth, COPY)
-{
-	set_hotspot(hx, hy);
+Sprite::Sprite(const Bitmap& b, const int hx, const int hy)
+  : Bitmap(b[0], b.width, b.height, b.realwidth, COPY),
+    hot_x(hx == CENTER ? width >> 1 : hx),
+    hot_y(hy == CENTER ? height >> 1 : hy) {
 }
 
 void Sprite::draw(const Bitmap& d, const int dx, const int dy) const {
@@ -72,24 +55,6 @@ void Sprite::draw(const Video_bitmap* d, const int dx, const int dy) const {
 	d->put_sprite(*this, dx, dy);
 }
 
-/*void Sprite::color_draw(const Remap& remap, const Bitmap& d, int dx, int dy) const {
-	int x1, y1, x2, y2;
-	dx -= hot_x;
-	dy -= hot_y;
-	x1=max(0, dx);
-	x2=min(d.width-1, dx+width-1);
-	y1=max(0, dy);
-	y2=min(d.height-1, dy+height-1);
-	if(x1>=d.width || x2<0 || y1>=d.height || y2<0)
-		return;
-	for(int y(y1); y<=y2; y++)
-		for(int i=x1; i<=x2; i++) {
-			uint8_t pel = *(operator[](y-dy)+(i-dx));
-			if(pel != mask)
-				d.fast_pel(i, y, remap.map[pel]);
-		}
-}*/
-
 Fontdata::Fontdata(Res &res, int s) {
 	Bitmap *tmp;
 	shrink = s;
@@ -104,7 +69,7 @@ Fontdata::Fontdata(Res &res, int s) {
                         rw = INTELDWORD(rw);
 			tmp = new Bitmap(w, h, rw);
 			res.read((*tmp)[0], rw*h);
-			spr[i] = new Sprite(*tmp, 0, 0, 0);
+			spr[i] = new Sprite(*tmp, 0, 0);
 			pre_width[i] = max(spr[i]->width - shrink, 3);
 			delete tmp;
 		} else {

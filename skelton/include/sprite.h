@@ -31,18 +31,14 @@
 #include "palette.h"
 
 #define CENTER (-123456)
-#define CORNER (-123457)
 
 class Sprite: public Bitmap {
-	typedef uint8_t T;
 public:
-	int hot_x;
-	int hot_y;
-	void set_hotspot(const int hx, const int hy);
-	Sprite(const Bitmap& b, const int hx=CENTER, const int hy=CENTER, const bool dx=false);
+	const int hot_x;
+	const int hot_y;
+	Sprite(const Bitmap& b, const int hx=CENTER, const int hy=CENTER);
 	void draw(const Bitmap& d, const int dx, const int dy) const;
 	void draw(const Video_bitmap* d, const int dx, const int dy) const;
-	//void color_draw(const Remap& remap, const Bitmap& d, int dx, int dy) const;
 };
 
 class Font;
