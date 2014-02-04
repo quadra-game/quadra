@@ -46,7 +46,6 @@ inline int closesocket(int fd) {
 
 #include <stdlib.h>
 #include "types.h"
-#include "utils.h"
 #include "main.h"
 #include "error.h"
 #include "buf.h"

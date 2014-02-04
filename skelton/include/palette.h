@@ -33,7 +33,6 @@
 #include "types.h"
 #include "error.h"
 #include "image.h"
-#include "utils.h"
 
 #ifndef WIN32
 typedef struct {
@@ -49,11 +48,11 @@ private:
 public:
   int size;
   Palette() {
-    mset(pal, 0, sizeof(pal));
+    memset(pal, 0, sizeof(pal));
     size=256;
   }
   Palette(const Image& raw) {
-    mset(pal, 0, sizeof(pal));
+    memset(pal, 0, sizeof(pal));
     load(raw);
   }
   void set_size(int s) {

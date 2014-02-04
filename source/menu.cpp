@@ -19,7 +19,6 @@
  */
 
 #include <stdlib.h>
-#include "utils.h"
 #include "version.h"
 #include "color.h"
 #include "random.h"

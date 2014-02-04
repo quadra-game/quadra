@@ -157,7 +157,6 @@ quadra_SOURCES = \
 	skelton/include/types.h \
 	skelton/include/unicode.h \
 	skelton/include/url.h \
-	skelton/include/utils.h \
 	skelton/include/video.h \
 	skelton/include/video_dumb.h \
 	skelton/include/video_x11.h \

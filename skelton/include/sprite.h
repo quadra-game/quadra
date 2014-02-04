@@ -24,7 +24,6 @@
 #include <stdint.h>
 
 #include "types.h"
-#include "utils.h"
 #include "error.h"
 #include "bitmap.h"
 #include "res.h"

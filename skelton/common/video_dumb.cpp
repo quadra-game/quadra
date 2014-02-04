@@ -24,7 +24,6 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
-#include "utils.h"
 #include "error.h"
 #include "input.h"
 #include "main.h"
