@@ -50,10 +50,6 @@ public:
   virtual void box(const int x,const int y,const int w,const int h,
 		   const int color) const = 0;
 
-  /* gets a part of bitmap from Video_bitmap */
-  virtual void get_bitmap(const Bitmap* bit, const int x, const int y,
-			  const int w, const int h) const = 0;
-
   /* puts a pixel at position 'x','y' with color 'c' */
   virtual void put_pel(const int x, const int y, const uint8_t c) const = 0;
 
