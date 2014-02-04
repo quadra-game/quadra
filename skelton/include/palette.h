@@ -22,6 +22,7 @@
 #define _HEADER_PALETTE
 
 #include <stdint.h>
+#include <string.h>
 
 #include "config.h"
 
