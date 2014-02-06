@@ -68,20 +68,14 @@ Video_bitmap* Video_bitmap_X11::New(const int px, const int py,
 }
 
 Video_bitmap_X11::Video_bitmap_X11(const int px, const int py,
-				   const int w, const int h, const int rw) {
-  width = w;
-  height = h;
-  pos_x = px;
-  pos_y = py;
+				   const int w, const int h, const int rw)
+  : Video_bitmap(px, py, w, h) {
   fb = new Bitmap(NULL, w, h, rw);
 }
 
 Video_bitmap_X11::Video_bitmap_X11(const int px, const int py,
-				   const int w, const int h) {
-  width = w;
-  height = h;
-  pos_x = px;
-  pos_y = py;
+				   const int w, const int h)
+  : Video_bitmap(px, py, w, h) {
   fb = new Bitmap(NULL, w, h, video->pitch);
 }
 

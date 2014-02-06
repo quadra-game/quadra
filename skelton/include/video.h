@@ -31,9 +31,13 @@ class Sprite;
 
 class Video_bitmap: public Clipable {
 protected:
-  Video_bitmap(): Clipable(0, 0) { };
+  Video_bitmap(int _pos_x, int _pos_y, int w, int h)
+    : Clipable(w, h),
+      pos_x(_pos_x),
+      pos_y(_pos_y) {
+    }
 public:
-  int pos_x, pos_y;
+  const int pos_x, pos_y;
   static Video_bitmap* New(const int px, const int py,
 			   const int w, const int h, const int rw);
   static Video_bitmap* New(const int px, const int py,
