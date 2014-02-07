@@ -126,11 +126,3 @@ void delete_obj() {
   }
   msgbox("ending delete_obj...\n");
 }
-
-uint32_t getmsec() {
-  struct timeval thetime;
-
-  gettimeofday(&thetime, NULL);
-
-  return (thetime.tv_sec*1000)+(thetime.tv_usec/1000);
-}

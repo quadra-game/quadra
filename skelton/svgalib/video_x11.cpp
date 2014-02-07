@@ -639,14 +639,14 @@ void Video_X11::end_frame() {
   static char st[100];
 
   if(ecran && ecran->font) {
-    lastframe = getmsec()-lastupdate;
+    lastframe = SDL_GetTicks() - lastupdate;
     if(lastframe)
-      sprintf(st, "%i", 1000 / (getmsec()-lastupdate));
+      sprintf(st, "%i", 1000 / (SDL_GetTicks() - lastupdate));
     else
       sprintf(st, "high");
     video->vb->rect(0, 0, 50, 20, 0);
     ecran->font->draw(st, video->vb, 0, 0);
-    lastupdate = getmsec();
+    lastupdate = SDL_GetTicks();
   }
 #endif
 

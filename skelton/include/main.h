@@ -53,6 +53,5 @@ extern char exe_directory[];
 void start_game();
 void start_frame();
 void end_frame();
-uint32_t getmsec();
 
 #endif

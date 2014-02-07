@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include "SDL.h"
+
 #ifdef WIN32
 #define _WIN32_IE 0x0500
 #include <shlobj.h>
@@ -2378,7 +2380,7 @@ void start_game() {
 	overmind.start(menu);
 	bool reset_time=false;
 	while(!menu->done) {
-		last=getmsec();
+		last = SDL_GetTicks();
 		if(demo_verif) {
 			acc=500;
 			while(acc--)
@@ -2453,7 +2455,7 @@ void start_game() {
 		case TIME_FREEZE: acc = 10; break;
 		case TIME_SLOW: acc += 1; break;
 		case TIME_FAST: acc += 80; break;
-		default: acc+=getmsec()-last;
+		default: acc += SDL_GetTicks() - last;
 		}
 		if(acc > 300 && !video_is_dumb) {
 			overmind.framecount+=acc-300;
