@@ -59,7 +59,7 @@ public:
   virtual void start_frame();
   virtual void end_frame();
   virtual void setpal(const Palette& p);
-  virtual void dosetpal(PALETTEENTRY pal[256], int size);
+  virtual void dosetpal(const PALETTEENTRY pal[256], int size);
   virtual void restore();
   virtual void snap_shot(int x, int y, int w, int h);
   virtual void toggle_fullscreen();

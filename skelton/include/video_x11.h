@@ -107,7 +107,7 @@ public:
   Video_X11_8(int w, int h, const char *wname, Display*, Visual*);
   virtual ~Video_X11_8();
   virtual void flip();
-  virtual void dosetpal(PALETTEENTRY pal[256], int size);
+  virtual void dosetpal(const PALETTEENTRY pal[256], int size);
 };
 
 class Video_X11_16: public Video_X11 {
@@ -116,7 +116,7 @@ public:
   Video_X11_16(int w, int h, const char *wname, Display*, Visual*, int);
   virtual ~Video_X11_16();
   virtual void flip();
-  virtual void dosetpal(PALETTEENTRY pal[256], int size);
+  virtual void dosetpal(const PALETTEENTRY pal[256], int size);
 };
 
 class Video_X11_24: public Video_X11 {
@@ -130,7 +130,7 @@ public:
   Video_X11_24(int w, int h, const char *wname, Display*, Visual*);
   virtual ~Video_X11_24();
   virtual void flip();
-  virtual void dosetpal(PALETTEENTRY pal[256], int size);
+  virtual void dosetpal(const PALETTEENTRY pal[256], int size);
 };
 
 #endif /* _HEADER_VIDEO_X11 */

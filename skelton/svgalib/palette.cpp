@@ -31,7 +31,7 @@
 
 Palette noir;
 
-void Palette::set() {
+void Palette::set() const {
   video->dosetpal(pal, size);
 }
 

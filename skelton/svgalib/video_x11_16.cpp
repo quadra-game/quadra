@@ -78,7 +78,7 @@ void Video_X11_16::flip() {
   framecount++;
 }
 
-void Video_X11_16::dosetpal(PALETTEENTRY pal[256], int size) {
+void Video_X11_16::dosetpal(const PALETTEENTRY pal[256], int size) {
   XColor color;
   int i;
 

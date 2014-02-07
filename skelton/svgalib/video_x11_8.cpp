@@ -77,7 +77,7 @@ void Video_X11_8::flip() {
   framecount++;
 }
 
-void Video_X11_8::dosetpal(PALETTEENTRY pal[256], int size) {
+void Video_X11_8::dosetpal(const PALETTEENTRY pal[256], int size) {
   int i;
 
   for(i = 0; i < size; i++) {
