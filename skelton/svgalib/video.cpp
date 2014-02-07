@@ -153,8 +153,6 @@ private:
         Bitmap bitmap(get_pixels(), width, height, video_->surface_->pitch);
         d.draw(bitmap, dx, dy);
       }
-      virtual void setmem() {
-      }
 
     private:
       void* get_pixels() const {

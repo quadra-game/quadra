@@ -45,7 +45,6 @@ public:
 		     const int w, const uint8_t c) const;
   virtual void put_bitmap(const Bitmap& d, const int dx, const int dy) const;
   virtual void put_sprite(const Sprite& d, const int dx, const int dy) const;
-  virtual void setmem();
 };
 
 class Video_Dumb: public Video {

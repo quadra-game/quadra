@@ -68,10 +68,6 @@ public:
   /* blits a Sprite (mask) 'd' to position 'dx','dy' */
   virtual void put_sprite(const Sprite& d,
 			  const int dx, const int dy) const = 0;
-
-  /* adjust the video memory pointed by this video_bitmap in the
-     background video page */
-  virtual void setmem() = 0;
 };
 
 class Video {

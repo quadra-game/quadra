@@ -88,9 +88,6 @@ void Dumb_Video_bitmap::put_sprite(const Sprite& d, const int dx,
   clip(dx2, dy2, d.width, d.height);
 }
 
-void Dumb_Video_bitmap::setmem() {
-}
-
 #ifdef WIN32
 LRESULT CALLBACK dumbwindowproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	switch(msg) {
@@ -155,7 +152,6 @@ Video_Dumb::~Video_Dumb() {
 }
 
 void Video_Dumb::lock() {
-  vb->setmem();
 }
 
 void Video_Dumb::unlock() {

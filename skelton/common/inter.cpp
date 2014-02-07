@@ -449,7 +449,6 @@ void Zone_panel::draw() {
 				video->vb->rect(x+1, y+1, w-2, h-2, 0);
 		}
 	}
-	pan->setmem();
 }
 
 Zone_text_input::Zone_text_input(Inter* in, const Palette& pal, char* s, int mlen, int px, int py, int pw, int mwidth):
