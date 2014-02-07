@@ -28,7 +28,6 @@
 #include "texte.h"
 #include "global.h"
 #include "sons.h"
-#include "main.h" //For alt_tab
 #include "recording.h"
 #include "net_server.h"
 #include "quadra.h"
@@ -413,13 +412,11 @@ void Net_list::step_all() {
 		sendlines(p);
 		game->removepacket();
 	}
-	if(game->network || !alt_tab) {
-		game->count_playing_time();
-		for(i=0; i<MAXPLAYERS; i++) {
-			Canvas *c=get(i);
-			if(c) {
-				c->over->step();
-			}
+	game->count_playing_time();
+	for(i=0; i<MAXPLAYERS; i++) {
+		Canvas *c=get(i);
+		if(c) {
+			c->over->step();
 		}
 	}
 	score.updateFromGame();

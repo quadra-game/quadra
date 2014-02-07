@@ -46,8 +46,6 @@ enum Time_mode {
 
 extern Time_mode time_control;
 
-extern bool alt_tab;
-
 extern char exe_directory[];
 
 void start_game();

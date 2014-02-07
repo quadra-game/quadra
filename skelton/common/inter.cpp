@@ -23,7 +23,6 @@
 #include "video.h"
 #include "bitmap.h"
 #include "input.h"
-#include "main.h"
 #include "sound.h"
 #include "cursor.h"
 #include "inter.h"
@@ -888,25 +887,20 @@ void Inter::set_font(Font* f1, bool del) {
 
 void Inter::draw_zone() {
 	int i;
-#ifdef WIN32
-	if(!alt_tab)
-#endif
-	{
-		if(video->need_paint) {
-			dirt_all();
-			video->need_paint--;
+	if(video->need_paint) {
+		dirt_all();
+		video->need_paint--;
+	}
+	for(i=0; i<nzone(); i++) {
+		if(zone[i]->dirty && zone[i]->enabled >=0 && !zone[i]->stay_on_top) {
+			zone[i]->dirty--;
+			zone[i]->draw();
 		}
-		for(i=0; i<nzone(); i++) {
-			if(zone[i]->dirty && zone[i]->enabled >=0 && !zone[i]->stay_on_top) {
-				zone[i]->dirty--;
-				zone[i]->draw();
-			}
-		}
-		kb_draw_focus();
-		for(i=0; i<nzone(); i++) {
-			if(zone[i]->enabled >=0 && zone[i]->stay_on_top) {
-				zone[i]->draw();
-			}
+	}
+	kb_draw_focus();
+	for(i=0; i<nzone(); i++) {
+		if(zone[i]->enabled >=0 && zone[i]->stay_on_top) {
+			zone[i]->draw();
 		}
 	}
 }
@@ -1017,7 +1011,7 @@ void Inter::process() {
 				}
 			}
 		} else {
-			if(last_mouse_x != cursor->x || last_mouse_y != cursor->y || alt_tab) {
+			if(last_mouse_x != cursor->x || last_mouse_y != cursor->y) {
 				// the mouse has moved, remove the kb_focus
 				kb_visible = false;
 				if(kb_focus) {

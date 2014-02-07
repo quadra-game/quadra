@@ -40,7 +40,6 @@
 
 int ux_argc;
 char** ux_argv;
-bool alt_tab = false;
 Time_mode time_control = TIME_NORMAL;
 char cmd_line[1024];
 
