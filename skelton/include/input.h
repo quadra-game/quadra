@@ -52,10 +52,12 @@ public:
   int key_pending;
   static Input* New(bool dumb=false);
   virtual ~Input() { };
-  virtual void clear_key() = 0;
+  void clear_key();
   virtual void check() = 0;
   virtual void deraw() = 0;
   virtual void reraw() = 0;
+protected:
+  Input();
 };
 
 extern Input* input;

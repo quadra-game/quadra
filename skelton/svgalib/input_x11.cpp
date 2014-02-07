@@ -38,16 +38,6 @@ Input_X11::Input_X11() {
 
   videox11 = dynamic_cast<Video_X11*>(video);
 
-  mouse.dx = mouse.dy = mouse.dz = 0;
-
-  mouse.quel = -1;
-  for(i = 0; i < 4; i++)
-    mouse.button[i] = RELEASED;
-
-  pause = false;
-
-  clear_key();
-
   /*
    * Here, I'm just about to go mad. Let's map platform-specific X11 keycodes
    * to PC AT scancodes (yes, this means it can only be right for one
@@ -105,17 +95,6 @@ Input_X11::~Input_X11() {
 
   if(im)
     XCloseIM(im);
-}
-
-void Input_X11::clear_key() {
-  int i;
-
-  shift_key = 0;
-  quel_key = -1;
-  key_pending = 0;
-
-  for(i = 0; i < 256; i++)
-    keys[i] = 0;
 }
 
 void Input_X11::check() {

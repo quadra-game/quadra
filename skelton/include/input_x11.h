@@ -43,7 +43,6 @@ private:
 public:
   Input_X11();
   virtual ~Input_X11();
-  virtual void clear_key();
   virtual void check();
   virtual void deraw();
   virtual void reraw();

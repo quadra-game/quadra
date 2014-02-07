@@ -64,6 +64,26 @@ const char *keynames[256] = {
   "", "", "", "", "", "", "", ""
 };
 
+Input::Input()
+  : pause(false),
+    quel_key(-1),
+    shift_key(0),
+    key_pending(0) {
+  mouse.dx = mouse.dy = mouse.dz = 0;
+  mouse.quel = -1;
+  for (int i = 0; i < 4; ++i)
+    mouse.button[i] = RELEASED;
+  clear_key();
+}
+
+void Input::clear_key() {
+  quel_key = -1;
+  shift_key = 0;
+  key_pending = 0;
+  for (int i = 0; i < 256; ++i)
+    keys[i] = 0;
+}
+
 Input* Input::New(bool dumb) {
   if (dumb)
     return new Input_Dumb;
