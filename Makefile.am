@@ -34,8 +34,6 @@ EXTRA_DIST = \
 	server \
 	skelton/README \
 	skelton/common/crypt.pl \
-	skelton/common/raw.cpp \
-	skelton/include/raw.h \
 	skelton/tools/dumpdb \
 	sons \
 	stats \
