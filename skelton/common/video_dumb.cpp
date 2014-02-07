@@ -122,10 +122,7 @@ LRESULT CALLBACK dumbwindowproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpara
 
 Video_Dumb::Video_Dumb(int w, int h, const char *wname)
   : Video(new Dumb_Video_bitmap(0, 0, w, h), w, h, w) {
-	video_is_dumb=true;
-  framecount = 0;
-  newpal = true;
-  need_paint = 2;
+	video_is_dumb = true;
 
 #ifdef WIN32
 	BOOL rc;
@@ -150,8 +147,6 @@ Video_Dumb::Video_Dumb(int w, int h, const char *wname)
 }
 
 Video_Dumb::~Video_Dumb() {
-  if(vb)
-    delete vb;
 #ifdef WIN32
 	ShowWindow(hwnd, SW_HIDE);
 	DestroyWindow(hwnd);

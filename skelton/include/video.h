@@ -93,7 +93,9 @@ public:
       pitch(_pitch),
       framecount(0) {
   }
-  virtual ~Video() { };
+  virtual ~Video() {
+    delete vb;
+  }
   virtual void lock() = 0;
   virtual void unlock() = 0;
   virtual void flip() = 0;
