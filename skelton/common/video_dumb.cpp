@@ -94,18 +94,6 @@ LRESULT CALLBACK dumbwindowproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpara
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			break;
-/*		case WM_CHAR:
-			if(input)
-				((Input_DX *) input)->add_key_buf((char) wparam);
-			return 0;*/
-/*		case WM_KEYDOWN:
-			if(input) {
-				if(wparam == 19) // touche 'pause'
-					input->pause = true;
-				if(wparam >= 16 && wparam <= 46)
-					((Input_DX *) input)->add_key_buf((char) wparam, true);
-			}
-			return 0;*/
 		case WM_USER:
 			if(net) {
 				int err = WSAGETASYNCERROR(lparam);

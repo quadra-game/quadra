@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "input.h"
+
 #ifdef HAVE_CONFIG_H
 #include "autoconf.h"
 #endif
@@ -25,7 +27,6 @@
 #include "SDL.h"
 
 #include "video.h"
-#include "input_dumb.h"
 #include "cursor.h"
 
 Input *input = NULL;
@@ -157,6 +158,13 @@ public:
   virtual void reraw() {
     SDL_assert_release(false);
   }
+};
+
+class Input_Dumb: public Input {
+public:
+  virtual void check() {}
+  virtual void deraw() {}
+  virtual void reraw() {}
 };
 
 Input* Input::New(bool dumb) {

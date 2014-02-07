@@ -88,7 +88,6 @@ quadra_SOURCES = \
 	skelton/common/http_request.cpp \
 	skelton/common/id.cpp \
 	skelton/common/image_png.cpp \
-	skelton/common/input_dumb.cpp \
 	skelton/common/inter.cpp \
 	skelton/common/listbox.cpp \
 	skelton/common/net.cpp \
@@ -123,7 +122,6 @@ quadra_SOURCES = \
 	skelton/include/image.h \
 	skelton/include/image_png.h \
 	skelton/include/input.h \
-	skelton/include/input_dumb.h \
 	skelton/include/input_keys.h \
 	skelton/include/inter.h \
 	skelton/include/listbox.h \
