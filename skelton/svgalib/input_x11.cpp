@@ -22,6 +22,7 @@
 #include "autoconf.h"
 #endif
 
+#include <stdlib.h>
 #include <X11/keysym.h>
 #include "cursor.h"
 #include "main.h"
@@ -159,7 +160,7 @@ void Input_X11::check() {
 
       case ClientMessage:
         if((Atom)event.xclient.data.l[0] == videox11->delete_win)
-          quit_game(0);
+          exit(0);
         break;
 
       case Expose:

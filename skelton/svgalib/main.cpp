@@ -87,7 +87,6 @@ int main(int ARGC, char **ARGV, char **ENV) {
   }
 
   start_game();
-  quit_game(0);
   return 0;
 }
 
@@ -126,10 +125,6 @@ void delete_obj() {
     cursor=NULL;
   }
   msgbox("ending delete_obj...\n");
-}
-
-void quit_game(int status) {
-  exit(status);
 }
 
 uint32_t getmsec() {

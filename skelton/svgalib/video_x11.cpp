@@ -587,7 +587,7 @@ void Video_X11::unlock() {
 
 void Video_X11::start_frame() {
   if(quit)
-    quit_game(0);
+    exit(0);
 
   lock();
 }

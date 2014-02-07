@@ -2471,5 +2471,5 @@ void start_game() {
 	delete resmanager;
 
 	if(demo_verif)
-		quit_game(demo_verified_and_valid? 0 : 1);
+		exit(demo_verified_and_valid ? 0 : 1);
 }
