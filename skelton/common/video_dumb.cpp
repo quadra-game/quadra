@@ -34,17 +34,6 @@
 
 bool video_is_dumb=false; //Defaults to false
 
-Dumb_Video_bitmap* Dumb_Video_bitmap::New(const int px, const int py,
-						const int w, const int h,
-						const int rw) {
-  return new Dumb_Video_bitmap(px, py, w, h, rw);
-}
-
-Dumb_Video_bitmap* Dumb_Video_bitmap::New(const int px, const int py,
-						const int w, const int h) {
-  return new Dumb_Video_bitmap(px, py, w, h);
-}
-
 Dumb_Video_bitmap::Dumb_Video_bitmap(const int px, const int py,
 					   const int w, const int h, const int rw)
   : Video_bitmap(px, py, w, h) {

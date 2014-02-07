@@ -28,11 +28,6 @@
 class Dumb_Video_bitmap: public Video_bitmap {
 public:
   int opos_y;
-  static Dumb_Video_bitmap* New(const int px, const int py,
-				   const int w, const int h,
-				   const int rw);
-  static Dumb_Video_bitmap* New(const int px, const int py,
-				   const int w, const int h);
   Dumb_Video_bitmap(const int px, const int py, const int w, const int h,
 		       const int rw);
   Dumb_Video_bitmap(const int px, const int py, const int w, const int h);
