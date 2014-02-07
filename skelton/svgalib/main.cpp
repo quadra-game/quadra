@@ -42,6 +42,8 @@ bool alt_tab = false;
 Time_mode time_control = TIME_NORMAL;
 char cmd_line[1024];
 
+void delete_obj();
+
 void start_frame() {
   if(sound)
     sound->process();
