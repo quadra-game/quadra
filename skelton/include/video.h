@@ -73,7 +73,7 @@ public:
 class Video {
 public:
   Video_bitmap* const vb;
-  uint8_t newpal;
+  bool newpal;
   Palette pal;
   const int width, height;
   int need_paint;
