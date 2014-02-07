@@ -50,7 +50,6 @@ void start_frame() {
   if(sound)
     sound->process();
   input->check();
-  video->start_frame();
 }
 
 void end_frame() {

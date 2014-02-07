@@ -47,8 +47,6 @@ public:
     SDL_assert_release(surface_);
   }
 
-  virtual void start_frame() {
-  }
   virtual void end_frame() {
     Uint32 pixel_format;
     int w, h;

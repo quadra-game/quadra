@@ -52,7 +52,6 @@ public:
   int displayoffset;
   Video_Dumb(int w, int h, const char *wname);
   virtual ~Video_Dumb();
-  virtual void start_frame();
   virtual void end_frame();
   virtual void setpal(const Palette& p);
   virtual void dosetpal(const PALETTEENTRY pal[256], int size);

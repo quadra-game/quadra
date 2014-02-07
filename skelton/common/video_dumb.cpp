@@ -159,9 +159,6 @@ void Video_Dumb::setpal(const Palette& p) {
 void Video_Dumb::dosetpal(const PALETTEENTRY pal[256], int size) {
 }
 
-void Video_Dumb::start_frame() {
-}
-
 void Video_Dumb::end_frame() {
   if(newpal) {
     pal.set();
