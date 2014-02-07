@@ -76,7 +76,7 @@ Zone_canvas::Zone_canvas(Inter* in, Bitmap& bit, int px, int py, Canvas *can, in
 	Zone(in, px, py, pw, ph)
 {
 	fond = new Bitmap(bit[y]+x, w, h, bit.realwidth);
-	screen = Video_bitmap::New(x, y, w, h);
+	screen = video->new_bitmap(x, y, w, h);
 	canvas = can;
 	if(!small_watch) {
 		znext = new Zone_small_next(in,bit,x+5,2);

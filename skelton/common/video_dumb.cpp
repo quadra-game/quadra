@@ -210,3 +210,6 @@ void Video_Dumb::snap_shot(int x, int y, int w, int h) {
 void Video_Dumb::toggle_fullscreen() {
 }
 
+Video_bitmap* Video_Dumb::new_bitmap(int px, int py, int w, int h) {
+  return new Dumb_Video_bitmap(px, py, w, h);
+}

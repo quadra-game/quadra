@@ -41,10 +41,6 @@ class Video_bitmap_X11: public Video_bitmap {
 private:
   Bitmap* fb;
 public:
-  static Video_bitmap* New(const int px, const int py,
-			   const int w, const int h, const int rw);
-  static Video_bitmap* New(const int px, const int py,
-			   const int w, const int h);
   Video_bitmap_X11(const int px, const int py,
 		   const int w, const int h, const int rw);
   Video_bitmap_X11(const int px, const int py,
@@ -101,6 +97,7 @@ public:
   void focus_in(Window w);
   void focus_out(Window w);
   virtual void toggle_fullscreen();
+  virtual Video_bitmap* new_bitmap(int px, int py, int w, int h);
 };
 
 class Video_X11_8: public Video_X11 {

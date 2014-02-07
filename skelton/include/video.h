@@ -38,10 +38,6 @@ protected:
     }
 public:
   const int pos_x, pos_y;
-  static Video_bitmap* New(const int px, const int py,
-			   const int w, const int h, const int rw);
-  static Video_bitmap* New(const int px, const int py,
-			   const int w, const int h);
   virtual ~Video_bitmap() { };
 
   /* fills a rectangle at position 'x','y' of width 'w', height 'h'
@@ -99,6 +95,7 @@ public:
   virtual void restore() = 0;
   virtual void snap_shot(int x, int y, int w, int h) = 0;
   virtual void toggle_fullscreen() = 0;
+  virtual Video_bitmap* new_bitmap(int px, int py, int w, int h) = 0;
 };
 
 extern Video* video;

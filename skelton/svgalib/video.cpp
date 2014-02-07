@@ -28,16 +28,6 @@
 
 Video* video = NULL;
 
-Video_bitmap* Video_bitmap::New(const int px, const int py,
-				const int w, const int h, const int rw) {
-  return Video_bitmap_X11::New(px, py, w, h, rw);
-}
-
-Video_bitmap* Video_bitmap::New(const int px, const int py,
-				const int w, const int h) {
-  return Video_bitmap_X11::New(px, py, w, h);
-}
-
 void Video_bitmap::box(const int x, const int y, const int w, const int h,
                        const int color) const {
   hline(y, x, w, color);

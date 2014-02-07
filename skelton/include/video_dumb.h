@@ -63,6 +63,7 @@ public:
   virtual void restore();
   virtual void snap_shot(int x, int y, int w, int h);
   virtual void toggle_fullscreen();
+  virtual Video_bitmap* new_bitmap(int px, int py, int w, int h);
 };
 
 #endif /* _HEADER_VIDEO_DUMB */

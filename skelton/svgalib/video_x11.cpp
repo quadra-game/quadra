@@ -51,22 +51,6 @@
  */
 #include "quadra.xpm"
 
-Video_bitmap* Video_bitmap_X11::New(const int px, const int py,
-				    const int w, const int h, const int rw) {
-  if(getenv("DISPLAY"))
-    return new Video_bitmap_X11(px, py, w, h, rw);
-  else
-    return NULL;
-}
-
-Video_bitmap* Video_bitmap_X11::New(const int px, const int py,
-				    const int w, const int h) {
-  if(getenv("DISPLAY"))
-    return new Video_bitmap_X11(px, py, w, h);
-  else
-    return NULL;
-}
-
 Video_bitmap_X11::Video_bitmap_X11(const int px, const int py,
 				   const int w, const int h, const int rw)
   : Video_bitmap(px, py, w, h) {
@@ -481,7 +465,7 @@ Video_X11::Video_X11(int w, int h, const char *wname, Display* dpy,
       fatal_msgbox("Out of memory");
   }
 
-  vb = Video_bitmap::New(0, 0, w, h, w);
+  vb = new Video_bitmap_X11(0, 0, w, h, w);
 
   if(!vb)
     fatal_msgbox("Couldn't create a video bitmap.");
@@ -719,4 +703,8 @@ void Video_X11::toggle_fullscreen() {
 
   dirty(0, 0, width-1, height-1);
   fullscreen = !fullscreen;
+}
+
+Video_bitmap* Video_X11::new_bitmap(int px, int py, int w, int h) {
+  return new Video_bitmap_X11(px, py, w, h);
 }
