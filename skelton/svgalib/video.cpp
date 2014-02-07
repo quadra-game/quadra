@@ -100,50 +100,50 @@ private:
     Video_bitmap_SDL(Video_SDL* video, int px, int py, int w, int h)
       : Video_bitmap(px, py, w, h),
         video_(video) {
-      }
+    }
 
-      virtual void rect(const int x, const int y, const int w, const int h, const int color) const {
-        if (clip(x, y, w, h))
-          return;
+    virtual void rect(const int x, const int y, const int w, const int h, const int color) const {
+      if (clip(x, y, w, h))
+        return;
 
-        clip_y1 += pos_y;
-        clip_y2 += pos_y;
-        clip_x1 += pos_x;
+      clip_y1 += pos_y;
+      clip_y2 += pos_y;
+      clip_x1 += pos_x;
 
-        for(uint8_t* bp = (uint8_t*)video_->surface_->pixels + (clip_y1 * video_->surface_->pitch);
-            bp <= (uint8_t*)video_->surface_->pixels + ((clip_y2) * video_->surface_->pitch);
-            bp += video_->surface_->pitch) {
-          memset(&bp[clip_x1], color, clip_w);
-        }
+      for(uint8_t* bp = (uint8_t*)video_->surface_->pixels + (clip_y1 * video_->surface_->pitch);
+          bp <= (uint8_t*)video_->surface_->pixels + ((clip_y2) * video_->surface_->pitch);
+          bp += video_->surface_->pitch) {
+        memset(&bp[clip_x1], color, clip_w);
       }
-      virtual void put_pel(const int x, const int y, const uint8_t c) const {
-        Bitmap bitmap(get_pixels(), width, height, video_->surface_->pitch);
-        bitmap.put_pel(x, y, c);
-      }
-      virtual void hline(const int y, const int x, const int w, const uint8_t c) const {
-        Bitmap bitmap(get_pixels(), width, height, video_->surface_->pitch);
-        bitmap.hline(y, x, w, c);
-      }
-      virtual void vline(const int x, const int y, const int h, const uint8_t c) const {
-        Bitmap bitmap(get_pixels(), width, height, video_->surface_->pitch);
-        bitmap.vline(x, y, h, c);
-      }
-      virtual void put_bitmap(const Bitmap& d, const int dx, const int dy) const {
-        Bitmap bitmap(get_pixels(), width, height, video_->surface_->pitch);
-        d.draw(bitmap, dx, dy);
-      }
-      virtual void put_sprite(const Sprite& d, const int dx, const int dy) const {
-        Bitmap bitmap(get_pixels(), width, height, video_->surface_->pitch);
-        d.draw(bitmap, dx, dy);
-      }
+    }
+    virtual void put_pel(const int x, const int y, const uint8_t c) const {
+      Bitmap bitmap(get_pixels(), width, height, video_->surface_->pitch);
+      bitmap.put_pel(x, y, c);
+    }
+    virtual void hline(const int y, const int x, const int w, const uint8_t c) const {
+      Bitmap bitmap(get_pixels(), width, height, video_->surface_->pitch);
+      bitmap.hline(y, x, w, c);
+    }
+    virtual void vline(const int x, const int y, const int h, const uint8_t c) const {
+      Bitmap bitmap(get_pixels(), width, height, video_->surface_->pitch);
+      bitmap.vline(x, y, h, c);
+    }
+    virtual void put_bitmap(const Bitmap& d, const int dx, const int dy) const {
+      Bitmap bitmap(get_pixels(), width, height, video_->surface_->pitch);
+      d.draw(bitmap, dx, dy);
+    }
+    virtual void put_sprite(const Sprite& d, const int dx, const int dy) const {
+      Bitmap bitmap(get_pixels(), width, height, video_->surface_->pitch);
+      d.draw(bitmap, dx, dy);
+    }
 
-    private:
-      void* get_pixels() const {
-        uint8_t* pixels(static_cast<uint8_t*>(video_->surface_->pixels));
-        return pixels + (pos_y * video_->surface_->pitch) + pos_x;
-      }
+  private:
+    void* get_pixels() const {
+      uint8_t* pixels(static_cast<uint8_t*>(video_->surface_->pixels));
+      return pixels + (pos_y * video_->surface_->pitch) + pos_x;
+    }
 
-      Video_SDL* const video_;
+    Video_SDL* const video_;
   };
 
   SDL_Window* const window_;
@@ -163,8 +163,8 @@ void Video_bitmap::box(const int x, const int y, const int w, const int h,
 Video* Video::New(int w, int h, const char *wname, bool dumb) {
   Video* obj;
 
-	if (dumb)
-		obj = new Video_Dumb(w, h, wname);
+  if (dumb)
+    obj = new Video_Dumb(w, h, wname);
   else
     obj = new Video_SDL(w, h, wname);
 
