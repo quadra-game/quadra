@@ -47,9 +47,6 @@ public:
     SDL_assert_release(surface_);
   }
 
-  virtual void flip() {
-    SDL_assert_release(false);
-  }
   virtual void start_frame() {
   }
   virtual void end_frame() {

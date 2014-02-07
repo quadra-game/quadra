@@ -151,20 +151,6 @@ Video_Dumb::~Video_Dumb() {
 #endif
 }
 
-void Video_Dumb::flip() {
-  if(newpal) {
-    pal.set();
-    newpal = false;
-  }
-
-#ifndef WIN32
-	// Shouldn't we do something on Windows too?
-  usleep(1);
-#endif
-
-  framecount++;
-}
-
 void Video_Dumb::setpal(const Palette& p) {
   pal = p;
   newpal=true;
@@ -177,7 +163,17 @@ void Video_Dumb::start_frame() {
 }
 
 void Video_Dumb::end_frame() {
-  flip();
+  if(newpal) {
+    pal.set();
+    newpal = false;
+  }
+
+#ifndef WIN32
+	// Shouldn't we do something on Windows too?
+  usleep(1);
+#endif
+
+  framecount++;
 }
 
 void Video_Dumb::restore() {

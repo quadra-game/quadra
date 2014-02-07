@@ -92,7 +92,6 @@ public:
   virtual ~Video() {
     delete vb;
   }
-  virtual void flip() = 0;
   virtual void start_frame() = 0;
   virtual void end_frame() = 0;
   virtual void setpal(const Palette& p) = 0;
