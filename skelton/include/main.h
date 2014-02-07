@@ -51,7 +51,5 @@ extern bool alt_tab;
 extern char exe_directory[];
 
 void start_game();
-void start_frame();
-void end_frame();
 
 #endif

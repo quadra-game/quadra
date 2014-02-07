@@ -46,16 +46,6 @@ char cmd_line[1024];
 
 void delete_obj();
 
-void start_frame() {
-  if(sound)
-    sound->process();
-  input->check();
-}
-
-void end_frame() {
-  video->end_frame();
-}
-
 char exe_directory[1024];
 
 int main(int ARGC, char **ARGV, char **ENV) {

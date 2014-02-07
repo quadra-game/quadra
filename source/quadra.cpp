@@ -2413,7 +2413,9 @@ void start_game() {
 					break;
 			}
 		}
-		start_frame();
+		if(sound)
+			sound->process();
+		input->check();
 		if(ecran && !video_is_dumb) {
 			try {
 				ecran->draw_zone();
@@ -2439,7 +2441,7 @@ void start_game() {
 			}
 			#endif /* FRAMECOUNTER */
 		}
-		end_frame();
+		video->end_frame();
 
 #ifndef NDEBUG
 		if(input->keys[KEY_F8] & PRESSED) // F8 = buckage
