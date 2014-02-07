@@ -87,13 +87,7 @@ public:
 
     SDL_SetPaletteColors(surface_->format->palette, entries, 0, size);
   }
-  virtual void restore() {
-    SDL_assert_release(false);
-  }
   virtual void snap_shot(int x, int y, int w, int h) {
-    SDL_assert_release(false);
-  }
-  virtual void toggle_fullscreen() {
     SDL_assert_release(false);
   }
 

@@ -173,15 +173,7 @@ void Video_Dumb::end_frame() {
   framecount++;
 }
 
-void Video_Dumb::restore() {
-  newpal = true;
-  need_paint = 2;
-}
-
 void Video_Dumb::snap_shot(int x, int y, int w, int h) {
-}
-
-void Video_Dumb::toggle_fullscreen() {
 }
 
 Video_bitmap* Video_Dumb::new_bitmap(int px, int py, int w, int h) {
