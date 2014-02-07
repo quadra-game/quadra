@@ -27,7 +27,6 @@
 #include "types.h"
 #include "palette.h"
 #include "video.h"
-#include "video_x11.h"
 
 Palette noir;
 
@@ -94,6 +93,7 @@ void Fade::newdest(const Palette& dst, int frame) {
   dest=dst;
   int j=0;
 
+#if 0
   /* shit, this is ugly */
   if(dynamic_cast<Video_X11*>(video))
     if(!dynamic_cast<Video_X11_8*>(video)) {
@@ -103,6 +103,7 @@ void Fade::newdest(const Palette& dst, int frame) {
       if(frame < 2)
         frame = 2;
     }
+#endif
 
   for(int i(0); i<256; i++) {
     delta[j]=((dest.pal[i].peRed<<7)-current[j])/frame; j++;
@@ -117,8 +118,10 @@ int Fade::step() {
   if(currentframe==destframe)
     return 1;
   else {
+#if 0
     if(dynamic_cast<Video_X11_8*>(video))
       usleep(3000);
+#endif
     for(int i(0); i<768; i++)
       current[i]+=delta[i];
     currentframe++;

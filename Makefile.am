@@ -128,7 +128,6 @@ quadra_SOURCES = \
 	skelton/include/input.h \
 	skelton/include/input_dumb.h \
 	skelton/include/input_keys.h \
-	skelton/include/input_x11.h \
 	skelton/include/inter.h \
 	skelton/include/listbox.h \
 	skelton/include/main.h \
@@ -152,21 +151,15 @@ quadra_SOURCES = \
 	skelton/include/url.h \
 	skelton/include/video.h \
 	skelton/include/video_dumb.h \
-	skelton/include/video_x11.h \
 	skelton/include/zone_text_clock.h \
 	skelton/svgalib/error.cpp \
 	skelton/svgalib/find_file.cpp \
 	skelton/svgalib/input.cpp \
-	skelton/svgalib/input_x11.cpp \
 	skelton/svgalib/main.cpp \
 	skelton/svgalib/palette.cpp \
 	skelton/svgalib/res.cpp \
 	skelton/svgalib/sound.cpp \
 	skelton/svgalib/video.cpp \
-	skelton/svgalib/video_x11.cpp \
-	skelton/svgalib/video_x11_16.cpp \
-	skelton/svgalib/video_x11_24.cpp \
-	skelton/svgalib/video_x11_8.cpp \
 	source/bloc.cpp \
 	source/canvas.cpp \
 	source/cfgfile.cpp \

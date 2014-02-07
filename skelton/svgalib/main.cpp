@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "SDL.h"
+
 /* version Linux */
 #include "config.h"
 #include <stdlib.h>
@@ -58,6 +60,7 @@ void end_frame() {
 char exe_directory[1024];
 
 int main(int ARGC, char **ARGV, char **ENV) {
+  SDL_Init(SDL_INIT_VIDEO);
   atexit(delete_obj);
 	struct sigaction signals;
 	if(sigaction(SIGPIPE, NULL, &signals) < 0)
@@ -124,5 +127,6 @@ void delete_obj() {
     delete cursor;
     cursor=NULL;
   }
+  SDL_Quit();
   msgbox("ending delete_obj...\n");
 }

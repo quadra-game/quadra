@@ -22,9 +22,11 @@
 #include "autoconf.h"
 #endif
 
+#include "SDL.h"
+
 #include "video.h"
 #include "input_dumb.h"
-#include "input_x11.h"
+#include "cursor.h"
 
 Input *input = NULL;
 
@@ -84,10 +86,83 @@ void Input::clear_key() {
     keys[i] = 0;
 }
 
+class Input_SDL : public Input {
+public:
+  virtual void check() {
+    SDL_Event event;
+
+    while (SDL_PollEvent(&event) > 0) {
+      switch (event.type) {
+        case SDL_QUIT:
+          exit(0);
+
+        case SDL_MOUSEMOTION:
+          if (cursor)
+            cursor->set_pos(event.motion.x, event.motion.y);
+          break;
+
+        case SDL_MOUSEBUTTONDOWN:
+          switch (event.button.button) {
+            case 1:
+              if (mouse.button[event.button.button - 1] == RELEASED)
+                mouse.quel = event.button.button - 1;
+              mouse.button[event.button.button - 1] = PRESSED;
+              break;
+
+            default:
+              SDL_Log("unknown button down: %i", event.button.button);
+          }
+          break;
+
+        case SDL_MOUSEBUTTONUP:
+          switch (event.button.button) {
+            case 1:
+              mouse.button[event.button.button - 1] = RELEASED;
+              break;
+
+            default:
+              SDL_Log("unknown button up: %i", event.button.button);
+          }
+          break;
+
+        case SDL_WINDOWEVENT:
+          switch (event.window.event) {
+            case SDL_WINDOWEVENT_LEAVE:
+              if (cursor)
+                cursor->set_pos(-1, -1);
+              break;
+
+            default:
+              SDL_Log("unknown window event: %i", event.window.event);
+          }
+          break;
+
+        // Ignore these events.
+        case SDL_FINGERDOWN:
+        case SDL_FINGERUP:
+        case SDL_FINGERMOTION:
+        case SDL_MULTIGESTURE:
+          break;
+
+        default:
+          SDL_Log("unknown event: 0x%x", event.type);
+      }
+    }
+  }
+
+  virtual void deraw() {
+    SDL_assert_release(false);
+  }
+
+  virtual void reraw() {
+    SDL_assert_release(false);
+  }
+};
+
 Input* Input::New(bool dumb) {
   if (dumb)
     return new Input_Dumb;
   else
-    return new Input_X11;
+    return new Input_SDL;
 }
 
