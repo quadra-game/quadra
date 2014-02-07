@@ -36,7 +36,6 @@ EXTRA_DIST = \
 	skelton/common/crypt.pl \
 	skelton/common/raw.cpp \
 	skelton/include/raw.h \
-	skelton/include/surface.h \
 	skelton/tools/dumpdb \
 	sons \
 	stats \
