@@ -76,14 +76,23 @@ public:
 
 class Video {
 public:
-  Video_bitmap *vb;
+  Video_bitmap* const vb;
   uint8_t newpal;
   Palette pal;
-  int width, height;
+  const int width, height;
   int need_paint;
-  int pitch;
+  const int pitch;
   uint32_t framecount;
   static Video* New(int w, int h, const char *wname, bool dumb=false);
+  Video(Video_bitmap* _vb, int _width, int _height, int _pitch)
+    : vb(_vb),
+      newpal(true),
+      width(_width),
+      height(_height),
+      need_paint(2),
+      pitch(_pitch),
+      framecount(0) {
+  }
   virtual ~Video() { };
   virtual void lock() = 0;
   virtual void unlock() = 0;

@@ -207,7 +207,8 @@ static int xhandler(Display* display, XErrorEvent* error) {
 
 Video_X11::Video_X11(int w, int h, const char *wname, Display* dpy,
                      Visual* vis, int d)
-  : display(NULL),
+  : Video(new Video_bitmap_X11(0, 0, w, h, w), w, h, w),
+    display(NULL),
     image(NULL),
     vfb(NULL),
     min_x2(w), max_x2(0), min_y2(h), max_y2(0),
@@ -239,9 +240,6 @@ Video_X11::Video_X11(int w, int h, const char *wname, Display* dpy,
     max_x[tmp_y] = 0;
   };
 
-  width = w;
-  height = h;
-  pitch = w;
   framecount = 0;
   newpal = true;
   need_paint = 2;
@@ -464,8 +462,6 @@ Video_X11::Video_X11(int w, int h, const char *wname, Display* dpy,
     if(!image->data)
       fatal_msgbox("Out of memory");
   }
-
-  vb = new Video_bitmap_X11(0, 0, w, h, w);
 
   if(!vb)
     fatal_msgbox("Couldn't create a video bitmap.");
