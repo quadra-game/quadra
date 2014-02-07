@@ -151,12 +151,6 @@ Video_Dumb::~Video_Dumb() {
 #endif
 }
 
-void Video_Dumb::lock() {
-}
-
-void Video_Dumb::unlock() {
-}
-
 void Video_Dumb::flip() {
   if(newpal) {
     pal.set();
@@ -180,7 +174,6 @@ void Video_Dumb::dosetpal(const PALETTEENTRY pal[256], int size) {
 }
 
 void Video_Dumb::start_frame() {
-  lock();
 }
 
 void Video_Dumb::end_frame() {

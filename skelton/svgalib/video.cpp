@@ -47,12 +47,6 @@ public:
     SDL_assert_release(surface_);
   }
 
-  virtual void lock() {
-    SDL_assert_release(false);
-  }
-  virtual void unlock() {
-    SDL_assert_release(false);
-  }
   virtual void flip() {
     SDL_assert_release(false);
   }

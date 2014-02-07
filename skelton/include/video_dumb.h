@@ -52,8 +52,6 @@ public:
   int displayoffset;
   Video_Dumb(int w, int h, const char *wname);
   virtual ~Video_Dumb();
-  virtual void lock();
-  virtual void unlock();
   virtual void flip();
   virtual void start_frame();
   virtual void end_frame();
