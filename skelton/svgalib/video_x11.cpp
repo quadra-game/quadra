@@ -104,14 +104,6 @@ void Video_bitmap_X11::rect(const int x,const int y,const int w,const int h,
 			     clip_x1+clip_w-1, clip_y2);
 }
 
-void Video_bitmap_X11::box(const int x,const int y,const int w,const int h,
-			   const int color) const {
-  hline(y, x, w, color);
-  hline(y+h-1, x, w, color);
-  vline(x, y, h, color);
-  vline(x+w-1, y, h, color);
-}
-
 void Video_bitmap_X11::put_pel(const int x, const int y, const uint8_t c) const {
   fb->put_pel(x, y, c);
 

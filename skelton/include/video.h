@@ -52,7 +52,7 @@ public:
   /* empty rectangle at position 'x','y' of width 'w', height 'h' and
      color 'color'. */
   virtual void box(const int x,const int y,const int w,const int h,
-		   const int color) const = 0;
+		   const int color) const;
 
   /* puts a pixel at position 'x','y' with color 'c' */
   virtual void put_pel(const int x, const int y, const uint8_t c) const = 0;

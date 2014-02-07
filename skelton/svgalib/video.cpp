@@ -38,6 +38,14 @@ Video_bitmap* Video_bitmap::New(const int px, const int py,
   return Video_bitmap_X11::New(px, py, w, h);
 }
 
+void Video_bitmap::box(const int x, const int y, const int w, const int h,
+                       const int color) const {
+  hline(y, x, w, color);
+  hline(y + h - 1, x, w, color);
+  vline(x, y, h, color);
+  vline(x + w - 1, y, h, color);
+}
+
 Video* Video::New(int w, int h, const char *wname, bool dumb) {
   Video* obj;
 

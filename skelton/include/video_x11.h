@@ -52,8 +52,6 @@ public:
   virtual ~Video_bitmap_X11();
   virtual void rect(const int x,const int y,const int w,const int h,
 		    const int color) const;
-  virtual void box(const int x,const int y,const int w,const int h,
-		   const int color) const;
   virtual void put_pel(const int x, const int y, const uint8_t c) const;
   virtual void hline(const int y, const int x,
 		     const int w, const uint8_t c) const;

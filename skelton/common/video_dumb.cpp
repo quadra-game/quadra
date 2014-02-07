@@ -61,11 +61,6 @@ void Dumb_Video_bitmap::rect(const int x, const int y,
   clip(x, y, w, h);
 }
 
-void Dumb_Video_bitmap::box(const int x, const int y,
-			       const int w, const int h,
-			       const int color) const {
-}
-
 void Dumb_Video_bitmap::put_pel(const int x, const int y, const uint8_t c) const {
   clip(x, y, 1, 1);
 }
