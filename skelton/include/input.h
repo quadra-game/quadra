@@ -26,7 +26,6 @@
 #include "SDL.h"
 
 #include "types.h"
-#include "input_keys.h"
 
 #define PRESSED 1
 #define RELEASED 2

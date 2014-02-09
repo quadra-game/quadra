@@ -122,7 +122,6 @@ quadra_SOURCES = \
 	skelton/include/image.h \
 	skelton/include/image_png.h \
 	skelton/include/input.h \
-	skelton/include/input_keys.h \
 	skelton/include/inter.h \
 	skelton/include/listbox.h \
 	skelton/include/main.h \
