@@ -47,6 +47,17 @@ public:
     SDL_assert_release(surface_);
   }
 
+  ~Video_SDL() {
+    if (surface_)
+      SDL_FreeSurface(surface_);
+    if (texture_)
+      SDL_DestroyTexture(texture_);
+    if (renderer_)
+      SDL_DestroyRenderer(renderer_);
+    if (window_)
+      SDL_DestroyWindow(window_);
+  }
+
   virtual void end_frame() {
     Uint32 pixel_format;
     int w, h;
