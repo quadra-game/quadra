@@ -2437,12 +2437,11 @@ void start_game() {
 		video->end_frame();
 
 #ifndef NDEBUG
-		if(input->keys[KEY_F8] & PRESSED) // F8 = buckage
-			for(int j=0; j<8000000; j++)
-				;
-		if(input->keys[KEY_F9] & PRESSED) // F9 = slow motion mode
+		if(input->keys[SDL_SCANCODE_F8] & PRESSED) // F8 = buckage
+			SDL_Delay(250);
+		if(input->keys[SDL_SCANCODE_F9] & PRESSED) // F9 = slow motion mode
 			time_control = TIME_SLOW;
-		if(input->keys[KEY_F10] & PRESSED) // F10 = turbo mode
+		if(input->keys[SDL_SCANCODE_F10] & PRESSED) // F10 = turbo mode
 			time_control = TIME_FAST;
 #endif
 

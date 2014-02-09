@@ -23,12 +23,10 @@
 
 #include <stdint.h>
 
+#include "SDL.h"
+
 #include "types.h"
 #include "input_keys.h"
-
-#define SHIFT 1
-#define ALT 2
-#define CONTROL 4
 
 #define MAXKEY 32
 
@@ -44,14 +42,14 @@ public:
     bool special;
     char c;
   } key_buf[MAXKEY];
-  uint8_t keys[256];
+  uint8_t keys[SDL_NUM_SCANCODES];
   bool pause;
-  int quel_key;
-  int shift_key;
+  SDL_Keysym last_keysym;
   int key_pending;
   static Input* New(bool dumb=false);
   virtual ~Input() { };
   void clear_key();
+  void clear_last_keysym();
   virtual void check() = 0;
   virtual void deraw() = 0;
   virtual void reraw() = 0;

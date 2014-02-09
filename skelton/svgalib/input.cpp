@@ -69,8 +69,6 @@ const char *keynames[256] = {
 
 Input::Input()
   : pause(false),
-    quel_key(-1),
-    shift_key(0),
     key_pending(0) {
   mouse.quel = -1;
   for (int i = 0; i < 4; ++i)
@@ -79,11 +77,15 @@ Input::Input()
 }
 
 void Input::clear_key() {
-  quel_key = -1;
-  shift_key = 0;
+  clear_last_keysym();
   key_pending = 0;
-  for (int i = 0; i < 256; ++i)
-    keys[i] = 0;
+  memset(keys, 0, sizeof(keys));
+}
+
+void Input::clear_last_keysym() {
+  last_keysym.scancode = SDL_SCANCODE_UNKNOWN;
+  last_keysym.sym = SDLK_UNKNOWN;
+  last_keysym.mod = 0;
 }
 
 class Input_SDL : public Input {
@@ -123,6 +125,15 @@ public:
             default:
               SDL_Log("unknown button up: %i", event.button.button);
           }
+          break;
+
+        case SDL_KEYDOWN:
+          keys[event.key.keysym.scancode] |= PRESSED;
+          last_keysym = event.key.keysym;
+          break;
+
+        case SDL_KEYUP:
+          keys[event.key.keysym.scancode] = RELEASED;
           break;
 
         case SDL_WINDOWEVENT:

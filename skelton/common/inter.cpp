@@ -498,7 +498,7 @@ void Zone_text_input::clicked(int quel) {
 		first_click = false;
 	} else {
 		first_click = true;
-		if(input->shift_key & SHIFT) {
+		if(input->last_keysym.mod & KMOD_SHIFT) {
 			if(select_start == -1)
 				select_start = curpos;
 		} else {
@@ -613,7 +613,7 @@ void Zone_text_input::process() {
 					}
 				}
 				if(c==37 || c==39 || c==36 || c==35) {
-					if(input->shift_key & SHIFT) {
+					if(input->last_keysym.mod & KMOD_SHIFT) {
 							if(select_start == -1)
 								select_start = curpos;
 					} else {
@@ -947,7 +947,7 @@ void Inter::flush() {
 	kb_focus = NULL;
 	kb_x = kb_y = 0;
 	kb_anim = 0;
-	input->quel_key = -1;
+	input->clear_last_keysym();
 }
 
 void Inter::process() {
@@ -965,16 +965,16 @@ void Inter::process() {
 
 	if(focus) {
 		int lost = -1;
-		if(input->quel_key == KEY_ESCAPE)
+		if(input->last_keysym.sym == SDLK_ESCAPE)
 			lost=1;
-		if(input->quel_key == KEY_ENTER || input->quel_key == KEY_PADENTER)
+		if(input->last_keysym.sym == SDLK_RETURN || input->last_keysym.sym == SDLK_KP_ENTER)
 			lost=0;
 		if(lost != -1) {
 			focus->lost_focus(lost);
 			if(!kb_visible && in != focus)
 				focus->leaved();
 			focus = NULL;
-			input->quel_key = -1;
+			input->clear_last_keysym();
 		}
 	} else {
 		// keyboard control stuff
@@ -984,9 +984,9 @@ void Inter::process() {
 				kb_focus = NULL;
 			}
 			if(kb_active) {
-				if(kb_check_key(KEY_DOWNARROW) || kb_check_key(KEY_UPARROW) ||
-					kb_check_key(KEY_LEFTARROW) || kb_check_key(KEY_RIGHTARROW) ||
-					kb_check_key(KEY_TAB)) {
+				if (kb_check_key(SDLK_DOWN) || kb_check_key(SDLK_UP) ||
+				    kb_check_key(SDLK_LEFT) || kb_check_key(SDLK_RIGHT) ||
+				    kb_check_key(SDLK_TAB)) {
 					kb_focus=NULL;
 					if(in) {
 						if(in->kb_focusable)
@@ -1007,7 +1007,7 @@ void Inter::process() {
 						if(cursor)
 							cursor->visible = false;
 					}
-					input->quel_key = -1;
+					input->clear_last_keysym();
 				}
 			}
 		} else {
@@ -1032,28 +1032,28 @@ void Inter::process() {
 			if(kb_visible) {
 				bool bouge = false;
 				Zone *temp = NULL;
-				if(kb_check_key(KEY_DOWNARROW)) {
+				if(kb_check_key(SDLK_DOWN)) {
 					temp = kb_find_down();
 					bouge = true;
 				}
-				if(kb_check_key(KEY_TAB)) {
+				if(kb_check_key(SDLK_TAB)) {
 					temp = kb_find_next();
 					bouge = true;
 				}
-				if(kb_check_key(KEY_TAB) && input->shift_key & SHIFT) {
+				if(kb_check_key(SDLK_TAB) && input->last_keysym.mod & KMOD_SHIFT) {
 					temp = kb_find_prev();
 					bouge = true;
 				}
-				if(kb_check_key(KEY_UPARROW)) {
+				if(kb_check_key(SDLK_UP)) {
 					temp = kb_find_up();
 					bouge = true;
 				}
-				if(kb_check_key(KEY_RIGHTARROW)) {
+				if(kb_check_key(SDLK_RIGHT)) {
 					temp = kb_find_right();
 					if(temp)
 						bouge = true;
 				}
-				if(kb_check_key(KEY_LEFTARROW)) {
+				if(kb_check_key(SDLK_LEFT)) {
 					temp = kb_find_left();
 					if(temp)
 						bouge = true;
@@ -1064,13 +1064,15 @@ void Inter::process() {
 						tag(temp);
 						kb_focus = temp;
 					}
-					input->quel_key = -1;
+					input->clear_last_keysym();
 				}
 
-				if(input->quel_key == KEY_ENTER || input->quel_key == KEY_PADENTER || kb_check_key(KEY_SPACE)) {
+				if(input->last_keysym.sym == SDLK_RETURN
+				   || input->last_keysym.sym == SDLK_KP_ENTER
+				   || kb_check_key(SDLK_SPACE)) {
 					if(kb_focus) {
 						select_zone(kb_focus, 0);
-						input->quel_key = -1;
+						input->clear_last_keysym();
 					}
 				}
 			}
@@ -1144,24 +1146,19 @@ void Inter::kb_reactivate() {
 	kb_active = true;
 }
 
-void Inter::kb_alloc_key(const int i) {
-	kb_keys.push_back(i);
+void Inter::kb_alloc_key(int i) {
+  SDL_assert_release(i < SDL_NUM_SCANCODES);
+  kb_keys.insert(static_cast<SDL_Scancode>(i));
 }
 
-void Inter::kb_free_key(const int i) {
-  vector<int>::iterator it(std::find(kb_keys.begin(), kb_keys.end(), i));
-  if (it != kb_keys.end())
-    kb_keys.erase(it);
+void Inter::kb_free_key(int i) {
+  SDL_assert_release(i < SDL_NUM_SCANCODES);
+	kb_keys.erase(static_cast<SDL_Scancode>(i));
 }
 
-bool Inter::kb_check_key(const int i) const {
-	if(input->quel_key == i) {
-		for(int j=0; j<kb_keys.size(); j++)
-			if(i == kb_keys[j])
-				return false;
-		return true;
-	}
-	return false;
+bool Inter::kb_check_key(SDL_Keycode i) const {
+  return input->last_keysym.sym == i
+    && kb_keys.find(input->last_keysym.scancode) == kb_keys.end();
 }
 
 Zone *Inter::kb_find_upmost() {

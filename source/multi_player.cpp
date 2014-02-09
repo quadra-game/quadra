@@ -161,8 +161,8 @@ void Multi_player::step() {
 	}*/
 
 	if(playback && playback->auto_demo)
-		if(result || input->quel_key != -1) {
-			input->quel_key = -1;
+		if(result || input->last_keysym.sym != SDLK_UNKNOWN) {
+			input->clear_last_keysym();
 			stop = true;
 		}
 
@@ -182,7 +182,7 @@ void Multi_player::step() {
 		}
 		stop = true;
 	}
-	if(input->quel_key == KEY_ESCAPE)
+	if(input->last_keysym.sym == SDLK_ESCAPE)
 		game->abort = true;
 	if(game->abort)
 		stop = true;
@@ -202,16 +202,16 @@ void Multi_player::step() {
 
 	if(_debug) {
 		int snap_can = -1;
-		if(input->keys[KEY_F2] & PRESSED) {
-			input->keys[KEY_F2] = 0;
+		if(input->last_keysym.sym == SDLK_F2) {
+			input->clear_last_keysym();
 			snap_can = 0;
 		}
-		if(input->keys[KEY_F3] & PRESSED) {
-			input->keys[KEY_F3] = 0;
+		if(input->last_keysym.sym == SDLK_F3) {
+			input->clear_last_keysym();
 			snap_can = 1;
 		}
-		if(input->keys[KEY_F4] & PRESSED) {
-			input->keys[KEY_F4] = 0;
+		if(input->last_keysym.sym == SDLK_F4) {
+			input->clear_last_keysym();
 			snap_can = 2;
 		}
 		if(snap_can != -1) {
@@ -392,7 +392,7 @@ void Zone_slow_play::waiting() {
 
 void Zone_slow_play::process() {
 	Zone_text_button2::process();
-	if(high && (input->keys[KEY_ENTER] & PRESSED || input->keys[KEY_SPACE] & PRESSED)) {
+	if(high && (input->keys[SDL_SCANCODE_RETURN] & PRESSED || input->keys[SDL_SCANCODE_SPACE] & PRESSED)) {
 		time_control = TIME_SLOW;
 	}
 }
@@ -410,7 +410,7 @@ void Zone_fast_play::waiting() {
 
 void Zone_fast_play::process() {
 	Zone_text_button2::process();
-	if(high && (input->keys[KEY_ENTER] & PRESSED || input->keys[KEY_SPACE] & PRESSED)) {
+	if(high && (input->keys[SDL_SCANCODE_RETURN] & PRESSED || input->keys[SDL_SCANCODE_SPACE] & PRESSED)) {
 		time_control = TIME_FAST;
 	}
 }

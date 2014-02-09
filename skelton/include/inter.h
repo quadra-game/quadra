@@ -21,7 +21,10 @@
 #ifndef HEADER_INTER
 #define HEADER_INTER
 
+#include <set>
 #include <stdint.h>
+
+#include "SDL.h"
 
 #include "error.h"
 #include "types.h"
@@ -42,7 +45,7 @@ class Inter {
 	bool kb_active;
 	int double_click_delay;
 	Zone *double_clicked_first;
-	std::vector<int> kb_keys;
+	std::set<SDL_Scancode> kb_keys;
 	Zone *kb_focus;
 	Zone *kb_find_upmost();
 	Zone *kb_find_downmost();
@@ -56,7 +59,7 @@ class Inter {
 	void kb_draw_focus();
 	void de_tag(Zone *z);
 	void tag(Zone *z);
-	bool kb_check_key(const int i) const;
+	bool kb_check_key(SDL_Keycode i) const;
 public:
 	Font* font;
 	bool del_font;
@@ -89,8 +92,10 @@ public:
 	}
 	void kb_deactivate();
 	void kb_reactivate();
-	void kb_alloc_key(const int i);
-	void kb_free_key(const int i);
+	// The parameter of these two methods should be SDL_Scancode, but would
+	// require changing the config struct, which is (sadly) a problem.
+	void kb_alloc_key(int i);
+	void kb_free_key(int i);
 };
 
 class Zone {

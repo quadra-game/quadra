@@ -1179,9 +1179,10 @@ void Chat_interface::process() {
 	}
 	if(!playback) {
 		// detects the Enter key (in Windows and/or in Unix)
-		if(input->quel_key == KEY_ENTER && !inter->focus && inter->focus != zinput) {
+		if(input->last_keysym.sym == SDLK_RETURN && !inter->focus
+		   && inter->focus != zinput) {
 			inter->select_zone(zinput, 0);
-			input->quel_key = -1;
+			input->clear_last_keysym();
 		}
 	}
 }

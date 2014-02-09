@@ -222,8 +222,8 @@ void Create_game::step() {
 	}
 
 	Menu::step();
-	if(input->quel_key == 1 || result==cancel || quitting) {
-		input->quel_key = 0;
+	if(input->last_keysym.sym == SDLK_ESCAPE || result==cancel || quitting) {
+		input->clear_last_keysym();
 		ret();
 	}
 	if(result==start) {
@@ -392,8 +392,8 @@ void Join_game::init() {
 
 void Join_game::step() {
 	Menu::step();
-	if(input->quel_key == 1 || result==cancel) {
-		input->quel_key = 0;
+	if(input->last_keysym.sym == SDLK_ESCAPE || result==cancel) {
+		input->clear_last_keysym();
 		ret();
 	}
 	bool connect = net->connected();
