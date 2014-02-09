@@ -72,7 +72,6 @@ Input::Input()
     quel_key(-1),
     shift_key(0),
     key_pending(0) {
-  mouse.dx = mouse.dy = mouse.dz = 0;
   mouse.quel = -1;
   for (int i = 0; i < 4; ++i)
     mouse.button[i] = RELEASED;

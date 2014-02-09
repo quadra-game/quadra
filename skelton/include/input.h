@@ -37,7 +37,6 @@ extern const char *keynames[256];
 class Input {
 public:
   struct {
-    int dx,dy,dz;
     uint8_t button[4];
     int quel;
   } mouse;
