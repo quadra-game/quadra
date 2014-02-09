@@ -68,12 +68,12 @@ void Fade_to::step() {
 
 void Fade_in::init() {
 	Fade_to::init();
-	Sfx stmp(sons.fadein, 0, -400, 0, 11000+ugs_random.rnd(511));
+	sons.fadein->play(-400, 0, 11000+ugs_random.rnd(511));
 }
 
 void Fade_out::init() {
 	Fade_to::init();
-	Sfx stmp(sons.fadeout, 0, -400, 0, 22000+ugs_random.rnd(511));
+	sons.fadeout->play(-400, 0, 22000+ugs_random.rnd(511));
 }
 
 Setpalette::Setpalette(const Palette& p): pal(p) {

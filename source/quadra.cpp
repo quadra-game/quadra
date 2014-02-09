@@ -429,7 +429,7 @@ void Player_base::play_sound(Sample *s, int vol, int pan, int freq) {
 		freq = freq*2/3;
 	if(time_control == TIME_FAST)
 		freq = freq*3/2;
-	Sfx stmp(s, 0, vol, pan, freq);
+	s->play(vol, pan, freq);
 }
 
 Player_text_scroll::Player_text_scroll(Canvas *c, const char *texte, int xoffset, int yoffset): Player_base(c) {
@@ -1857,13 +1857,8 @@ void init_stuff(bool need_sound=true, bool need_video=true) {
 	fonts.init();
 	//If we init a dumb video, we need a dumb input too
 	input = Input::New(!need_video);
-	if(need_sound && need_video) { // don't need sound if no video
-		sound = new Sound();
-		if(!sound->active) {
-			delete sound;
-			sound = NULL;
-		}
-	}
+	if(need_sound && need_video) // don't need sound if no video
+		sound = Sound::New();
 	else
 		sound = NULL;
 
@@ -1874,23 +1869,23 @@ void init_stuff(bool need_sound=true, bool need_video=true) {
 	net_starter = new Net_starter();
 	{
 		Res_doze res("cuckoo.wav");
-		sons.pause = new Sample(res, 2);
+		sons.pause = new Sample(res);
 	}
 	{
 		Res_doze res("hooter03.wav");
-		sons.start = new Sample(res,2);
+		sons.start = new Sample(res);
 	}
 	{
 		Res_doze res("Whizz1.wav");
-		sons.bonus1 = new Sample(res, 2);
+		sons.bonus1 = new Sample(res);
 	}
 	{
 		Res_doze res("glissup.wav");
-		sons.levelup = new Sample(res, 2);
+		sons.levelup = new Sample(res);
 	}
 	{
 		Res_doze res("Clang3.wav");
-		sons.depose4 = new Sample(res, 2); // quand le canvas 'coule'
+		sons.depose4 = new Sample(res); // quand le canvas 'coule'
 	}
 	sons.flash = NULL;
 	sons.depose3 = NULL;
@@ -1899,75 +1894,75 @@ void init_stuff(bool need_sound=true, bool need_video=true) {
 	sons.drip = NULL;
 	{
 		Res_doze res("Glass01.wav");
-		sons.glass = new Sample(res, 2);
+		sons.glass = new Sample(res);
 	}
 	{
 		Res_doze res("Tapdrip.wav");
-		sons.enter = new Sample(res, 2);
+		sons.enter = new Sample(res);
 	}
 	{
 		Res_doze res("W_BAYO_0.wav");
-		sons.fadein = new Sample(res, 2);
+		sons.fadein = new Sample(res);
 	}
 	{
 		Res_doze res("fadeout.wav");
-		sons.fadeout = new Sample(res, 2);
+		sons.fadeout = new Sample(res);
 	}
 	{
 		Res_doze res("click_1.wav");
-		sons.point = new Sample(res, 2);
+		sons.point = new Sample(res);
 	}
 	{
 		Res_doze res("Blip1.wav");
-		sons.click = new Sample(res, 2);
+		sons.click = new Sample(res);
 	}
 	{
 		Res_doze res("handbell.wav");
-		sons.msg = new Sample(res, 2);
+		sons.msg = new Sample(res);
 	}
 	{
 		Res_doze res("potato_get.wav");
-		sons.potato_get = new Sample(res, 2);
+		sons.potato_get = new Sample(res);
 	}
 	{
 		Res_doze res("zingle.wav");
-		sons.potato_rid = new Sample(res, 2);
+		sons.potato_rid = new Sample(res);
 	}
 	{ //-roncli 4/29/01 Load countdown samples
 		Res_doze res("t1min.wav");
-		sons.minute = new Sample(res, 2);
+		sons.minute = new Sample(res);
 	}
 	{
 		Res_doze res("t30sec.wav");
-		sons.thirty = new Sample(res, 2);
+		sons.thirty = new Sample(res);
 	}
 	{
 		Res_doze res("t20sec.wav");
-		sons.twenty = new Sample(res, 2);
+		sons.twenty = new Sample(res);
 	}
 	{
 		Res_doze res("t10sec.wav");
-		sons.ten = new Sample(res, 2);
+		sons.ten = new Sample(res);
 	}
 	{
 		Res_doze res("t5sec.wav");
-		sons.five = new Sample(res, 2);
+		sons.five = new Sample(res);
 	}
 	{
 		Res_doze res("t4sec.wav");
-		sons.four = new Sample(res, 2);
+		sons.four = new Sample(res);
 	}
 	{
 		Res_doze res("t3sec.wav");
-		sons.three = new Sample(res, 2);
+		sons.three = new Sample(res);
 	}
 	{
 		Res_doze res("t2sec.wav");
-		sons.two = new Sample(res, 2);
+		sons.two = new Sample(res);
 	}
 	{
 		Res_doze res("t1sec.wav");
-		sons.one = new Sample(res, 2);
+		sons.one = new Sample(res);
 	}
 	cursor = new Cursor;
 	for(i=0; i<8; i++)
@@ -2404,7 +2399,7 @@ void start_game() {
 				}
 				#ifdef PAINTDETECTOR2000
 				if(video->need_paint==2 && !sounded) {
-					Sfx stmp(sons.msg, 0, 0, 0, 11025);
+					sons.msg->play(0, 0, 11025);
 					sounded=true;
 				}
 				#endif
@@ -2413,8 +2408,6 @@ void start_game() {
 					break;
 			}
 		}
-		if(sound)
-			sound->process();
 		input->check();
 		if(ecran && !video_is_dumb) {
 			try {

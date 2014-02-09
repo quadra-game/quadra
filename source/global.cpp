@@ -104,8 +104,6 @@ bool quitting=false;
 
 void quit_fast() {
 	quitting=true;
-	if(sound)
-		sound->active=false;
 }
 
 const char built[]=

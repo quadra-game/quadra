@@ -48,7 +48,7 @@ void delete_obj();
 char exe_directory[1024];
 
 int main(int ARGC, char **ARGV, char **ENV) {
-  SDL_Init(SDL_INIT_VIDEO);
+  SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO);
   atexit(delete_obj);
 	struct sigaction signals;
 	if(sigaction(SIGPIPE, NULL, &signals) < 0)
