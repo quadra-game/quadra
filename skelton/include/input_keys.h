@@ -21,9 +21,6 @@
 #ifndef _HEADER_INPUT_KEYS
 #define _HEADER_INPUT_KEYS
 
-#define PRESSED 1
-#define RELEASED 2
-
 #include "config.h"
 
 #if defined(WIN32)

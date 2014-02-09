@@ -90,6 +90,10 @@ void Input::clear_last_keysym() {
 
 class Input_SDL : public Input {
 public:
+  Input_SDL()
+    : israw(true) {
+  }
+
   virtual void check() {
     SDL_Event event;
 
@@ -130,10 +134,29 @@ public:
         case SDL_KEYDOWN:
           keys[event.key.keysym.scancode] |= PRESSED;
           last_keysym = event.key.keysym;
+
+          SDL_Log("key down: %i (%s)", event.key.keysym.sym, SDL_GetKeyName(event.key.keysym.sym));
+          if (!israw && key_pending < MAXKEY) {
+            key_buf[key_pending].special = true;
+            key_buf[key_pending].c = 0;
+            key_buf[key_pending].sym = event.key.keysym.sym;
+            key_buf[key_pending].mod = event.key.keysym.mod;
+            ++key_pending;
+          }
+
           break;
 
         case SDL_KEYUP:
           keys[event.key.keysym.scancode] = RELEASED;
+          break;
+
+        case SDL_TEXTINPUT:
+          SDL_Log("text input: \"%s\"", event.text.text);
+          if (!israw && key_pending < MAXKEY && event.text.text[0] && !event.text.text[1]) {
+            key_buf[key_pending].special = false;
+            key_buf[key_pending].c = event.text.text[0];
+            ++key_pending;
+          }
           break;
 
         case SDL_WINDOWEVENT:
@@ -162,12 +185,15 @@ public:
   }
 
   virtual void deraw() {
-    SDL_assert_release(false);
+    israw = false;
   }
 
   virtual void reraw() {
-    SDL_assert_release(false);
+    israw = true;
   }
+
+private:
+  bool israw;
 };
 
 class Input_Dumb: public Input {

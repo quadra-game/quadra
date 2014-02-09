@@ -28,6 +28,8 @@
 #include "types.h"
 #include "input_keys.h"
 
+#define PRESSED 1
+#define RELEASED 2
 #define MAXKEY 32
 
 extern const char *keynames[256];
@@ -38,14 +40,16 @@ public:
     uint8_t button[4];
     int quel;
   } mouse;
+  int key_pending;
   struct {
     bool special;
     char c;
+    SDL_Keycode sym;
+    Uint16 mod;
   } key_buf[MAXKEY];
   uint8_t keys[SDL_NUM_SCANCODES];
   bool pause;
   SDL_Keysym last_keysym;
-  int key_pending;
   static Input* New(bool dumb=false);
   virtual ~Input() { };
   void clear_key();

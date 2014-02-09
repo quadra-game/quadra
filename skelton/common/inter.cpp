@@ -587,58 +587,55 @@ void Zone_text_input::lost_focus(int cancel) {
 }
 
 void Zone_text_input::process() {
-	uint8_t c;
 	if(focus) {
 		// clipboard support in Windows
 		check_clipboard();
 		for(int i=0; i<input->key_pending; i++) {
-			c = input->key_buf[i].c;
-			if((c == 8) || (c == 127)) {  // backspace
-				if(!cut_selection()) { // if nothing selected has been cut,
-					if(curpos > 0) { // proceed to a normal backspace
+			if (input->key_buf[i].special)
+				switch (input->key_buf[i].sym) {
+				case SDLK_BACKSPACE:
+					if (!cut_selection() && curpos > 0) {
 						curpos--;
 						memmove(&st[curpos], &st[curpos+1], actual_len - curpos);
 						actual_len--;
 					}
-				}
-				continue;
-			}
-			if(input->key_buf[i].special) { // moving keys and others
-				if(c == 46) {// delete
-					if(!cut_selection()) { // if nothing selected has been cut,
-						if(curpos != actual_len) { // proceed with a normal delete
-							memmove(&st[curpos], &st[curpos+1], actual_len - curpos);
-							actual_len--;
-						}
+					continue;
+
+				case SDLK_a:
+					if (input->key_buf[i].mod & KMOD_CTRL) {
+						curpos = actual_len;
+						select_start = 0;
 					}
+					continue;
+
+				case SDLK_LEFT:
+					if (input->key_buf[i].mod == 0 && curpos > 0)
+						--curpos;
+					break;
+
+				case SDLK_RIGHT:
+					if (input->key_buf[i].mod == 0 && curpos < actual_len)
+						++curpos;
+					break;
+
+				case SDLK_HOME:
+					if (input->key_buf[i].mod == 0)
+						curpos = 0;
+					break;
+
+				case SDLK_END:
+					if (input->key_buf[i].mod == 0)
+						curpos = actual_len;
+					break;
+
+				default:
+					break;
+					SDL_Log("unhandled special key: %s (%i), mod %i",
+					        SDL_GetKeyName(input->key_buf[i].sym),
+					        input->key_buf[i].sym, input->key_buf[i].mod);
 				}
-				if(c==37 || c==39 || c==36 || c==35) {
-					if(input->last_keysym.mod & KMOD_SHIFT) {
-							if(select_start == -1)
-								select_start = curpos;
-					} else {
-						select_start = -1;
-					}
-				}
-				if(c == 37 && curpos > 0) { // left arrow
-					curpos--;
-				}
-				if(c == 39 && curpos != actual_len) { // right arrow
-					curpos++;
-				}
-				if(c == 36) { // home
-					curpos = 0;
-				}
-				if(c == 35) { // end
-					curpos = actual_len;
-				}
-				continue;
-			}
-			if(c == 1) { // CTRL-A (select all)
-				curpos = actual_len;
-				select_start = 0;
-			}
-			input_char(c);
+			else
+				input_char(input->key_buf[i].c);
 		}
 		input->key_pending = 0;
 		focus++;
