@@ -1,4 +1,31 @@
 
+Quadra 1.2.1
+
+ * Fixed using a non-literal as a format string (potential security
+   problem).
+    - jejebr79@gmail.com
+
+ * Removed CD music support.
+
+ * Made the error handling more sensible.
+
+ * Switched to an automake build system.
+
+ * Updated the Visual Studio projects.
+
+ * Removed the setuid support (was used for Svgalib), SOCKS support, and
+   mcheck.h support.
+
+ * Removed many unused classes and methods, as well as the QSnoop binaries
+   (they were already not included in the installer).
+
+ * Cleaned up code (fixed Clang and GCC warnings, fixed Clang static analyzer
+   warnings, removed RCSID macros, use more standard typedefs and macros
+   rather than our own).
+
+ * Removed CVS tags.
+    - Pedro Scarapicchia Junior <pedrinho.rep51@gmail.com>
+
 Quadra 1.2.0
 
  * Added a notification of new versions in the title screen, as well
