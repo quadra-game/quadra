@@ -50,7 +50,7 @@ Quadra 1.2.0
 
  * Fixed many bugs related to the SPARC port.
     - Damian M Gryski <dmg@pobox.com>
-    - Hunor "Kacsa" Csord·s <hunor@fazekas.hu>
+    - Hunor "Kacsa" Csord√°s <hunor@fazekas.hu>
 
  * Fixed some Valgrind warnings.
     - Damian M Gryski <dmg@pobox.com>
