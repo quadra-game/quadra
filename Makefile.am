@@ -17,6 +17,7 @@ AM_CPPFLAGS = \
 EXTRA_DIST = \
 	ChangeLog \
 	LICENSE \
+	NEWS.md \
 	README.md \
 	VisualC++ \
 	demos \
