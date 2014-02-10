@@ -135,7 +135,6 @@ public:
           keys[event.key.keysym.scancode] |= PRESSED;
           last_keysym = event.key.keysym;
 
-          SDL_Log("key down: %i (%s)", event.key.keysym.sym, SDL_GetKeyName(event.key.keysym.sym));
           if (!israw && key_pending < MAXKEY) {
             key_buf[key_pending].special = true;
             key_buf[key_pending].c = 0;
@@ -151,7 +150,6 @@ public:
           break;
 
         case SDL_TEXTINPUT:
-          SDL_Log("text input: \"%s\"", event.text.text);
           if (!israw && key_pending < MAXKEY && event.text.text[0] && !event.text.text[1]) {
             key_buf[key_pending].special = false;
             key_buf[key_pending].c = event.text.text[0];

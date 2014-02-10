@@ -630,9 +630,6 @@ void Zone_text_input::process() {
 
 				default:
 					break;
-					SDL_Log("unhandled special key: %s (%i), mod %i",
-					        SDL_GetKeyName(input->key_buf[i].sym),
-					        input->key_buf[i].sym, input->key_buf[i].mod);
 				}
 			else
 				input_char(input->key_buf[i].c);
