@@ -22,7 +22,6 @@ EXTRA_DIST = \
 	VisualC++ \
 	demos \
 	fonts \
-	help \
 	images \
 	packages/quadra.nsi \
 	packages/quadra.nsi.in \
