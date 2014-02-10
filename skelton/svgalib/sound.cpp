@@ -247,7 +247,7 @@ void Sound::process() {
     }
 
     if((unsigned int)p->pos >= p->sam->length) {
-      plays.remove(i);
+      plays.erase(plays.begin() + i);
       i--;
       delete p;
     }
@@ -263,7 +263,7 @@ void Sound::delete_sample(Sample *sam) {
   for(int i=0; i<plays.size(); i++) {
     Playing_sfx *p = plays[i];
     if(p->sam == sam) {
-      plays.remove(i);
+      plays.erase(plays.begin() + i);
       i--;
       delete p;
     }
@@ -271,7 +271,7 @@ void Sound::delete_sample(Sample *sam) {
 }
 
 void Sound::start(Playing_sfx* play) {
-  plays.add(play);
+  plays.push_back(play);
 }
 
 Sound::~Sound() {

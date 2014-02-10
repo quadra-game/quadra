@@ -22,6 +22,7 @@
 #define _HEADER_SOUND
 
 #include <stdint.h>
+#include <vector>
 
 #include "config.h"
 
@@ -33,7 +34,6 @@
 #include <dsound.h>
 #endif
 
-#include "array.h"
 #include "res.h"
 
 class Sample;
@@ -54,7 +54,7 @@ class Sound {
 	unsigned int bps;
 	unsigned int fragsize;
 	void *fragbuf;
-	Array<Playing_sfx*> plays;
+	std::vector<Playing_sfx*> plays;
 #endif
 public:
 	bool active;
