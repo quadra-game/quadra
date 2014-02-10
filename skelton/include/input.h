@@ -31,8 +31,6 @@
 #define RELEASED 2
 #define MAXKEY 32
 
-extern const char *keynames[256];
-
 class Input {
 public:
   struct {
