@@ -22,8 +22,8 @@
 #define _HEADER_OVERMIND
 
 #include <stdint.h>
+#include <vector>
 
-#include "array.h"
 #include "types.h"
 #include "inter.h"
 
@@ -34,8 +34,7 @@ class Executor {
 	friend class Module;
 	friend class Overmind;
 	bool paused, self_destruct;
-protected:
-	Array<Module*> modules;
+	std::vector<Module*> modules;
 public:
 	bool done;
 	Executor(bool self_des=false);
@@ -88,8 +87,8 @@ public:
 };
 
 class Overmind {
+	std::vector<Executor*> execs;
 protected:
-	Array<Executor*> execs;
 	bool paused;
 public:
 	bool done;

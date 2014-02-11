@@ -35,10 +35,10 @@ Overmind::~Overmind() {
 
 void Overmind::clean_up() {
 	while(execs.size()) {
-		Executor *e = execs.last();
+		Executor *e = execs.back();
 		if(e && e->self_destruct)
 			delete e;
-		execs.removelast();
+		execs.pop_back();
 	}
 }
 
@@ -57,24 +57,24 @@ void Overmind::step() {
 	for(int i=0; i<execs.size(); i++) {
 		Executor *e = execs[i];
 		if(!e) {
-			execs.remove(i);
+			execs.erase(execs.begin() + i);
 			i--;
 		} else {
 			e->step();
 			if(e->done) {
 				if(e->self_destruct)
 					delete e;
-				execs.remove(i);
+				execs.erase(execs.begin() + i);
 				i--;
 			}
 		}
 	}
-	if(execs.size() == 0)
+	if(execs.empty())
 		done = true;
 }
 
 void Overmind::start(Executor* e) {
-	execs.add(e);
+	execs.push_back(e);
 	done = false;
 }
 
@@ -83,7 +83,7 @@ void Overmind::stop(Executor* e) {
 		if(e == execs[i]) {
 			if(e->self_destruct)
 				delete e;
-			execs.replace(i, NULL);
+			execs[i] = NULL;
 		}
 	}
 }
@@ -94,37 +94,37 @@ Executor::Executor(bool self_des) {
 }
 
 Executor::~Executor() {
-	while(modules.size())
+	while(!modules.empty())
 		remove();
 }
 
 void Executor::remove() {
-	delete modules.last();
-	modules.removelast();
+	delete modules.back();
+	modules.pop_back();
 }
 
 void Executor::step() {
 	if(paused)
 		return;
-	if(modules.size()) {
-		if(!modules.last()->done) {
-			if(modules.last()->first_time) {
-				modules.last()->first_time = false;
-				modules.last()->init();
+	if(!modules.empty()) {
+		if(!modules.back()->done) {
+			if(modules.back()->first_time) {
+				modules.back()->first_time = false;
+				modules.back()->init();
 			} else {
-				modules.last()->step();
+				modules.back()->step();
 			}
 		}
-		while(modules.size() && modules.last()->done) {
+		while(!modules.empty() && modules.back()->done) {
 			remove();
 		}
 	}
-	if(!modules.size())
+	if(modules.empty())
 		done=true;
 }
 
 void Executor::add(Module* m) {
-	modules.add(m);
+	modules.push_back(m);
 	m->parent=this;
 }
 
