@@ -43,18 +43,14 @@ void start_frame() {
 	bool quit=false;
 	MSG msg;
 	while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-COPPER(0,0,30);
 		if(msg.message == WM_QUIT)
 			alt_tab=quit=true;
 		TranslateMessage(&msg);
 		if(msg.message == WM_TIMER) {
-			COPPER(0,30,0);
 			//msgbox("WM_TIMER on frame %i\n",overmind.framecount);
 		}
 		DispatchMessage(&msg);
-COPPER(0,0,30);
 	}
-COPPER(0,0,0);
 	if(quit)
 		quit_game(0);
 	Sleep(1);
@@ -147,7 +143,6 @@ void quit_game(int status) {
 }
 
 LRESULT CALLBACK windowproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
-COPPER(30,0,0);
 //skelton_msgbox("Frame overmind=%i, receive msg=%i\n",overmind.framecount, msg);
 	switch(msg) {
 		case WM_ACTIVATEAPP:

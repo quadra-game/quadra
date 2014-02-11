@@ -38,27 +38,12 @@
 #include "video.h"
 
 #ifndef NDEBUG
-int copper=0;
-#endif
-
-#ifndef NDEBUG
 	bool _debug = true;
 #else
 	bool _debug = false;
 #endif
 
 bool skelton_debug = true;
-
-#ifndef NDEBUG
-void COPPER(int a, int b, int c) {
-	if(copper) {
-		_outp(0x3c8,0);
-		_outp(0x3c9,a);
-		_outp(0x3c9,b);
-		_outp(0x3c9,c);
-	}
-}
-#endif
 
 static void output_msg(char *m) {
 	OutputDebugString(m);

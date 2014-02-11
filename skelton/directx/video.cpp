@@ -283,11 +283,9 @@ void DirectX_Video::toggle_fullscreen() {
 }
 
 void DirectX_Video::start_frame() {
-	COPPER(0,0,0);
 	lock();
 	vb->setmem();
 
-COPPER(30,0,30);
 	if(cursor) {
 		cursor->put_back();
 		cursor->move();

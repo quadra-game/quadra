@@ -179,10 +179,6 @@ void Input_DX::process_key() {
 					shift_key |= CONTROL;
 					break;
 				#ifndef NDEBUG
-					case DIK_F10: // toggle copper (doesn't work on many video cards)
-						COPPER(0,0,0);
-						copper = !copper;
-						break;
 					case DIK_F11: // toggle msgbox() of skelton
 						skelton_debug = !skelton_debug;
 						break;

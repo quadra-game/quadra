@@ -37,14 +37,7 @@ extern bool _debug;
 extern bool skelton_debug;
 
 #ifdef WIN32
-	#ifndef NDEBUG
-		extern int copper;
-		void COPPER(int a, int b, int c);
-		void debug_point();
-	#else
-		#define COPPER(a,b,c) ;
-	#endif
-	void calldx(long hr);
+void calldx(long hr);
 #endif
 
 extern void delete_obj();
