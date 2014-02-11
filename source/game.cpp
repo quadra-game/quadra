@@ -857,8 +857,8 @@ void Game::prepare_logging() {
 	log.add(Packet_serverlog::Var("os", os));
 
 	uint32_t addr = INADDR_LOOPBACK;
-	if (net->host_adr_pub.size())
-		addr = net->host_adr_pub[0];
+	if (!net->host_adr_pub.empty())
+		addr = net->host_adr_pub.front();
 	char st[64];
 	Net::stringaddress(st, addr, config.info.port_number);
 

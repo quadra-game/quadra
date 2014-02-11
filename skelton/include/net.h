@@ -23,6 +23,7 @@
 
 #include <list>
 #include <stdint.h>
+#include <vector>
 
 #include "config.h"
 
@@ -220,16 +221,16 @@ class Http_request;
 
 class Net: public Observable {
 public:
-	Array<Net_connection *> connections;
+	std::vector<Net_connection*> connections;
 	bool active;
 	const char *last_error;
 	uint32_t name_resolve;
 	int port_resolve;
 	char host_name[1024];
 	//All the IP addresses of this machine
-	Array<uint32_t> host_adr;
+	std::vector<uint32_t> host_adr;
 	//Those IP addresses that look like public internet addresses
-	Array<uint32_t> host_adr_pub;
+	std::vector<uint32_t> host_adr_pub;
 
 	Net_param *net_param;
 

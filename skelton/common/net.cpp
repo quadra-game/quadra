@@ -723,7 +723,7 @@ void Net::init_local_addresses() {
 		host = gethostbyname(host_name);
 		if(host) {
 			for (uint32_t** curptr = reinterpret_cast<uint32_t**>(host->h_addr_list); *curptr; ++curptr)
-				host_adr.add(ntohl(**curptr));
+				host_adr.push_back(ntohl(**curptr));
 			uint32_t fallback = INADDR_LOOPBACK;
 			//Even better than what the NetGames guys do! :)
 			for(int i=0; i<host_adr.size(); i++) {
@@ -747,16 +747,16 @@ void Net::init_local_addresses() {
 				}
 				if(pub) {
 					//Remember it as an internet address
-					host_adr_pub.add(a);
+					host_adr_pub.push_back(a);
 				}
 			}
-			if(!host_adr.size()) {
+			if(host_adr.empty()) {
 				//No IP interfaces at all?! We'll assume loopback at least is there...
-				host_adr.add(fallback);
+				host_adr.push_back(fallback);
 			}
-			if(!host_adr_pub.size()) {
+			if(host_adr_pub.empty()) {
 				//Didn't find a public address, at least put in something
-				host_adr_pub.add(fallback);
+				host_adr_pub.push_back(fallback);
 			}
 		}
 		else {
@@ -964,7 +964,7 @@ void Net::verify_connections() {
 		if(nc->state()==Net_connection::disconnected) {
 			net_param->client_deconnect(nc);
 			delete nc;
-			connections.remove(i);
+			connections.erase(connections.begin() + i);
 			i--;
 			change=true;
 		}
@@ -1056,7 +1056,10 @@ void Net::start_server(bool sock) {
 }
 
 void Net::stop_server() {
-	connections.deleteall();
+	while (!connections.empty()) {
+	  delete connections.back();
+    connections.pop_back();
+	}
 	suspend_server();
 	notify_all();
 }
@@ -1092,7 +1095,7 @@ Net_connection *Net::start_loopback_client() {
 		return NULL;
 	client_connection=new Net_connection();
 	Net_connection *accepted_connection=new Net_connection();
-	connections.add(accepted_connection);
+	connections.push_back(accepted_connection);
 	client_connection->connect(accepted_connection);
 	return accepted_connection;
 }
@@ -1322,7 +1325,7 @@ bool Net::accept() {
 		skelton_msgbox("Net::accept adding connection from %s:%i\n", inet_ntoa(bob.sin_addr), port);
 		Net_connection_tcp *nc=new Net_connection_tcp(sock, adr, port);
 		if(net_param->accept_connection(nc)) {
-			connections.add(nc);
+			connections.push_back(nc);
 		}
 		else {
 			skelton_msgbox("...fail because too many connections or connection refused\n");
