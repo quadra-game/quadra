@@ -21,12 +21,14 @@
 #include "resfile.h"
 #include "resmanager.h"
 
+using std::vector;
+
 Resmanager::Resmanager() {
 }
 
 void Resmanager::loadresfile(const char *fname) {
 	Resfile* rf=new Resfile(fname);
-	files.add(rf);
+	files.push_back(rf);
 	Resdata* rd = rf->list;
 	while(rd) {
 		char *name=rd->name;
@@ -48,7 +50,9 @@ int Resmanager::get(const char *resname, uint8_t **resdata) {
 }
 
 Resmanager::~Resmanager() {
-	files.deleteall();
+	vector<Resfile*>::const_iterator it;
+	for (it = files.begin(); it != files.end(); ++it)
+		delete *it;
 }
 
 Resmanager *resmanager;

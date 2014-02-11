@@ -21,19 +21,19 @@
 #ifndef _HEADER_RESMANAGER
 #define _HEADER_RESMANAGER
 
-// See wadder.cpp for information on the .res file format, some tidbits of infos on making
-//   a Quadra theme pack and some 100% pure Dada ranting.
+// See wadder.cpp for information on the .res file format, some tidbits of
+// infos on making a Quadra theme pack and some 100% pure Dada ranting.
 
 #include <stdint.h>
+#include <vector>
 
 #include "types.h"
-#include "array.h"
 
 class Resfile;
 
 class Resmanager {
 private:
-	Array<Resfile*> files;
+	std::vector<Resfile*> files;
 public:
 	Resmanager();
 	virtual ~Resmanager();
