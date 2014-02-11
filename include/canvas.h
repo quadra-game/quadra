@@ -22,6 +22,7 @@
 #define _HEADER_CANVAS
 
 #include <stdint.h>
+#include <vector>
 
 #include "types.h"
 #include "bloc.h"
@@ -54,7 +55,7 @@ public:
 			nc = pnc;
 		}
 	};
-	Array<Watcher *> watchers;
+	std::vector<Watcher*> watchers;
 	void add_watcher(Watcher *w);
 	void remove_watcher(Net_connection *nc);
 	//Potato stuff (server only)

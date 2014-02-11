@@ -124,7 +124,8 @@ Canvas::~Canvas() {
   delete_bloc();
   if(sprlevel_up)
     delete sprlevel_up;
-	watchers.deleteall();
+  for (int i = 0; i < watchers.size(); ++i)
+    delete watchers[i];
 }
 
 char *Canvas::long_name(bool handi, bool gone) {
@@ -1059,14 +1060,14 @@ void Canvas::small_blit_flash() {
 }
 
 void Canvas::add_watcher(Watcher *w) {
-  watchers.add(w);
+  watchers.push_back(w);
 }
 
 void Canvas::remove_watcher(Net_connection *nc) {
   for(int i=0; i<watchers.size(); i++)
     if(watchers[i]->nc == nc) {
       delete watchers[i];
-      watchers.remove(i);
+      watchers.erase(watchers.begin() + i);
 			i--;
     }
 }
