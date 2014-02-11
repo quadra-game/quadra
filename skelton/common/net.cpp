@@ -54,6 +54,7 @@ inline int closesocket(int fd) {
 #include "net.h"
 #include "byteorder.h"
 
+using std::list;
 using std::min;
 
 IP_addr::IP_addr(const IP_addr& o) {
@@ -703,7 +704,7 @@ Net::~Net() {
 	stop_server();
 	if(net_param)
 		delete net_param;
-	if(callbacks.size() != 0)
+	if(!callbacks.empty())
 		skelton_msgbox("Net::~Net: callback size should be 0, but it's %i\n", callbacks.size());
 }
 
@@ -981,18 +982,20 @@ void Net::verify_server_connection() {
 }
 
 void Net::addwatch(uint16_t id, Net_callable *nc) {
-	for(int i=0; i<callbacks.size(); i++)
-		if(callbacks[i]->id == id && callbacks[i]->net_callable == nc)
+	for (list<Net_receive_cb*>::const_iterator it = callbacks.begin();
+	     it != callbacks.end(); ++it)
+		if ((*it)->id == id && (*it)->net_callable == nc)
 			return;
-	Net_receive_cb *cb = new Net_receive_cb(id, nc);
-	callbacks.add(cb);
+
+	callbacks.push_back(new Net_receive_cb(id, nc));
 }
 
 void Net::removewatch(uint16_t id, Net_callable *nc) {
-	for(int i=0; i<callbacks.size(); i++)
-		if(callbacks[i]->id == id && callbacks[i]->net_callable == nc) {
-			delete callbacks[i];
-			callbacks.remove(i);
+	for (list<Net_receive_cb*>::iterator it = callbacks.begin();
+	     it != callbacks.end(); ++it)
+		if ((*it)->id == id && (*it)->net_callable == nc) {
+			delete *it;
+			callbacks.erase(it);
 			break;
 		}
 }
@@ -1272,15 +1275,15 @@ void Net::packetreceived(Net_buf *nb, bool tcp) {
 		return;
 	}
 	in.s_addr = htonl(pac.from_addr);
-	for(int i=0; i<callbacks.size(); i++)
-		if(callbacks[i]->id == pac.packet_id) {
-			Packet *packet=net_buf2packet(nb, tcp);
-			if(packet) {
-				callbacks[i]->net_callable->net_call(packet);
-			} else {
+	for (list<Net_receive_cb*>::const_iterator it = callbacks.begin();
+	     it != callbacks.end(); ++it)
+		if ((*it)->id == pac.packet_id) {
+			Packet* const packet(net_buf2packet(nb, tcp));
+			if (packet)
+				(*it)->net_callable->net_call(packet);
+			else
 				skelton_msgbox("Packet_id %i not allocated by net_buf2packet()!\n", pac.packet_id);
-			}
-		}
+    }
 }
 
 void Net::receiveudp(int sock, Net_buf *p) {

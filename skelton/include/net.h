@@ -21,6 +21,7 @@
 #ifndef _HEADER_NET
 #define _HEADER_NET
 
+#include <list>
 #include <stdint.h>
 
 #include "config.h"
@@ -291,7 +292,7 @@ private:
 			net_callable = nc;
 		}
 	};
-	Array<Net_receive_cb *> callbacks;
+	std::list<Net_receive_cb*> callbacks;
 
 	int udpsock[32], udpport, udpnum;
 	sockaddr_in udpsin;
