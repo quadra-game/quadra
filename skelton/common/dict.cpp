@@ -36,7 +36,8 @@ Dict::Dict(const char *k, const char *v) {
 }
 
 Dict::~Dict() {
-	sub.deleteall();
+	for (int i = 0; i < sub.size(); ++i)
+		delete sub[i];
 }
 
 void Dict::add(const char *s) {
@@ -51,9 +52,9 @@ void Dict::add(const char *s) {
 	if(!rep) {
 		if(val) {
 			*val = 0;
-			sub.add(new Dict(st, val+1));
+			sub.push_back(new Dict(st, val+1));
 		} else {
-			sub.add(new Dict(st));
+			sub.push_back(new Dict(st));
 		}
 	} else {
 		*rep = 0;
@@ -61,14 +62,14 @@ void Dict::add(const char *s) {
 		Dict *d = find_sub(st);
 		if(!d) {
 			d = new Dict(st);
-			sub.add(d);
+			sub.push_back(d);
 		}
 		d->add(rep+1);
 	}
 }
 
 void Dict::dump() const {
-	if(sub.size()) {
+	if(!sub.empty()) {
 		for(int i=0; i<sub.size(); i++) {
 			msgbox("%s / ", key);
 			sub[i]->dump();

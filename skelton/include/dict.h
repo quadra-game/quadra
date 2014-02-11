@@ -22,13 +22,13 @@
 #define _HEADER_DICT
 
 #include <stdint.h>
+#include <vector>
 
 #include "types.h"
 #include "buf.h"
-#include "array.h"
 
 class Dict {
-	Array<Dict *> sub;
+	std::vector<Dict*> sub;
 	char key[32];
 	Textbuf value;
 public:
