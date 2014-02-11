@@ -57,7 +57,7 @@ Res_dos::~Res_dos() {
 	if(handle != -1)
 		_close(handle);
 	if(_buf)
-		delete _buf;
+		delete[] _buf;
 }
 
 uint32_t Res_dos::size() {
@@ -70,26 +70,23 @@ void Res_dos::position(uint32_t po) {
 }
 
 int Res_dos::read(void *b, int nb) {
-	Error* error;
 	int n = _read(handle, b, nb);
 	if(n < 0)
-		error = fatal_msgbox("Error reading file");
+		fatal_msgbox("Error reading file");
 	return n;
 }
 
 void Res_dos::write(const void *b, int nb) {
-	Error* error;
 	if(_write(handle, b, nb) != nb)
-		error = fatal_msgbox("Error writing file");
+		fatal_msgbox("Error writing file");
 }
 
 const void* Res_dos::buf() {
 	if(_buf)
 		return _buf;
-	Error* error;
 	_buf = new uint8_t[size()];
 	if(_buf == NULL)
-		error = fatal_msgbox("Not enough memory to load file");
+		fatal_msgbox("Not enough memory to load file");
 	read(_buf, size());
 	return _buf;
 }
