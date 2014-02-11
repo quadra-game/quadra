@@ -122,7 +122,10 @@ Menu_demo_central::~Menu_demo_central() {
 		delete fcourrier[i];
 	if(play)
 		delete play;
-	pinfos.deleteall();
+	while (!pinfos.empty()) {
+		delete pinfos.back();
+		pinfos.pop_back();
+	}
 }
 
 void Menu_demo_central::clear_detail() {
@@ -137,7 +140,10 @@ void Menu_demo_central::clear_detail() {
 		play = NULL;
 	}
 	zone.deleteall();
-	pinfos.deleteall();
+	while (!pinfos.empty()) {
+		delete pinfos.back();
+		pinfos.pop_back();
+	}
 	video->need_paint = 2;
 }
 
@@ -268,13 +274,16 @@ void Menu_demo_central::populate_dict(Dict *d) {
 	}
 	zone.add(new Zone_text(fteam[7], inter, ST_SCORE, cx[3], y));
 	zone.add(new Zone_text(fteam[7], inter, ST_LINES, cx[4], y)); y+=ys;
-	pinfos.deleteall();
+	while (!pinfos.empty()) {
+		delete pinfos.back();
+		pinfos.pop_back();
+	}
 	Dict *players = d->find_sub("players");
 	if(players && players->size()<=MAXPLAYERS) {
 		for(i = 0; i < (int)players->size(); i++) {
 			const Dict *d2 = players->get_sub(i);
 			Player_infos *pi=new Player_infos(i);
-			pinfos.add(pi);
+			pinfos.push_back(pi);
 			const char *name = d2->find("name");
 			if(name)
 				strcpy(pi->name, name);
