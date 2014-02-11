@@ -21,13 +21,15 @@
 #ifndef _HEADER_ZONE_LIST
 #define _HEADER_ZONE_LIST
 
+#include <vector>
+
 #include "array.h"
 #include "types.h"
 #include "inter.h"
 
 class Zone_list {
 protected:
-	Array<Zone *> zone;
+	std::vector<Zone*> zone;
 	void deleteall();
 	virtual ~Zone_list() {
 		deleteall();

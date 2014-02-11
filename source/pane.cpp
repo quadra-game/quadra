@@ -37,6 +37,8 @@
 #include "unicode.h"
 #include "pane.h"
 
+using std::vector;
+
 Pane_info::Pane_info(Bitmap *bit, Font *f2, Inter *in, int j, Multi_player *pmp) {
 	fond = bit;
 	font2 = f2;
@@ -120,7 +122,7 @@ void Pane::show() {
 }
 
 void Pane::show_item() {
-	for(int i=0; i<zone.size(); i++)
+	for (int i = 0; i < zone.size(); i++)
 		zone[i]->enable();
 	enable();
 }
@@ -139,33 +141,33 @@ Pane_option::Pane_option(const Pane_info &p): Pane(p) {
 			sprintf(st, ST_STARTBOB, config.player[i].name);
 			player[i] = new Zone_text_button2(inter, pi.fond, pi.font2, st, x2, y2, w-44);
 			y2+=y_height;
-			zone.add(player[i]);
+			zone.push_back(player[i]);
 		}
 	}
 	y2+=y_height;
 	player_info = new Zone_text_button2(inter, pi.fond, pi.font2, ST_SHOWPLAYER, x2, y2, w-44); y2+=y_height;
-	zone.add(player_info);
+	zone.push_back(player_info);
 	block_info = new Zone_text_button2(inter, pi.fond, pi.font2, ST_BLOCKINFO, x2, y2, w-44); y2+=y_height;
-	zone.add(block_info);
+	zone.push_back(block_info);
 	combo_info = new Zone_text_button2(inter, pi.fond, pi.font2, ST_LINESINFO, x2, y2, w-44); y2+=y_height;
-	zone.add(combo_info);
+	zone.push_back(combo_info);
 	select_scheme = new Zone_text_button2(inter, pi.fond, pi.font2, ST_SELECTSCHEME, x2, y2, w-44); y2+=y_height;
-	zone.add(select_scheme);
+	zone.push_back(select_scheme);
 
 	chat_window = server = quit = NULL;
 
 	chat_window = new Zone_text_button2(inter, pi.fond, pi.font2, ST_CHATWINDOW, x2, y2, w-44); y2+=y_height;
-	zone.add(chat_window);
+	zone.push_back(chat_window);
 	y2+=y_height;
 	if(game->network) {
 		if(!playback) {
 			server = new Zone_text_button2(inter, pi.fond, pi.font2, ST_SERVERTOOL, x2, y2, w-44); y2+=y_height;
-			zone.add(server);
+			zone.push_back(server);
 		}
 	}
 	if(pi.quel_pane == 2 && !game->single && !playback) {
 		quit = new Zone_text_button2(inter, pi.fond, pi.font2, ST_QUIT, 560, 450);
-		zone.add(quit);
+		zone.push_back(quit);
 	}
 	game->net_list.add_watch(this);
 }
@@ -292,7 +294,7 @@ Pane_singleplayer::Pane_singleplayer(const Pane_info &p): Pane(p) {
 		for(int i=0; i<3; i++) {
 			sprintf(st, ST_STARTBOB,config.player[i].name);
 			player[i] = new Zone_text_button2(inter, pi.fond, pi.font2, st, x2, i*22+ 69);
-			zone.add(player[i]);
+			zone.push_back(player[i]);
 		}
 	}
 }
@@ -405,15 +407,15 @@ Pane_selectscheme::Pane_selectscheme(const Pane_info &p):
 
 	bit = pi.mp->bit;
 	pal = &pi.mp->pal;
-	zone.add(new Zone_text(pi.inter, ST_SELECTCOLORSCHEME, pi.x+19, 50));
+	zone.push_back(new Zone_text(pi.inter, ST_SELECTCOLORSCHEME, pi.x+19, 50));
 	for(i=0; i<=config.info.unlock_theme; i++) {
 		sprintf(st, ST_FROMLEVEL,i+1);
 		level[i] = new Zone_text_button2(pi.inter, pi.fond, pi.font2, st, pi.x+39, 70+i*22);
-		zone.add(level[i]);
+		zone.push_back(level[i]);
 	}
 	if(_debug) {
 		debugscheme = new Zone_text_button2(pi.inter, pi.fond, pi.font2, "Black", pi.x+39, 70+i*22);
-		zone.add(debugscheme);
+		zone.push_back(debugscheme);
 	}
 	else
 		debugscheme = NULL;
@@ -473,7 +475,7 @@ Pane_server::Pane_server(const Pane_info &p):
 	for(i=0; i<3; i++)
 		((Pane_option *) pi.mp->pane[i])->server->disable();
 
-	zone.add(new Zone_text(pi.inter, ST_SERVERTOOL, pi.x+19, 50));
+	zone.push_back(new Zone_text(pi.inter, ST_SERVERTOOL, pi.x+19, 50));
 
 	int x2=x+15;
 	int y2=80, y_height=40;
@@ -481,9 +483,9 @@ Pane_server::Pane_server(const Pane_info &p):
 
 	if(game->server) {
 		drop_player = new Zone_text_button2(inter, pi.fond, pi.font2, ST_DROPPLAYER, x2, y2, w-44); y2+=y_height;
-		zone.add(drop_player);
+		zone.push_back(drop_player);
 		drop_connection = new Zone_text_button2(inter, pi.fond, pi.font2, ST_DROPCONNECTION, x2, y2, w-44); y2+=y_height;
-		zone.add(drop_connection);
+		zone.push_back(drop_connection);
 
 		{
 			Zone_state_text2 *temp = new Zone_state_text2(inter, &game->server_accept_player, x2 + 120, y2+17);
@@ -491,10 +493,10 @@ Pane_server::Pane_server(const Pane_info &p):
 			temp->add_string(ST_NO);
 			accept_player = temp;
 		}
-		zone.add(accept_player);
+		zone.push_back(accept_player);
 		temp = new Zone_text(pi.inter, ST_ACCEPTPLAYER, x2, y2);
 		accept_player->set_child(temp);
-		zone.add(temp);
+		zone.push_back(temp);
 		y2+=y_height;
 
 		{
@@ -503,24 +505,24 @@ Pane_server::Pane_server(const Pane_info &p):
 			temp->add_string(ST_NO);
 			accept_connection = temp;
 		}
-		zone.add(accept_connection);
+		zone.push_back(accept_connection);
 		temp = new Zone_text(pi.inter, ST_ACCEPTCONNECTION, x2, y2);
 		accept_connection->set_child(temp);
-		zone.add(temp);
+		zone.push_back(temp);
 		y2+=y_height+5;
 	} else {
 		drop_player = drop_connection = accept_player = accept_connection = NULL;
 	}
 	test_ping = new Zone_text_button2(inter, pi.fond, pi.font2, ST_TESTPING, x2, y2, w-44); y2+=y_height;
-	zone.add(test_ping);
+	zone.push_back(test_ping);
 
-	zone.add(new Zone_text(pi.inter, ST_SETUPDATESPEED, x2, y2));
-	zone.add(new Zone_text(pi.inter, ST_SETUPDATESPEED2, x2, y2+20));
-	zone.add(new Zone_update_rate(inter, pi.mp->pal, x2 + 20, y2+37, 60));
+	zone.push_back(new Zone_text(pi.inter, ST_SETUPDATESPEED, x2, y2));
+	zone.push_back(new Zone_text(pi.inter, ST_SETUPDATESPEED2, x2, y2+20));
+	zone.push_back(new Zone_update_rate(inter, pi.mp->pal, x2 + 20, y2+37, 60));
 	y2 += 37+y_height;
 
 	check_ip = new Zone_text_button2(inter, pi.fond, pi.font2, ST_IPINFO, x2, y2, w-44); y2+=y_height;
-	zone.add(check_ip);
+	zone.push_back(check_ip);
 
 	set_net_pane(6);
 	allow_clock();
@@ -555,10 +557,10 @@ Pane_server_drop_player::Pane_server_drop_player(const Pane_info &p):
 	Pane_close(p) {
 
 	b_drop = new Zone_text_button2(inter, pi.fond, pi.font2, ST_DROPTHISPLAYER, x+15, 340, w-44);
-	zone.add(b_drop);
-	zone.add(new Zone_text(inter, ST_DROPPLAYER, x+9, 50, w-30));
+	zone.push_back(b_drop);
+	zone.push_back(new Zone_text(inter, ST_DROPPLAYER, x+9, 50, w-30));
 	list_player = new Zone_listbox2(inter, pi.fond, inter->font, &selected_player, x+19, 80, 160, 220);
-	zone.add(list_player);
+	zone.push_back(list_player);
 	game->net_list.add_watch(this);
 	notify();
 	allow_clock();
@@ -596,10 +598,10 @@ void Pane_server_drop_player::step() {
 Pane_server_drop_connection::Pane_server_drop_connection(const Pane_info &p):
 	Pane_close(p) {
 	b_drop = new Zone_text_button2(inter, pi.fond, pi.font2, ST_DROPTHISCONNECTION, x+15, 340, w-44);
-	zone.add(b_drop);
-	zone.add(new Zone_text(inter, ST_DROPCONNECTION, x+9, 50, w-30));
+	zone.push_back(b_drop);
+	zone.push_back(new Zone_text(inter, ST_DROPCONNECTION, x+9, 50, w-30));
 	list_connection = new Zone_listbox2(inter, pi.fond, pi.font2, &selected, x+19, 80, 160, 220);
-	zone.add(list_connection);
+	zone.push_back(list_connection);
 	game->net_list.add_watch(this);
 	net->add_watch(this);
 	notify();
@@ -650,12 +652,12 @@ void Pane_server_drop_connection::step() {
 }
 
 Pane_server_ping::Pane_server_ping(const Pane_info &p): Pane_close(p) {
-	zone.add(new Zone_text(inter, ST_TESTPING, x+9, 50, w-30));
-	zone.add(new Zone_text(inter, ST_PINGDELAY, x+9, 100, w-30));
+	zone.push_back(new Zone_text(inter, ST_TESTPING, x+9, 50, w-30));
+	zone.push_back(new Zone_text(inter, ST_PINGDELAY, x+9, 100, w-30));
 	pingtime = moyenne = total = nombre = 0;
-	zone.add(new Zone_text_field(inter, &pingtime, x+19, 130, 90));
-	zone.add(new Zone_text(inter, ST_PINGMOYEN, x+9, 190, w-30));
-	zone.add(new Zone_text_field(inter, &moyenne, x+19, 220, 90));
+	zone.push_back(new Zone_text_field(inter, &pingtime, x+19, 130, 90));
+	zone.push_back(new Zone_text(inter, ST_PINGMOYEN, x+9, 190, w-30));
+	zone.push_back(new Zone_text_field(inter, &moyenne, x+19, 220, 90));
 	net->addwatch(P_TESTPING, this);
 	test_delay = 60;
 	allow_clock();
@@ -693,17 +695,17 @@ void Pane_server_ping::net_call(Packet *p2) {
 }
 
 Pane_server_ip::Pane_server_ip(const Pane_info &p): Pane_close(p) {
-	zone.add(new Zone_text(inter, ST_IPINFO, x+9, 50, w-30));
-	zone.add(new Zone_text(inter, ST_HOSTNAME, x+9, 100));
-	zone.add(new Zone_text_field(inter, net->host_name, x+29, 120, 140));
-	zone.add(new Zone_text(inter, ST_HOSTLIST, x+9, 140));
+	zone.push_back(new Zone_text(inter, ST_IPINFO, x+9, 50, w-30));
+	zone.push_back(new Zone_text(inter, ST_HOSTNAME, x+9, 100));
+	zone.push_back(new Zone_text_field(inter, net->host_name, x+29, 120, 140));
+	zone.push_back(new Zone_text(inter, ST_HOSTLIST, x+9, 140));
 	Zone_listbox *list;
 	list = new Zone_listbox2(inter, pi.fond, pi.font2, NULL, x+29, 160, 140, 200);
 	for(int i=0; i<net->host_adr.size(); i++) {
 		Net::stringaddress(st, net->host_adr[i]);
 		list->add_item(st);
 	}
-	zone.add(list);
+	zone.push_back(list);
 	allow_clock();
 }
 
@@ -775,7 +777,7 @@ void Pane_playerinfo::refresh() {
 		player[i]=NULL;
 	for(i=0; i<MAXTEAMS; i++)
 		total0[i] = total1[i] = 0;
-	zone.add(new Zone_text(inter, ST_SHOWWHAT, x2, 405));
+	zone.push_back(new Zone_text(inter, ST_SHOWWHAT, x2, 405));
 	Zone_state_text2 *temp = new Zone_state_text2(inter, &show_quoi, x2+69, 405);
 	temp->add_string(ST_SHOWFRAG);
 	temp->add_string(ST_SHOWSCORE);
@@ -783,7 +785,7 @@ void Pane_playerinfo::refresh() {
 	temp->add_string(ST_SHOWBLOC);
 	temp->add_string(ST_SHOWBPM);
 	temp->add_string(ST_SHOWPPM);
-	zone.add(temp);
+	zone.push_back(temp);
 	o_show_val=show_quoi;
 	bool count=false;
 
@@ -819,11 +821,11 @@ void Pane_playerinfo::refresh() {
 		y2 += 6;
 		if(count) {
 			show_button = new Zone_text_button2(inter, pi.fond, pi.font2, ST_SHOWSELECTED, x2+12, y2);
-			zone.add(show_button);
+			zone.push_back(show_button);
 			y2 += 24;
 		}
 		auto_button = new Zone_text_button2(inter, pi.fond, pi.font2, ST_AUTOWATCH, x2+24, y2);
-		zone.add(auto_button);
+		zone.push_back(auto_button);
 		if(auto_watch)
 			activate_auto_watch(); // so that the button is green at the start
 	}
@@ -882,17 +884,17 @@ void Pane_playerinfo::add_name(Canvas *c, int i, int x2, int y2) {
 			}
 	}
 	play->set_font(f);
-	zone.add(play);
+	zone.push_back(play);
 	Zone *show;
 	int width = 70;
 	if(show_quoi == 0) {
 		width = 33;
 		Zone *death = new Zone_text_field(inter, c->stats[CS::DEATH].get_address(), x+w-58, y2, width, pi.mp->courrier);
-		zone.add(death);
+		zone.push_back(death);
 		total1[c->color] += c->stats[CS::DEATH].get_value();
 	}
 	show = new Zone_text_field(inter, c->stats[quel_stat()].get_address(), x+w-95, y2, width, pi.mp->courrier);
-	zone.add(show);
+	zone.push_back(show);
 	total0[c->color] += c->stats[quel_stat()].get_value();
 
 	player[i] = play;
@@ -902,18 +904,18 @@ void Pane_playerinfo::add_total(int team, int x2, int y2) {
 	Zone_text *play;
 	play = new Zone_text(inter, ST_TOTAL, x2+20, y2);
 	play->set_font(fteam[team]);
-	zone.add(play);
+	zone.push_back(play);
 	Zone *show;
 	int width = 90, x_start = x+w-25-width;
 	if(show_quoi == 0) {
 		width = 33;
 		Zone *death = new Zone_text_field(inter, &total1[team], x+w-58, y2, width, pi.mp->courrier);
-		zone.add(death);
+		zone.push_back(death);
 		x_start = x+w-52-width-10;
 	}
 
 	show = new Zone_text_field(inter, &total0[team], x_start, y2, width, pi.mp->courrier);
-	zone.add(show);
+	zone.push_back(show);
 }
 
 int Pane_playerinfo::quel_stat() const {
@@ -1102,15 +1104,15 @@ Chat_interface::Chat_interface(Inter *in, const Palette &pal, Bitmap *bit, int p
 	buf[0] = 0;
 	if(!playback) {
 		zinput = new Zone_chat_input(this, pal, inter, buf, 200, px, 410, pw);
-		zone.add(zinput);
-		zone.add(new Zone_text(inter, ST_FROM, px, 435));
+		zone.push_back(zinput);
+		zone.push_back(new Zone_text(inter, ST_FROM, px, 435));
 
 		z_from = new Zone_state_text2(inter, &chat_text->quel_player, px+70, 435);
 		notify();
-		zone.add(z_from);
-		zone.add(new Zone_text(inter, ST_TO, px, 455));
+		zone.push_back(z_from);
+		zone.push_back(new Zone_text(inter, ST_TO, px, 455));
 
-		zone.add(new Zone_to_team(inter, &chat_text->to_player, px+70, 455));
+		zone.push_back(new Zone_to_team(inter, &chat_text->to_player, px+70, 455));
 	} else {
 		z_from = NULL;
 		zinput = NULL;
@@ -1201,7 +1203,7 @@ Pane_scoreboard::Pane_scoreboard(const Pane_info &p, bool control_button, bool d
 	if(!game->single) {
 		if(!(playback && playback->auto_demo) && control_button) {
 			b_show_frag = new Zone_text_button2(pi.inter, pi.fond, pi.font2, "\2674", pi.x+110, 10);
-			zone.add(b_show_frag);
+			zone.push_back(b_show_frag);
 		}
 	}
 	game->net_list.add_watch(this);
@@ -1261,10 +1263,10 @@ void Pane_scoreboard::activate_frag() {
 		}
 		sprintf(st, ST_GOAL, unit, game->game_end_value!=1? "s":"");
 		z = new Zone_text(inter, st, x2, y2+2);
-		zone.add(z);
+		zone.push_back(z);
 		zlist_frag.push_back(z);
 		z = new Zone_text_field(inter, &game->game_end_value, x+w-95, y2+1, 70, pi.mp->courrier);
-		zone.add(z);
+		zone.push_back(z);
 		zlist_frag.push_back(z);
 		y2 += y_height;
 	}
@@ -1315,26 +1317,26 @@ void Pane_scoreboard::activate_frag() {
 			}
 			int *statp;
 			z = new Zone_text(fteam[team], inter, st, x2, y2+2);
-			zone.add(z);
+			zone.push_back(z);
 			zlist_frag.push_back(z);
 			uint32_t width=70;
 			if(game->net_list.goal_stat==CS::FRAG)
 				width=33;
 			statp=score.team_stats[team].stats[game->net_list.goal_stat].get_address();
 			z = new Zone_text_field(inter, statp, x+w-95, y2+1, width, pi.mp->courrier);
-			zone.add(z);
+			zone.push_back(z);
 			zlist_frag.push_back(z);
 			if(game->net_list.goal_stat==CS::FRAG) {
 				statp=score.team_stats[team].stats[CS::DEATH].get_address();
 				z = new Zone_text_field(inter, statp, x+w-58, y2+1, width, pi.mp->courrier);
-				zone.add(z);
+				zone.push_back(z);
 				zlist_frag.push_back(z);
 			}
 			y2 += y_height;
 		}
 	}
 	if(y2 != 33) {
-		zone.add(zp);
+		zone.push_back(zp);
 		zlist_frag.push_back(zp);
 		y2+=2;
 		zp->h = y2-33;
@@ -1356,7 +1358,12 @@ void Pane_scoreboard::deactivate_frag(bool temp) {
 		b_show_frag->set_text("\2674");
 	show_frag=false;
 	for(int i=0; i<zlist_frag.size(); i++) {
-		zone.remove_item(zlist_frag[i]);
+		for (vector<Zone*>::iterator it = zone.begin(); it != zone.end();
+		     ++it)
+			if (*it == zlist_frag[i]) {
+				zone.erase(it);
+				break;
+			}
 		delete zlist_frag[i];
 	}
 	zlist_frag.clear();
@@ -1387,14 +1394,14 @@ Pane_chat::Pane_chat(const Pane_info &p): Pane_scoreboard(p, true, false, false)
 	for(i=0; i<3; i++)
 		((Pane_option *) pi.mp->pane[i])->chat_window->disable();
 	chat = new Chat_interface(inter, pi.mp->pal, pi.fond, x, y, w, h, screen);
-	zone.add(chat);
+	zone.push_back(chat);
 	set_net_pane(3);
 	allow_clock();
 	if(playback && !playback->auto_demo) {
-		zone.add(new Zone_slow_play(inter, pi.mp->bit, pi.mp->font2, ST_SLOWPLAY, x+2, 420));
-		zone.add(new Zone_fast_play(inter, pi.mp->bit, pi.mp->font2, ST_FASTPLAY, x+2, 450));
+		zone.push_back(new Zone_slow_play(inter, pi.mp->bit, pi.mp->font2, ST_SLOWPLAY, x+2, 420));
+		zone.push_back(new Zone_fast_play(inter, pi.mp->bit, pi.mp->font2, ST_FASTPLAY, x+2, 450));
 		b_quit = new Zone_text_button2(inter, pi.mp->bit, pi.mp->font2, ST_BACK, x+132, 455);
-		zone.add(b_quit);
+		zone.push_back(b_quit);
 	}
 	else {
 		b_quit=NULL;
@@ -1472,9 +1479,9 @@ void Pane_blockinfo::add_info() {
 	Canvas *can=NULL, *can2=NULL;
 	if(game->net_list.size() > 1) {
 		Zone_state_text2 *temp = new Zone_state_text2(inter, &gauche, x+4, 420, 110);
-		zone.add(temp);
+		zone.push_back(temp);
 		Zone_state_text2 *temp2 = new Zone_state_text2(inter, &droite, x+100, 445, 110);
-		zone.add(temp2);
+		zone.push_back(temp2);
 		int num = 0;
 		if(gauche >= (int)game->net_list.size())
 			gauche = game->net_list.size()-1;
@@ -1512,7 +1519,7 @@ void Pane_blockinfo::add_info() {
 		if(can)
 			block_info(can, 90);
 	}
-	zone.add(new Zone_text(inter, ST_TOTAL, px+19, 300+y));
+	zone.push_back(new Zone_text(inter, ST_TOTAL, px+19, 300+y));
 }
 
 void Pane_blockinfo::step() {
@@ -1524,9 +1531,9 @@ void Pane_blockinfo::step() {
 
 void Pane_blockinfo::block_info(Canvas *can, int dx) {
 	for(int i=0; i<7; i++) {
-		zone.add(new Zone_text_field(inter, can->stats[CS::COMPTE0+i].get_address(), dx+x+9, 30+(2*18+2)*i+y, 50, pi.mp->courrier));
+		zone.push_back(new Zone_text_field(inter, can->stats[CS::COMPTE0+i].get_address(), dx+x+9, 30+(2*18+2)*i+y, 50, pi.mp->courrier));
 	}
-	zone.add(new Zone_text_field(inter, can->stats[CS::COMPTETOT].get_address(), dx+x+9, 300+y, 50, pi.mp->courrier));
+	zone.push_back(new Zone_text_field(inter, can->stats[CS::COMPTETOT].get_address(), dx+x+9, 300+y, 50, pi.mp->courrier));
 }
 
 Pane_comboinfo::Pane_comboinfo(const Pane_info &p):
@@ -1554,11 +1561,11 @@ void Pane_comboinfo::step() {
 void Pane_comboinfo::combo_info(Canvas *can, int dx) {
 	int py = 15+y;
 	for(int i=0; i<15; i++) {
-		zone.add(new Zone_text_field(inter, can->stats[CS::CLEAR00+i].get_address(), dx+x+9, py, 50, pi.mp->courrier));
+		zone.push_back(new Zone_text_field(inter, can->stats[CS::CLEAR00+i].get_address(), dx+x+9, py, 50, pi.mp->courrier));
 		py += 20;
 	}
 	py += 10;
-	zone.add(new Zone_text_field(inter, can->stats[CS::LINESTOT].get_address(), dx+x+9, py, 50, pi.mp->courrier));
+	zone.push_back(new Zone_text_field(inter, can->stats[CS::LINESTOT].get_address(), dx+x+9, py, 50, pi.mp->courrier));
 }
 
 void Pane_comboinfo::notify() {
@@ -1592,8 +1599,8 @@ void Pane_comboinfo::add_info() {
 				num++;
 			}
 		}
-		zone.add(temp);
-		zone.add(temp2);
+		zone.push_back(temp);
+		zone.push_back(temp2);
 	}
 	if(game->net_list.size() == 1) {
 		old_gauche=gauche=old_droite=droite=0;
@@ -1617,23 +1624,23 @@ void Pane_comboinfo::add_info() {
 		if(can)
 			combo_info(can, 90);
 	}
-	zone.add(new Zone_text(inter, ST_CLEARINFO1, px, i)); i+=20;
-	zone.add(new Zone_text(inter, ST_CLEARINFO2, px, i)); i+=20;
-	zone.add(new Zone_text(inter, ST_CLEARINFO3, px, i)); i+=20;
-	zone.add(new Zone_text(inter, ST_CLEARINFO4, px, i)); i+=20;
-	zone.add(new Zone_text(inter, ST_CLEARINFO5, px, i)); i+=20;
-	zone.add(new Zone_text(inter, ST_CLEARINFO6, px, i)); i+=20;
-	zone.add(new Zone_text(inter, ST_CLEARINFO7, px, i)); i+=20;
-	zone.add(new Zone_text(inter, ST_CLEARINFO8, px, i)); i+=20;
-	zone.add(new Zone_text(inter, ST_CLEARINFO9, px, i)); i+=20;
-	zone.add(new Zone_text(inter, ST_CLEARINFO10, px, i)); i+=20;
-	zone.add(new Zone_text(inter, ST_CLEARINFO11, px, i)); i+=20;
-	zone.add(new Zone_text(inter, ST_CLEARINFO12, px, i)); i+=20;
-	zone.add(new Zone_text(inter, ST_CLEARINFO13, px, i)); i+=20;
-	zone.add(new Zone_text(inter, ST_CLEARINFO14, px, i)); i+=20;
-	zone.add(new Zone_text(inter, ST_CLEARINFOMORE, px, i)); i+=20;
+	zone.push_back(new Zone_text(inter, ST_CLEARINFO1, px, i)); i+=20;
+	zone.push_back(new Zone_text(inter, ST_CLEARINFO2, px, i)); i+=20;
+	zone.push_back(new Zone_text(inter, ST_CLEARINFO3, px, i)); i+=20;
+	zone.push_back(new Zone_text(inter, ST_CLEARINFO4, px, i)); i+=20;
+	zone.push_back(new Zone_text(inter, ST_CLEARINFO5, px, i)); i+=20;
+	zone.push_back(new Zone_text(inter, ST_CLEARINFO6, px, i)); i+=20;
+	zone.push_back(new Zone_text(inter, ST_CLEARINFO7, px, i)); i+=20;
+	zone.push_back(new Zone_text(inter, ST_CLEARINFO8, px, i)); i+=20;
+	zone.push_back(new Zone_text(inter, ST_CLEARINFO9, px, i)); i+=20;
+	zone.push_back(new Zone_text(inter, ST_CLEARINFO10, px, i)); i+=20;
+	zone.push_back(new Zone_text(inter, ST_CLEARINFO11, px, i)); i+=20;
+	zone.push_back(new Zone_text(inter, ST_CLEARINFO12, px, i)); i+=20;
+	zone.push_back(new Zone_text(inter, ST_CLEARINFO13, px, i)); i+=20;
+	zone.push_back(new Zone_text(inter, ST_CLEARINFO14, px, i)); i+=20;
+	zone.push_back(new Zone_text(inter, ST_CLEARINFOMORE, px, i)); i+=20;
 	i += 10;
-	zone.add(new Zone_text(inter, ST_TOTAL, px, i));
+	zone.push_back(new Zone_text(inter, ST_TOTAL, px, i));
 }
 
 Pane_playerstartup::Pane_playerstartup(const Pane_info &p, int q):
@@ -1642,10 +1649,10 @@ Pane_playerstartup::Pane_playerstartup(const Pane_info &p, int q):
 	qplayer = q;
 
 	b_start = new Zone_text_button2(inter, pi.fond, pi.font2, ST_START, x+15, y, w-44);
-	zone.add(b_start);
+	zone.push_back(b_start);
 	y+=35;
 	if(game && game->allow_handicap) {
-		zone.add(new Zone_text(inter, ST_SELECTHANDICAP, x+9, y, w-30));
+		zone.push_back(new Zone_text(inter, ST_SELECTHANDICAP, x+9, y, w-30));
 		y+=20;
 		handicap=config.player2[qplayer].handicap;
 		list_handicap = new Zone_state_text2(inter, &handicap, x+42, y);
@@ -1654,21 +1661,21 @@ Pane_playerstartup::Pane_playerstartup(const Pane_info &p, int q):
 		list_handicap->add_string(ST_INTERMEDIATE);
 		list_handicap->add_string(ST_MASTER);
 		list_handicap->add_string(ST_GRANDMASTER);
-		zone.add(list_handicap);
+		zone.push_back(list_handicap);
 		y+=35;
 	}
 	else {
 		handicap=2;
 		list_handicap=NULL;
 	}
-	zone.add(new Zone_text(inter, ST_SELECTTEAM, x+9, y, w-30));
+	zone.push_back(new Zone_text(inter, ST_SELECTTEAM, x+9, y, w-30));
 	y+=20;
 	color = config.player[qplayer].color;
 	list_team = new Zone_state_text2(inter, &color, x+29, y);
 	int t;
 	for(t=0; t<MAXTEAMS; t++)
 		list_team->add_string(team_name[t], fteam[t]);
-	zone.add(list_team);
+	zone.push_back(list_team);
 	uint8_t col[MAXTEAMS];
 	for(t=0; t<MAXTEAMS-1; t++)
 		col[t] = 184+t*8+7;
@@ -1676,14 +1683,14 @@ Pane_playerstartup::Pane_playerstartup(const Pane_info &p, int q):
 
 	color_team = new Zone_color_select_noclick(inter, &color, x+119, y, col);
 	color_team->kb_focusable = false;
-	zone.add(color_team);
+	zone.push_back(color_team);
 	y+=35;
 	list_team->set_child(color_team);
 
-	zone.add(new Zone_text(inter, ST_PLAYERINTEAM, x+9, y, w-30));
+	zone.push_back(new Zone_text(inter, ST_PLAYERINTEAM, x+9, y, w-30));
 	y+=20;
 	list_player = new Zone_listbox2(inter, pi.fond, pi.font2, NULL, x+19, y, 160, 170);
-	zone.add(list_player);
+	zone.push_back(list_player);
 	game->net_list.add_watch(this);
 	update_player(); // force the first update
 }
@@ -1726,7 +1733,7 @@ Pane_playerjoin::Pane_playerjoin(const Pane_info &p, int q):
 	Packet_playerwantjoin pjoin;
 	qplayer = q;
 	status = new Zone_text(inter, ST_WAITINGTOJOIN, x+9, 100, w-30);
-	zone.add(status);
+	zone.push_back(status);
 	pjoin.team=config.player[qplayer].color;
 	strcpy(pjoin.name, config.player[qplayer].name);
 	config.get_player_hash(pjoin.player_hash, qplayer);
@@ -1791,7 +1798,7 @@ void Pane_playerjoin::net_call(Packet *p2) {
 		};
 		dirt();
 		status->set_text(s1);
-		zone.add(new Zone_text(inter, s2, x+9, 130, w-30));
+		zone.push_back(new Zone_text(inter, s2, x+9, 130, w-30));
 	}
 }
 
@@ -1850,41 +1857,41 @@ Pane_startgame::~Pane_startgame() {
 }
 
 void Pane_startgame::create_zone() {
-	zone.add(new Zone_canvas(inter, *pi.fond, x+9, 37, canvas));
-	zone.add(new Zone_canvas_bloc(inter, canvas));
-	zone.add(new Zone_text(inter, ST_GAMESCORE, x+9 - 5, 403));
-	zone.add(new Zone_text_field(inter, canvas->stats[CS::SCORE].get_address(), x+9+55, 403, 120, pi.mp->courrier));
-	zone.add(new Zone_text(inter, ST_GAMELINES, x+9 - 5, 422));
+	zone.push_back(new Zone_canvas(inter, *pi.fond, x+9, 37, canvas));
+	zone.push_back(new Zone_canvas_bloc(inter, canvas));
+	zone.push_back(new Zone_text(inter, ST_GAMESCORE, x+9 - 5, 403));
+	zone.push_back(new Zone_text_field(inter, canvas->stats[CS::SCORE].get_address(), x+9+55, 403, 120, pi.mp->courrier));
+	zone.push_back(new Zone_text(inter, ST_GAMELINES, x+9 - 5, 422));
 	canvas->z_lines=new Zone_text_field(inter, canvas->stats[CS::LINESCUR].get_address(), x+9+55, 422, 65, pi.mp->courrier);
 	canvas->z_potatolines=new Zone_text_field(inter, &canvas->team_potato_lines, x+9+55, 422, 65, pi.mp->courrier);
 	if(canvas->color==game->potato_team)
 		canvas->z_lines->disable();
 	else
 		canvas->z_potatolines->disable();
-	zone.add(canvas->z_lines);
-	zone.add(canvas->z_potatolines);
-	zone.add(new Zone_text(inter, ST_GAMELEVEL, x+9 - 5, 460));
-	zone.add(new Zone_text_field(inter, &canvas->level, x+9+55, 460, 35, pi.mp->courrier));
+	zone.push_back(canvas->z_lines);
+	zone.push_back(canvas->z_potatolines);
+	zone.push_back(new Zone_text(inter, ST_GAMELEVEL, x+9 - 5, 460));
+	zone.push_back(new Zone_text_field(inter, &canvas->level, x+9+55, 460, 35, pi.mp->courrier));
 	char *the_guys_name=canvas->name;
 	if(!game->single)
 		the_guys_name=canvas->long_name(true, false);
 	Zone_text *name = new Zone_text(inter, the_guys_name, x+9 + 95, 460);
 	if(!game->single)
 		name->set_font(fteam[canvas->color]);
-	zone.add(name);
+	zone.push_back(name);
 	if(!game->single) {
-		zone.add(new Zone_text(inter, ST_GAMEFRAGS, x+9 - 5, 441));
-		zone.add(new Zone_text_field(inter, canvas->stats[CS::FRAG].get_address(), x+9+55, 441, 35, pi.mp->courrier));
-		zone.add(new Zone_text(inter, ST_GAMEDEATHS, x+9 + 95, 441));
-		zone.add(new Zone_text_field(inter, canvas->stats[CS::DEATH].get_address(), x+9+155, 441, 35, pi.mp->courrier));
+		zone.push_back(new Zone_text(inter, ST_GAMEFRAGS, x+9 - 5, 441));
+		zone.push_back(new Zone_text_field(inter, canvas->stats[CS::FRAG].get_address(), x+9+55, 441, 35, pi.mp->courrier));
+		zone.push_back(new Zone_text(inter, ST_GAMEDEATHS, x+9 + 95, 441));
+		zone.push_back(new Zone_text_field(inter, canvas->stats[CS::DEATH].get_address(), x+9+155, 441, 35, pi.mp->courrier));
 		canvas->z_linestot=new Zone_text_field(inter, canvas->stats[CS::LINESTOT].get_address(), x+9+55+70, 422, 65, pi.mp->courrier);
 		canvas->z_potatolinestot=new Zone_text_field(inter, &canvas->team_potato_linestot, x+9+55+70, 422, 65, pi.mp->courrier);
 		if(canvas->color==game->potato_team)
 			canvas->z_linestot->disable();
 		else
 			canvas->z_potatolinestot->disable();
-		zone.add(canvas->z_linestot);
-		zone.add(canvas->z_potatolinestot);
+		zone.push_back(canvas->z_linestot);
+		zone.push_back(canvas->z_potatolinestot);
 	}
 }
 
@@ -1898,7 +1905,10 @@ void Pane_startgame::notify() {
 	if(game->net_list.get(num_player) == NULL) {
 		if(delete_zone) {
 			msgbox("Pane_startgame::notify: Indeed, player %i was dropped.\n", num_player);
-			zone.deleteall();
+			while (!zone.empty()) {
+				delete zone.back();
+				zone.pop_back();
+			}
 			canvas = NULL;
 			ret();
 		} else {
@@ -2056,9 +2066,9 @@ void Watch_canvas::small_canvas(const Pane_info &pi, int tx, int ty) {
 	y = ty;
 	tx += pi.x;
 	ty += pi.y;
-	zone.add(new Zone_small_canvas(pi.inter, *pi.fond, tx, ty, c));
-	zone.add(new Zone_small_canvas_bloc(pi.inter, c));
+	zone.push_back(new Zone_small_canvas(pi.inter, *pi.fond, tx, ty, c));
+	zone.push_back(new Zone_small_canvas_bloc(pi.inter, c));
 	Zone_text *name = new Zone_text(pi.inter, c->long_name(true, false), tx, ty+122, 66);
 	name->set_font(fteam[c->color]);
-	zone.add(name);
+	zone.push_back(name);
 }

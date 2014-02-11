@@ -21,5 +21,8 @@
 #include "zone_list.h"
 
 void Zone_list::deleteall() {
-	zone.deleteall();
+	while (!zone.empty()) {
+		delete zone.back();
+		zone.pop_back();
+	}
 }
