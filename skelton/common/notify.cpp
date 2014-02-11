@@ -22,21 +22,27 @@
 #include "error.h"
 #include "notify.h"
 
+using std::vector;
+
 void Observable::add_watch(Notifyable *n) {
-	notes.add(n);
+	notes.push_back(n);
 }
 
 void Observable::remove_watch(Notifyable *n) {
-	notes.remove_item(n);
+	vector<Notifyable*>::iterator it(notes.begin());
+	while (it != notes.end())
+		if (*it == n)
+			it = notes.erase(it);
+		else
+			++it;
 }
 
 void Observable::notify_all() {
-	for(int i=0; i<notes.size(); i++) {
+	for (int i = 0; i < notes.size(); ++i)
 		notes[i]->notify();
-	}
 }
 
 Observable::~Observable() {
-	if(notes.size())
+	if (!notes.empty())
 		skelton_msgbox("Observable %p was destroyed while still watched (%i watchers)\n", this, notes.size());
 }

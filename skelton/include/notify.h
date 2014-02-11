@@ -20,7 +20,8 @@
 
 #ifndef _HEADER_NOTIFY
 #define _HEADER_NOTIFY
-#include "array.h"
+
+#include <vector>
 
 class Notifyable {
 public:
@@ -30,7 +31,7 @@ public:
 };
 
 class Observable {
-	Array<Notifyable *> notes;
+	std::vector<Notifyable*> notes;
 public:
 	virtual ~Observable();
 	virtual void add_watch(Notifyable *n);
