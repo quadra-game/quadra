@@ -240,9 +240,12 @@ Game::~Game() {
 		delete net_client;
 	if(net_server)
 		delete net_server;
-	if(stack.size())
+	if(!stack.empty())
 		msgbox("Game::~Game: stack.size should be 0\n");
-	stack.deleteall();
+	while (!stack.empty()) {
+		delete stack.back();
+		stack.pop_back();
+	}
 	//Oh well...
 	game = NULL;
 }
@@ -559,13 +562,13 @@ void Game::clientpause() {
 }
 
 void Game::stackpacket(Packet *p) {
-	stack.add(p);
+	stack.push_back(p);
 }
 
 Packet *Game::peekpacket(uint8_t type) {
-	if(stack.size()) {
-		if(stack[0]->packet_id == type || type==255)
-			return stack[0];
+	if(!stack.empty()) {
+		if(stack.front()->packet_id == type || type==255)
+			return stack.front();
 		else
 			return NULL;
 	} else {
@@ -574,9 +577,9 @@ Packet *Game::peekpacket(uint8_t type) {
 }
 
 void Game::removepacket() {
-	if(stack.size()) {
-		delete stack[0];
-		stack.remove(0);
+	if(!stack.empty()) {
+		delete stack.front();
+		stack.erase(stack.begin());
 	}
 }
 

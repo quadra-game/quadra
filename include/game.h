@@ -22,6 +22,7 @@
 #define _HEADER_GAME
 
 #include <stdint.h>
+#include <vector>
 
 enum Attack_type {
 	ATTACK_LINES,
@@ -60,7 +61,6 @@ enum End_type {
 	END_LAST
 };
 
-#include "array.h"
 #include "types.h"
 #include "buf.h"
 #include "net_list.h"
@@ -81,7 +81,7 @@ class Dict;
 //Destroying a Game sets ::game to NULL
 class Game: public GS {
 	friend class Net_list;
-	Array<Packet *> stack;
+	std::vector<Packet*> stack;
 	Qserv *gameinfo;
 	bool http_failed;
 	void buildgameinfo(const char* cmd);
