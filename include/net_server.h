@@ -36,7 +36,6 @@ public:
 class Recording;
 
 class Net_server: public Net_callable {
-	Array<Executor *> pendings;
 	void playerwantjoin(Packet *p2);
 	void findgame(Packet *p2);
 	void wantjoin(Packet *p2);

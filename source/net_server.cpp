@@ -486,7 +486,6 @@ void Net_server::findgame(Packet *p2) {
 void Net_server::wantjoin(Packet *p2) {
 	Packet_wantjoin *p=(Packet_wantjoin *) p2;
 	Executor *exec = new Executor(true);
-	pendings.add(exec);
 	exec->add(new Net_pendingjoin(p));
 	overmind.start(exec);
 }
