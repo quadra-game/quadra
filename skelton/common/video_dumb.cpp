@@ -93,6 +93,7 @@ Video_Dumb::Video_Dumb(int w, int h, const char *wname)
   : Video(new Dumb_Video_bitmap(0, 0, w, h), w, h, w) {
 	video_is_dumb = true;
 
+#if 0
 #ifdef WIN32
 	BOOL rc;
  	WNDCLASS wc;
@@ -113,13 +114,16 @@ Video_Dumb::Video_Dumb(int w, int h, const char *wname)
 	if(hwnd == NULL)
 		fatal_msgbox("Can't create window");
 #endif
+#endif
 }
 
 Video_Dumb::~Video_Dumb() {
+#if 0
 #ifdef WIN32
 	ShowWindow(hwnd, SW_HIDE);
 	DestroyWindow(hwnd);
 	UnregisterClass("SkeltonClass", hinst);
+#endif
 #endif
 }
 

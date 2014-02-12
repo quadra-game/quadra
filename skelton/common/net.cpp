@@ -1218,7 +1218,8 @@ uint32_t Net::getaddress(const char *host) {
     // If not an address, then try to resolve it as a hostname
     if((lAddr == INADDR_NONE) && (strcmp(tube, "255.255.255.255"))) {
 			lAddr = 0;
-#ifdef WIN32
+#if 0
+			// FIXME: Should make every DNS lookup async.
 			gethostbyname_cancel();
 			name_handle = WSAAsyncGetHostByName(hwnd, WM_USER, tube, name_buf, MAXGETHOSTSTRUCT);
 			if (name_handle == 0) {  // if error return 0 
