@@ -21,7 +21,8 @@
 #ifndef HEADER_LISTBOX
 #define HEADER_LISTBOX
 
-#include "array.h"
+#include <vector>
+
 #include "types.h"
 #include "error.h"
 #include "inter.h"
@@ -84,10 +85,10 @@ class Zone_listbox: public Zone_watch_int {
 	Zone_listup *zup;
 	Zone_listdown *zdown;
 	Font *font2;
-	Array<Listable *> elements; // list of the list_box elements
+	std::vector<Listable*> elements; // list of the list_box elements
 	int first_item; // first displayed item in list_box
-	Array<Zone_listtext *> list; // list of the displayed zone_text
-	Array<Listable *> sort_list; // temporary list of elements to sort
+	std::vector<Zone_listtext*> list; // list of the displayed zone_text
+	std::vector<Listable*> sort_list; // temporary list of elements to sort
 	static int compare_sort(const void *arg1, const void *arg2);
 	Video_bitmap *screen;
 public:

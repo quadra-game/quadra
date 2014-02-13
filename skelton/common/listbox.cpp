@@ -36,7 +36,7 @@ Zone_listbox::Zone_listbox(Inter* in, Bitmap *fond, Font *f, int *pval, int px, 
 	zup = new Zone_listup(this);
 	zdown = new Zone_listdown(this);
 	for(int i=y+18; i<y+h-18-f->height(); i+=f->height()) {
-		list.add(new Zone_listtext(this, i));
+		list.push_back(new Zone_listtext(this, i));
 	}
 	first_item = 0;
 	if(val)
@@ -45,9 +45,9 @@ Zone_listbox::Zone_listbox(Inter* in, Bitmap *fond, Font *f, int *pval, int px, 
 
 Zone_listbox::~Zone_listbox() {
 	empty();
-	while(list.size()) {
-		delete list.last();
-		list.removelast();
+	while(!list.empty()) {
+		delete list.back();
+		list.pop_back();
 	}
 	delete zdown;
 	delete zup;
@@ -99,15 +99,15 @@ void Zone_listbox::init_sort() {
 }
 
 void Zone_listbox::add_sort(Listable *l) {
-	sort_list.add(l);
+	sort_list.push_back(l);
 }
 
 void Zone_listbox::end_sort() {
-  if (sort_list.size() == 0)
+  if (sort_list.empty())
     return;
  
-  qsort((void *) &sort_list[0], sort_list.size(), sizeof(sort_list[0]),
-        compare_sort);
+  qsort((void *) &sort_list.front(), sort_list.size(),
+        sizeof(sort_list.front()), compare_sort);
 
 	for (int i = 0; i < sort_list.size(); ++i)
 		add_item(sort_list[i]);
@@ -123,13 +123,13 @@ int Zone_listbox::compare_sort(const void *arg1, const void *arg2) {
 
 
 void Zone_listbox::add_item(Listable *e) {
-	elements.add(e);
+	elements.push_back(e);
 	sync_list();
 }
 
 void Zone_listbox::replace_item(int i, Listable *e) {
 	delete elements[i];
-	elements.replace(i, e);
+	elements[i] = e;
 	sync_list();
 }
 
@@ -143,13 +143,13 @@ void Zone_listbox::remove_item(Listable *e) {
 	if(get_selected()==e)
 		unselect();
 	delete elements[i];
-	elements.remove(i);
+	elements.erase(elements.begin() + i);
 	sync_list();
 }
 
 void Zone_listbox::remove_item(int i) {
 	delete elements[i];
-	elements.remove(i);
+	elements.erase(elements.begin() + i);
 	sync_list();
 }
 
@@ -209,9 +209,9 @@ void Zone_listbox::sync_list() {
 }
 
 void Zone_listbox::empty() {
-	while(elements.size()) {
-		delete elements.last();
-		elements.removelast();
+	while(!elements.empty()) {
+		delete elements.back();
+		elements.pop_back();
 	}
 }
 
