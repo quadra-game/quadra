@@ -23,7 +23,6 @@
 
 #include <stdint.h>
 
-#include "array.h"
 #include "types.h"
 #include "global.h"
 #include "notify.h"

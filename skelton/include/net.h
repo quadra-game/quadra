@@ -50,7 +50,6 @@
 
 const unsigned NETBUF_SIZE = 4096;
 
-#include "array.h"
 #include "types.h"
 #include "packet.h"
 #include "notify.h"

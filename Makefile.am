@@ -113,7 +113,6 @@ quadra_SOURCES = \
 	skelton/common/url.cpp \
 	skelton/common/video_dumb.cpp \
 	skelton/common/zone_text_clock.cpp \
-	skelton/include/array.h \
 	skelton/include/bitmap.h \
 	skelton/include/buf.h \
 	skelton/include/byteorder.h \

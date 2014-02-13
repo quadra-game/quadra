@@ -31,7 +31,6 @@ enum Drop_reason {
 };
 
 #include "types.h"
-#include "array.h"
 #include "global.h"
 #include "packets.h"
 #include "net.h"

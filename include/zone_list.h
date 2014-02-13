@@ -23,7 +23,6 @@
 
 #include <vector>
 
-#include "array.h"
 #include "types.h"
 #include "inter.h"
 
