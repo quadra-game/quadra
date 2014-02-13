@@ -150,9 +150,9 @@ Playback::Playback(Res* r): data(0, 1024) {
 }
 
 Playback::~Playback() {
-	while(packets.size()) {
-		Demo_packet *dp=packets.last();
-		packets.removelast();
+	while(!packets.empty()) {
+		Demo_packet *dp=packets.back();
+		packets.pop_back();
 		if(dp->p)
 			delete dp->p;
 		delete dp;
@@ -337,7 +337,7 @@ void Playback::read_packet() {
 			return;
 		}
 		Demo_packet *demo_packet=new Demo_packet(frame, p);
-		packets.add(demo_packet);
+		packets.push_back(demo_packet);
 	}
 }
 
@@ -372,16 +372,16 @@ void Playback::create_game() {
 }
 
 Demo_packet Playback::next_packet() {
-	if(packets.size())
-		return *packets[0];
+	if(!packets.empty())
+		return *packets.front();
 	else
 		return Demo_packet(0xFFFFFFFF, NULL);
 }
 
 void Playback::remove_packet() {
-	if(packets.size()) {
-		Demo_packet *dp=packets[0];
-		packets.remove(0);
+	if(!packets.empty()) {
+		Demo_packet *dp=packets.front();
+		packets.erase(packets.begin());
 		//Caller will delete the packet
 		delete dp;
 	}
@@ -422,7 +422,7 @@ void Playback::shit_skipper2000(bool remove_chat) {
 			if((remove_chat || dp->frame<=shit_skipper_bias) && dp->p && dp->p->packet_id==P_CHAT) {
 				delete dp->p;
 				delete dp;
-				packets.remove(i);
+				packets.erase(packets.begin() + i);
 				i--;
 			}
 			else {

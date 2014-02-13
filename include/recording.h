@@ -22,6 +22,7 @@
 #define _HEADER_RECORDING
 
 #include <stdint.h>
+#include <vector>
 
 #include "types.h"
 #include "net_stuff.h"
@@ -82,7 +83,7 @@ class Playback {
 	void read_summary();
 	Buf data;
 	uint32_t nextByte;
-	Array<Demo_packet *> packets;
+	std::vector<Demo_packet*> packets;
 public:
 	uint8_t single_player;
 	Packet_gameserver *packet_gameserver;
