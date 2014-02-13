@@ -1664,16 +1664,16 @@ c_start(105), c_gap(4) {
   Zone_text_button *z;
   int x=8, wid=105;
   z=new Zone_text_button2(inter, bit, font2, ST_RANK, x, 80, wid-8);
-  b_page.add(z);
+  b_page.push_back(z);
   x+=wid;
   z=new Zone_text_button2(inter, bit, font2, ST_SPEED, x, 80, wid-8);
-  b_page.add(z);
+  b_page.push_back(z);
   x+=wid;
   z=new Zone_text_button2(inter, bit, font2, ST_LINES, x, 80, wid-8);
-  b_page.add(z);
+  b_page.push_back(z);
   x+=wid;
   z=new Zone_text_button2(inter, bit, font2, ST_COMBO, x, 80, wid-8);
-  b_page.add(z);
+  b_page.push_back(z);
   x+=wid;
 
   b_restart = b_stop = NULL;
@@ -1691,7 +1691,10 @@ c_start(105), c_gap(4) {
 }
 
 Menu_stat::~Menu_stat() {
-  col.deleteall();
+  while (!col.empty()) {
+    delete col.back();
+    col.pop_back();
+  }
   if(game)
     game->net_list.remove_watch(this);
   for(int i=0; i<MAXTEAMS; i++)
@@ -1707,25 +1710,25 @@ void Menu_stat::init_columns(Bitmap *bit) {
   n->quel_stat = CS::FRAG;
   n->width = 70;
   n->set_titre(ST_RESULTFRAG);
-  col.add(n);
+  col.push_back(n);
 
   n=new Colonne();
   n->quel_stat = CS::DEATH;
   n->width = 70;
   n->set_titre(ST_RESULTDEATH);
-  col.add(n);
+  col.push_back(n);
 
   n=new Colonne();
   n->quel_stat = CS::SCORE;
   n->width = 90;
   n->set_titre(ST_SHOWSCORE);
-  col.add(n);
+  col.push_back(n);
 
   n=new Colonne();
   n->quel_stat = CS::LINESTOT;
   n->width = 90;
   n->set_titre(ST_SHOWLINE);
-  col.add(n);
+  col.push_back(n);
 
   int px;
   px = c_start;
@@ -1742,7 +1745,7 @@ void Menu_stat::init_columns(Bitmap *bit) {
   n->set_titre(ST_SHOWPPM);
   n->page = page;
   add_title(*n, &px, bit);
-  col.add(n);
+  col.push_back(n);
 
   n=new Colonne();
   n->quel_stat = CS::BPM;
@@ -1750,7 +1753,7 @@ void Menu_stat::init_columns(Bitmap *bit) {
   n->set_titre(ST_SHOWBPM);
   n->page = page;
   add_title(*n, &px, bit);
-  col.add(n);
+  col.push_back(n);
 
 /*  int sta1=0, sta2=0;
   {
@@ -1782,7 +1785,7 @@ void Menu_stat::init_columns(Bitmap *bit) {
     n->set_titre(st);
     n->page = page;
     add_title(*n, &px, bit);
-    col.add(n);
+    col.push_back(n);
   }
 
   page++;
@@ -1795,7 +1798,7 @@ void Menu_stat::init_columns(Bitmap *bit) {
     n->set_titre(st);
     n->page = page;
     add_title(*n, &px, bit);
-    col.add(n);
+    col.push_back(n);
   }
 
   page++;
@@ -1808,7 +1811,7 @@ void Menu_stat::init_columns(Bitmap *bit) {
     n->set_titre(st);
     n->page = page;
     add_title(*n, &px, bit);
-    col.add(n);
+    col.push_back(n);
   }
 
   page++;
@@ -1821,7 +1824,7 @@ void Menu_stat::init_columns(Bitmap *bit) {
     n->set_titre(st);
     n->page = page;
     add_title(*n, &px, bit);
-    col.add(n);
+    col.push_back(n);
   }
 }
 
