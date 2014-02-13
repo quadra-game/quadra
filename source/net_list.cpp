@@ -232,9 +232,18 @@ Net_list::~Net_list() {
 	for(int i=0; i<MAXPLAYERS; i++)
 		if(list[i])
 			delete list[i];
-	cmd_cache.deleteall();
-	deny_list.deleteall();
-	allow_list.deleteall();
+	while (!cmd_cache.empty()) {
+		delete cmd_cache.back();
+		cmd_cache.pop_back();
+	}
+	while (!deny_list.empty()) {
+		delete deny_list.back();
+		deny_list.pop_back();
+	}
+	while (!allow_list.empty()) {
+		delete allow_list.back();
+		allow_list.pop_back();
+	}
 	stepper->ret(); //overmind will delete it correcly
 }
 
@@ -1430,7 +1439,7 @@ void Net_list::client_deconnect(Net_connection *nc) {
 		if(cmd_cache[i]->nc == nc) {
 			//Remove cache entry
 			delete cmd_cache[i];
-			cmd_cache.remove(i);
+			cmd_cache.erase(cmd_cache.begin() + i);
 			i--;
 		}
 	}
@@ -1497,7 +1506,7 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 		}
 		if(i == cmd_cache.size()) {
 			//Not found, create new cache entry
-			cmd_cache.add(new Lastline(nc, cmd, params));
+			cmd_cache.push_back(new Lastline(nc, cmd, params));
 		}
 	}
 	bool trusted=false;
@@ -1916,7 +1925,7 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 							send_msg(nc, "%15.15s no longer denied", st);
 						}
 						delete ip;
-						deny_list.remove(i);
+						deny_list.erase(deny_list.begin() + i);
 						i--;
 					}
 					if(*ip>=ad) {
@@ -1935,7 +1944,7 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 							send_msg(nc, "%15.15s no longer allowed", st);
 						}
 						delete ip;
-						allow_list.remove(i);
+						allow_list.erase(allow_list.begin() + i);
 						i--;
 					}
 					if(allow && *ip>=ad) {
@@ -1945,13 +1954,13 @@ void Net_list::got_admin_line(const char *line, Net_connection *nc) {
 				}
 				if(deny) {
 					ip=new IP_addr(ad);
-					deny_list.add(ip);
+					deny_list.push_back(ip);
 					ip->print(st);
 					send_msg(nc, "%15.15s denied", st);
 				}
 				if(allow && would_be_denied) {
 					ip=new IP_addr(ad);
-					allow_list.add(ip);
+					allow_list.push_back(ip);
 					ip->print(st);
 					send_msg(nc, "%15.15s allowed", st);
 				}

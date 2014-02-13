@@ -22,8 +22,8 @@
 #define _HEADER_NET_LIST
 
 #include <stdint.h>
+#include <vector>
 
-#include "array.h"
 #include "notify.h"
 #include "net.h"
 #include "score.h"
@@ -73,9 +73,9 @@ class Net_list: public Observable {
 	void check_player();
 	void check_admin();
 	void check_stat();
-	Array<Lastline *> cmd_cache;
-	Array<IP_addr *> deny_list;
-	Array<IP_addr *> allow_list;
+	std::vector<Lastline*> cmd_cache;
+	std::vector<IP_addr*> deny_list;
+	std::vector<IP_addr*> allow_list;
 	uint32_t lastgameinfo;
 	int *objectives;
 	bool reached[10][MAXTEAMS]; //Max 10 objectives
