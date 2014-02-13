@@ -23,9 +23,9 @@
 
 #include <stdint.h>
 #include <string.h>
+#include <vector>
 
 #include "packet.h"
-#include "array.h"
 #include "net_stuff.h"
 #include "game.h"
 #include "cfgfile.h"
@@ -138,7 +138,7 @@ public:
 
 class Packet_gameinfo: public Packet_udp {
 public:
-	Array <Net_player *> players;
+	std::vector<Net_player*> players;
 	char name[32];
 	uint8_t version;
 	int port, game_end_value;
@@ -150,7 +150,7 @@ public:
 	Packet_gameinfo();
 	virtual ~Packet_gameinfo();
 	void add_player(uint8_t q, uint8_t t, const char *s, int status, int handicap) {
-		players.add(new Net_player(q, t, s, 0, status, handicap));
+		players.push_back(new Net_player(q, t, s, 0, status, handicap));
 	}
 	virtual void write(Net_buf *p);
 	virtual bool read(Net_buf *p);
@@ -159,7 +159,7 @@ public:
 class Packet_gameserver: public Packet_ping {
 public:
 	uint8_t version;
-	Array <Net_player *> players;
+	std::vector<Net_player*> players;
 	char name[32];
 	bool accepted;
 	int game_seed, game_end_value;
@@ -182,7 +182,7 @@ public:
 	}
 	virtual ~Packet_gameserver();
 	void add_player(uint8_t q, uint8_t t, const char *s, uint32_t pid, int handicap) {
-		players.add(new Net_player(q, t, s, pid, -1, handicap));
+		players.push_back(new Net_player(q, t, s, pid, -1, handicap));
 	}
 	virtual void write(Net_buf *p);
 	virtual bool read(Net_buf *p);
@@ -299,7 +299,7 @@ public:
 
 class Packet_stat: public Packet_playerbase {
 public:
-	Array<Net_stat *> net_stats;
+	std::vector<Net_stat*> net_stats;
 	uint8_t num_stat;
 	Packet_stat() {
 		packet_id = P_STAT;
@@ -312,7 +312,7 @@ public:
 
 class Packet_gamestat: public Packet_tcp {
 public:
-	Array<Net_stat *> net_stats;
+	std::vector<Net_stat*> net_stats;
 	uint8_t num_stat;
 	Packet_gamestat() {
 		packet_id = P_GAMESTAT;
@@ -685,7 +685,7 @@ public:
 
 private:
 	char event_type[64];
-	Array<Var> vars;
+	std::vector<Var> vars;
 };
 
 #endif

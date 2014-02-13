@@ -78,7 +78,10 @@ Packet_gameinfo::Packet_gameinfo() {
 }
 
 Packet_gameinfo::~Packet_gameinfo() {
-	players.deleteall();
+	while (!players.empty()) {
+		delete players.back();
+		players.pop_back();
+	}
 }
 
 void Packet_gameinfo::write(Net_buf *p) {
@@ -176,7 +179,10 @@ bool Packet_gameinfo::read(Net_buf *p) {
 }
 
 Packet_gameserver::~Packet_gameserver() {
-	players.deleteall();
+	while (!players.empty()) {
+		delete players.back();
+		players.pop_back();
+	}
 }
 
 void Packet_gameserver::write(Net_buf *p) {
@@ -471,12 +477,15 @@ void Packet_pause::write(Net_buf *p) {
 }
 
 Packet_stat::~Packet_stat() {
-	net_stats.deleteall();
+	while (!net_stats.empty()) {
+		delete net_stats.back();
+		net_stats.pop_back();
+	}
 }
 
 void Packet_stat::add_stat(uint8_t s, int v) {
 	Net_stat *n = new Net_stat(s, v);
-	net_stats.add(n);
+	net_stats.push_back(n);
 }
 
 bool Packet_stat::read(Net_buf *p) {
@@ -503,12 +512,15 @@ void Packet_stat::write(Net_buf *p) {
 }
 
 Packet_gamestat::~Packet_gamestat() {
-	net_stats.deleteall();
+  while (!net_stats.empty()) {
+    delete net_stats.back();
+    net_stats.pop_back();
+  }
 }
 
 void Packet_gamestat::add_stat(uint8_t s, int v) {
 	Net_stat *n = new Net_stat(s, v);
-	net_stats.add(n);
+	net_stats.push_back(n);
 }
 
 bool Packet_gamestat::read(Net_buf *p) {
@@ -995,12 +1007,12 @@ bool Packet_serverlog::read(Net_buf* p) {
 		Var v;
 		if(!v.read(p))
 			return false;
-		vars.add(v);
+		vars.push_back(v);
 	}
 	return true;
 }
 
 void Packet_serverlog::add(const Var& var)
 {
-	vars.add(var);
+	vars.push_back(var);
 }
