@@ -104,7 +104,10 @@ DirectX_Video::DirectX_Video(int w, int h, int b, const char *wname) {
 
 DirectX_Video::~DirectX_Video() {
 	delete vb;
-	surfaces.deleteall();
+	while (!surfaces.empty()) {
+		delete surfaces.back();
+		surfaces.pop_back();
+	}
 	if(lpdd) {
 		if(lpddsprimary) {
 			unlock();
@@ -292,14 +295,14 @@ COPPER(30,0,30);
 }
 
 void DirectX_Video::add_surface(LPDIRECTDRAWSURFACE s, Bitmap *b) {
-	surfaces.add(new DirectX_Surface(s, b));
+	surfaces.push_back(new DirectX_Surface(s, b));
 }
 
 void DirectX_Video::remove_surface(LPDIRECTDRAWSURFACE s, Bitmap *b) {
 	for(int i=0; i<surfaces.size(); i++) {
 		if(s == surfaces[i]->s && b == surfaces[i]->b) {
 			delete surfaces[i];
-			surfaces.remove(i);
+			surfaces.erase(surfaces.begin() + i);
 			break;
 		}
 	}

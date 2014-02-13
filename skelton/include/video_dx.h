@@ -22,9 +22,9 @@
 #define _HEADER_VIDEO_DX
 
 #include <stdint.h>
+#include <vector>
 
 #include "video.h"
-#include "array.h"
 
 class DirectX_Surface {
 public:
@@ -65,7 +65,7 @@ public:
   LPDIRECTDRAWPALETTE lpddpal;
   DDSURFACEDESC ddsdlock;
   static int screen_shot;
-  Array<DirectX_Surface *> surfaces;
+  std::vector<DirectX_Surface*> surfaces;
   void add_surface(LPDIRECTDRAWSURFACE s, Bitmap *b);
   void remove_surface(LPDIRECTDRAWSURFACE s, Bitmap *b);
   DirectX_Video(int w, int h, int b, const char *wname);
