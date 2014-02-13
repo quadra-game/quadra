@@ -20,6 +20,8 @@
 
 #ifndef HEADER_LISTBOX
 #define HEADER_LISTBOX
+
+#include "array.h"
 #include "types.h"
 #include "error.h"
 #include "inter.h"

@@ -24,7 +24,6 @@
 #include <stdint.h>
 
 #include "error.h"
-#include "array.h"
 #include "types.h"
 #include "video.h"
 #include "bitmap.h"
@@ -43,7 +42,7 @@ class Inter {
 	bool kb_active;
 	int double_click_delay;
 	Zone *double_clicked_first;
-	Array<int> kb_keys;
+	std::vector<int> kb_keys;
 	Zone *kb_focus;
 	Zone *kb_find_upmost();
 	Zone *kb_find_downmost();
@@ -61,7 +60,7 @@ class Inter {
 public:
 	Font* font;
 	bool del_font;
-	Array<Zone *> zone;
+	std::vector<Zone*> zone;
 	Zone* focus;
 	Zone* clicked, *double_clicked;
 	Inter();
@@ -72,9 +71,9 @@ public:
 	}
 	void add(Zone* zon, bool back=false) {
 		if(back)
-			zone.add_before(zon, 0);
+			zone.insert(zone.begin(), zon);
 		else
-			zone.add(zon);
+			zone.push_back(zon);
 	}
 	void remove(int i);
 	void remove(Zone *z);

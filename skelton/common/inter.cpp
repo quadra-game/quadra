@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include <algorithm>
+
 #include "video.h"
 #include "bitmap.h"
 #include "input.h"
@@ -31,6 +33,7 @@
 
 using std::max;
 using std::min;
+using std::vector;
 
 int Inter::last_mouse_x = -1, Inter::last_mouse_y = -1;
 bool Inter::kb_visible = false;
@@ -938,7 +941,7 @@ void Inter::remove(int i) {
 		double_clicked_first = NULL;
 		double_click_delay = 0;
 	}
-	zone.remove(i);
+	zone.erase(zone.begin() + i);
 }
 
 void Inter::flush() {
@@ -1149,11 +1152,13 @@ void Inter::kb_reactivate() {
 }
 
 void Inter::kb_alloc_key(const int i) {
-	kb_keys.add(i);
+	kb_keys.push_back(i);
 }
 
 void Inter::kb_free_key(const int i) {
-	kb_keys.remove_item(i);
+  vector<int>::iterator it(std::find(kb_keys.begin(), kb_keys.end(), i));
+  if (it != kb_keys.end())
+    kb_keys.erase(it);
 }
 
 bool Inter::kb_check_key(const int i) const {
