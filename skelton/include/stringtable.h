@@ -35,7 +35,6 @@ public:
 	Stringtable(const char *nam);
 	Stringtable(uint8_t *buf, uint32_t size);
 	virtual ~Stringtable();
-	Stringtable& operator=(const Stringtable&);
 	int size() const {
 		return num;
 	}

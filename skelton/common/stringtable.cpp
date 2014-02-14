@@ -38,29 +38,6 @@ Stringtable::Stringtable(uint8_t *b, uint32_t size) {
 	parse((char *)b, size);
 }
 
-Stringtable& Stringtable::operator=(const Stringtable& src) {
-	delete[] table;
-	if(mustfree)
-		delete[] buf;
-	mustfree=true;
-	num = src.size();
-	int i;
-	//calculate space needed in buf
-	uint32_t siz=0;
-	for(i=0; i<num; i++)
-		siz+=strlen(src.get(i))+1;
-	buf = new char[siz];
-	table = new char*[num];
-	//fill-in buf and table
-	siz=0;
-	for(i=0; i<num; i++) {
-		memcpy(buf+siz, src.get(i), strlen(src.get(i))+1);
-		table[i] = buf+siz;
-		siz+=strlen(src.get(i))+1;
-	}
-	return *this;
-}
-
 void Stringtable::parse(char *buf, uint32_t size) {
 	uint32_t ptr;
 	int index;
