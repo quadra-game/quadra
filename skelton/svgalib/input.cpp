@@ -32,8 +32,8 @@
 Input *input = NULL;
 
 Input::Input()
-  : pause(false),
-    key_pending(0) {
+  : key_pending(0),
+    pause(false) {
   mouse.quel = -1;
   for (int i = 0; i < 4; ++i)
     mouse.button[i] = RELEASED;
