@@ -82,20 +82,6 @@ public:
 	}
 };
 
-#ifdef ONVEUTDESRESDOZEPOCHES
-class Res_doze: public Res_mem {
-	HRSRC hResInfo;
-public:
-	Res_doze(LPCTSTR lpName);
-	virtual ~Res_doze() {
-		FreeResource(hResInfo);
-	}
-	virtual uint32_t size() {
-		return SizeofResource(NULL, hResInfo);
-	}
-};
-#endif
-
 class Res_doze: public Res_mem {
 	unsigned int ressize;
 public:

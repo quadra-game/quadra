@@ -28,18 +28,6 @@ Res_mem::Res_mem() {
 	_buf = NULL;
 }
 
-#ifdef ONVEUTDESRESDOZEPOCHES
-Res_doze::Res_doze(LPCTSTR lpName) {
-	HGLOBAL hResData;
-	if((hResInfo = FindResource(NULL, lpName, "CUSTOM")) == NULL)
-		fatal_msgbox("Can't find resource '%s'", lpName);
-	if((hResData = LoadResource(NULL, hResInfo)) == NULL)
-		fatal_msgbox("Can't load resource '%s'", lpName);
-	if((_buf = (uint8_t *) LockResource(hResData)) == NULL)
-		fatal_msgbox("Can't lock resource '%s'", lpName);
-}
-#endif
-
 Res_dos::Res_dos(const char *fil, Res_mode mode) {
 	int flag;
 	_buf = NULL;
