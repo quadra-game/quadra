@@ -89,10 +89,10 @@ void Buf::reserve(uint32_t s) {
 	}
 }
 
-Textbuf::Textbuf(uint32_t size) {
+Textbuf::Textbuf() {
 	data=NULL;
 	capacity=0;
-	reserve(size);
+	reserve(0);
 }
 
 Textbuf::~Textbuf() {

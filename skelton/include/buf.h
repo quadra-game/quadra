@@ -54,7 +54,7 @@ class Textbuf {
 	char* data;
 	uint32_t capacity;
 public:
-	Textbuf(uint32_t size=0);
+	Textbuf();
 	virtual ~Textbuf();
 	int len() const;
 	char* get() const;
