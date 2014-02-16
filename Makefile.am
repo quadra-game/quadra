@@ -10,7 +10,6 @@ EXTRA_PROGRAMS = wadder dumpwad test_version
 CLEANFILES = quadra.res $(EXTRA_PROGRAMS)
 
 AM_CPPFLAGS = \
-	$(X_CFLAGS) \
 	-I$(srcdir)/include -I$(srcdir)/skelton/include -I$(srcdir)/images \
 	-DDATAGAMESDIR='"$(datagamesdir)"'
 
@@ -39,7 +38,7 @@ EXTRA_DIST = \
 	stats \
 	textes
 
-quadra_LDFLAGS = $(AM_LDFLAGS) $(X_LIBS)
+quadra_LDFLAGS = $(AM_LDFLAGS)
 quadra_LDADD = $(LIBS)
 quadra_SOURCES = \
 	images/quadra.xpm \
