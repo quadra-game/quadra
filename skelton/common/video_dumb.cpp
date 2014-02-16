@@ -29,51 +29,19 @@
 #include "main.h"
 #include "cursor.h"
 #include "net.h"
+#include "sprite.h"
 #include "video_dumb.h"
 
 bool video_is_dumb=false; //Defaults to false
 
-Dumb_Video_bitmap* Dumb_Video_bitmap::New(const int px, const int py,
-						const int w, const int h,
-						const int rw) {
-  return new Dumb_Video_bitmap(px, py, w, h, rw);
-}
-
-Dumb_Video_bitmap* Dumb_Video_bitmap::New(const int px, const int py,
-						const int w, const int h) {
-  return new Dumb_Video_bitmap(px, py, w, h);
-}
-
 Dumb_Video_bitmap::Dumb_Video_bitmap(const int px, const int py,
-					   const int w, const int h,
-					   const int rw) {
-  width = w;
-  height = h;
-  pos_x = px;
-  pos_y = py;
-}
-
-Dumb_Video_bitmap::Dumb_Video_bitmap(const int px, const int py,
-					   const int w, const int h) {
-  width = w;
-  height = h;
-  pos_x = px;
-  pos_y = py;
+					   const int w, const int h)
+  : Video_bitmap(px, py, w, h) {
 }
 
 void Dumb_Video_bitmap::rect(const int x, const int y,
 				const int w, const int h,
 				const int color) const {
-  clip(x, y, w, h);
-}
-
-void Dumb_Video_bitmap::box(const int x, const int y,
-			       const int w, const int h,
-			       const int color) const {
-}
-
-void Dumb_Video_bitmap::get_bitmap(const Bitmap* bit, const int x, const int y,
-			      const int w, const int h) const {
   clip(x, y, w, h);
 }
 
@@ -104,27 +72,12 @@ void Dumb_Video_bitmap::put_sprite(const Sprite& d, const int dx,
   clip(dx2, dy2, d.width, d.height);
 }
 
-void Dumb_Video_bitmap::setmem() {
-}
-
 #ifdef WIN32
 LRESULT CALLBACK dumbwindowproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 	switch(msg) {
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			break;
-/*		case WM_CHAR:
-			if(input)
-				((Input_DX *) input)->add_key_buf((char) wparam);
-			return 0;*/
-/*		case WM_KEYDOWN:
-			if(input) {
-				if(wparam == 19) // touche 'pause'
-					input->pause = true;
-				if(wparam >= 16 && wparam <= 46)
-					((Input_DX *) input)->add_key_buf((char) wparam, true);
-			}
-			return 0;*/
 		case WM_USER:
 			if(net) {
 				int err = WSAGETASYNCERROR(lparam);
@@ -136,19 +89,9 @@ LRESULT CALLBACK dumbwindowproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpara
 }
 #endif
 
-Video_Dumb* Video_Dumb::New(int w, int h, int b, const char *wname) {
-  return new Video_Dumb(w, h, b, wname);
-}
-
-Video_Dumb::Video_Dumb(int w, int h, int b, const char *wname) {
-	video_is_dumb=true;
-  xwindow = false;
-  width = w;
-  height = h;
-  bit = b;
-  framecount = 0;
-  newpal = true;
-  need_paint = 2;
+Video_Dumb::Video_Dumb(int w, int h, const char *wname)
+  : Video(new Dumb_Video_bitmap(0, 0, w, h), w, h, w) {
+	video_is_dumb = true;
 
 #ifdef WIN32
 	BOOL rc;
@@ -170,13 +113,9 @@ Video_Dumb::Video_Dumb(int w, int h, int b, const char *wname) {
 	if(hwnd == NULL)
 		fatal_msgbox("Can't create window");
 #endif
-
-  vb = Dumb_Video_bitmap::New(0, 0, w, h);
 }
 
 Video_Dumb::~Video_Dumb() {
-  if(vb)
-    delete vb;
 #ifdef WIN32
 	ShowWindow(hwnd, SW_HIDE);
 	DestroyWindow(hwnd);
@@ -184,14 +123,15 @@ Video_Dumb::~Video_Dumb() {
 #endif
 }
 
-void Video_Dumb::lock() {
-  vb->setmem();
+void Video_Dumb::setpal(const Palette& p) {
+  pal = p;
+  newpal=true;
 }
 
-void Video_Dumb::unlock() {
+void Video_Dumb::dosetpal(const PALETTEENTRY pal[256], int size) {
 }
 
-void Video_Dumb::flip() {
+void Video_Dumb::end_frame() {
   if(newpal) {
     pal.set();
     newpal = false;
@@ -205,41 +145,9 @@ void Video_Dumb::flip() {
   framecount++;
 }
 
-void Video_Dumb::setpal(const Palette& p) {
-  pal = p;
-  newpal=true;
-}
-
-void Video_Dumb::dosetpal(PALETTEENTRY pal[256], int size) {
-}
-
-void Video_Dumb::start_frame() {
-  lock();
-  if(cursor) {
-    cursor->put_back();
-    cursor->move();
-  }
-}
-
-void Video_Dumb::end_frame() {
-  if(cursor) {
-    cursor->get_back();
-    cursor->draw();
-  }
-  flip();
-}
-
-void Video_Dumb::restore() {
-  newpal = true;
-  need_paint = 2;
-}
-
-void Video_Dumb::clean_up() {
-}
-
 void Video_Dumb::snap_shot(int x, int y, int w, int h) {
 }
 
-void Video_Dumb::toggle_fullscreen() {
+Video_bitmap* Video_Dumb::new_bitmap(int px, int py, int w, int h) {
+  return new Dumb_Video_bitmap(px, py, w, h);
 }
-

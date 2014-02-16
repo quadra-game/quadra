@@ -20,6 +20,8 @@
 
 #include "config.h"
 
+#include "SDL.h"
+
 #ifdef WIN32
 #define _WIN32_IE 0x0500
 #include <shlobj.h>
@@ -73,8 +75,6 @@
 
 using std::max;
 using std::min;
-
-Sprite *cur;
 
 Color *color[9];
 Font *fteam[8];
@@ -429,7 +429,7 @@ void Player_base::play_sound(Sample *s, int vol, int pan, int freq) {
 		freq = freq*2/3;
 	if(time_control == TIME_FAST)
 		freq = freq*3/2;
-	Sfx stmp(s, 0, vol, pan, freq);
+	s->play(vol, pan, freq);
 }
 
 Player_text_scroll::Player_text_scroll(Canvas *c, const char *texte, int xoffset, int yoffset): Player_base(c) {
@@ -1849,29 +1849,16 @@ void init_directory() {
 void init_stuff(bool need_sound=true, bool need_video=true) {
 	int i;
 
-	video = Video::New(640, 480, 8, "Quadra", !need_video);
+	video = Video::New(640, 480, "Quadra", !need_video);
 
 	if(!video)
 		fatal_msgbox("Could not initialize video subsystem");
 
 	fonts.init();
-	if(!video->xwindow) {
-		Res_doze res("cursor.png");
-		Png png(res);
-		Bitmap bitmap(png);
-		cur = new Sprite(bitmap, 0, 0);
-	}
-	else
-		cur=NULL;
 	//If we init a dumb video, we need a dumb input too
 	input = Input::New(!need_video);
-	if(need_sound && need_video) { // don't need sound if no video
-		sound = new Sound();
-		if(!sound->active) {
-			delete sound;
-			sound = NULL;
-		}
-	}
+	if(need_sound && need_video) // don't need sound if no video
+		sound = Sound::New();
 	else
 		sound = NULL;
 
@@ -1882,23 +1869,23 @@ void init_stuff(bool need_sound=true, bool need_video=true) {
 	net_starter = new Net_starter();
 	{
 		Res_doze res("cuckoo.wav");
-		sons.pause = new Sample(res, 2);
+		sons.pause = new Sample(res);
 	}
 	{
 		Res_doze res("hooter03.wav");
-		sons.start = new Sample(res,2);
+		sons.start = new Sample(res);
 	}
 	{
 		Res_doze res("Whizz1.wav");
-		sons.bonus1 = new Sample(res, 2);
+		sons.bonus1 = new Sample(res);
 	}
 	{
 		Res_doze res("glissup.wav");
-		sons.levelup = new Sample(res, 2);
+		sons.levelup = new Sample(res);
 	}
 	{
 		Res_doze res("Clang3.wav");
-		sons.depose4 = new Sample(res, 2); // quand le canvas 'coule'
+		sons.depose4 = new Sample(res); // quand le canvas 'coule'
 	}
 	sons.flash = NULL;
 	sons.depose3 = NULL;
@@ -1907,78 +1894,77 @@ void init_stuff(bool need_sound=true, bool need_video=true) {
 	sons.drip = NULL;
 	{
 		Res_doze res("Glass01.wav");
-		sons.glass = new Sample(res, 2);
+		sons.glass = new Sample(res);
 	}
 	{
 		Res_doze res("Tapdrip.wav");
-		sons.enter = new Sample(res, 2);
+		sons.enter = new Sample(res);
 	}
 	{
 		Res_doze res("W_BAYO_0.wav");
-		sons.fadein = new Sample(res, 2);
+		sons.fadein = new Sample(res);
 	}
 	{
 		Res_doze res("fadeout.wav");
-		sons.fadeout = new Sample(res, 2);
+		sons.fadeout = new Sample(res);
 	}
 	{
 		Res_doze res("click_1.wav");
-		sons.point = new Sample(res, 2);
+		sons.point = new Sample(res);
 	}
 	{
 		Res_doze res("Blip1.wav");
-		sons.click = new Sample(res, 2);
+		sons.click = new Sample(res);
 	}
 	{
 		Res_doze res("handbell.wav");
-		sons.msg = new Sample(res, 2);
+		sons.msg = new Sample(res);
 	}
 	{
 		Res_doze res("potato_get.wav");
-		sons.potato_get = new Sample(res, 2);
+		sons.potato_get = new Sample(res);
 	}
 	{
 		Res_doze res("zingle.wav");
-		sons.potato_rid = new Sample(res, 2);
+		sons.potato_rid = new Sample(res);
 	}
 	{ //-roncli 4/29/01 Load countdown samples
 		Res_doze res("t1min.wav");
-		sons.minute = new Sample(res, 2);
+		sons.minute = new Sample(res);
 	}
 	{
 		Res_doze res("t30sec.wav");
-		sons.thirty = new Sample(res, 2);
+		sons.thirty = new Sample(res);
 	}
 	{
 		Res_doze res("t20sec.wav");
-		sons.twenty = new Sample(res, 2);
+		sons.twenty = new Sample(res);
 	}
 	{
 		Res_doze res("t10sec.wav");
-		sons.ten = new Sample(res, 2);
+		sons.ten = new Sample(res);
 	}
 	{
 		Res_doze res("t5sec.wav");
-		sons.five = new Sample(res, 2);
+		sons.five = new Sample(res);
 	}
 	{
 		Res_doze res("t4sec.wav");
-		sons.four = new Sample(res, 2);
+		sons.four = new Sample(res);
 	}
 	{
 		Res_doze res("t3sec.wav");
-		sons.three = new Sample(res, 2);
+		sons.three = new Sample(res);
 	}
 	{
 		Res_doze res("t2sec.wav");
-		sons.two = new Sample(res, 2);
+		sons.two = new Sample(res);
 	}
 	{
 		Res_doze res("t1sec.wav");
-		sons.one = new Sample(res, 2);
+		sons.one = new Sample(res);
 	}
-	cursor = Cursor::New(cur);
-	cursor->set_speed(config.info.mouse_speed);
+	cursor = new Cursor;
 	for(i=0; i<8; i++)
 		fteam[i] = new Font(*fonts.normal);
 }
@@ -2026,7 +2012,6 @@ void deinit_stuff() {
 	Highscores::freemem();
 
 	delete cursor; cursor = NULL;
-	delete cur; cur = NULL;
 
 	fonts.deinit();
 }
@@ -2390,7 +2375,7 @@ void start_game() {
 	overmind.start(menu);
 	bool reset_time=false;
 	while(!menu->done) {
-		last=getmsec();
+		last = SDL_GetTicks();
 		if(demo_verif) {
 			acc=500;
 			while(acc--)
@@ -2414,7 +2399,7 @@ void start_game() {
 				}
 				#ifdef PAINTDETECTOR2000
 				if(video->need_paint==2 && !sounded) {
-					Sfx stmp(sons.msg, 0, 0, 0, 11025);
+					sons.msg->play(0, 0, 11025);
 					sounded=true;
 				}
 				#endif
@@ -2423,7 +2408,7 @@ void start_game() {
 					break;
 			}
 		}
-		start_frame();
+		input->check();
 		if(ecran && !video_is_dumb) {
 			try {
 				ecran->draw_zone();
@@ -2449,15 +2434,14 @@ void start_game() {
 			}
 			#endif /* FRAMECOUNTER */
 		}
-		end_frame();
+		video->end_frame();
 
 #ifndef NDEBUG
-		if(input->keys[KEY_F8] & PRESSED) // F8 = buckage
-			for(int j=0; j<8000000; j++)
-				;
-		if(input->keys[KEY_F9] & PRESSED) // F9 = slow motion mode
+		if(input->keys[SDL_SCANCODE_F8] & PRESSED) // F8 = buckage
+			SDL_Delay(250);
+		if(input->keys[SDL_SCANCODE_F9] & PRESSED) // F9 = slow motion mode
 			time_control = TIME_SLOW;
-		if(input->keys[KEY_F10] & PRESSED) // F10 = turbo mode
+		if(input->keys[SDL_SCANCODE_F10] & PRESSED) // F10 = turbo mode
 			time_control = TIME_FAST;
 #endif
 
@@ -2465,7 +2449,7 @@ void start_game() {
 		case TIME_FREEZE: acc = 10; break;
 		case TIME_SLOW: acc += 1; break;
 		case TIME_FAST: acc += 80; break;
-		default: acc+=getmsec()-last;
+		default: acc += SDL_GetTicks() - last;
 		}
 		if(acc > 300 && !video_is_dumb) {
 			overmind.framecount+=acc-300;
@@ -2483,5 +2467,5 @@ void start_game() {
 	delete resmanager;
 
 	if(demo_verif)
-		quit_game(demo_verified_and_valid? 0 : 1);
+		exit(demo_verified_and_valid ? 0 : 1);
 }

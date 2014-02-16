@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "SDL.h"
+
 #include "inter.h"
 #include "input.h"
 #include "cfgfile.h"
@@ -61,7 +63,6 @@ void Zone_small_next::draw() {
 }
 
 void Zone_canvas_bloc::draw() {
-	canvas->setscreen();
 	canvas->blit_back();
 	canvas->blit_bloc(canvas->bloc_shadow);
 	canvas->blit_bloc(canvas->bloc);
@@ -76,7 +77,7 @@ Zone_canvas::Zone_canvas(Inter* in, Bitmap& bit, int px, int py, Canvas *can, in
 	Zone(in, px, py, pw, ph)
 {
 	fond = new Bitmap(bit[y]+x, w, h, bit.realwidth);
-	screen = Video_bitmap::New(x, y, w, h);
+	screen = video->new_bitmap(x, y, w, h);
 	canvas = can;
 	if(!small_watch) {
 		znext = new Zone_small_next(in,bit,x+5,2);
@@ -222,48 +223,43 @@ Zone_menu::~Zone_menu() {
 }
 
 void Zone_menu::entered() {
-	Sfx stmp(sons.point, 0, -2000, 0, 22000+ugs_random.rnd(2047));
+	sons.point->play(-2000, 0, 22000+ugs_random.rnd(2047));
 	Zone_bitmap::entered();
 }
 
 void Zone_menu::clicked(int quel) {
-	Sfx stmp(sons.click, 0, -1000, 0, 14000+ugs_random.rnd(511));
+	sons.click->play(-1000, 0, 14000+ugs_random.rnd(511));
 	Zone_bitmap::clicked(quel);
 }
 
 void Zone_listbox2::clicked(int quel) {
-	Sfx stmp(sons.enter, 0, -800, 0, 28000+ugs_random.rnd(1023));
+	sons.enter->play(-800, 0, 28000+ugs_random.rnd(1023));
 	Zone_listbox::clicked(quel);
 }
 
 void Zone_state_text2::clicked(int quel) {
-	Sfx stmp(sons.enter, 0, -800, 0, 26000+ugs_random.rnd(1023));
+	sons.enter->play(-800, 0, 26000+ugs_random.rnd(1023));
 	Zone_state_text::clicked(quel);
 	notify_all();
 }
 
 void Zone_text_button2::entered() {
-	Sfx stmp(sons.enter, 0, -1000, 0, 22000+ugs_random.rnd(1023));
+	sons.enter->play(-1000, 0, 22000+ugs_random.rnd(1023));
 	Zone_text_button::entered();
 }
 
 void Zone_text_button2::clicked(int quel) {
-	Sfx stmp(sons.glass, 0, -200, 0, 14000+ugs_random.rnd(511));
+	sons.glass->play(-200, 0, 14000+ugs_random.rnd(511));
 	Zone_text_button::clicked(quel);
 }
 
 Zone_set_key::Zone_set_key(Inter* in, int *pv, int px, int py):
 	Zone_state_text(in, pv, px, py) {
-	for(int i=0; i<256; i++) {
-		if(keynames[i][0] == 0)
-			add_string(ST_UNKNOWN);
-		else
-			add_string(keynames[i]);
-	}
+	for (int i = 0; i < 256; ++i)
+		add_string(SDL_GetScancodeName(static_cast<SDL_Scancode>(i)));
 }
 
 void Zone_small_canvas_bloc::draw() {
-	canvas->setscreen();
 	canvas->small_blit_back();
 	canvas->small_blit_bloc(canvas->bloc);
 	if(canvas->color_flash)

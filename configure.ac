@@ -53,10 +53,6 @@ if test "x$enable_version_check" != "xno"; then
 	AC_DEFINE(ENABLE_VERSION_CHECK, 1, [Check for new versions.])
 fi
 
-if test "x$with_x" != "xno"; then
-	AC_DEFINE(UGS_LINUX_X11, 1, [X11 backend for Quadra.])
-fi
-
 AC_CONFIG_HEADERS([include/autoconf.h])
 AC_CONFIG_FILES([Makefile quadra.spec:packages/quadra.spec.in packages/readme-win32.txt packages/quadra.nsi])
 AC_OUTPUT

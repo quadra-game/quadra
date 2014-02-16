@@ -162,7 +162,7 @@ Menu_highscore::Menu_highscore(int hscore, int *playagain, bool show_playb) {
       (void)new Zone_text_numeric(courrier2, inter, &Highscores::bestlocal[i].score, x+160, y, 80);
       (void)new Zone_text_numeric(courrier2, inter, &Highscores::bestlocal[i].lines, x+260, y, 80);
       (void)new Zone_text_numeric(courrier2, inter, &Highscores::bestlocal[i].level, x+360, y, 80);
-      Sfx stmp(sons.levelup, 0, 0, 0, 11000);
+      sons.levelup->play(0, 0, 11000);
     } else {
       (void)new Zone_text(inter, Highscores::bestlocal[i].name, x, y);
       (void)new Zone_text_numeric(courrier, inter, &Highscores::bestlocal[i].score, x+160, y, 80);
@@ -393,7 +393,7 @@ void Menu_highscore::step() {
     }
   } else { // demo mode of the main menu
     time_demo--;
-    if(result || input->quel_key != -1 || time_demo == 0)
+    if(result || input->last_keysym.sym != SDLK_UNKNOWN || time_demo == 0)
       quit = true;
   }
 }
@@ -530,7 +530,7 @@ public:
 
 void Menu_multi_join::step() {
   Menu::step();
-  if(input->quel_key == 1 || quitting) {
+  if(input->last_keysym.sym == SDLK_ESCAPE || quitting) {
     ret();
     return;
   }
@@ -755,9 +755,9 @@ void Menu_multi_refresh::step() {
       return;
     }
   }
-  if(result == cancel || input->quel_key == 1) {
+  if(result == cancel || input->last_keysym.sym == SDLK_ESCAPE) {
     net->gethostbyname_cancel();
-    input->quel_key = 0;
+    input->clear_last_keysym();
     ret();
   }
 }
@@ -801,8 +801,8 @@ void Menu_multi_internet::step() {
   }
   if(done)
     parsegames();
-  if(result == cancel || input->quel_key == 1) {
-    input->quel_key = 0;
+  if(result == cancel || input->last_keysym.sym == SDLK_ESCAPE) {
+    input->clear_last_keysym();
     ret();
   }
 }
@@ -1208,9 +1208,9 @@ void Menu_setup_key::init() {
 void Menu_setup_key::step() {
   Menu::step();
   int i,loop=0;
-  for(i=1; i<256; i++) {
+  for(i=1; i<SDL_NUM_SCANCODES; i++) {
     // denies the Enter key (it is dedicated to chat)
-    if(i == KEY_ENTER)
+    if(i == SDL_SCANCODE_RETURN)
       continue;
     if(input->keys[i] & PRESSED) {
       loop=i;
@@ -1222,7 +1222,7 @@ void Menu_setup_key::step() {
       *(key->val) = loop;
       key->process();
     }
-    input->quel_key = -1;
+    input->clear_last_keysym();
     ret();
   }
 }
@@ -1272,7 +1272,7 @@ Menu_help::Menu_help() {
 
 void Menu_help::init() {
   Menu_standard::init();
-  Sfx stmp(sons.levelup, 0, 0, 0, 11000);
+  sons.levelup->play(0, 0, 11000);
 }
 
 void Menu_help::step() {
@@ -1388,7 +1388,6 @@ void Menu_option::step() {
   if(result == b_quit)
     quit = true;
   if(old_mouse_speed != config.info.mouse_speed) {
-    cursor->set_speed(config.info.mouse_speed);
     old_mouse_speed = config.info.mouse_speed;
   }
 }
@@ -1557,8 +1556,8 @@ void Menu_main::step() {
     call(new Fade_out(pal));
     reset_delay();
   }
-  if(result == b_quit || input->quel_key == 1 || quitting) {
-    input->quel_key = -1;
+  if(result == b_quit || input->last_keysym.sym == SDLK_ESCAPE || quitting) {
+    input->clear_last_keysym();
     exec(new Fade_out(pal));
   }
   if(result == b_tut) {
@@ -2073,8 +2072,8 @@ Menu_multi_checkip::Menu_multi_checkip(Bitmap *bit, Font *font, Font *font2, con
 
 void Menu_multi_checkip::step() {
   Menu::step();
-  if(input->quel_key == 1 || result==cancel) {
-    input->quel_key = 0;
+  if(input->last_keysym.sym == SDLK_ESCAPE || result==cancel) {
+    input->clear_last_keysym();
     ret();
   }
 }
@@ -2110,8 +2109,8 @@ void Menu_multi_book::init() {
 
 void Menu_multi_book::step() {
   Menu::step();
-  if(input->quel_key == KEY_ESCAPE || result==cancel) {
-    input->quel_key = 0;
+  if(input->last_keysym.sym == SDLK_ESCAPE || result==cancel) {
+    input->clear_last_keysym();
     if(looking)
       net->gethostbyname_cancel();
     config.write();

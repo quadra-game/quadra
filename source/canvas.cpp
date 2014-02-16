@@ -678,16 +678,11 @@ void Canvas::change_level(const int level, Palette *pal, Bitmap *bit) {
   video->need_paint = 2;
   delete res;
 
-  if(sons.flash && (--sons.flash->refcount == 0))
-    delete sons.flash;
-  if(sons.depose3 && (--sons.depose3->refcount == 0))
-    delete sons.depose3;
-  if(sons.depose2 && (--sons.depose2->refcount == 0))
-    delete sons.depose2;
-  if(sons.depose && (--sons.depose->refcount == 0))
-    delete sons.depose;
-  if(sons.drip && (--sons.drip->refcount == 0))
-    delete sons.drip;
+  delete sons.flash;
+  delete sons.depose3;
+  delete sons.depose2;
+  delete sons.depose;
+  delete sons.drip;
 
   sons.flash = sons.depose3 = sons.depose2 = sons.depose = sons.drip = NULL;
   const char *foo0, *foo1, *foo2, *foo3, *foo4;
@@ -763,23 +758,23 @@ void Canvas::change_level(const int level, Palette *pal, Bitmap *bit) {
   }
   {
     Res_doze res(foo0);
-    sons.flash = new Sample(res, 2); // when we do a ligne (flash)
+    sons.flash = new Sample(res); // when we do a ligne (flash)
   }
   {
     Res_doze res(foo1);
-    sons.depose3 = new Sample(res, 2); // drop
+    sons.depose3 = new Sample(res); // drop
   }
   {
     Res_doze res(foo2);
-    sons.depose2 = new Sample(res, 2); // drop
+    sons.depose2 = new Sample(res); // drop
   }
   {
     Res_doze res(foo3);
-    sons.depose = new Sample(res, 2); // drop
+    sons.depose = new Sample(res); // drop
   }
   {
     Res_doze res(foo4);
-    sons.drip = new Sample(res, 2); // rotate
+    sons.drip = new Sample(res); // rotate
   }
 }
 

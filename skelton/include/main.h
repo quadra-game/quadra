@@ -46,14 +46,8 @@ enum Time_mode {
 
 extern Time_mode time_control;
 
-extern bool alt_tab;
-
 extern char exe_directory[];
 
 void start_game();
-void quit_game(int status);
-void start_frame();
-void end_frame();
-uint32_t getmsec();
 
 #endif

@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "SDL.h"
+
 /* version Linux */
 #include "config.h"
 #include <stdlib.h>
@@ -38,25 +40,15 @@
 
 int ux_argc;
 char** ux_argv;
-bool alt_tab = false;
 Time_mode time_control = TIME_NORMAL;
 char cmd_line[1024];
-void quit_game(int status);
 
-void start_frame() {
-  if(sound)
-    sound->process();
-  input->check();
-  video->start_frame();
-}
-
-void end_frame() {
-  video->end_frame();
-}
+void delete_obj();
 
 char exe_directory[1024];
 
 int main(int ARGC, char **ARGV, char **ENV) {
+  SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO);
   atexit(delete_obj);
 	struct sigaction signals;
 	if(sigaction(SIGPIPE, NULL, &signals) < 0)
@@ -86,7 +78,6 @@ int main(int ARGC, char **ARGV, char **ENV) {
   }
 
   start_game();
-  quit_game(0);
   return 0;
 }
 
@@ -124,19 +115,6 @@ void delete_obj() {
     delete cursor;
     cursor=NULL;
   }
+  SDL_Quit();
   msgbox("ending delete_obj...\n");
-}
-
-void quit_game(int status) {
-  if(video)
-    video->clean_up();
-  exit(status);
-}
-
-uint32_t getmsec() {
-  struct timeval thetime;
-
-  gettimeofday(&thetime, NULL);
-
-  return (thetime.tv_sec*1000)+(thetime.tv_usec/1000);
 }

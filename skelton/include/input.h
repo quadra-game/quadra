@@ -23,39 +23,39 @@
 
 #include <stdint.h>
 
+#include "SDL.h"
+
 #include "types.h"
-#include "input_keys.h"
 
-#define SHIFT 1
-#define ALT 2
-#define CONTROL 4
-
+#define PRESSED 1
+#define RELEASED 2
 #define MAXKEY 32
-
-extern const char *keynames[256];
 
 class Input {
 public:
   struct {
-    int dx,dy,dz;
     uint8_t button[4];
     int quel;
   } mouse;
+  int key_pending;
   struct {
     bool special;
     char c;
+    SDL_Keycode sym;
+    Uint16 mod;
   } key_buf[MAXKEY];
-  uint8_t keys[256];
+  uint8_t keys[SDL_NUM_SCANCODES];
   bool pause;
-  int quel_key;
-  int shift_key;
-  int key_pending;
+  SDL_Keysym last_keysym;
   static Input* New(bool dumb=false);
   virtual ~Input() { };
-  virtual void clear_key() = 0;
+  void clear_key();
+  void clear_last_keysym();
   virtual void check() = 0;
   virtual void deraw() = 0;
   virtual void reraw() = 0;
+protected:
+  Input();
 };
 
 extern Input* input;

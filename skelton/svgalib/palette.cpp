@@ -27,13 +27,10 @@
 #include "types.h"
 #include "palette.h"
 #include "video.h"
-#ifdef UGS_LINUX_X11
-#include "video_x11.h"
-#endif
 
 Palette noir;
 
-void Palette::set() {
+void Palette::set() const {
   video->dosetpal(pal, size);
 }
 
@@ -96,7 +93,7 @@ void Fade::newdest(const Palette& dst, int frame) {
   dest=dst;
   int j=0;
 
-#ifdef UGS_LINUX_X11
+#if 0
   /* shit, this is ugly */
   if(dynamic_cast<Video_X11*>(video))
     if(!dynamic_cast<Video_X11_8*>(video)) {
@@ -104,7 +101,7 @@ void Fade::newdest(const Palette& dst, int frame) {
 
       /* avoid crashing with a division by zero or such similar horror */
       if(frame < 2)
-	frame = 2;
+        frame = 2;
     }
 #endif
 
@@ -121,7 +118,7 @@ int Fade::step() {
   if(currentframe==destframe)
     return 1;
   else {
-#ifdef UGS_LINUX_X11
+#if 0
     if(dynamic_cast<Video_X11_8*>(video))
       usleep(3000);
 #endif

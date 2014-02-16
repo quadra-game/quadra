@@ -60,7 +60,7 @@ public:
     size=s;
   }
   void load(const Image& raw);
-  void set();
+  void set() const;
   uint8_t r(uint8_t c) {
     return pal[c].peRed;
   }

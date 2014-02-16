@@ -31,13 +31,13 @@ class Sprite;
 
 class Video_bitmap: public Clipable {
 protected:
-  Video_bitmap(): Clipable(0, 0) { };
+  Video_bitmap(int _pos_x, int _pos_y, int w, int h)
+    : Clipable(w, h),
+      pos_x(_pos_x),
+      pos_y(_pos_y) {
+    }
 public:
-  int pos_x, pos_y;
-  static Video_bitmap* New(const int px, const int py,
-			   const int w, const int h, const int rw);
-  static Video_bitmap* New(const int px, const int py,
-			   const int w, const int h);
+  const int pos_x, pos_y;
   virtual ~Video_bitmap() { };
 
   /* fills a rectangle at position 'x','y' of width 'w', height 'h'
@@ -48,11 +48,7 @@ public:
   /* empty rectangle at position 'x','y' of width 'w', height 'h' and
      color 'color'. */
   virtual void box(const int x,const int y,const int w,const int h,
-		   const int color) const = 0;
-
-  /* gets a part of bitmap from Video_bitmap */
-  virtual void get_bitmap(const Bitmap* bit, const int x, const int y,
-			  const int w, const int h) const = 0;
+		   const int color) const;
 
   /* puts a pixel at position 'x','y' with color 'c' */
   virtual void put_pel(const int x, const int y, const uint8_t c) const = 0;
@@ -72,35 +68,35 @@ public:
   /* blits a Sprite (mask) 'd' to position 'dx','dy' */
   virtual void put_sprite(const Sprite& d,
 			  const int dx, const int dy) const = 0;
-
-  /* adjust the video memory pointed by this video_bitmap in the
-     background video page */
-  virtual void setmem() = 0;
 };
 
 class Video {
 public:
-  bool xwindow;
-  Video_bitmap *vb;
-  uint8_t newpal;
+  Video_bitmap* const vb;
+  bool newpal;
   Palette pal;
-  int width, height, bit;
+  const int width, height;
   int need_paint;
-  int pitch;
+  const int pitch;
   uint32_t framecount;
-  static Video* New(int w, int h, int b, const char *wname, bool dumb=false);
-  virtual ~Video() { };
-  virtual void lock() = 0;
-  virtual void unlock() = 0;
-  virtual void flip() = 0;
-  virtual void start_frame() = 0;
+  static Video* New(int w, int h, const char *wname, bool dumb=false);
+  Video(Video_bitmap* _vb, int _width, int _height, int _pitch)
+    : vb(_vb),
+      newpal(true),
+      width(_width),
+      height(_height),
+      need_paint(2),
+      pitch(_pitch),
+      framecount(0) {
+  }
+  virtual ~Video() {
+    delete vb;
+  }
   virtual void end_frame() = 0;
   virtual void setpal(const Palette& p) = 0;
-  virtual void dosetpal(PALETTEENTRY pal[256], int size) = 0;
-  virtual void restore() = 0;
-  virtual void clean_up() = 0;
+  virtual void dosetpal(const PALETTEENTRY pal[256], int size) = 0;
   virtual void snap_shot(int x, int y, int w, int h) = 0;
-  virtual void toggle_fullscreen() = 0;
+  virtual Video_bitmap* new_bitmap(int px, int py, int w, int h) = 0;
 };
 
 extern Video* video;

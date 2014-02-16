@@ -34,12 +34,6 @@ EXTRA_DIST = \
 	server \
 	skelton/README \
 	skelton/common/crypt.pl \
-	skelton/common/raw.cpp \
-	skelton/directx \
-	skelton/include/input_dx.h \
-	skelton/include/raw.h \
-	skelton/include/surface.h \
-	skelton/include/video_dx.h \
 	skelton/tools/dumpdb \
 	sons \
 	stats \
@@ -89,13 +83,11 @@ quadra_SOURCES = \
 	skelton/common/command.cpp \
 	skelton/common/crypt.cpp \
 	skelton/common/cursor.cpp \
-	skelton/common/cursor_self.cpp \
 	skelton/common/dict.cpp \
 	skelton/common/http_post.cpp \
 	skelton/common/http_request.cpp \
 	skelton/common/id.cpp \
 	skelton/common/image_png.cpp \
-	skelton/common/input_dumb.cpp \
 	skelton/common/inter.cpp \
 	skelton/common/listbox.cpp \
 	skelton/common/net.cpp \
@@ -121,8 +113,6 @@ quadra_SOURCES = \
 	skelton/include/command.h \
 	skelton/include/crypt.h \
 	skelton/include/cursor.h \
-	skelton/include/cursor_self.h \
-	skelton/include/cursor_x11.h \
 	skelton/include/dict.h \
 	skelton/include/error.h \
 	skelton/include/find_file.h \
@@ -132,9 +122,6 @@ quadra_SOURCES = \
 	skelton/include/image.h \
 	skelton/include/image_png.h \
 	skelton/include/input.h \
-	skelton/include/input_dumb.h \
-	skelton/include/input_keys.h \
-	skelton/include/input_x11.h \
 	skelton/include/inter.h \
 	skelton/include/listbox.h \
 	skelton/include/main.h \
@@ -158,22 +145,15 @@ quadra_SOURCES = \
 	skelton/include/url.h \
 	skelton/include/video.h \
 	skelton/include/video_dumb.h \
-	skelton/include/video_x11.h \
 	skelton/include/zone_text_clock.h \
-	skelton/svgalib/cursor_x11.cpp \
 	skelton/svgalib/error.cpp \
 	skelton/svgalib/find_file.cpp \
 	skelton/svgalib/input.cpp \
-	skelton/svgalib/input_x11.cpp \
 	skelton/svgalib/main.cpp \
 	skelton/svgalib/palette.cpp \
 	skelton/svgalib/res.cpp \
 	skelton/svgalib/sound.cpp \
 	skelton/svgalib/video.cpp \
-	skelton/svgalib/video_x11.cpp \
-	skelton/svgalib/video_x11_16.cpp \
-	skelton/svgalib/video_x11_24.cpp \
-	skelton/svgalib/video_x11_8.cpp \
 	source/bloc.cpp \
 	source/canvas.cpp \
 	source/cfgfile.cpp \

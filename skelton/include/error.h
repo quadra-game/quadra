@@ -34,13 +34,7 @@
 #endif
 
 extern bool _debug;
-extern bool skelton_debug;
 
-#ifdef WIN32
-void calldx(long hr);
-#endif
-
-extern void delete_obj();
 void msgbox(const char* m, ...);
 void fatal_msgbox(const char* m, ...) __dead2;
 void skelton_msgbox(const char* m, ...);

@@ -62,7 +62,7 @@ Pane::Pane(const Pane_info &p, bool dback, bool dbottom):
 	Zone(p.inter, p.x, p.y, p.w, p.h),
 	pi(p) {
 	hiden = false;
-	screen = Video_bitmap::New(pi.x, pi.y, pi.w, pi.h);
+	screen = video->new_bitmap(pi.x, pi.y, pi.w, pi.h);
 	draw_background = dback;
 	draw_bottom = dbottom;
 }
@@ -94,7 +94,6 @@ void Pane::ifdone() {
 
 void Pane::draw() {
 	Zone::draw();
-	screen->setmem();
 	if(draw_background)
 		pi.back->draw(screen,0,0);
 	if(draw_bottom)
@@ -1097,7 +1096,7 @@ void Chat_interface::Zone_to_team::clicked(int quel) {
 		}
 	} while(vide);
 
-	Sfx stmp(sons.enter, 0, -800, 0, 26000+ugs_random.rnd(1023));
+	sons.enter->play(-800, 0, 26000+ugs_random.rnd(1023));
 }
 
 Chat_interface::Chat_interface(Inter *in, const Palette &pal, Bitmap *bit, int px, int py, int pw, int ph, Video_bitmap *scr): Zone(in) {
@@ -1121,7 +1120,7 @@ Chat_interface::Chat_interface(Inter *in, const Palette &pal, Bitmap *bit, int p
 		set_screen_offset(0, scr);
 		delete_screen = false;
 	} else {
-		set_screen_offset(0, Video_bitmap::New(px, py, pw, ph));
+		set_screen_offset(0, video->new_bitmap(px, py, pw, ph));
 		delete_screen = true;
 	}
 	back = new Bitmap((*bit)[py]+px, pw, 18*20, bit->realwidth);
@@ -1144,7 +1143,6 @@ void Chat_interface::set_screen_offset(int o, Video_bitmap *vb) {
 }
 
 void Chat_interface::draw() {
-	screen->setmem();
 	back->draw(screen, 0, -y_offset);
 	int ty, i;
 	for(i=0; i<CHAT_NBLINE; i++) {
@@ -1181,9 +1179,10 @@ void Chat_interface::process() {
 	}
 	if(!playback) {
 		// detects the Enter key (in Windows and/or in Unix)
-		if(input->quel_key == KEY_ENTER && !inter->focus && inter->focus != zinput) {
+		if(input->last_keysym.sym == SDLK_RETURN && !inter->focus
+		   && inter->focus != zinput) {
 			inter->select_zone(zinput, 0);
-			input->quel_key = -1;
+			input->clear_last_keysym();
 		}
 	}
 }
@@ -1420,7 +1419,7 @@ void Pane_chat::activate_frag() {
 	if(size!=old_y) {
 		int diff = size-pi.y;
 		delete screen;
-		screen = Video_bitmap::New(pi.x, size, pi.w, pi.h-diff);
+		screen = video->new_bitmap(pi.x, size, pi.w, pi.h-diff);
 		chat->set_screen_offset(diff, screen);
 	}
 	old_y=size;
@@ -1430,7 +1429,7 @@ void Pane_chat::deactivate_frag(bool temp) {
 	Pane_scoreboard::deactivate_frag(temp);
 	if(!temp) {
 		delete screen;
-		screen = Video_bitmap::New(pi.x, pi.y, pi.w, pi.h);
+		screen = video->new_bitmap(pi.x, pi.y, pi.w, pi.h);
 		chat->set_screen_offset(0, screen);
 		old_y=0;
 	}

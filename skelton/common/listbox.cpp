@@ -31,7 +31,7 @@ Zone_listbox::Zone_listbox(Inter* in, Bitmap *fond, Font *f, int *pval, int px, 
 		back = new Bitmap((*fond)[py+1]+px+1, pw-2, ph-2, fond->realwidth);
 	else
 		back = NULL;
-	screen = Video_bitmap::New(px+1, py+1, pw-2, ph-2);
+	screen = video->new_bitmap(px+1, py+1, pw-2, ph-2);
 	font2 = f;
 	zup = new Zone_listup(this);
 	zdown = new Zone_listdown(this);
@@ -57,7 +57,6 @@ Zone_listbox::~Zone_listbox() {
 }
 
 void Zone_listbox::draw() {
-	screen->setmem();
 	if(back)
 		back->draw(screen, 0, 0);
 	video->vb->hline(y, x, w, 210);
@@ -164,7 +163,8 @@ void Zone_listbox::process() {
 	Zone_watch_int::process();
 	if(input) {
 		if(cursor->x > x && cursor->x < x+w && cursor->y > y && cursor->y < y+h) {
-			int z = input->mouse.dz;
+			// FIXME: this should be set to a mouse wheel delta.
+			int z = 0;
 			if(z > 0)
 				zup->clicked(0);
 			if(z < 0)
@@ -324,7 +324,6 @@ void Zone_listtext::clicked(int quel) {
 }
 
 void Zone_listtext::draw() {
-	parent->screen->setmem();
 	font->draw(st, parent->screen, text_x-parent->x, y-parent->y);
 	if(high) {
 		if(!kb_focusable) 

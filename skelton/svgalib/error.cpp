@@ -21,6 +21,9 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <stdio.h>
+
+#include "SDL.h"
+
 #include "error.h"
 #include "video.h"
 
@@ -30,15 +33,13 @@
 	bool _debug = false;
 #endif
 
-bool skelton_debug = true;
-
 void fatal_msgbox(const char* m, ...) {
 	char st[1024];
 	va_list marker;
 	va_start(marker, m);
 	vsnprintf(st, sizeof(st) - 1, m, marker);
 	va_end(marker);
-	fprintf(stderr, "fatal error: %s\n", st);
+	SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "fatal error: %s", st);
 	exit(1);
 }
 
@@ -49,18 +50,18 @@ void msgbox(const char* m, ...) {
 		va_start(marker, m);
 		vsnprintf(st, sizeof(st) - 1, m, marker);
 		va_end(marker);
-		fprintf(stderr, "%s", st);
+		SDL_Log("%s", st);
 	}
 }
 
 void skelton_msgbox(const char* m, ...) {
-	if(_debug && skelton_debug) {
+	if(_debug) {
 		char st[1024];
 		va_list marker;
 		va_start(marker, m);
 		vsnprintf(st, sizeof(st) - 1, m, marker);
 		va_end(marker);
-		fprintf(stderr, "%s", st);
+		SDL_Log("%s", st);
 	}
 }
 
