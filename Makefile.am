@@ -1,4 +1,6 @@
 
+ACLOCAL_AMFLAGS = -Im4
+
 datagamesdir = $(datadir)/games
 pixmapsdir = $(datadir)/pixmaps
 
@@ -11,7 +13,7 @@ CLEANFILES = quadra.res $(EXTRA_PROGRAMS)
 
 AM_CPPFLAGS = \
 	-I$(srcdir)/include -I$(srcdir)/skelton/include -I$(srcdir)/images \
-	-DDATAGAMESDIR='"$(datagamesdir)"'
+	-DDATAGAMESDIR='"$(datagamesdir)"' $(SDL2_CFLAGS)
 
 EXTRA_DIST = \
 	ChangeLog \
@@ -39,7 +41,7 @@ EXTRA_DIST = \
 	textes
 
 quadra_LDFLAGS = $(AM_LDFLAGS)
-quadra_LDADD = $(LIBS)
+quadra_LDADD = $(SDL2_LIBS)
 quadra_SOURCES = \
 	images/quadra.xpm \
 	include/bloc.h \
@@ -184,6 +186,8 @@ quadra_SOURCES = \
 	source/zone.cpp \
 	source/zone_list.cpp
 
+# FIXME: we use SDL_Log in wadder, should avoid.
+wadder_LDADD = $(SDL2_LIBS)
 wadder_SOURCES = \
 	skelton/common/resfile.cpp \
 	skelton/common/resmanager.cpp \
@@ -198,6 +202,8 @@ wadder_SOURCES = \
 	skelton/svgalib/res.cpp \
 	skelton/tools/wadder/wadder.cpp
 
+# FIXME: we use SDL_Log in dumpwad, should avoid.
+dumpwad_LDADD = $(SDL2_LIBS)
 dumpwad_SOURCES = \
 	skelton/common/resfile.cpp \
 	skelton/common/reswriter.cpp \

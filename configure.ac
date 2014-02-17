@@ -3,6 +3,7 @@ AC_PREREQ([2.68])
 dnl The version number should be kept in sync with version.h.
 AC_INIT([quadra], [1.2.0], [quadra-dev@googlegroups.com])
 AC_CONFIG_SRCDIR([source/quadra.cpp])
+AC_CONFIG_MACRO_DIR([m4])
 
 AM_INIT_AUTOMAKE([foreign subdir-objects -Wall])
 AM_SILENT_RULES([yes])
@@ -16,7 +17,8 @@ AC_LANG(C++)
 AC_PROG_CXX
 AC_PROG_SED
 
-# Checks for libraries	.
+# Checks for libraries.
+AX_PATH_GENERIC([sdl2],,,, AC_MSG_ERROR([Could not find SDL2 (required).]))
 
 # Checks for header files.
 AC_CHECK_HEADERS([arpa/inet.h fcntl.h limits.h memory.h netdb.h netinet/in.h stdint.h stdlib.h string.h sys/ioctl.h sys/socket.h sys/time.h sys/timeb.h unistd.h machine/endian.h machine/byte_order.h])
