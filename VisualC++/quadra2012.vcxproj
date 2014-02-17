@@ -123,7 +123,6 @@
     <ClCompile Include="..\skelton\common\cursor_self.cpp" />
     <ClCompile Include="..\skelton\common\dict.cpp" />
     <ClCompile Include="..\skelton\directx\error.cpp" />
-    <ClCompile Include="..\skelton\directx\find_file.cpp" />
     <ClCompile Include="..\source\fonts.cpp" />
     <ClCompile Include="..\source\game.cpp" />
     <ClCompile Include="..\source\game_menu.cpp" />
@@ -200,7 +199,6 @@
     <ClInclude Include="..\skelton\include\cursor_x11.h" />
     <ClInclude Include="..\skelton\include\dict.h" />
     <ClInclude Include="..\skelton\include\error.h" />
-    <ClInclude Include="..\skelton\include\find_file.h" />
     <ClInclude Include="..\include\fonts.h" />
     <ClInclude Include="..\include\game.h" />
     <ClInclude Include="..\include\game_menu.h" />

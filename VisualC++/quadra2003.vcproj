@@ -170,9 +170,6 @@
 				RelativePath="..\skelton\directx\error.cpp">
 			</File>
 			<File
-				RelativePath="..\skelton\directx\find_file.cpp">
-			</File>
-			<File
 				RelativePath="..\source\fonts.cpp">
 			</File>
 			<File
@@ -398,9 +395,6 @@
 			</File>
 			<File
 				RelativePath="..\skelton\include\error.h">
-			</File>
-			<File
-				RelativePath="..\skelton\include\find_file.h">
 			</File>
 			<File
 				RelativePath="..\include\fonts.h">

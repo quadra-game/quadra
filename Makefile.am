@@ -13,7 +13,9 @@ CLEANFILES = quadra.res $(EXTRA_PROGRAMS)
 
 AM_CPPFLAGS = \
 	-I$(srcdir)/include -I$(srcdir)/skelton/include -I$(srcdir)/images \
-	-DDATAGAMESDIR='"$(datagamesdir)"' $(SDL2_CFLAGS)
+	-DDATAGAMESDIR='"$(datagamesdir)"' $(SDL2_CFLAGS) $(BOOST_CPPFLAGS)
+
+AM_LDFLAGS = $(BOOST_LDFLAGS)
 
 EXTRA_DIST = \
 	ChangeLog \
@@ -40,8 +42,7 @@ EXTRA_DIST = \
 	stats \
 	textes
 
-quadra_LDFLAGS = $(AM_LDFLAGS)
-quadra_LDADD = $(SDL2_LIBS)
+quadra_LDADD = $(SDL2_LIBS) $(BOOST_FILESYSTEM_LIB) $(BOOST_SYSTEM_LIB)
 quadra_SOURCES = \
 	images/quadra.xpm \
 	include/bloc.h \
@@ -116,7 +117,6 @@ quadra_SOURCES = \
 	skelton/include/cursor.h \
 	skelton/include/dict.h \
 	skelton/include/error.h \
-	skelton/include/find_file.h \
 	skelton/include/http_post.h \
 	skelton/include/http_request.h \
 	skelton/include/id.h \
@@ -148,7 +148,6 @@ quadra_SOURCES = \
 	skelton/include/video_dumb.h \
 	skelton/include/zone_text_clock.h \
 	skelton/svgalib/error.cpp \
-	skelton/svgalib/find_file.cpp \
 	skelton/svgalib/input.cpp \
 	skelton/svgalib/main.cpp \
 	skelton/svgalib/palette.cpp \
@@ -187,7 +186,7 @@ quadra_SOURCES = \
 	source/zone_list.cpp
 
 # FIXME: we use SDL_Log in wadder, should avoid.
-wadder_LDADD = $(SDL2_LIBS)
+wadder_LDADD = $(SDL2_LIBS) $(BOOST_FILESYSTEM_LIB) $(BOOST_SYSTEM_LIB)
 wadder_SOURCES = \
 	skelton/common/resfile.cpp \
 	skelton/common/resmanager.cpp \

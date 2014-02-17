@@ -394,28 +394,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\skelton\directx\find_file.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\skelton\common\http_post.cpp"
 				>
 				<FileConfiguration
@@ -1152,10 +1130,6 @@
 			</File>
 			<File
 				RelativePath="..\skelton\include\error.h"
-				>
-			</File>
-			<File
-				RelativePath="..\skelton\include\find_file.h"
 				>
 			</File>
 			<File

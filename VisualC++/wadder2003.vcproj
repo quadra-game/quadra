@@ -149,9 +149,6 @@
 				RelativePath="..\skelton\directx\error.cpp">
 			</File>
 			<File
-				RelativePath="..\skelton\directx\find_file.cpp">
-			</File>
-			<File
 				RelativePath="..\skelton\common\http_post.cpp">
 			</File>
 			<File
@@ -287,9 +284,6 @@
 			</File>
 			<File
 				RelativePath="..\skelton\include\error.h">
-			</File>
-			<File
-				RelativePath="..\skelton\include\find_file.h">
 			</File>
 			<File
 				RelativePath="..\skelton\include\http_post.h">

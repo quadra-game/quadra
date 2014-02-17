@@ -19,6 +19,9 @@ AC_PROG_SED
 
 # Checks for libraries.
 AX_PATH_GENERIC([sdl2],,,, AC_MSG_ERROR([Could not find SDL2 (required).]))
+AX_BOOST_BASE(,, AC_MSG_ERROR([Could not find Boost (required).]))
+AX_BOOST_SYSTEM
+AX_BOOST_FILESYSTEM
 
 # Checks for header files.
 AC_CHECK_HEADERS([arpa/inet.h fcntl.h limits.h memory.h netdb.h netinet/in.h stdint.h stdlib.h string.h sys/ioctl.h sys/socket.h sys/time.h sys/timeb.h unistd.h machine/endian.h machine/byte_order.h])

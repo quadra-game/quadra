@@ -18,12 +18,13 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include <boost/filesystem.hpp>
+
 #include "inter.h"
 #include "bitmap.h"
 #include "dict.h"
 #include "clock.h"
 #include "res_compress.h"
-#include "find_file.h"
 #include "fonts.h"
 #include "texte.h"
 #include "zone.h"
@@ -35,6 +36,11 @@
 #include "multi_player.h"
 #include "menu_demo_central.h"
 #include "config.h"
+
+using boost::filesystem::directory_iterator;
+using boost::filesystem::path;
+using std::string;
+using std::vector;
 
 class Zone_change_dir: public Zone_text_input {
 	Menu_demo_central *menu_demo_central;
@@ -92,7 +98,8 @@ Menu_demo_central::Menu_demo_central() {
 	(void)new Zone_bitmap(inter, bit, 0, 0, true);
 	(void)new Zone_text(inter, ST_DEMOCENTRAL, 20);
 	(void)new Zone_text(fteam[7], inter, ST_CURRENTDIRECTORY, 10, 50);
-	Find_file::get_current_directory(find_directory);
+	SDL_strlcpy(find_directory, boost::filesystem::current_path().c_str(),
+	            sizeof(find_directory));
 	z_dir = new Zone_change_dir(inter, pal, find_directory, 900, 170, 50, 460, this);
 	z_list = new Zone_listbox2(inter, bit, fteam[4], &quel, 10, 90, 180, 300);
 	z_status = new Zone_text_field(inter, "", 0, 460, 640);
@@ -419,59 +426,40 @@ void Menu_demo_central::reload() {
 		temp--;
 	}
 	z_dir->set_val(find_directory);
-	char temp_search[1024];
-	snprintf(temp_search, sizeof(temp_search) - 1, "%s/*", find_directory);
 
-	msgbox("Menu_demo_central::find_all: Finding directories in [%s]...\n", temp_search);
+	const directory_iterator dir_begin((path(find_directory)));
+	const directory_iterator dir_end;
+	vector<Listitem*> demo_files;
+
+	z_list->init_sort();
 	{
-		Find_file *find_file = Find_file::New(temp_search);
-		z_list->init_sort();
-		while(!find_file->eof()) {
-			Find_file_entry ff = find_file->get_next_entry();
-			if(ff.is_folder) {
-				if(ff.name[0] == '.' && ff.name[1] == 0) // ignore the "." directory
-					continue;
-				Listitem *e = new Listitem(ff.name, fteam[1]);
-				e->isfolder = true;
-				z_list->add_sort(e);
-			}
-		}
-		z_list->end_sort();
-		delete find_file;
+		Listitem* const e(new Listitem("..", fteam[1]));
+		e->isfolder = true;
+		z_list->add_sort(e);
 	}
-
-	snprintf(temp_search, sizeof(temp_search) - 1, "%s/*.rec", find_directory);
-
-	msgbox("Menu_demo_central::find_all: Finding files in [%s]...\n", find_directory);
-	{
-		Find_file *find_file = Find_file::New(temp_search);
-		z_list->init_sort();
-		while(!find_file->eof()) {
-			Find_file_entry ff = find_file->get_next_entry();
-			if(!ff.is_folder) {
-				Listitem *e = new Listitem(ff.name, fteam[5]);
-				e->file_size = ff.size;
-				strcpy(e->file_date, ff.date);
-				e->isfolder = false;
-				z_list->add_sort(e);
-			}
+	for (directory_iterator dir_iter = dir_begin; dir_iter != dir_end;
+	     ++dir_iter) {
+		boost::filesystem::file_type type(dir_iter->status().type());
+		if (type == boost::filesystem::directory_file) {
+			Listitem* const e(new Listitem(dir_iter->path().filename().c_str(),
+			                               fteam[1]));
+			e->isfolder = true;
+			z_list->add_sort(e);
+		} else if (type == boost::filesystem::regular_file
+		           && (dir_iter->path().extension() == ".rec"
+		               || dir_iter->path().extension() == ".qrec")) {
+			SDL_Log("matching file: %s", dir_iter->path().c_str());
+			Listitem* const e(new Listitem(dir_iter->path().filename().c_str(),
+			                               fteam[1]));
+			e->isfolder = false;
+			demo_files.push_back(e);
 		}
-		delete find_file;
-
-		snprintf(temp_search, sizeof(temp_search) - 1, "%s/*.qrec", find_directory);
-		find_file = Find_file::New(temp_search);
-		while(!find_file->eof()) {
-			Find_file_entry ff = find_file->get_next_entry();
-			if(!ff.is_folder) {
-				Listitem *e = new Listitem(ff.name, fteam[5]);
-				e->file_size = ff.size;
-				strcpy(e->file_date, ff.date);
-				e->isfolder = false;
-				z_list->add_sort(e);
-			}
-		}
-		delete find_file;
-
-		z_list->end_sort();
 	}
+	z_list->end_sort();
+
+	z_list->init_sort();
+	for (vector<Listitem*>::const_iterator it = demo_files.begin();
+	     it != demo_files.end(); ++it)
+		z_list->add_sort(*it);
+	z_list->end_sort();
 }

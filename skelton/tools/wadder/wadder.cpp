@@ -107,12 +107,14 @@
  * themes myself, if only for the sake of change :).
  */
 
+#include <boost/filesystem.hpp>
 #include <stdint.h>
 #include <stdio.h>
 
 #include "stringtable.h"
 #include "res.h"
-#include "find_file.h"
+
+using boost::filesystem::path;
 
 const char usage[] = "usage: wadder <working directory> <output res> <input text>\n";
 Resfile *wad;
@@ -126,7 +128,7 @@ void addfile(const char* fname) {
 	data = new char[res->size()];
 	res->read(data, res->size());
 
-	wad->add(mybasename(fname), res->size(), data);
+	wad->add(path(fname).filename().c_str(), res->size(), data);
 
 	delete res;
 	delete[] data;
