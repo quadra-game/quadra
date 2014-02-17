@@ -9,16 +9,13 @@ Requirements
  - a C++ compiler (gcc was tested on Linux and Visual C++ on Windows)
  - zlib (http://www.info-zip.org/pub/infozip/zlib/)
  - libpng (http://www.libpng.org/pub/png/libpng.html)
- - DirectX 5 (Windows only)
- - X Window System libraries with XPM support (Linux only)
+ - SDL 2.0 (http://www.libsdl.org/)
 
 On Ubuntu, the following packages are needed to build:
 
  - g++
  - libpng12-dev
- - libx11-dev
- - libxpm-dev
- - libxxf86vm-dev
+ - libsdl2-dev
  - make
 
 Auto-update feature
@@ -88,10 +85,9 @@ Building on Mac OS X
 
 A common problem on Mac OS X is that the libpng library is not
 available. This is relatively easy to work around, by downloading the
-libpng sources (available at http://libpng.sourceforge.net/, look for
-a libpng-1.2.X.tar.gz file), compiling them (no need to install it on
-your system!) and then adding a "--with-libpng=/path/to/libpng" to the
-"configure" command line.
+libpng sources (available at http://www.libpng.org/pub/png/libpng.html),
+compiling them (no need to install it on your system!) and then adding
+a "--with-libpng=/path/to/libpng" to the "configure" command line.
 
 This platform is not supported in this release.
 
