@@ -98,7 +98,8 @@ Menu_demo_central::Menu_demo_central() {
 	(void)new Zone_bitmap(inter, bit, 0, 0, true);
 	(void)new Zone_text(inter, ST_DEMOCENTRAL, 20);
 	(void)new Zone_text(fteam[7], inter, ST_CURRENTDIRECTORY, 10, 50);
-	SDL_strlcpy(find_directory, boost::filesystem::current_path().c_str(),
+	SDL_strlcpy(find_directory,
+	            boost::filesystem::current_path().string().c_str(),
 	            sizeof(find_directory));
 	z_dir = new Zone_change_dir(inter, pal, find_directory, 900, 170, 50, 460, this);
 	z_list = new Zone_listbox2(inter, bit, fteam[4], &quel, 10, 90, 180, 300);
@@ -441,16 +442,16 @@ void Menu_demo_central::reload() {
 	     ++dir_iter) {
 		boost::filesystem::file_type type(dir_iter->status().type());
 		if (type == boost::filesystem::directory_file) {
-			Listitem* const e(new Listitem(dir_iter->path().filename().c_str(),
-			                               fteam[1]));
+			Listitem* const e(new Listitem(
+				dir_iter->path().filename().string().c_str(), fteam[1]));
 			e->isfolder = true;
 			z_list->add_sort(e);
 		} else if (type == boost::filesystem::regular_file
 		           && (dir_iter->path().extension() == ".rec"
 		               || dir_iter->path().extension() == ".qrec")) {
 			SDL_Log("matching file: %s", dir_iter->path().c_str());
-			Listitem* const e(new Listitem(dir_iter->path().filename().c_str(),
-			                               fteam[1]));
+			Listitem* const e(new Listitem(
+				dir_iter->path().filename().string().c_str(), fteam[1]));
 			e->isfolder = false;
 			demo_files.push_back(e);
 		}
