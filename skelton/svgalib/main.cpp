@@ -45,7 +45,7 @@ void delete_obj();
 
 char exe_directory[1024];
 
-int main(int ARGC, char **ARGV, char **ENV) {
+extern "C" int main(int ARGC, char **ARGV) {
   SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO);
   atexit(delete_obj);
 

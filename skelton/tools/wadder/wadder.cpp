@@ -136,7 +136,7 @@ void addfile(const char* fname) {
 	printf("done\n");
 }
 
-int main(int ARGC, char **ARGV, char **ENV) {
+extern "C" int main(int ARGC, char **ARGV) {
 	Res_dos *res;
 	uint8_t* data;
 
