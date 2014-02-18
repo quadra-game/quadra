@@ -686,7 +686,8 @@ bool Zone_text_input::cut_selection() {
 }
 
 void Zone_text_input::check_clipboard() {
-#ifdef WIN32
+	// FIXME: Port this to the SDL functions instead.
+#if 0
 	if(input->shift_key != CONTROL)
 		return;
 	if(!input->keys[DIK_V] & PRESSED && !input->keys[DIK_C] & PRESSED && !input->keys[DIK_X] & PRESSED)
