@@ -48,6 +48,8 @@ char exe_directory[1024];
 int main(int ARGC, char **ARGV, char **ENV) {
   SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO);
   atexit(delete_obj);
+
+#ifndef WIN32
 	struct sigaction signals;
 	if(sigaction(SIGPIPE, NULL, &signals) < 0)
 		skelton_msgbox("Can't get SIGPIPE signal handler, ignoring.\n");
@@ -59,6 +61,7 @@ int main(int ARGC, char **ARGV, char **ENV) {
 		}
 		else
 			skelton_msgbox("SIGPIPE handler isn't default, ignoring.\n");
+#endif
 
 	//Copy the whole thing
 	strncpy(exe_directory, ARGV[0], sizeof(exe_directory));
