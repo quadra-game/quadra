@@ -52,7 +52,7 @@ Multi_player::Multi_player(int *got_high) {
 	menu_stat = NULL;
 	int i;
 	{
-		Res_doze res("fond0.png");
+		Res_doze res(res_fond0_png);
 		Png img(res);
 		bit = new Bitmap(img);
 	}
@@ -254,7 +254,7 @@ void Multi_player::check_pause() {
 		if(pause) {
 			if(game->delay_start == 0) // prevents the sound at the start
 				sons.pause->play(-300, 0, 11025);
-			zone_pause = new Zone_sprite(inter, "gamepaus.png");
+			zone_pause = new Zone_sprite(inter, res_gamepaus_png);
 		} else {
 			if(zone_pause)
 				delete zone_pause;
@@ -273,7 +273,7 @@ void Multi_player::check_pause() {
 					delete zone_pause;
 				video->need_paint = 2;
 				sprintf(st, "game_%i.png", chiffre+1);
-				zone_pause = new Zone_sprite(inter, st);
+				zone_pause = new Zone_sprite(inter, ResName(st));
 				last_countdown = chiffre;
 				sons.pause->play(-300, 0, 20025);
 			}

@@ -35,7 +35,8 @@ class Res_compress: public Res_mem {
 public:
 	void write_compress();
 	bool exist;
-	Res_compress(const char *fil, Res_mode pmode=RES_READ, bool res_doze=false);
+	Res_compress(const char *fil, Res_mode pmode, bool res_doze);
+	Res_compress(const ResName& fil, Res_mode pmode=RES_READ);
 	virtual ~Res_compress();
 	virtual void write(const void *b, int nb);
 	virtual uint32_t size();

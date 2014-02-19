@@ -40,6 +40,7 @@
 #endif
 
 #include "error.h"
+#include "res_name.h"
 #include "types.h"
 
 class Res {
@@ -85,10 +86,10 @@ public:
 class Res_doze: public Res_mem {
 	unsigned int ressize;
 public:
-	Res_doze(const char *resname) {
-		ressize = resmanager->get(resname, &_buf);
+	Res_doze(const ResName& res) {
+		ressize = resmanager->get(res.name_.c_str(), &_buf);
 		if(!_buf)
-			fatal_msgbox("Unable to find resource: %s", resname);
+			fatal_msgbox("Unable to find resource: %s", res.name_.c_str());
 	}
 	virtual ~Res_doze() {
 	}

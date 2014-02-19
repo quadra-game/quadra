@@ -51,7 +51,7 @@ void Highscores::load() {
 	numLocal=0;
 	for(i=0; i<MAX_SCORE; i++) {
 		getFilename(st, i, sizeof(st));
-		Res_compress* res=new Res_compress(st, RES_TRY);
+		Res_compress* res=new Res_compress(st, RES_TRY, false);
 		bestlocal[i].demo = NULL;
 		if(res->exist) {
 			Playback* tmp=new Playback(res);
@@ -79,7 +79,7 @@ void Highscores::load() {
 	numGlobal=0;
 	for(i=0; i<MAX_SCORE; i++) {
 		getGlobalFilename(st, i, sizeof(st));
-		Res_compress* res=new Res_compress(st, RES_TRY);
+		Res_compress* res=new Res_compress(st, RES_TRY, false);
 		bestglobal[i].demo = NULL;
 		if(res->exist) {
 			Playback* tmp=new Playback(res);
@@ -161,7 +161,7 @@ int Highscores::update(Canvas *c) {
 		snprintf(st2, sizeof(st2) - 1, "%s/last.qrec", quadradir);
 		Playback* demo=NULL;
 		{
-			Res_compress res(st2, RES_TRY);
+			Res_compress res(st2, RES_TRY, false);
 			demo=new Playback(&res);
 		}
 		getFilename(st, ret, sizeof(st));

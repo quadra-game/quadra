@@ -32,7 +32,7 @@ class Stringtable {
 	bool mustfree;
 	void parse(char *buf, uint32_t size);
 public:
-	Stringtable(const char *nam);
+	Stringtable(const ResName& nam);
 	Stringtable(uint8_t *buf, uint32_t size);
 	virtual ~Stringtable();
 	int size() const {

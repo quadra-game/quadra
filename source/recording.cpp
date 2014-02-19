@@ -46,7 +46,7 @@ Recording::~Recording() {
 }
 
 bool Recording::create(const char *n) {
-	res = new Res_compress(n, RES_CREATE);
+	res = new Res_compress(n, RES_CREATE, false);
 	return res->exist;
 }
 

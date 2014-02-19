@@ -25,7 +25,7 @@
 
 Stringtable *stringtable = NULL;
 
-Stringtable::Stringtable(const char *nam) {
+Stringtable::Stringtable(const ResName& nam) {
 	mustfree=true;
 	Res_doze res(nam);
 	buf = new char[res.size()+1];

@@ -29,13 +29,19 @@ Res_compress::Res_compress(const char *fil, Res_mode pmode, bool res_doze) {
 	mode = pmode;
 	ressize = 0;
 	write_pos = 0;
-	if(res_doze)
-		res = new Res_doze(fil);
-	else {
-		res_dos = new Res_dos(fil, mode);
-		res = res_dos;
-		exist = res_dos->exist;
+	res_dos = new Res_dos(fil, mode);
+	res = res_dos;
+	exist = res_dos->exist;
+  if((mode == RES_TRY && exist) || mode == RES_READ) {
+		read_uncompress();
 	}
+}
+
+Res_compress::Res_compress(const ResName& fil, Res_mode pmode) {
+	mode = pmode;
+	ressize = 0;
+	write_pos = 0;
+	res = new Res_doze(fil);
 	if((mode == RES_TRY && exist) || mode == RES_READ) {
 		read_uncompress();
 	}

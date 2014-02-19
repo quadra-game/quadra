@@ -190,7 +190,7 @@ Zone_menu::Zone_menu(Inter* in, Bitmap* bit, int px, int py, Bitmap* bit2):
 	kb_focusable = true;
 }
 
-Zone_menu::Zone_menu(Inter* in, const char* b1, int px, int py, const char* b2):
+Zone_menu::Zone_menu(Inter* in, const ResName& b1, int px, int py, const ResName& b2):
 	Zone_bitmap(in, Bitmap::loadPng(b1), px, py, Bitmap::loadPng(b2))
 {
 	del_bit = 1; // delete les 2 pointers
@@ -204,7 +204,7 @@ Zone_menu::Zone_menu(Inter* in, const Image& b1, int px, int py, const Image& b2
 	kb_focusable = true;
 }
 
-Zone_menu::Zone_menu(Inter* in, Bitmap* fond, const char* b1, int px, int py):
+Zone_menu::Zone_menu(Inter* in, Bitmap* fond, const ResName& b1, int px, int py):
 	Zone_bitmap(in, Bitmap::loadPng(b1), px, py)
 {
 	bit2_ = bit_;

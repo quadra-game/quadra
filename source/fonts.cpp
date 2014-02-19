@@ -24,11 +24,11 @@
 
 void Fonts::init() {
 	{
-		Res_doze res("font.fnt");
+		Res_doze res(res_font_fnt);
 		normal = new Fontdata(res, 2);
 	}
 	{
-		Res_doze res("courrier.fnt");
+		Res_doze res(res_courrier_fnt);
 		courrier = new Fontdata(res, 1);
 	}
 }

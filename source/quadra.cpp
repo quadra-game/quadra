@@ -1868,23 +1868,23 @@ void init_stuff(bool need_sound=true, bool need_video=true) {
 	chat_text = new Chat_text(fonts.normal, 212);
 	net_starter = new Net_starter();
 	{
-		Res_doze res("cuckoo.wav");
+		Res_doze res(res_cuckoo_wav);
 		sons.pause = new Sample(res);
 	}
 	{
-		Res_doze res("hooter03.wav");
+		Res_doze res(res_hooter03_wav);
 		sons.start = new Sample(res);
 	}
 	{
-		Res_doze res("Whizz1.wav");
+		Res_doze res(res_whizz1_wav);
 		sons.bonus1 = new Sample(res);
 	}
 	{
-		Res_doze res("glissup.wav");
+		Res_doze res(res_glissup_wav);
 		sons.levelup = new Sample(res);
 	}
 	{
-		Res_doze res("Clang3.wav");
+		Res_doze res(res_clang3_wav);
 		sons.depose4 = new Sample(res); // quand le canvas 'coule'
 	}
 	sons.flash = NULL;
@@ -1893,75 +1893,75 @@ void init_stuff(bool need_sound=true, bool need_video=true) {
 	sons.depose = NULL;
 	sons.drip = NULL;
 	{
-		Res_doze res("Glass01.wav");
+		Res_doze res(res_glass01_wav);
 		sons.glass = new Sample(res);
 	}
 	{
-		Res_doze res("Tapdrip.wav");
+		Res_doze res(res_tapdrip_wav);
 		sons.enter = new Sample(res);
 	}
 	{
-		Res_doze res("W_BAYO_0.wav");
+		Res_doze res(res_w_bayo_0_wav);
 		sons.fadein = new Sample(res);
 	}
 	{
-		Res_doze res("fadeout.wav");
+		Res_doze res(res_fadeout_wav);
 		sons.fadeout = new Sample(res);
 	}
 	{
-		Res_doze res("click_1.wav");
+		Res_doze res(res_click_1_wav);
 		sons.point = new Sample(res);
 	}
 	{
-		Res_doze res("Blip1.wav");
+		Res_doze res(res_blip1_wav);
 		sons.click = new Sample(res);
 	}
 	{
-		Res_doze res("handbell.wav");
+		Res_doze res(res_handbell_wav);
 		sons.msg = new Sample(res);
 	}
 	{
-		Res_doze res("potato_get.wav");
+		Res_doze res(res_potato_get_wav);
 		sons.potato_get = new Sample(res);
 	}
 	{
-		Res_doze res("zingle.wav");
+		Res_doze res(res_zingle_wav);
 		sons.potato_rid = new Sample(res);
 	}
 	{ //-roncli 4/29/01 Load countdown samples
-		Res_doze res("t1min.wav");
+		Res_doze res(res_t1min_wav);
 		sons.minute = new Sample(res);
 	}
 	{
-		Res_doze res("t30sec.wav");
+		Res_doze res(res_t30sec_wav);
 		sons.thirty = new Sample(res);
 	}
 	{
-		Res_doze res("t20sec.wav");
+		Res_doze res(res_t20sec_wav);
 		sons.twenty = new Sample(res);
 	}
 	{
-		Res_doze res("t10sec.wav");
+		Res_doze res(res_t10sec_wav);
 		sons.ten = new Sample(res);
 	}
 	{
-		Res_doze res("t5sec.wav");
+		Res_doze res(res_t5sec_wav);
 		sons.five = new Sample(res);
 	}
 	{
-		Res_doze res("t4sec.wav");
+		Res_doze res(res_t4sec_wav);
 		sons.four = new Sample(res);
 	}
 	{
-		Res_doze res("t3sec.wav");
+		Res_doze res(res_t3sec_wav);
 		sons.three = new Sample(res);
 	}
 	{
-		Res_doze res("t2sec.wav");
+		Res_doze res(res_t2sec_wav);
 		sons.two = new Sample(res);
 	}
 	{
-		Res_doze res("t1sec.wav");
+		Res_doze res(res_t1sec_wav);
 		sons.one = new Sample(res);
 	}
 	cursor = new Cursor;
@@ -2063,15 +2063,15 @@ Attack read_attack_param(const char *s) {
 
 void display_command_line_help() {
 	char st[4096];
-	const char *res;
+	const ResName *res;
 	switch(config.info.language) {
 		default:
 		case 0:
-			res="help_en.txt"; break;
+			res = &res_help_en_txt; break;
 		case 1:
-			res="help_fr.txt"; break;
+			res = &res_help_fr_txt; break;
 	}
-	Res_doze cmdline(res);
+	Res_doze cmdline(*res);
 	uint32_t size = min(static_cast<uint32_t>(sizeof(st)-1), cmdline.size());
 	strncpy(st, (char *)cmdline.buf(), size);
 	st[size] = 0;
@@ -2161,19 +2161,19 @@ void start_game() {
 		config.info.language=0;
 	if(command.token("french"))
 		config.info.language=1;
-	const char *language;
+	const ResName *language;
 	int i;
 	switch(config.info.language) {
 		default:
 		case 0:
-			language="anglais.txt"; break;
+			language = &res_anglais_txt; break;
 		case 1:
-			language="francais.txt"; break;
+			language = &res_francais_txt; break;
 	}
 	for(i=0; i<MAXTEAMS; i++)
 		set_team_name(i, NULL);
 	msgbox("Reading stringtable: ");
-	stringtable=new Stringtable(language);
+	stringtable=new Stringtable(*language);
 	msgbox("Ok\n");
 
 	if(command.token("h help ?")) {
@@ -2359,7 +2359,7 @@ void start_game() {
 		}
 	}
 	else {
-		Res_compress *res = new Res_compress(buf, RES_TRY);
+		Res_compress *res = new Res_compress(ResName(buf), RES_TRY);
 		if(res->exist) {
 			menu->add(new Demo_multi_player(res));
 			// le 'delete res' est fait par ~Demo_multi_player

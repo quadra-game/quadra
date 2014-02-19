@@ -94,7 +94,7 @@ int Zone::in() const {
 		return 0;
 }
 
-Zone_sprite::Zone_sprite(Inter *in, const char *nam, int px, int py): Zone(in) {
+Zone_sprite::Zone_sprite(Inter *in, const ResName& nam, int px, int py): Zone(in) {
 	Res_doze res(nam);
 	Png png(res);
 	Bitmap bitmap(png);
@@ -172,7 +172,7 @@ void Zone_state::clicked(int quel) {
 	Zone_watch_int::clicked(quel);
 }
 
-Zone_state_bit::Zone_state_bit(Inter* in, const char* b1, int *pval, int px, int py, const char* b2, const char* b3):
+Zone_state_bit::Zone_state_bit(Inter* in, const ResName& b1, int *pval, int px, int py, const ResName* b2, const ResName* b3):
 	Zone_state(in, pval, px, py) {
 	Res_doze res(b1);
 	Png png(res);
@@ -180,12 +180,12 @@ Zone_state_bit::Zone_state_bit(Inter* in, const char* b1, int *pval, int px, int
 	w = state[0]->width;
 	h = state[0]->height;
 	if(b2) {
-		Res_doze res2(b2);
+		Res_doze res2(*b2);
 		Png png(res2);
 		state[nstate++] = new Bitmap(png);
 	}
 	if(b3) {
-		Res_doze res3(b3);
+		Res_doze res3(*b3);
 		Png png(res3);
 		state[nstate++] = new Bitmap(png);
 	}

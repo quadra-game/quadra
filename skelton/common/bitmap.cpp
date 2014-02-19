@@ -27,7 +27,7 @@
 
 using std::min;
 
-Bitmap* Bitmap::loadPng(const char* n) {
+Bitmap* Bitmap::loadPng(const ResName& n) {
 	Res_doze res(n);
 	Png png(res);
 	return new Bitmap(png);

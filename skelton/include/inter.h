@@ -134,7 +134,7 @@ public:
 class Zone_sprite: public Zone {
 	Sprite *sp;
 public:
-	Zone_sprite(Inter *in, const char *nam, int px = -1, int py = -1);
+	Zone_sprite(Inter *in, const ResName& nam, int px = -1, int py = -1);
 	virtual ~Zone_sprite();
 	virtual void draw();
 };
@@ -187,7 +187,7 @@ public:
 class Zone_state_bit: public Zone_state {
 	Bitmap *state[3];
 public:
-	Zone_state_bit(Inter* in, const char* b1, int *pval, int px, int py, const char* b2=NULL, const char* b3=NULL);
+	Zone_state_bit(Inter* in, const ResName& b1, int *pval, int px, int py, const ResName* b2=NULL, const ResName* b3=NULL);
 	virtual ~Zone_state_bit() {
 		for(int i=0; i < nstate; i++)
 			delete state[i];

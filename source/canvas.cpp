@@ -164,7 +164,7 @@ void Canvas::delete_bloc() {
 void Canvas::init() {
 	trying_to_drop=false;
   {
-    Res_doze res("gamelvup.png");
+    Res_doze res(res_gamelvup_png);
     Png raw(res);
     Bitmap bitmap(raw);
     sprlevel_up = new Sprite(bitmap, 0, 0);
@@ -661,10 +661,25 @@ void Canvas::change_level(const int level, Palette *pal, Bitmap *bit) {
   num = (level-1)%10;
 //	if(level>5)
 //		num=config.info.multi_level-1;
-  sprintf(st, "fond%i.png", num);
+
+  ResName* fond_res[] = {
+    &res_fond0_png,
+    &res_fond1_png,
+    &res_fond2_png,
+    &res_fond3_png,
+    &res_fond4_png,
+    &res_fond5_png,
+    &res_fond6_png,
+    &res_fond7_png,
+    &res_fond8_png,
+    &res_fond9_png,
+  };
+
+  Res_doze *res;
 	if(level==-1)
-		strcpy(st, "black.png");
-  Res_doze *res = new Res_doze(st);
+    res = new Res_doze(res_black_png);
+  else
+    res = new Res_doze(*fond_res[num]);
   Png img(*res);
   bit->reload(img);
   Palette pal2(img);
@@ -685,95 +700,95 @@ void Canvas::change_level(const int level, Palette *pal, Bitmap *bit) {
   delete sons.drip;
 
   sons.flash = sons.depose3 = sons.depose2 = sons.depose = sons.drip = NULL;
-  const char *foo0, *foo1, *foo2, *foo3, *foo4;
+  const ResName *foo0, *foo1, *foo2, *foo3, *foo4;
   switch(num) {
     case 1:
-      foo0="Pwap2.wav";
-      foo1=foo2=foo3="Knock.wav";
-      foo4="click_3.wav";
+      foo0 = &res_pwap2_wav;
+      foo1 = foo2 = foo3 = &res_knock_wav;
+      foo4 = &res_click_3_wav;
       break;
     case 2:
-      foo0="Blip1.wav";
-      foo1="metal3.wav";
-      foo2="Metal1.wav";
-      foo3="Metal6.wav";
-      foo4="click_1.wav";
+      foo0 = &res_blip1_wav;
+      foo1 = &res_metal3_wav;
+      foo2 = &res_metal1_wav;
+      foo3 = &res_metal6_wav;
+      foo4 = &res_click_1_wav;
       break;
     case 3:
-      foo0="Whistle1.wav";
-      foo1="Tapdrip.wav";
-      foo2="Click01.wav";
-      foo3="click_3.wav";
-      foo4="Click01.wav";
+      foo0 = &res_whistle1_wav;
+      foo1 = &res_tapdrip_wav;
+      foo2 = &res_click01_wav;
+      foo3 = &res_click_3_wav;
+      foo4 = &res_click01_wav;
       break;
     case 4:
-      foo0="Spring.wav";
-      foo1="Pop1.wav";
-      foo2="bloop.wav";
-      foo3="Pwap2.wav";
-      foo4="corkpop.wav";
+      foo0 = &res_spring_wav;
+      foo1 = &res_pop1_wav;
+      foo2 = &res_bloop_wav;
+      foo3 = &res_pwap2_wav;
+      foo4 = &res_corkpop_wav;
       break;
     case 5:
-      foo0="Whistle2.wav";
-      foo1="Knock.wav";
-      foo2="Splodge.wav";
-      foo3="Pop1.wav";
-      foo4="Tapdrip.wav";
+      foo0 = &res_whistle2_wav;
+      foo1 = &res_knock_wav;
+      foo2 = &res_splodge_wav;
+      foo3 = &res_pop1_wav;
+      foo4 = &res_tapdrip_wav;
       break;
     case 6:
-      foo0="Glass04.wav";
-      foo1="Glass01.wav";
-      foo2="Glass03.wav";
-      foo3="Glass03.wav";
-      foo4="Click01.wav";
+      foo0 = &res_glass04_wav;
+      foo1 = &res_glass01_wav;
+      foo2 = &res_glass03_wav;
+      foo3 = &res_glass03_wav;
+      foo4 = &res_click01_wav;
       break;
     case 7:
-      foo0="Bubble2.wav";
-      foo1="Water05_1.wav";
-      foo2="water05_2.wav";
-      foo3="water05_3.wav";
-      foo4="Click01.wav";
+      foo0 = &res_bubble2_wav;
+      foo1 = &res_water05_1_wav;
+      foo2 = &res_water05_2_wav;
+      foo3 = &res_water05_3_wav;
+      foo4 = &res_click01_wav;
       break;
     case 8:
-      foo0="Ceramic3.wav";
-      foo1="Explod03.wav";
-      foo2="Explod05.wav";
-      foo3="Explod06.wav";
-      foo4="Tapdrip.wav";
+      foo0 = &res_ceramic3_wav;
+      foo1 = &res_explod03_wav;
+      foo2 = &res_explod05_wav;
+      foo3 = &res_explod06_wav;
+      foo4 = &res_tapdrip_wav;
       break;
     case 9:
-      foo0="Smash2.wav";
-      foo1="Knock.wav";
-      foo2="bloop.wav";
-      foo3="click_1.wav";
-      foo4="Pop1.wav";
+      foo0 = &res_smash2_wav;
+      foo1 = &res_knock_wav;
+      foo2 = &res_bloop_wav;
+      foo3 = &res_click_1_wav;
+      foo4 = &res_pop1_wav;
       break;
     default:
-      foo0="Pwap2.wav";
-      foo1="Hitwood1.wav";
-      foo2="Chop2.wav";
-      foo3="metal3.wav";
-      foo4="Tapdrip.wav";
+      foo0 = &res_pwap2_wav;
+      foo1 = &res_hitwood1_wav;
+      foo2 = &res_chop2_wav;
+      foo3 = &res_metal3_wav;
+      foo4 = &res_tapdrip_wav;
       break;
   }
   {
-    Res_doze res(foo0);
+    Res_doze res(*foo0);
     sons.flash = new Sample(res); // when we do a ligne (flash)
   }
   {
-    Res_doze res(foo1);
+    Res_doze res(*foo1);
     sons.depose3 = new Sample(res); // drop
   }
   {
-    Res_doze res(foo2);
+    Res_doze res(*foo2);
     sons.depose2 = new Sample(res); // drop
   }
   {
-    Res_doze res(foo3);
+    Res_doze res(*foo3);
     sons.depose = new Sample(res); // drop
   }
   {
-    Res_doze res(foo4);
+    Res_doze res(*foo4);
     sons.drip = new Sample(res); // rotate
   }
 }

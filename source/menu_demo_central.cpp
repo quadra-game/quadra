@@ -77,7 +77,7 @@ Menu_demo_central::Player_infos::Player_infos(int pplayer) {
 
 Menu_demo_central::Menu_demo_central() {
 	{
-		Res_doze res("multi.png");
+		Res_doze res(res_multi_png);
 		Png img(res);
 		bit = new Bitmap(img);
 		pal.load(img);
@@ -170,7 +170,7 @@ void Menu_demo_central::refresh_detail() {
 void Menu_demo_central::drive_playback(const char *n) {
 	char temp[1024];
 	snprintf(temp, sizeof(temp) - 1, "%s/%s", find_directory, n);
-	Res_compress *res = new Res_compress(temp, RES_TRY);
+	Res_compress *res = new Res_compress(temp, RES_TRY, false);
 	if(res->exist) {
 		play = new Playback(res);
 		if(play->completed || !play->valid) {

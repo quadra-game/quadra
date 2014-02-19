@@ -37,8 +37,8 @@ class Zone_menu: public Zone_bitmap {
 	int del_bit;
 public:
 	Zone_menu(Inter* in, Bitmap* bit, int px, int py, Bitmap* bit2);
-	Zone_menu(Inter* in, const char* b1, int px, int py, const char* b2);
-	Zone_menu(Inter* in, Bitmap* fond, const char* b1, int px, int py);
+	Zone_menu(Inter* in, const ResName& b1, int px, int py, const ResName& b2);
+	Zone_menu(Inter* in, Bitmap* fond, const ResName& b1, int px, int py);
 	Zone_menu(Inter* in, const Image& b1, int px, int py, const Image& b2);
 	virtual ~Zone_menu();
 	virtual void entered();

@@ -99,7 +99,7 @@ Create_game::Create_game(Bitmap *bit, Font *font, Font *font2, const Palette& p,
 	}
 	game_desc[9]=NULL; //Only 9 lines displayed finally...
 	y+=inc/2;
-	game_descriptions=new Stringtable(ST_GAMETYPEDESCRIPTIONS);
+	game_descriptions=new Stringtable(ResName(ST_GAMETYPEDESCRIPTIONS));
 
 	game_end = config.info.game_end;
 	game_end_value = config.info.game_end_value;

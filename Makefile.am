@@ -70,6 +70,7 @@ quadra_SOURCES = \
 	include/qserv.h \
 	include/quadra.h \
 	include/recording.h \
+	include/res_name.h \
 	include/score.h \
 	include/sons.h \
 	include/stats.h \
@@ -178,6 +179,7 @@ quadra_SOURCES = \
 	source/qserv.cpp \
 	source/quadra.cpp \
 	source/recording.cpp \
+	source/res_name.cpp \
 	source/score.cpp \
 	source/sons.cpp \
 	source/stats.cpp \
