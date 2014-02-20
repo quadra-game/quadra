@@ -38,7 +38,7 @@ public:
 	Resmanager();
 	virtual ~Resmanager();
 	virtual void loadresfile(const char *fname);
-	virtual int get(const ResName& resname, uint8_t **resdata);
+	virtual int get(const ResName& resname, uint8_t **resdata) const;
 };
 
 extern Resmanager *resmanager;
