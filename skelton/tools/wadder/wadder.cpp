@@ -145,9 +145,7 @@ extern "C" int main(int ARGC, char **ARGV) {
 		exit(1);
 	}
 
-	wad = new Resfile(ARGV[2], false);
-	wad->clear();
-
+	wad = new Resfile;
 	res = new Res_dos(ARGV[3], RES_READ);
 	data = new uint8_t[res->size()+1];
 
@@ -165,7 +163,8 @@ extern "C" int main(int ARGC, char **ARGV) {
 	delete[] data;
 	delete res;
 
-	wad->freeze();
+	Res_dos output(ARGV[2], RES_CREATE);
+	wad->freeze(output);
 
 	delete wad;
 

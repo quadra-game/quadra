@@ -23,6 +23,9 @@
 
 #include <stdint.h>
 
+class Res;
+class Res_dos;
+
 const char signature[4] = "UGS";
 
 class Resdata {
@@ -40,18 +43,17 @@ public:
 class Res_dos;
 
 class Resfile {
-private:
-	Res_dos *res;
+	void thaw(Res& res);
+	void clear();
 public:
 	Resdata *list;
-	Resfile(const char *fname, bool ro=true);
-	virtual ~Resfile();
-	virtual void freeze();
-	virtual void thaw();
-	virtual void clear();
-	virtual void add(const char *resname, int size, const char *resdata);
-	virtual int get(const char *resname, uint8_t **resdata);
-	virtual void remove(const char* resname);
+	Resfile();
+	Resfile(const char *fname);
+	~Resfile();
+	void freeze(Res_dos& res) const;
+	void add(const char *resname, int size, const char *resdata);
+	int get(const char *resname, uint8_t **resdata) const;
+	void remove(const char* resname);
 };
 
 #endif

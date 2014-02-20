@@ -41,77 +41,75 @@ Resdata::~Resdata() {
 		delete next;
 }
 
-Resfile::Resfile(const char *fname, bool ro) {
-	list = NULL;
+Resfile::Resfile()
+	: list(NULL) {
+}
 
-	if(ro)
-		res = new Res_dos(fname, RES_TRY);
-	else
-		res = new Res_dos(fname, RES_CREATE);
+Resfile::Resfile(const char *fname)
+	: list(NULL) {
+	Res_dos res(fname, RES_TRY);
 
-	if(res->exist) {
+	if(res.exist) {
 		skelton_msgbox("Resfile %s is fine\n", fname);
-		thaw();
+		thaw(res);
 	} else
 		skelton_msgbox("Resfile %s does not exist\n", fname);
 }
 
 Resfile::~Resfile() {
 	clear();
-	if(res)
-		delete res;
 }
 
-void Resfile::freeze() {
+void Resfile::freeze(Res_dos& res) const {
 	int resnamelen;
 	Resdata *ptr;
 	uint32_t d;
 
-	res->write(&signature, sizeof(signature));
+	res.write(&signature, sizeof(signature));
 
 	ptr = list;
 
-  while(ptr != NULL) {
+	while(ptr != NULL) {
 		resnamelen = strlen(ptr->name)+1;
-                d = INTELDWORD(resnamelen);
-		res->write(&d, sizeof(d));
-		res->write(ptr->name, resnamelen);
-                d = INTELDWORD(ptr->size);
-		res->write(&d, sizeof(d));
-		res->write(ptr->data, ptr->size);
-    ptr = ptr->next;
-  }
+		d = INTELDWORD(resnamelen);
+		res.write(&d, sizeof(d));
+		res.write(ptr->name, resnamelen);
+		d = INTELDWORD(ptr->size);
+		res.write(&d, sizeof(d));
+		res.write(ptr->data, ptr->size);
+		ptr = ptr->next;
+	}
 
 	resnamelen = 0;
-	res->write(&resnamelen, sizeof(resnamelen));
+	res.write(&resnamelen, sizeof(resnamelen));
 }
 
-void Resfile::thaw() {
+void Resfile::thaw(Res& res) {
 	char sig[sizeof(signature)];
 	int resnamelen;
 	char *resname;
 	uint8_t *resdata;
 	int ressize;
 
-	res->position(0);
+	res.position(0);
 
-	res->read(sig, sizeof(signature));
+	res.read(sig, sizeof(signature));
 	if(strncmp(sig, signature, sizeof(signature)) != 0) {
 		msgbox("Resfile::thaw(): invalid signature\n");
 		return;
 	}
 
 	do {
-		res->read(&resnamelen, sizeof(resnamelen));
+		res.read(&resnamelen, sizeof(resnamelen));
 		resnamelen = INTELDWORD(resnamelen);
 		if(resnamelen == 0)
 			break;
 		resname = new char[resnamelen];
-		res->read(resname, resnamelen);
-		res->read(&ressize, sizeof(ressize));
+		res.read(resname, resnamelen);
+		res.read(&ressize, sizeof(ressize));
 		ressize = INTELDWORD(ressize);
 		resdata = new uint8_t[ressize];
-		res->read(resdata, ressize);
+		res.read(resdata, ressize);
 
 		list = new Resdata(resname, ressize, resdata, list);
 	} while(resnamelen > 0);
@@ -137,7 +135,7 @@ void Resfile::add(const char *resname, const int size, const char *resdata) {
 	list = new Resdata(myname, size, mydata, list);
 }
 
-int Resfile::get(const char *resname, uint8_t **resdata) {
+int Resfile::get(const char *resname, uint8_t **resdata) const {
 	Resdata *ptr;
 
 	ptr = list;
