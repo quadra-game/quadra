@@ -76,6 +76,7 @@
 
 using std::max;
 using std::min;
+using std::string;
 
 Color *color[9];
 Font *fteam[8];
@@ -2072,13 +2073,10 @@ void display_command_line_help() {
 		case 1:
 			res = &res_help_fr_txt; break;
 	}
-	Res_doze cmdline(*res);
-	uint32_t size = min(static_cast<uint32_t>(sizeof(st)-1), cmdline.size());
-	strncpy(st, (char *)cmdline.buf(), size);
-	st[size] = 0;
+	string cmdline = resmanager->get(*res);
 	if(video)
 		delete video;
-	user_output(ST_CMDLINE, st);
+	printf("%s\n%s\n",ST_CMDLINE, cmdline.c_str());
 }
 
 void read_script(const char *fn, bool second=false) {

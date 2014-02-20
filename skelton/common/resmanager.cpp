@@ -21,6 +21,7 @@
 #include "resfile.h"
 #include "resmanager.h"
 
+using std::string;
 using std::vector;
 
 void Resmanager::loadresfile(const char *fname) {
@@ -44,6 +45,16 @@ int Resmanager::get(const ResName& resname, uint8_t **resdata) const {
 			return ret;
 	}
 	return 0;
+}
+
+std::string Resmanager::get(const ResName& resname) const {
+  uint8_t* buf;
+  const int size(get(resname, &buf));
+
+  if (size == 0)
+    return string();
+  else
+    return string(reinterpret_cast<char*>(buf), size);
 }
 
 Resmanager::~Resmanager() {

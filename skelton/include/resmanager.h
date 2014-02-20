@@ -25,6 +25,7 @@
 // infos on making a Quadra theme pack and some 100% pure Dada ranting.
 
 #include <stdint.h>
+#include <string>
 #include <vector>
 
 #include "types.h"
@@ -38,6 +39,7 @@ public:
 	~Resmanager();
 	void loadresfile(const char *fname);
 	int get(const ResName& resname, uint8_t **resdata) const;
+	std::string get(const ResName& resname) const;
 };
 
 extern Resmanager *resmanager;

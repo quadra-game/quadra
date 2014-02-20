@@ -64,7 +64,3 @@ void skelton_msgbox(const char* m, ...) {
 		SDL_Log("%s", st);
 	}
 }
-
-void user_output(const char* title, const char *msg) {
-	printf("%s\n%s\n",title,msg);
-}
