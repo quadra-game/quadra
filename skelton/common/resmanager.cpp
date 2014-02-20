@@ -23,9 +23,6 @@
 
 using std::vector;
 
-Resmanager::Resmanager() {
-}
-
 void Resmanager::loadresfile(const char *fname) {
 	Resfile* rf=new Resfile(fname);
 	files.push_back(rf);

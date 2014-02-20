@@ -35,10 +35,9 @@ class Resmanager {
 private:
 	std::vector<Resfile*> files;
 public:
-	Resmanager();
-	virtual ~Resmanager();
-	virtual void loadresfile(const char *fname);
-	virtual int get(const ResName& resname, uint8_t **resdata) const;
+	~Resmanager();
+	void loadresfile(const char *fname);
+	int get(const ResName& resname, uint8_t **resdata) const;
 };
 
 extern Resmanager *resmanager;
