@@ -122,7 +122,7 @@ using std::string;
 
 
 void addfile(Resfile& wad, const string& fname) {
-  ifstream res(fname, std::ios::binary);
+  ifstream res(fname.c_str(), std::ios::binary);
 
   if (!res) {
     cerr << "could not open input file: " << fname << endl;
