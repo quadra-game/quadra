@@ -108,65 +108,57 @@
  */
 
 #include <boost/filesystem.hpp>
-#include <stdint.h>
-#include <stdio.h>
+#include <fstream>
+#include <iostream>
 
-#include "stringtable.h"
 #include "res.h"
+#include "resfile.h"
 
 using boost::filesystem::path;
+using std::cerr;
+using std::endl;
+using std::ifstream;
+using std::string;
 
-const char usage[] = "usage: wadder <working directory> <output res> <input text>\n";
-Resfile *wad;
 
-void addfile(const char* fname) {
-	Res_dos *res;
-	char *data;
+void addfile(Resfile& wad, const string& fname) {
+  ifstream res(fname, std::ios::binary);
 
-	printf("%s: ", fname);
-	res = new Res_dos(fname, RES_TRY);
-	data = new char[res->size()];
-	res->read(data, res->size());
+  if (!res) {
+    cerr << "could not open input file: " << fname << endl;
+    exit(1);
+  }
 
-	wad->add(path(fname).filename().string().c_str(), res->size(), data);
+  res.seekg(0, res.end);
+  const ifstream::pos_type length(res.tellg());
+  res.seekg(0, res.beg);
 
-	delete res;
-	delete[] data;
+  string data;
+  data.resize(length, 0);
+  res.read(&*data.begin(), length);
 
-	printf("done\n");
+  wad.add(path(fname).filename().string().c_str(), data.size(), data.data());
 }
 
+
 extern "C" int main(int ARGC, char **ARGV) {
-	Res_dos *res;
-	uint8_t* data;
+  if(ARGC < 4) {
+    cerr << ARGV[0] << ": usage: wadder <working directory> <output res> "
+      "<input text>" << endl;
+    return 1;
+  }
 
-	if(ARGC < 4) {
-		fprintf(stderr, "%s: %s", ARGV[0], usage);
-		exit(1);
-	}
+  Resfile wad;
+  ifstream listfile(ARGV[3]);
+  while (listfile.good()) {
+    std::string line;
 
-	wad = new Resfile;
-	res = new Res_dos(ARGV[3], RES_READ);
-	data = new uint8_t[res->size()+1];
+    if (listfile >> line)
+      addfile(wad, ARGV[1] + line);
+  }
 
-	memcpy(data, res->buf(), res->size());
+  Res_dos outfile(ARGV[2], RES_CREATE);
+  wad.freeze(outfile);
 
-	Stringtable st(data, res->size());
-
-	for(int i=0; i<st.size(); i++)
-	{
-		char temp[256];
-		sprintf(temp, "%s%s", ARGV[1], st.get(i));
-		addfile(temp);
-	}
-
-	delete[] data;
-	delete res;
-
-	Res_dos output(ARGV[2], RES_CREATE);
-	wad->freeze(output);
-
-	delete wad;
-
-	return 0;
+  return 0;
 }
