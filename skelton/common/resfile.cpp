@@ -62,6 +62,30 @@ Resfile::~Resfile() {
 		delete res;
 }
 
+void Resfile::freeze() {
+	int resnamelen;
+	Resdata *ptr;
+	uint32_t d;
+
+	res->write(&signature, sizeof(signature));
+
+	ptr = list;
+
+  while(ptr != NULL) {
+		resnamelen = strlen(ptr->name)+1;
+                d = INTELDWORD(resnamelen);
+		res->write(&d, sizeof(d));
+		res->write(ptr->name, resnamelen);
+                d = INTELDWORD(ptr->size);
+		res->write(&d, sizeof(d));
+		res->write(ptr->data, ptr->size);
+    ptr = ptr->next;
+  }
+
+	resnamelen = 0;
+	res->write(&resnamelen, sizeof(resnamelen));
+}
+
 void Resfile::thaw() {
 	char sig[sizeof(signature)];
 	int resnamelen;
@@ -99,6 +123,18 @@ void Resfile::clear() {
 		delete list;
 
 	list = NULL;
+}
+
+void Resfile::add(const char *resname, const int size, const char *resdata) {
+	char *myname;
+	uint8_t *mydata;
+
+	myname = new char[strlen(resname)+1];
+	memcpy(myname, resname, strlen(resname)+1);
+	mydata = new uint8_t[size];
+	memcpy(mydata, resdata, size);
+
+	list = new Resdata(myname, size, mydata, list);
 }
 
 int Resfile::get(const char *resname, uint8_t **resdata) {

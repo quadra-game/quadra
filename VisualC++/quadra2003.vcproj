@@ -287,9 +287,6 @@
 				RelativePath="..\skelton\common\resmanager.cpp">
 			</File>
 			<File
-				RelativePath="..\skelton\common\reswriter.cpp">
-			</File>
-			<File
 				RelativePath="..\source\score.cpp">
 			</File>
 			<File

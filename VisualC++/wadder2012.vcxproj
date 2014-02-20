@@ -133,7 +133,6 @@
     <ClCompile Include="..\skelton\common\res_compress.cpp" />
     <ClCompile Include="..\skelton\common\resfile.cpp" />
     <ClCompile Include="..\skelton\common\resmanager.cpp" />
-    <ClCompile Include="..\skelton\common\reswriter.cpp" />
     <ClCompile Include="..\skelton\directx\sound.cpp" />
     <ClCompile Include="..\skelton\common\sprite.cpp" />
     <ClCompile Include="..\skelton\common\stringtable.cpp" />

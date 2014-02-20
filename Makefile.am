@@ -101,7 +101,6 @@ quadra_SOURCES = \
 	skelton/common/res_compress.cpp \
 	skelton/common/resfile.cpp \
 	skelton/common/resmanager.cpp \
-	skelton/common/reswriter.cpp \
 	skelton/common/sprite.cpp \
 	skelton/common/stringtable.cpp \
 	skelton/common/unicode.cpp \
@@ -192,7 +191,6 @@ wadder_LDADD = $(SDL2_LIBS) $(BOOST_FILESYSTEM_LIB) $(BOOST_SYSTEM_LIB)
 wadder_SOURCES = \
 	skelton/common/resfile.cpp \
 	skelton/common/resmanager.cpp \
-	skelton/common/reswriter.cpp \
 	skelton/common/stringtable.cpp \
 	skelton/include/error.h \
 	skelton/include/res.h \
@@ -207,7 +205,6 @@ wadder_SOURCES = \
 dumpwad_LDADD = $(SDL2_LIBS)
 dumpwad_SOURCES = \
 	skelton/common/resfile.cpp \
-	skelton/common/reswriter.cpp \
 	skelton/include/error.h \
 	skelton/include/res.h \
 	skelton/include/resfile.h \
