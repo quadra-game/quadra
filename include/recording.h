@@ -24,17 +24,16 @@
 #include <stdint.h>
 #include <vector>
 
-#include "types.h"
 #include "net_stuff.h"
 #include "buf.h"
 
 class Res_compress;
-class Res;
-class Canvas;
 
 class Recording {
 	char playername[40];
 	int score, lines, level;
+	uint32_t frame;
+	Res_compress *res;
 	/*
 	Voici les hunks:
 		0: start_for_single: un seed pis 3 repeatspeeds
@@ -46,17 +45,15 @@ class Recording {
 	*/
 	void write_hunk(uint8_t h);
 	void end_single(Canvas *c);
+	void write_summary();
 public:
-	uint32_t frame;
 	void step();
-	Res_compress *res;
 	Recording();
-	virtual ~Recording();
+	~Recording();
 	void start_for_multi(Packet* p);
 	void write_packet(Packet* p);
 	bool create(const char *n);
 	void end_multi();
-	void write_summary();
 };
 
 class Demo_packet {
@@ -67,8 +64,6 @@ public:
 	Demo_packet(uint32_t pframe, Packet* pp);
 	virtual ~Demo_packet();
 };
-
-class Dict;
 
 class Playback {
 	Res *res;
@@ -81,6 +76,7 @@ class Playback {
 	void read_info();
 	void read_packet();
 	void read_summary();
+	bool check_scores(Canvas* c);
 	Buf data;
 	uint32_t nextByte;
 	std::vector<Demo_packet*> packets;
@@ -106,7 +102,6 @@ public:
 	void set_verification_flag(bool *p);
 	bool verify_summary(const Game *game);
 	uint8_t get_byte();
-	bool check_scores(Canvas* c);
 	Demo_packet next_packet();
 	void remove_packet();
 };
