@@ -55,7 +55,7 @@ Res_dos::Res_dos(const char *fil, Res_mode mode) {
   }
 }
 
-uint32_t Res_dos::size() {
+uint32_t Res_dos::size() const {
   struct stat buf;
   fstat(handle, &buf);
   return buf.st_size;
@@ -84,20 +84,21 @@ void Res_dos::write(const void *b, int nb) {
 		fatal_msgbox("Error writing file");
 }
 
-const void* Res_dos::buf() {
+const void* Res_dos::buf() const {
 	if(_buf)
 		return _buf;
 	_buf = new uint8_t[size()];
 	if(_buf == NULL)
 		fatal_msgbox("Not enough memory");
-	read(_buf, size());
+	if (::read(handle, _buf, size()) < 0)
+		fatal_msgbox("error reading file");
 	return _buf;
 }
 
-bool Res_dos::eof() {
+bool Res_dos::eof() const {
 	return (get_position() >= size()) ? true:false;
 }
 
-uint32_t Res_dos::get_position() {
+uint32_t Res_dos::get_position() const {
 	return lseek(handle, 0, SEEK_CUR);
 }

@@ -48,12 +48,12 @@ public:
 	}
 	virtual ~Res() {
 	}
-	virtual int read(void *b, int nb)=0;
-	virtual uint32_t size()=0;
-	virtual void position(uint32_t po)=0;
-	virtual const void *buf()=0;
-	virtual bool eof()=0;
-	virtual uint32_t get_position()=0;
+	virtual int read(void *b, int nb) = 0;
+	virtual uint32_t size() const = 0;
+	virtual void position(uint32_t po) = 0;
+	virtual const void *buf() const = 0;
+	virtual bool eof() const = 0;
+	virtual uint32_t get_position() const = 0;
 
 private:
 	Res(const Res&);
@@ -83,16 +83,16 @@ public:
 	virtual void position(uint32_t po) {
 		pos = po;
 	}
-	virtual const void *buf() {
+	virtual const void *buf() const {
 		return(_buf + pos);
 	}
-	virtual bool eof() {
+	virtual bool eof() const {
 		return (pos >= size());
 	}
-	virtual uint32_t get_position() {
+	virtual uint32_t get_position() const {
 		return pos;
 	}
-	virtual uint32_t size() {
+	virtual uint32_t size() const {
 		return ressize;
 	}
 };
@@ -111,7 +111,7 @@ enum Res_mode {
 
 class Res_dos: public Res {
 	int handle;
-	void *_buf;
+	mutable void *_buf;
 public:
 	bool exist;
 	Res_dos(const char *fil, Res_mode mode=RES_READ);
@@ -119,10 +119,10 @@ public:
 	virtual void position(uint32_t po);
 	virtual int read(void *b, int nb);
 	virtual void write(const void *b, int nb);
-	virtual uint32_t size();
-	virtual const void* buf();
-	virtual bool eof();
-	virtual uint32_t get_position();
+	virtual uint32_t size() const;
+	virtual const void* buf() const;
+	virtual bool eof() const;
+	virtual uint32_t get_position() const;
 };
 
 #endif
