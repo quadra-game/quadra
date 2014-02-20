@@ -72,6 +72,7 @@
 #include "net_server.h"
 #include "quadra.h"
 #include "update.h"
+#include "resmanager.h"
 
 using std::max;
 using std::min;

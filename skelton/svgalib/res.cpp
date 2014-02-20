@@ -18,8 +18,17 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <sys/stat.h>
 #include "res.h"
+
+#include <sys/stat.h>
+
+#include "resmanager.h"
+
+Res_doze::Res_doze(const ResName& res) {
+	ressize = resmanager->get(res, &_buf);
+	if(!_buf)
+		fatal_msgbox("Unable to find resource: %s", res.name_.c_str());
+}
 
 Res_dos::Res_dos(const char *fil, Res_mode mode) {
 	int flag(0);

@@ -23,6 +23,7 @@
 
 #include <set>
 #include <stdint.h>
+#include <vector>
 
 #include "SDL.h"
 

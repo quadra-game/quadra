@@ -26,7 +26,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "resfile.h"
-#include "resmanager.h"
 #include "config.h"
 
 #ifdef WIN32
@@ -93,11 +92,7 @@ public:
 
 class Res_doze: public Res_mem {
 public:
-	Res_doze(const ResName& res) {
-		ressize = resmanager->get(res, &_buf);
-		if(!_buf)
-			fatal_msgbox("Unable to find resource: %s", res.name_.c_str());
-	}
+	Res_doze(const ResName& res);
 };
 
 enum Res_mode {
