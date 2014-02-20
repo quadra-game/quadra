@@ -29,7 +29,6 @@ class Res_compress: public Res_mem {
 	Res_mode mode;
 	Res *res;
 	Res_dos *res_dos;
-	mutable uint32_t ressize;
 	mutable uint32_t write_pos;
 	void read_uncompress();
 public:
@@ -39,7 +38,6 @@ public:
 	Res_compress(const ResName& fil, Res_mode pmode=RES_READ);
 	virtual ~Res_compress();
 	virtual void write(const void *b, int nb);
-	virtual uint32_t size();
 };
 
 #endif

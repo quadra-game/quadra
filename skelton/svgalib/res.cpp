@@ -21,11 +21,6 @@
 #include <sys/stat.h>
 #include "res.h"
 
-Res_mem::Res_mem() {
-	pos = 0;
-	_buf = NULL;
-}
-
 Res_dos::Res_dos(const char *fil, Res_mode mode) {
 	int flag(0);
 	_buf = NULL;

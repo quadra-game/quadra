@@ -27,7 +27,6 @@ using std::max;
 
 Res_compress::Res_compress(const char *fil, Res_mode pmode, bool res_doze) {
 	mode = pmode;
-	ressize = 0;
 	write_pos = 0;
 	res_dos = new Res_dos(fil, mode);
 	res = res_dos;
@@ -39,7 +38,6 @@ Res_compress::Res_compress(const char *fil, Res_mode pmode, bool res_doze) {
 
 Res_compress::Res_compress(const ResName& fil, Res_mode pmode) {
 	mode = pmode;
-	ressize = 0;
 	write_pos = 0;
 	res = new Res_doze(fil);
 	if((mode == RES_TRY && exist) || mode == RES_READ) {
@@ -105,10 +103,6 @@ void Res_compress::write(const void *b, int nb) {
 	}
 	memcpy(_buf + write_pos, b, nb);
 	write_pos += nb;
-}
-
-uint32_t Res_compress::size() {
-	return ressize;
 }
 
 void Res_compress::write_compress() {

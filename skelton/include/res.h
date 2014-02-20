@@ -58,8 +58,13 @@ class Res_mem: public Res {
 protected:
 	uint8_t *_buf;
 	uint32_t pos;
+	uint32_t ressize;
 public:
-	Res_mem();
+	Res_mem()
+		: _buf(NULL),
+			pos(0),
+			ressize(0) {
+	}
 	virtual int read(void *b, int nb) {
 		if(pos+nb>size()) {
 			memset(b, 0, nb);
@@ -81,20 +86,17 @@ public:
 	virtual uint32_t get_position() {
 		return pos;
 	}
+	virtual uint32_t size() {
+		return ressize;
+	}
 };
 
 class Res_doze: public Res_mem {
-	unsigned int ressize;
 public:
 	Res_doze(const ResName& res) {
 		ressize = resmanager->get(res.name_.c_str(), &_buf);
 		if(!_buf)
 			fatal_msgbox("Unable to find resource: %s", res.name_.c_str());
-	}
-	virtual ~Res_doze() {
-	}
-	virtual uint32_t size() {
-		return ressize;
 	}
 };
 
