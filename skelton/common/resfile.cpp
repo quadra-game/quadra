@@ -135,13 +135,13 @@ void Resfile::add(const char *resname, const int size, const char *resdata) {
 	list = new Resdata(myname, size, mydata, list);
 }
 
-int Resfile::get(const char *resname, uint8_t **resdata) const {
+int Resfile::get(const ResName& resname, uint8_t **resdata) const {
 	Resdata *ptr;
 
 	ptr = list;
 
 	while(ptr != NULL) {
-		if(strcasecmp(ptr->name, resname) == 0)
+		if(strcasecmp(ptr->name, resname.name_.c_str()) == 0)
 			break;
 		ptr = ptr->next;
 	}

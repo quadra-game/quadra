@@ -94,7 +94,7 @@ public:
 class Res_doze: public Res_mem {
 public:
 	Res_doze(const ResName& res) {
-		ressize = resmanager->get(res.name_.c_str(), &_buf);
+		ressize = resmanager->get(res, &_buf);
 		if(!_buf)
 			fatal_msgbox("Unable to find resource: %s", res.name_.c_str());
 	}

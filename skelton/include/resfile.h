@@ -24,6 +24,7 @@
 #include <stdint.h>
 
 class Res;
+class ResName;
 class Res_dos;
 
 const char signature[4] = "UGS";
@@ -52,7 +53,7 @@ public:
 	~Resfile();
 	void freeze(Res_dos& res) const;
 	void add(const char *resname, int size, const char *resdata);
-	int get(const char *resname, uint8_t **resdata) const;
+	int get(const ResName& resname, uint8_t **resdata) const;
 	void remove(const char* resname);
 };
 
