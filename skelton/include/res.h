@@ -44,13 +44,20 @@
 
 class Res {
 public:
-	virtual ~Res() { }
+	Res() {
+	}
+	virtual ~Res() {
+	}
 	virtual int read(void *b, int nb)=0;
 	virtual uint32_t size()=0;
 	virtual void position(uint32_t po)=0;
 	virtual const void *buf()=0;
 	virtual bool eof()=0;
 	virtual uint32_t get_position()=0;
+
+private:
+	Res(const Res&);
+	Res& operator=(const Res&);
 };
 
 class Res_mem: public Res {
