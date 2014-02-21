@@ -205,6 +205,7 @@ wadder_SOURCES = \
 dumpwad_LDADD = $(SDL2_LIBS)
 dumpwad_SOURCES = \
 	skelton/common/resfile.cpp \
+	skelton/common/resmanager.cpp \
 	skelton/include/error.h \
 	skelton/include/res.h \
 	skelton/include/resfile.h \
