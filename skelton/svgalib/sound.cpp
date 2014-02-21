@@ -235,13 +235,13 @@ Sound::~Sound() {
   SDL_CloseAudio();
 }
 
-Sample::Sample(Res& re):
+Sample::Sample(const Res& re):
   data(NULL) {
   if(sound)
     loadriff(re);
 }
 
-void Sample::loadriff(Res& _res) {
+void Sample::loadriff(const Res& _res) {
 	SDL_AudioSpec spec;
 	Uint8 *audio_buf;
 	Uint32 audio_len;

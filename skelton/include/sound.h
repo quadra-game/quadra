@@ -45,9 +45,9 @@ public:
 
 class Sample {
   SampleData* data;
-	void loadriff(Res& _res);
+	void loadriff(const Res& _res);
 public:
-	Sample(Res& re);
+	Sample(const Res& re);
 	void play(int _vol, int _pan, int _freq);
 	~Sample();
 };

@@ -1869,103 +1869,36 @@ void init_stuff(bool need_sound=true, bool need_video=true) {
 
 	chat_text = new Chat_text(fonts.normal, 212);
 	net_starter = new Net_starter();
-	{
-		Res_doze res(res_cuckoo_wav);
-		sons.pause = new Sample(res);
-	}
-	{
-		Res_doze res(res_hooter03_wav);
-		sons.start = new Sample(res);
-	}
-	{
-		Res_doze res(res_whizz1_wav);
-		sons.bonus1 = new Sample(res);
-	}
-	{
-		Res_doze res(res_glissup_wav);
-		sons.levelup = new Sample(res);
-	}
-	{
-		Res_doze res(res_clang3_wav);
-		sons.depose4 = new Sample(res); // quand le canvas 'coule'
-	}
+	sons.pause = new Sample(Res_doze(res_cuckoo_wav));
+	sons.start = new Sample(Res_doze(res_hooter03_wav));
+	sons.bonus1 = new Sample(Res_doze(res_whizz1_wav));
+	sons.levelup = new Sample(Res_doze(res_glissup_wav));
+	// quand le canvas 'coule'
+	sons.depose4 = new Sample(Res_doze(res_clang3_wav));
 	sons.flash = NULL;
 	sons.depose3 = NULL;
 	sons.depose2 = NULL;
 	sons.depose = NULL;
 	sons.drip = NULL;
-	{
-		Res_doze res(res_glass01_wav);
-		sons.glass = new Sample(res);
-	}
-	{
-		Res_doze res(res_tapdrip_wav);
-		sons.enter = new Sample(res);
-	}
-	{
-		Res_doze res(res_w_bayo_0_wav);
-		sons.fadein = new Sample(res);
-	}
-	{
-		Res_doze res(res_fadeout_wav);
-		sons.fadeout = new Sample(res);
-	}
-	{
-		Res_doze res(res_click_1_wav);
-		sons.point = new Sample(res);
-	}
-	{
-		Res_doze res(res_blip1_wav);
-		sons.click = new Sample(res);
-	}
-	{
-		Res_doze res(res_handbell_wav);
-		sons.msg = new Sample(res);
-	}
-	{
-		Res_doze res(res_potato_get_wav);
-		sons.potato_get = new Sample(res);
-	}
-	{
-		Res_doze res(res_zingle_wav);
-		sons.potato_rid = new Sample(res);
-	}
-	{ //-roncli 4/29/01 Load countdown samples
-		Res_doze res(res_t1min_wav);
-		sons.minute = new Sample(res);
-	}
-	{
-		Res_doze res(res_t30sec_wav);
-		sons.thirty = new Sample(res);
-	}
-	{
-		Res_doze res(res_t20sec_wav);
-		sons.twenty = new Sample(res);
-	}
-	{
-		Res_doze res(res_t10sec_wav);
-		sons.ten = new Sample(res);
-	}
-	{
-		Res_doze res(res_t5sec_wav);
-		sons.five = new Sample(res);
-	}
-	{
-		Res_doze res(res_t4sec_wav);
-		sons.four = new Sample(res);
-	}
-	{
-		Res_doze res(res_t3sec_wav);
-		sons.three = new Sample(res);
-	}
-	{
-		Res_doze res(res_t2sec_wav);
-		sons.two = new Sample(res);
-	}
-	{
-		Res_doze res(res_t1sec_wav);
-		sons.one = new Sample(res);
-	}
+	sons.glass = new Sample(Res_doze(res_glass01_wav));
+	sons.enter = new Sample(Res_doze(res_tapdrip_wav));
+	sons.fadein = new Sample(Res_doze(res_w_bayo_0_wav));
+	sons.fadeout = new Sample(Res_doze(res_fadeout_wav));
+	sons.point = new Sample(Res_doze(res_click_1_wav));
+	sons.click = new Sample(Res_doze(res_blip1_wav));
+	sons.msg = new Sample(Res_doze(res_handbell_wav));
+	sons.potato_get = new Sample(Res_doze(res_potato_get_wav));
+	sons.potato_rid = new Sample(Res_doze(res_zingle_wav));
+	//-roncli 4/29/01 Load countdown samples
+	sons.minute = new Sample(Res_doze(res_t1min_wav));
+	sons.thirty = new Sample(Res_doze(res_t30sec_wav));
+	sons.twenty = new Sample(Res_doze(res_t20sec_wav));
+	sons.ten = new Sample(Res_doze(res_t10sec_wav));
+	sons.five = new Sample(Res_doze(res_t5sec_wav));
+	sons.four = new Sample(Res_doze(res_t4sec_wav));
+	sons.three = new Sample(Res_doze(res_t3sec_wav));
+	sons.two = new Sample(Res_doze(res_t2sec_wav));
+	sons.one = new Sample(Res_doze(res_t1sec_wav));
 	cursor = new Cursor;
 	for(i=0; i<8; i++)
 		fteam[i] = new Font(*fonts.normal);
