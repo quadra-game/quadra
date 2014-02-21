@@ -20,15 +20,33 @@
 
 #include "image_png.h"
 
+struct BufPtr {
+  BufPtr(const void* buf, uint32_t size)
+    : buf_(buf),
+      size_(size),
+      pos_(0) {
+  }
+
+  const void* const buf_;
+  const uint32_t size_;
+  uint32_t pos_;
+};
+
 static void res_read_func(png_structp png,
                           png_bytep data,
                           png_size_t len) {
-  Res* res = static_cast<Res*>(png_get_io_ptr(png));
+  BufPtr* bufptr(static_cast<BufPtr*>(png_get_io_ptr(png)));
 
-  res->read(data, len);
+  if (len > bufptr->size_ - bufptr->pos_) {
+    memset(data, 0, len);
+    len = bufptr->size_ - bufptr->pos_;
+  }
+
+  memcpy(data, static_cast<const char*>(bufptr->buf_) + bufptr->pos_, len);
+  bufptr->pos_ += len;
 }
 
-Png::Png(Res& res) : w(0), h(0), palsize(0), pal_(NULL), pic_(NULL) {
+Png::Png(const Res& res) : w(0), h(0), palsize(0), pal_(NULL), pic_(NULL) {
   png_structp png;
   png_infop info;
   png_infop end_info;
@@ -47,7 +65,8 @@ Png::Png(Res& res) : w(0), h(0), palsize(0), pal_(NULL), pic_(NULL) {
   if(!end_info)
     fatal_msgbox("Unable to create end_info of libpng");
 
-  png_set_read_fn(png, &res, res_read_func);
+  BufPtr bufptr(res.buf(), res.size());
+  png_set_read_fn(png, &bufptr, res_read_func);
 
   png_read_info(png, info);
 

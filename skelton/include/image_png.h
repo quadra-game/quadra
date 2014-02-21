@@ -35,7 +35,7 @@ private:
   uint8_t* pal_;
   uint8_t* pic_;
 public:
-  Png(Res& res);
+  Png(const Res& res);
   virtual ~Png();
   virtual int width() const {
     return w;
