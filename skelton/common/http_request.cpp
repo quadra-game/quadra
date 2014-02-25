@@ -24,12 +24,6 @@
 #include "net.h"
 #include "http_request.h"
 
-// Hack: strdup is apparently 'deprecated' on Visual C++ 2005
-// and is replaced by _strdup
-#ifdef WIN32
-#define strdup _strdup
-#endif
-
 char Http_request::base64table[] = {
   'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
   'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
@@ -125,9 +119,9 @@ Http_request::Http_request(const char *aHost, int port, const uint8_t *request, 
 		this->size=size? size:strlen((const char *)request);
 	}
 	if(aHost) {
-		host = strdup(aHost);
+		host = aHost;
 	} else {
-		host = NULL;
+		host.clear();
 	}
 	nc=net->start_other(aHost, port); // nc could be NULL in case of error!
 	sent=false;
@@ -139,17 +133,15 @@ Http_request::Http_request(const char* aHost, uint32_t hostaddr, int port, const
 		this->size=size? size:strlen((const char *)request);
 	}
 	if(aHost) {
-		host = strdup(aHost);
+		host = aHost;
 	} else {
-		host = NULL;
+		host.clear();
 	}
 	nc=net->start_other(hostaddr, port); // nc could be NULL in case of error!
 	sent=false;
 }
 
 Http_request::~Http_request() {
-	if(host)
-		free(host);
 	if(nc)
 		delete nc;
 }

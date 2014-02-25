@@ -22,6 +22,7 @@
 #define _HEADER_HTTP_REQUEST
 
 #include <stdint.h>
+#include <string>
 
 #include "types.h"
 #include "buf.h"
@@ -38,7 +39,7 @@ protected:
 	int size;
 	void sendrequest();
 	bool sent;
-	char* host;
+	std::string host;
 public:
 	Http_request(const char *aHost, int port, const uint8_t *request=NULL, int size=0);
 	Http_request(const char *aHost, uint32_t hostaddr, int port, const uint8_t *request=NULL, int size=0);

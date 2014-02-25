@@ -67,9 +67,9 @@ void Http_post::send() {
 	url.append("POST ");
 	url.append(cgi);
 	url.append(" HTTP/1.0\r\n");
-	if(host) {
+	if(!host.empty()) {
 		url.append("Host: ");
-		url.append(host);
+		url.append(reinterpret_cast<const uint8_t*>(host.data()), host.size());
 		url.append("\r\n");
 	}
 	sprintf(st, "User-Agent: Quadra/%s\r\n", VERSION_STRING);

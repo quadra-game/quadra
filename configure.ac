@@ -34,7 +34,7 @@ AC_TYPE_UINT32_T
 AC_TYPE_UINT8_T
 
 # Checks for library functions.
-AC_CHECK_FUNCS([atexit ftime getcwd gethostbyname gethostname gettimeofday inet_ntoa memmove memset mkdir select socket strcasecmp strchr strdup strerror strncasecmp strrchr strstr])
+AC_CHECK_FUNCS([atexit ftime getcwd gethostbyname gethostname gettimeofday inet_ntoa memmove memset mkdir select socket strcasecmp strchr strerror strncasecmp strrchr strstr])
 AC_SEARCH_LIBS([compress], [z],, AC_MSG_ERROR([Could not find library for zlib (required).]))
 AC_SEARCH_LIBS([png_create_read_struct], [png],, AC_MSG_ERROR([Could not find library for libpng (required).]))
 
