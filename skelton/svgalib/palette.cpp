@@ -22,6 +22,8 @@
 #include "autoconf.h"
 #endif
 
+#include "SDL.h"
+
 #include <stdio.h>
 #include <unistd.h>
 #include "types.h"
@@ -118,10 +120,7 @@ int Fade::step() {
   if(currentframe==destframe)
     return 1;
   else {
-#if 0
-    if(dynamic_cast<Video_X11_8*>(video))
-      usleep(3000);
-#endif
+    SDL_Delay(1);
     for(int i(0); i<768; i++)
       current[i]+=delta[i];
     currentframe++;

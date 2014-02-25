@@ -59,6 +59,11 @@ public:
   }
 
   virtual void end_frame() {
+    if (newpal) {
+      pal.set();
+      newpal = false;
+    }
+
     Uint32 pixel_format;
     int w, h;
     SDL_QueryTexture(texture_, &pixel_format, NULL, &w, &h);
