@@ -35,10 +35,6 @@ class Video_bitmap;
 class Bitmap;
 
 class Bitmap: public Clipable {
-	friend class Video;
-	friend class Video_bitmap;
-	friend class DirectX_Video;
-	friend class DirectX_Video_bitmap;
 	void initlines();
  public:
 	int const realwidth;
