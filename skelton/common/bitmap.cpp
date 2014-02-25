@@ -68,7 +68,7 @@ Bitmap::Bitmap(void* m, int w, int h, int rw, int bob):
 	memcpy(mem, m, size);
 }
 
-Bitmap::Bitmap(const Image& raw, bool dx):
+Bitmap::Bitmap(const Image& raw):
 	  Clipable(raw.width(), raw.height()),
 	  realwidth(width*sizeof(uint8_t)),
 	  zlines(new int[height]),
