@@ -43,8 +43,6 @@ typedef struct {
 
 class Palette {
 private:
-  friend class Fade;
-  friend class Remap;
   PALETTEENTRY pal[256];
 public:
   int size;
@@ -61,13 +59,13 @@ public:
   }
   void load(const Image& raw);
   void set() const;
-  uint8_t r(uint8_t c) {
+  uint8_t r(uint8_t c) const {
     return pal[c].peRed;
   }
-  uint8_t g(uint8_t c) {
+  uint8_t g(uint8_t c) const {
     return pal[c].peGreen;
   }
-  uint8_t b(uint8_t c) {
+  uint8_t b(uint8_t c) const {
     return pal[c].peBlue;
   }
   void setcolor(uint8_t c, uint8_t r, uint8_t g, uint8_t b) {
