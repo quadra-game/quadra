@@ -40,7 +40,6 @@ Bitmap::Bitmap(int w, int h, int rw):
 		lines(new uint8_t*[height]),
 		size(h*rw),
 		fmem(1) {
-	directx = false;
 	initlines();
 	setmem((void*)new uint8_t[size]);
 	clear(0);
@@ -53,7 +52,6 @@ Bitmap::Bitmap(void* m, int w, int h, int rw):
 		lines(new uint8_t*[height]),
 		size(h*rw),
 		fmem(0) {
-	directx = false;
 	initlines();
 	setmem(m);
 }
@@ -65,7 +63,6 @@ Bitmap::Bitmap(void* m, int w, int h, int rw, int bob):
 		lines(new uint8_t*[height]),
 		size(h*rw),
 		fmem(1) {
-	directx = false;
 	initlines();
 	setmem((void*)new uint8_t[size]);
 	memcpy(mem, m, size);
@@ -78,7 +75,6 @@ Bitmap::Bitmap(const Image& raw, bool dx):
 	  lines(new uint8_t*[height]),
 	  size(height*realwidth),
 	  fmem(1) {
-	directx = false;
 	initlines();
 	setmem((void*)new uint8_t[size]);
 	reload(raw);

@@ -48,8 +48,6 @@ class Bitmap: public Clipable {
 	uint32_t const size;
 	uint8_t* mem;
 	uint8_t const fmem;
-  /* FIXME: this is awful. */
-	bool directx;
  public:
 	static Bitmap* loadPng(const ResName& n);
 	Bitmap(int w, int h, int rw); // empty bitmap
