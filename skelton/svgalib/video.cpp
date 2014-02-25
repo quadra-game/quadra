@@ -36,7 +36,7 @@ public:
     : Video(new Video_bitmap_SDL(this, 0, 0, w, h), w, h, w),
       window_(SDL_CreateWindow(
         "Quadra", SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED, w, h, 0)),
-      renderer_(SDL_CreateRenderer(window_, -1, 0)),
+      renderer_(SDL_CreateRenderer(window_, -1, SDL_RENDERER_PRESENTVSYNC)),
       texture_(SDL_CreateTexture(
         renderer_, SDL_GetWindowPixelFormat(window_),
         SDL_TEXTUREACCESS_STREAMING, w, h)),
