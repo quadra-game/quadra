@@ -32,7 +32,6 @@
 #define COPY 1
 
 class Video_bitmap;
-class Bitmap;
 
 class Bitmap: public Clipable {
 	void initlines();
