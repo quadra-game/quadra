@@ -81,7 +81,7 @@ Fontdata::Fontdata(Res &res, int s) {
 
 Fontdata::Fontdata(const Fontdata &o) {
 	for(int i=0; i<FONT_SIZE; i++) {
-		if(o.spr[i]) 
+		if(o.spr[i])
 			spr[i] = new Sprite(*o.spr[i], o.spr[i]->hot_x, o.spr[i]->hot_y);
 		else
 			spr[i] = NULL;
