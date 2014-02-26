@@ -195,6 +195,8 @@ void raw_small_draw_bloc(const Video_bitmap* bit, int x, int y, uint8_t side, Co
 		bit->hline(y+ry+i, x+rx, rw, col->shade(4));
 }
 
+namespace {
+
 void init_directory() {
 	strcpy(quadradir, exe_directory);
 #ifdef WIN32
@@ -405,6 +407,8 @@ void read_script(const char *fn, bool second=false) {
 	else
 		msgbox("Can't find script %s, ignoring.\n", fn);
 }
+
+}  // namespace
 
 void start_game() {
 	if(command.token("113"))
