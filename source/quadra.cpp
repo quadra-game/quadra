@@ -408,6 +408,105 @@ void read_script(const char *fn, bool second=false) {
 		msgbox("Can't find script %s, ignoring.\n", fn);
 }
 
+void main_loop(Executor& menu, bool demo_verif) {
+	overmind.start(&menu);
+
+	uint32_t acc(0);
+	bool reset_time(false);
+	while (!menu.done) {
+		const uint32_t last(SDL_GetTicks());
+		if (demo_verif) {
+			acc=500;
+			while (acc--)
+				overmind.step();
+		} else {
+#ifdef PAINTDETECTOR2000
+			bool sounded(false);
+#endif
+			while (acc >= 10) {
+				if (reset_time) { // remet 'normal' seulement si au moins 1 frame s'est ecoule
+					time_control = TIME_NORMAL;
+					reset_time = false;
+				}
+				acc -= 10;
+				try {
+					overmind.step();
+				}
+				catch(std::exception *e) {
+					msgbox("Exception caught from overmind.step(): %s\n", e->what());
+				}
+#ifdef PAINTDETECTOR2000
+				if (video->need_paint == 2 && !sounded) {
+					sons.msg->play(0, 0, 11025);
+					sounded = true;
+				}
+#endif
+				reset_time = true;
+				if (time_control == TIME_FREEZE)
+					break;
+			}
+		}
+
+		input->check();
+
+		if (ecran && !video_is_dumb) {
+			try {
+				ecran->draw_zone();
+			}
+			catch(std::exception *e) {
+				msgbox("Exception caught from ecran->draw_zone(): %s\n", e->what());
+			}
+
+#ifdef FRAMECOUNTER
+			static uint32_t lastvideoframe(0), lastoverframe(0);
+			if (ecran->font) {
+				if (overmind.framecount - lastoverframe > 500) {
+					lastoverframe = overmind.framecount;
+					lastvideoframe = video->framecount;
+				}
+				int up(999);
+				if (overmind.framecount - lastoverframe > 0)
+					up = ((video->framecount - lastvideoframe) * 100) / (overmind.framecount - lastoverframe);
+				video->vb->rect(0,0,50,20,0);
+				char st[80];
+				sprintf(st, "%i", up);
+				ecran->font->draw(st, video->vb, 0, 0);
+			}
+#endif // FRAMECOUNTER
+		}
+		video->end_frame();
+
+#ifndef NDEBUG
+		if (input->keys[SDL_SCANCODE_F8] & PRESSED) // F8 = buckage
+			SDL_Delay(250);
+		if (input->keys[SDL_SCANCODE_F9] & PRESSED) // F9 = slow motion mode
+			time_control = TIME_SLOW;
+		if (input->keys[SDL_SCANCODE_F10] & PRESSED) // F10 = turbo mode
+			time_control = TIME_FAST;
+#endif
+
+		switch (time_control) {
+		case TIME_FREEZE:
+			acc = 10; break;
+		case TIME_SLOW:
+			acc += 1; break;
+		case TIME_FAST:
+			acc += 80; break;
+		default:
+			acc += SDL_GetTicks() - last;
+		}
+		if (acc > 300 && !video_is_dumb) {
+			overmind.framecount += acc - 300;
+			acc = 300; // pour eviter trop de depassement
+		}
+		if (acc > 10000) {
+			msgbox("Not enough CPU time to be server!\n");
+			overmind.framecount += acc - 10;
+			acc = 10;
+		}
+	}
+}
+
 }  // namespace
 
 int start_game() {
@@ -518,8 +617,6 @@ int start_game() {
   if(!no_video)
     AutoUpdater::start();
 
-	uint32_t last=0;
-	uint32_t acc=0;
 	Executor menu;
 	//Add Menu_intro so we get back there after -connect, -server or -play
 	//  unless -thenquit option si specified
@@ -677,95 +774,7 @@ int start_game() {
 		}
 	}
 
-	overmind.start(&menu);
-	bool reset_time=false;
-	while(!menu.done) {
-		last = SDL_GetTicks();
-		if(demo_verif) {
-			acc=500;
-			while(acc--)
-				overmind.step();
-		}
-		else {
-			#ifdef PAINTDETECTOR2000
-			bool sounded=false;
-			#endif
-			while(acc>=10) {
-				if(reset_time) { // remet 'normal' seulement si au moins 1 frame s'est ecoule
-					time_control = TIME_NORMAL;
-					reset_time = false;
-				}
-				acc-=10;
-				try {
-					overmind.step();
-				}
-				catch(std::exception *e) {
-					msgbox("Exception caught from overmind.step(): %s\n", e->what());
-				}
-				#ifdef PAINTDETECTOR2000
-				if(video->need_paint==2 && !sounded) {
-					sons.msg->play(0, 0, 11025);
-					sounded=true;
-				}
-				#endif
-				reset_time=true;
-				if(time_control == TIME_FREEZE)
-					break;
-			}
-		}
-		input->check();
-		if(ecran && !video_is_dumb) {
-			try {
-				ecran->draw_zone();
-			}
-			catch(std::exception *e) {
-				msgbox("Exception caught from ecran->draw_zone(): %s\n", e->what());
-			}
-
-			#ifdef FRAMECOUNTER
-			static uint32_t lastvideoframe=0, lastoverframe=0;
-			if(ecran->font) {
-				if(overmind.framecount-lastoverframe > 500) {
-					lastoverframe = overmind.framecount;
-					lastvideoframe = video->framecount;
-				}
-				int up = 999;
-				if(overmind.framecount-lastoverframe > 0)
-					up = ((video->framecount-lastvideoframe) * 100) / (overmind.framecount-lastoverframe);
-				video->vb->rect(0,0,50,20,0);
-				char st[80];
-				sprintf(st, "%i", up);
-				ecran->font->draw(st, video->vb, 0, 0);
-			}
-			#endif /* FRAMECOUNTER */
-		}
-		video->end_frame();
-
-#ifndef NDEBUG
-		if(input->keys[SDL_SCANCODE_F8] & PRESSED) // F8 = buckage
-			SDL_Delay(250);
-		if(input->keys[SDL_SCANCODE_F9] & PRESSED) // F9 = slow motion mode
-			time_control = TIME_SLOW;
-		if(input->keys[SDL_SCANCODE_F10] & PRESSED) // F10 = turbo mode
-			time_control = TIME_FAST;
-#endif
-
-		switch(time_control) {
-		case TIME_FREEZE: acc = 10; break;
-		case TIME_SLOW: acc += 1; break;
-		case TIME_FAST: acc += 80; break;
-		default: acc += SDL_GetTicks() - last;
-		}
-		if(acc > 300 && !video_is_dumb) {
-			overmind.framecount+=acc-300;
-			acc = 300; // pour eviter trop de depassement
-		}
-		if(acc > 10000) {
-			msgbox("Not enough CPU time to be server!\n");
-			overmind.framecount+=acc-10;
-			acc=10;
-		}
-	}
+	main_loop(menu, demo_verif);
 
 	deinit_stuff();
 	delete resmanager;
