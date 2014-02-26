@@ -37,6 +37,4 @@ extern Time_mode time_control;
 
 extern char exe_directory[];
 
-void start_game();
-
 #endif

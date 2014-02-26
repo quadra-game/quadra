@@ -410,7 +410,7 @@ void read_script(const char *fn, bool second=false) {
 
 }  // namespace
 
-void start_game() {
+int start_game() {
 	if(command.token("113"))
 		Config::net_version = 20;
 	if(command.token("debug")) {
@@ -484,7 +484,7 @@ void start_game() {
 	if(command.token("h help ?")) {
 		display_command_line_help();
 		delete resmanager;
-		return;
+		return 0;
 	}
 	if(_debug && command.token("verify")) {
 		const char *temp = command_get_param("verify <filename>");
@@ -771,6 +771,5 @@ void start_game() {
 	deinit_stuff();
 	delete resmanager;
 
-	if(demo_verif)
-		exit(demo_verified_and_valid ? 0 : 1);
+  return !demo_verif || demo_verified_and_valid ? 0 : 1;
 }

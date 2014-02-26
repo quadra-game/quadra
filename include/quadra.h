@@ -42,5 +42,6 @@ void raw_draw_bloc(const Video_bitmap* bit, int x, int y, uint8_t side, Color* c
 void raw_draw_bloc_corner(const Video_bitmap* bit, int x, int y, uint8_t side, Color* col, uint8_t to[4]);
 void raw_small_draw_bloc(const Video_bitmap* bit, int x, int y, uint8_t side, Color* col);
 void set_fteam_color(const Palette& pal);
+int start_game();
 
 #endif

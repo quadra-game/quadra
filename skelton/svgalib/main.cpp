@@ -37,6 +37,7 @@
 #include "resfile.h"
 #include "command.h"
 #include "main.h"
+#include "quadra.h"
 
 Time_mode time_control = TIME_NORMAL;
 char cmd_line[1024];
@@ -75,8 +76,7 @@ extern "C" int main(int ARGC, char **ARGV) {
     command.add(ARGV[i]);
   }
 
-  start_game();
-  return 0;
+  return start_game();
 }
 
 void delete_obj() {
