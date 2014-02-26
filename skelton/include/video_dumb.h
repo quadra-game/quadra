@@ -47,7 +47,7 @@ public:
   virtual ~Video_Dumb();
   virtual void end_frame();
   virtual void setpal(const Palette& p);
-  virtual void dosetpal(const PALETTEENTRY pal[256], int size);
+  virtual void dosetpal(const SDL_Color pal[256], int size);
   virtual void snap_shot(int x, int y, int w, int h);
   virtual Video_bitmap* new_bitmap(int px, int py, int w, int h);
 };

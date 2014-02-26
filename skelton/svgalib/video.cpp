@@ -91,17 +91,8 @@ public:
   virtual void setpal(const Palette& p) {
     p.set();
   }
-  virtual void dosetpal(const PALETTEENTRY pal[256], int size) {
-    SDL_Color entries[256];
-
-    for (int i = 0; i < size; ++i) {
-      entries[i].r = pal[i].peRed;
-      entries[i].g = pal[i].peGreen;
-      entries[i].b = pal[i].peBlue;
-      entries[i].a = SDL_ALPHA_OPAQUE;
-    }
-
-    SDL_SetPaletteColors(surface_->format->palette, entries, 0, size);
+  virtual void dosetpal(const SDL_Color pal[256], int size) {
+    SDL_SetPaletteColors(surface_->format->palette, pal, 0, size);
   }
   virtual void snap_shot(int x, int y, int w, int h) {
     SDL_assert_release(false);

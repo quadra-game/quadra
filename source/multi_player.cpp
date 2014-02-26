@@ -56,7 +56,6 @@ Multi_player::Multi_player(int *got_high) {
 		Png img(res);
 		bit = new Bitmap(img);
 	}
-	pal.set_size(256);
 	for(i=0; i<9; i++)
 		color[i] = new Color(i, pal);
 	font2 = fteam[4];

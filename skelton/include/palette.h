@@ -21,57 +21,50 @@
 #ifndef _HEADER_PALETTE
 #define _HEADER_PALETTE
 
+#ifdef HAVE_CONFIG_H
+#include "autoconf.h"
+#endif
+
 #include <stdint.h>
 #include <string.h>
-
-#include "config.h"
-
-#ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#endif
 #include <stdio.h>
-#include "types.h"
+
+#include "SDL.h"
+
 #include "error.h"
 #include "image.h"
-
-#ifndef WIN32
-typedef struct {
-  uint8_t peRed, peGreen, peBlue, peFlags;
-} PALETTEENTRY;
-#endif
+#include "types.h"
 
 class Palette {
 private:
-  PALETTEENTRY pal[256];
+  SDL_Color pal[256];
 public:
   int size;
-  Palette() {
+  Palette()
+    : size(256) {
     memset(pal, 0, sizeof(pal));
-    size=256;
   }
-  Palette(const Image& raw) {
+  Palette(const Image& raw)
+    : size(256) {
     memset(pal, 0, sizeof(pal));
     load(raw);
-  }
-  void set_size(int s) {
-    size=s;
   }
   void load(const Image& raw);
   void set() const;
   uint8_t r(uint8_t c) const {
-    return pal[c].peRed;
+    return pal[c].r;
   }
   uint8_t g(uint8_t c) const {
-    return pal[c].peGreen;
+    return pal[c].g;
   }
   uint8_t b(uint8_t c) const {
-    return pal[c].peBlue;
+    return pal[c].b;
   }
   void setcolor(uint8_t c, uint8_t r, uint8_t g, uint8_t b) {
-    pal[c].peRed=r;
-    pal[c].peGreen=g;
-    pal[c].peBlue=b;
+    pal[c].r = r;
+    pal[c].g = g;
+    pal[c].b = b;
+    pal[c].a = SDL_ALPHA_OPAQUE;
   }
 };
 

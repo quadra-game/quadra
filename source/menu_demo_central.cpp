@@ -82,7 +82,6 @@ Menu_demo_central::Menu_demo_central() {
 		bit = new Bitmap(img);
 		pal.load(img);
 	}
-	pal.set_size(256);
 	set_fteam_color(pal);
 
 	fcourrier[0] = new Font(*fonts.courrier, pal, 255,125,0);

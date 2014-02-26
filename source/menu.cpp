@@ -948,7 +948,6 @@ Menu_single::Menu_single() {
     pal.load(img);
   }
 
-  pal.set_size(256); //Useless but whatever
   set_fteam_color(pal);
 
   inter->set_font(new Font(*fonts.normal, pal, 255,255,255));
@@ -988,7 +987,6 @@ Menu_multi::Menu_multi() {
     pal.load(img);
   }
 
-  pal.set_size(256); //Useless but whatever
   set_fteam_color(pal);
 
   inter->set_font(new Font(*fonts.normal, pal, 255,255,255));
@@ -1235,7 +1233,6 @@ Menu_help::Menu_help() {
     bit = new Bitmap(img);
     pal.load(img);
   }
-  pal.set_size(256);
   set_fteam_color(pal);
 
   inter->set_font(new Font(*fonts.normal, pal, 255,255,255));
@@ -1302,7 +1299,6 @@ Menu_option::Menu_option() {
     bit = new Bitmap(img);
     pal.load(img);
   }
-  pal.set_size(256);
   set_fteam_color(pal);
 
   Palette ptemp;
@@ -1637,7 +1633,6 @@ c_start(105), c_gap(4) {
     Bitmap btemp(raw);
     btemp.draw(*bit, 0, 0);
   }
-  pal.set_size(256);
   Palette temp;
   {
     Res_doze res(res_fond0_png);

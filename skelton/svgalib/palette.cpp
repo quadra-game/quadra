@@ -37,12 +37,13 @@ void Palette::set() const {
 }
 
 void Palette::load(const Image& raw) {
-  size=raw.palettesize();
-  int j=0;
-  for(int i(0); i<size; i++) {
-    pal[i].peRed = raw.pal()[j++];
-    pal[i].peGreen = raw.pal()[j++];
-    pal[i].peBlue = raw.pal()[j++];
+  size = raw.palettesize();
+  int j(0);
+  for (int i = 0; i < size; ++i) {
+    pal[i].r = raw.pal()[j++];
+    pal[i].g = raw.pal()[j++];
+    pal[i].b = raw.pal()[j++];
+    pal[i].a = SDL_ALPHA_OPAQUE;
   }
 }
 
@@ -134,7 +135,6 @@ void Fade::set() {
   if(currentframe==destframe-1) {
     video->setpal(dest);
   } else {
-    video->pal.set_size(256);
     for(int i(0); i<256; i++)
       video->pal.setcolor(i, current[i*3]>>7, current[i*3+1]>>7, current[i*3+2]>>7);
     video->newpal = true;
