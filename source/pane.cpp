@@ -437,7 +437,7 @@ void Pane_selectscheme::step() {
 			Canvas::change_level(i+1, pal, bit);
 			pi.inter->font->colorize(*pal, 255, 255, 255);
 			pi.mp->courrier->colorize(*pal, 255, 255, 255);
-			video->setpal(*pal);
+			pal->set();
 			if(!playback) {
 				config.info.multi_level = i+1;
 				config.write();

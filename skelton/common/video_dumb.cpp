@@ -127,19 +127,12 @@ Video_Dumb::~Video_Dumb() {
 #endif
 }
 
-void Video_Dumb::setpal(const Palette& p) {
-  pal = p;
-  newpal=true;
-}
-
 void Video_Dumb::dosetpal(const SDL_Color pal[256], int size) {
 }
 
 void Video_Dumb::end_frame() {
-  if(newpal) {
-    pal.set();
+  if(newpal)
     newpal = false;
-  }
 
 #ifndef WIN32
 	// Shouldn't we do something on Windows too?

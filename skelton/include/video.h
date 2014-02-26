@@ -95,7 +95,6 @@ public:
     delete vb;
   }
   virtual void end_frame() = 0;
-  virtual void setpal(const Palette& p) = 0;
   virtual void dosetpal(const SDL_Color pal[256], int size) = 0;
   virtual void snap_shot(int x, int y, int w, int h) = 0;
   virtual Video_bitmap* new_bitmap(int px, int py, int w, int h) = 0;

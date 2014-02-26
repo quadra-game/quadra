@@ -88,7 +88,7 @@ void Fade::setdest(const Palette& dst) {
     current[j++] = dest.g(i) << 7;
     current[j++] = dest.b(i) << 7;
   }
-  video->setpal(dest);
+  dest.set();
   currentframe=destframe;
 }
 
@@ -133,7 +133,7 @@ void Fade::set() {
   if(currentframe==destframe)
     return;
   if(currentframe==destframe-1) {
-    video->setpal(dest);
+    dest.set();
   } else {
     for(int i(0); i<256; i++)
       video->pal.setcolor(i, current[i*3]>>7, current[i*3+1]>>7, current[i*3+2]>>7);

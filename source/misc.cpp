@@ -81,6 +81,6 @@ Setpalette::Setpalette(const Palette& p): pal(p) {
 
 void Setpalette::init() {
 	Module::init();
-	video->setpal(pal);
+	pal.set();
 	ret();
 }

@@ -88,9 +88,6 @@ public:
     SDL_RenderPresent(renderer_);
     ++framecount;
   }
-  virtual void setpal(const Palette& p) {
-    p.set();
-  }
   virtual void dosetpal(const SDL_Color pal[256], int size) {
     SDL_SetPaletteColors(surface_->format->palette, pal, 0, size);
   }
