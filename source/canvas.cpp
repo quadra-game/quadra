@@ -36,6 +36,7 @@
 #include "nglog.h"
 #include "net_server.h"
 #include "canvas.h"
+#include "player.h"
 
 using std::max;
 using std::min;

@@ -67,6 +67,7 @@ quadra_SOURCES = \
 	include/nglog.h \
 	include/packets.h \
 	include/pane.h \
+	include/player.h \
 	include/qserv.h \
 	include/quadra.h \
 	include/recording.h \
@@ -175,6 +176,7 @@ quadra_SOURCES = \
 	source/nglog.cpp \
 	source/packets.cpp \
 	source/pane.cpp \
+	source/player.cpp \
 	source/qserv.cpp \
 	source/quadra.cpp \
 	source/recording.cpp \
