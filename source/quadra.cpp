@@ -520,11 +520,11 @@ int start_game() {
 
 	uint32_t last=0;
 	uint32_t acc=0;
-	Executor *menu = new Executor();
+	Executor menu;
 	//Add Menu_intro so we get back there after -connect, -server or -play
 	//  unless -thenquit option si specified
 	if(!command.token("thenquit") && !demo_verif)
-			menu->add(new Menu_intro());
+			menu.add(new Menu_intro());
 
 	if(!demo_play) {
 		if(command.token("server") || dedicated) {
@@ -614,7 +614,7 @@ int start_game() {
 			}
 			if(command.token("public"))
 				p.game_public = true;
-			menu->add(new Menu_startserver());
+			menu.add(new Menu_startserver());
 			(void)new Game(&p);
 			if(dedicated && !command.token("once"))
 				game->auto_restart = true;
@@ -657,16 +657,16 @@ int start_game() {
 				const char *temp = command_get_param("connect <TCP/IP address>");
 				strncpy(buf, temp, sizeof(buf) - 1);
 				buf[sizeof(buf)-1] = 0;
-				menu->add(new Menu_startconnect(buf, false));
+				menu.add(new Menu_startconnect(buf, false));
 				if(config.warning)
-					menu->add(new Menu_setup());
+					menu.add(new Menu_setup());
 			}
 		}
 	}
 	else {
 		Res_compress *res = new Res_compress(ResName(buf), RES_TRY);
 		if(res->exist) {
-			menu->add(new Demo_multi_player(res));
+			menu.add(new Demo_multi_player(res));
 			// le 'delete res' est fait par ~Demo_multi_player
 			if(playback)
 				playback->set_verification_flag(&demo_verified_and_valid);
@@ -677,9 +677,9 @@ int start_game() {
 		}
 	}
 
-	overmind.start(menu);
+	overmind.start(&menu);
 	bool reset_time=false;
-	while(!menu->done) {
+	while(!menu.done) {
 		last = SDL_GetTicks();
 		if(demo_verif) {
 			acc=500;
@@ -766,7 +766,6 @@ int start_game() {
 			acc=10;
 		}
 	}
-	delete menu;
 
 	deinit_stuff();
 	delete resmanager;
