@@ -41,178 +41,178 @@ EXTRA_DIST = \
 
 quadra_LDADD = $(SDL2_LIBS) $(BOOST_FILESYSTEM_LIB) $(BOOST_SYSTEM_LIB)
 quadra_SOURCES = \
-	source/bitmap.cpp \
+	source/bitmap.cc \
 	source/bitmap.h \
-	source/bloc.cpp \
+	source/bloc.cc \
 	source/bloc.h \
-	source/buf.cpp \
+	source/buf.cc \
 	source/buf.h \
 	source/byteorder.h \
-	source/canvas.cpp \
+	source/canvas.cc \
 	source/canvas.h \
-	source/cfgfile.cpp \
+	source/cfgfile.cc \
 	source/cfgfile.h \
-	source/chat_text.cpp \
+	source/chat_text.cc \
 	source/chat_text.h \
-	source/clipable.cpp \
+	source/clipable.cc \
 	source/clipable.h \
-	source/clock.cpp \
+	source/clock.cc \
 	source/clock.h \
-	source/color.cpp \
+	source/color.cc \
 	source/color.h \
-	source/command.cpp \
+	source/command.cc \
 	source/command.h \
 	source/config.h \
-	source/crypt.cpp \
+	source/crypt.cc \
 	source/crypt.h \
-	source/cursor.cpp \
+	source/cursor.cc \
 	source/cursor.h \
-	source/dict.cpp \
+	source/dict.cc \
 	source/dict.h \
-	source/error.cpp \
+	source/error.cc \
 	source/error.h \
-	source/fonts.cpp \
+	source/fonts.cc \
 	source/fonts.h \
-	source/game.cpp \
+	source/game.cc \
 	source/game.h \
-	source/game_menu.cpp \
+	source/game_menu.cc \
 	source/game_menu.h \
-	source/global.cpp \
+	source/global.cc \
 	source/global.h \
-	source/highscores.cpp \
+	source/highscores.cc \
 	source/highscores.h \
-	source/http_post.cpp \
+	source/http_post.cc \
 	source/http_post.h \
-	source/http_request.cpp \
+	source/http_request.cc \
 	source/http_request.h \
-	source/id.cpp \
+	source/id.cc \
 	source/id.h \
 	source/image.h \
-	source/image_png.cpp \
+	source/image_png.cc \
 	source/image_png.h \
-	source/input.cpp \
+	source/input.cc \
 	source/input.h \
-	source/inter.cpp \
+	source/inter.cc \
 	source/inter.h \
-	source/listbox.cpp \
+	source/listbox.cc \
 	source/listbox.h \
-	source/main.cpp \
+	source/main.cc \
 	source/main.h \
-	source/menu.cpp \
+	source/menu.cc \
 	source/menu.h \
-	source/menu_base.cpp \
+	source/menu_base.cc \
 	source/menu_base.h \
-	source/menu_demo_central.cpp \
+	source/menu_demo_central.cc \
 	source/menu_demo_central.h \
-	source/misc.cpp \
+	source/misc.cc \
 	source/misc.h \
-	source/multi_player.cpp \
+	source/multi_player.cc \
 	source/multi_player.h \
-	source/net.cpp \
+	source/net.cc \
 	source/net.h \
 	source/net_buf.h \
 	source/net_call.h \
-	source/net_list.cpp \
+	source/net_list.cc \
 	source/net_list.h \
-	source/net_server.cpp \
+	source/net_server.cc \
 	source/net_server.h \
-	source/net_stuff.cpp \
+	source/net_stuff.cc \
 	source/net_stuff.h \
-	source/nglog.cpp \
+	source/nglog.cc \
 	source/nglog.h \
-	source/notify.cpp \
+	source/notify.cc \
 	source/notify.h \
-	source/overmind.cpp \
+	source/overmind.cc \
 	source/overmind.h \
-	source/packet.cpp \
+	source/packet.cc \
 	source/packet.h \
-	source/packets.cpp \
+	source/packets.cc \
 	source/packets.h \
-	source/palette.cpp \
+	source/palette.cc \
 	source/palette.h \
-	source/pane.cpp \
+	source/pane.cc \
 	source/pane.h \
-	source/player.cpp \
+	source/player.cc \
 	source/player.h \
-	source/qserv.cpp \
+	source/qserv.cc \
 	source/qserv.h \
-	source/quadra.cpp \
+	source/quadra.cc \
 	source/quadra.h \
-	source/random.cpp \
+	source/random.cc \
 	source/random.h \
-	source/recording.cpp \
+	source/recording.cc \
 	source/recording.h \
-	source/res.cpp \
+	source/res.cc \
 	source/res.h \
-	source/res_compress.cpp \
+	source/res_compress.cc \
 	source/res_compress.h \
-	source/res_name.cpp \
+	source/res_name.cc \
 	source/res_name.h \
-	source/resfile.cpp \
+	source/resfile.cc \
 	source/resfile.h \
-	source/resmanager.cpp \
+	source/resmanager.cc \
 	source/resmanager.h \
-	source/score.cpp \
+	source/score.cc \
 	source/score.h \
-	source/sons.cpp \
+	source/sons.cc \
 	source/sons.h \
-	source/sound.cpp \
+	source/sound.cc \
 	source/sound.h \
-	source/sprite.cpp \
+	source/sprite.cc \
 	source/sprite.h \
-	source/stats.cpp \
+	source/stats.cc \
 	source/stats.h \
-	source/stringtable.cpp \
+	source/stringtable.cc \
 	source/stringtable.h \
 	source/texte.h \
 	source/types.h \
-	source/unicode.cpp \
+	source/unicode.cc \
 	source/unicode.h \
-	source/update.cpp \
+	source/update.cc \
 	source/update.h \
-	source/url.cpp \
+	source/url.cc \
 	source/url.h \
 	source/version.h \
-	source/video.cpp \
+	source/video.cc \
 	source/video.h \
-	source/video_dumb.cpp \
+	source/video_dumb.cc \
 	source/video_dumb.h \
-	source/zone.cpp \
+	source/zone.cc \
 	source/zone.h \
-	source/zone_list.cpp \
+	source/zone_list.cc \
 	source/zone_list.h \
-	source/zone_text_clock.cpp \
+	source/zone_text_clock.cc \
 	source/zone_text_clock.h
 
 # FIXME: we use SDL_Log in wadder, should avoid.
 wadder_LDADD = $(SDL2_LIBS) $(BOOST_FILESYSTEM_LIB) $(BOOST_SYSTEM_LIB)
 wadder_SOURCES = \
-	source/error.cpp \
+	source/error.cc \
 	source/error.h \
-	source/res.cpp \
+	source/res.cc \
 	source/res.h \
-	source/resfile.cpp \
+	source/resfile.cc \
 	source/resfile.h \
-	source/resmanager.cpp \
+	source/resmanager.cc \
 	source/resmanager.h \
-	source/stringtable.cpp \
+	source/stringtable.cc \
 	source/stringtable.h \
-	source/wadder.cpp
+	source/wadder.cc
 
 # FIXME: we use SDL_Log in dumpwad, should avoid.
 dumpwad_LDADD = $(SDL2_LIBS)
 dumpwad_SOURCES = \
-	source/dumpwad.cpp \
-	source/error.cpp \
+	source/dumpwad.cc \
+	source/error.cc \
 	source/error.h \
-	source/res.cpp \
+	source/res.cc \
 	source/res.h \
-	source/resfile.cpp \
+	source/resfile.cc \
 	source/resfile.h \
-	source/resmanager.cpp
+	source/resmanager.cc
 
 test_version_SOURCES = \
-	source/test_version.cpp
+	source/test_version.cc
 
 # Validate that the version strings are consistent when we make a distribution.
 dist-hook: test_version

@@ -2,7 +2,7 @@ AC_PREREQ([2.68])
 
 dnl The version number should be kept in sync with version.h.
 AC_INIT([quadra], [1.2.0], [quadra-dev@googlegroups.com])
-AC_CONFIG_SRCDIR([source/quadra.cpp])
+AC_CONFIG_SRCDIR([source/quadra.cc])
 AC_CONFIG_MACRO_DIR([m4])
 
 AM_INIT_AUTOMAKE([foreign subdir-objects -Wall])
