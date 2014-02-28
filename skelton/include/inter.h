@@ -267,14 +267,11 @@ public:
 };
 
 class Zone_state_text: public Zone_state {
-	Zone_panel* pan;
+	Zone_panel pan;
 public:
 	const char* state[256];
 	Font* fonts[256];
 	Zone_state_text(Inter* in, int *pval, int px, int py, int pw=50, int ph=20);
-	virtual ~Zone_state_text() {
-		delete pan;
-	}
 	void add_string(const char* s, Font *f=NULL);
 	virtual void draw();
 	virtual void leaved();

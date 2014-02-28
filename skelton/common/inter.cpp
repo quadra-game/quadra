@@ -191,9 +191,9 @@ Zone_state_bit::Zone_state_bit(Inter* in, const ResName& b1, int *pval, int px, 
 	}
 }
 
-Zone_state_text::Zone_state_text(Inter* in, int *pval, int px, int py, int pw, int ph):
-	Zone_state(in, pval, px, py, pw, ph, 0) {
-	pan = new Zone_panel(NULL, x, y, w, h);
+Zone_state_text::Zone_state_text(Inter* in, int *pval, int px, int py, int pw, int ph)
+	: Zone_state(in, pval, px, py, pw, ph, 0),
+	  pan(NULL, x, y, w, h) {
 }
 
 void Zone_state_text::add_string(const char* s, Font *f) {
@@ -204,32 +204,32 @@ void Zone_state_text::add_string(const char* s, Font *f) {
 	int w2 = f->width(s) + 6;
 	if(w2 > w) {
 		w = w2;
-		pan->w = w;
+		pan.w = w;
 		dirt();
-		pan->resize();
+		pan.resize();
 	}
 }
 
 void Zone_state_text::draw() {
-	pan->draw();
+	pan.draw();
 	video->vb->vline(x, y, h, 255);
 	video->vb->hline(y, x, w, 255);
   if (last_val >= 0
       && static_cast<unsigned int>(last_val) < sizeof(fonts) / sizeof(*fonts))
-    fonts[last_val]->draw(state[last_val], pan->pan, CENTER, 0);
+    fonts[last_val]->draw(state[last_val], pan.pan, CENTER, 0);
 }
 
 void Zone_state_text::leaved() {
 	Zone_state::leaved();
-	pan->high = false;
-	pan->dirt();
+	pan.high = false;
+	pan.dirt();
 	dirt();
 }
 
 void Zone_state_text::entered() {
 	Zone_state::entered();
-	pan->high = true;
-	pan->dirt();
+	pan.high = true;
+	pan.dirt();
 	dirt();
 }
 
