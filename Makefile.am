@@ -12,7 +12,6 @@ EXTRA_PROGRAMS = wadder dumpwad test_version
 CLEANFILES = quadra.res $(EXTRA_PROGRAMS)
 
 AM_CPPFLAGS = \
-	-I$(srcdir)/include -I$(srcdir)/skelton/include -I$(srcdir)/images \
 	-DDATAGAMESDIR='"$(datagamesdir)"' $(SDL2_CFLAGS) $(BOOST_CPPFLAGS)
 
 AM_LDFLAGS = $(BOOST_LDFLAGS)
@@ -35,185 +34,182 @@ EXTRA_DIST = \
 	quadra.spec \
 	resources.txt \
 	server \
-	skelton/README \
-	skelton/common/crypt.pl \
-	skelton/tools/dumpdb \
+	crypt.pl \
 	sons \
 	stats \
 	textes
 
 quadra_LDADD = $(SDL2_LIBS) $(BOOST_FILESYSTEM_LIB) $(BOOST_SYSTEM_LIB)
 quadra_SOURCES = \
-	images/quadra.xpm \
-	include/bloc.h \
-	include/canvas.h \
-	include/cfgfile.h \
-	include/chat_text.h \
-	include/color.h \
-	include/config.h \
-	include/fonts.h \
-	include/game.h \
-	include/game_menu.h \
-	include/global.h \
-	include/highscores.h \
-	include/menu.h \
-	include/menu_base.h \
-	include/menu_demo_central.h \
-	include/misc.h \
-	include/multi_player.h \
-	include/net_list.h \
-	include/net_server.h \
-	include/net_stuff.h \
-	include/nglog.h \
-	include/packets.h \
-	include/pane.h \
-	include/player.h \
-	include/qserv.h \
-	include/quadra.h \
-	include/recording.h \
-	include/res_name.h \
-	include/score.h \
-	include/sons.h \
-	include/stats.h \
-	include/texte.h \
-	include/update.h \
-	include/version.h \
-	include/zone.h \
-	include/zone_list.h \
-	skelton/common/bitmap.cpp \
-	skelton/common/buf.cpp \
-	skelton/common/clipable.cpp \
-	skelton/common/clock.cpp \
-	skelton/common/command.cpp \
-	skelton/common/crypt.cpp \
-	skelton/common/cursor.cpp \
-	skelton/common/dict.cpp \
-	skelton/common/http_post.cpp \
-	skelton/common/http_request.cpp \
-	skelton/common/id.cpp \
-	skelton/common/image_png.cpp \
-	skelton/common/inter.cpp \
-	skelton/common/listbox.cpp \
-	skelton/common/net.cpp \
-	skelton/common/notify.cpp \
-	skelton/common/overmind.cpp \
-	skelton/common/packet.cpp \
-	skelton/common/random.cpp \
-	skelton/common/res_compress.cpp \
-	skelton/common/resfile.cpp \
-	skelton/common/resmanager.cpp \
-	skelton/common/sprite.cpp \
-	skelton/common/stringtable.cpp \
-	skelton/common/unicode.cpp \
-	skelton/common/url.cpp \
-	skelton/common/video_dumb.cpp \
-	skelton/common/zone_text_clock.cpp \
-	skelton/include/bitmap.h \
-	skelton/include/buf.h \
-	skelton/include/byteorder.h \
-	skelton/include/clipable.h \
-	skelton/include/clock.h \
-	skelton/include/command.h \
-	skelton/include/crypt.h \
-	skelton/include/cursor.h \
-	skelton/include/dict.h \
-	skelton/include/error.h \
-	skelton/include/http_post.h \
-	skelton/include/http_request.h \
-	skelton/include/id.h \
-	skelton/include/image.h \
-	skelton/include/image_png.h \
-	skelton/include/input.h \
-	skelton/include/inter.h \
-	skelton/include/listbox.h \
-	skelton/include/main.h \
-	skelton/include/net.h \
-	skelton/include/net_buf.h \
-	skelton/include/net_call.h \
-	skelton/include/notify.h \
-	skelton/include/overmind.h \
-	skelton/include/packet.h \
-	skelton/include/palette.h \
-	skelton/include/random.h \
-	skelton/include/res.h \
-	skelton/include/res_compress.h \
-	skelton/include/resfile.h \
-	skelton/include/resmanager.h \
-	skelton/include/sound.h \
-	skelton/include/sprite.h \
-	skelton/include/stringtable.h \
-	skelton/include/types.h \
-	skelton/include/unicode.h \
-	skelton/include/url.h \
-	skelton/include/video.h \
-	skelton/include/video_dumb.h \
-	skelton/include/zone_text_clock.h \
-	skelton/svgalib/error.cpp \
-	skelton/svgalib/input.cpp \
-	skelton/svgalib/main.cpp \
-	skelton/svgalib/palette.cpp \
-	skelton/svgalib/res.cpp \
-	skelton/svgalib/sound.cpp \
-	skelton/svgalib/video.cpp \
+	source/bitmap.cpp \
+	source/bitmap.h \
 	source/bloc.cpp \
+	source/bloc.h \
+	source/buf.cpp \
+	source/buf.h \
+	source/byteorder.h \
 	source/canvas.cpp \
+	source/canvas.h \
 	source/cfgfile.cpp \
+	source/cfgfile.h \
 	source/chat_text.cpp \
+	source/chat_text.h \
+	source/clipable.cpp \
+	source/clipable.h \
+	source/clock.cpp \
+	source/clock.h \
 	source/color.cpp \
+	source/color.h \
+	source/command.cpp \
+	source/command.h \
+	source/config.h \
+	source/crypt.cpp \
+	source/crypt.h \
+	source/cursor.cpp \
+	source/cursor.h \
+	source/dict.cpp \
+	source/dict.h \
+	source/error.cpp \
+	source/error.h \
 	source/fonts.cpp \
+	source/fonts.h \
 	source/game.cpp \
+	source/game.h \
 	source/game_menu.cpp \
+	source/game_menu.h \
 	source/global.cpp \
+	source/global.h \
 	source/highscores.cpp \
+	source/highscores.h \
+	source/http_post.cpp \
+	source/http_post.h \
+	source/http_request.cpp \
+	source/http_request.h \
+	source/id.cpp \
+	source/id.h \
+	source/image.h \
+	source/image_png.cpp \
+	source/image_png.h \
+	source/input.cpp \
+	source/input.h \
+	source/inter.cpp \
+	source/inter.h \
+	source/listbox.cpp \
+	source/listbox.h \
+	source/main.cpp \
+	source/main.h \
 	source/menu.cpp \
+	source/menu.h \
 	source/menu_base.cpp \
+	source/menu_base.h \
 	source/menu_demo_central.cpp \
+	source/menu_demo_central.h \
 	source/misc.cpp \
+	source/misc.h \
 	source/multi_player.cpp \
+	source/multi_player.h \
+	source/net.cpp \
+	source/net.h \
+	source/net_buf.h \
+	source/net_call.h \
 	source/net_list.cpp \
+	source/net_list.h \
 	source/net_server.cpp \
+	source/net_server.h \
 	source/net_stuff.cpp \
+	source/net_stuff.h \
 	source/nglog.cpp \
+	source/nglog.h \
+	source/notify.cpp \
+	source/notify.h \
+	source/overmind.cpp \
+	source/overmind.h \
+	source/packet.cpp \
+	source/packet.h \
 	source/packets.cpp \
+	source/packets.h \
+	source/palette.cpp \
+	source/palette.h \
 	source/pane.cpp \
+	source/pane.h \
 	source/player.cpp \
+	source/player.h \
 	source/qserv.cpp \
+	source/qserv.h \
 	source/quadra.cpp \
+	source/quadra.h \
+	source/random.cpp \
+	source/random.h \
 	source/recording.cpp \
+	source/recording.h \
+	source/res.cpp \
+	source/res.h \
+	source/res_compress.cpp \
+	source/res_compress.h \
 	source/res_name.cpp \
+	source/res_name.h \
+	source/resfile.cpp \
+	source/resfile.h \
+	source/resmanager.cpp \
+	source/resmanager.h \
 	source/score.cpp \
+	source/score.h \
 	source/sons.cpp \
+	source/sons.h \
+	source/sound.cpp \
+	source/sound.h \
+	source/sprite.cpp \
+	source/sprite.h \
 	source/stats.cpp \
+	source/stats.h \
+	source/stringtable.cpp \
+	source/stringtable.h \
+	source/texte.h \
+	source/types.h \
+	source/unicode.cpp \
+	source/unicode.h \
 	source/update.cpp \
+	source/update.h \
+	source/url.cpp \
+	source/url.h \
+	source/version.h \
+	source/video.cpp \
+	source/video.h \
+	source/video_dumb.cpp \
+	source/video_dumb.h \
 	source/zone.cpp \
-	source/zone_list.cpp
+	source/zone.h \
+	source/zone_list.cpp \
+	source/zone_list.h \
+	source/zone_text_clock.cpp \
+	source/zone_text_clock.h
 
 # FIXME: we use SDL_Log in wadder, should avoid.
 wadder_LDADD = $(SDL2_LIBS) $(BOOST_FILESYSTEM_LIB) $(BOOST_SYSTEM_LIB)
 wadder_SOURCES = \
-	skelton/common/resfile.cpp \
-	skelton/common/resmanager.cpp \
-	skelton/common/stringtable.cpp \
-	skelton/include/error.h \
-	skelton/include/res.h \
-	skelton/include/resfile.h \
-	skelton/include/resmanager.h \
-	skelton/include/stringtable.h \
-	skelton/svgalib/error.cpp \
-	skelton/svgalib/res.cpp \
-	skelton/tools/wadder/wadder.cpp
+	source/error.cpp \
+	source/error.h \
+	source/res.cpp \
+	source/res.h \
+	source/resfile.cpp \
+	source/resfile.h \
+	source/resmanager.cpp \
+	source/resmanager.h \
+	source/stringtable.cpp \
+	source/stringtable.h \
+	source/wadder.cpp
 
 # FIXME: we use SDL_Log in dumpwad, should avoid.
 dumpwad_LDADD = $(SDL2_LIBS)
 dumpwad_SOURCES = \
-	skelton/common/resfile.cpp \
-	skelton/common/resmanager.cpp \
-	skelton/include/error.h \
-	skelton/include/res.h \
-	skelton/include/resfile.h \
-	skelton/svgalib/error.cpp \
-	skelton/svgalib/res.cpp \
-	skelton/tools/dumpwad.cpp
+	source/dumpwad.cpp \
+	source/error.cpp \
+	source/error.h \
+	source/res.cpp \
+	source/res.h \
+	source/resfile.cpp \
+	source/resfile.h \
+	source/resmanager.cpp
 
 test_version_SOURCES = \
 	source/test_version.cpp

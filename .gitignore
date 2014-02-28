@@ -13,9 +13,6 @@
 /configure
 /depcomp
 /dumpwad
-/include/autoconf.h
-/include/autoconf.h.in
-/include/stamp-h1
 /install-sh
 /missing
 /packages/quadra.nsi
@@ -23,5 +20,8 @@
 /quadra
 /quadra.res
 /quadra.spec
+/source/autoconf.h
+/source/autoconf.h.in
+/source/stamp-h1
 /test_version
 /wadder
