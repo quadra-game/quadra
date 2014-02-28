@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "multi_player.h"
+
 #include <stdint.h>
 #include <stdio.h>
 
@@ -43,7 +45,6 @@
 #include "net_server.h"
 #include "nglog.h"
 #include "clock.h"
-#include "multi_player.h"
 
 Multi_player::Multi_player(int *got_high) {
 	stop=false; //set to true to quit game

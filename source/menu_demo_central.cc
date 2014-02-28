@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "menu_demo_central.h"
+
 #include <boost/filesystem.hpp>
 
 #include "inter.h"
@@ -34,7 +36,6 @@
 #include "recording.h"
 #include "game.h"
 #include "multi_player.h"
-#include "menu_demo_central.h"
 #include "config.h"
 
 using boost::filesystem::directory_iterator;

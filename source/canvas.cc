@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "canvas.h"
+
 #include <stdio.h>
 #include "input.h"
 #include "random.h"
@@ -35,7 +37,6 @@
 #include "chat_text.h"
 #include "nglog.h"
 #include "net_server.h"
-#include "canvas.h"
 #include "player.h"
 
 using std::max;

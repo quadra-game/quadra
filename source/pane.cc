@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "pane.h"
+
 #include "input.h"
 #include "zone_text_clock.h"
 #include "quadra.h"
@@ -35,7 +37,6 @@
 #include "canvas.h"
 #include "crypt.h"
 #include "unicode.h"
-#include "pane.h"
 
 using std::vector;
 

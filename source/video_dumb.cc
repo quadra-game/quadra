@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "video_dumb.h"
+
 #include "config.h"
 
 #ifdef WIN32
@@ -30,7 +32,6 @@
 #include "cursor.h"
 #include "net.h"
 #include "sprite.h"
-#include "video_dumb.h"
 
 bool video_is_dumb=false; //Defaults to false
 

@@ -25,6 +25,16 @@
 #include <vector>
 
 #include "attack.h"
+#include "global.h"
+#include "net_list.h"
+#include "stats.h"
+
+class Game_params;
+class Net_client;
+class Net_server;
+class Packet_serverrandom;
+class Qserv;
+class Textbuf;
 
 enum End_type {
 	END_NEVER,
@@ -34,21 +44,6 @@ enum End_type {
 	END_LINES,
 	END_LAST
 };
-
-#include "types.h"
-#include "buf.h"
-#include "net_list.h"
-#include "stats.h"
-
-class Packet;
-class Packet_gameserver;
-class Net_connection;
-class Net_server;
-class Net_client;
-class Qserv;
-class Game_params;
-class Recording;
-class Dict;
 
 //Gotchas:
 //Constructing a Game sets ::game to this

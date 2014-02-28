@@ -27,7 +27,7 @@
 
 #include "packet.h"
 #include "net_stuff.h"
-#include "game.h"
+#include "attack.h"
 #include "cfgfile.h"
 #include "config.h"
 

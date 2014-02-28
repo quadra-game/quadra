@@ -27,6 +27,9 @@
 #include "net_stuff.h"
 #include "buf.h"
 
+class Canvas;
+class Dict;
+class Game;
 class Res_compress;
 
 class Recording {

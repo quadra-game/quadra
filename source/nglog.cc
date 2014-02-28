@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "nglog.h"
+
 #include "config.h"
 
 #ifdef WIN32
@@ -28,7 +30,6 @@
 #include "game.h"
 #include "overmind.h"
 #include "global.h"
-#include "nglog.h"
 
 const char *log_team(int t) {
 	const char *team="none";

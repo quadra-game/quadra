@@ -18,13 +18,14 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "resfile.h"
+
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 
 #include "error.h"
 #include "res.h"
-#include "resfile.h"
 #include "byteorder.h"
 
 Resdata::Resdata(char *resname, int ressize, uint8_t *resdata, Resdata *list) {

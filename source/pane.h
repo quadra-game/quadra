@@ -33,6 +33,7 @@
 #include "score.h"
 #include "notify.h"
 
+class Canvas;
 class Multi_player;
 class Pane_option;
 

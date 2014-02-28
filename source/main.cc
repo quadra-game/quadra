@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "main.h"
+
 #include "SDL.h"
 
 /* version Linux */
@@ -36,7 +38,6 @@
 #include "overmind.h"
 #include "resfile.h"
 #include "command.h"
-#include "main.h"
 #include "quadra.h"
 
 Time_mode time_control = TIME_NORMAL;

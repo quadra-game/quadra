@@ -18,10 +18,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "dict.h"
+
 #include <stdio.h>
 #include <string.h>
 #include "error.h"
-#include "dict.h"
 
 Dict::Dict(const char *k, const char *v) {
 	if(k) {

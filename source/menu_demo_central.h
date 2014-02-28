@@ -24,6 +24,7 @@
 #include <stdint.h>
 #include <vector>
 
+#include "listbox.h"
 #include "menu_base.h"
 #include "zone_list.h"
 #include "score.h"

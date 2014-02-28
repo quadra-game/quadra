@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "highscores.h"
+
 #include <stdlib.h>
 #include "res_compress.h"
 #include "quadra.h"
@@ -25,7 +27,6 @@
 #include "recording.h"
 #include "canvas.h"
 #include "global.h"
-#include "highscores.h"
 
 int Highscores::numLocal=0;
 int Highscores::numGlobal=0;

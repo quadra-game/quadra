@@ -18,8 +18,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "bitmap.h"
 #include "clipable.h"
+
+#include "bitmap.h"
 
 using std::max;
 using std::min;

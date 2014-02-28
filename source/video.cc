@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "video.h"
+
 #ifdef HAVE_CONFIG_H
 #include "autoconf.h"
 #endif
@@ -25,7 +27,6 @@
 #include "SDL.h"
 
 #include "sprite.h"
-#include "video.h"
 #include "video_dumb.h"
 
 Video* video = NULL;

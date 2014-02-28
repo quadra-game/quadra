@@ -18,10 +18,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "score.h"
+
 #include "dict.h"
 #include "game.h"
 #include "canvas.h"
-#include "score.h"
 
 Score::Score() {
 	int i;

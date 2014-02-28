@@ -18,12 +18,13 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "misc.h"
+
 #include "input.h"
 #include "random.h"
 #include "sons.h"
 #include "main.h"
 #include "global.h"
-#include "misc.h"
 
 Wait_time::Wait_time(int del, bool force) {
 	force_wait = force;

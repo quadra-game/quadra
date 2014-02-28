@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "menu.h"
+
 #include <stdlib.h>
 #include "version.h"
 #include "color.h"
@@ -54,7 +56,6 @@
 #include "sons.h"
 #include "main.h"
 #include "canvas.h"
-#include "menu.h"
 #include "config.h"
 
 #ifdef WIN32

@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "qserv.h"
+
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -27,7 +29,6 @@
 #include "dict.h"
 #include "stringtable.h"
 #include "video.h"
-#include "qserv.h"
 #include "config.h"
 #include "version.h"
 

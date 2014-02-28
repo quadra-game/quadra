@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "zone.h"
+
 #include "SDL.h"
 
 #include "inter.h"
@@ -27,7 +29,6 @@
 #include "sons.h"
 #include "texte.h"
 #include "canvas.h"
-#include "zone.h"
 
 Zone_next::~Zone_next() {
 	delete back;

@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "inter.h"
+
 #include <algorithm>
 
 #include "video.h"
@@ -25,7 +27,6 @@
 #include "input.h"
 #include "sound.h"
 #include "cursor.h"
-#include "inter.h"
 #include "image_png.h"
 #include "res.h"
 #include "config.h"

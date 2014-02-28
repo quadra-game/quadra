@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "recording.h"
+
 #include <string.h>
 #include "res_compress.h"
 #include "game.h"
@@ -30,7 +32,6 @@
 #include "stringtable.h"
 #include "clock.h"
 #include "chat_text.h"
-#include "recording.h"
 #include "byteorder.h"
 
 Recording *recording = NULL;

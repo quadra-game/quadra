@@ -30,6 +30,7 @@
 
 #include "types.h"
 
+class ResName;
 class Resfile;
 
 class Resmanager {

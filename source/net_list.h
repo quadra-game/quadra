@@ -24,13 +24,10 @@
 #include <stdint.h>
 #include <vector>
 
-#include "notify.h"
+#include "global.h"
 #include "net.h"
 #include "score.h"
-#include "overmind.h"
-#include "net_stuff.h"
 #include "stats.h"
-#include "game.h"
 
 class Canvas;
 
