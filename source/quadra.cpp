@@ -368,7 +368,6 @@ Attack read_attack_param(const char *s) {
 }
 
 void display_command_line_help() {
-	char st[4096];
 	const ResName *res;
 	switch(config.info.language) {
 		default:
