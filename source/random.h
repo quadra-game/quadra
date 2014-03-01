@@ -24,8 +24,6 @@
 #include <stdint.h>
 #include <time.h>
 
-#include "types.h"
-
 class Random {
 	time_t seed;
 public:

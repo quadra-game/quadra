@@ -33,8 +33,6 @@
 #define vsnprintf _vsnprintf
 #endif
 #define strcasecmp _stricmp
-#define strncasecmp _strnicmp
-typedef int socklen_t;
 #endif /* WIN32 */
 
 #endif

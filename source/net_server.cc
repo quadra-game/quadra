@@ -20,15 +20,15 @@
 
 #include "net_server.h"
 
-#include "game.h"
+#include "bloc.h"
 #include "canvas.h"
 #include "chat_text.h"
-#include "texte.h"
-#include "global.h"
-#include "cfgfile.h"
-#include "sons.h"
-#include "recording.h"
+#include "game.h"
+#include "net.h"
 #include "nglog.h"
+#include "packets.h"
+#include "recording.h"
+#include "texte.h"
 
 Net_client::Net_client() {
 	msgbox("Net_client::Net_client\n");

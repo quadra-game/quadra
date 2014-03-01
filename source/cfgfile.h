@@ -24,7 +24,6 @@
 
 #include <stdint.h>
 #include <time.h>
-#include "types.h"
 
 class Config {
 	int version;

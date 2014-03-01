@@ -23,7 +23,7 @@
 
 #include <stdint.h>
 
-#include "bitmap.h"
+class Video_bitmap;
 
 /* pieces of Tetris from 0 to 6 :
    0 = Cube

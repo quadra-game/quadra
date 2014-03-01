@@ -26,6 +26,10 @@
 #include "stringtable.h"
 #include "version.h"
 
+#ifdef WIN32
+#define strncasecmp _strnicmp
+#endif
+
 #define UPDATE_HOST "quadra.googlecode.com"
 #define UPDATE_PORT 80
 #define UPDATE_PATH "/svn/version.txt"

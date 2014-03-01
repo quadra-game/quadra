@@ -38,23 +38,26 @@
 #include <sys/types.h>
 #endif
 
+#include "attack.h"
+#include "bloc.h"
+#include "cfgfile.h"
 #include "chat_text.h"
 #include "clock.h"
 #include "command.h"
 #include "cursor.h"
 #include "fonts.h"
+#include "game.h"
 #include "global.h"
 #include "highscores.h"
 #include "input.h"
 #include "main.h"
 #include "menu.h"
 #include "multi_player.h"
-#include "player.h"
+#include "net_stuff.h"
 #include "recording.h"
 #include "res_compress.h"
 #include "resmanager.h"
 #include "sons.h"
-#include "stringtable.h"
 #include "texte.h"
 #include "update.h"
 

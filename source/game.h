@@ -32,9 +32,7 @@
 class Game_params;
 class Net_client;
 class Net_server;
-class Packet_serverrandom;
 class Qserv;
-class Textbuf;
 
 enum End_type {
 	END_NEVER,

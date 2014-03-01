@@ -23,9 +23,8 @@
 
 #include <stdint.h>
 
-#include "types.h"
+#include "global.h"
 #include "stats.h"
-#include "net_stuff.h"
 
 class Dict;
 

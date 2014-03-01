@@ -21,9 +21,8 @@
 #ifndef _HEADER_HIGHSCORES
 #define _HEADER_HIGHSCORES
 
-#include "stats.h"
-
 class Canvas;
+class Packet_gameserver;
 class Playback;
 
 #define MAX_SCORE 5

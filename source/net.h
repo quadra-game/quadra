@@ -21,14 +21,10 @@
 #ifndef _HEADER_NET
 #define _HEADER_NET
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include <list>
 #include <stdint.h>
-#include <vector>
 #include <stdlib.h>
+#include <vector>
 
 #ifdef WIN32
 #include "winsock.h"
@@ -52,12 +48,12 @@
 
 const unsigned NETBUF_SIZE = 4096;
 
-#include "types.h"
-#include "packet.h"
-#include "notify.h"
-#include "net_call.h"
-#include "id.h"
 #include "buf.h"
+#include "id.h"
+#include "net_call.h"
+#include "notify.h"
+
+class Packet_ping;
 
 class IP_addr {
 public:
@@ -316,10 +312,10 @@ private:
 	/* quits with an error message */
 	void callwsa(int quel);
 
-	#ifdef WIN32
+#ifdef WIN32
 		char name_buf[MAXGETHOSTSTRUCT];
 		HANDLE name_handle;
-	#endif
+#endif
 };
 
 extern Net* net;

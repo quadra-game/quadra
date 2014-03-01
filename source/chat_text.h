@@ -21,8 +21,12 @@
 #ifndef _HEADER_CHAT_TEXT
 #define _HEADER_CHAT_TEXT
 
-#include "net_stuff.h"
-#include "inter.h"
+#include <cstddef>
+
+#include "net_call.h"
+
+class Fontdata;
+class Net_connection;
 
 #define CHAT_NBLINE 22
 

@@ -21,8 +21,6 @@
 #ifndef _HEADER_CLOCK
 #define _HEADER_CLOCK
 
-#include "types.h"
-
 class Clock {
 	Clock();
 public:

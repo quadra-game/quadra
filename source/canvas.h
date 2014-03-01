@@ -24,19 +24,24 @@
 #include <stdint.h>
 #include <vector>
 
-#include "types.h"
-#include "bloc.h"
-#include "bitmap.h"
-#include "inter.h"
-#include "random.h"
-#include "net.h"
-#include "overmind.h"
-#include "stats.h"
-#include "game.h"
-#include "net_stuff.h"
+#include "attack.h"
 #include "buf.h"
+#include "global.h"
 #include "id.h"
+#include "random.h"
+#include "stats.h"
 
+class Bitmap;
+class Bloc;
+class Executor;
+class Inter;
+class Net_connection;
+class Overmind;
+class Packet_clientmoves;
+class Palette;
+class Sprite;
+class Video_bitmap;
+class Zone;
 class Zone_next;
 
 class Canvas: public CS, public Identifyable {

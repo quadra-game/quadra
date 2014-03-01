@@ -21,12 +21,14 @@
 #include "chat_text.h"
 
 #include <string.h>
-#include "cfgfile.h"
-#include "net_stuff.h"
-#include "sons.h"
+
 #include "canvas.h"
+#include "cfgfile.h"
 #include "game.h"
+#include "net_stuff.h"
 #include "nglog.h"
+#include "packets.h"
+#include "sons.h"
 
 Chat_text *chat_text=NULL;
 int Chat_text::quel_player=0;

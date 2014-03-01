@@ -20,15 +20,17 @@
 
 #include "player.h"
 
+#include "bloc.h"
 #include "canvas.h"
 #include "chat_text.h"
+#include "game.h"
 #include "input.h"
 #include "main.h"
 #include "misc.h"
 #include "net_server.h"
+#include "packets.h"
 #include "recording.h"
 #include "sons.h"
-#include "sound.h"
 #include "texte.h"
 #include "zone.h"
 

@@ -23,8 +23,6 @@
 
 #include <stdint.h>
 
-#include "types.h"
-
 class Buf {
 	uint8_t* data;
 	uint32_t size_;

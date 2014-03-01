@@ -23,8 +23,6 @@
 
 #include <stdint.h>
 
-#include "types.h"
-
 class Identifyable {
 	static uint32_t next_id;
 protected:

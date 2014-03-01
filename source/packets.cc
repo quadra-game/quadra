@@ -20,12 +20,9 @@
 
 #include "packets.h"
 
-#include "net_buf.h"
-#include "error.h"
-#include "net_stuff.h"
-#include "stats.h"
-#include "cfgfile.h"
 #include "canvas.h"
+#include "game.h"
+#include "net_buf.h"
 
 void Packet_wantjoin::write(Net_buf *p) {
 	Packet_ping::write(p);

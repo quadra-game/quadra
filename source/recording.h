@@ -24,12 +24,14 @@
 #include <stdint.h>
 #include <vector>
 
-#include "net_stuff.h"
 #include "buf.h"
 
 class Canvas;
 class Dict;
 class Game;
+class Packet;
+class Packet_gameserver;
+class Res;
 class Res_compress;
 
 class Recording {

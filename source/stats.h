@@ -21,8 +21,6 @@
 #ifndef _HEADER_STATS
 #define _HEADER_STATS
 
-#include "types.h"
-
 class Stat {
 	int value;
 public:

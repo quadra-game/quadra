@@ -45,8 +45,6 @@ documentation and/or software.
 
 #include <stdint.h>
 
-#include "types.h"
-
 typedef unsigned char *POINTER;
 typedef unsigned short int UINT2;
 typedef unsigned long int UINT4;

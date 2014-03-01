@@ -25,6 +25,7 @@
 #endif
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #ifndef WIN32
 #include <unistd.h>
@@ -46,17 +47,15 @@
 inline int closesocket(int fd) {
 	return close(fd);
 }
+#else
+typedef int socklen_t;
 #endif
 
 #include "SDL.h"
 
-#include <stdlib.h>
-#include "types.h"
-#include "main.h"
 #include "error.h"
-#include "buf.h"
 #include "net_buf.h"
-#include "http_request.h"
+#include "packet.h"
 
 using std::list;
 using std::min;

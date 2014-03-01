@@ -20,6 +20,8 @@
 
 #include "clipable.h"
 
+#include <algorithm>
+
 #include "bitmap.h"
 
 using std::max;

@@ -22,13 +22,11 @@
 
 #include "SDL.h"
 
-#include "inter.h"
-#include "input.h"
-#include "cfgfile.h"
+#include "bloc.h"
+#include "canvas.h"
+#include "game.h"
 #include "quadra.h"
 #include "sons.h"
-#include "texte.h"
-#include "canvas.h"
 
 Zone_next::~Zone_next() {
 	delete back;

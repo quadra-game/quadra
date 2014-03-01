@@ -21,9 +21,12 @@
 #ifndef _HEADER_NET_SERVER
 #define _HEADER_NET_SERVER
 
-#include "types.h"
-#include "net_stuff.h"
+#include "net_call.h"
+#include "notify.h"
 #include "overmind.h"
+
+class Packet_gameserver;
+class Packet_wantjoin;
 
 class Net_client: public Net_callable {
 	void pause(Packet *p2);

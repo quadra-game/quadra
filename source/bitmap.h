@@ -23,15 +23,13 @@
 
 #include <stdint.h>
 
-#include "types.h"
-#include "error.h"
-#include "image.h"
 #include "clipable.h"
-#include "res_name.h"
+
+class Image;
+class ResName;
+class Video_bitmap;
 
 #define COPY 1
-
-class Video_bitmap;
 
 class Bitmap: public Clipable {
 	void initlines();

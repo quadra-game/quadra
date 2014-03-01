@@ -21,11 +21,10 @@
 #ifndef _HEADER_DICT
 #define _HEADER_DICT
 
+#include <cstddef>
 #include <stdint.h>
 #include <vector>
-#include <stdlib.h>
 
-#include "types.h"
 #include "buf.h"
 
 class Dict {

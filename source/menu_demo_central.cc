@@ -26,20 +26,18 @@
 
 #include <boost/filesystem.hpp>
 
-#include "inter.h"
-#include "bitmap.h"
-#include "dict.h"
 #include "clock.h"
-#include "res_compress.h"
+#include "dict.h"
 #include "fonts.h"
+#include "game.h"
+#include "image_png.h"
+#include "multi_player.h"
+#include "packets.h"
+#include "quadra.h"
+#include "recording.h"
+#include "res_compress.h"
 #include "texte.h"
 #include "zone.h"
-#include "global.h"
-#include "quadra.h"
-#include "image_png.h"
-#include "recording.h"
-#include "game.h"
-#include "multi_player.h"
 
 using boost::filesystem::directory_iterator;
 using boost::filesystem::path;

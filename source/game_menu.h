@@ -21,10 +21,11 @@
 #ifndef _HEADER_GAME_MENU
 #define _HEADER_GAME_MENU
 
-#include "net_stuff.h"
+#include "overmind.h"
+#include "notify.h"
 #include "net_call.h"
+#include "packets.h"
 
-class Game;
 class Stringtable;
 
 class Create_game: public Menu, public Notifyable {

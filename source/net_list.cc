@@ -20,20 +20,15 @@
 
 #include "net_list.h"
 
-#include "types.h"
-#include "error.h"
 #include "canvas.h"
-#include "net.h"
 #include "chat_text.h"
 #include "game.h"
-#include "net_stuff.h"
-#include "texte.h"
-#include "global.h"
-#include "sons.h"
-#include "recording.h"
 #include "net_server.h"
-#include "quadra.h"
 #include "nglog.h"
+#include "packets.h"
+#include "recording.h"
+#include "sons.h"
+#include "texte.h"
 #include "version.h"
 
 using std::max;

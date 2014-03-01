@@ -20,6 +20,8 @@
 
 #include "color.h"
 
+#include "palette.h"
+
 Color::Color(uint8_t q, Palette& p):	pal(p) {
 	if(q==8)
 		q=7;

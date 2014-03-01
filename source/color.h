@@ -23,7 +23,7 @@
 
 #include <stdint.h>
 
-#include "palette.h"
+class Palette;
 
 class Color {
 	uint8_t base;

@@ -20,24 +20,22 @@
 
 #include "canvas.h"
 
+#include <algorithm>
 #include <stdio.h>
-#include "input.h"
-#include "random.h"
+
 #include "bloc.h"
-#include "quadra.h"
-#include "image_png.h"
-#include "cfgfile.h"
-#include "res.h"
-#include "zone.h"
-#include "game.h"
-#include "global.h"
-#include "sons.h"
-#include "recording.h"
-#include "texte.h"
 #include "chat_text.h"
-#include "nglog.h"
+#include "game.h"
+#include "image_png.h"
+#include "input.h"
 #include "net_server.h"
+#include "packets.h"
 #include "player.h"
+#include "quadra.h"
+#include "recording.h"
+#include "sons.h"
+#include "texte.h"
+#include "zone.h"
 
 using std::max;
 using std::min;
