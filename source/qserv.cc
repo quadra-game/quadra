@@ -20,6 +20,10 @@
 
 #include "qserv.h"
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -29,7 +33,6 @@
 #include "dict.h"
 #include "stringtable.h"
 #include "video.h"
-#include "config.h"
 #include "version.h"
 
 uint32_t Qserv::http_addr=0;

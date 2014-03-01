@@ -20,6 +20,10 @@
 
 #include "game.h"
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <string.h>
 #include "input.h"
 #include "net.h"
@@ -40,7 +44,6 @@
 #include "nglog.h"
 #include "clock.h"
 #include "http_request.h"
-#include "config.h"
 
 Game *game=NULL;
 

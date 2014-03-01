@@ -20,10 +20,13 @@
 
 #include "clock.h"
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <time.h>
 #include <sys/timeb.h>
 #include <stdio.h>
-#include "config.h"
 
 Clock::Clock() {
 }

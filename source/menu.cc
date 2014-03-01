@@ -20,6 +20,10 @@
 
 #include "menu.h"
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <stdlib.h>
 #include "version.h"
 #include "color.h"
@@ -56,7 +60,6 @@
 #include "sons.h"
 #include "main.h"
 #include "canvas.h"
-#include "config.h"
 
 #ifdef WIN32
 #include <shellapi.h>

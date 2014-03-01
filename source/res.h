@@ -21,12 +21,15 @@
 #ifndef _HEADER_RES
 #define _HEADER_RES
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <stdint.h>
 #include <fcntl.h>
 #include <stdlib.h>
 #include <string.h>
 #include "resfile.h"
-#include "config.h"
 
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN

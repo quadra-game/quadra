@@ -20,6 +20,10 @@
 
 #include "menu_demo_central.h"
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <boost/filesystem.hpp>
 
 #include "inter.h"
@@ -36,7 +40,6 @@
 #include "recording.h"
 #include "game.h"
 #include "multi_player.h"
-#include "config.h"
 
 using boost::filesystem::directory_iterator;
 using boost::filesystem::path;

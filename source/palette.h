@@ -22,7 +22,7 @@
 #define _HEADER_PALETTE
 
 #ifdef HAVE_CONFIG_H
-#include "autoconf.h"
+#include "config.h"
 #endif
 
 #include <stdint.h>

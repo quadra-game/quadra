@@ -21,6 +21,10 @@
 #ifndef _HEADER_PACKETS
 #define _HEADER_PACKETS
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <stdint.h>
 #include <string.h>
 #include <vector>
@@ -29,7 +33,6 @@
 #include "net_stuff.h"
 #include "attack.h"
 #include "cfgfile.h"
-#include "config.h"
 
 enum Packet_type {
 	P_CHAT,

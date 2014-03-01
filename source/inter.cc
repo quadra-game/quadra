@@ -20,6 +20,10 @@
 
 #include "inter.h"
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <algorithm>
 
 #include "video.h"
@@ -29,7 +33,6 @@
 #include "cursor.h"
 #include "image_png.h"
 #include "res.h"
-#include "config.h"
 
 using std::max;
 using std::min;

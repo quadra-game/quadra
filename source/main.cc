@@ -20,10 +20,12 @@
 
 #include "main.h"
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "SDL.h"
 
-/* version Linux */
-#include "config.h"
 #include <stdlib.h>
 #include <signal.h>
 

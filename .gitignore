@@ -20,8 +20,8 @@
 /quadra
 /quadra.res
 /quadra.spec
-/source/autoconf.h
-/source/autoconf.h.in
+/source/config.h
+/source/config.h.in
 /source/stamp-h1
 /test_version
 /wadder

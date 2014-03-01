@@ -21,12 +21,14 @@
 #ifndef _HEADER_NET
 #define _HEADER_NET
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <list>
 #include <stdint.h>
 #include <vector>
 #include <stdlib.h>
-
-#include "config.h"
 
 #ifdef WIN32
 #include "winsock.h"

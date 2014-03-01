@@ -21,7 +21,9 @@
 #ifndef _HEADER_ERROR
 #define _HEADER_ERROR
 
+#ifdef HAVE_CONFIG_H
 #include "config.h"
+#endif
 
 // This helps avoid warnings for using uninitialized variables when fatal
 // functions are called.

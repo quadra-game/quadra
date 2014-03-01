@@ -62,7 +62,6 @@ quadra_SOURCES = \
 	source/color.h \
 	source/command.cc \
 	source/command.h \
-	source/config.h \
 	source/crypt.cc \
 	source/crypt.h \
 	source/cursor.cc \

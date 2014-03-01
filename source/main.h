@@ -21,10 +21,13 @@
 #ifndef _HEADER_MAIN
 #define _HEADER_MAIN
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <stdint.h>
 
 #include "types.h"
-#include "config.h"
 
 enum Time_mode {
 	TIME_NORMAL,
