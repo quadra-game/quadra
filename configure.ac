@@ -24,7 +24,7 @@ AX_BOOST_SYSTEM
 AX_BOOST_FILESYSTEM
 
 # Checks for header files.
-AC_CHECK_HEADERS([arpa/inet.h fcntl.h limits.h memory.h netdb.h netinet/in.h stdint.h stdlib.h string.h sys/ioctl.h sys/socket.h sys/time.h sys/timeb.h unistd.h machine/endian.h machine/byte_order.h])
+AC_CHECK_HEADERS([arpa/inet.h fcntl.h limits.h memory.h netdb.h netinet/in.h stdint.h stdlib.h string.h sys/ioctl.h sys/socket.h sys/time.h sys/timeb.h unistd.h])
 AC_CHECK_HEADER([zlib.h],, AC_MSG_ERROR([Could not find header for zlib (required).]))
 AC_CHECK_HEADER([png.h],, AC_MSG_ERROR([Could not find header for libpng (required).]))
 

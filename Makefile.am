@@ -48,7 +48,6 @@ quadra_SOURCES = \
 	source/bloc.h \
 	source/buf.cc \
 	source/buf.h \
-	source/byteorder.h \
 	source/canvas.cc \
 	source/canvas.h \
 	source/cfgfile.cc \

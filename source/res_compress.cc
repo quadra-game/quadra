@@ -22,7 +22,8 @@
 
 #include "zlib.h"
 #undef FAR
-#include "byteorder.h"
+
+#include "SDL.h"
 
 using std::max;
 
@@ -60,7 +61,7 @@ Res_compress::~Res_compress() {
 void Res_compress::read_uncompress() {
 	exist = false;
 	uint8_t *temp = (uint8_t *) res->buf(); // reads the entire file in '_buf'
-	ressize = INTELDWORD(*(uint32_t *) temp);
+	ressize = SDL_SwapLE32(*(uint32_t *) temp);
 	uint8_t *source = temp + 4;
 	int src_size = res->size() - 4;
 	skelton_msgbox("Res_compress::Res_compress: Reading compressed file original size = %i, compressed = %i\n", ressize, src_size);
@@ -115,7 +116,7 @@ void Res_compress::write_compress() {
 		return;
 	unsigned long dest_len = write_pos + 65540;
 	uint8_t *temp = (uint8_t *) malloc(dest_len);
-	*((uint32_t *)temp)=INTELDWORD(write_pos);
+	*((uint32_t *)temp)=SDL_SwapLE32(write_pos);
 	int error = compress(temp+4, &dest_len, _buf, write_pos);
 	if(error != Z_OK) {
 		fatal_msgbox("Unable to compress file, error #%i", error);

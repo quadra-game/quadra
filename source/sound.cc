@@ -22,7 +22,6 @@
 
 #include <stdio.h>
 
-#include "byteorder.h"
 #include "error.h"
 #include "main.h"
 #include "types.h"

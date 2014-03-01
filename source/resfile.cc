@@ -24,9 +24,10 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "SDL.h"
+
 #include "error.h"
 #include "res.h"
-#include "byteorder.h"
 
 Resdata::Resdata(char *resname, int ressize, uint8_t *resdata, Resdata *list) {
 	name = resname;
@@ -72,10 +73,10 @@ void Resfile::freeze(Res_dos& res) const {
 
 	while(ptr != NULL) {
 		resnamelen = strlen(ptr->name)+1;
-		d = INTELDWORD(resnamelen);
+		d = SDL_SwapLE32(resnamelen);
 		res.write(&d, sizeof(d));
 		res.write(ptr->name, resnamelen);
-		d = INTELDWORD(ptr->size);
+		d = SDL_SwapLE32(ptr->size);
 		res.write(&d, sizeof(d));
 		res.write(ptr->data, ptr->size);
 		ptr = ptr->next;
@@ -102,13 +103,13 @@ void Resfile::thaw(Res& res) {
 
 	do {
 		res.read(&resnamelen, sizeof(resnamelen));
-		resnamelen = INTELDWORD(resnamelen);
+		resnamelen = SDL_SwapLE32(resnamelen);
 		if(resnamelen == 0)
 			break;
 		resname = new char[resnamelen];
 		res.read(resname, resnamelen);
 		res.read(&ressize, sizeof(ressize));
-		ressize = INTELDWORD(ressize);
+		ressize = SDL_SwapLE32(ressize);
 		resdata = new uint8_t[ressize];
 		res.read(resdata, ressize);
 

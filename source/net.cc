@@ -46,6 +46,8 @@ inline int closesocket(int fd) {
 }
 #endif
 
+#include "SDL.h"
+
 #include <stdlib.h>
 #include "types.h"
 #include "main.h"
@@ -53,7 +55,6 @@ inline int closesocket(int fd) {
 #include "buf.h"
 #include "net_buf.h"
 #include "http_request.h"
-#include "byteorder.h"
 
 using std::list;
 using std::min;
@@ -208,7 +209,7 @@ bool Net_connection::checktcp() {
 	if(_state!=connected)
 		return false;
 	if(buf->size()>=sizeof(uint16_t)) {
-		uint16_t s = INTELWORD(*(uint16_t *) buf->get());
+		uint16_t s = SDL_SwapLE16(*(uint16_t *) buf->get());
 		if(buf->size()>=sizeof(uint16_t)+s)
 			return true;
 	}
@@ -220,7 +221,7 @@ void Net_connection::receivetcp(Net_buf *p) {
 		return;
 	p->from = this;
 	p->from_addr = INADDR_LOOPBACK;
-	uint16_t size = INTELWORD(*(uint16_t *) buf->get());
+	uint16_t size = SDL_SwapLE16(*(uint16_t *) buf->get());
 	memcpy(p->buf, buf->get()+sizeof(uint16_t), size);
 	buf->remove_from_start(size+sizeof(uint16_t));
 	incoming_inactive=0;
@@ -248,7 +249,7 @@ void Net_connection::sendtcp(Packet *p2) {
 	p2->write(&p);
 	uint16_t size=p.len();
 	static uint8_t outbuf[1026];
-	*(uint16_t *) outbuf=INTELWORD(size);
+	*(uint16_t *) outbuf=SDL_SwapLE16(size);
 	memcpy(&outbuf[2], p.buf, size);
 	sendtcp(outbuf, size+2);
 }
@@ -476,7 +477,7 @@ bool Net_connection_tcp::checktcp() {
 		incoming_size+=temp;
 	}
 	if(tcpbufsize>=sizeof(uint16_t)) {
-		uint16_t pacsize=INTELWORD(*(uint16_t *)tcpbuf);
+		uint16_t pacsize=SDL_SwapLE16(*(uint16_t *)tcpbuf);
 		if(!pacsize || (pacsize >= NETBUF_SIZE && pacsize != (('/'*256) +'/'))) {
 			skelton_msgbox("Garbage received on connection #%i (%04X). Shutting it.\n", tcpsock, pacsize);
 			_state=disconnected; // forcing a graceful shutdown
@@ -552,7 +553,7 @@ void Net_connection_tcp::sendtcp(Packet *p2) {
 	p2->write(&p);
 	uint16_t size=p.len();
 	static uint8_t outbuf[1026];
-	*(uint16_t *) outbuf=INTELWORD(size);
+	*(uint16_t *) outbuf=SDL_SwapLE16(size);
 	memcpy(&outbuf[2], p.buf, size);
 	sendtcp(outbuf, size+2);
 }
