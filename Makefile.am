@@ -41,6 +41,7 @@ EXTRA_DIST = \
 
 quadra_LDADD = $(SDL2_LIBS) $(BOOST_FILESYSTEM_LIB) $(BOOST_SYSTEM_LIB)
 quadra_SOURCES = \
+	source/attack.h \
 	source/bitmap.cc \
 	source/bitmap.h \
 	source/bloc.cc \
