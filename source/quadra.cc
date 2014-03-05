@@ -509,6 +509,88 @@ void main_loop(Executor& menu, bool demo_verif) {
 	}
 }
 
+Game_params build_game_params() {
+	Game_params p;
+
+	if(command.token("ffa"))
+		p.set_preset(PRESET_FFA);
+	if(command.token("survivor"))
+		p.set_preset(PRESET_SURVIVOR);
+	if(command.token("hotpotato"))
+		p.set_preset(PRESET_HOT_POTATO);
+	if(command.token("peace"))
+		p.set_preset(PRESET_PEACE);
+	if(command.token("blind")) {
+		p.set_preset(PRESET_BLIND);
+		const char *temp = command_get_param("blind <n>", "30");
+		uint32_t time=atoi(temp);
+		time=min(max(time, static_cast<uint32_t>(0)), static_cast<uint32_t>(255));
+		p.normal_attack.param=time;
+		p.clean_attack.param=time;
+	}
+	if(command.token("fullblind")) {
+		p.set_preset(PRESET_FULLBLIND);
+		const char *temp = command_get_param("fullblind <n>", "12");
+		uint32_t time=atoi(temp);
+		time=min(max(time, static_cast<uint32_t>(0)), static_cast<uint32_t>(255));
+		p.normal_attack.param=time;
+		p.clean_attack.param=time;
+	}
+	if(command.token("attack")) {
+		const char *temp=command_get_param("attack <type> [strength]");
+		p.normal_attack=read_attack_param(temp);
+	}
+	if(command.token("attackclean")) {
+		const char *temp=command_get_param("attackclean <type> [strength]");
+		p.clean_attack=read_attack_param(temp);
+	}
+	if(command.token("attack2")) {
+		const char *temp=command_get_param("attack2 <type> [strength]");
+		p.potato_normal_attack=read_attack_param(temp);
+	}
+	if(command.token("attack2clean")) {
+		const char *temp=command_get_param("attack2clean <type> [strength]");
+		p.potato_clean_attack=read_attack_param(temp);
+	}
+	if(command.token("boringrules"))
+		p.boring_rules = true;
+	if(command.token("nolevelup"))
+		p.level_up = false;
+	if(command.token("levelup"))
+		p.level_up = true;
+	if(command.token("level")) {
+		const char *temp = command_get_param("level <level number>");
+		p.level_start = atoi(temp);
+		p.level_start = min(max(p.level_start, 1), 40);
+	}
+	if(command.token("name")) {
+		const char *temp = command_get_param("name <game name>");
+		if (temp)
+			p.name = temp;
+	}
+	if(command.token("nohandicap"))
+		p.allow_handicap=false;
+	if(command.token("endfrag"))
+		p.game_end = END_FRAG;
+	if(command.token("endfrags"))
+		p.game_end = END_FRAG;
+	if(command.token("endtime"))
+		p.game_end = END_TIME;
+	if(command.token("endpoints"))
+		p.game_end = END_POINTS;
+	if(command.token("endscore"))
+		p.game_end = END_POINTS;
+	if(p.game_end != END_NEVER) {
+		const char *temp = command_get_param("endfrag/endtime/endpoints <number>");
+		p.game_end_value = atoi(temp);
+		p.game_end_value = min(max(p.game_end_value, 1), p.game_end<=END_TIME? 9999:99999);
+	}
+	if(command.token("public"))
+		p.game_public = true;
+
+	return p;
+}
+
 }  // namespace
 
 int start_game() {
@@ -637,84 +719,9 @@ int start_game() {
 					fatal_msgbox("Illegal port number.\n");
 				config.info.port_number = port;
 			}
-			Game_params p;
-			if(command.token("ffa"))
-				p.set_preset(PRESET_FFA);
-			if(command.token("survivor"))
-				p.set_preset(PRESET_SURVIVOR);
-			if(command.token("hotpotato"))
-				p.set_preset(PRESET_HOT_POTATO);
-			if(command.token("peace"))
-				p.set_preset(PRESET_PEACE);
-			if(command.token("blind")) {
-				p.set_preset(PRESET_BLIND);
-				const char *temp = command_get_param("blind <n>", "30");
-				uint32_t time=atoi(temp);
-				time=min(max(time, static_cast<uint32_t>(0)), static_cast<uint32_t>(255));
-				p.normal_attack.param=time;
-				p.clean_attack.param=time;
-			}
-			if(command.token("fullblind")) {
-				p.set_preset(PRESET_FULLBLIND);
-				const char *temp = command_get_param("fullblind <n>", "12");
-				uint32_t time=atoi(temp);
-				time=min(max(time, static_cast<uint32_t>(0)), static_cast<uint32_t>(255));
-				p.normal_attack.param=time;
-				p.clean_attack.param=time;
-			}
-			if(command.token("attack")) {
-				const char *temp=command_get_param("attack <type> [strength]");
-				p.normal_attack=read_attack_param(temp);
-			}
-			if(command.token("attackclean")) {
-				const char *temp=command_get_param("attackclean <type> [strength]");
-				p.clean_attack=read_attack_param(temp);
-			}
-			if(command.token("attack2")) {
-				const char *temp=command_get_param("attack2 <type> [strength]");
-				p.potato_normal_attack=read_attack_param(temp);
-			}
-			if(command.token("attack2clean")) {
-				const char *temp=command_get_param("attack2clean <type> [strength]");
-				p.potato_clean_attack=read_attack_param(temp);
-			}
-			if(command.token("boringrules"))
-				p.boring_rules = true;
-			if(command.token("nolevelup"))
-				p.level_up = false;
-			if(command.token("levelup"))
-				p.level_up = true;
-			if(command.token("level")) {
-				const char *temp = command_get_param("level <level number>");
-				p.level_start = atoi(temp);
-				p.level_start = min(max(p.level_start, 1), 40);
-			}
-			if(command.token("name")) {
-				const char *temp = command_get_param("name <game name>");
-				if (temp)
-					p.name = temp;
-			}
-			if(command.token("nohandicap"))
-				p.allow_handicap=false;
-			if(command.token("endfrag"))
-				p.game_end = END_FRAG;
-			if(command.token("endfrags"))
-				p.game_end = END_FRAG;
-			if(command.token("endtime"))
-				p.game_end = END_TIME;
-			if(command.token("endpoints"))
-				p.game_end = END_POINTS;
-			if(command.token("endscore"))
-				p.game_end = END_POINTS;
-			if(p.game_end != END_NEVER) {
-				const char *temp = command_get_param("endfrag/endtime/endpoints <number>");
-				p.game_end_value = atoi(temp);
-				p.game_end_value = min(max(p.game_end_value, 1), p.game_end<=END_TIME? 9999:99999);
-			}
-			if(command.token("public"))
-				p.game_public = true;
+			const Game_params params(build_game_params());
 			menu.add(new Menu_startserver());
-			(void)new Game(&p);
+			(void)new Game(&params);
 			if(dedicated && !command.token("once"))
 				game->auto_restart = true;
 			if(command.token("nomoves"))
