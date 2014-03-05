@@ -177,7 +177,7 @@ void raw_draw_bloc(const Video_bitmap* bit, int x, int y, uint8_t side, Color* c
 }
 
 void raw_small_draw_bloc(const Video_bitmap* bit, int x, int y, uint8_t side, Color* col) {
-	int i,rx=0,ry=0,rw=6,rh=6;
+	int rx=0,ry=0,rw=6,rh=6;
 	if(side&1) {
 		bit->vline(x, y, 6, col->shade(7));
 		rx++; rw--;
@@ -194,7 +194,7 @@ void raw_small_draw_bloc(const Video_bitmap* bit, int x, int y, uint8_t side, Co
 		bit->hline(y+5, x, 6, col->shade(1));
 		rh--;
 	}
-	for(i=0; i<rh; i++)
+	for(int i=0; i<rh; i++)
 		bit->hline(y+ry+i, x+rx, rw, col->shade(4));
 }
 
@@ -223,8 +223,6 @@ void init_directory() {
 }
 
 void init_stuff(bool need_sound=true, bool need_video=true) {
-	int i;
-
 	video = Video::New(640, 480, "Quadra", !need_video);
 
 	if(!video)
@@ -238,7 +236,7 @@ void init_stuff(bool need_sound=true, bool need_video=true) {
 	else
 		sound = NULL;
 
-	for(i=0; i<256; i++)
+	for (int i = 0; i < 256; ++i)
 		noir.setcolor(i, 40,40,40);
 
 	chat_text = new Chat_text(fonts.normal, 212);
@@ -274,7 +272,7 @@ void init_stuff(bool need_sound=true, bool need_video=true) {
 	sons.two = new Sample(Res_doze(res_t2sec_wav));
 	sons.one = new Sample(Res_doze(res_t1sec_wav));
 	cursor = new Cursor;
-	for(i=0; i<8; i++)
+	for (int i = 0; i < 8; ++i)
 		fteam[i] = new Font(*fonts.normal);
 }
 
@@ -394,13 +392,11 @@ void read_script(const char *fn, bool second=false) {
 		strncpy(st, (char *)script.buf(), size);
 		st[size] = 0;
 		Stringtable str((uint8_t *)st, size);
-		int i;
-		for(i=0; i<str.size(); i++) {
+		for (int i = 0; i < str.size(); ++i) {
 			if(second) {
 				if(game && str.get(i)[0]=='/')
 					game->net_list.got_admin_line(str.get(i), NULL);
-			}
-			else {
+			} else {
 				if(str.get(i)[0]=='-')
 					command.add(str.get(i));
 			}
@@ -650,7 +646,6 @@ int start_game() {
 	if(command.token("french"))
 		config.info.language=1;
 	const ResName *language;
-	int i;
 	switch(config.info.language) {
 		default:
 		case 0:
@@ -658,7 +653,7 @@ int start_game() {
 		case 1:
 			language = &res_francais_txt; break;
 	}
-	for(i=0; i<MAXTEAMS; i++)
+	for (int i = 0; i < MAXTEAMS; ++i)
 		set_team_name(i, NULL);
 	msgbox("Reading stringtable: ");
 	stringtable=new Stringtable(*language);
