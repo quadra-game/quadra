@@ -192,7 +192,7 @@ Game::Game(Game_params* p) {
 	network=p->network;
 	net_server = new Net_server();
 	net_client = new Net_client();
-	strncpy(name, p->name, sizeof(name));
+	strncpy(name, p->name.c_str(), sizeof(name));
 	name[sizeof(name)-1]=0;
 	seed = (int)ugs_random.get_seed();
 	paused = false;

@@ -134,7 +134,7 @@ enum Game_preset {
 
 class Game_params {
 public:
-	const char *name;
+	std::string name;
 	bool single;
 	bool survivor;
 	bool hot_potato;

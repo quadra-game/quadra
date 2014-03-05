@@ -691,8 +691,8 @@ int start_game() {
 			}
 			if(command.token("name")) {
 				const char *temp = command_get_param("name <game name>");
-				strncpy(buf, temp, sizeof(buf) - 1);
-				p.name=buf;
+				if (temp)
+					p.name = temp;
 			}
 			if(command.token("nohandicap"))
 				p.allow_handicap=false;
