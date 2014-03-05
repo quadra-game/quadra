@@ -109,7 +109,7 @@ void Game_params::set_preset(Game_preset preset) {
 	}
 }
 
-Game::Game(Packet_gameserver *p) {
+Game::Game(const Packet_gameserver *p) {
 	//Ok, we all know this sucks, but there supposedly are references
 	//  to ::game in some of the things we call here and I don't
 	//  feel like tracking them down
@@ -163,7 +163,7 @@ Game::Game(Packet_gameserver *p) {
 	net_list.reset_objectives();
 }
 
-Game::Game(Game_params* p) {
+Game::Game(const Game_params* p) {
 	//Ok, we all know this sucks, but there supposedly are references
 	//  to ::game in some of the things we call here and I don't
 	//  feel like tracking them down

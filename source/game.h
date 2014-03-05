@@ -102,8 +102,8 @@ public:
 	bool any_attack();
 	bool paused;
 	uint16_t delay_start;
-	Game(Packet_gameserver *p);
-	Game(Game_params* p);
+	explicit Game(const Packet_gameserver *p);
+	explicit Game(const Game_params* p);
 	virtual ~Game();
 	void clientpause();
 	void stackpacket(Packet *p);
