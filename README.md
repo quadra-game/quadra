@@ -10,6 +10,7 @@ Requirements
  - zlib (http://www.info-zip.org/pub/infozip/zlib/)
  - libpng (http://www.libpng.org/pub/png/libpng.html)
  - SDL 2.0 (http://www.libsdl.org/)
+ - Boost::System and Boost::Filesystem libraries
 
 On Ubuntu, the following packages are needed to build:
 
@@ -54,7 +55,10 @@ Building on Unix-style systems
 
 To compile and install this software on a Unix-like system, do this:
 
-$ make (if you checked out the source code from Subversion)
+If you checked out the source code from GitHub: 
+$ autoreconf -i
+
+And then the traditional build procedure:
 $ ./configure
 $ make
 $ make install (optional)
