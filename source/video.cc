@@ -31,13 +31,24 @@
 
 Video* video = NULL;
 
+static SDL_Renderer* CreateRenderer(SDL_Window* window) {
+  SDL_Renderer* renderer(
+    SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC));
+
+  // If we couldn't get a renderer that supports vsync, get whatever we can.
+  if (!renderer)
+    renderer = SDL_CreateRenderer(window, -1, 0);
+
+  return renderer;
+}
+
 class Video_SDL : public Video {
 public:
   Video_SDL(int w, int h, const char* wname)
     : Video(new Video_bitmap_SDL(this, 0, 0, w, h), w, h, w),
       window_(SDL_CreateWindow(
         "Quadra", SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED, w, h, 0)),
-      renderer_(SDL_CreateRenderer(window_, -1, SDL_RENDERER_PRESENTVSYNC)),
+      renderer_(CreateRenderer(window_)),
       texture_(SDL_CreateTexture(
         renderer_, SDL_GetWindowPixelFormat(window_),
         SDL_TEXTUREACCESS_STREAMING, w, h)),
