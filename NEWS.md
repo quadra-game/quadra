@@ -1,6 +1,10 @@
 
 Quadra 1.2.1
 
+ * Now using SDL2 and Boost to provide a (more) portable platform.
+
+ * Build an application bundle on Mac OS X.
+
  * Fixed using a non-literal as a format string (potential security
    problem).
     - jejebr79@gmail.com
@@ -19,9 +23,11 @@ Quadra 1.2.1
  * Removed many unused classes and methods, as well as the QSnoop binaries
    (they were already not included in the installer).
 
- * Cleaned up code (fixed Clang and GCC warnings, fixed Clang static analyzer
-   warnings, removed RCSID macros, use more standard typedefs and macros
-   rather than our own).
+ * Cleaned up code:
+   * fixed Clang and GCC warnings,
+   * fixed Clang static analyzer warnings,
+   * removed RCSID macros,
+   * use more standard typedefs, macros, and templates, rather than our own.
 
  * Removed CVS tags.
     - Pedro Scarapicchia Junior <pedrinho.rep51@gmail.com>
