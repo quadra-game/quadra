@@ -96,11 +96,11 @@ a "--with-libpng=/path/to/libpng" to the "configure" command line.
 Any questions?
 --------------
 
-If you have any problem, patches, suggestions, bug reports or are
-simply looking for help, please take advantage of the resources
-available on our web site (http://quadra.googlecode.com/)! Among
-others, we have a support request system, mailing lists, a bug
-tracking system and plenty of other goodies, check it out!
+If you have any problem, patches, suggestions, bug reports or are simply
+looking for help, please take advantage of the resources available on our web
+site (https://github.com/quadra-game/quadra)! Among others, we have a support
+request system, mailing lists, a bug tracking system and plenty of other
+goodies, check it out!
 
 Good luck, and have fun!
 

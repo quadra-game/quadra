@@ -1428,7 +1428,7 @@ Menu_intro::Menu_intro() {
   {
     (void)new Zone_text(font2, inter, "A new version of Quadra is available!",
                         10, y + 40);
-    (void)new Zone_text(font2, inter, "Get it at http://quadra.googlecode.com",
+    (void)new Zone_text(font2, inter, "Get it at https://github.com/quadra-game/quadra",
                         10, y + 60);
   }
 #endif
@@ -1534,7 +1534,7 @@ void Menu_main::reset_delay() {
 		if(strcmp(VERSION_STRING, config.info3.latest_version) != 0)
 		{
 			(void)new Zone_text(inter, "New version available", 455, 445);
-			(void)new Zone_text(inter, "Get it at http://quadra.googlecode.com", 330, 460);
+			(void)new Zone_text(inter, "Get it at https://github.com/quadra-game/quadra", 330, 460);
 			version_warning = true;
 		}
 	}
