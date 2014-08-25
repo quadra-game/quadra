@@ -36,6 +36,7 @@ public:
   struct {
     uint8_t button[4];
     int quel;
+    int wheel;
   } mouse;
   int key_pending;
   struct {

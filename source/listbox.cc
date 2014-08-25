@@ -164,8 +164,7 @@ void Zone_listbox::process() {
 	Zone_watch_int::process();
 	if(input) {
 		if(cursor->x > x && cursor->x < x+w && cursor->y > y && cursor->y < y+h) {
-			// FIXME: this should be set to a mouse wheel delta.
-			int z = 0;
+			int z = input->mouse.wheel;
 			if(z > 0)
 				zup->clicked(0);
 			if(z < 0)

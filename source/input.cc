@@ -37,6 +37,7 @@ Input::Input()
   mouse.quel = -1;
   for (int i = 0; i < 4; ++i)
     mouse.button[i] = RELEASED;
+  mouse.wheel = 0;
   clear_key();
 }
 
@@ -132,6 +133,10 @@ public:
               SDL_Log("unknown window event: %i", event.window.event);
           }
           break;
+
+	case SDL_MOUSEWHEEL:
+	  mouse.wheel = event.wheel.y;
+	  break;
 
         // Ignore these events.
         case SDL_FINGERDOWN:
