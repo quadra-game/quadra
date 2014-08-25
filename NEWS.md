@@ -1,5 +1,5 @@
 
-Quadra 1.2.1
+Quadra 1.3.0
 
  * Now using SDL2 and Boost to provide a (more) portable platform.
 
