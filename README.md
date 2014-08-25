@@ -93,8 +93,6 @@ libpng sources (available at http://www.libpng.org/pub/png/libpng.html),
 compiling them (no need to install it on your system!) and then adding
 a "--with-libpng=/path/to/libpng" to the "configure" command line.
 
-This platform is not supported in this release.
-
 Any questions?
 --------------
 
