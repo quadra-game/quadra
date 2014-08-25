@@ -7,7 +7,8 @@ pixmapsdir = $(datadir)/pixmaps
 noinst_PROGRAMS = wadder dumpwad test_version
 
 if APP_BUNDLE
-noinst_PROGRAMS += Quadra.app
+noinst_PROGRAMS += Quadra.app quadra
+Quadra_app_SOURCES =
 else
 bin_PROGRAMS = quadra
 datagames_DATA = quadra.res
@@ -241,7 +242,13 @@ Quadra.app: quadra$(EXEEXT) quadra.res
 	$(INSTALL_PROGRAM) quadra$(EXEEXT) $@/Contents/MacOS
 	$(INSTALL_PROGRAM) quadra.res $@/Contents/Resources
 
+clean-local:
+	-rm -rf Quadra.app
+
 install-exec-hook: Quadra.app
 	$(MKDIR_P) $(DESTDIR)/Applications
 	cp -R $^ $(DESTDIR)/Applications
+
+uninstall-hook:
+	rm -rf $(DESTDIR)/Applications/Quadra.app
 endif
