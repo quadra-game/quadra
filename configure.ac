@@ -11,11 +11,25 @@ AM_SILENT_RULES([yes])
 AC_ARG_ENABLE(version-check,
 	AS_HELP_STRING([--disable-version-check], [new version notification]))
 
+AC_ARG_ENABLE(app-bundle,
+	AS_HELP_STRING([--enable-app-bundle], [build a Mac OS X-style app bundle]))
+
 AC_LANG(C++)
+
+AS_IF([test -z "$enable_app_bundle"], [
+  UNAME=`uname -s`
+  AS_IF([test "x$UNAME" = "xDarwin"], [enable_app_bundle=yes])
+])
+
+AS_IF([test x$enable_app_bundle = xyes], [
+  AC_DEFINE(ENABLE_APP_BUNDLE, 1, [Build as part of an app bundle.])
+])
+AM_CONDITIONAL([APP_BUNDLE], [test x$enable_app_bundle = xyes])
 
 # Checks for programs.
 AC_PROG_CXX
 AC_PROG_SED
+AC_PROG_MKDIR_P
 
 # Checks for libraries.
 AX_PATH_GENERIC([sdl2],,,, AC_MSG_ERROR([Could not find SDL2 (required).]))

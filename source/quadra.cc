@@ -201,6 +201,7 @@ void raw_small_draw_bloc(const Video_bitmap* bit, int x, int y, uint8_t side, Co
 namespace {
 
 void init_directory() {
+	// TODO(pphaneuf): Maybe this should be using SDL_GetPrefPath?
 	strcpy(quadradir, exe_directory);
 #ifdef WIN32
 	if(SHGetFolderPath(0, CSIDL_APPDATA|CSIDL_FLAG_CREATE, 0, SHGFP_TYPE_CURRENT, quadradir) < 0) {
@@ -614,6 +615,11 @@ int start_game() {
 	dir = exe_directory;
 #else
 	dir = getenv("QUADRADIR");
+#ifdef ENABLE_APP_BUNDLE
+	// TODO(pphaneuf): We're leaking the string returned by SDL_GetBasePath.
+	if(!dir)
+		dir = SDL_GetBasePath();
+#endif
 	if(!dir)
 		dir = DATAGAMESDIR;
 #endif

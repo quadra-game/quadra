@@ -4,10 +4,15 @@ ACLOCAL_AMFLAGS = -Im4
 datagamesdir = $(datadir)/games
 pixmapsdir = $(datadir)/pixmaps
 
+noinst_PROGRAMS = wadder dumpwad test_version
+
+if APP_BUNDLE
+noinst_PROGRAMS += Quadra.app
+else
 bin_PROGRAMS = quadra
 datagames_DATA = quadra.res
 pixmaps_DATA = images/quadra.xpm
-EXTRA_PROGRAMS = wadder dumpwad test_version
+endif
 
 CLEANFILES = quadra.res $(EXTRA_PROGRAMS)
 
@@ -39,6 +44,9 @@ EXTRA_DIST = \
 	stats \
 	textes
 
+if APP_BUNDLE
+quadra_LDFLAGS = $(AM_LDFLAGS) -rpath @executable_path/../Frameworks
+endif
 quadra_LDADD = $(SDL2_LIBS) $(BOOST_FILESYSTEM_LIB) $(BOOST_SYSTEM_LIB)
 quadra_SOURCES = \
 	source/attack.h \
@@ -223,3 +231,17 @@ dist-hook: test_version
 # make it more difficult to build from Windows without extra tools.
 quadra.res: resources.txt wadder$(EXEEXT) $(shell cat $(srcdir)/resources.txt)
 	$(AM_V_GEN)./wadder$(EXEEXT) $(srcdir)/ $@ $^ || rm -f $@
+
+if APP_BUNDLE
+Quadra.app: quadra$(EXEEXT) quadra.res
+	rm -rf $@
+	$(MKDIR_P) $@/Contents/MacOS
+	$(MKDIR_P) $@/Contents/Resources
+	echo "APPL????" > $@/Contents/PkgInfo
+	$(INSTALL_PROGRAM) quadra$(EXEEXT) $@/Contents/MacOS
+	$(INSTALL_PROGRAM) quadra.res $@/Contents/Resources
+
+install-exec-hook: Quadra.app
+	$(MKDIR_P) $(DESTDIR)/Applications
+	cp -R $^ $(DESTDIR)/Applications
+endif
