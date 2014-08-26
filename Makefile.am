@@ -45,8 +45,9 @@ EXTRA_DIST = \
 	stats \
 	textes
 
+quadra_LDFLAGS = $(AM_LDFLAGS)
 if APP_BUNDLE
-quadra_LDFLAGS = $(AM_LDFLAGS) -rpath @executable_path/../Frameworks
+quadra_LDFLAGS += -rpath @executable_path/../Frameworks
 endif
 quadra_LDADD = $(SDL2_LIBS) $(BOOST_FILESYSTEM_LIB) $(BOOST_SYSTEM_LIB)
 quadra_SOURCES = \
