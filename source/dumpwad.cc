@@ -18,8 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <sys/mman.h>
-#include <sys/errno.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
