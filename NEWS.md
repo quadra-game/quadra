@@ -7,7 +7,7 @@ Quadra 1.3.0
 
  * Fixed using a non-literal as a format string (potential security
    problem).
-    - jejebr79@gmail.com
+    - Jérôme Brenier <jejebr79@gmail.com>
 
  * Removed CD music support.
 
@@ -24,10 +24,10 @@ Quadra 1.3.0
    (they were already not included in the installer).
 
  * Cleaned up code:
-   * fixed Clang and GCC warnings,
-   * fixed Clang static analyzer warnings,
-   * removed RCSID macros,
-   * use more standard typedefs, macros, and templates, rather than our own.
+    - fixed Clang and GCC warnings,
+    - fixed Clang static analyzer warnings,
+    - removed RCSID macros,
+    - use more standard typedefs, macros, and templates, rather than our own.
 
  * Removed CVS tags.
     - Pedro Scarapicchia Junior <pedrinho.rep51@gmail.com>
