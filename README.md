@@ -14,10 +14,12 @@ Requirements
 
 On Ubuntu, the following packages are needed to build:
 
- - g++
- - libpng12-dev
- - libsdl2-dev
  - make
+ - g++
+ - libsdl2-dev
+ - libpng12-dev
+ - libboost-dev
+ - libboost-filesystem-dev
 
 Auto-update feature
 -------------------
@@ -56,12 +58,14 @@ Building on Unix-style systems
 To compile and install this software on a Unix-like system, do this:
 
 If you checked out the source code from GitHub: 
-$ autoreconf -i
+
+    $ autoreconf -i
 
 And then the traditional build procedure:
-$ ./configure
-$ make
-$ make install (optional)
+
+    $ ./configure
+    $ make
+    $ make install (optional)
 
 There you go! There is a 'quadra' binary and a 'quadra.res' resource
 file in the top-level directory. If not, then something went
@@ -69,11 +73,11 @@ wrong. :-)
 
 You can run this with the following command (in bash):
 
-QUADRADIR=. ./quadra
+    QUADRADIR=. ./quadra
 
-If you ran the "make install" command, then you have 'quadra'
-installed on your system and you can just run it (no need to set
-QUADRADIR).
+If you ran the ```make install``` command, then you have 'quadra'
+installed on your system and you can just run it (no need to
+set ```QUADRADIR```).
 
 Building on Windows
 -------------------
@@ -81,8 +85,8 @@ Building on Windows
 To compile Quadra on a Windows machine, use the Visual C++ workspace
 and project file in the VisualC++ subdirectory. Make sure you have
 zlib, libpng and DirectX (August 2007 SDK or earlier) properly installed
-for development on your machine. Run "res.bat" after building to create
-the resource file (quadra.res).
+for development on your machine. Run ```res.bat``` after building to
+create the resource file (quadra.res).
 
 Building on Mac OS X
 --------------------
@@ -90,10 +94,10 @@ Building on Mac OS X
 A common problem on Mac OS X is that the libpng library is not available. This
 is relatively easy to work around, by downloading the libpng sources (available
 at http://www.libpng.org/pub/png/libpng.html), compiling them (no need to
-install it on your system!) and then adding a "CPPFLAGS=-I/path/to/libpng
-LDFLAGS=-LCPPFLAGS=-I/path/to/libpng/.libs" to the "configure" command line.
-It's possible that the LIBS variable will have to be adjusted in the Makefile,
-depending on the libpng version.
+install it on your system!) and then adding a ```CPPFLAGS=-I/path/to/libpng
+LDFLAGS=-LCPPFLAGS=-I/path/to/libpng/.libs``` to the ```configure``` command
+line. It's possible that the LIBS variable will have to be adjusted in the
+Makefile, depending on the libpng version.
 
 Any questions?
 --------------
