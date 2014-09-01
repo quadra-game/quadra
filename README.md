@@ -57,7 +57,8 @@ Building on Unix-style systems
 
 To compile and install this software on a Unix-like system, do this:
 
-If you checked out the source code from GitHub: 
+If you checked out the source code from GitHub (if not, you can skip this
+step):
 
     $ autoreconf -i
 
