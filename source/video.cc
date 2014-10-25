@@ -44,10 +44,11 @@ static SDL_Renderer* CreateRenderer(SDL_Window* window) {
 
 class Video_SDL : public Video {
 public:
-  Video_SDL(int w, int h, const char* wname)
+  Video_SDL(int w, int h, const char* wname, bool fullscreen)
     : Video(new Video_bitmap_SDL(this, 0, 0, w, h), w, h, w),
       window_(SDL_CreateWindow(
-        "Quadra", SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED, w, h, 0)),
+        "Quadra", SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED, w, h, fullscreen ?
+            SDL_WINDOW_FULLSCREEN|SDL_WINDOW_INPUT_GRABBED : 0)),
       renderer_(CreateRenderer(window_)),
       texture_(SDL_CreateTexture(
         renderer_, SDL_GetWindowPixelFormat(window_),
@@ -176,13 +177,13 @@ void Video_bitmap::box(const int x, const int y, const int w, const int h,
   vline(x + w - 1, y, h, color);
 }
 
-Video* Video::New(int w, int h, const char *wname, bool dumb) {
+Video* Video::New(int w, int h, const char *wname, bool dumb, bool fullscreen) {
   Video* obj;
 
   if (dumb)
     obj = new Video_Dumb(w, h, wname);
   else
-    obj = new Video_SDL(w, h, wname);
+    obj = new Video_SDL(w, h, wname, fullscreen);
 
   return obj;
 }

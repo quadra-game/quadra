@@ -223,8 +223,8 @@ void init_directory() {
 #endif
 }
 
-void init_stuff(bool need_sound=true, bool need_video=true) {
-	video = Video::New(640, 480, "Quadra", !need_video);
+void init_stuff(bool need_sound=true, bool need_video=true, bool fullscreen=false) {
+	video = Video::New(640, 480, "Quadra", !need_video, fullscreen);
 
 	if(!video)
 		fatal_msgbox("Could not initialize video subsystem");
@@ -600,6 +600,7 @@ int start_game() {
 
 	bool no_video = false;
 	bool no_sound = false;
+	bool fullscreen = false;
 	bool demo_play = false;
 	bool demo_verif = false;
 	bool demo_verified_and_valid = false;
@@ -694,8 +695,11 @@ int start_game() {
 	if(command.token("nosound")) {
 		no_sound=true;
 	}
+	if(command.token("fullscreen")) {
+		fullscreen=true;
+	}
 	msgbox("Calling init_stuff: ");
-	init_stuff(!no_sound, !no_video); //No sound when checking demos
+	init_stuff(!no_sound, !no_video, fullscreen); //No sound when checking demos
   msgbox("Ok\n");
 
   // Start auto-updater, but only if we have video enabled.

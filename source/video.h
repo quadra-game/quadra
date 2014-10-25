@@ -81,7 +81,7 @@ public:
   int need_paint;
   const int pitch;
   uint32_t framecount;
-  static Video* New(int w, int h, const char *wname, bool dumb=false);
+  static Video* New(int w, int h, const char *wname, bool dumb=false, bool fullscreen=false);
   Video(Video_bitmap* _vb, int _width, int _height, int _pitch)
     : vb(_vb),
       newpal(true),
