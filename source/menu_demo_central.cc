@@ -361,8 +361,12 @@ void Menu_demo_central::step() {
 			if(!strcmp(e->list_name, "..")) {
 				// treat the .. differently
 				char *t = strrchr(find_directory, '/');
-				if(t)
+				if(t) {
 					*t = 0;
+					// test if it is the last folder
+					if (strlen(find_directory) == 0)
+						strcat(find_directory, "/");
+				}
 			}
 			else {
 				strcat(find_directory, "/");
