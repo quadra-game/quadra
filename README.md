@@ -96,9 +96,9 @@ A common problem on Mac OS X is that the libpng library is not available. This
 is relatively easy to work around, by downloading the libpng sources (available
 at http://www.libpng.org/pub/png/libpng.html), compiling them (no need to
 install it on your system!) and then adding a ```CPPFLAGS=-I/path/to/libpng
-LDFLAGS=-LCPPFLAGS=-I/path/to/libpng/.libs``` to the ```configure``` command
-line. It's possible that the LIBS variable will have to be adjusted in the
-Makefile, depending on the libpng version.
+LDFLAGS=-L/path/to/libpng/.libs``` to the ```configure``` command line. It's 
+possible that the LIBS variable will have to be adjusted in the Makefile, 
+depending on the libpng version. 
 
 Any questions?
 --------------
