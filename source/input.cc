@@ -100,7 +100,7 @@ public:
           keys[event.key.keysym.scancode] |= PRESSED;
           last_keysym = event.key.keysym;
 
-          if (event.key.keysym.sym == SDLK_PAUSE)
+          if (event.key.keysym.sym == SDLK_PAUSE || event.key.keysym.sym == SDLK_p)
               pause = true;
 
           if (!israw && key_pending < MAXKEY) {
