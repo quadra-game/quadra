@@ -54,6 +54,7 @@ public:
         renderer_, SDL_GetWindowPixelFormat(window_),
         SDL_TEXTUREACCESS_STREAMING, w, h)),
       surface_(SDL_CreateRGBSurface(0, w, h, 8, 0, 0, 0, 0)) {
+    SDL_SetWindowSize (window_, 1280, 960);
     SDL_assert_release(window_);
     SDL_assert_release(renderer_);
     SDL_assert_release(texture_);
